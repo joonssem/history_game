@@ -554,6 +554,10 @@
           } else if (num === 29) {
             btnHtml = `<button onclick="openJoseonSilhakMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🌍 실학자 탐구 MUD</button>`;
           }
+          // 3단원
+          else if (num === 42 || num === 43) {
+            btnHtml = `<button onclick="openGwangbokMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🕊️ 8·15 광복과 정부 수립 MUD</button>`;
+          }
           // 골든벨
           else if (num === 20 || num === 34 || num === 48) {
             btnHtml = `<button onclick="openQuizHub(${unitId})" class="btn" style="background-color: ${lesson.color.hex}; color: #1F2937 !important; font-weight: 700;"><i class="fas fa-bolt"></i> ${lesson.title} Quiz</button>`;
@@ -1787,6 +1791,105 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // ==========================================
+    // 3단원 8~9차시 [8·15 광복과 정부 수립 MUD]
+    // ==========================================
+    function openGwangbokMUD() {
+      currentActiveStoryId = 'story_gwangbok';
+      mnVisited = new Set();
+      document.getElementById('view-portal').style.display = 'none';
+      document.getElementById('view-myeongnyang').style.display = 'block';
+      document.getElementById('mn-header-tag').textContent = '3단원 8~9차시 · 광복과 정부 수립';
+      document.getElementById('mn-header-title').textContent = 'MUD 8·15 광복의 환희와 대한민국 정부 수립: 최초의 5·10 총선거';
+      
+      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-vote-yea" style="color: #1D4ED8;"></i> 5·10 총선거 민주 투표함 & 태극기 시뮬레이터';
+      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #1D4ED8;"></i> 광복과 정부 수립 연대기';
+      
+      renderRoadmapNodes([
+        { id: "1", label: "1. 8·15 광복의 환희" },
+        { id: "1-1", label: "1-1. 질서 혼란 [실패]" },
+        { id: "2", label: "2. 통일 정부 수립 노력" },
+        { id: "2-1", label: "2-1. 분단 방치 [실패]" },
+        { id: "3", label: "3. 5·10 최초 민주 총선거" },
+        { id: "3-1", label: "3-1. 신분 차별 선거 [실패]" },
+        { id: "4", label: "4. 대한민국 정부 수립" },
+        { id: "end", label: "5. 민주공화국 완수" }
+      ]);
+
+      mnStoryNodes = {
+        "1": {
+          location: "1945년 8월 15일 서울 종로 거리",
+          badge: "🕊️ 대한 독립 만세!",
+          character: { name: "시민 대표", subtitle: "태극기를 흔드는 청년", avatar: "🇰🇷" },
+          text: `<b>"조선 동포여, 마침내 일제가 패망하고 광복을 맞이하였습니다!"</b><br><br>옥문이 열리고 거리마다 태극기 물결이 넘실댑니다. 우리말과 글을 되찾고 자주 독립 국가를 세우기 위해 가장 먼저 해야 할 일은?`,
+          choices: [
+            { text: "🤐 \"외국 군대가 올 때까지 아무 일도 하지 않고 기다린다.\"", next: "1-1", sound: "fail" },
+            { text: "🤝 \"조선건국준비위원회를 중심으로 스스로 치안을 지키고 건국을 준비한다!\"", next: "2", sound: "victory" }
+          ],
+          setupSim: "gwangbok-flag"
+        },
+        "1-1": {
+          location: "혼란에 빠진 거리",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "자주적 건국 노력 부재", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 치안 공백과 사회 혼란]</b><br>광복 직후 우리 민족은 <b>여운형</b> 등을 중심으로 건국준비위원회를 결성하여 평화롭게 질서를 유지하고 건국을 준비했습니다!`,
+          choices: [{ text: "🔄 자주적 건국 준비를 선택한다.", next: "1", sound: "restart" }],
+          setupSim: "gwangbok-flag"
+        },
+        "2": {
+          location: "1948년 봄, 38도선 앞",
+          badge: "🗺️ 통일 정부를 향한 염원",
+          character: { name: "백범 김구", subtitle: "통일 조국을 꿈꾼 민족 지도자", avatar: "🕊️" },
+          text: `<b>미국과 소련에 의해 38선이 그어지고 남북이 분단될 위기에 처했습니다!</b><br><br>"나는 통일된 조국을 건설하려다가 38선을 베고 쓰러질지언정 일신의 안위를 위해 단독 정부를 세우는 데 협조하지 않겠다!" 김구 선생의 결단은?`,
+          choices: [
+            { text: "💔 \"분단을 당연하게 받아들이고 남북 교류를 영구 단절한다.\"", next: "2-1", sound: "fail" },
+            { text: "🤝 \"남북 지도자들이 한자리에 모여 통일 정부 수립을 논의하는 '남북 협상'을 추진한다!\"", next: "3", sound: "cannon" }
+          ],
+          setupSim: "gwangbok-flag"
+        },
+        "2-1": {
+          location: "영구 분단의 비극",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "통일 노력의 가치 착오", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 민족 분단 방치]</b><br>김구, 김규식 등 민족 지도자들은 분단을 막고 하나의 통일 국가를 이루기 위해 평양으로 건너가 <b>남북 협상</b>을 벌이는 등 끝까지 노력했습니다!`,
+          choices: [{ text: "🔄 남북 협상과 통일 노력을 확인한다.", next: "2", sound: "restart" }],
+          setupSim: "gwangbok-flag"
+        },
+        "3": {
+          location: "1948년 5월 10일 선거 투표소",
+          badge: "🗳️ 역사상 최초의 민주 선거",
+          character: { name: "선거 참여 시민", subtitle: "소중한 한 표를 행사하는 국민", avatar: "🗳️" },
+          text: `<b>우리 역사상 최초로 국민이 직접 국회의원을 뽑는 '5·10 총선거'가 열렸습니다!</b><br><br>민주주의 원칙에 따라 치러진 이 선거의 기본 원칙은 무엇일까요?`,
+          choices: [
+            { text: "💰 \"재산이 많고 신분이 높은 남성만 투표할 수 있다.\"", next: "3-1", sound: "fail" },
+            { text: "🗳️ \"만 21세 이상 모든 국민에게 성별·재산 차별 없이 1표씩 주어지는 '보통·평등·직접·비밀 선거'!\"", next: "4", sound: "victory" }
+          ],
+          setupSim: "gwangbok-vote"
+        },
+        "3-1": {
+          location: "차별 선거 규탄장",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "민주 선거 4대 원칙 오류", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 민주주의 참정권 왜곡]</b><br>5·10 총선거는 신분이나 성별, 재산에 상관없이 <b>만 21세 이상 국민 모두에게 평등하게 투표권이 주어진 최초의 민주 선거</b>였습니다!`,
+          choices: [{ text: "🔄 보통·평등·직접·비밀 선거를 선택한다.", next: "3", sound: "restart" }],
+          setupSim: "gwangbok-vote"
+        },
+        "4": {
+          location: "1948년 8월 15일 중앙청 광장",
+          badge: "👑 MISSION ACCOMPLISHED",
+          character: { name: "대한민국 제헌 국회", subtitle: "민주공화국의 탄생", avatar: "🎉" },
+          text: `<b>"대한민국 정부 수립 선포!"</b><br><br>헌법(7월 17일 제헌절)을 제정하고 3·1 운동과 상하이 임시정부의 법통을 계승하여 자유롭고 민주적인 <b>대한민국 정부</b>를 전 세계에 공식 선포했습니다!`,
+          choices: [{ text: "🎉 대한민국 정부 수립 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
+          setupSim: "gwangbok-flag"
+        }
+      };
+
+      resizeMnCanvas();
+      renderMnStage("1");
+      animMnLoop();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     const mnCanvas = document.getElementById('mn-canvas');
     const mnCtx = mnCanvas.getContext('2d');
 
@@ -1874,6 +1977,11 @@
           document.getElementById('widget-info').innerHTML = "고려는 과거제(홍패)를 통한 능력 중심 사회였으며, 남녀가 평등하게 유산을 나누어 가졌습니다.";
           instr.innerHTML = "⚖️ <b>고려 사회 탐정 & 손변의 지혜로운 재판</b>";
           feedback.textContent = "남녀 균등 상속과 과거제를 확인하세요!";
+        } else if (mnSimMode.startsWith('gwangbok')) {
+          document.getElementById('widget-info').style.display = 'block';
+          document.getElementById('widget-info').innerHTML = "1945년 8·15 광복으로 우리말과 글을 되찾고, 1948년 5·10 총선거를 거쳐 대한민국 정부를 수립했습니다.";
+          instr.innerHTML = "🕊️ <b>8·15 광복의 환희 & 5·10 최초 민주 총선거</b>";
+          feedback.textContent = "자주독립 민주공화국 대한민국 수립을 확인하세요!";
         } else if (mnSimMode.startsWith('mn')) {
           if (mnSimMode === 'mn-combat-active') {
             document.getElementById('widget-gauge').style.display = 'block';
@@ -2171,18 +2279,28 @@
             }
           });
         });
-      } else if (mnSimMode === 'mn-current-switch') {
-        mnCtx.fillStyle = '#0c1222';
+      } else if (mnSimMode.startsWith('gwangbok')) {
+        mnCtx.fillStyle = '#0f172a';
         mnCtx.fillRect(0, 0, w, h);
-        const isEbb = mnTargetCurrent > 50;
-        mnCtx.strokeStyle = isEbb ? '#06b6d4' : '#f97316';
-        mnCtx.lineWidth = 2;
-        for (let y = 30; y < h; y += 40) {
-          mnCtx.beginPath();
-          mnCtx.moveTo(isEbb ? w - 20 : 20, y);
-          mnCtx.lineTo(isEbb ? 20 : w - 20, y);
-          mnCtx.stroke();
-        }
+        // 태극기 바탕
+        mnCtx.fillStyle = '#FFFFFF';
+        mnCtx.fillRect(w/2 - 60, h/2 - 40, 120, 80);
+        mnCtx.strokeStyle = '#64748b';
+        mnCtx.lineWidth = 1;
+        mnCtx.strokeRect(w/2 - 60, h/2 - 40, 120, 80);
+        // 태극 문양
+        mnCtx.fillStyle = '#DC2626';
+        mnCtx.beginPath();
+        mnCtx.arc(w/2, h/2, 20, Math.PI, 0);
+        mnCtx.fill();
+        mnCtx.fillStyle = '#1D4ED8';
+        mnCtx.beginPath();
+        mnCtx.arc(w/2, h/2, 20, 0, Math.PI);
+        mnCtx.fill();
+        // 텍스트
+        mnCtx.fillStyle = '#FFFFFF';
+        mnCtx.font = 'bold 12px "Pretendard"';
+        mnCtx.fillText("1945.8.15 광복 & 1948.5.10 민주 총선거", w/2 - 110, h - 15);
       }
     }
 
