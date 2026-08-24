@@ -3,22 +3,279 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>초등 5학년 역사 탐구 교실 | MUD & 인터랙티브 활동</title>
+  <title>초등 5학년 역사 탐구 교실</title>
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- 조선·전통 문화 테마 스타일시트 -->
-  <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧭</text></svg>">
+  
+  <style>
+    /* 1. 폰트 정의 */
+    @font-face {
+      font-family: 'SchoolSafetyNotification';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-R.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'SchoolSafetyNotification';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-B.woff2') format('woff2');
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Pretendard';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Pretendard';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-SemiBold.woff2') format('woff2');
+      font-weight: 600;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Pretendard';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'MaruBuri';
+      src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2);
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'MaruBuri';
+      src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff2);
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    /* 2. 조선·전통 문화 테마 변수 */
+    :root {
+      --bg-main: #F9F6F0;       /* 따뜻한 한지 미색 배경 */
+      --text-main: #2C2724;     /* 깊은 먹색 */
+      --text-muted: #554D46;    /* 보조 설명 먹색 */
+      --accent-red: #8A3B29;    /* 단청 적토색 (강조, 헤더) */
+      --accent-teal: #2E5B70;   /* 단청 청록색 (버튼, 링크, 배지) */
+      --accent-gold: #D97706;   /* 따뜻한 황금 앰버 */
+      --card-bg: #FFFFFF;       /* 카드 기본 배경 */
+      --card-sub: #EFEAE1;      /* 보조 박스/안내 배경 */
+      --border-color: #DDD4C7;  /* 경계선 */
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main) !important;
+      color: var(--text-main) !important;
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+      line-height: 1.6;
+      padding: 24px 16px;
+      word-break: keep-all;
+      user-select: none;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* 헤더 */
+    header.main-header {
+      border-bottom: 3px solid var(--accent-red);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .lesson-tag {
+      display: inline-block;
+      background-color: var(--accent-teal);
+      color: #ffffff !important;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    h1.main-title {
+      font-family: 'SchoolSafetyNotification', sans-serif !important;
+      color: var(--accent-red) !important;
+      font-size: 1.85rem;
+      font-weight: 700;
+    }
+
+    /* 활동 안내 박스 */
+    .mission-box {
+      background-color: var(--card-sub);
+      border-left: 5px solid var(--accent-red);
+      border-top: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 20px;
+      border-radius: 4px var(--radius) var(--radius) 4px;
+      margin-bottom: 24px;
+      font-size: 1.02rem;
+      color: var(--text-main);
+    }
+
+    .mission-box strong {
+      color: var(--accent-red);
+    }
+
+    /* 단원 탭 메뉴 */
+    .unit-nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .unit-btn {
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .unit-btn.active {
+      background-color: var(--accent-teal) !important;
+      color: #ffffff !important;
+      border-color: var(--accent-teal);
+    }
+
+    /* 카드 그리드 레이아웃 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(44, 39, 36, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(44, 39, 36, 0.08);
+    }
+
+    .card .chasi-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background-color: var(--card-sub);
+      color: #554D46;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .card h2 {
+      font-family: 'SchoolSafetyNotification', sans-serif !important;
+      font-size: 1.2rem;
+      color: var(--text-main) !important;
+      margin-bottom: 8px;
+      border-left: 3px solid var(--accent-teal);
+      padding-left: 8px;
+      line-height: 1.4;
+    }
+
+    .card p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* 상호작용 버튼 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-align: center;
+      background-color: var(--accent-teal);
+      color: #ffffff !important;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+      width: 100%;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn.primary-red {
+      background-color: var(--accent-red) !important;
+    }
+
+    .btn.secondary {
+      background-color: transparent;
+      border: 1.5px solid var(--accent-teal);
+      color: var(--accent-teal) !important;
+    }
+
+    .btn.secondary:hover {
+      background-color: var(--card-sub);
+    }
+
+    .btn.disabled {
+      background-color: #E2DCD0 !important;
+      color: #8C847B !important;
+      cursor: default;
+    }
+
+    .serif-font {
+      font-family: 'MaruBuri', serif !important;
+    }
+  </style>
 </head>
 <body>
 
   <!-- ============================================ -->
-  <!-- 1. 메인 포털 컨테이너 (전체 진도표 및 미션) -->
+  <!-- 1. 메인 포털 컨테이너 -->
   <!-- ============================================ -->
   <div id="view-portal" class="container">
     
     <!-- 단원 헤더 -->
-    <header class="main-header flex flex-wrap items-center justify-between gap-4">
+    <header class="main-header">
       <div>
         <span class="lesson-tag">5학년 2학기 사회 · 역사 탐구</span>
         <h1 class="main-title">초등 역사 탐구 교실</h1>
@@ -64,8 +321,7 @@
   <!-- 2. [MUD 시뮬레이터 뷰 (구석기 / 명량해전 등)] -->
   <!-- ============================================ -->
   <div id="view-myeongnyang" class="container" style="display: none;">
-    <!-- 상단 복귀 헤더 -->
-    <header class="main-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <header class="main-header">
       <div>
         <span id="mn-header-tag" class="lesson-tag">역사 MUD 시뮬레이션</span>
         <h1 id="mn-header-title" class="main-title" style="font-size: 1.5rem;">MUD 역사 탐험</h1>
@@ -75,7 +331,6 @@
       </button>
     </header>
 
-    <!-- MUD 본체 레이아웃 -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
       
       <!-- 좌측: MUD 스토리 및 결단 선택지 -->
@@ -207,14 +462,13 @@
     <p>초등 5학년 사회(역사) 탐구 교실 • 조선·전통 문화 테마 MUD 포털 • GitHub Pages</p>
   </footer>
 
-  <!-- 모듈 스크립트 -->
+  <!-- 스크립트 모듈 -->
   <script src="js/soundEffects.js"></script>
   <script src="js/encyclopedia.js"></script>
   <script src="js/storyEngine.js"></script>
   <script src="js/quizGame.js"></script>
   <script src="js/miniGames.js"></script>
 
-  <!-- 포털 및 MUD 인터랙션 스크립트 -->
   <script>
     let curriculumData = null;
     let currentUnitId = 'unit_1';
