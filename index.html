@@ -8,49 +8,46 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- 사용자 지정 폰트 시스템 (학교안심알림장, 프리텐다드, 마루부리) -->
+  <!-- 사용자 지정 폰트 및 역사 전통 팔레트 -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧭</text></svg>">
-  <style>
-    body { font-family: 'Pretendard', sans-serif; }
-    .title-font, h1, h2, h3 { font-family: 'SchoolSafetyNotification', sans-serif !important; }
-    .serif-font, .emphasis-font, em { font-family: 'MaruBuri', serif !important; font-style: normal; }
-  </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950">
+<body class="min-h-screen flex flex-col justify-between" style="background-color: var(--bg-hanji); color: var(--text-main);">
 
   <!-- ============================================ -->
   <!-- 1. 최상단 네비게이션 헤더 -->
   <!-- ============================================ -->
-  <header class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur border-b border-amber-500/30 px-4 py-3 shadow-lg">
+  <header class="sticky top-0 z-50 bg-[#F9F6F0]/95 backdrop-blur border-b border-[#E2DCD0] px-4 py-3 shadow-sm">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
       
       <!-- 로고 및 타이틀 -->
       <div class="flex items-center gap-3 cursor-pointer" onclick="showPortalView()">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-2xl shadow-md shadow-amber-500/30 animate-pulse">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center text-2xl shadow-sm text-white" style="background-color: var(--point-dancheong);">
           🧭
         </div>
         <div>
-          <h1 class="text-lg md:text-xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-orange-400">
-            초등 5학년 역사 탐험대 포털
+          <h1 class="text-xl font-bold tracking-tight" style="color: var(--point-dancheong);">
+            초등 5학년 역사 탐험대
           </h1>
-          <p class="text-[11px] text-slate-400 font-medium serif-font">차시별 MUD 스토리 게임 & 인터랙티브 체험 활동</p>
+          <p class="text-[11px] font-medium serif-font" style="color: var(--text-muted);">
+            차시별 MUD 스토리 게임 & 인터랙티브 체험 활동
+          </p>
         </div>
       </div>
 
       <!-- 상단 퀵 메뉴 및 유틸리티 -->
       <div class="flex items-center gap-2">
-        <button onclick="showPortalView()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 border border-slate-700 transition flex items-center gap-1.5">
-          <i class="fas fa-th-large text-amber-400"></i> <span class="hidden sm:inline">전체</span> 진도표
+        <button onclick="showPortalView()" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border border-[#E2DCD0] bg-white hover:bg-[#EFEAE1]" style="color: var(--text-main);">
+          <i class="fas fa-th-large" style="color: var(--point-cheongrok);"></i> <span class="hidden sm:inline">전체</span> 진도표
         </button>
-        <button onclick="openMyeongnyang()" class="px-3 py-1.5 rounded-xl bg-red-950/80 hover:bg-red-900 text-xs font-bold text-red-200 border border-red-700 transition flex items-center gap-1.5">
-          <i class="fas fa-ship text-red-400"></i> 명량해전 MUD
+        <button onclick="openMyeongnyang()" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white transition flex items-center gap-1.5 shadow-sm" style="background-color: var(--era-joseon);">
+          <i class="fas fa-ship"></i> 명량해전 MUD
         </button>
-        <button onclick="openQuizHub()" class="px-3 py-1.5 rounded-xl bg-amber-950/80 hover:bg-amber-900 text-xs font-bold text-amber-200 border border-amber-700 transition flex items-center gap-1.5">
-          <i class="fas fa-bolt text-yellow-400"></i> 골든벨
+        <button onclick="openQuizHub()" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white transition flex items-center gap-1.5 shadow-sm" style="background-color: var(--point-amber);">
+          <i class="fas fa-bolt"></i> 골든벨
         </button>
-        <button onclick="openEncyclopediaModal()" class="px-3 py-1.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 text-xs font-bold text-emerald-200 border border-emerald-700 transition flex items-center gap-1.5">
-          <i class="fas fa-book text-emerald-400"></i> 도감
+        <button onclick="openEncyclopediaModal()" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white transition flex items-center gap-1.5 shadow-sm" style="background-color: var(--point-cheongrok);">
+          <i class="fas fa-book"></i> 도감
         </button>
       </div>
 
@@ -62,38 +59,38 @@
   <!-- ============================================ -->
   <main id="view-portal" class="max-w-7xl mx-auto w-full px-4 py-6 flex-1">
 
-    <!-- 배너: 오늘의 대표 추천 활동 -->
-    <div class="relative rounded-3xl p-6 md:p-8 bg-gradient-to-r from-red-950/80 via-slate-900 to-amber-950/80 border-2 border-red-700/60 shadow-2xl mb-8 overflow-hidden">
+    <!-- 배너: 오늘의 대표 추천 활동 (조선 전통 단청 톤) -->
+    <div class="relative rounded-3xl p-6 md:p-8 border shadow-sm mb-8 overflow-hidden bg-gradient-to-r from-[#F4EBE1] to-[#EFE7DC]" style="border-color: #DCCFBF;">
       <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
         <div class="max-w-2xl">
           <div class="flex items-center gap-2 mb-2">
-            <span class="px-3 py-1 bg-red-500/20 text-red-300 text-xs font-black rounded-full border border-red-500/40">
+            <span class="px-3 py-1 text-xs font-bold rounded-full border badge-joseon">
               🔥 2단원 7차시 추천 실전 MUD
             </span>
-            <span class="text-xs text-slate-400 font-mono">신에게는 아직 열두 척의 배가 있사옵니다</span>
+            <span class="text-xs font-mono serif-font" style="color: var(--point-dancheong);">신에게는 아직 열두 척의 배가 있사옵니다</span>
           </div>
-          <h2 class="text-2xl md:text-3xl font-black primitive-font tracking-wide text-red-400 mb-2">
+          <h2 class="text-2xl md:text-3xl font-bold tracking-wide mb-2" style="color: var(--era-joseon);">
             MUD 명량 해전: 울돌목의 13척 전술 시뮬레이션
           </h2>
-          <p class="text-slate-300 text-xs md:text-sm leading-relaxed serif-font">
+          <p class="text-xs md:text-sm leading-relaxed serif-font" style="color: var(--text-main);">
             선조의 수군 해체령에 맞서 장계를 올리고, 울돌목의 거센 소용돌이와 조류 역전을 이용해 133척의 왜선을 격파하세요!
           </p>
         </div>
-        <button onclick="openMyeongnyang()" class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-black shadow-xl shadow-red-950/80 transition transform active:scale-95 flex items-center gap-2 text-base shrink-0">
+        <button onclick="openMyeongnyang()" class="px-6 py-3.5 rounded-2xl text-white font-bold shadow-md transition transform active:scale-95 flex items-center gap-2 text-base shrink-0" style="background-color: var(--era-joseon);">
           <i class="fas fa-play"></i> <span>명량해전 출정하기</span>
         </button>
       </div>
     </div>
 
-    <!-- 단원 선택 탭 -->
-    <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-6 border-b border-slate-800">
-      <button onclick="switchUnitTab('unit_1')" id="tab-unit_1" class="unit-tab-btn px-5 py-2.5 rounded-2xl font-black text-sm bg-amber-500/20 text-amber-300 border-2 border-amber-400 transition shrink-0 flex items-center gap-2">
+    <!-- 단원 선택 탭 (시대별 컬러 적용) -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-6 border-b border-[#E2DCD0]">
+      <button onclick="switchUnitTab('unit_1')" id="tab-unit_1" class="unit-tab-btn px-5 py-2.5 rounded-2xl font-bold text-sm transition shrink-0 flex items-center gap-2 shadow-sm" style="background-color: #4B6584; color: #FFFFFF;">
         <span>📜 1단원</span> 옛 사람들의 삶과 문화 (20차시)
       </button>
-      <button onclick="switchUnitTab('unit_2')" id="tab-unit_2" class="unit-tab-btn px-5 py-2.5 rounded-2xl font-bold text-sm bg-slate-900 text-slate-400 border border-slate-800 hover:text-slate-200 transition shrink-0 flex items-center gap-2">
+      <button onclick="switchUnitTab('unit_2')" id="tab-unit_2" class="unit-tab-btn px-5 py-2.5 rounded-2xl font-bold text-sm bg-white text-[#665F59] border border-[#E2DCD0] hover:bg-[#EFEAE1] transition shrink-0 flex items-center gap-2">
         <span>⚔️ 2단원</span> 달라지는 시대, 변화하는 생활 (14차시)
       </button>
-      <button onclick="switchUnitTab('unit_3')" id="tab-unit_3" class="unit-tab-btn px-5 py-2.5 rounded-2xl font-bold text-sm bg-slate-900 text-slate-400 border border-slate-800 hover:text-slate-200 transition shrink-0 flex items-center gap-2">
+      <button onclick="switchUnitTab('unit_3')" id="tab-unit_3" class="unit-tab-btn px-5 py-2.5 rounded-2xl font-bold text-sm bg-white text-[#665F59] border border-[#E2DCD0] hover:bg-[#EFEAE1] transition shrink-0 flex items-center gap-2">
         <span>🇰🇷 3단원</span> 식민 통치와 저항, 전쟁 (14차시)
       </button>
     </div>
@@ -104,48 +101,48 @@
   </main>
 
   <!-- ============================================ -->
-  <!-- 3. [MUD 명량 해전 뷰] (통합 인터랙티브 플레이) -->
+  <!-- 3. [MUD 명량 해전 뷰] -->
   <!-- ============================================ -->
   <section id="view-myeongnyang" class="hidden max-w-7xl mx-auto w-full px-4 py-4 flex-1 flex-col">
     <!-- 상단 복귀 바 -->
-    <div class="flex items-center justify-between bg-slate-900 px-4 py-2.5 rounded-2xl border border-slate-800 mb-4">
+    <div class="flex items-center justify-between bg-white px-4 py-2.5 rounded-2xl border border-[#E2DCD0] shadow-sm mb-4">
       <div class="flex items-center gap-2">
-        <span class="text-xs px-2.5 py-1 bg-red-950 text-red-300 font-bold rounded-lg border border-red-800">2단원 7차시</span>
-        <h3 class="text-sm font-bold text-slate-200 serif-font">MUD 명량 해전: 울돌목의 13척</h3>
+        <span class="text-xs px-2.5 py-1 text-white font-bold rounded-lg" style="background-color: var(--point-dancheong);">2단원 7차시</span>
+        <h3 class="text-sm font-bold serif-font" style="color: var(--text-main);">MUD 명량 해전: 울돌목의 13척</h3>
       </div>
-      <button onclick="showPortalView()" class="text-xs px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold border border-slate-700 transition flex items-center gap-1.5">
+      <button onclick="showPortalView()" class="text-xs px-3.5 py-1.5 rounded-xl bg-[#EFEAE1] hover:bg-[#E2DCD0] font-bold transition flex items-center gap-1.5" style="color: var(--point-cheongrok);">
         <i class="fas fa-arrow-left"></i> 전체 진도표로 나가기
       </button>
     </div>
 
-    <!-- 명량 해전 시뮬레이션 본체 (MUD + 캔버스) -->
+    <!-- 명량 해전 시뮬레이션 본체 -->
     <div class="flex-1 flex flex-col lg:flex-row gap-6">
       
       <!-- 좌측: MUD 스토리 및 결단 선택지 -->
-      <div class="flex-1 flex flex-col bg-slate-900 rounded-2xl border border-slate-800 shadow-xl overflow-hidden min-h-[520px]">
-        <div class="bg-slate-950 text-red-500 px-6 py-3 border-b border-slate-800 flex justify-between items-center">
-          <span id="mn-stage-badge" class="text-xs px-2.5 py-1 rounded bg-red-950/80 border border-red-800 font-bold serif-font uppercase tracking-widest">
+      <div class="flex-1 flex flex-col bg-white rounded-2xl border border-[#E2DCD0] shadow-sm overflow-hidden min-h-[520px]">
+        <div class="px-6 py-3.5 border-b border-[#E2DCD0] flex justify-between items-center bg-[#F4EBE1]">
+          <span id="mn-stage-badge" class="text-xs px-2.5 py-1 rounded font-bold serif-font uppercase tracking-widest text-white" style="background-color: var(--point-dancheong);">
             SYSTEM: INITIALIZING...
           </span>
-          <span id="mn-stage-location" class="text-xs text-slate-400 flex items-center gap-1.5 font-mono">
-            <i class="fas fa-compass text-red-500"></i> 삼도수군통제영
+          <span id="mn-stage-location" class="text-xs flex items-center gap-1.5 font-mono" style="color: var(--text-muted);">
+            <i class="fas fa-compass" style="color: var(--point-dancheong);"></i> 삼도수군통제영
           </span>
         </div>
 
-        <div class="flex-1 p-6 md:p-8 flex flex-col justify-between overflow-y-auto bg-gradient-to-b from-slate-900 to-slate-950">
+        <div class="flex-1 p-6 md:p-8 flex flex-col justify-between overflow-y-auto bg-[#FCFAF7]">
           <div class="space-y-5">
-            <div id="mn-character-card" class="hidden flex items-start gap-4 p-4 rounded-xl border border-slate-800 bg-slate-950/70">
-              <span id="mn-char-avatar" class="text-4xl bg-slate-800 p-2 rounded-xl border border-slate-700">🧔</span>
+            <div id="mn-character-card" class="hidden flex items-start gap-4 p-4 rounded-xl border border-[#E2DCD0] bg-white shadow-sm">
+              <span id="mn-char-avatar" class="text-4xl p-2 rounded-xl bg-[#EFEAE1]">🧔</span>
               <div>
-                <h4 id="mn-char-name" class="font-bold text-red-400 serif-font">선조 임금</h4>
-                <p id="mn-char-subtitle" class="text-xs text-slate-500 mt-0.5">조선의 14대 국왕</p>
+                <h4 id="mn-char-name" class="font-bold serif-font" style="color: var(--point-dancheong);">선조 임금</h4>
+                <p id="mn-char-subtitle" class="text-xs mt-0.5" style="color: var(--text-muted);">조선의 14대 국왕</p>
               </div>
             </div>
-            <div id="mn-story-content" class="text-slate-300 leading-relaxed text-base md:text-lg space-y-4 serif-font"></div>
+            <div id="mn-story-content" class="leading-relaxed text-base md:text-lg space-y-4 serif-font" style="color: var(--text-main);"></div>
           </div>
 
           <div class="mt-6 space-y-2.5">
-            <div class="text-xs font-semibold text-red-400/80 tracking-wider flex items-center gap-1.5 font-mono">
+            <div class="text-xs font-bold tracking-wider flex items-center gap-1.5 font-mono uppercase" style="color: var(--point-dancheong);">
               <i class="fas fa-scroll"></i> 사생결단: 장군의 결단은 무엇입니까?
             </div>
             <div id="mn-choices-grid" class="grid grid-cols-1 gap-2.5"></div>
@@ -155,61 +152,61 @@
 
       <!-- 우측: 인터랙티브 캔버스 & 위젯 -->
       <div class="w-full lg:w-[400px] flex flex-col gap-4">
-        <div class="bg-slate-900 text-slate-100 rounded-2xl border border-slate-800 p-4 flex flex-col">
-          <div class="flex justify-between items-center mb-2 border-b border-slate-800 pb-2">
-            <h3 class="font-bold text-xs text-red-400 serif-font flex items-center gap-1.5">
-              <i class="fas fa-ship text-red-500"></i> 울돌목 전술 해상 훈련
+        <div class="bg-white rounded-2xl border border-[#E2DCD0] shadow-sm p-4 flex flex-col">
+          <div class="flex justify-between items-center mb-2 border-b border-[#E2DCD0] pb-2">
+            <h3 class="font-bold text-xs serif-font flex items-center gap-1.5" style="color: var(--point-dancheong);">
+              <i class="fas fa-ship"></i> 울돌목 전술 해상 훈련
             </h3>
-            <span id="mn-mode-badge" class="text-[9px] bg-red-950 text-red-300 px-2 py-0.5 rounded border border-red-800 font-mono font-bold">
+            <span id="mn-mode-badge" class="text-[9px] text-white px-2 py-0.5 rounded font-mono font-bold" style="background-color: var(--point-cheongrok);">
               TACTICAL SIMULATOR
             </span>
           </div>
 
-          <div class="relative bg-slate-950 rounded-xl h-56 border border-slate-800 overflow-hidden flex items-center justify-center cursor-crosshair">
+          <div class="relative bg-slate-950 rounded-xl h-56 border border-slate-800 overflow-hidden flex items-center justify-center cursor-crosshair shadow-inner">
             <canvas id="mn-canvas" class="absolute inset-0 w-full h-full"></canvas>
-            <div id="mn-canvas-instr" class="absolute top-2 left-2 right-2 bg-slate-900/95 border border-slate-800 px-2.5 py-1 rounded text-[10px] text-slate-300 text-center pointer-events-none"></div>
-            <div id="mn-canvas-feedback" class="absolute bottom-2 left-2 right-2 bg-red-950/90 border border-red-800/50 px-2 py-1 rounded text-center text-[10px] text-red-400 font-mono">
+            <div id="mn-canvas-instr" class="absolute top-2 left-2 right-2 bg-slate-900/95 border border-slate-800 px-2.5 py-1 rounded text-[10px] text-slate-200 text-center pointer-events-none"></div>
+            <div id="mn-canvas-feedback" class="absolute bottom-2 left-2 right-2 bg-red-950/90 border border-red-800/50 px-2 py-1 rounded text-center text-[10px] text-red-300 font-mono">
               화면의 왜선을 터치하여 화포를 격발하세요!
             </div>
           </div>
 
           <div id="mn-controls" class="mt-3 space-y-2 text-xs">
-            <div id="mn-widget-map" class="p-2.5 bg-slate-950 rounded-xl border border-slate-800 text-[11px] text-slate-400">
+            <div id="mn-widget-map" class="p-2.5 bg-[#EFEAE1] rounded-xl text-[11px]" style="color: var(--text-muted);">
               부산 앞바다(넓은 바다) vs 울돌목(좁은 목)의 물리적 지형을 분석하세요.
             </div>
-            <div id="mn-widget-combat" class="p-2.5 bg-slate-950 rounded-xl border border-slate-800 hidden space-y-1.5">
-              <div class="flex justify-between text-slate-400 text-[11px]">
+            <div id="mn-widget-combat" class="p-2.5 bg-[#EFEAE1] rounded-xl hidden space-y-1.5">
+              <div class="flex justify-between text-[11px]" style="color: var(--text-main);">
                 <span>천자총통 위력:</span>
-                <span class="font-mono text-red-400 font-bold" id="mn-combat-progress">0%</span>
+                <span class="font-mono font-bold" id="mn-combat-progress" style="color: var(--point-dancheong);">0%</span>
               </div>
-              <div class="w-full bg-slate-800 rounded-full h-2">
-                <div id="mn-combat-bar" class="bg-red-500 h-2 rounded-full transition-all" style="width:0%"></div>
+              <div class="w-full bg-[#E2DCD0] rounded-full h-2">
+                <div id="mn-combat-bar" class="h-2 rounded-full transition-all" style="width:0%; background-color: var(--point-dancheong);"></div>
               </div>
             </div>
-            <div id="mn-widget-current" class="p-2.5 bg-slate-950 rounded-xl border border-slate-800 hidden space-y-2">
-              <div class="flex justify-between text-slate-300 text-[11px]">
+            <div id="mn-widget-current" class="p-2.5 bg-[#EFEAE1] rounded-xl hidden space-y-2">
+              <div class="flex justify-between text-[11px]" style="color: var(--text-main);">
                 <span>울돌목 조류:</span>
-                <span class="font-mono text-cyan-400 font-bold" id="mn-current-val">밀물 (왜군 유리)</span>
+                <span class="font-mono font-bold" id="mn-current-val" style="color: var(--point-dancheong);">밀물 (왜군 유리)</span>
               </div>
-              <input type="range" id="mn-slider-current" min="0" max="100" value="20" oninput="updateMnCurrent(this.value)" class="w-full accent-cyan-500 bg-slate-800 rounded-lg cursor-pointer h-2">
+              <input type="range" id="mn-slider-current" min="0" max="100" value="20" oninput="updateMnCurrent(this.value)" class="w-full accent-cyan-600 bg-stone-300 rounded-lg cursor-pointer h-2">
             </div>
           </div>
         </div>
 
         <!-- 로드맵 -->
-        <div class="bg-slate-900 rounded-2xl border border-slate-800 p-4">
-          <h4 class="font-bold text-xs text-slate-300 serif-font mb-2 flex items-center gap-1.5">
-            <i class="fas fa-map-marked-alt text-red-500"></i> 난중일기 정벌 연대기
+        <div class="bg-white rounded-2xl border border-[#E2DCD0] shadow-sm p-4">
+          <h4 class="font-bold text-xs serif-font mb-2 flex items-center gap-1.5" style="color: var(--point-dancheong);">
+            <i class="fas fa-map-marked-alt"></i> 난중일기 정벌 연대기
           </h4>
           <div class="grid grid-cols-2 gap-1.5 text-[10px]">
-            <div id="mn-node-1" class="p-1.5 border rounded bg-slate-950 text-slate-500">1. 신에게는 아직</div>
-            <div id="mn-node-1-1" class="p-1.5 border rounded bg-slate-950 text-slate-500">1-1. 바다 해체 [사망]</div>
-            <div id="mn-node-2" class="p-1.5 border rounded bg-slate-950 text-slate-500">2. 전장의 선택</div>
-            <div id="mn-node-2-1" class="p-1.5 border rounded bg-slate-950 text-slate-500">2-1. 정면승부 [대패]</div>
-            <div id="mn-node-3" class="p-1.5 border rounded bg-slate-950 text-slate-500">3. 울돌목 화포</div>
-            <div id="mn-node-3-1" class="p-1.5 border rounded bg-slate-950 text-slate-500">3-1. 백병전 [대패]</div>
-            <div id="mn-node-4" class="p-1.5 border rounded bg-slate-950 text-slate-500">4. 조류 대역전</div>
-            <div id="mn-node-5" class="p-1.5 border rounded bg-slate-950 text-slate-500">5. 명량대첩 완수</div>
+            <div id="mn-node-1" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">1. 신에게는 아직</div>
+            <div id="mn-node-1-1" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">1-1. 바다 해체 [사망]</div>
+            <div id="mn-node-2" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">2. 전장의 선택</div>
+            <div id="mn-node-2-1" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">2-1. 정면승부 [대패]</div>
+            <div id="mn-node-3" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">3. 울돌목 화포</div>
+            <div id="mn-node-3-1" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">3-1. 백병전 [대패]</div>
+            <div id="mn-node-4" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">4. 조류 대역전</div>
+            <div id="mn-node-5" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">5. 명량대첩 완수</div>
           </div>
         </div>
       </div>
@@ -218,16 +215,16 @@
   </section>
 
   <!-- ============================================ -->
-  <!-- 4. [골든벨 퀴즈 모달/뷰] -->
+  <!-- 4. [골든벨 퀴즈 모달] -->
   <!-- ============================================ -->
-  <div id="view-quiz-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur hidden flex items-center justify-center p-4 overflow-y-auto">
-    <div class="max-w-2xl w-full bg-slate-900 border border-amber-500/40 rounded-3xl p-6 shadow-2xl relative">
-      <button onclick="closeQuizModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white px-3 py-1 bg-slate-800 rounded-lg">✕ 닫기</button>
+  <div id="view-quiz-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="max-w-2xl w-full bg-white border border-[#E2DCD0] rounded-3xl p-6 shadow-2xl relative">
+      <button onclick="closeQuizModal()" class="absolute top-4 right-4 text-stone-500 hover:text-stone-900 px-3 py-1 bg-[#EFEAE1] rounded-lg text-xs">✕ 닫기</button>
       <div id="quiz-intro-view" class="text-center py-6">
         <div class="text-4xl mb-3">⚡</div>
-        <h3 class="text-xl font-bold text-amber-300 mb-2">초등 5학년 역사 스피드 골든벨</h3>
-        <p class="text-xs text-slate-300 mb-6">문제당 15초의 제한시간 안에 정답을 맞혀보세요!</p>
-        <button onclick="window.quizGame.startQuizGame()" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black rounded-xl shadow">🚀 골든벨 시작하기</button>
+        <h3 class="text-xl font-bold mb-2" style="color: var(--point-dancheong);">초등 5학년 역사 스피드 골든벨</h3>
+        <p class="text-xs text-stone-600 mb-6">문제당 15초의 제한시간 안에 정답을 맞혀보세요!</p>
+        <button onclick="window.quizGame.startQuizGame()" class="w-full py-3.5 text-white font-bold rounded-xl shadow-md" style="background-color: var(--point-dancheong);">🚀 골든벨 시작하기</button>
       </div>
       <div id="quiz-play-view" class="hidden"></div>
       <div id="quiz-result-view" class="hidden"></div>
@@ -237,19 +234,21 @@
   <!-- ============================================ -->
   <!-- 5. [역사 도감 모달] -->
   <!-- ============================================ -->
-  <div id="view-encyclopedia-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur hidden flex items-center justify-center p-4 overflow-y-auto">
-    <div class="max-w-4xl w-full bg-slate-900 border border-amber-500/40 rounded-3xl p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
-        <h3 class="text-lg font-bold text-amber-300 flex items-center gap-2"><span>📜</span> 나의 역사 도감 & 배지 수집함</h3>
-        <button onclick="closeEncyclopediaModal()" class="text-slate-400 hover:text-white px-3 py-1 bg-slate-800 rounded-lg text-xs">✕ 닫기</button>
+  <div id="view-encyclopedia-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="max-w-4xl w-full bg-white border border-[#E2DCD0] rounded-3xl p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-4 border-b border-[#E2DCD0] pb-3">
+        <h3 class="text-lg font-bold flex items-center gap-2" style="color: var(--point-dancheong);">
+          <span>📜</span> 나의 역사 도감 & 배지 수집함
+        </h3>
+        <button onclick="closeEncyclopediaModal()" class="text-stone-500 hover:text-stone-900 px-3 py-1 bg-[#EFEAE1] rounded-lg text-xs">✕ 닫기</button>
       </div>
       <div id="encyclopedia-content"></div>
     </div>
   </div>
 
   <!-- 푸터 -->
-  <footer class="bg-slate-900 border-t border-slate-800 px-4 py-4 text-center text-xs text-slate-500">
-    <p>초등 5학년 사회(역사) 인터랙티브 MUD 활동 포털 • GitHub Pages 호환</p>
+  <footer class="border-t border-[#E2DCD0] px-4 py-4 text-center text-xs text-stone-500 bg-[#EFEAE1]">
+    <p>초등 5학년 사회(역사) 인터랙티브 MUD 활동 포털 • GitHub Pages</p>
   </footer>
 
   <!-- 스크립트 모듈 로드 -->
@@ -259,7 +258,7 @@
   <script src="js/quizGame.js"></script>
   <script src="js/miniGames.js"></script>
 
-  <!-- 포털 및 명량해전 MUD 통합 스크립트 -->
+  <!-- 포털 및 MUD 통합 스크립트 -->
   <script>
     let curriculumData = null;
     let currentUnitId = 'unit_1';
@@ -287,11 +286,15 @@
     function switchUnitTab(unitId) {
       currentUnitId = unitId;
       document.querySelectorAll('.unit-tab-btn').forEach(btn => {
-        btn.className = "unit-tab-btn px-5 py-2.5 rounded-2xl font-bold text-sm bg-slate-900 text-slate-400 border border-slate-800 hover:text-slate-200 transition shrink-0 flex items-center gap-2";
+        btn.style.backgroundColor = '#FFFFFF';
+        btn.style.color = '#665F59';
       });
       const activeBtn = document.getElementById(`tab-${unitId}`);
       if (activeBtn) {
-        activeBtn.className = "unit-tab-btn px-5 py-2.5 rounded-2xl font-black text-sm bg-amber-500/20 text-amber-300 border-2 border-amber-400 transition shrink-0 flex items-center gap-2";
+        if (unitId === 'unit_1') activeBtn.style.backgroundColor = '#4B6584';
+        else if (unitId === 'unit_2') activeBtn.style.backgroundColor = '#B33939';
+        else activeBtn.style.backgroundColor = '#D49A3D';
+        activeBtn.style.color = '#FFFFFF';
       }
       renderCurriculum(unitId);
     }
@@ -303,21 +306,26 @@
       const unit = curriculumData.units.find(u => u.id === unitId);
       if (!unit) return;
 
+      let unitHeaderBg = '#4B6584';
+      let eraClass = 'badge-samguk';
+      if (unitId === 'unit_2') { unitHeaderBg = '#B33939'; eraClass = 'badge-joseon'; }
+      else if (unitId === 'unit_3') { unitHeaderBg = '#D49A3D'; eraClass = 'badge-modern'; }
+
       let html = `
-        <div class="mb-6 p-4 rounded-2xl bg-gradient-to-r ${unit.color} text-white shadow-lg">
+        <div class="mb-6 p-5 rounded-2xl text-white shadow-sm" style="background-color: ${unitHeaderBg};">
           <div class="flex items-center gap-2 mb-1">
-            <span class="px-2.5 py-0.5 bg-black/40 rounded-full text-xs font-bold">${unit.unit_num}</span>
-            <h3 class="text-lg font-black">${unit.title}</h3>
+            <span class="px-2.5 py-0.5 bg-black/30 rounded-full text-xs font-bold">${unit.unit_num}</span>
+            <h3 class="text-xl font-bold">${unit.title}</h3>
           </div>
-          <p class="text-xs text-slate-200 opacity-90">${unit.desc}</p>
+          <p class="text-xs text-white/90 serif-font">${unit.desc}</p>
         </div>
       `;
 
       unit.sub_units.forEach((sub, sIdx) => {
         html += `
-          <div class="mb-8 bg-slate-900/80 border border-slate-800 rounded-3xl p-5 md:p-6 shadow-xl">
-            <h4 class="text-base font-bold text-amber-300 mb-4 flex items-center gap-2">
-              <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-bold">${sIdx + 1}</span>
+          <div class="mb-8 bg-white border border-[#E2DCD0] rounded-3xl p-5 md:p-6 shadow-sm">
+            <h4 class="text-base font-bold mb-4 flex items-center gap-2" style="color: ${unitHeaderBg};">
+              <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background-color: ${unitHeaderBg};">${sIdx + 1}</span>
               ${sub.title}
             </h4>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
@@ -330,36 +338,36 @@
           html += `
             <div class="p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between ${
               isFeatured
-                ? 'bg-gradient-to-br from-red-950/60 to-slate-900 border-red-500/60 shadow-lg shadow-red-950/30'
+                ? 'bg-[#FCF8F5] border-[#B33939] shadow-sm'
                 : hasGame
-                ? 'bg-slate-900 border-amber-500/40 hover:border-amber-400'
-                : 'bg-slate-950/60 border-slate-800 opacity-80'
+                ? 'bg-white border-[#C8BFB4] hover:border-[#8A3B29] shadow-sm'
+                : 'bg-[#F9F6F0] border-[#E2DCD0]'
             }">
               <div>
                 <div class="flex items-center justify-between mb-2">
-                  <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300">${ch.num}</span>
-                  <span class="text-[11px] text-slate-400 font-medium">${ch.pages}</span>
+                  <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#EFEAE1] text-stone-700">${ch.num}</span>
+                  <span class="text-[11px] text-stone-500 font-medium">${ch.pages}</span>
                 </div>
-                <h5 class="font-bold text-sm text-slate-100 mb-1 leading-snug">${ch.title}</h5>
-                ${ch.hint ? `<p class="text-xs text-slate-400 mt-1">💡 ${ch.hint}</p>` : ''}
+                <h5 class="font-bold text-sm text-[#2C2724] mb-1 leading-snug">${ch.title}</h5>
+                ${ch.hint ? `<p class="text-xs text-stone-500 mt-1">💡 ${ch.hint}</p>` : ''}
               </div>
 
-              <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between">
+              <div class="mt-4 pt-3 border-t border-[#E2DCD0] flex items-center justify-between">
                 ${
                   ch.gameId === 'myeongnyang_sim'
-                    ? `<button onclick="openMyeongnyang()" class="w-full py-2 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1 shadow">
+                    ? `<button onclick="openMyeongnyang()" class="w-full py-2 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1 shadow-sm" style="background-color: #B33939;">
                         <i class="fas fa-ship"></i> 명량해전 MUD 플레이
                        </button>`
                     : ch.type === 'game'
-                    ? `<button onclick="openStoryGame('${ch.gameId}')" class="w-full py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs flex items-center justify-center gap-1 shadow">
+                    ? `<button onclick="openStoryGame('${ch.gameId}')" class="w-full py-2 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1 shadow-sm" style="background-color: ${unitHeaderBg};">
                         <i class="fas fa-play"></i> ${ch.gameTitle}
                        </button>`
                     : ch.type === 'quiz'
-                    ? `<button onclick="openQuizHub()" class="w-full py-2 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold rounded-xl text-xs flex items-center justify-center gap-1 shadow">
+                    ? `<button onclick="openQuizHub()" class="w-full py-2 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1 shadow-sm" style="background-color: #D97706;">
                         <i class="fas fa-bolt"></i> ${ch.gameTitle}
                        </button>`
-                    : `<span class="text-[11px] text-slate-400 flex items-center gap-1">
-                        <i class="fas fa-book-open text-slate-400"></i> 수업 교과서 진도
+                    : `<span class="text-[11px] text-stone-400 flex items-center gap-1">
+                        <i class="fas fa-book-open"></i> 교과서 진도
                        </span>`
                 }
               </div>
@@ -376,7 +384,7 @@
       container.innerHTML = html;
     }
 
-    // 화면 전환 핸들러
+    // 화면 전환
     function showPortalView() {
       document.getElementById('view-portal').classList.remove('hidden');
       document.getElementById('view-myeongnyang').classList.add('hidden');
@@ -386,10 +394,19 @@
     function openMyeongnyang() {
       document.getElementById('view-portal').classList.add('hidden');
       document.getElementById('view-myeongnyang').classList.remove('hidden');
+      setupMyeongnyangStory();
       resizeMnCanvas();
       renderMnStage("1");
       animMnLoop();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openStoryGame(storyId) {
+      if (storyId === 'story_paleolithic') {
+        openPaleolithicMUD();
+      } else {
+        alert(`[${storyId}] 스토리 탐험을 시작합니다!`);
+      }
     }
 
     function openQuizHub() {
@@ -410,19 +427,113 @@
       document.getElementById('view-encyclopedia-modal').classList.add('hidden');
     }
 
-    function openStoryGame(storyId) {
-      if (storyId === 'story_paleolithic') {
-        openPaleolithicMUD();
-      } else {
-        alert(`[${storyId}] 스토리 탐험을 시작합니다!`);
-      }
+    // ==========================================
+    // MUD 스토리 엔진
+    // ==========================================
+    let mnStoryNodes = {};
+    let mnCurrentStage = "1";
+    let mnVisited = new Set(["1"]);
+    let mnSimMode = 'map-idle';
+    let mnCombatProgress = 0;
+    let mnWhirlpoolAngle = 0;
+    let mnTargetCurrent = 20;
+    let mnBullets = [];
+    let mnEnemyShips = [];
+    let mnPlayerShip = { x: 50, y: 110, size: 26 };
+
+    function setupMyeongnyangStory() {
+      mnStoryNodes = {
+        "1": {
+          location: "조선 선조 30년, 한양 편전",
+          badge: "⚓ 임금의 밀명",
+          character: { name: "선조 임금", subtitle: "두려움에 찬 구원 철회", avatar: "👑" },
+          text: `<b>선조 임금의 긴박한 전갈이 전달되었습니다.</b><br><br>원균의 수군이 칠천량에서 대패하여 제해권을 잃었습니다. 적들은 100여 척의 전함으로 서해를 통해 한양으로 직행하려 합니다.<br><br><b>선조:</b> "수군은 가망이 없으니 전격 해체하고 육전에 매진하라!"<br><br>당신에겐 단 <b>13척의 판옥선</b>만이 남아있습니다. 어떻게 하시겠습니까?`,
+          choices: [
+            { text: "📜 수군을 전격 해체하고 육상 진영으로 합류한다.", next: "1-1", sound: "fail" },
+            { text: "⚔️ \"신에게는 아직 열두 척의 배가 남아있사옵니다!\" 바다를 사수한다.", next: "2", sound: "drum" }
+          ],
+          setupSim: "map-idle"
+        },
+        "1-1": {
+          location: "패망한 서해 한양포구",
+          badge: "❌ MISSION FAILED",
+          character: { name: "왜군 수군 선봉장", subtitle: "보급로를 장악한 왜군", avatar: "👹" },
+          text: `<b>❌ [SYSTEM: 제해권 상실 및 한양 함락]</b><br>바다를 포기하자 왜군 함대가 서해를 장악하고 군량을 보급받아 한양까지 진격했습니다. 바다를 버려 대세를 무너뜨린 장수로 기록되고 말았습니다.`,
+          choices: [{ text: "🔄 선조 30년 가을로 회귀하여 다시 결단한다.", next: "1", sound: "restart" }],
+          setupSim: "map-idle"
+        },
+        "2": {
+          location: "우수영 전술 회의장",
+          badge: "🗺️ 전술 기동 수립",
+          character: { name: "군관 송희립", subtitle: "충성스러운 우수영의 장수", avatar: "🛡️" },
+          text: `<b>왜군 함대 133척이 전진해 오고 있습니다.</b><br><br>13척 vs 133척의 절대적 수적 열세를 뒤집고 적을 함정에 빠뜨릴 최적의 격전지는 어디일까요?`,
+          choices: [
+            { text: "🌊 넓은 개활지인 부산 앞바다에서 정면 대결을 펼친다.", next: "2-1", sound: "fail" },
+            { text: "🌀 소용돌이가 치는 좁은 협로 '울돌목'으로 적을 유인한다.", next: "3", sound: "gong" }
+          ],
+          setupSim: "map-choose"
+        },
+        "2-1": {
+          location: "포위 당한 부산 앞바다",
+          badge: "❌ TACTICAL ERROR",
+          character: { name: "왜선 함대", subtitle: "사방 포위 전술", avatar: "🎏" },
+          text: `<b>❌ [SYSTEM: 수적 우세를 도외시한 전술 에러]</b><br>넓은 바다에서 133척의 왜선에 사방으로 포위당해 백병전에 무력하게 제압당했습니다. 좁은 길목 지형을 활용해야 합니다!`,
+          choices: [{ text: "🔄 후퇴하여 전장을 울돌목으로 재지정한다.", next: "2", sound: "restart" }],
+          setupSim: "map-choose"
+        },
+        "3": {
+          location: "명량 해협 울돌목",
+          badge: "💥 울돌목의 불꽃",
+          character: { name: "대장선 지휘관", subtitle: "사선에 선 통제사", avatar: "⚓" },
+          text: `<b>우르르릉! 콰아앙!</b><br>울돌목 협로에서 홀로 적의 선봉과 맞닥뜨렸습니다! 왜선들이 밧줄을 던져 기어오르려 합니다. 어떻게 공격하겠습니까?`,
+          choices: [
+            { text: "⚔️ 무사들을 앞세워 돌격 백병전을 치른다.", next: "3-1", sound: "fail" },
+            { text: "💣 판옥선의 선회력을 살려 천자총통 화포를 집중 일사 포격한다.", next: "4", sound: "cannon" }
+          ],
+          setupSim: "combat-active"
+        },
+        "3-1": {
+          location: "피로 물든 판옥선 갑판",
+          badge: "❌ WAR ENGINE ERROR",
+          character: { name: "왜군 조총병", subtitle: "접근전 전문 무사", avatar: "⚔️" },
+          text: `<b>❌ [SYSTEM: 적의 강점 수용 실패]</b><br>접근전 백병전에서 조선 군사들이 큰 피해를 입었습니다. 판옥선의 튼튼한 장갑과 압도적인 화포 사거리로 승부해야 합니다!`,
+          choices: [{ text: "🔄 화포 포술로 전술을 변경한다.", next: "3", sound: "restart" }],
+          setupSim: "combat-active"
+        },
+        "4": {
+          location: "소용돌이치는 명량 해수면",
+          badge: "🌀 조류 대역전",
+          character: { name: "안위 장군", subtitle: "전열에 가담한 장수", avatar: "✊" },
+          text: `<b>화포 명중으로 수장 구루시마가 쓰러졌습니다!</b><br><br>그리고 지금 밀물이 썰물로 바뀌며 왜선들이 거센 퇴조 물살에 서로 뒤엉키기 시작했습니다! 최후의 군령을 내리십시오!`,
+          choices: [
+            { text: "✊ 무리한 추격을 멈추고 현 위치에서 철수한다.", next: "4-1", sound: "fail" },
+            { text: "🔥 \"전 함대 총공격! 도망치는 적의 후미를 맹렬히 포격하라!\"", next: "5", sound: "victory" }
+          ],
+          setupSim: "current-switch"
+        },
+        "4-1": {
+          location: "도주하는 왜선의 잔상",
+          badge: "⚠️ TACTICAL INFO",
+          character: { name: "부장들", subtitle: "잔존 적군 염려", avatar: "🛡️" },
+          text: `<b>⚠️ [SYSTEM: 적의 잔존 전력 온전 보존]</b><br>적이 남해로 무사히 후퇴하여 복수전을 꾀하고 있습니다. 완전히 전의를 상실하도록 맹공을 퍼부어야 합니다.`,
+          choices: [{ text: "🔄 조류 역전 시점으로 돌아가 총공격을 명한다.", next: "4", sound: "restart" }],
+          setupSim: "current-switch"
+        },
+        "5": {
+          location: "명량 해역 울돌목",
+          badge: "👑 MISSION ACCOMPLISHED",
+          character: { name: "충무공 이순신", subtitle: "조선 수군 통제사", avatar: "⚓" },
+          text: `<b>"필사즉생 필생즉사(必死則生 必生則死)"</b><br><br>기적의 명량대첩 대승을 완수했습니다! 왜군의 서해 진출을 원천 봉쇄하여 조선을 지켜냈습니다!`,
+          choices: [{ text: "🎉 승전 보고서를 올리고 완료합니다.", next: "end", sound: "victory" }],
+          setupSim: "map-idle"
+        }
+      };
     }
 
     function openPaleolithicMUD() {
       document.getElementById('view-portal').classList.add('hidden');
       document.getElementById('view-myeongnyang').classList.remove('hidden');
       
-      // 구석기 MUD 데이터로 교체
       mnStoryNodes = {
         "1": {
           location: "70만 년 전 한탄강 전곡리",
@@ -497,107 +608,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ==========================================
-    // 명량 해전 시뮬레이터 MUD 전용 로직
-    // ==========================================
-    const mnStoryNodes = {
-      "1": {
-        location: "조선 선조 30년, 한양 편전",
-        badge: "⚓ 임금의 밀명",
-        character: { name: "선조 임금", subtitle: "두려움에 찬 구원 철회", avatar: "👑" },
-        text: `<b>선조 임금의 긴박한 전갈이 전달되었습니다.</b><br><br>원균의 수군이 칠천량에서 대패하여 제해권을 잃었습니다. 적들은 100여 척의 전함으로 서해를 통해 한양으로 직행하려 합니다.<br><br><b>선조:</b> "수군은 가망이 없으니 전격 해체하고 육전에 매진하라!"<br><br>당신에겐 단 <b>13척의 판옥선</b>만이 남아있습니다. 어떻게 하시겠습니까?`,
-        choices: [
-          { text: "📜 수군을 전격 해체하고 육상 진영으로 합류한다.", next: "1-1", sound: "fail" },
-          { text: "⚔️ \"신에게는 아직 열두 척의 배가 남아있사옵니다!\" 바다를 사수한다.", next: "2", sound: "drum" }
-        ],
-        setupSim: "map-idle"
-      },
-      "1-1": {
-        location: "패망한 서해 한양포구",
-        badge: "❌ MISSION FAILED",
-        character: { name: "왜군 수군 선봉장", subtitle: "보급로를 장악한 왜군", avatar: "👹" },
-        text: `<b>❌ [SYSTEM: 제해권 상실 및 한양 함락]</b><br>바다를 포기하자 왜군 함대가 서해를 장악하고 군량을 보급받아 한양까지 진격했습니다. 바다를 버려 대세를 무너뜨린 장수로 기록되고 말았습니다.`,
-        choices: [{ text: "🔄 선조 30년 가을로 회귀하여 다시 결단한다.", next: "1", sound: "restart" }],
-        setupSim: "map-idle"
-      },
-      "2": {
-        location: "우수영 전술 회의장",
-        badge: "🗺️ 전술 기동 수립",
-        character: { name: "군관 송희립", subtitle: "충성스러운 우수영의 장수", avatar: "🛡️" },
-        text: `<b>왜군 함대 133척이 전진해 오고 있습니다.</b><br><br>13척 vs 133척의 절대적 수적 열세를 뒤집고 적을 함정에 빠뜨릴 최적의 격전지는 어디일까요?`,
-        choices: [
-          { text: "🌊 넓은 개활지인 부산 앞바다에서 정면 대결을 펼친다.", next: "2-1", sound: "fail" },
-          { text: "🌀 소용돌이가 치는 좁은 협로 '울돌목'으로 적을 유인한다.", next: "3", sound: "gong" }
-        ],
-        setupSim: "map-choose"
-      },
-      "2-1": {
-        location: "포위 당한 부산 앞바다",
-        badge: "❌ TACTICAL ERROR",
-        character: { name: "왜선 함대", subtitle: "사방 포위 전술", avatar: "🎏" },
-        text: `<b>❌ [SYSTEM: 수적 우세를 도외시한 전술 에러]</b><br>넓은 바다에서 133척의 왜선에 사방으로 포위당해 백병전에 무력하게 제압당했습니다. 좁은 길목 지형을 활용해야 합니다!`,
-        choices: [{ text: "🔄 후퇴하여 전장을 울돌목으로 재지정한다.", next: "2", sound: "restart" }],
-        setupSim: "map-choose"
-      },
-      "3": {
-        location: "명량 해협 울돌목",
-        badge: "💥 울돌목의 불꽃",
-        character: { name: "대장선 지휘관", subtitle: "사선에 선 통제사", avatar: "⚓" },
-        text: `<b>우르르릉! 콰아앙!</b><br>울돌목 협로에서 홀로 적의 선봉과 맞닥뜨렸습니다! 왜선들이 밧줄을 던져 기어오르려 합니다. 어떻게 공격하겠습니까?`,
-        choices: [
-          { text: "⚔️ 무사들을 앞세워 돌격 백병전을 치른다.", next: "3-1", sound: "fail" },
-          { text: "💣 판옥선의 선회력을 살려 천자총통 화포를 집중 일사 포격한다.", next: "4", sound: "cannon" }
-        ],
-        setupSim: "combat-active"
-      },
-      "3-1": {
-        location: "피로 물든 판옥선 갑판",
-        badge: "❌ WAR ENGINE ERROR",
-        character: { name: "왜군 조총병", subtitle: "접근전 전문 무사", avatar: "⚔️" },
-        text: `<b>❌ [SYSTEM: 적의 강점 수용 실패]</b><br>접근전 백병전에서 조선 군사들이 큰 피해를 입었습니다. 판옥선의 튼튼한 장갑과 압도적인 화포 사거리로 승부해야 합니다!`,
-        choices: [{ text: "🔄 화포 포술로 전술을 변경한다.", next: "3", sound: "restart" }],
-        setupSim: "combat-active"
-      },
-      "4": {
-        location: "소용돌이치는 명량 해수면",
-        badge: "🌀 조류 대역전",
-        character: { name: "안위 장군", subtitle: "전열에 가담한 장수", avatar: "✊" },
-        text: `<b>화포 명중으로 수장 구루시마가 쓰러졌습니다!</b><br><br>그리고 지금 밀물이 썰물로 바뀌며 왜선들이 거센 퇴조 물살에 서로 뒤엉키기 시작했습니다! 최후의 군령을 내리십시오!`,
-        choices: [
-          { text: "✊ 무리한 추격을 멈추고 현 위치에서 철수한다.", next: "4-1", sound: "fail" },
-          { text: "🔥 \"전 함대 총공격! 도망치는 적의 후미를 맹렬히 포격하라!\"", next: "5", sound: "victory" }
-        ],
-        setupSim: "current-switch"
-      },
-      "4-1": {
-        location: "도주하는 왜선의 잔상",
-        badge: "⚠️ TACTICAL INFO",
-        character: { name: "부장들", subtitle: "잔존 적군 염려", avatar: "🛡️" },
-        text: `<b>⚠️ [SYSTEM: 적의 잔존 전력 온전 보존]</b><br>적이 남해로 무사히 후퇴하여 복수전을 꾀하고 있습니다. 완전히 전의를 상실하도록 맹공을 퍼부어야 합니다.`,
-        choices: [{ text: "🔄 조류 역전 시점으로 돌아가 총공격을 명한다.", next: "4", sound: "restart" }],
-        setupSim: "current-switch"
-      },
-      "5": {
-        location: "명량 해역 울돌목",
-        badge: "👑 MISSION ACCOMPLISHED",
-        character: { name: "충무공 이순신", subtitle: "조선 수군 통제사", avatar: "⚓" },
-        text: `<b>"필사즉생 필생즉사(必死則生 必生則死)"</b><br><br>기적의 명량대첩 대승을 완수했습니다! 왜군의 서해 진출을 원천 봉쇄하여 조선을 지켜냈습니다!`,
-        choices: [{ text: "🎉 승전 보고서를 올리고 완료합니다.", next: "end", sound: "victory" }],
-        setupSim: "map-idle"
-      }
-    };
-
-    let mnCurrentStage = "1";
-    let mnVisited = new Set(["1"]);
-    let mnSimMode = 'map-idle';
-    let mnCombatProgress = 0;
-    let mnWhirlpoolAngle = 0;
-    let mnTargetCurrent = 20;
-    let mnParticles = [];
-    let mnEnemyShips = [];
-    let mnPlayerShip = { x: 50, y: 110, size: 26 };
-    let mnBullets = [];
-
     const mnCanvas = document.getElementById('mn-canvas');
     const mnCtx = mnCanvas.getContext('2d');
 
@@ -618,7 +628,7 @@
       mnVisited.add(mnCurrentStage);
       updateMnRoadmap();
 
-      document.getElementById('mn-stage-location').innerHTML = `<i class="fas fa-compass text-red-500"></i> ${stage.location}`;
+      document.getElementById('mn-stage-location').innerHTML = `<i class="fas fa-compass" style="color: var(--point-dancheong);"></i> ${stage.location}`;
       const badge = document.getElementById('mn-stage-badge');
       badge.textContent = stage.badge;
 
@@ -664,10 +674,10 @@
       grid.innerHTML = '';
       stage.choices.forEach(ch => {
         const btn = document.createElement('button');
-        btn.className = "w-full text-left p-3.5 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-red-950/40 hover:border-red-700 text-slate-200 transition flex justify-between items-center text-xs md:text-sm group";
+        btn.className = "w-full text-left p-3.5 rounded-xl border border-[#E2DCD0] bg-white hover:bg-[#F4EBE1] hover:border-[#8A3B29] text-[#2C2724] transition flex justify-between items-center text-xs md:text-sm shadow-sm group";
         btn.innerHTML = `
-          <span>${ch.text}</span>
-          <span class="text-[10px] bg-slate-800 group-hover:bg-red-900 text-slate-400 group-hover:text-red-300 px-2 py-1 rounded font-bold">결단 ➔</span>
+          <span class="font-medium">${ch.text}</span>
+          <span class="text-[10px] bg-[#EFEAE1] group-hover:bg-[#8A3B29] text-stone-600 group-hover:text-white px-2 py-1 rounded font-bold transition">결단 ➔</span>
         `;
         btn.onclick = () => {
           if (ch.sound && window.sounds) {
@@ -727,13 +737,13 @@
       const txt = document.getElementById('mn-current-val');
       if (mnTargetCurrent < 40) {
         txt.textContent = "밀물 (왜군 유리)";
-        txt.className = "font-mono text-red-400 font-bold";
+        txt.style.color = '#B33939';
       } else if (mnTargetCurrent < 80) {
         txt.textContent = "정조 상태 (물살 정지)";
-        txt.className = "font-mono text-slate-400 font-bold";
+        txt.style.color = '#665F59';
       } else {
         txt.textContent = "썰물 (조선 대역전 개시)";
-        txt.className = "font-mono text-cyan-400 font-bold";
+        txt.style.color = '#2E5B70';
         if (window.sounds) window.sounds.playCorrect();
       }
     }
@@ -744,11 +754,11 @@
         const el = document.getElementById(`mn-node-${id}`);
         if (!el) return;
         if (mnCurrentStage === id) {
-          el.className = "p-1.5 border border-red-500 bg-red-950/80 text-red-300 font-bold rounded";
+          el.className = "p-1.5 border border-[#8A3B29] bg-[#F4EBE1] text-[#8A3B29] font-bold rounded shadow-sm";
         } else if (mnVisited.has(id)) {
-          el.className = "p-1.5 border border-slate-800 bg-slate-900 text-slate-300 rounded opacity-90";
+          el.className = "p-1.5 border border-[#E2DCD0] bg-white text-stone-700 rounded";
         } else {
-          el.className = "p-1.5 border border-slate-900 bg-slate-950/40 text-slate-700 rounded opacity-40";
+          el.className = "p-1.5 border border-transparent bg-[#EFEAE1] text-stone-400 rounded opacity-60";
         }
       });
     }
@@ -777,11 +787,9 @@
         mnCtx.fillStyle = '#070f2b';
         mnCtx.fillRect(0, 0, w, h);
 
-        // 아군 판옥선
         mnCtx.fillStyle = '#78350f';
         mnCtx.fillRect(mnPlayerShip.x - 15, mnPlayerShip.y - 12, mnPlayerShip.size, 24);
 
-        // 왜선
         mnEnemyShips.forEach(s => {
           if (!s.alive) return;
           mnCtx.fillStyle = '#1e293b';
@@ -789,7 +797,6 @@
           mnCtx.strokeRect(s.x - 8, s.y - 8, s.size, s.size);
         });
 
-        // 포탄
         mnBullets.forEach(b => {
           if (!b.active) return;
           b.x += b.vx;
@@ -825,6 +832,13 @@
       }
     }
 
+    function animMnLoop() {
+      drawMnSim();
+      if (!document.getElementById('view-myeongnyang').classList.contains('hidden')) {
+        requestAnimationFrame(animMnLoop);
+      }
+    }
+
     function renderFinalReflectionView() {
       if (window.sounds) window.sounds.playFanfare();
       const storyBox = document.getElementById('mn-story-content');
@@ -832,26 +846,26 @@
       
       storyBox.innerHTML = `
         <div class="space-y-4 py-2">
-          <div class="p-4 bg-gradient-to-r from-red-950/90 to-amber-950/80 border-2 border-amber-500/60 rounded-2xl text-center shadow-lg">
+          <div class="p-5 bg-gradient-to-r from-[#F4EBE1] to-[#EFE7DC] border border-[#DCCFBF] rounded-2xl text-center shadow-sm">
             <span class="text-4xl">👑</span>
-            <h3 class="text-xl font-bold text-amber-300 mt-2 serif-font">명량대첩 기적의 대승 완수!</h3>
-            <p class="text-xs text-slate-300 mt-1">13척으로 133척을 물리치고 조선의 바다를 지켜냈습니다.</p>
+            <h3 class="text-xl font-bold mt-2 serif-font" style="color: var(--point-dancheong);">역사적 미션 대승 완수!</h3>
+            <p class="text-xs mt-1" style="color: var(--text-main);">역사의 주인공이 되어 올바른 결단을 성공적으로 이끌어냈습니다.</p>
           </div>
 
-          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800 space-y-3">
-            <h4 class="text-xs font-bold text-amber-400 flex items-center gap-1.5 font-mono uppercase">
+          <div class="p-5 bg-white rounded-2xl border border-[#E2DCD0] space-y-3 shadow-sm">
+            <h4 class="text-xs font-bold flex items-center gap-1.5 font-mono uppercase" style="color: var(--point-dancheong);">
               <i class="fas fa-feather-alt"></i> [메타인지 회고] 통제사의 승전 장계(일기) 작성
             </h4>
-            <p class="text-xs text-slate-400 leading-relaxed">
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
               오늘 내린 결정 중 <b>가장 고민되었던 순간</b>이나 <b>가장 중요했던 승리의 열쇠</b>를 한 줄로 기록해 보세요:
             </p>
-            <textarea id="student-reflection-text" class="w-full p-3 rounded-xl bg-slate-950 border border-slate-700 text-slate-200 text-xs focus:border-amber-400 focus:outline-none h-20 placeholder:text-slate-600" placeholder="예: 선조의 명령 대신 바다를 지키기로 결심했을 때 두려웠지만, 울돌목의 좁은 지형과 썰물 역전 덕분에 대승할 수 있었다!"></textarea>
+            <textarea id="student-reflection-text" class="w-full p-3 rounded-xl bg-[#FCFAF7] border border-[#E2DCD0] text-xs focus:border-[#8A3B29] focus:outline-none h-20 placeholder:text-stone-400" placeholder="예: 선조의 명령 대신 바다를 지키기로 결심했을 때 두려웠지만, 울돌목의 좁은 지형과 썰물 역전 덕분에 대승할 수 있었다!"></textarea>
             
             <div class="flex gap-2">
-              <button onclick="copyStudentReflection()" class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs transition shadow flex items-center justify-center gap-1.5">
+              <button onclick="copyStudentReflection()" class="flex-1 py-2.5 text-white font-bold rounded-xl text-xs transition shadow-sm flex items-center justify-center gap-1.5" style="background-color: var(--point-dancheong);">
                 <i class="fas fa-copy"></i> 장계 복사하기 (과제 제출용)
               </button>
-              <button onclick="showPortalView()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs border border-slate-700 transition">
+              <button onclick="showPortalView()" class="px-4 py-2.5 bg-[#EFEAE1] hover:bg-[#E2DCD0] text-stone-700 font-bold rounded-xl text-xs border border-[#E2DCD0] transition">
                 🏠 진도표로
               </button>
             </div>
@@ -867,19 +881,12 @@
         alert('장계(회고) 내용을 입력해 주세요!');
         return;
       }
-      const fullText = `[초등 5학년 역사 명량해전 MUD 승전 장계]\n"신에게는 아직 열두 척의 배가 남아있사옵니다."\n\n나의 역사적 결단 회고:\n${text}`;
+      const fullText = `[초등 5학년 역사 MUD 승전 장계]\n"신에게는 아직 열두 척의 배가 남아있사옵니다."\n\n나의 역사적 결단 회고:\n${text}`;
       navigator.clipboard.writeText(fullText).then(() => {
         alert('📋 장계가 클립보드에 복사되었습니다! 구글 클래스룸이나 패들렛에 붙여넣어 제출하세요.');
       }).catch(() => {
         alert('복사되었습니다: ' + text);
       });
-    }
-
-    function animMnLoop() {
-      drawMnSim();
-      if (!document.getElementById('view-myeongnyang').classList.contains('hidden')) {
-        requestAnimationFrame(animMnLoop);
-      }
     }
   </script>
 </body>

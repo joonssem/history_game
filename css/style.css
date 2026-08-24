@@ -1,18 +1,17 @@
 /* =========================================================
-   초등 5학년 역사 탐험대 포털 - 지정 타이포그래피 시스템
-   1. 제목: 학교안심 알림장 (SchoolSafetyNotification)
-   2. 본문: 프리텐다드 (Pretendard)
-   3. 강조/인용/사료: 마루부리 (MaruBuri)
+   초등 5학년 역사 탐험대 포털 - 역사 전통 & 가독성 최적화 테마 시스템
+   - 폰트: 학교안심알림장(제목), Pretendard(본문), MaruBuri(강조/사료)
+   - 컬러: 한지색 배경(#F9F6F0), 먹색(#2C2724), 단청 적토(#8A3B29), 청록(#2E5B70)
+   - 시대별: 삼국(#4B6584), 고려(#3B7A57), 조선(#B33939), 근현대(#D49A3D)
 ========================================================= */
 
-/* 1. 제목 폰트: 학교안심 알림장 */
+/* 1. 폰트 정의 */
 @font-face {
     font-family: 'SchoolSafetyNotification';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-R.woff2') format('woff2');
     font-weight: 400;
     font-display: swap;
 }
-
 @font-face {
     font-family: 'SchoolSafetyNotification';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-B.woff2') format('woff2');
@@ -20,35 +19,10 @@
     font-display: swap;
 }
 
-/* 2. 본문 폰트: Pretendard */
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Thin.woff2') format('woff2');
-    font-weight: 100;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraLight.woff2') format('woff2');
-    font-weight: 200;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Light.woff2') format('woff2');
-    font-weight: 300;
-    font-display: swap;
-}
 @font-face {
     font-family: 'Pretendard';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2') format('woff2');
     font-weight: 400;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Medium.woff2') format('woff2');
-    font-weight: 500;
     font-display: swap;
 }
 @font-face {
@@ -63,42 +37,11 @@
     font-weight: 700;
     font-display: swap;
 }
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraBold.woff2') format('woff2');
-    font-weight: 800;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Black.woff2') format('woff2');
-    font-weight: 900;
-    font-display: swap;
-}
 
-/* 3. 강조/인용/사료 폰트: MaruBuri */
-@font-face {
-    font-family: 'MaruBuri';
-    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.woff2);
-    font-weight: 200;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'MaruBuri';
-    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.woff2);
-    font-weight: 300;
-    font-display: swap;
-}
 @font-face {
     font-family: 'MaruBuri';
     src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2);
     font-weight: 400;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'MaruBuri';
-    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.woff2);
-    font-weight: 600;
     font-display: swap;
 }
 @font-face {
@@ -108,46 +51,65 @@
     font-display: swap;
 }
 
-/* 기본 타이포그래피 규칙 */
+/* 2. 컬러 팔레트 CSS 변수 */
 :root {
-  --font-title: 'SchoolSafetyNotification', sans-serif;
-  --font-body: 'Pretendard', sans-serif;
-  --font-emphasis: 'MaruBuri', serif;
+  --bg-hanji: #F9F6F0;          /* 메인 배경: 따뜻한 한지 아이보리 */
+  --bg-card: #FFFFFF;           /* 카드 배경: 부드러운 화이트 */
+  --bg-card-sub: #EFEAE1;       /* 보조 카드 배경: 정돈된 미색 */
+  
+  --text-main: #2C2724;         /* 기본 텍스트: 깊은 먹색 */
+  --text-muted: #665F59;        /* 부가 설명 텍스트 */
+  --border-subtle: #E2DCD0;     /* 경계선 */
+
+  --point-dancheong: #8A3B29;   /* 주요 포인트: 전통 인두·단청 적토색 */
+  --point-cheongrok: #2E5B70;   /* 보조 포인트: 단청 청록색 */
+  --point-amber: #D97706;       /* 모험 배지/성취: 따뜻한 황금 앰버 */
+
+  /* 시대 구분 전용 컬러 */
+  --era-samguk: #4B6584;        /* 선사·삼국·통일신라: 덜블루 */
+  --era-goryeo: #3B7A57;        /* 고려: 비색 에메랄드 */
+  --era-joseon: #B33939;        /* 조선: 단청 레드 */
+  --era-modern: #D49A3D;        /* 근현대: 도약 황갈색 */
 }
 
+/* 기본 스타일 */
 body {
-  font-family: var(--font-body);
-  background-color: #020617;
-  color: #f1f5f9;
-  overflow-x: hidden;
-  user-select: none;
+  font-family: 'Pretendard', sans-serif;
+  background-color: var(--bg-hanji);
+  color: var(--text-main);
+  line-height: 1.6;
   word-break: keep-all;
+  user-select: none;
 }
 
-/* 제목 전용 클래스 */
-h1, h2, h3, .title-font, .primitive-font {
-  font-family: var(--font-title) !important;
+h1, h2, h3, .title-font {
+  font-family: 'SchoolSafetyNotification', sans-serif !important;
   letter-spacing: -0.01em;
 }
 
-/* 강조/사료/역사 대사 전용 클래스 (이탤릭 대체) */
-em, i.quote-text, .serif-font, .emphasis-font {
-  font-family: var(--font-emphasis) !important;
+.serif-font, em, .quote-text {
+  font-family: 'MaruBuri', serif !important;
   font-style: normal;
 }
 
+/* 시대별 뱃지 스타일 */
+.badge-samguk { background-color: rgba(75, 101, 132, 0.12); color: #2d435e; border: 1px solid #4B6584; }
+.badge-goryeo { background-color: rgba(59, 122, 87, 0.12); color: #225237; border: 1px solid #3B7A57; }
+.badge-joseon { background-color: rgba(179, 57, 57, 0.12); color: #872020; border: 1px solid #B33939; }
+.badge-modern { background-color: rgba(212, 154, 61, 0.15); color: #8a5d14; border: 1px solid #D49A3D; }
+
 /* 커스텀 스크롤바 */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #020617;
+  background: #EFEAE1;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 3px;
+  background: #C8BFB4;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #A3978A;
 }
