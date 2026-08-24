@@ -2835,8 +2835,8 @@
       // 1. 흰색 깃면 (바탕 3:2 비율)
       ctx.save();
       ctx.fillStyle = '#FFFFFF';
-      ctx.shadowColor = 'rgba(0,0,0,0.35)';
-      ctx.shadowBlur = 8;
+      ctx.shadowColor = 'rgba(0,0,0,0.3)';
+      ctx.shadowBlur = 10;
       ctx.fillRect(x, y, flagW, flagH);
       ctx.restore();
 
@@ -2846,27 +2846,20 @@
 
       const radius = flagH / 4; // 태극 지름 = 세로의 1/2
       const rSmall = radius / 2;
-      const diagAngle = Math.atan2(flagH, flagW); // 대각선 각도
+      const theta = Math.atan2(flagH, flagW); // 대각선 각도
 
-      // 2. 중앙 태극 문양 (대각선 축 회전)
+      // 2. 중앙 태극 문양 (좌상단-우하단 대각선 축 기준)
       ctx.save();
       ctx.translate(cx, cy);
-      ctx.rotate(-diagAngle); // 좌상단-우하단 대각선 축
-
-      // 밑그림 가이드 점선
-      ctx.strokeStyle = '#E2E8F0';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.arc(0, 0, radius, 0, Math.PI * 2);
-      ctx.stroke();
+      ctx.rotate(theta); // 대각선 방향으로 회전
 
       // [상부 양(陽) - 빨간색]
       if (state.yangColor) {
-        ctx.fillStyle = '#CD2E3A'; // 대한민국 국기법 공식 태극 빨강
+        ctx.fillStyle = '#CD2E3A'; // 국기법 공식 태극 빨강
         ctx.beginPath();
         ctx.arc(0, 0, radius, Math.PI, 0, false);
         ctx.arc(rSmall, 0, rSmall, 0, Math.PI, false);
-        ctx.arc(-rSmall, 0, rSmall, 0, Math.PI, true);
+        ctx.arc(-rSmall, 0, rSmall, 0, Math.PI, false);
         ctx.closePath();
         ctx.fill();
       } else {
@@ -2874,21 +2867,21 @@
         ctx.beginPath();
         ctx.arc(0, 0, radius, Math.PI, 0, false);
         ctx.arc(rSmall, 0, rSmall, 0, Math.PI, false);
-        ctx.arc(-rSmall, 0, rSmall, 0, Math.PI, true);
+        ctx.arc(-rSmall, 0, rSmall, 0, Math.PI, false);
         ctx.closePath();
         ctx.fill();
         ctx.fillStyle = '#94A3B8';
         ctx.font = 'bold 8px sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText('🔴 양(빨강)', 0, -8);
+        ctx.fillText('🔴 양(빨강)', 0, -10);
       }
 
       // [하부 음(陰) - 파란색]
       if (state.yinColor) {
-        ctx.fillStyle = '#0047A0'; // 대한민국 국기법 공식 태극 파랑
+        ctx.fillStyle = '#0047A0'; // 국기법 공식 태극 파랑
         ctx.beginPath();
         ctx.arc(0, 0, radius, 0, Math.PI, false);
-        ctx.arc(-rSmall, 0, rSmall, Math.PI, 0, false);
+        ctx.arc(-rSmall, 0, rSmall, Math.PI, 0, true);
         ctx.arc(rSmall, 0, rSmall, Math.PI, 0, true);
         ctx.closePath();
         ctx.fill();
@@ -2896,7 +2889,7 @@
         ctx.fillStyle = '#E2E8F0';
         ctx.beginPath();
         ctx.arc(0, 0, radius, 0, Math.PI, false);
-        ctx.arc(-rSmall, 0, rSmall, Math.PI, 0, false);
+        ctx.arc(-rSmall, 0, rSmall, Math.PI, 0, true);
         ctx.arc(rSmall, 0, rSmall, Math.PI, 0, true);
         ctx.closePath();
         ctx.fill();
@@ -2906,62 +2899,74 @@
         ctx.fillText('🔵 음(파랑)', 0, 14);
       }
 
+      // 중심 테두리 가이드 선
+      ctx.strokeStyle = '#CBD5E1';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, Math.PI * 2);
+      ctx.stroke();
+
       ctx.restore();
 
       // 3. 4괘 (건·곤·감·리) 정밀 렌더링
-      const kwaeDist = radius * 1.48;
-      const barW = radius * 0.52;
-      const barH = radius * 0.085;
-      const barGap = radius * 0.045;
+      const barLength = radius;               // 괘의 길이(세로): 태극 지름의 1/2
+      const barThickness = radius / 3.2;      // 괘의 효 두께: 태극 지름의 1/12 상당
+      const barGap = radius / 6.5;            // 효 사이 간격: 태극 지름의 1/24 상당
+      const centerGap = radius / 6.5;         // 음효 가운데 끊어진 간격
+      const gwaeDist = radius * 1.52;         // 태극과 괘 중심 사이 거리
 
       function drawGwae(angle, dist, lines, isColored, name) {
         ctx.save();
         ctx.translate(cx, cy);
         ctx.rotate(angle);
-        ctx.translate(0, dist);
+        ctx.translate(dist, 0); // 대각선 방향으로 바깥쪽 이동
 
         lines.forEach((isBroken, idx) => {
-          const lineY = (idx - 1) * (barH + barGap);
+          // idx = 0 (안쪽), 1 (중간), 2 (바깥쪽)
+          const lineX = (idx - 1) * (barThickness + barGap);
           ctx.fillStyle = isColored ? '#000000' : '#E2E8F0';
+
           if (!isBroken) {
-            // 양효 (연결된 막대)
-            ctx.fillRect(-barW / 2, lineY - barH / 2, barW, barH);
+            // 양효: 연결된 직사각형 막대
+            ctx.fillRect(lineX - barThickness/2, -barLength/2, barThickness, barLength);
             if (!isColored) {
               ctx.strokeStyle = '#94A3B8';
               ctx.lineWidth = 0.5;
-              ctx.strokeRect(-barW / 2, lineY - barH / 2, barW, barH);
+              ctx.strokeRect(lineX - barThickness/2, -barLength/2, barThickness, barLength);
             }
           } else {
-            // 음효 (가운데 분리된 막대)
-            const halfW = (barW - barGap) / 2;
-            ctx.fillRect(-barW / 2, lineY - barH / 2, halfW, barH);
-            ctx.fillRect(barGap / 2, lineY - barH / 2, halfW, barH);
+            // 음효: 가운데 분리된 두 개의 직사각형 막대
+            const halfLen = (barLength - centerGap) / 2;
+            // 위쪽 반
+            ctx.fillRect(lineX - barThickness/2, -barLength/2, barThickness, halfLen);
+            // 아래쪽 반
+            ctx.fillRect(lineX - barThickness/2, centerGap/2, barThickness, halfLen);
             if (!isColored) {
               ctx.strokeStyle = '#94A3B8';
               ctx.lineWidth = 0.5;
-              ctx.strokeRect(-barW / 2, lineY - barH / 2, halfW, barH);
-              ctx.strokeRect(barGap / 2, lineY - barH / 2, halfW, barH);
+              ctx.strokeRect(lineX - barThickness/2, -barLength/2, barThickness, halfLen);
+              ctx.strokeRect(lineX - barThickness/2, centerGap/2, barThickness, halfLen);
             }
           }
         });
 
         if (!isColored) {
           ctx.fillStyle = '#64748B';
-          ctx.font = 'bold 7px sans-serif';
+          ctx.font = 'bold 8px sans-serif';
           ctx.textAlign = 'center';
-          ctx.fillText(name, 0, (barH + barGap) * 1.8);
+          ctx.fillText(name, 0, barLength/2 + 11);
         }
         ctx.restore();
       }
 
       // 1) 건괘 (☰, 좌상단): 양효 3개 [false, false, false]
-      drawGwae(-diagAngle - Math.PI/2, kwaeDist, [false, false, false], state.geon, '건(하늘)');
+      drawGwae(Math.PI + theta, gwaeDist, [false, false, false], state.geon, '건(하늘)');
       // 2) 곤괘 (☷, 우하단): 음효 3개 [true, true, true]
-      drawGwae(-diagAngle + Math.PI/2, kwaeDist, [true, true, true], state.gon, '곤(땅)');
+      drawGwae(theta, gwaeDist, [true, true, true], state.gon, '곤(땅)');
       // 3) 감괘 (☵, 우상단): 음-양-음 [true, false, true]
-      drawGwae(diagAngle - Math.PI/2, kwaeDist, [true, false, true], state.gam, '감(달·물)');
+      drawGwae(-theta, gwaeDist, [true, false, true], state.gam, '감(달·물)');
       // 4) 리괘 (☲, 좌하단): 양-음-양 [false, true, false]
-      drawGwae(diagAngle + Math.PI/2, kwaeDist, [false, true, false], state.ri, '리(해·불)');
+      drawGwae(Math.PI - theta, gwaeDist, [false, true, false], state.ri, '리(해·불)');
     }
 
     function animMnLoop() {
