@@ -519,6 +519,14 @@
             btnHtml = `<button onclick="openPaleolithicMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🪨 구석기 생존 MUD</button>`;
           } else if (num === 3) {
             btnHtml = `<button onclick="openNeolithicMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🏺 신석기 빗살무늬 MUD</button>`;
+          } else if (num === 4 || num === 5) {
+            btnHtml = `<button onclick="openBronzeAgeMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🗿 청동기 고인돌 MUD</button>`;
+          } else if (num === 6) {
+            btnHtml = `<button onclick="openGojoseonMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 📜 고조선 8조법 MUD</button>`;
+          } else if (num === 7 || num === 8) {
+            btnHtml = `<button onclick="openThreeKingdomsConquestMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> ⚔️ 삼국 한강 쟁탈전 MUD</button>`;
+          } else if (num === 9 || num === 10) {
+            btnHtml = `<button onclick="openThreeKingdomsLifeMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🎨 고분 벽화 탐정 MUD</button>`;
           } else if (num === 13) {
             btnHtml = `<button onclick="openGoryeoFoundingMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 👑 왕건의 고려 건국 MUD</button>`;
           } else if (num === 14) {
@@ -898,6 +906,398 @@
           text: `<b>"신석기 혁명의 대성공!"</b><br><br>농경, 간석기, 빗살무늬 토기, 그리고 움집 정착 생활로 인류는 스스로 식량을 생산하는 위대한 문명을 열었습니다!`,
           choices: [{ text: "🎉 신석기 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
           setupSim: "neolithic-settle"
+        }
+      };
+
+      resizeMnCanvas();
+      renderMnStage("1");
+      animMnLoop();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==========================================
+    // 1단원 4~5차시 [청동기 고인돌 MUD]
+    // ==========================================
+    function openBronzeAgeMUD() {
+      currentActiveStoryId = 'story_bronze_age';
+      document.getElementById('view-portal').style.display = 'none';
+      document.getElementById('view-myeongnyang').style.display = 'block';
+      document.getElementById('mn-header-tag').textContent = '1단원 4~5차시 · 청동기 시대';
+      document.getElementById('mn-header-title').textContent = 'MUD 청동기 고인돌 축조자: 거석 운반과 군장의 탄생';
+      
+      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-mountain" style="color: #A36B4F;"></i> 고인돌 거석 운반 & 덮개돌 올리기 시뮬레이터';
+      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #A36B4F;"></i> 청동기 문명 연대기';
+      
+      renderRoadmapNodes([
+        { id: "1", label: "1. 벼농사와 잉여 생산" },
+        { id: "1-1", label: "1-1. 수렵 채집 고수 [실패]" },
+        { id: "2", label: "2. 비파형 동검과 군장" },
+        { id: "2-1", label: "2-1. 평등 분배 착오 [실패]" },
+        { id: "3", label: "3. 거대 고인돌 축조" },
+        { id: "3-1", label: "3-1. 흙더미 미사용 [실패]" },
+        { id: "4", label: "4. 반구대 암각화와 번영" },
+        { id: "end", label: "5. 청동기 문명 완수" }
+      ]);
+
+      mnStoryNodes = {
+        "1": {
+          location: "청동기 시대 배산임수 마을",
+          badge: "🌾 벼농사의 시작",
+          character: { name: "청동기 농부", subtitle: "탄화미를 수확한 농민", avatar: "🌾" },
+          text: `<b>청동기 시대에 접어들며 한반도 남부에서 벼농사가 본격적으로 시작되었습니다!</b><br><br>곡식 수확량이 크게 늘어 남는 양식(잉여 생산물)이 생기자 부족에 어떤 변화가 나타났을까요?`,
+          choices: [
+            { text: "🏕️ \"여전히 빈부 격차 없는 원시 평등 사회가 지속된다.\"", next: "1-1", sound: "fail" },
+            { text: "💰 \"개인 재산이 생기며 빈부 격차가 발생하고 힘센 지배자(군장)가 등장한다!\"", next: "2", sound: "drum" }
+          ],
+          setupSim: "paleo-fire"
+        },
+        "1-1": {
+          location: "정체된 부족",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "사회 구조 변화 착오", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 계급 발생 이해 오류]</b><br>농사 기술 발달로 사유재산이 생기면서 <b>빈부의 차이와 권력을 쥔 지배자(군장)</b>가 필연적으로 탄생했습니다!`,
+          choices: [{ text: "🔄 사유재산과 군장의 등장을 확인한다.", next: "1", sound: "restart" }],
+          setupSim: "paleo-fire"
+        },
+        "2": {
+          location: "부족장의 제천 의식장",
+          badge: "🗡️ 권력의 상징",
+          character: { name: "청동기 군장", subtitle: "청동 제기와 무기를 쥔 족장", avatar: "👑" },
+          text: `<b>군장의 권위와 위엄을 과시하고 주변 부족과의 전쟁을 지휘하려 합니다!</b><br><br>지배자의 강력한 힘과 신성함을 상징하는 청동기 대표 유물은 무엇일까요?`,
+          choices: [
+            { text: "🪨 \"구석기식 뗀석기 주먹도끼\"", next: "2-1", sound: "fail" },
+            { text: "🗡️ \"비파형 동검, 거친무늬 청동 거울, 청동 방울!\"", next: "3", sound: "cannon" }
+          ],
+          setupSim: "paleo-stone"
+        },
+        "2-1": {
+          location: "권위가 서지 않는 제단",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "청동 유물 이해 오류", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 지배자의 상징 부재]</b><br>청동기는 귀해서 농기구가 아닌 <b>지배자의 무기(비파형 동검)와 제사용 도구(거울, 방울)</b>로만 사용되었습니다!`,
+          choices: [{ text: "🔄 청동 유물을 선택한다.", next: "2", sound: "restart" }],
+          setupSim: "paleo-stone"
+        },
+        "3": {
+          location: "고창 고인돌 축조 현장",
+          badge: "🗿 거석의 위용",
+          character: { name: "고인돌 석공 장인", subtitle: "수십 톤의 바위를 옮기는 장인", avatar: "🔨" },
+          text: `<b>돌 하나의 무게만 수십 톤에 달하는 거대한 '탁자식 고인돌'을 세우려 합니다!</b><br><br>수백 명의 부족민을 동원해 받침돌 위에 거대한 덮개돌을 올리는 가장 지혜로운 방법은?`,
+          choices: [
+            { text: "💪 \"도구 없이 사람 손으로만 번쩍 들어 올린다.\"", next: "3-1", sound: "fail" },
+            { text: "🪵 \"흙을 비스듬히 쌓아 경사로를 만들고 통나무 굴림대로 끌어올린다!\"", next: "4", sound: "victory" }
+          ],
+          setupSim: "neolithic-pottery"
+        },
+        "3-1": {
+          location: "무너진 거석 앞",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "고인돌 축조 과학 오류", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 거석 운반 실패]</b><br>고대인들은 <b>흙 경사로와 통나무 굴림대, 지렛대의 원리</b>를 활용해 거대한 고인돌을 세웠습니다!`,
+          choices: [{ text: "🔄 과학적인 경사로 방법으로 덮개돌을 올린다.", next: "3", sound: "restart" }],
+          setupSim: "neolithic-pottery"
+        },
+        "4": {
+          location: "울주 대곡리 반구대 암각화 앞",
+          badge: "👑 MISSION ACCOMPLISHED",
+          character: { name: "청동기 대군장", subtitle: "청동기 문명 완성", avatar: "🏆" },
+          text: `<b>"청동기 거석 문명과 풍요로운 벼농사의 완성!"</b><br><br>반구대 암각화에 고래와 사냥의 풍요를 기원하고, 고인돌과 비파형 동검으로 빛나는 청동기 문명을 꽃피웠습니다!`,
+          choices: [{ text: "🎉 청동기 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
+          setupSim: "neolithic-settle"
+        }
+      };
+
+      resizeMnCanvas();
+      renderMnStage("1");
+      animMnLoop();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==========================================
+    // 1단원 6차시 [고조선 8조법 MUD]
+    // ==========================================
+    function openGojoseonMUD() {
+      currentActiveStoryId = 'story_gojoseon';
+      document.getElementById('view-portal').style.display = 'none';
+      document.getElementById('view-myeongnyang').style.display = 'block';
+      document.getElementById('mn-header-tag').textContent = '1단원 6차시 · 고조선';
+      document.getElementById('mn-header-title').textContent = 'MUD 단군왕검의 고조선 개국: 8조법과 비파형 동검';
+      
+      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-balance-scale" style="color: #8C5B3F;"></i> 고조선 8조법 법정 시뮬레이터';
+      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #8C5B3F;"></i> 최초 국가 고조선 연대기';
+      
+      renderRoadmapNodes([
+        { id: "1", label: "1. 단군왕검 건국 결단" },
+        { id: "1-1", label: "1-1. 부족 융합 실패 [실패]" },
+        { id: "2", label: "2. 고조선 8조법 제정" },
+        { id: "2-1", label: "2-1. 무법 상태 [실패]" },
+        { id: "3", label: "3. 비파형 동검 문화권" },
+        { id: "3-1", label: "3-1. 문화권 오류 [실패]" },
+        { id: "4", label: "4. 홍익인간 대업 완성" },
+        { id: "end", label: "5. 고조선 탐구 완수" }
+      ]);
+
+      mnStoryNodes = {
+        "1": {
+          location: "기원전 2333년 아사달",
+          badge: "🐻 널리 인간을 이롭게",
+          character: { name: "단군왕검", subtitle: "우리 역사 최초의 국왕", avatar: "👑" },
+          text: `<b>환웅 부족과 곰을 숭상하는 부족이 힘을 합쳐 최초의 국가를 세우려 합니다!</b><br><br>단군왕검이 세운 나라의 건국 이념인 <b>'홍익인간(弘益人間)'</b>의 참뜻은 무엇일까요?`,
+          choices: [
+            { text: "⚔️ \"오직 힘으로 다른 부족을 짓밟고 빼앗는다.\"", next: "1-1", sound: "fail" },
+            { text: "🕊️ \"널리 인간을 이롭게 하고, 조화롭게 백성을 다스린다!\"", next: "2", sound: "victory" }
+          ],
+          setupSim: "goryeo-map"
+        },
+        "1-1": {
+          location: "반발하는 부족들",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "건국 이념 왜곡", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 부족 연합 분열]</b><br>단군왕검은 <b>홍익인간</b>의 숭고한 정신으로 농경 부족을 통합하고 고조선을 개국했습니다!`,
+          choices: [{ text: "🔄 홍익인간 정신으로 건국한다.", next: "1", sound: "restart" }],
+          setupSim: "goryeo-map"
+        },
+        "2": {
+          location: "고조선 법정",
+          badge: "📜 고조선 8조법",
+          character: { name: "고조선 재판관", subtitle: "질서를 수호하는 관리", avatar: "⚖️" },
+          text: `<b>사회를 유지하고 백성의 생명과 재산을 지키기 위해 법을 선포합니다!</b><br><br>남의 물건을 훔친 자는 노비로 삼고, 사람을 죽인 자는 사형에 처한다는 8조법으로 알 수 있는 사실은?`,
+          choices: [
+            { text: "❓ \"아무런 질서도 법도 없는 혼란한 사회였다.\"", next: "2-1", sound: "fail" },
+            { text: "🌾 \"생명을 존중하고, 사유재산과 신분제, 화폐를 사용한 사회였다!\"", next: "3", sound: "cannon" }
+          ],
+          setupSim: "society-exam"
+        },
+        "2-1": {
+          location: "혼란에 빠진 저잣거리",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "8조법 해석 오류", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 8조법의 역사적 의미 왜곡]</b><br>고조선 8조법은 <b>생명 존중, 농경 사회의 곡식 배상, 사유재산 인정, 신분제 존재</b>를 명확히 보여줍니다!`,
+          choices: [{ text: "🔄 8조법의 역사적 의미를 선택한다.", next: "2", sound: "restart" }],
+          setupSim: "society-exam"
+        },
+        "3": {
+          location: "요동과 한반도 북부 영토",
+          badge: "🗺️ 고조선의 문화 범위",
+          character: { name: "역사 탐험가", subtitle: "유물로 영토를 추적하는 학자", avatar: "🧭" },
+          text: `<b>고조선의 문화가 널리 퍼진 영역을 확인하는 결정적인 유물 2가지는?</b>`,
+          choices: [
+            { text: "🏺 \"빗살무늬 토기와 뗀석기\"", next: "3-1", sound: "fail" },
+            { text: "🗡️ \"비파형 동검과 탁자식 고인돌(미송리식 토기)!\"", next: "4", sound: "victory" }
+          ],
+          setupSim: "goryeo-map"
+        },
+        "3-1": {
+          location: "유물 혼선 지대",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "고조선 유물 착오", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 고조선 대표 유물 불일치]</b><br>고조선의 세력 범위는 <b>비파형 동검과 탁자식 고인돌</b>이 출토되는 요동 및 한반도 북부 지역과 일치합니다!`,
+          choices: [{ text: "🔄 비파형 동검과 탁자식 고인돌을 선택한다.", next: "3", sound: "restart" }],
+          setupSim: "goryeo-map"
+        },
+        "4": {
+          location: "고조선의 도읍",
+          badge: "👑 MISSION ACCOMPLISHED",
+          character: { name: "단군왕검", subtitle: "반만년 역사의 출발", avatar: "🎉" },
+          text: `<b>"우리 역사 최초의 국가 고조선의 번영!"</b><br><br>단군왕검의 건국과 엄격한 8조법, 찬란한 청동기 문화를 통해 반만년 배달민족 역사의 위대한 첫 장을 열었습니다!`,
+          choices: [{ text: "🎉 고조선 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
+          setupSim: "goryeo-map"
+        }
+      };
+
+      resizeMnCanvas();
+      renderMnStage("1");
+      animMnLoop();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==========================================
+    // 1단원 7~8차시 [삼국 한강 쟁탈전 MUD]
+    // ==========================================
+    function openThreeKingdomsConquestMUD() {
+      currentActiveStoryId = 'story_three_kingdoms_conquest';
+      document.getElementById('view-portal').style.display = 'none';
+      document.getElementById('view-myeongnyang').style.display = 'block';
+      document.getElementById('mn-header-tag').textContent = '1단원 7~8차시 · 삼국과 가야';
+      document.getElementById('mn-header-title').textContent = 'MUD 삼국의 전성기 한강 쟁탈전: 근초고왕·광개토대왕·진흥왕';
+      
+      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-flag" style="color: #B33939;"></i> 한강 유역 쟁탈전 및 전성기 지도 시뮬레이터';
+      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #B33939;"></i> 삼국 전성기 연대기';
+      
+      renderRoadmapNodes([
+        { id: "1", label: "1. 백제 근초고왕 (4세기)" },
+        { id: "1-1", label: "1-1. 한강 상실 오류 [실패]" },
+        { id: "2", label: "2. 고구려 광개토·장수왕 (5세기)" },
+        { id: "2-1", label: "2-1. 남진 포기 오류 [실패]" },
+        { id: "3", label: "3. 신라 진흥왕 (6세기)" },
+        { id: "3-1", label: "3-1. 외교 단절 오류 [실패]" },
+        { id: "4", label: "4. 가야 연맹과 대외교류" },
+        { id: "end", label: "5. 삼국 전성기 완수" }
+      ]);
+
+      mnStoryNodes = {
+        "1": {
+          location: "4세기 백제 한성(위례성)",
+          badge: "⚔️ 백제의 첫 전성기",
+          character: { name: "근초고왕", subtitle: "백제의 위대한 정복 군주", avatar: "👑" },
+          text: `<b>삼국 중 가장 먼저 한강 유역을 차지하고 4세기 전성기를 연 백제의 국왕입니다!</b><br><br>남쪽으로 마한을 통합하고 북쪽으로 평양성을 공격하며 중국, 왜(일본 칠지도 하사)와 활발히 교류한 왕은?`,
+          choices: [
+            { text: "🛡️ \"고구려 소수림왕\"", next: "1-1", sound: "fail" },
+            { text: "👑 \"백제의 전성기를 이끈 '근초고왕'!\"", next: "2", sound: "victory" }
+          ],
+          setupSim: "goryeo-map"
+        },
+        "1-1": {
+          location: "전성기 순서 착오",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "삼국 전성기 순서 오류", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 전성기 순서 착오]</b><br>삼국 중 한강 유역을 먼저 차지해 가장 먼저 전성기를 맞이한 나라는 <b>4세기 백제(근초고왕)</b>입니다!`,
+          choices: [{ text: "🔄 백제 근초고왕을 선택한다.", next: "1", sound: "restart" }],
+          setupSim: "goryeo-map"
+        },
+        "2": {
+          location: "5세기 고구려 국내성~평양성",
+          badge: "🏹 대륙을 호령한 고구려",
+          character: { name: "장수왕", subtitle: "광개토대왕의 아들", avatar: "🏹" },
+          text: `<b>광개토대왕이 북방 영토를 넓힌 데 이어, 수도를 평양으로 옮기고(남진 정책) 한강 유역을 모두 차지한 왕은?</b>`,
+          choices: [
+            { text: "🏯 \"신라 내물왕\"", next: "2-1", sound: "fail" },
+            { text: "🐎 \"평양 천도로 5세기 전성기를 연 '장수왕'!\"", next: "3", sound: "cannon" }
+          ],
+          setupSim: "goryeo-map"
+        },
+        "2-1": {
+          location: "남진 정책 실패",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "고구려 전성기 오류", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 5세기 주역 착오]</b><br>5세기는 <b>광개토대왕과 장수왕</b>의 활약으로 고구려가 한강 유역을 장악하고 동북아 최강국이 되었습니다!`,
+          choices: [{ text: "🔄 고구려 장수왕을 선택한다.", next: "2", sound: "restart" }],
+          setupSim: "goryeo-map"
+        },
+        "3": {
+          location: "6세기 신라 북한산 순수비",
+          badge: "🚩 신라의 대도약",
+          character: { name: "진흥왕", subtitle: "화랑도를 정비한 정복 군주", avatar: "👑" },
+          text: `<b>화랑도를 개편해 인재를 기르고, 한강 유역을 차지하여 서해를 통해 중국과 직접 교류한 6세기 신라의 왕은?</b>`,
+          choices: [
+            { text: "🐎 \"백제 무령왕\"", next: "3-1", sound: "fail" },
+            { text: "🚩 \"영토를 넓히고 순수비를 세운 신라 '진흥왕'!\"", next: "4", sound: "victory" }
+          ],
+          setupSim: "goryeo-map"
+        },
+        "3-1": {
+          location: "지리적 고립",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "신라 전성기 착오", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 신라 발전 과정 오류]</b><br>신라는 <b>6세기 진흥왕</b> 때 한강 유역을 차지하여 지리적 약점을 극복하고 삼국 통일의 발판을 마련했습니다!`,
+          choices: [{ text: "🔄 신라 진흥왕을 선택한다.", next: "3", sound: "restart" }],
+          setupSim: "goryeo-map"
+        },
+        "4": {
+          location: "철의 왕국 가야와 삼국의 전장",
+          badge: "👑 MISSION ACCOMPLISHED",
+          character: { name: "김수로왕 & 삼국 군주", subtitle: "찬란한 고대 국가의 발전", avatar: "🌟" },
+          text: `<b>"한강을 차지한 자가 시대를 지배한다!"</b><br><br>백제(4세기) ➔ 고구려(5세기) ➔ 신라(6세기)로 이어진 한강 쟁탈전과 우수한 철기 문화를 자랑한 가야의 역사를 완벽히 마스터했습니다!`,
+          choices: [{ text: "🎉 삼국 쟁탈전 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
+          setupSim: "goryeo-map"
+        }
+      };
+
+      resizeMnCanvas();
+      renderMnStage("1");
+      animMnLoop();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==========================================
+    // 1단원 9~10차시 [고분 벽화 탐정 MUD]
+    // ==========================================
+    function openThreeKingdomsLifeMUD() {
+      currentActiveStoryId = 'story_three_kingdoms_life';
+      document.getElementById('view-portal').style.display = 'none';
+      document.getElementById('view-myeongnyang').style.display = 'block';
+      document.getElementById('mn-header-tag').textContent = '1단원 9~10차시 · 삼국과 가야 생활';
+      document.getElementById('mn-header-title').textContent = 'MUD 고분 벽화 탐정: 삼국 귀족의 맥적과 가야 철갑옷';
+      
+      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-paint-brush" style="color: #A0522D;"></i> 고구려 수산리 고분 벽화 복원 시뮬레이터';
+      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #A0522D;"></i> 삼국 생활상 연대기';
+      
+      renderRoadmapNodes([
+        { id: "1", label: "1. 신분 제도와 의식주" },
+        { id: "1-1", label: "1-1. 평민 복식 오류 [실패]" },
+        { id: "2", label: "2. 불교 수용과 백성 통합" },
+        { id: "2-1", label: "2-1. 불교 배척 [실패]" },
+        { id: "3", label: "3. 가야의 철기 & 맥적 구이" },
+        { id: "3-1", label: "3-1. 철기 기술 부재 [실패]" },
+        { id: "4", label: "4. 삼국 문화의 완성" },
+        { id: "end", label: "5. 삼국 생활사 완수" }
+      ]);
+
+      mnStoryNodes = {
+        "1": {
+          location: "고구려 수산리 고분 벽화 앞",
+          badge: "🎨 벽화에 담긴 생활",
+          character: { name: "벽화 보존 탐정", subtitle: "고구려 고분을 조사하는 학자", avatar: "🔍" },
+          text: `<b>고구려 무덤 벽화에서 귀족과 평민의 옷차림을 발견했습니다!</b><br><br>삼국 시대 사람들의 복식 특징은 무엇일까요?`,
+          choices: [
+            { text: "🥻 \"모든 사람이 똑같이 서양식 드레스를 입었다.\"", next: "1-1", sound: "fail" },
+            { text: "👘 \"활동하기 편한 저고리와 바지를 입고, 여성은 주름치마를 덧입었으며 귀족은 비단옷을 입었다!\"", next: "2", sound: "victory" }
+          ],
+          setupSim: "society-temple"
+        },
+        "1-1": {
+          location: "벽화 훼손 오류",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "고대 복식사 착오", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 삼국 복식 이해 오류]</b><br>삼국 사람들은 <b>저고리와 바지, 치마</b> 중심의 고유한 한복 문화를 발전시켰습니다!`,
+          choices: [{ text: "🔄 저고리와 바지 문화를 확인한다.", next: "1", sound: "restart" }],
+          setupSim: "society-temple"
+        },
+        "2": {
+          location: "삼국의 사찰 법당",
+          badge: "🛕 불교의 수용",
+          character: { name: "삼국 고승", subtitle: "왕실과 백성을 인도하는 승려", avatar: "📿" },
+          text: `<b>삼국의 왕들이 불교를 국가 종교로 받아들인 가장 결정적인 까닭은?</b>`,
+          choices: [
+            { text: "⚔️ \"오직 이웃 나라와 전쟁하기 위해\"", next: "2-1", sound: "fail" },
+            { text: "👑 \"왕권을 강화하고 백성의 마음을 하나로 모아 나라를 통합하기 위해!\"", next: "3", sound: "cannon" }
+          ],
+          setupSim: "society-exam"
+        },
+        "2-1": {
+          location: "흩어지는 민심",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "불교 수용 목적 착오", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 종교 통합 실패]</b><br>삼국은 <b>왕이 곧 부처라는 사상으로 왕권을 높이고, 백성의 사상을 하나로 통합</b>하고자 불교를 공인했습니다!`,
+          choices: [{ text: "🔄 백성 통합과 왕권 강화를 선택한다.", next: "2", sound: "restart" }],
+          setupSim: "society-exam"
+        },
+        "3": {
+          location: "가야의 쇠부리 터 & 고구려 연회장",
+          badge: "🛡️ 철의 제국 & 전통 음식",
+          character: { name: "가야 대장장이", subtitle: "철제 갑옷을 만드는 장인", avatar: "🔨" },
+          text: `<b>가야가 다른 나라에 수출할 정도로 뛰어났던 기술과, 고구려 귀족이 즐겨 먹은 된장 양념 돼지구이(맥적)는?</b>`,
+          choices: [
+            { text: "🪵 \"가야의 목재 가공 기술과 생선회\"", next: "3-1", sound: "fail" },
+            { text: "🛡️ \"가야의 뛰어난 '철 다루는 기술(판갑옷/덩이쇠)'과 고구려 전통 '맥적(貊炙)'!\"", next: "4", sound: "victory" }
+          ],
+          setupSim: "society-court"
+        },
+        "3-1": {
+          location: "철기 기술 부족",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "가야 문화 착오", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 가야 철기 문명 착오]</b><br>가야는 <b>철의 왕국</b>으로서 단단한 판갑옷과 투구를 만들었고, 낙랑과 왜에 덩이쇠를 수출했습니다!`,
+          choices: [{ text: "🔄 가야 철갑옷과 맥적을 선택한다.", next: "3", sound: "restart" }],
+          setupSim: "society-court"
+        },
+        "4": {
+          location: "삼국과 가야 문화의 정점",
+          badge: "👑 MISSION ACCOMPLISHED",
+          character: { name: "역사 탐정", subtitle: "삼국 생활사 완성", avatar: "🎉" },
+          text: `<b>"고분 벽화에 살아 숨 쉬는 삼국과 가야의 숨결!"</b><br><br>신분제, 한복과 맥적, 기와집과 초가집, 불교와 뛰어난 가야 철기 문화를 완벽하게 탐구했습니다!`,
+          choices: [{ text: "🎉 삼국 생활사 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
+          setupSim: "society-temple"
         }
       };
 
