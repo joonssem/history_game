@@ -1,8 +1,7 @@
 /* =========================================================
-   초등 5학년 역사 탐험대 포털 - 역사 전통 & 가독성 최적화 테마 시스템
+   초등 역사 탐구 교실 - 조선·전통 문화 테마 스타일 시스템
    - 폰트: 학교안심알림장(제목), Pretendard(본문), MaruBuri(강조/사료)
-   - 컬러: 한지색 배경(#F9F6F0), 먹색(#2C2724), 단청 적토(#8A3B29), 청록(#2E5B70)
-   - 시대별: 삼국(#4B6584), 고려(#3B7A57), 조선(#B33939), 근현대(#D49A3D)
+   - 배색: 한지 미색(#F9F6F0), 먹색(#2C2724), 단청 적토(#8A3B29), 단청 청록(#2E5B70)
 ========================================================= */
 
 /* 1. 폰트 정의 */
@@ -51,32 +50,35 @@
     font-display: swap;
 }
 
-/* 2. 컬러 팔레트 CSS 변수 */
+/* 2. 조선·전통 문화 테마 CSS 변수 */
 :root {
-  --bg-hanji: #F9F6F0;          /* 메인 배경: 따뜻한 한지 아이보리 */
-  --bg-card: #FFFFFF;           /* 카드 배경: 부드러운 화이트 */
-  --bg-card-sub: #EFEAE1;       /* 보조 카드 배경: 정돈된 미색 */
-  
-  --text-main: #2C2724;         /* 기본 텍스트: 깊은 먹색 */
-  --text-muted: #665F59;        /* 부가 설명 텍스트 */
-  --border-subtle: #E2DCD0;     /* 경계선 */
+  --bg-main: #F9F6F0;       /* 한지 미색 배경 */
+  --text-main: #2C2724;     /* 먹색 기본 글꼴 */
+  --accent-red: #8A3B29;    /* 단청 적토색 (강조, 헤더, 액션) */
+  --accent-teal: #2E5B70;   /* 단청 청록색 (버튼, 링크, 배지) */
+  --accent-gold: #D97706;   /* 따뜻한 황금빛 앰버 (퀴즈, 도감) */
+  --card-bg: #FFFFFF;       /* 카드 기본 배경 */
+  --card-sub: #EFEAE1;      /* 보조 박스/안내 배경 */
+  --border-color: #DDD4C7;  /* 경계선 색상 */
+  --radius: 12px;
 
-  --point-dancheong: #8A3B29;   /* 주요 포인트: 전통 인두·단청 적토색 */
-  --point-cheongrok: #2E5B70;   /* 보조 포인트: 단청 청록색 */
-  --point-amber: #D97706;       /* 모험 배지/성취: 따뜻한 황금 앰버 */
-
-  /* 시대 구분 전용 컬러 */
-  --era-samguk: #4B6584;        /* 선사·삼국·통일신라: 덜블루 */
-  --era-goryeo: #3B7A57;        /* 고려: 비색 에메랄드 */
-  --era-joseon: #B33939;        /* 조선: 단청 레드 */
-  --era-modern: #D49A3D;        /* 근현대: 도약 황갈색 */
+  /* 시대별 색상 */
+  --era-samguk: #4B6584;    /* 삼국·통일신라 */
+  --era-goryeo: #3B7A57;    /* 고려 */
+  --era-joseon: #B33939;    /* 조선 */
+  --era-modern: #D49A3D;    /* 근현대 */
 }
 
-/* 기본 스타일 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  font-family: 'Pretendard', sans-serif;
-  background-color: var(--bg-hanji);
+  background-color: var(--bg-main);
   color: var(--text-main);
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
   line-height: 1.6;
   word-break: keep-all;
   user-select: none;
@@ -92,24 +94,172 @@ h1, h2, h3, .title-font {
   font-style: normal;
 }
 
-/* 시대별 뱃지 스타일 */
-.badge-samguk { background-color: rgba(75, 101, 132, 0.12); color: #2d435e; border: 1px solid #4B6584; }
-.badge-goryeo { background-color: rgba(59, 122, 87, 0.12); color: #225237; border: 1px solid #3B7A57; }
-.badge-joseon { background-color: rgba(179, 57, 57, 0.12); color: #872020; border: 1px solid #B33939; }
-.badge-modern { background-color: rgba(212, 154, 61, 0.15); color: #8a5d14; border: 1px solid #D49A3D; }
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 20px 16px;
+}
 
-/* 커스텀 스크롤바 */
-::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+/* 헤더 */
+header.main-header {
+  border-bottom: 3px solid var(--accent-red);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
 }
-::-webkit-scrollbar-track {
-  background: #EFEAE1;
+
+.lesson-tag {
+  display: inline-block;
+  background-color: var(--accent-teal);
+  color: #ffffff;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
-::-webkit-scrollbar-thumb {
-  background: #C8BFB4;
-  border-radius: 4px;
+
+h1.main-title {
+  color: var(--accent-red);
+  font-size: 1.85rem;
+  font-weight: 700;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #A3978A;
+
+/* 활동 안내 및 미션 박스 */
+.mission-box {
+  background-color: var(--card-sub);
+  border-left: 5px solid var(--accent-red);
+  padding: 16px 20px;
+  border-radius: 4px var(--radius) var(--radius) 4px;
+  margin-bottom: 24px;
+  font-size: 1.02rem;
+  border-top: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mission-box strong {
+  color: var(--accent-red);
+}
+
+/* 단원 탭 메뉴 */
+.unit-nav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.unit-btn {
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.unit-btn.active {
+  background-color: var(--accent-teal);
+  color: #ffffff;
+  border-color: var(--accent-teal);
+}
+
+/* 카드 그리드 레이아웃 */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(44, 39, 36, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(44, 39, 36, 0.08);
+}
+
+.card .chasi-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background-color: var(--card-sub);
+  color: #554D46;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.card h2 {
+  font-size: 1.18rem;
+  color: var(--text-main);
+  margin-bottom: 8px;
+  border-left: 3px solid var(--accent-teal);
+  padding-left: 8px;
+  line-height: 1.4;
+}
+
+.card p {
+  font-size: 0.92rem;
+  color: #554D46;
+  margin-bottom: 16px;
+}
+
+/* 상호작용 버튼 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  background-color: var(--accent-teal);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  width: 100%;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btn.primary-red {
+  background-color: var(--accent-red);
+}
+
+.btn.secondary {
+  background-color: transparent;
+  border: 1.5px solid var(--accent-teal);
+  color: var(--accent-teal);
+}
+
+.btn.secondary:hover {
+  background-color: var(--card-sub);
+}
+
+.btn.disabled {
+  background-color: #E2DCD0;
+  color: #8C847B;
+  cursor: default;
 }

@@ -3,262 +3,218 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>초등 5학년 역사 탐험대 | 차시별 MUD & 인터랙티브 활동 포털</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>초등 5학년 역사 탐구 교실 | MUD & 인터랙티브 활동</title>
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- 사용자 지정 폰트 및 역사 전통 팔레트 -->
+  <!-- 조선·전통 문화 테마 스타일시트 -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧭</text></svg>">
 </head>
-<body class="min-h-screen flex flex-col justify-between" style="background-color: var(--bg-hanji); color: var(--text-main);">
+<body>
 
   <!-- ============================================ -->
-  <!-- 1. 최상단 네비게이션 헤더 -->
+  <!-- 1. 메인 포털 컨테이너 (전체 진도표 및 미션) -->
   <!-- ============================================ -->
-  <header class="sticky top-0 z-50 bg-[#F9F6F0]/95 backdrop-blur border-b border-[#E2DCD0] px-4 py-3 shadow-sm">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-      
-      <!-- 로고 및 타이틀 -->
-      <div class="flex items-center gap-3 cursor-pointer" onclick="showPortalView()">
-        <div class="w-10 h-10 rounded-xl flex items-center justify-center text-2xl shadow-sm text-white" style="background-color: var(--point-dancheong);">
-          🧭
-        </div>
-        <div>
-          <h1 class="text-xl font-bold tracking-tight" style="color: var(--point-dancheong);">
-            초등 5학년 역사 탐험대
-          </h1>
-          <p class="text-[11px] font-medium serif-font" style="color: var(--text-muted);">
-            차시별 MUD 스토리 게임 & 인터랙티브 체험 활동
-          </p>
-        </div>
+  <div id="view-portal" class="container">
+    
+    <!-- 단원 헤더 -->
+    <header class="main-header flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <span class="lesson-tag">5학년 2학기 사회 · 역사 탐구</span>
+        <h1 class="main-title">초등 역사 탐구 교실</h1>
       </div>
-
-      <!-- 상단 퀵 메뉴 및 유틸리티 -->
-      <div class="flex items-center gap-2">
-        <button onclick="showPortalView()" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border border-[#E2DCD0] bg-white hover:bg-[#EFEAE1]" style="color: var(--text-main);">
-          <i class="fas fa-th-large" style="color: var(--point-cheongrok);"></i> <span class="hidden sm:inline">전체</span> 진도표
-        </button>
-        <button onclick="openMyeongnyang()" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white transition flex items-center gap-1.5 shadow-sm" style="background-color: var(--era-joseon);">
+      <div style="display: flex; gap: 8px;">
+        <button onclick="openMyeongnyang()" class="btn primary-red" style="width: auto; padding: 8px 14px; font-size: 0.88rem;">
           <i class="fas fa-ship"></i> 명량해전 MUD
         </button>
-        <button onclick="openQuizHub()" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white transition flex items-center gap-1.5 shadow-sm" style="background-color: var(--point-amber);">
-          <i class="fas fa-bolt"></i> 골든벨
+        <button onclick="openQuizHub()" class="btn" style="width: auto; padding: 8px 14px; font-size: 0.88rem; background-color: var(--accent-gold);">
+          <i class="fas fa-bolt"></i> 골든벨 Quiz
         </button>
-        <button onclick="openEncyclopediaModal()" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white transition flex items-center gap-1.5 shadow-sm" style="background-color: var(--point-cheongrok);">
-          <i class="fas fa-book"></i> 도감
-        </button>
-      </div>
-
-    </div>
-  </header>
-
-  <!-- ============================================ -->
-  <!-- 2. 메인 화면 [전체 진도표 포털 대시보드] -->
-  <!-- ============================================ -->
-  <main id="view-portal" class="max-w-7xl mx-auto w-full px-4 py-6 flex-1">
-
-    <!-- 배너: 오늘의 대표 추천 활동 (조선 전통 단청 톤) -->
-    <div class="relative rounded-3xl p-6 md:p-8 border shadow-sm mb-8 overflow-hidden bg-gradient-to-r from-[#F4EBE1] to-[#EFE7DC]" style="border-color: #DCCFBF;">
-      <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-        <div class="max-w-2xl">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="px-3 py-1 text-xs font-bold rounded-full border badge-joseon">
-              🔥 2단원 7차시 추천 실전 MUD
-            </span>
-            <span class="text-xs font-mono serif-font" style="color: var(--point-dancheong);">신에게는 아직 열두 척의 배가 있사옵니다</span>
-          </div>
-          <h2 class="text-2xl md:text-3xl font-bold tracking-wide mb-2" style="color: var(--era-joseon);">
-            MUD 명량 해전: 울돌목의 13척 전술 시뮬레이션
-          </h2>
-          <p class="text-xs md:text-sm leading-relaxed serif-font" style="color: var(--text-main);">
-            선조의 수군 해체령에 맞서 장계를 올리고, 울돌목의 거센 소용돌이와 조류 역전을 이용해 133척의 왜선을 격파하세요!
-          </p>
-        </div>
-        <button onclick="openMyeongnyang()" class="px-6 py-3.5 rounded-2xl text-white font-bold shadow-md transition transform active:scale-95 flex items-center gap-2 text-base shrink-0" style="background-color: var(--era-joseon);">
-          <i class="fas fa-play"></i> <span>명량해전 출정하기</span>
+        <button onclick="openEncyclopediaModal()" class="btn secondary" style="width: auto; padding: 8px 14px; font-size: 0.88rem;">
+          <i class="fas fa-book"></i> 나의 도감
         </button>
       </div>
+    </header>
+
+    <!-- 오늘의 학습 미션 안내 박스 -->
+    <div class="mission-box">
+      <strong>🎯 오늘의 역사 탐구 과제</strong><br>
+      차시별 핵심 사건의 주인공이 되어 <strong>MUD 스토리 결단</strong>을 내리고, 인터랙티브 활동을 통해 역사의 중요한 지혜를 탐구해 봅시다.
     </div>
 
-    <!-- 단원 선택 탭 (시대별 컬러 적용) -->
-    <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-6 border-b border-[#E2DCD0]">
-      <button onclick="switchUnitTab('unit_1')" id="tab-unit_1" class="unit-tab-btn px-5 py-2.5 rounded-2xl font-bold text-sm transition shrink-0 flex items-center gap-2 shadow-sm" style="background-color: #4B6584; color: #FFFFFF;">
-        <span>📜 1단원</span> 옛 사람들의 삶과 문화 (20차시)
+    <!-- 단원 탭 메뉴 -->
+    <nav class="unit-nav">
+      <button onclick="switchUnitTab('unit_1')" id="tab-unit_1" class="unit-btn active">
+        📜 1단원. 옛 사람들의 삶과 문화 (20차시)
       </button>
-      <button onclick="switchUnitTab('unit_2')" id="tab-unit_2" class="unit-tab-btn px-5 py-2.5 rounded-2xl font-bold text-sm bg-white text-[#665F59] border border-[#E2DCD0] hover:bg-[#EFEAE1] transition shrink-0 flex items-center gap-2">
-        <span>⚔️ 2단원</span> 달라지는 시대, 변화하는 생활 (14차시)
+      <button onclick="switchUnitTab('unit_2')" id="tab-unit_2" class="unit-btn">
+        ⚔️ 2단원. 달라지는 시대, 변화하는 생활 (14차시)
       </button>
-      <button onclick="switchUnitTab('unit_3')" id="tab-unit_3" class="unit-tab-btn px-5 py-2.5 rounded-2xl font-bold text-sm bg-white text-[#665F59] border border-[#E2DCD0] hover:bg-[#EFEAE1] transition shrink-0 flex items-center gap-2">
-        <span>🇰🇷 3단원</span> 식민 통치와 저항, 전쟁 (14차시)
+      <button onclick="switchUnitTab('unit_3')" id="tab-unit_3" class="unit-btn">
+        🇰🇷 3단원. 식민 통치와 저항, 전쟁 (14차시)
       </button>
-    </div>
+    </nav>
 
-    <!-- 단원별 차시 로드맵 컨테이너 -->
+    <!-- 차시별 학습 카드 그리드 컨테이너 -->
     <div id="curriculum-container"></div>
 
-  </main>
+  </div>
 
   <!-- ============================================ -->
-  <!-- 3. [MUD 명량 해전 뷰] -->
+  <!-- 2. [MUD 시뮬레이터 뷰 (구석기 / 명량해전 등)] -->
   <!-- ============================================ -->
-  <section id="view-myeongnyang" class="hidden max-w-7xl mx-auto w-full px-4 py-4 flex-1 flex-col">
-    <!-- 상단 복귀 바 -->
-    <div class="flex items-center justify-between bg-white px-4 py-2.5 rounded-2xl border border-[#E2DCD0] shadow-sm mb-4">
-      <div class="flex items-center gap-2">
-        <span class="text-xs px-2.5 py-1 text-white font-bold rounded-lg" style="background-color: var(--point-dancheong);">2단원 7차시</span>
-        <h3 class="text-sm font-bold serif-font" style="color: var(--text-main);">MUD 명량 해전: 울돌목의 13척</h3>
+  <div id="view-myeongnyang" class="container" style="display: none;">
+    <!-- 상단 복귀 헤더 -->
+    <header class="main-header" style="display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <span id="mn-header-tag" class="lesson-tag">역사 MUD 시뮬레이션</span>
+        <h1 id="mn-header-title" class="main-title" style="font-size: 1.5rem;">MUD 역사 탐험</h1>
       </div>
-      <button onclick="showPortalView()" class="text-xs px-3.5 py-1.5 rounded-xl bg-[#EFEAE1] hover:bg-[#E2DCD0] font-bold transition flex items-center gap-1.5" style="color: var(--point-cheongrok);">
+      <button onclick="showPortalView()" class="btn secondary" style="width: auto;">
         <i class="fas fa-arrow-left"></i> 전체 진도표로 나가기
       </button>
-    </div>
+    </header>
 
-    <!-- 명량 해전 시뮬레이션 본체 -->
-    <div class="flex-1 flex flex-col lg:flex-row gap-6">
+    <!-- MUD 본체 레이아웃 -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
       
       <!-- 좌측: MUD 스토리 및 결단 선택지 -->
-      <div class="flex-1 flex flex-col bg-white rounded-2xl border border-[#E2DCD0] shadow-sm overflow-hidden min-h-[520px]">
-        <div class="px-6 py-3.5 border-b border-[#E2DCD0] flex justify-between items-center bg-[#F4EBE1]">
-          <span id="mn-stage-badge" class="text-xs px-2.5 py-1 rounded font-bold serif-font uppercase tracking-widest text-white" style="background-color: var(--point-dancheong);">
-            SYSTEM: INITIALIZING...
-          </span>
-          <span id="mn-stage-location" class="text-xs flex items-center gap-1.5 font-mono" style="color: var(--text-muted);">
-            <i class="fas fa-compass" style="color: var(--point-dancheong);"></i> 삼도수군통제영
-          </span>
-        </div>
-
-        <div class="flex-1 p-6 md:p-8 flex flex-col justify-between overflow-y-auto bg-[#FCFAF7]">
-          <div class="space-y-5">
-            <div id="mn-character-card" class="hidden flex items-start gap-4 p-4 rounded-xl border border-[#E2DCD0] bg-white shadow-sm">
-              <span id="mn-char-avatar" class="text-4xl p-2 rounded-xl bg-[#EFEAE1]">🧔</span>
-              <div>
-                <h4 id="mn-char-name" class="font-bold serif-font" style="color: var(--point-dancheong);">선조 임금</h4>
-                <p id="mn-char-subtitle" class="text-xs mt-0.5" style="color: var(--text-muted);">조선의 14대 국왕</p>
-              </div>
-            </div>
-            <div id="mn-story-content" class="leading-relaxed text-base md:text-lg space-y-4 serif-font" style="color: var(--text-main);"></div>
-          </div>
-
-          <div class="mt-6 space-y-2.5">
-            <div class="text-xs font-bold tracking-wider flex items-center gap-1.5 font-mono uppercase" style="color: var(--point-dancheong);">
-              <i class="fas fa-scroll"></i> 사생결단: 장군의 결단은 무엇입니까?
-            </div>
-            <div id="mn-choices-grid" class="grid grid-cols-1 gap-2.5"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 우측: 인터랙티브 캔버스 & 위젯 -->
-      <div class="w-full lg:w-[400px] flex flex-col gap-4">
-        <div class="bg-white rounded-2xl border border-[#E2DCD0] shadow-sm p-4 flex flex-col">
-          <div class="flex justify-between items-center mb-2 border-b border-[#E2DCD0] pb-2">
-            <h3 class="font-bold text-xs serif-font flex items-center gap-1.5" style="color: var(--point-dancheong);">
-              <i class="fas fa-ship"></i> 울돌목 전술 해상 훈련
-            </h3>
-            <span id="mn-mode-badge" class="text-[9px] text-white px-2 py-0.5 rounded font-mono font-bold" style="background-color: var(--point-cheongrok);">
-              TACTICAL SIMULATOR
+      <section class="card" style="min-height: 480px; justify-content: space-between;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 14px;">
+            <span id="mn-stage-badge" class="lesson-tag" style="background-color: var(--accent-red); margin-bottom: 0;">
+              INITIALIZING...
+            </span>
+            <span id="mn-stage-location" style="font-size: 0.85rem; color: #665F59;">
+              <i class="fas fa-compass" style="color: var(--accent-red);"></i> 위치 확인 중
             </span>
           </div>
 
-          <div class="relative bg-slate-950 rounded-xl h-56 border border-slate-800 overflow-hidden flex items-center justify-center cursor-crosshair shadow-inner">
-            <canvas id="mn-canvas" class="absolute inset-0 w-full h-full"></canvas>
-            <div id="mn-canvas-instr" class="absolute top-2 left-2 right-2 bg-slate-900/95 border border-slate-800 px-2.5 py-1 rounded text-[10px] text-slate-200 text-center pointer-events-none"></div>
-            <div id="mn-canvas-feedback" class="absolute bottom-2 left-2 right-2 bg-red-950/90 border border-red-800/50 px-2 py-1 rounded text-center text-[10px] text-red-300 font-mono">
-              화면의 왜선을 터치하여 화포를 격발하세요!
+          <div id="mn-character-card" style="display: none; background: var(--card-sub); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 8px; margin-bottom: 12px;">
+            <span id="mn-char-avatar" style="font-size: 1.8rem; margin-right: 8px;">🧔</span>
+            <strong id="mn-char-name" style="color: var(--accent-red);">인물</strong>
+            <span id="mn-char-subtitle" style="font-size: 0.8rem; color: #665F59; margin-left: 4px;"></span>
+          </div>
+
+          <div id="mn-story-content" class="serif-font" style="font-size: 1.05rem; line-height: 1.7; color: var(--text-main); margin-bottom: 20px;"></div>
+        </div>
+
+        <div>
+          <div style="font-size: 0.85rem; font-weight: 700; color: var(--accent-red); margin-bottom: 8px; text-transform: uppercase;">
+            <i class="fas fa-scroll"></i> 사생결단: 당신의 선택은 무엇입니까?
+          </div>
+          <div id="mn-choices-grid" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
+      </section>
+
+      <!-- 우측: 인터랙티브 캔버스 & 전술 로드맵 -->
+      <aside style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 10px;">
+            <h2 style="font-size: 1.05rem; margin-bottom: 0;">
+              <i class="fas fa-compass" style="color: var(--accent-red);"></i> 전술 인터랙티브 훈련
+            </h2>
+            <span id="mn-mode-badge" style="font-size: 0.75rem; background: var(--card-sub); padding: 2px 8px; border-radius: 6px; font-weight: 700; color: var(--accent-teal);">
+              SIMULATOR
+            </span>
+          </div>
+
+          <div style="position: relative; height: 210px; background: #0c1222; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color);">
+            <canvas id="mn-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%;"></canvas>
+            <div id="mn-canvas-instr" style="position: absolute; top: 8px; left: 8px; right: 8px; background: rgba(249, 246, 240, 0.95); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 8px; font-size: 0.75rem; text-align: center; color: var(--text-main);"></div>
+            <div id="mn-canvas-feedback" style="position: absolute; bottom: 8px; left: 8px; right: 8px; background: rgba(138, 59, 41, 0.9); color: #ffffff; border-radius: 6px; padding: 4px; font-size: 0.75rem; text-align: center;">
+              화면을 터치하여 지원하세요!
             </div>
           </div>
 
-          <div id="mn-controls" class="mt-3 space-y-2 text-xs">
-            <div id="mn-widget-map" class="p-2.5 bg-[#EFEAE1] rounded-xl text-[11px]" style="color: var(--text-muted);">
-              부산 앞바다(넓은 바다) vs 울돌목(좁은 목)의 물리적 지형을 분석하세요.
+          <div id="mn-controls" style="margin-top: 12px;">
+            <div id="mn-widget-map" style="font-size: 0.85rem; background: var(--card-sub); padding: 10px; border-radius: 8px; color: #554D46;">
+              사방이 산으로 둘러싸여 방어하기 좋고 물자 운반이 편리한 지리적 이점을 고려하십시오.
             </div>
-            <div id="mn-widget-combat" class="p-2.5 bg-[#EFEAE1] rounded-xl hidden space-y-1.5">
-              <div class="flex justify-between text-[11px]" style="color: var(--text-main);">
+            <div id="mn-widget-combat" style="display: none; background: var(--card-sub); padding: 10px; border-radius: 8px;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
                 <span>천자총통 위력:</span>
-                <span class="font-mono font-bold" id="mn-combat-progress" style="color: var(--point-dancheong);">0%</span>
+                <strong id="mn-combat-progress" style="color: var(--accent-red);">0%</strong>
               </div>
-              <div class="w-full bg-[#E2DCD0] rounded-full h-2">
-                <div id="mn-combat-bar" class="h-2 rounded-full transition-all" style="width:0%; background-color: var(--point-dancheong);"></div>
+              <div style="width: 100%; background: #DDD4C7; height: 8px; border-radius: 4px; overflow: hidden;">
+                <div id="mn-combat-bar" style="width: 0%; height: 100%; background: var(--accent-red); transition: width 0.3s ease;"></div>
               </div>
             </div>
-            <div id="mn-widget-current" class="p-2.5 bg-[#EFEAE1] rounded-xl hidden space-y-2">
-              <div class="flex justify-between text-[11px]" style="color: var(--text-main);">
+            <div id="mn-widget-current" style="display: none; background: var(--card-sub); padding: 10px; border-radius: 8px;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 6px;">
                 <span>울돌목 조류:</span>
-                <span class="font-mono font-bold" id="mn-current-val" style="color: var(--point-dancheong);">밀물 (왜군 유리)</span>
+                <strong id="mn-current-val" style="color: var(--accent-red);">밀물 (왜군 유리)</strong>
               </div>
-              <input type="range" id="mn-slider-current" min="0" max="100" value="20" oninput="updateMnCurrent(this.value)" class="w-full accent-cyan-600 bg-stone-300 rounded-lg cursor-pointer h-2">
+              <input type="range" id="mn-slider-current" min="0" max="100" value="20" oninput="updateMnCurrent(this.value)" style="width: 100%; accent-color: var(--accent-teal);">
             </div>
           </div>
         </div>
 
-        <!-- 로드맵 -->
-        <div class="bg-white rounded-2xl border border-[#E2DCD0] shadow-sm p-4">
-          <h4 class="font-bold text-xs serif-font mb-2 flex items-center gap-1.5" style="color: var(--point-dancheong);">
-            <i class="fas fa-map-marked-alt"></i> 난중일기 정벌 연대기
-          </h4>
-          <div class="grid grid-cols-2 gap-1.5 text-[10px]">
-            <div id="mn-node-1" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">1. 신에게는 아직</div>
-            <div id="mn-node-1-1" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">1-1. 바다 해체 [사망]</div>
-            <div id="mn-node-2" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">2. 전장의 선택</div>
-            <div id="mn-node-2-1" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">2-1. 정면승부 [대패]</div>
-            <div id="mn-node-3" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">3. 울돌목 화포</div>
-            <div id="mn-node-3-1" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">3-1. 백병전 [대패]</div>
-            <div id="mn-node-4" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">4. 조류 대역전</div>
-            <div id="mn-node-5" class="p-1.5 border rounded bg-[#EFEAE1] text-stone-600 font-medium">5. 명량대첩 완수</div>
+        <div class="card">
+          <h2 style="font-size: 1.05rem; margin-bottom: 10px;">
+            <i class="fas fa-map-marked-alt" style="color: var(--accent-red);"></i> 탐구 정벌 연대기
+          </h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.8rem;">
+            <div id="mn-node-1" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">1. 출발의 결단</div>
+            <div id="mn-node-1-1" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">1-1. 역사의 IF [실패]</div>
+            <div id="mn-node-2" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">2. 전장의 선택</div>
+            <div id="mn-node-2-1" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">2-1. 지형 착오 [실패]</div>
+            <div id="mn-node-3" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">3. 화포/도구 격돌</div>
+            <div id="mn-node-3-1" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">3-1. 수단 한계 [실패]</div>
+            <div id="mn-node-4" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">4. 조류/환경 대역전</div>
+            <div id="mn-node-5" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">5. 미션 대승 완수</div>
           </div>
         </div>
-      </div>
+      </aside>
 
-    </div>
-  </section>
-
-  <!-- ============================================ -->
-  <!-- 4. [골든벨 퀴즈 모달] -->
-  <!-- ============================================ -->
-  <div id="view-quiz-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur hidden flex items-center justify-center p-4 overflow-y-auto">
-    <div class="max-w-2xl w-full bg-white border border-[#E2DCD0] rounded-3xl p-6 shadow-2xl relative">
-      <button onclick="closeQuizModal()" class="absolute top-4 right-4 text-stone-500 hover:text-stone-900 px-3 py-1 bg-[#EFEAE1] rounded-lg text-xs">✕ 닫기</button>
-      <div id="quiz-intro-view" class="text-center py-6">
-        <div class="text-4xl mb-3">⚡</div>
-        <h3 class="text-xl font-bold mb-2" style="color: var(--point-dancheong);">초등 5학년 역사 스피드 골든벨</h3>
-        <p class="text-xs text-stone-600 mb-6">문제당 15초의 제한시간 안에 정답을 맞혀보세요!</p>
-        <button onclick="window.quizGame.startQuizGame()" class="w-full py-3.5 text-white font-bold rounded-xl shadow-md" style="background-color: var(--point-dancheong);">🚀 골든벨 시작하기</button>
-      </div>
-      <div id="quiz-play-view" class="hidden"></div>
-      <div id="quiz-result-view" class="hidden"></div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- 5. [역사 도감 모달] -->
+  <!-- 3. [골든벨 퀴즈 모달] -->
   <!-- ============================================ -->
-  <div id="view-encyclopedia-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur hidden flex items-center justify-center p-4 overflow-y-auto">
-    <div class="max-w-4xl w-full bg-white border border-[#E2DCD0] rounded-3xl p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between mb-4 border-b border-[#E2DCD0] pb-3">
-        <h3 class="text-lg font-bold flex items-center gap-2" style="color: var(--point-dancheong);">
-          <span>📜</span> 나의 역사 도감 & 배지 수집함
-        </h3>
-        <button onclick="closeEncyclopediaModal()" class="text-stone-500 hover:text-stone-900 px-3 py-1 bg-[#EFEAE1] rounded-lg text-xs">✕ 닫기</button>
+  <div id="view-quiz-modal" style="display: none; position: fixed; inset: 0; z-index: 100; background: rgba(44, 39, 36, 0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 16px;">
+    <div style="background: var(--card-bg); max-width: 600px; width: 100%; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); position: relative;">
+      <button onclick="closeQuizModal()" style="position: absolute; top: 16px; right: 16px; background: var(--card-sub); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 10px; cursor: pointer;">✕ 닫기</button>
+      <div id="quiz-intro-view" style="text-align: center; padding: 20px 0;">
+        <span style="font-size: 3rem;">⚡</span>
+        <h2 style="font-size: 1.5rem; color: var(--accent-red); margin: 12px 0 6px;">초등 5학년 역사 스피드 골든벨</h2>
+        <p style="font-size: 0.95rem; color: #554D46; margin-bottom: 20px;">문제당 15초 안에 배운 역사 지식을 발휘해 보세요!</p>
+        <button onclick="window.quizGame.startQuizGame()" class="btn primary-red">🚀 골든벨 시작하기</button>
+      </div>
+      <div id="quiz-play-view" style="display: none;"></div>
+      <div id="quiz-result-view" style="display: none;"></div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 4. [역사 도감 모달] -->
+  <!-- ============================================ -->
+  <div id="view-encyclopedia-modal" style="display: none; position: fixed; inset: 0; z-index: 100; background: rgba(44, 39, 36, 0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 16px;">
+    <div style="background: var(--card-bg); max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); position: relative;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 16px;">
+        <h2 style="font-size: 1.3rem; color: var(--accent-red); margin-bottom: 0;">
+          📜 나의 역사 도감 & 배지 수집함
+        </h2>
+        <button onclick="closeEncyclopediaModal()" style="background: var(--card-sub); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 10px; cursor: pointer;">✕ 닫기</button>
       </div>
       <div id="encyclopedia-content"></div>
     </div>
   </div>
 
   <!-- 푸터 -->
-  <footer class="border-t border-[#E2DCD0] px-4 py-4 text-center text-xs text-stone-500 bg-[#EFEAE1]">
-    <p>초등 5학년 사회(역사) 인터랙티브 MUD 활동 포털 • GitHub Pages</p>
+  <footer style="border-top: 1px solid var(--border-color); padding: 20px; text-align: center; font-size: 0.85rem; color: #776F66; background: var(--card-sub); margin-top: 40px;">
+    <p>초등 5학년 사회(역사) 탐구 교실 • 조선·전통 문화 테마 MUD 포털 • GitHub Pages</p>
   </footer>
 
-  <!-- 스크립트 모듈 로드 -->
+  <!-- 모듈 스크립트 -->
   <script src="js/soundEffects.js"></script>
   <script src="js/encyclopedia.js"></script>
   <script src="js/storyEngine.js"></script>
   <script src="js/quizGame.js"></script>
   <script src="js/miniGames.js"></script>
 
-  <!-- 포털 및 MUD 통합 스크립트 -->
+  <!-- 포털 및 MUD 인터랙션 스크립트 -->
   <script>
     let curriculumData = null;
     let currentUnitId = 'unit_1';
@@ -285,17 +241,11 @@
 
     function switchUnitTab(unitId) {
       currentUnitId = unitId;
-      document.querySelectorAll('.unit-tab-btn').forEach(btn => {
-        btn.style.backgroundColor = '#FFFFFF';
-        btn.style.color = '#665F59';
+      document.querySelectorAll('.unit-btn').forEach(btn => {
+        btn.classList.remove('active');
       });
       const activeBtn = document.getElementById(`tab-${unitId}`);
-      if (activeBtn) {
-        if (unitId === 'unit_1') activeBtn.style.backgroundColor = '#4B6584';
-        else if (unitId === 'unit_2') activeBtn.style.backgroundColor = '#B33939';
-        else activeBtn.style.backgroundColor = '#D49A3D';
-        activeBtn.style.color = '#FFFFFF';
-      }
+      if (activeBtn) activeBtn.classList.add('active');
       renderCurriculum(unitId);
     }
 
@@ -306,72 +256,52 @@
       const unit = curriculumData.units.find(u => u.id === unitId);
       if (!unit) return;
 
-      let unitHeaderBg = '#4B6584';
-      let eraClass = 'badge-samguk';
-      if (unitId === 'unit_2') { unitHeaderBg = '#B33939'; eraClass = 'badge-joseon'; }
-      else if (unitId === 'unit_3') { unitHeaderBg = '#D49A3D'; eraClass = 'badge-modern'; }
-
-      let html = `
-        <div class="mb-6 p-5 rounded-2xl text-white shadow-sm" style="background-color: ${unitHeaderBg};">
-          <div class="flex items-center gap-2 mb-1">
-            <span class="px-2.5 py-0.5 bg-black/30 rounded-full text-xs font-bold">${unit.unit_num}</span>
-            <h3 class="text-xl font-bold">${unit.title}</h3>
-          </div>
-          <p class="text-xs text-white/90 serif-font">${unit.desc}</p>
-        </div>
-      `;
+      let html = '';
 
       unit.sub_units.forEach((sub, sIdx) => {
         html += `
-          <div class="mb-8 bg-white border border-[#E2DCD0] rounded-3xl p-5 md:p-6 shadow-sm">
-            <h4 class="text-base font-bold mb-4 flex items-center gap-2" style="color: ${unitHeaderBg};">
-              <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background-color: ${unitHeaderBg};">${sIdx + 1}</span>
+          <div style="margin-bottom: 28px;">
+            <h2 style="font-size: 1.25rem; color: var(--text-main); margin-bottom: 14px; border-left: 4px solid var(--accent-red); padding-left: 10px;">
               ${sub.title}
-            </h4>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+            </h2>
+            <div class="card-grid">
         `;
 
         sub.chasis.forEach(ch => {
           const hasGame = ch.type === 'game' || ch.type === 'quiz';
-          const isFeatured = ch.featured;
+          const isMyeongnyang = ch.gameId === 'myeongnyang_sim';
 
           html += `
-            <div class="p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between ${
-              isFeatured
-                ? 'bg-[#FCF8F5] border-[#B33939] shadow-sm'
-                : hasGame
-                ? 'bg-white border-[#C8BFB4] hover:border-[#8A3B29] shadow-sm'
-                : 'bg-[#F9F6F0] border-[#E2DCD0]'
-            }">
+            <article class="card">
               <div>
-                <div class="flex items-center justify-between mb-2">
-                  <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#EFEAE1] text-stone-700">${ch.num}</span>
-                  <span class="text-[11px] text-stone-500 font-medium">${ch.pages}</span>
-                </div>
-                <h5 class="font-bold text-sm text-[#2C2724] mb-1 leading-snug">${ch.title}</h5>
-                ${ch.hint ? `<p class="text-xs text-stone-500 mt-1">💡 ${ch.hint}</p>` : ''}
+                <span class="chasi-badge">${ch.num} · ${ch.pages}</span>
+                <h2>${ch.title}</h2>
+                <p>${ch.hint ? `💡 ${ch.hint}` : '교과서 진도에 맞추어 개념을 학습합니다.'}</p>
               </div>
-
-              <div class="mt-4 pt-3 border-t border-[#E2DCD0] flex items-center justify-between">
+              <div>
                 ${
-                  ch.gameId === 'myeongnyang_sim'
-                    ? `<button onclick="openMyeongnyang()" class="w-full py-2 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1 shadow-sm" style="background-color: #B33939;">
+                  isMyeongnyang
+                    ? `<button onclick="openMyeongnyang()" class="btn primary-red">
                         <i class="fas fa-ship"></i> 명량해전 MUD 플레이
                        </button>`
+                    : ch.gameId === 'story_paleolithic'
+                    ? `<button onclick="openStoryGame('story_paleolithic')" class="btn">
+                        <i class="fas fa-play"></i> 🪨 구석기 생존 MUD
+                       </button>`
                     : ch.type === 'game'
-                    ? `<button onclick="openStoryGame('${ch.gameId}')" class="w-full py-2 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1 shadow-sm" style="background-color: ${unitHeaderBg};">
+                    ? `<button onclick="openStoryGame('${ch.gameId}')" class="btn">
                         <i class="fas fa-play"></i> ${ch.gameTitle}
                        </button>`
                     : ch.type === 'quiz'
-                    ? `<button onclick="openQuizHub()" class="w-full py-2 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1 shadow-sm" style="background-color: #D97706;">
+                    ? `<button onclick="openQuizHub()" class="btn" style="background-color: var(--accent-gold);">
                         <i class="fas fa-bolt"></i> ${ch.gameTitle}
                        </button>`
-                    : `<span class="text-[11px] text-stone-400 flex items-center gap-1">
-                        <i class="fas fa-book-open"></i> 교과서 진도
-                       </span>`
+                    : `<button class="btn disabled" disabled>
+                        <i class="fas fa-book-open"></i> 교과서 학습 차시
+                       </button>`
                 }
               </div>
-            </div>
+            </article>
           `;
         });
 
@@ -384,16 +314,17 @@
       container.innerHTML = html;
     }
 
-    // 화면 전환
     function showPortalView() {
-      document.getElementById('view-portal').classList.remove('hidden');
-      document.getElementById('view-myeongnyang').classList.add('hidden');
+      document.getElementById('view-portal').style.display = 'block';
+      document.getElementById('view-myeongnyang').style.display = 'none';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function openMyeongnyang() {
-      document.getElementById('view-portal').classList.add('hidden');
-      document.getElementById('view-myeongnyang').classList.remove('hidden');
+      document.getElementById('view-portal').style.display = 'none';
+      document.getElementById('view-myeongnyang').style.display = 'block';
+      document.getElementById('mn-header-tag').textContent = '2단원 7차시 · 임진왜란';
+      document.getElementById('mn-header-title').textContent = 'MUD 명량 해전: 울돌목의 13척';
       setupMyeongnyangStory();
       resizeMnCanvas();
       renderMnStage("1");
@@ -405,30 +336,42 @@
       if (storyId === 'story_paleolithic') {
         openPaleolithicMUD();
       } else {
-        alert(`[${storyId}] 스토리 탐험을 시작합니다!`);
+        alert(`[${storyId}] 스토리 게임을 시작합니다!`);
       }
     }
 
+    function openPaleolithicMUD() {
+      document.getElementById('view-portal').style.display = 'none';
+      document.getElementById('view-myeongnyang').style.display = 'block';
+      document.getElementById('mn-header-tag').textContent = '1단원 2차시 · 구석기 시대';
+      document.getElementById('mn-header-title').textContent = 'MUD 구석기 생존기: 전곡리의 만능 주먹도끼';
+      setupPaleolithicStory();
+      resizeMnCanvas();
+      renderMnStage("1");
+      animMnLoop();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     function openQuizHub() {
-      document.getElementById('view-quiz-modal').classList.remove('hidden');
+      document.getElementById('view-quiz-modal').style.display = 'flex';
       window.quizGame.exitQuiz();
     }
 
     function closeQuizModal() {
-      document.getElementById('view-quiz-modal').classList.add('hidden');
+      document.getElementById('view-quiz-modal').style.display = 'none';
     }
 
     function openEncyclopediaModal() {
-      document.getElementById('view-encyclopedia-modal').classList.remove('hidden');
+      document.getElementById('view-encyclopedia-modal').style.display = 'flex';
       window.encyclopedia.renderEncyclopedia('encyclopedia-content');
     }
 
     function closeEncyclopediaModal() {
-      document.getElementById('view-encyclopedia-modal').classList.add('hidden');
+      document.getElementById('view-encyclopedia-modal').style.display = 'none';
     }
 
     // ==========================================
-    // MUD 스토리 엔진
+    // MUD 스토리 엔진 및 Canvas 시뮬레이터
     // ==========================================
     let mnStoryNodes = {};
     let mnCurrentStage = "1";
@@ -439,7 +382,7 @@
     let mnTargetCurrent = 20;
     let mnBullets = [];
     let mnEnemyShips = [];
-    let mnPlayerShip = { x: 50, y: 110, size: 26 };
+    let mnPlayerShip = { x: 50, y: 105, size: 26 };
 
     function setupMyeongnyangStory() {
       mnStoryNodes = {
@@ -458,7 +401,7 @@
           location: "패망한 서해 한양포구",
           badge: "❌ MISSION FAILED",
           character: { name: "왜군 수군 선봉장", subtitle: "보급로를 장악한 왜군", avatar: "👹" },
-          text: `<b>❌ [SYSTEM: 제해권 상실 및 한양 함락]</b><br>바다를 포기하자 왜군 함대가 서해를 장악하고 군량을 보급받아 한양까지 진격했습니다. 바다를 버려 대세를 무너뜨린 장수로 기록되고 말았습니다.`,
+          text: `<b>❌ [역사의 IF: 제해권 상실 및 한양 함락]</b><br>바다를 포기하자 왜군 함대가 서해를 장악하고 군량을 보급받아 한양까지 진격했습니다. 바다를 버려 대세를 무너뜨린 장수로 기록되고 말았습니다.`,
           choices: [{ text: "🔄 선조 30년 가을로 회귀하여 다시 결단한다.", next: "1", sound: "restart" }],
           setupSim: "map-idle"
         },
@@ -477,7 +420,7 @@
           location: "포위 당한 부산 앞바다",
           badge: "❌ TACTICAL ERROR",
           character: { name: "왜선 함대", subtitle: "사방 포위 전술", avatar: "🎏" },
-          text: `<b>❌ [SYSTEM: 수적 우세를 도외시한 전술 에러]</b><br>넓은 바다에서 133척의 왜선에 사방으로 포위당해 백병전에 무력하게 제압당했습니다. 좁은 길목 지형을 활용해야 합니다!`,
+          text: `<b>❌ [역사의 IF: 수적 우세를 도외시한 전술 실패]</b><br>넓은 바다에서 133척의 왜선에 사방으로 포위당해 백병전에 무력하게 제압당했습니다. 좁은 길목 지형을 활용해야 합니다!`,
           choices: [{ text: "🔄 후퇴하여 전장을 울돌목으로 재지정한다.", next: "2", sound: "restart" }],
           setupSim: "map-choose"
         },
@@ -496,7 +439,7 @@
           location: "피로 물든 판옥선 갑판",
           badge: "❌ WAR ENGINE ERROR",
           character: { name: "왜군 조총병", subtitle: "접근전 전문 무사", avatar: "⚔️" },
-          text: `<b>❌ [SYSTEM: 적의 강점 수용 실패]</b><br>접근전 백병전에서 조선 군사들이 큰 피해를 입었습니다. 판옥선의 튼튼한 장갑과 압도적인 화포 사거리로 승부해야 합니다!`,
+          text: `<b>❌ [역사의 IF: 적의 강점 수용 실패]</b><br>접근전 백병전에서 조선 군사들이 큰 피해를 입었습니다. 판옥선의 튼튼한 장갑과 압도적인 화포 사거리로 승부해야 합니다!`,
           choices: [{ text: "🔄 화포 포술로 전술을 변경한다.", next: "3", sound: "restart" }],
           setupSim: "combat-active"
         },
@@ -515,7 +458,7 @@
           location: "도주하는 왜선의 잔상",
           badge: "⚠️ TACTICAL INFO",
           character: { name: "부장들", subtitle: "잔존 적군 염려", avatar: "🛡️" },
-          text: `<b>⚠️ [SYSTEM: 적의 잔존 전력 온전 보존]</b><br>적이 남해로 무사히 후퇴하여 복수전을 꾀하고 있습니다. 완전히 전의를 상실하도록 맹공을 퍼부어야 합니다.`,
+          text: `<b>⚠️ [역사의 IF: 적의 잔존 전력 온전 보존]</b><br>적이 남해로 무사히 후퇴하여 복수전을 꾀하고 있습니다. 완전히 전의를 상실하도록 맹공을 퍼부어야 합니다.`,
           choices: [{ text: "🔄 조류 역전 시점으로 돌아가 총공격을 명한다.", next: "4", sound: "restart" }],
           setupSim: "current-switch"
         },
@@ -530,10 +473,7 @@
       };
     }
 
-    function openPaleolithicMUD() {
-      document.getElementById('view-portal').classList.add('hidden');
-      document.getElementById('view-myeongnyang').classList.remove('hidden');
-      
+    function setupPaleolithicStory() {
       mnStoryNodes = {
         "1": {
           location: "70만 년 전 한탄강 전곡리",
@@ -601,11 +541,6 @@
           setupSim: "map-idle"
         }
       };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     const mnCanvas = document.getElementById('mn-canvas');
@@ -628,31 +563,31 @@
       mnVisited.add(mnCurrentStage);
       updateMnRoadmap();
 
-      document.getElementById('mn-stage-location').innerHTML = `<i class="fas fa-compass" style="color: var(--point-dancheong);"></i> ${stage.location}`;
+      document.getElementById('mn-stage-location').innerHTML = `<i class="fas fa-compass" style="color: var(--accent-red);"></i> ${stage.location}`;
       const badge = document.getElementById('mn-stage-badge');
       badge.textContent = stage.badge;
 
       if (stage.setupSim) {
         mnSimMode = stage.setupSim;
-        document.getElementById('mn-widget-map').classList.add('hidden');
-        document.getElementById('mn-widget-combat').classList.add('hidden');
-        document.getElementById('mn-widget-current').classList.add('hidden');
+        document.getElementById('mn-widget-map').style.display = 'none';
+        document.getElementById('mn-widget-combat').style.display = 'none';
+        document.getElementById('mn-widget-current').style.display = 'none';
 
         const instr = document.getElementById('mn-canvas-instr');
 
         if (mnSimMode.startsWith('map')) {
-          document.getElementById('mn-widget-map').classList.remove('hidden');
+          document.getElementById('mn-widget-map').style.display = 'block';
           instr.innerHTML = mnSimMode === 'map-idle' ? "🗺️ <b>13척 대 133척의 지형 설계 분석</b>" : "🗺️ <b>울돌목 협로 유인 전술</b>";
         } else if (mnSimMode === 'combat-active') {
-          document.getElementById('mn-widget-combat').classList.remove('hidden');
-          instr.innerHTML = "🎯 <b>화면의 왜선(세키부네)을 직접 터치하여 화포 격발!</b>";
+          document.getElementById('mn-widget-combat').style.display = 'block';
+          instr.innerHTML = "🎯 <b>화면의 왜선을 직접 터치하여 화포 격발!</b>";
           mnCombatProgress = 0;
           document.getElementById('mn-combat-progress').textContent = "0%";
           document.getElementById('mn-combat-bar').style.width = "0%";
           spawnMnEnemyShips(4);
         } else if (mnSimMode === 'current-switch') {
-          document.getElementById('mn-widget-current').classList.remove('hidden');
-          instr.innerHTML = "🎯 <b>슬라이더를 우측으로 끝까지 밀어 썰물 역전 유도!</b>";
+          document.getElementById('mn-widget-current').style.display = 'block';
+          instr.innerHTML = "🎯 <b>슬라이더를 우측으로 밀어 썰물 역전 유도!</b>";
           document.getElementById('mn-slider-current').value = 20;
           updateMnCurrent(20);
         }
@@ -660,12 +595,12 @@
 
       const charCard = document.getElementById('mn-character-card');
       if (stage.character) {
-        charCard.classList.remove('hidden');
+        charCard.style.display = 'flex';
         document.getElementById('mn-char-avatar').textContent = stage.character.avatar;
         document.getElementById('mn-char-name').textContent = stage.character.name;
         document.getElementById('mn-char-subtitle').textContent = stage.character.subtitle;
       } else {
-        charCard.classList.add('hidden');
+        charCard.style.display = 'none';
       }
 
       document.getElementById('mn-story-content').innerHTML = stage.text;
@@ -674,10 +609,12 @@
       grid.innerHTML = '';
       stage.choices.forEach(ch => {
         const btn = document.createElement('button');
-        btn.className = "w-full text-left p-3.5 rounded-xl border border-[#E2DCD0] bg-white hover:bg-[#F4EBE1] hover:border-[#8A3B29] text-[#2C2724] transition flex justify-between items-center text-xs md:text-sm shadow-sm group";
+        btn.className = "btn secondary";
+        btn.style.textAlign = 'left';
+        btn.style.justifyContent = 'space-between';
         btn.innerHTML = `
-          <span class="font-medium">${ch.text}</span>
-          <span class="text-[10px] bg-[#EFEAE1] group-hover:bg-[#8A3B29] text-stone-600 group-hover:text-white px-2 py-1 rounded font-bold transition">결단 ➔</span>
+          <span>${ch.text}</span>
+          <span style="font-size: 0.75rem; background: var(--card-sub); padding: 2px 6px; border-radius: 4px;">결단 ➔</span>
         `;
         btn.onclick = () => {
           if (ch.sound && window.sounds) {
@@ -737,13 +674,13 @@
       const txt = document.getElementById('mn-current-val');
       if (mnTargetCurrent < 40) {
         txt.textContent = "밀물 (왜군 유리)";
-        txt.style.color = '#B33939';
+        txt.style.color = 'var(--accent-red)';
       } else if (mnTargetCurrent < 80) {
         txt.textContent = "정조 상태 (물살 정지)";
         txt.style.color = '#665F59';
       } else {
         txt.textContent = "썰물 (조선 대역전 개시)";
-        txt.style.color = '#2E5B70';
+        txt.style.color = 'var(--accent-teal)';
         if (window.sounds) window.sounds.playCorrect();
       }
     }
@@ -754,11 +691,18 @@
         const el = document.getElementById(`mn-node-${id}`);
         if (!el) return;
         if (mnCurrentStage === id) {
-          el.className = "p-1.5 border border-[#8A3B29] bg-[#F4EBE1] text-[#8A3B29] font-bold rounded shadow-sm";
+          el.style.border = '1.5px solid var(--accent-red)';
+          el.style.backgroundColor = 'var(--card-sub)';
+          el.style.color = 'var(--accent-red)';
+          el.style.fontWeight = 'bold';
         } else if (mnVisited.has(id)) {
-          el.className = "p-1.5 border border-[#E2DCD0] bg-white text-stone-700 rounded";
+          el.style.border = '1px solid var(--border-color)';
+          el.style.backgroundColor = '#FFFFFF';
+          el.style.color = 'var(--text-main)';
         } else {
-          el.className = "p-1.5 border border-transparent bg-[#EFEAE1] text-stone-400 rounded opacity-60";
+          el.style.border = 'none';
+          el.style.backgroundColor = 'var(--card-sub)';
+          el.style.color = '#A39B92';
         }
       });
     }
@@ -770,7 +714,7 @@
       mnWhirlpoolAngle += 0.02;
 
       if (mnSimMode === 'map-idle') {
-        mnCtx.fillStyle = '#0f172a';
+        mnCtx.fillStyle = '#0c1222';
         mnCtx.fillRect(0, 0, w, h);
         mnCtx.fillStyle = '#ef4444';
         mnCtx.font = 'bold 14px "Noto Serif KR"';
@@ -818,7 +762,7 @@
           });
         });
       } else if (mnSimMode === 'current-switch') {
-        mnCtx.fillStyle = '#0f172a';
+        mnCtx.fillStyle = '#0c1222';
         mnCtx.fillRect(0, 0, w, h);
         const isEbb = mnTargetCurrent > 50;
         mnCtx.strokeStyle = isEbb ? '#06b6d4' : '#f97316';
@@ -834,7 +778,7 @@
 
     function animMnLoop() {
       drawMnSim();
-      if (!document.getElementById('view-myeongnyang').classList.contains('hidden')) {
+      if (document.getElementById('view-myeongnyang').style.display !== 'none') {
         requestAnimationFrame(animMnLoop);
       }
     }
@@ -845,27 +789,27 @@
       const grid = document.getElementById('mn-choices-grid');
       
       storyBox.innerHTML = `
-        <div class="space-y-4 py-2">
-          <div class="p-5 bg-gradient-to-r from-[#F4EBE1] to-[#EFE7DC] border border-[#DCCFBF] rounded-2xl text-center shadow-sm">
-            <span class="text-4xl">👑</span>
-            <h3 class="text-xl font-bold mt-2 serif-font" style="color: var(--point-dancheong);">역사적 미션 대승 완수!</h3>
-            <p class="text-xs mt-1" style="color: var(--text-main);">역사의 주인공이 되어 올바른 결단을 성공적으로 이끌어냈습니다.</p>
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div class="mission-box" style="text-align: center;">
+            <span style="font-size: 2.5rem;">👑</span>
+            <h3 style="font-size: 1.3rem; color: var(--accent-red); margin: 8px 0 4px;" class="serif-font">역사적 탐구 미션 완수!</h3>
+            <p style="font-size: 0.9rem; color: var(--text-main);">역사의 주인공이 되어 올바른 결단을 성공적으로 완수했습니다.</p>
           </div>
 
-          <div class="p-5 bg-white rounded-2xl border border-[#E2DCD0] space-y-3 shadow-sm">
-            <h4 class="text-xs font-bold flex items-center gap-1.5 font-mono uppercase" style="color: var(--point-dancheong);">
-              <i class="fas fa-feather-alt"></i> [메타인지 회고] 통제사의 승전 장계(일기) 작성
+          <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 16px;">
+            <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-red); margin-bottom: 6px;">
+              <i class="fas fa-feather-alt"></i> [메타인지 회고] 나의 역사적 결단 일기(장계) 작성
             </h4>
-            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
-              오늘 내린 결정 중 <b>가장 고민되었던 순간</b>이나 <b>가장 중요했던 승리의 열쇠</b>를 한 줄로 기록해 보세요:
+            <p style="font-size: 0.85rem; color: #554D46; margin-bottom: 10px;">
+              오늘 내린 결정 중 <b>가장 고민되었던 순간</b>이나 <b>가장 중요했던 지혜</b>를 한 줄로 기록해 보세요:
             </p>
-            <textarea id="student-reflection-text" class="w-full p-3 rounded-xl bg-[#FCFAF7] border border-[#E2DCD0] text-xs focus:border-[#8A3B29] focus:outline-none h-20 placeholder:text-stone-400" placeholder="예: 선조의 명령 대신 바다를 지키기로 결심했을 때 두려웠지만, 울돌목의 좁은 지형과 썰물 역전 덕분에 대승할 수 있었다!"></textarea>
+            <textarea id="student-reflection-text" style="width: 100%; height: 75px; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-sub); font-size: 0.9rem; font-family: inherit; resize: none; margin-bottom: 12px;" placeholder="예: 바다를 지키기로 결심했을 때 두려웠지만, 울돌목의 좁은 지형과 썰물 역전 덕분에 대승할 수 있었다!"></textarea>
             
-            <div class="flex gap-2">
-              <button onclick="copyStudentReflection()" class="flex-1 py-2.5 text-white font-bold rounded-xl text-xs transition shadow-sm flex items-center justify-center gap-1.5" style="background-color: var(--point-dancheong);">
+            <div style="display: flex; gap: 8px;">
+              <button onclick="copyStudentReflection()" class="btn primary-red" style="flex: 1;">
                 <i class="fas fa-copy"></i> 장계 복사하기 (과제 제출용)
               </button>
-              <button onclick="showPortalView()" class="px-4 py-2.5 bg-[#EFEAE1] hover:bg-[#E2DCD0] text-stone-700 font-bold rounded-xl text-xs border border-[#E2DCD0] transition">
+              <button onclick="showPortalView()" class="btn secondary" style="width: auto;">
                 🏠 진도표로
               </button>
             </div>
@@ -881,7 +825,7 @@
         alert('장계(회고) 내용을 입력해 주세요!');
         return;
       }
-      const fullText = `[초등 5학년 역사 MUD 승전 장계]\n"신에게는 아직 열두 척의 배가 남아있사옵니다."\n\n나의 역사적 결단 회고:\n${text}`;
+      const fullText = `[초등 5학년 역사 탐구 MUD 승전 장계]\n\n나의 역사적 결단 회고:\n${text}`;
       navigator.clipboard.writeText(fullText).then(() => {
         alert('📋 장계가 클립보드에 복사되었습니다! 구글 클래스룸이나 패들렛에 붙여넣어 제출하세요.');
       }).catch(() => {
