@@ -96,44 +96,152 @@ class EncyclopediaManager {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    const totalArts = this.artifactsList.length || 8;
+    const totalArts = this.artifactsList.length || 16;
     const unlockedCount = this.data.unlockedArtifacts.length;
-    const progressPercent = Math.round((unlockedCount / totalArts) * 100);
+    const progressPercent = Math.min(100, Math.round((unlockedCount / totalArts) * 100));
+
+    // 탐험가 레벨 및 칭호 계산
+    let levelName = 'Lv.1 꿈나무 탐험가 🌱';
+    let levelColor = '#10B981';
+    if (unlockedCount >= 16) {
+      levelName = 'Lv.MAX 전설의 대역사가 👑';
+      levelColor = '#F59E0B';
+    } else if (unlockedCount >= 12) {
+      levelName = 'Lv.4 역사 마스터 🌟';
+      levelColor = '#8B5CF6';
+    } else if (unlockedCount >= 8) {
+      levelName = 'Lv.3 국보급 탐정 🔍';
+      levelColor = '#3B82F6';
+    } else if (unlockedCount >= 4) {
+      levelName = 'Lv.2 유물 발굴단 ⛏️';
+      levelColor = '#EC4899';
+    }
 
     let html = `
-      <div class="mb-6 p-6 rounded-2xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div>
-          <h3 class="text-xl font-bold text-amber-200">🏆 역사 탐험 달성도</h3>
-          <p class="text-stone-300 text-sm mt-1">유물 수집: <span class="font-bold text-amber-400">${unlockedCount} / ${totalArts}</span>개 (${progressPercent}%)</p>
+      <!-- 1. 탐험가 프로필 및 도감 진행률 배너 -->
+      <div style="background: linear-gradient(135deg, #2A2421 0%, #1A1615 100%); border: 2px solid #D4AF37; border-radius: 16px; padding: 20px; margin-bottom: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); position: relative; overflow: hidden;">
+        <div style="position: absolute; right: -20px; bottom: -20px; font-size: 8rem; opacity: 0.06; pointer-events: none;">🏆</div>
+        
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px;">
+          <div>
+            <div style="display: inline-flex; align-items: center; gap: 6px; background: ${levelColor}22; border: 1px solid ${levelColor}; color: ${levelColor}; font-weight: 800; font-size: 0.85rem; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px;">
+              ${levelName}
+            </div>
+            <h3 style="font-family: 'SchoolSafetyNotification', sans-serif; font-size: 1.45rem; color: #F7E7CE; margin: 0 0 4px 0;">
+              ✨ 나의 국보 유물 컬렉션 북
+            </h3>
+            <p style="font-size: 0.9rem; color: #C5BCB3; margin: 0;">
+              MUD 역사 탐험을 완수하고 전설의 16대 유물을 모두 수집해보세요!
+            </p>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(212,175,55,0.4); padding: 12px 20px; border-radius: 12px; text-align: center; min-width: 170px;">
+            <div style="font-size: 0.8rem; color: #D4AF37; font-weight: 700;">발견한 유물</div>
+            <div style="font-size: 1.6rem; font-weight: 900; color: #FFFFFF;">
+              <span style="color: #F59E0B;">${unlockedCount}</span> <span style="font-size: 1rem; color: #9CA3AF;">/ ${totalArts}</span>
+            </div>
+            <div style="font-size: 0.75rem; color: #10B981; font-weight: 700;">${progressPercent}% 수집 완료</div>
+          </div>
         </div>
-        <div class="w-full md:w-64 bg-stone-800 rounded-full h-4 overflow-hidden border border-stone-600">
-          <div class="bg-gradient-to-r from-amber-400 to-yellow-300 h-full rounded-full transition-all duration-700" style="width: ${progressPercent}%"></div>
+
+        <!-- 프로그레스 바 -->
+        <div style="margin-top: 16px;">
+          <div style="width: 100%; height: 12px; background: #110F0E; border-radius: 6px; overflow: hidden; border: 1px solid #443B36; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);">
+            <div style="width: ${progressPercent}%; height: 100%; background: linear-gradient(90deg, #F59E0B, #FBBF24, #10B981); border-radius: 6px; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);"></div>
+          </div>
         </div>
       </div>
 
-      <h3 class="text-xl font-bold text-amber-400 mb-4 flex items-center gap-2">
-        <span>📜</span> 발견한 역사 문화재 도감
-      </h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <!-- 2. 게임 카드 컬렉션 그리드 -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <h4 style="font-family: 'SchoolSafetyNotification', sans-serif; font-size: 1.15rem; color: var(--text-main); margin: 0;">
+          🎴 역사 유물 카드 (16종)
+        </h4>
+        <span style="font-size: 0.8rem; color: #887E75;">카드를 클릭하면 상세 해설을 볼 수 있습니다.</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; margin-bottom: 30px;">
     `;
 
-    this.artifactsList.forEach(art => {
+    this.artifactsList.forEach((art, idx) => {
       const isUnlocked = this.data.unlockedArtifacts.includes(art.name) || this.data.unlockedArtifacts.includes(art.id);
-      html += `
-        <div class="p-4 rounded-xl border transition-all ${
-          isUnlocked
-            ? 'bg-stone-800/90 border-amber-500/50 shadow-lg shadow-amber-950/40'
-            : 'bg-stone-900/60 border-stone-700 opacity-60'
-        }">
-          <div class="w-16 h-16 rounded-xl mx-auto mb-3 flex items-center justify-center text-3xl ${
-            isUnlocked ? 'bg-amber-500/20 border border-amber-400/40 animate-pulse-slow' : 'bg-stone-800'
-          }">
-            ${isUnlocked ? art.icon : '❓'}
+      const tierColor = art.tierColor || '#F59E0B';
+      const tierName = art.tierName || '국보 유물';
+
+      if (isUnlocked) {
+        // [획득 카드: 게임형 골드/네온 반짝이 카드]
+        html += `
+          <div onclick="window.encyclopedia.showDetailModal(${idx})" style="cursor: pointer; background: linear-gradient(145deg, #2D2723 0%, #1F1B19 100%); border: 2px solid ${tierColor}; border-radius: 14px; padding: 14px; box-shadow: 0 6px 14px rgba(0,0,0,0.2); transition: all 0.25s ease; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-6px) scale(1.02)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.3)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 6px 14px rgba(0,0,0,0.2)';">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-size: 0.68rem; font-weight: 800; color: ${tierColor}; background: ${tierColor}22; padding: 2px 8px; border-radius: 10px; border: 1px solid ${tierColor}55;">
+                ★ ${tierName}
+              </span>
+              <span style="font-size: 0.72rem; color: #B3AAA1; font-weight: 600;">${art.era}</span>
+            </div>
+
+            <div style="height: 90px; background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, rgba(0,0,0,0) 70%); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 3.4rem; margin-bottom: 10px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
+              ${art.icon}
+            </div>
+
+            <div style="text-align: center;">
+              <h5 style="font-size: 0.98rem; font-weight: 800; color: #FFF; margin: 0 0 4px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                ${art.name}
+              </h5>
+              <span style="display: inline-block; font-size: 0.72rem; color: #10B981; font-weight: 700; background: #10B98118; padding: 2px 8px; border-radius: 4px;">
+                ✓ 수집 완료
+              </span>
+            </div>
           </div>
-          <div class="text-center">
-            <span class="text-xs px-2 py-0.5 rounded-full ${isUnlocked ? 'bg-amber-400/20 text-amber-300' : 'bg-stone-800 text-stone-400'}">${art.era}</span>
-            <h4 class="font-bold text-base mt-2 ${isUnlocked ? 'text-stone-100' : 'text-stone-400'}">${isUnlocked ? art.name : '미지의 유물'}</h4>
-            <p class="text-xs text-stone-300 mt-1 line-clamp-3">${isUnlocked ? art.desc : '스토리 탐험 또는 미니게임을 통해 유물을 발굴해보세요!'}</p>
+        `;
+      } else {
+        // [미획득 카드: 신비로운 실루엣 자물쇠 카드]
+        html += `
+          <div style="background: #201D1B; border: 1px dashed #4D4540; border-radius: 14px; padding: 14px; opacity: 0.85; position: relative; overflow: hidden;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-size: 0.68rem; font-weight: 700; color: #736B63; background: #2E2926; padding: 2px 8px; border-radius: 10px;">
+                LOCKED
+              </span>
+              <span style="font-size: 0.72rem; color: #736B63; font-weight: 500;">${art.era}</span>
+            </div>
+
+            <div style="height: 90px; background: #181514; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 10px;">
+              <span style="font-size: 2.2rem; filter: grayscale(100%); opacity: 0.35;">🔒</span>
+              <span style="font-size: 0.72rem; color: #8C8278; margin-top: 4px; font-weight: 600;">미발견 유물</span>
+            </div>
+
+            <div style="text-align: center;">
+              <h5 style="font-size: 0.92rem; font-weight: 700; color: #8C8278; margin: 0 0 6px 0;">
+                ???
+              </h5>
+              <div style="font-size: 0.68rem; color: #D4AF37; background: rgba(212,175,55,0.08); padding: 4px 6px; border-radius: 4px; line-height: 1.3;">
+                💡 ${art.hint || 'MUD 퀘스트 클리어 시 획득'}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    html += `
+      </div>
+
+      <!-- 3. 업적 트로피 진열대 -->
+      <h4 style="font-family: 'SchoolSafetyNotification', sans-serif; font-size: 1.15rem; color: var(--text-main); margin: 0 0 14px 0;">
+        🎖️ 역사 탐험 업적 트로피
+      </h4>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-bottom: 20px;">
+    `;
+
+    this.badgesList.forEach(b => {
+      const isUnlocked = this.data.unlockedBadges.includes(b.id);
+      html += `
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; background: ${isUnlocked ? 'linear-gradient(135deg, #2D2723 0%, #231E1C 100%)' : '#1E1B1A'}; border: 1px solid ${isUnlocked ? '#F59E0B66' : '#3D3632'}; opacity: ${isUnlocked ? '1' : '0.6'};">
+          <div style="width: 44px; height: 44px; border-radius: 50%; background: ${isUnlocked ? '#F59E0B22' : '#2A2523'}; border: 1.5px solid ${isUnlocked ? '#F59E0B' : '#443C37'}; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; shrink: 0;">
+            ${isUnlocked ? b.icon : '🔒'}
+          </div>
+          <div>
+            <div style="font-size: 0.88rem; font-weight: 700; color: ${isUnlocked ? '#F7E7CE' : '#736B63'};">${b.title}</div>
+            <div style="font-size: 0.75rem; color: ${isUnlocked ? '#A89E94' : '#5C544E'}; margin-top: 2px;">${b.desc}</div>
           </div>
         </div>
       `;
@@ -142,35 +250,47 @@ class EncyclopediaManager {
     html += `
       </div>
 
-      <h3 class="text-xl font-bold text-yellow-400 mb-4 flex items-center gap-2">
-        <span>🎖️</span> 획득한 업적 배지
-      </h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- 상세 모달 컨테이너 (동적 주입용) -->
+      <div id="art-detail-modal-box"></div>
     `;
 
-    this.badgesList.forEach(b => {
-      const isUnlocked = this.data.unlockedBadges.includes(b.id);
-      html += `
-        <div class="p-4 rounded-xl border flex items-center gap-4 ${
-          isUnlocked
-            ? 'bg-gradient-to-br from-yellow-950/40 to-stone-800/80 border-yellow-500/50 shadow-md'
-            : 'bg-stone-900/50 border-stone-800 opacity-50'
-        }">
-          <div class="w-14 h-14 rounded-full flex items-center justify-center text-2xl shrink-0 ${
-            isUnlocked ? 'bg-yellow-400/20 border border-yellow-300' : 'bg-stone-800'
-          }">
-            ${isUnlocked ? b.icon : '🔒'}
+    container.innerHTML = html;
+  }
+
+  showDetailModal(idx) {
+    const art = this.artifactsList[idx];
+    if (!art) return;
+
+    const modalBox = document.getElementById('art-detail-modal-box');
+    if (!modalBox) return;
+
+    modalBox.innerHTML = `
+      <div style="position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.75); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; padding: 20px;" onclick="document.getElementById('art-detail-modal-box').innerHTML=''">
+        <div style="background: linear-gradient(145deg, #2B2421 0%, #1D1816 100%); border: 2px solid ${art.tierColor || '#F59E0B'}; border-radius: 20px; max-width: 420px; width: 100%; padding: 26px; box-shadow: 0 16px 40px rgba(0,0,0,0.6); text-align: center; color: #FFF; position: relative;" onclick="event.stopPropagation()">
+          <button onclick="document.getElementById('art-detail-modal-box').innerHTML=''" style="position: absolute; top: 14px; right: 14px; background: rgba(255,255,255,0.1); border: none; color: #FFF; border-radius: 50%; width: 32px; height: 32px; font-size: 1rem; cursor: pointer;">✕</button>
+          
+          <div style="font-size: 0.8rem; font-weight: 800; color: ${art.tierColor}; margin-bottom: 6px;">
+            ★ ${art.tierName || '국보 유물'} · ${art.era}
           </div>
-          <div>
-            <h4 class="font-bold text-sm ${isUnlocked ? 'text-yellow-200' : 'text-stone-400'}">${b.title}</h4>
-            <p class="text-xs text-stone-300 mt-0.5">${b.desc}</p>
+          
+          <div style="font-size: 4.8rem; margin: 12px 0; filter: drop-shadow(0 6px 16px rgba(245,158,11,0.3));">
+            ${art.icon}
+          </div>
+          
+          <h3 style="font-family: 'SchoolSafetyNotification', sans-serif; font-size: 1.5rem; color: #F7E7CE; margin: 0 0 12px 0;">
+            ${art.name}
+          </h3>
+          
+          <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px; text-align: left; font-size: 0.92rem; line-height: 1.6; color: #DDD4C7; margin-bottom: 16px;">
+            ${art.desc}
+          </div>
+          
+          <div style="font-size: 0.78rem; color: #10B981; font-weight: 700;">
+            ✓ MUD 역사 탐험을 통해 정식 등록된 유물입니다.
           </div>
         </div>
-      `;
-    });
-
-    html += `</div>`;
-    container.innerHTML = html;
+      </div>
+    `;
   }
 
   showToast(msg) {
@@ -200,3 +320,4 @@ class EncyclopediaManager {
 }
 
 window.encyclopedia = new EncyclopediaManager();
+

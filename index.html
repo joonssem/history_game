@@ -425,13 +425,16 @@
   <!-- ============================================ -->
   <!-- 4. [역사 도감 모달] -->
   <!-- ============================================ -->
-  <div id="view-encyclopedia-modal" style="display: none; position: fixed; inset: 0; z-index: 100; background: rgba(44, 39, 36, 0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 16px;">
-    <div style="background: var(--card-bg); max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); position: relative;">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 16px;">
-        <h2 style="font-size: 1.3rem; color: var(--accent-red); margin-bottom: 0;">
-          📜 나의 역사 도감 & 배지 수집함
+  <div id="view-encyclopedia-modal" style="display: none; position: fixed; inset: 0; z-index: 100; background: rgba(20, 16, 15, 0.85); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 16px;">
+    <div style="background: #25201D; max-width: 960px; width: 100%; max-height: 90vh; overflow-y: auto; border: 2px solid #5A4E46; border-radius: 18px; padding: 24px; box-shadow: 0 16px 40px rgba(0,0,0,0.5); position: relative; color: #FFF;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #443B36; padding-bottom: 12px; margin-bottom: 16px;">
+        <h2 style="font-family: 'SchoolSafetyNotification', sans-serif; font-size: 1.35rem; color: #F7E7CE; margin-bottom: 0;">
+          📜 나의 역사 국보 도감 & 업적 보관소
         </h2>
-        <button onclick="closeEncyclopediaModal()" style="background: var(--card-sub); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 10px; cursor: pointer;">✕ 닫기</button>
+        <div style="display: flex; gap: 8px;">
+          <button onclick="window.encyclopedia.resetProgress()" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF444466; color: #FCA5A5; border-radius: 8px; padding: 5px 12px; font-size: 0.8rem; cursor: pointer; font-weight: 600;">초기화</button>
+          <button onclick="closeEncyclopediaModal()" style="background: #3A322D; border: 1px solid #5A4E46; color: #FFF; border-radius: 8px; padding: 5px 14px; font-size: 0.9rem; cursor: pointer; font-weight: 700;">✕ 닫기</button>
+        </div>
       </div>
       <div id="encyclopedia-content"></div>
     </div>
@@ -455,6 +458,7 @@
     let currentActiveStoryId = 'story_paleolithic';
 
     // MUD 시뮬레이터 전역 상태 변수
+    let currentMudThemeColor = '#8A3B29';
     let mnStoryNodes = {};
     let mnCurrentStage = "1";
     let mnVisited = new Set();
@@ -524,42 +528,44 @@
 
         section.lessons.forEach(lesson => {
           const num = lesson.lessonNumber;
+          const display = lesson.lessonDisplay || '';
+          const title = lesson.title || '';
           let btnHtml = '';
 
           // 1단원
-          if (num === 2) {
+          if (num === 2 || title.includes('구석기')) {
             btnHtml = `<button onclick="openPaleolithicMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🪨 구석기 생존 MUD</button>`;
-          } else if (num === 3) {
+          } else if (num === 3 || title.includes('신석기')) {
             btnHtml = `<button onclick="openNeolithicMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🏺 신석기 빗살무늬 MUD</button>`;
-          } else if (num === 4 || num === 5) {
+          } else if (num === 4 || num === 5 || title.includes('청동기')) {
             btnHtml = `<button onclick="openBronzeAgeMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🗿 청동기 고인돌 MUD</button>`;
-          } else if (num === 6) {
+          } else if (num === 6 || title.includes('고조선')) {
             btnHtml = `<button onclick="openGojoseonMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 📜 고조선 8조법 MUD</button>`;
-          } else if (num === 7 || num === 8) {
+          } else if (num === 7 || num === 8 || title.includes('성립과 발전') || (unitId === 1 && display.includes('7~8차시'))) {
             btnHtml = `<button onclick="openThreeKingdomsConquestMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> ⚔️ 삼국 한강 쟁탈전 MUD</button>`;
-          } else if (num === 9 || num === 10) {
+          } else if (num === 9 || num === 10 || title.includes('생활 모습') && unitId === 1 && (num === 9 || num === 10 || display.includes('9~10차시'))) {
             btnHtml = `<button onclick="openThreeKingdomsLifeMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🎨 고분 벽화 탐정 MUD</button>`;
-          } else if (num === 13) {
+          } else if (num === 13 || title.includes('고려의 건국') || title.includes('후삼국 통일')) {
             btnHtml = `<button onclick="openGoryeoFoundingMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 👑 왕건의 고려 건국 MUD</button>`;
-          } else if (num === 14) {
+          } else if (num === 14 || title.includes('고려의 생활') || title.includes('고려 사회')) {
             btnHtml = `<button onclick="openGoryeoSocietyMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 📜 고려 사회 탐정 MUD</button>`;
           } 
           // 2단원
-          else if (num === 22 || num === 23) {
+          else if (num === 22 || num === 23 || title.includes('조선의 건국') || title.includes('한양')) {
             btnHtml = `<button onclick="openJoseonFoundingMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🏛️ 한양 도읍 설계 MUD</button>`;
-          } else if (num === 27) {
+          } else if (num === 27 || title.includes('명량') || title.includes('임진왜란과 수군')) {
             btnHtml = `<button onclick="openMyeongnyang()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-ship"></i> ⚔️ 명량해전 MUD 플레이</button>`;
-          } else if (num === 28) {
+          } else if (num === 28 || title.includes('조선 후기 경제') || title.includes('모내기') || title.includes('농업과 상업')) {
             btnHtml = `<button onclick="openJoseonEconomyMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 💰 조선 후기 경제 MUD</button>`;
-          } else if (num === 29) {
+          } else if (num === 29 || title.includes('실학') || title.includes('새로운 생각') || title.includes('서학')) {
             btnHtml = `<button onclick="openJoseonSilhakMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🌍 실학자 탐구 MUD</button>`;
           }
           // 3단원
-          else if (num === 42 || num === 43) {
+          else if (num === 42 || num === 43 || title.includes('8·15 광복') || title.includes('정부 수립') || (unitId === 3 && display.includes('8~9차시'))) {
             btnHtml = `<button onclick="openGwangbokMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🕊️ 8·15 광복과 정부 수립 MUD</button>`;
           }
           // 골든벨
-          else if (num === 20 || num === 34 || num === 48) {
+          else if (num === 20 || num === 34 || num === 48 || title.includes('정리') || title.includes('골든벨')) {
             btnHtml = `<button onclick="openQuizHub(${unitId})" class="btn" style="background-color: ${lesson.color.hex}; color: #1F2937 !important; font-weight: 700;"><i class="fas fa-bolt"></i> ${lesson.title} Quiz</button>`;
           } else if (lesson.mudPoint) {
             btnHtml = `<button onclick="alert('[${lesson.title}] MUD 퀘스트 준비 중입니다!')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> ${lesson.mudPoint} 플레이</button>`;
@@ -603,6 +609,26 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function setMudTheme(primaryHex, subHex = '#EFEAE1') {
+      currentMudThemeColor = primaryHex;
+      document.documentElement.style.setProperty('--current-mud-color', primaryHex);
+      
+      const headerTag = document.getElementById('mn-header-tag');
+      if (headerTag) headerTag.style.backgroundColor = primaryHex;
+      
+      const stageBadge = document.getElementById('mn-stage-badge');
+      if (stageBadge) stageBadge.style.backgroundColor = primaryHex;
+      
+      const fb = document.getElementById('mn-canvas-feedback');
+      if (fb) fb.style.backgroundColor = primaryHex;
+      
+      const gb = document.getElementById('gauge-bar');
+      if (gb) gb.style.backgroundColor = primaryHex;
+
+      const titleEl = document.getElementById('mn-header-title');
+      if (titleEl) titleEl.style.borderLeft = `5px solid ${primaryHex}`;
+    }
+
     function renderRoadmapNodes(nodes) {
       const grid = document.getElementById('roadmap-grid');
       let html = '';
@@ -618,13 +644,14 @@
     function openJoseonFoundingMUD() {
       currentActiveStoryId = 'story_joseon_founding';
       mnVisited = new Set();
+      setMudTheme('#8A3B29', '#EFEAE1');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '2단원 2~3차시 · 조선 건국';
       document.getElementById('mn-header-title').textContent = 'MUD 한양 도읍 설계자: 정도전의 사대문과 경복궁';
       
-      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-landmark" style="color: #8A3B29;"></i> 한양 4대문(인·의·예·지) 배치 시뮬레이터';
-      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #8A3B29;"></i> 한양 건국 연대기';
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-landmark" style="color: ${currentMudThemeColor};"></i> 한양 4대문(인·의·예·지) 배치 시뮬레이터`;
+      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 한양 건국 연대기`;
       
       renderRoadmapNodes([
         { id: "1", label: "1. 한양 천도 결단" },
@@ -717,13 +744,14 @@
     function openJoseonEconomyMUD() {
       currentActiveStoryId = 'story_joseon_economy';
       mnVisited = new Set();
+      setMudTheme('#B8860B', '#EAB308');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '2단원 8차시 · 조선 후기 경제';
       document.getElementById('mn-header-title').textContent = 'MUD 조선 후기 보부상과 모내기 대박';
       
-      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-coins" style="color: #B8860B;"></i> 상평통보 장시 거래 시뮬레이터';
-      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #B8860B;"></i> 조선 경제 변혁 연대기';
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-coins" style="color: ${currentMudThemeColor};"></i> 상평통보 장시 거래 시뮬레이터`;
+      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 조선 경제 변혁 연대기`;
       
       renderRoadmapNodes([
         { id: "1", label: "1. 모내기법(이앙법) 보급" },
@@ -816,13 +844,14 @@
     function openJoseonSilhakMUD() {
       currentActiveStoryId = 'story_joseon_silhak';
       mnVisited = new Set();
+      setMudTheme('#C27803', '#F59E0B');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '2단원 9차시 · 조선 후기 사회';
       document.getElementById('mn-header-title').textContent = 'MUD 실학자 탐구: 지구의와 동학의 평등 세상';
       
-      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-globe-asia" style="color: #C27803;"></i> 서양 문물(지구의·천리경)과 세계관 시뮬레이터';
-      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #C27803;"></i> 실학 & 사회 변화 연대기';
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-globe-asia" style="color: ${currentMudThemeColor};"></i> 서양 문물(지구의·천리경)과 세계관 시뮬레이터`;
+      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 실학 & 사회 변화 연대기`;
       
       renderRoadmapNodes([
         { id: "1", label: "1. 서양 문물과 지구의" },
@@ -915,13 +944,14 @@
     function openMyeongnyang() {
       currentActiveStoryId = 'story_myeongnyang';
       mnVisited = new Set();
+      setMudTheme('#991B1B', '#1E3A8A');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '2단원 7차시 · 임진왜란';
       document.getElementById('mn-header-title').textContent = 'MUD 명량대첩: 13척으로 133척을 막아선 기적';
       
-      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-ship" style="color: var(--accent-red);"></i> 판옥선 천자총통 포격 & 조류 시뮬레이터';
-      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: var(--accent-red);"></i> 명량 해전 결전 연대기';
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-ship" style="color: ${currentMudThemeColor};"></i> 판옥선 천자총통 포격 & 조류 시뮬레이터`;
+      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 명량 해전 결전 연대기`;
       
       renderRoadmapNodes([
         { id: "1", label: "1. 13척 vs 133척" },
@@ -1014,13 +1044,14 @@
     function openPaleolithicMUD() {
       currentActiveStoryId = 'story_paleolithic';
       mnVisited = new Set();
+      setMudTheme('#6F4E37', '#A77950');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 2차시 · 구석기 시대';
       document.getElementById('mn-header-title').textContent = 'MUD 구석기 생존기: 전곡리의 만능 주먹도끼';
       
-      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-fire-alt" style="color: #A77950;"></i> 구석기 생존 인터랙티브 체험';
-      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #6F4E37;"></i> 구석기 생존 연대기';
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-fire-alt" style="color: ${currentMudThemeColor};"></i> 구석기 생존 인터랙티브 체험`;
+      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 구석기 생존 연대기`;
       
       renderRoadmapNodes([
         { id: "1", label: "1. 혹한과 이동 결단" },
@@ -1110,13 +1141,14 @@
     function openNeolithicMUD() {
       currentActiveStoryId = 'story_neolithic';
       mnVisited = new Set();
+      setMudTheme('#A77950', '#8C5B3F');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 3차시 · 신석기 시대';
       document.getElementById('mn-header-title').textContent = 'MUD 신석기 생존기: 암사동의 뾰족 그릇과 정착';
       
-      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-hand-holding-water" style="color: #A77950;"></i> 신석기 빗살무늬 빚기 시뮬레이터';
-      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #A77950;"></i> 신석기 혁명 연대기';
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-hand-holding-water" style="color: ${currentMudThemeColor};"></i> 신석기 빗살무늬 빚기 시뮬레이터`;
+      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 신석기 혁명 연대기`;
       
       renderRoadmapNodes([
         { id: "1", label: "1. 한강변 정착 결단" },
@@ -1209,13 +1241,14 @@
     function openBronzeAgeMUD() {
       currentActiveStoryId = 'story_bronze_age';
       mnVisited = new Set();
+      setMudTheme('#B48448', '#D97706');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 4~5차시 · 청동기 시대';
       document.getElementById('mn-header-title').textContent = 'MUD 청동기 고인돌 축조자: 거석 운반과 군장의 탄생';
       
-      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-mountain" style="color: #A36B4F;"></i> 고인돌 거석 운반 & 덮개돌 올리기 시뮬레이터';
-      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #A36B4F;"></i> 청동기 문명 연대기';
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-mountain" style="color: ${currentMudThemeColor};"></i> 고인돌 거석 운반 & 덮개돌 올리기 시뮬레이터`;
+      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 청동기 문명 연대기`;
       
       renderRoadmapNodes([
         { id: "1", label: "1. 벼농사와 잉여 생산" },
@@ -1308,13 +1341,14 @@
     function openGojoseonMUD() {
       currentActiveStoryId = 'story_gojoseon';
       mnVisited = new Set();
+      setMudTheme('#8C5B3F', '#B45309');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 6차시 · 고조선';
       document.getElementById('mn-header-title').textContent = 'MUD 단군왕검의 고조선 개국: 8조법과 비파형 동검';
       
-      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-balance-scale" style="color: #8C5B3F;"></i> 고조선 8조법 법정 시뮬레이터';
-      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #8C5B3F;"></i> 최초 국가 고조선 연대기';
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-balance-scale" style="color: ${currentMudThemeColor};"></i> 고조선 8조법 법정 시뮬레이터`;
+      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 최초 국가 고조선 연대기`;
       
       renderRoadmapNodes([
         { id: "1", label: "1. 단군왕검 건국 결단" },
@@ -1404,16 +1438,20 @@
     // ==========================================
     // 1단원 7~8차시 [삼국 한강 쟁탈전 MUD]
     // ==========================================
+    // ==========================================
+    // 1단원 7~8차시 [삼국 한강 쟁탈전 MUD]
+    // ==========================================
     function openThreeKingdomsConquestMUD() {
       currentActiveStoryId = 'story_three_kingdoms_conquest';
       mnVisited = new Set();
+      setMudTheme('#B33939', '#DC2626');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 7~8차시 · 삼국과 가야';
       document.getElementById('mn-header-title').textContent = 'MUD 삼국의 전성기 한강 쟁탈전: 근초고왕·광개토대왕·진흥왕';
       
-      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-flag" style="color: #B33939;"></i> 한강 유역 쟁탈전 및 전성기 지도 시뮬레이터';
-      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #B33939;"></i> 삼국 전성기 연대기';
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-flag" style="color: ${currentMudThemeColor};"></i> 한강 유역 쟁탈전 및 전성기 지도 시뮬레이터`;
+      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 삼국 전성기 연대기`;
       
       renderRoadmapNodes([
         { id: "1", label: "1. 백제 근초고왕 (4세기)" },
@@ -1506,13 +1544,14 @@
     function openThreeKingdomsLifeMUD() {
       currentActiveStoryId = 'story_three_kingdoms_life';
       mnVisited = new Set();
+      setMudTheme('#A0522D', '#CA8A04');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 9~10차시 · 삼국과 가야 생활';
       document.getElementById('mn-header-title').textContent = 'MUD 고분 벽화 탐정: 삼국 귀족의 맥적과 가야 철갑옷';
       
-      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-paint-brush" style="color: #A0522D;"></i> 고구려 수산리 고분 벽화 복원 시뮬레이터';
-      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #A0522D;"></i> 삼국 생활상 연대기';
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-paint-brush" style="color: ${currentMudThemeColor};"></i> 고구려 수산리 고분 벽화 복원 시뮬레이터`;
+      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 삼국 생활상 연대기`;
       
       renderRoadmapNodes([
         { id: "1", label: "1. 신분 제도와 의식주" },
@@ -1602,13 +1641,14 @@
     function openGoryeoFoundingMUD() {
       currentActiveStoryId = 'story_goryeo_founding';
       mnVisited = new Set();
+      setMudTheme('#2D6A4F', '#059669');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 13차시 · 고려 시대';
       document.getElementById('mn-header-title').textContent = 'MUD 고려 건국기: 태조 왕건의 후삼국 통일과 훈요 10조';
       
-      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-crown" style="color: #3A7D69;"></i> 태조 왕건의 통합 정책 시뮬레이터';
-      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #3A7D69;"></i> 고려 건국 연대기';
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-crown" style="color: ${currentMudThemeColor};"></i> 태조 왕건의 통합 정책 시뮬레이터`;
+      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 고려 건국 연대기`;
       
       renderRoadmapNodes([
         { id: "1", label: "1. 궁예 축출과 고려 개국" },
@@ -1698,13 +1738,14 @@
     function openGoryeoSocietyMUD() {
       currentActiveStoryId = 'story_goryeo_society';
       mnVisited = new Set();
+      setMudTheme('#32746D', '#0D9488');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 14차시 · 고려 사회';
       document.getElementById('mn-header-title').textContent = 'MUD 고려 사회 탐정: 손변의 지혜로운 재판과 과거 홍패';
       
-      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-balance-scale" style="color: #32746D;"></i> 고려 사회 판결 & 과거 시험 시뮬레이터';
-      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #32746D;"></i> 고려 사회 탐구 연대기';
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-balance-scale" style="color: ${currentMudThemeColor};"></i> 고려 사회 판결 & 과거 시험 시뮬레이터`;
+      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 고려 사회 탐구 연대기`;
       
       renderRoadmapNodes([
         { id: "1", label: "1. 과거 시험과 홍패" },
@@ -1797,13 +1838,14 @@
     function openGwangbokMUD() {
       currentActiveStoryId = 'story_gwangbok';
       mnVisited = new Set();
+      setMudTheme('#1D4ED8', '#2563EB');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '3단원 8~9차시 · 광복과 정부 수립';
       document.getElementById('mn-header-title').textContent = 'MUD 8·15 광복의 환희와 대한민국 정부 수립: 최초의 5·10 총선거';
       
-      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-vote-yea" style="color: #1D4ED8;"></i> 5·10 총선거 민주 투표함 & 태극기 시뮬레이터';
-      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #1D4ED8;"></i> 광복과 정부 수립 연대기';
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-vote-yea" style="color: ${currentMudThemeColor};"></i> 5·10 총선거 민주 투표함 & 태극기 시뮬레이터`;
+      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 광복과 정부 수립 연대기`;
       
       renderRoadmapNodes([
         { id: "1", label: "1. 8·15 광복의 환희" },
@@ -2313,19 +2355,45 @@
 
     function renderFinalReflectionView() {
       if (window.sounds) window.sounds.playFanfare();
+      
+      // 스토리별 유물 자동 잠금 해제
+      const storyArtifactMap = {
+        'story_paleolithic': ['art_1', '연천 전곡리 주먹도끼'],
+        'story_neolithic': ['art_2', '암사동 빗살무늬 토기'],
+        'story_bronze_age': ['art_3', '고창 탁자식 고인돌'],
+        'story_gojoseon': ['art_4', '비파형 동검'],
+        'story_three_kingdoms_conquest': ['art_5', '백제 칠지도', 'art_6', '신라 북한산 순수비'],
+        'story_three_kingdoms_life': ['art_7', '가야 철제 판갑옷과 투구', 'art_8', '고구려 수산리 고분 벽화'],
+        'story_goryeo_founding': ['art_9', '태조 왕건 훈요 10조'],
+        'story_goryeo_society': ['art_10', '고려 과거 합격증 \'홍패\''],
+        'story_joseon_founding': ['art_11', '경복궁 근정전 박석'],
+        'story_myeongnyang': ['art_12', '조선 수군 판옥선 & 천자총통'],
+        'story_joseon_economy': ['art_13', '상평통보 엽전'],
+        'story_joseon_silhak': ['art_14', '홍대용의 둥근 지구의'],
+        'story_gwangbok': ['art_15', '1948년 5·10 총선거 투표함', 'art_16', '대한민국 제헌 헌법 원본']
+      };
+
+      const artsToUnlock = storyArtifactMap[currentActiveStoryId] || [];
+      artsToUnlock.forEach(art => {
+        if (window.encyclopedia) window.encyclopedia.unlockArtifact(art);
+      });
+
       const storyBox = document.getElementById('mn-story-content');
       const grid = document.getElementById('mn-choices-grid');
       
       storyBox.innerHTML = `
         <div style="display: flex; flex-direction: column; gap: 14px;">
-          <div class="mission-box" style="text-align: center;">
-            <span style="font-size: 2.5rem;">👑</span>
-            <h3 style="font-size: 1.3rem; color: var(--accent-red); margin: 8px 0 4px;" class="serif-font">역사적 탐구 미션 완수!</h3>
-            <p style="font-size: 0.9rem; color: var(--text-main);">역사의 주인공이 되어 올바른 결단을 성공적으로 완수했습니다.</p>
+          <div class="mission-box" style="text-align: center; border: 2px solid ${currentMudThemeColor}; background: ${currentMudThemeColor}15;">
+            <span style="font-size: 2.8rem;">👑</span>
+            <h3 style="font-size: 1.35rem; color: ${currentMudThemeColor}; margin: 8px 0 4px;" class="serif-font">역사적 탐구 미션 완수!</h3>
+            <p style="font-size: 0.92rem; color: var(--text-main); margin: 0 0 6px 0;">역사의 주인공이 되어 올바른 결단을 성공적으로 완수했습니다.</p>
+            <div style="display: inline-block; font-size: 0.8rem; font-weight: 700; color: #F59E0B; background: rgba(245,158,11,0.15); border: 1px solid #F59E0B66; padding: 4px 10px; border-radius: 20px;">
+              🎁 도감에 새로운 국보급 유물이 등록되었습니다!
+            </div>
           </div>
 
           <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 16px;">
-            <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-red); margin-bottom: 6px;">
+            <h4 style="font-size: 0.95rem; font-weight: 700; color: ${currentMudThemeColor}; margin-bottom: 6px;">
               <i class="fas fa-feather-alt"></i> [메타인지 회고] 나의 역사적 결단 일기 작성
             </h4>
             <p style="font-size: 0.85rem; color: #554D46; margin-bottom: 10px;">
@@ -2334,8 +2402,11 @@
             <textarea id="student-reflection-text" style="width: 100%; height: 75px; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-sub); font-size: 0.9rem; font-family: inherit; resize: none; margin-bottom: 12px;" placeholder="오늘 탐구 활동을 통해 배운 가장 중요한 역사적 사실과 느낀 점을 적어보세요!"></textarea>
             
             <div style="display: flex; gap: 8px;">
-              <button onclick="copyStudentReflection()" class="btn" style="flex: 1; background-color: var(--accent-red);">
+              <button onclick="copyStudentReflection()" class="btn" style="flex: 1; background-color: ${currentMudThemeColor};">
                 <i class="fas fa-copy"></i> 회고 일기 복사하기 (과제 제출용)
+              </button>
+              <button onclick="openEncyclopediaModal()" class="btn secondary" style="width: auto;">
+                📜 나의 도감 보기
               </button>
               <button onclick="showPortalView()" class="btn secondary" style="width: auto;">
                 🏠 진도표로
