@@ -355,10 +355,10 @@
       <aside style="display: flex; flex-direction: column; gap: 20px;">
         <div class="card">
           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 10px;">
-            <h2 style="font-size: 1.05rem; margin-bottom: 0;">
-              <i class="fas fa-compass" style="color: var(--accent-red);"></i> 전술 인터랙티브 훈련
+            <h2 id="interactive-title" style="font-size: 1.05rem; margin-bottom: 0;">
+              <i class="fas fa-fire-alt" style="color: var(--accent-red);"></i> 구석기 생존 인터랙티브 체험
             </h2>
-            <span id="mn-mode-badge" style="font-size: 0.75rem; background: var(--card-sub); padding: 2px 8px; border-radius: 6px; font-weight: 700; color: var(--accent-teal);">
+            <span id="interactive-mode-badge" style="font-size: 0.75rem; background: var(--card-sub); padding: 2px 8px; border-radius: 6px; font-weight: 700; color: var(--accent-teal);">
               SIMULATOR
             </span>
           </div>
@@ -367,47 +367,38 @@
             <canvas id="mn-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%;"></canvas>
             <div id="mn-canvas-instr" style="position: absolute; top: 8px; left: 8px; right: 8px; background: rgba(249, 246, 240, 0.95); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 8px; font-size: 0.75rem; text-align: center; color: var(--text-main);"></div>
             <div id="mn-canvas-feedback" style="position: absolute; bottom: 8px; left: 8px; right: 8px; background: rgba(138, 59, 41, 0.9); color: #ffffff; border-radius: 6px; padding: 4px; font-size: 0.75rem; text-align: center;">
-              화면을 터치하여 지원하세요!
+              화면을 터치하여 체험을 진행하세요!
             </div>
           </div>
 
           <div id="mn-controls" style="margin-top: 12px;">
-            <div id="mn-widget-map" style="font-size: 0.85rem; background: var(--card-sub); padding: 10px; border-radius: 8px; color: #554D46;">
-              사방이 산으로 둘러싸여 방어하기 좋고 물자 운반이 편리한 지리적 이점을 고려하십시오.
+            <div id="widget-info" style="font-size: 0.85rem; background: var(--card-sub); padding: 10px; border-radius: 8px; color: #554D46;">
+              구석기 사람들은 동굴과 바위 그늘에서 이동 생활을 하며 혹한을 이겨냈습니다.
             </div>
-            <div id="mn-widget-combat" style="display: none; background: var(--card-sub); padding: 10px; border-radius: 8px;">
+            <div id="widget-gauge" style="display: none; background: var(--card-sub); padding: 10px; border-radius: 8px;">
               <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
-                <span>천자총통 위력:</span>
-                <strong id="mn-combat-progress" style="color: var(--accent-red);">0%</strong>
+                <span id="gauge-label">불꽃 마찰열:</span>
+                <strong id="gauge-progress" style="color: var(--accent-red);">0%</strong>
               </div>
               <div style="width: 100%; background: #DDD4C7; height: 8px; border-radius: 4px; overflow: hidden;">
-                <div id="mn-combat-bar" style="width: 0%; height: 100%; background: var(--accent-red); transition: width 0.3s ease;"></div>
+                <div id="gauge-bar" style="width: 0%; height: 100%; background: var(--accent-red); transition: width 0.3s ease;"></div>
               </div>
             </div>
-            <div id="mn-widget-current" style="display: none; background: var(--card-sub); padding: 10px; border-radius: 8px;">
+            <div id="widget-slider" style="display: none; background: var(--card-sub); padding: 10px; border-radius: 8px;">
               <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 6px;">
-                <span>울돌목 조류:</span>
-                <strong id="mn-current-val" style="color: var(--accent-red);">밀물 (왜군 유리)</strong>
+                <span id="slider-label">울돌목 조류:</span>
+                <strong id="slider-val" style="color: var(--accent-red);">밀물 (왜군 유리)</strong>
               </div>
-              <input type="range" id="mn-slider-current" min="0" max="100" value="20" oninput="updateMnCurrent(this.value)" style="width: 100%; accent-color: var(--accent-teal);">
+              <input type="range" id="interactive-slider" min="0" max="100" value="20" oninput="updateSliderInteraction(this.value)" style="width: 100%; accent-color: var(--accent-teal);">
             </div>
           </div>
         </div>
 
         <div class="card">
-          <h2 style="font-size: 1.05rem; margin-bottom: 10px;">
-            <i class="fas fa-map-marked-alt" style="color: var(--accent-red);"></i> 탐구 정벌 연대기
+          <h2 id="roadmap-title" style="font-size: 1.05rem; margin-bottom: 10px;">
+            <i class="fas fa-history" style="color: var(--accent-red);"></i> 구석기 생존 연대기
           </h2>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.8rem;">
-            <div id="mn-node-1" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">1. 출발의 결단</div>
-            <div id="mn-node-1-1" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">1-1. 역사의 IF [실패]</div>
-            <div id="mn-node-2" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">2. 전장의 선택</div>
-            <div id="mn-node-2-1" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">2-1. 지형 착오 [실패]</div>
-            <div id="mn-node-3" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">3. 화포/도구 격돌</div>
-            <div id="mn-node-3-1" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">3-1. 수단 한계 [실패]</div>
-            <div id="mn-node-4" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">4. 조류/환경 대역전</div>
-            <div id="mn-node-5" style="padding: 6px; border-radius: 6px; background: var(--card-sub);">5. 미션 대승 완수</div>
-          </div>
+          <div id="roadmap-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.8rem;"></div>
         </div>
       </aside>
 
@@ -461,6 +452,7 @@
   <script>
     let curriculumData = null;
     let currentUnitId = 1;
+    let currentActiveStoryId = 'story_paleolithic';
 
     document.addEventListener('DOMContentLoaded', async () => {
       await Promise.all([
@@ -581,10 +573,26 @@
     }
 
     function openMyeongnyang() {
+      currentActiveStoryId = 'myeongnyang_sim';
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '2단원 7차시 · 임진왜란';
       document.getElementById('mn-header-title').textContent = 'MUD 명량 해전: 울돌목의 13척';
+      
+      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-ship" style="color: var(--accent-red);"></i> 울돌목 전술 인터랙티브 훈련';
+      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-map-marked-alt" style="color: var(--accent-red);"></i> 난중일기 정벌 연대기';
+      
+      renderRoadmapNodes([
+        { id: "1", label: "1. 신에게는 아직" },
+        { id: "1-1", label: "1-1. 바다 해체 [사망]" },
+        { id: "2", label: "2. 전장의 선택" },
+        { id: "2-1", label: "2-1. 정면승부 [대패]" },
+        { id: "3", label: "3. 울돌목 화포" },
+        { id: "3-1", label: "3-1. 백병전 [대패]" },
+        { id: "4", label: "4. 조류 대역전" },
+        { id: "5", label: "5. 명량대첩 완수" }
+      ]);
+
       setupMyeongnyangStory();
       resizeMnCanvas();
       renderMnStage("1");
@@ -593,15 +601,40 @@
     }
 
     function openPaleolithicMUD() {
+      currentActiveStoryId = 'story_paleolithic';
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 2차시 · 구석기 시대';
       document.getElementById('mn-header-title').textContent = 'MUD 구석기 생존기: 전곡리의 만능 주먹도끼';
+      
+      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-fire-alt" style="color: #A77950;"></i> 구석기 생존 인터랙티브 체험';
+      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #6F4E37;"></i> 구석기 생존 연대기';
+      
+      renderRoadmapNodes([
+        { id: "1", label: "1. 혹한과 이동 결단" },
+        { id: "1-1", label: "1-1. 농경 착오 [실패]" },
+        { id: "2", label: "2. 동굴과 불 피우기" },
+        { id: "2-1", label: "2-1. 토기 착오 [실패]" },
+        { id: "3", label: "3. 뗀석기 주먹도끼" },
+        { id: "3-1", label: "3-1. 자연석 한계 [실패]" },
+        { id: "4", label: "4. 아슐리안의 기적" },
+        { id: "end", label: "5. 구석기 생존 완수" }
+      ]);
+
       setupPaleolithicStory();
       resizeMnCanvas();
       renderMnStage("1");
       animMnLoop();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderRoadmapNodes(nodes) {
+      const grid = document.getElementById('roadmap-grid');
+      let html = '';
+      nodes.forEach(n => {
+        html += `<div id="mn-node-${n.id}" style="padding: 6px; border-radius: 6px; background: var(--card-sub); font-size: 0.8rem;">${n.label}</div>`;
+      });
+      grid.innerHTML = html;
     }
 
     function openQuizHub() {
@@ -628,9 +661,9 @@
     let mnStoryNodes = {};
     let mnCurrentStage = "1";
     let mnVisited = new Set(["1"]);
-    let mnSimMode = 'map-idle';
-    let mnCombatProgress = 0;
-    let mnWhirlpoolAngle = 0;
+    let mnSimMode = 'paleo-intro';
+    let mnGaugeProgress = 0;
+    let mnStoneHits = 0;
     let mnTargetCurrent = 20;
     let mnBullets = [];
     let mnEnemyShips = [];
@@ -647,7 +680,7 @@
             { text: "📜 수군을 전격 해체하고 육상 진영으로 합류한다.", next: "1-1", sound: "fail" },
             { text: "⚔️ \"신에게는 아직 열두 척의 배가 남아있사옵니다!\" 바다를 사수한다.", next: "2", sound: "drum" }
           ],
-          setupSim: "map-idle"
+          setupSim: "mn-map-idle"
         },
         "1-1": {
           location: "패망한 서해 한양포구",
@@ -655,7 +688,7 @@
           character: { name: "왜군 수군 선봉장", subtitle: "보급로를 장악한 왜군", avatar: "👹" },
           text: `<b>❌ [역사의 IF: 제해권 상실 및 한양 함락]</b><br>바다를 포기하자 왜군 함대가 서해를 장악하고 군량을 보급받아 한양까지 진격했습니다. 바다를 버려 대세를 무너뜨린 장수로 기록되고 말았습니다.`,
           choices: [{ text: "🔄 선조 30년 가을로 회귀하여 다시 결단한다.", next: "1", sound: "restart" }],
-          setupSim: "map-idle"
+          setupSim: "mn-map-idle"
         },
         "2": {
           location: "우수영 전술 회의장",
@@ -666,7 +699,7 @@
             { text: "🌊 넓은 개활지인 부산 앞바다에서 정면 대결을 펼친다.", next: "2-1", sound: "fail" },
             { text: "🌀 소용돌이가 치는 좁은 협로 '울돌목'으로 적을 유인한다.", next: "3", sound: "gong" }
           ],
-          setupSim: "map-choose"
+          setupSim: "mn-map-choose"
         },
         "2-1": {
           location: "포위 당한 부산 앞바다",
@@ -674,7 +707,7 @@
           character: { name: "왜선 함대", subtitle: "사방 포위 전술", avatar: "🎏" },
           text: `<b>❌ [역사의 IF: 수적 우세를 도외시한 전술 실패]</b><br>넓은 바다에서 133척의 왜선에 사방으로 포위당해 백병전에 무력하게 제압당했습니다. 좁은 길목 지형을 활용해야 합니다!`,
           choices: [{ text: "🔄 후퇴하여 전장을 울돌목으로 재지정한다.", next: "2", sound: "restart" }],
-          setupSim: "map-choose"
+          setupSim: "mn-map-choose"
         },
         "3": {
           location: "명량 해협 울돌목",
@@ -685,7 +718,7 @@
             { text: "⚔️ 무사들을 앞세워 돌격 백병전을 치른다.", next: "3-1", sound: "fail" },
             { text: "💣 판옥선의 선회력을 살려 천자총통 화포를 집중 일사 포격한다.", next: "4", sound: "cannon" }
           ],
-          setupSim: "combat-active"
+          setupSim: "mn-combat-active"
         },
         "3-1": {
           location: "피로 물든 판옥선 갑판",
@@ -693,7 +726,7 @@
           character: { name: "왜군 조총병", subtitle: "접근전 전문 무사", avatar: "⚔️" },
           text: `<b>❌ [역사의 IF: 적의 강점 수용 실패]</b><br>접근전 백병전에서 조선 군사들이 큰 피해를 입었습니다. 판옥선의 튼튼한 장갑과 압도적인 화포 사거리로 승부해야 합니다!`,
           choices: [{ text: "🔄 화포 포술로 전술을 변경한다.", next: "3", sound: "restart" }],
-          setupSim: "combat-active"
+          setupSim: "mn-combat-active"
         },
         "4": {
           location: "소용돌이치는 명량 해수면",
@@ -704,7 +737,7 @@
             { text: "✊ 무리한 추격을 멈추고 현 위치에서 철수한다.", next: "4-1", sound: "fail" },
             { text: "🔥 \"전 함대 총공격! 도망치는 적의 후미를 맹렬히 포격하라!\"", next: "5", sound: "victory" }
           ],
-          setupSim: "current-switch"
+          setupSim: "mn-current-switch"
         },
         "4-1": {
           location: "도주하는 왜선의 잔상",
@@ -712,7 +745,7 @@
           character: { name: "부장들", subtitle: "잔존 적군 염려", avatar: "🛡️" },
           text: `<b>⚠️ [역사의 IF: 적의 잔존 전력 온전 보존]</b><br>적이 남해로 무사히 후퇴하여 복수전을 꾀하고 있습니다. 완전히 전의를 상실하도록 맹공을 퍼부어야 합니다.`,
           choices: [{ text: "🔄 조류 역전 시점으로 돌아가 총공격을 명한다.", next: "4", sound: "restart" }],
-          setupSim: "current-switch"
+          setupSim: "mn-current-switch"
         },
         "5": {
           location: "명량 해역 울돌목",
@@ -720,7 +753,7 @@
           character: { name: "충무공 이순신", subtitle: "조선 수군 통제사", avatar: "⚓" },
           text: `<b>"필사즉생 필생즉사(必死則生 必生則死)"</b><br><br>기적의 명량대첩 대승을 완수했습니다! 왜군의 서해 진출을 원천 봉쇄하여 조선을 지켜냈습니다!`,
           choices: [{ text: "🎉 승전 보고서를 올리고 완료합니다.", next: "end", sound: "victory" }],
-          setupSim: "map-idle"
+          setupSim: "mn-map-idle"
         }
       };
     }
@@ -736,7 +769,7 @@
             { text: "🏠 \"여기 땅을 파서 씨앗을 뿌리고 농사를 짓자!\"", next: "1-1", sound: "fail" },
             { text: "🎒 \"사냥감과 동굴을 찾아 강을 따라 이동 생활을 시작하자!\"", next: "2", sound: "click" }
           ],
-          setupSim: "map-idle"
+          setupSim: "paleo-intro"
         },
         "1-1": {
           location: "눈보라 치는 들판",
@@ -744,7 +777,7 @@
           character: { name: "시간 안내원 '타미'", subtitle: "시대착오적 농경 오류", avatar: "🤖" },
           text: `<b>❌ [역사의 IF: 시대착오적 농경 실패]</b><br>구석기 시대에는 아직 농사짓는 법과 토기가 없었습니다! 한곳에 가만히 머물러 있다가 굶주림에 부족이 위기에 빠졌습니다.<br><br>구석기 사람들은 열매를 채집하고 동물을 쫓아 <b>동굴이나 막집을 지으며 끊임없이 이동</b>해야만 생존할 수 있었습니다!`,
           choices: [{ text: "🔄 시간을 되돌려 이동 생활을 결단한다.", next: "1", sound: "restart" }],
-          setupSim: "map-idle"
+          setupSim: "paleo-intro"
         },
         "2": {
           location: "전곡리 바위 그늘 동굴",
@@ -755,7 +788,7 @@
             { text: "🔥 \"나뭇가지를 마찰시켜 불을 피우고 동굴 안을 밝히자!\"", next: "3", sound: "cannon" },
             { text: "🧱 \"진흙을 빚어 빗살무늬 토기부터 만들자.\"", next: "2-1", sound: "fail" }
           ],
-          setupSim: "combat-active"
+          setupSim: "paleo-fire"
         },
         "2-1": {
           location: "부서진 진흙 앞",
@@ -763,7 +796,7 @@
           character: { name: "시간 안내원 '타미'", subtitle: "신석기 도구 혼선", avatar: "🤖" },
           text: `<b>❌ [역사의 IF: 신석기 도구 혼선]</b><br>그릇(토기)을 빚는 것은 농경이 시작된 <b>신석기 시대</b>의 기술입니다! 지금 당장 불을 피워 체온을 유지하고 맹수를 쫓아야 합니다.`,
           choices: [{ text: "🔄 불을 피우는 지혜를 선택한다.", next: "2", sound: "restart" }],
-          setupSim: "combat-active"
+          setupSim: "paleo-fire"
         },
         "3": {
           location: "사냥 성공 직후",
@@ -774,7 +807,7 @@
             { text: "🪨 \"그냥 둥글둥글한 강가의 자연석을 그대로 던지자.\"", next: "3-1", sound: "fail" },
             { text: "⛏️ \"돌을 세게 때려 깨뜨려, 날카로운 날을 세운 '주먹도끼'를 만들자!\"", next: "4", sound: "victory" }
           ],
-          setupSim: "current-switch"
+          setupSim: "paleo-stone"
         },
         "3-1": {
           location: "질긴 가죽 앞",
@@ -782,7 +815,7 @@
           character: { name: "시간 안내원 '타미'", subtitle: "뭉툭한 자연석 한계", avatar: "🤖" },
           text: `<b>❌ [역사의 IF: 뭉툭한 자연석의 한계]</b><br>둥근 자연석으로는 질긴 가죽을 자르거나 나무를 다듬을 수 없습니다! 돌을 깨뜨려 날카로운 모서리를 만드는 <b>뗀석기 기술</b>이야말로 인류 문명의 위대한 첫걸음입니다.`,
           choices: [{ text: "🔄 돌을 깨뜨려 주먹도끼를 제작한다.", next: "3", sound: "restart" }],
-          setupSim: "current-switch"
+          setupSim: "paleo-stone"
         },
         "4": {
           location: "세계 고고학 발굴 현장",
@@ -790,7 +823,7 @@
           character: { name: "역사학자", subtitle: "전곡리 유적 발굴단", avatar: "📜" },
           text: `<b>"동아시아 구석기의 위대한 기적!"</b><br><br>당신이 만든 주먹도끼는 양면에 정교한 날을 세운 <b>아슐리안형 주먹도끼</b>입니다!<br><br>이 발견으로 서양 학자(모비우스)의 편견을 깨고, 우리 한반도 전곡리가 세계적인 구석기 문화의 중심지였음이 증명되었습니다!`,
           choices: [{ text: "🎉 구석기 생존 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
-          setupSim: "map-idle"
+          setupSim: "paleo-intro"
         }
       };
     }
@@ -821,27 +854,60 @@
 
       if (stage.setupSim) {
         mnSimMode = stage.setupSim;
-        document.getElementById('mn-widget-map').style.display = 'none';
-        document.getElementById('mn-widget-combat').style.display = 'none';
-        document.getElementById('mn-widget-current').style.display = 'none';
+        document.getElementById('widget-info').style.display = 'none';
+        document.getElementById('widget-gauge').style.display = 'none';
+        document.getElementById('widget-slider').style.display = 'none';
 
         const instr = document.getElementById('mn-canvas-instr');
+        const feedback = document.getElementById('mn-canvas-feedback');
 
-        if (mnSimMode.startsWith('map')) {
-          document.getElementById('mn-widget-map').style.display = 'block';
-          instr.innerHTML = mnSimMode === 'map-idle' ? "🗺️ <b>13척 대 133척의 지형 설계 분석</b>" : "🗺️ <b>울돌목 협로 유인 전술</b>";
-        } else if (mnSimMode === 'combat-active') {
-          document.getElementById('mn-widget-combat').style.display = 'block';
+        if (mnSimMode === 'paleo-intro') {
+          document.getElementById('widget-info').style.display = 'block';
+          document.getElementById('widget-info').innerHTML = "구석기 사람들은 한탄강변 바위 그늘과 막집을 지으며 계절과 사냥감을 따라 이동했습니다.";
+          instr.innerHTML = "🏕️ <b>70만 년 전 한탄강 구석기 자연환경 탐색</b>";
+          feedback.textContent = "동굴과 강가를 확인하세요!";
+        } else if (mnSimMode === 'paleo-fire') {
+          document.getElementById('widget-gauge').style.display = 'block';
+          document.getElementById('gauge-label').textContent = "불꽃 마찰열:";
+          mnGaugeProgress = 0;
+          document.getElementById('gauge-progress').textContent = "0%";
+          document.getElementById('gauge-bar').style.width = "0%";
+          instr.innerHTML = "🔥 <b>동굴 화면을 연타(터치)하여 불을 피우세요!</b>";
+          feedback.textContent = "화면을 빠르게 탭하여 마찰열을 올리세요!";
+        } else if (mnSimMode === 'paleo-stone') {
+          document.getElementById('widget-gauge').style.display = 'block';
+          document.getElementById('gauge-label').textContent = "주먹도끼 완성도:";
+          mnStoneHits = 0;
+          document.getElementById('gauge-progress').textContent = "0%";
+          document.getElementById('gauge-bar').style.width = "0%";
+          instr.innerHTML = "⛏️ <b>돌을 터치하여 양날을 정교하게 떼어내세요!</b>";
+          feedback.textContent = "돌을 여러 번 내리쳐 날을 세우세요!";
+        } else if (mnSimMode === 'mn-map-idle') {
+          document.getElementById('widget-info').style.display = 'block';
+          document.getElementById('widget-info').innerHTML = "13척의 판옥선으로 133척의 대함대를 격파할 최적의 지형을 탐색하십시오.";
+          instr.innerHTML = "🗺️ <b>13척 대 133척의 지형 설계 분석</b>";
+          feedback.textContent = "지형을 파악하고 결단을 내리세요!";
+        } else if (mnSimMode === 'mn-map-choose') {
+          document.getElementById('widget-info').style.display = 'block';
+          document.getElementById('widget-info').innerHTML = "소용돌이가 치는 좁은 협로 '울돌목'으로 유인하십시오.";
+          instr.innerHTML = "🗺️ <b>울돌목 협로 유인 전술 시뮬레이션</b>";
+          feedback.textContent = "협로 위치를 확인하세요!";
+        } else if (mnSimMode === 'mn-combat-active') {
+          document.getElementById('widget-gauge').style.display = 'block';
+          document.getElementById('gauge-label').textContent = "천자총통 위력:";
+          mnGaugeProgress = 0;
+          document.getElementById('gauge-progress').textContent = "0%";
+          document.getElementById('gauge-bar').style.width = "0%";
           instr.innerHTML = "🎯 <b>화면의 왜선을 직접 터치하여 화포 격발!</b>";
-          mnCombatProgress = 0;
-          document.getElementById('mn-combat-progress').textContent = "0%";
-          document.getElementById('mn-combat-bar').style.width = "0%";
+          feedback.textContent = "화면의 왜선을 향해 터치하세요!";
           spawnMnEnemyShips(4);
-        } else if (mnSimMode === 'current-switch') {
-          document.getElementById('mn-widget-current').style.display = 'block';
+        } else if (mnSimMode === 'mn-current-switch') {
+          document.getElementById('widget-slider').style.display = 'block';
+          document.getElementById('slider-label').textContent = "울돌목 조류:";
           instr.innerHTML = "🎯 <b>슬라이더를 우측으로 밀어 썰물 역전 유도!</b>";
-          document.getElementById('mn-slider-current').value = 20;
-          updateMnCurrent(20);
+          feedback.textContent = "슬라이더를 조작해 역전하세요!";
+          document.getElementById('interactive-slider').value = 20;
+          updateSliderInteraction(20);
         }
       }
 
@@ -899,31 +965,44 @@
       }
     }
 
-    mnCanvas.addEventListener('mousedown', (e) => fireCannonAt(e.clientX, e.clientY));
+    mnCanvas.addEventListener('mousedown', (e) => handleCanvasTouch(e.clientX, e.clientY));
     mnCanvas.addEventListener('touchstart', (e) => {
       e.preventDefault();
-      fireCannonAt(e.touches[0].clientX, e.touches[0].clientY);
+      handleCanvasTouch(e.touches[0].clientX, e.touches[0].clientY);
     }, { passive: false });
 
-    function fireCannonAt(clientX, clientY) {
-      if (mnSimMode !== 'combat-active') return;
+    function handleCanvasTouch(clientX, clientY) {
       const rect = mnCanvas.getBoundingClientRect();
       const x = clientX - rect.left;
       const y = clientY - rect.top;
 
-      mnBullets.push({
-        x: mnPlayerShip.x + 10,
-        y: mnPlayerShip.y,
-        vx: (x - (mnPlayerShip.x + 10)) * 0.09,
-        vy: (y - mnPlayerShip.y) * 0.09,
-        active: true
-      });
-      if (window.sounds) window.sounds.playClick();
+      if (mnSimMode === 'paleo-fire') {
+        mnGaugeProgress = Math.min(100, mnGaugeProgress + 20);
+        document.getElementById('gauge-progress').textContent = `${mnGaugeProgress}%`;
+        document.getElementById('gauge-bar').style.width = `${mnGaugeProgress}%`;
+        if (window.sounds) window.sounds.playClick();
+        if (mnGaugeProgress >= 100 && window.sounds) window.sounds.playCorrect();
+      } else if (mnSimMode === 'paleo-stone') {
+        mnStoneHits = Math.min(100, mnStoneHits + 25);
+        document.getElementById('gauge-progress').textContent = `${mnStoneHits}%`;
+        document.getElementById('gauge-bar').style.width = `${mnStoneHits}%`;
+        if (window.sounds) window.sounds.playClick();
+        if (mnStoneHits >= 100 && window.sounds) window.sounds.playCorrect();
+      } else if (mnSimMode === 'mn-combat-active') {
+        mnBullets.push({
+          x: mnPlayerShip.x + 10,
+          y: mnPlayerShip.y,
+          vx: (x - (mnPlayerShip.x + 10)) * 0.09,
+          vy: (y - mnPlayerShip.y) * 0.09,
+          active: true
+        });
+        if (window.sounds) window.sounds.playClick();
+      }
     }
 
-    function updateMnCurrent(val) {
+    function updateSliderInteraction(val) {
       mnTargetCurrent = parseInt(val);
-      const txt = document.getElementById('mn-current-val');
+      const txt = document.getElementById('slider-val');
       if (mnTargetCurrent < 40) {
         txt.textContent = "밀물 (왜군 유리)";
         txt.style.color = 'var(--accent-red)';
@@ -938,23 +1017,28 @@
     }
 
     function updateMnRoadmap() {
-      const nodes = ["1", "1-1", "2", "2-1", "3", "3-1", "4", "5"];
-      nodes.forEach(id => {
-        const el = document.getElementById(`mn-node-${id}`);
-        if (!el) return;
-        if (mnCurrentStage === id) {
-          el.style.border = '1.5px solid var(--accent-red)';
-          el.style.backgroundColor = 'var(--card-sub)';
-          el.style.color = 'var(--accent-red)';
-          el.style.fontWeight = 'bold';
-        } else if (mnVisited.has(id)) {
-          el.style.border = '1px solid var(--border-color)';
-          el.style.backgroundColor = '#FFFFFF';
-          el.style.color = 'var(--text-main)';
-        } else {
-          el.style.border = 'none';
-          el.style.backgroundColor = 'var(--card-sub)';
-          el.style.color = '#A39B92';
+      const stageId = mnCurrentStage;
+      document.querySelectorAll('#roadmap-grid > div').forEach(el => {
+        el.style.border = 'none';
+        el.style.backgroundColor = 'var(--card-sub)';
+        el.style.color = '#776F66';
+        el.style.fontWeight = 'normal';
+      });
+
+      const currentEl = document.getElementById(`mn-node-${stageId}`);
+      if (currentEl) {
+        currentEl.style.border = '1.5px solid var(--accent-red)';
+        currentEl.style.backgroundColor = '#FFFFFF';
+        currentEl.style.color = 'var(--accent-red)';
+        currentEl.style.fontWeight = 'bold';
+      }
+
+      mnVisited.forEach(id => {
+        const visitedEl = document.getElementById(`mn-node-${id}`);
+        if (visitedEl && id !== stageId) {
+          visitedEl.style.border = '1px solid var(--border-color)';
+          visitedEl.style.backgroundColor = '#FFFFFF';
+          visitedEl.style.color = 'var(--text-main)';
         }
       });
     }
@@ -963,23 +1047,65 @@
       const w = mnCanvas.width / window.devicePixelRatio;
       const h = mnCanvas.height / window.devicePixelRatio;
       mnCtx.clearRect(0, 0, w, h);
-      mnWhirlpoolAngle += 0.02;
 
-      if (mnSimMode === 'map-idle') {
+      if (mnSimMode === 'paleo-intro') {
+        // 구석기 자연환경 (동굴 & 강가)
+        mnCtx.fillStyle = '#1e1b18';
+        mnCtx.fillRect(0, 0, w, h);
+        mnCtx.fillStyle = '#6F4E37';
+        mnCtx.beginPath();
+        mnCtx.arc(w/2, h/2 + 20, 70, Math.PI, 0);
+        mnCtx.fill();
+        mnCtx.fillStyle = '#A77950';
+        mnCtx.font = 'bold 13px "Pretendard"';
+        mnCtx.fillText("🏕️ 한탄강변 전곡리 바위그늘", w/2 - 80, h - 25);
+      } else if (mnSimMode === 'paleo-fire') {
+        // 불 피우기 인터랙션
+        mnCtx.fillStyle = '#110e0c';
+        mnCtx.fillRect(0, 0, w, h);
+        // 장작
+        mnCtx.fillStyle = '#4a2f1b';
+        mnCtx.fillRect(w/2 - 30, h/2 + 25, 60, 10);
+        // 불꽃 (게이지에 따라 커짐)
+        const flameSize = 10 + (mnGaugeProgress * 0.4);
+        mnCtx.fillStyle = '#ea580c';
+        mnCtx.beginPath();
+        mnCtx.arc(w/2, h/2 + 20, flameSize, 0, Math.PI * 2);
+        mnCtx.fill();
+        mnCtx.fillStyle = '#facc15';
+        mnCtx.beginPath();
+        mnCtx.arc(w/2, h/2 + 20, flameSize * 0.6, 0, Math.PI * 2);
+        mnCtx.fill();
+      } else if (mnSimMode === 'paleo-stone') {
+        // 뗀석기 주먹도끼 가공 시뮬레이션
+        mnCtx.fillStyle = '#161412';
+        mnCtx.fillRect(0, 0, w, h);
+        // 모난 원석 ➔ 뗀석기 날
+        mnCtx.fillStyle = '#6F4E37';
+        mnCtx.strokeStyle = '#facc15';
+        mnCtx.lineWidth = 2;
+        mnCtx.beginPath();
+        mnCtx.moveTo(w/2, h/2 - 45);
+        mnCtx.lineTo(w/2 + 35, h/2 + 35);
+        mnCtx.lineTo(w/2 - 35, h/2 + 35);
+        mnCtx.closePath();
+        mnCtx.fill();
+        if (mnStoneHits > 0) mnCtx.stroke();
+      } else if (mnSimMode === 'mn-map-idle') {
         mnCtx.fillStyle = '#0c1222';
         mnCtx.fillRect(0, 0, w, h);
         mnCtx.fillStyle = '#ef4444';
-        mnCtx.font = 'bold 14px "Noto Serif KR"';
+        mnCtx.font = 'bold 14px "Pretendard"';
         mnCtx.fillText("조선 판옥선 13척 결집", 20, h/2);
-      } else if (mnSimMode === 'map-choose') {
+      } else if (mnSimMode === 'mn-map-choose') {
         mnCtx.fillStyle = '#020617';
         mnCtx.fillRect(0, 0, w, h);
         mnCtx.strokeStyle = '#38bdf8';
         mnCtx.strokeRect(w/2 - 40, 20, 80, h - 40);
         mnCtx.fillStyle = '#38bdf8';
-        mnCtx.font = '11px "Noto Sans KR"';
+        mnCtx.font = '11px "Pretendard"';
         mnCtx.fillText("울돌목 협로", w/2 - 25, h/2);
-      } else if (mnSimMode === 'combat-active') {
+      } else if (mnSimMode === 'mn-combat-active') {
         mnCtx.fillStyle = '#070f2b';
         mnCtx.fillRect(0, 0, w, h);
 
@@ -1007,13 +1133,13 @@
             if (Math.hypot(b.x - s.x, b.y - s.y) < s.size) {
               s.alive = false;
               b.active = false;
-              mnCombatProgress = Math.min(100, mnCombatProgress + 25);
-              document.getElementById('mn-combat-progress').textContent = `${mnCombatProgress}%`;
-              document.getElementById('mn-combat-bar').style.width = `${mnCombatProgress}%`;
+              mnGaugeProgress = Math.min(100, mnGaugeProgress + 25);
+              document.getElementById('gauge-progress').textContent = `${mnGaugeProgress}%`;
+              document.getElementById('gauge-bar').style.width = `${mnGaugeProgress}%`;
             }
           });
         });
-      } else if (mnSimMode === 'current-switch') {
+      } else if (mnSimMode === 'mn-current-switch') {
         mnCtx.fillStyle = '#0c1222';
         mnCtx.fillRect(0, 0, w, h);
         const isEbb = mnTargetCurrent > 50;
@@ -1040,12 +1166,14 @@
       const storyBox = document.getElementById('mn-story-content');
       const grid = document.getElementById('mn-choices-grid');
       
+      const isPaleo = currentActiveStoryId === 'story_paleolithic';
+
       storyBox.innerHTML = `
         <div style="display: flex; flex-direction: column; gap: 14px;">
           <div class="mission-box" style="text-align: center;">
             <span style="font-size: 2.5rem;">👑</span>
-            <h3 style="font-size: 1.3rem; color: var(--accent-red); margin: 8px 0 4px;" class="serif-font">역사적 탐구 미션 완수!</h3>
-            <p style="font-size: 0.9rem; color: var(--text-main);">역사의 주인공이 되어 올바른 결단을 성공적으로 완수했습니다.</p>
+            <h3 style="font-size: 1.3rem; color: var(--accent-red); margin: 8px 0 4px;" class="serif-font">${isPaleo ? '구석기 생존 미션 대성공!' : '역사적 탐구 미션 완수!'}</h3>
+            <p style="font-size: 0.9rem; color: var(--text-main);">${isPaleo ? '동굴과 불의 지혜, 전곡리 아슐리안 주먹도끼로 인류의 위대한 첫걸음을 완성했습니다.' : '역사의 주인공이 되어 올바른 결단을 성공적으로 완수했습니다.'}</p>
           </div>
 
           <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 16px;">
@@ -1055,11 +1183,11 @@
             <p style="font-size: 0.85rem; color: #554D46; margin-bottom: 10px;">
               오늘 내린 결정 중 <b>가장 고민되었던 순간</b>이나 <b>가장 중요했던 지혜</b>를 한 줄로 기록해 보세요:
             </p>
-            <textarea id="student-reflection-text" style="width: 100%; height: 75px; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-sub); font-size: 0.9rem; font-family: inherit; resize: none; margin-bottom: 12px;" placeholder="예: 바다를 지키기로 결심했을 때 두려웠지만, 울돌목의 좁은 지형과 썰물 역전 덕분에 대승할 수 있었다!"></textarea>
+            <textarea id="student-reflection-text" style="width: 100%; height: 75px; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-sub); font-size: 0.9rem; font-family: inherit; resize: none; margin-bottom: 12px;" placeholder="${isPaleo ? '예: 구석기 시대에는 농사나 토기 대신 이동 생활과 불, 뗀석기 주먹도끼가 생존의 핵심임을 깨달았다!' : '예: 선조의 명령 대신 바다를 지키기로 결심하고 울돌목 조류 역전으로 승리했다!'}"></textarea>
             
             <div style="display: flex; gap: 8px;">
               <button onclick="copyStudentReflection()" class="btn" style="flex: 1; background-color: var(--accent-red);">
-                <i class="fas fa-copy"></i> 장계 복사하기 (과제 제출용)
+                <i class="fas fa-copy"></i> 회고 일기 복사하기 (과제 제출용)
               </button>
               <button onclick="showPortalView()" class="btn secondary" style="width: auto;">
                 🏠 진도표로
@@ -1074,12 +1202,12 @@
     function copyStudentReflection() {
       const text = document.getElementById('student-reflection-text').value.trim();
       if (!text) {
-        alert('장계(회고) 내용을 입력해 주세요!');
+        alert('회고 일기(장계) 내용을 입력해 주세요!');
         return;
       }
-      const fullText = `[초등 5학년 역사 탐구 MUD 승전 장계]\n\n나의 역사적 결단 회고:\n${text}`;
+      const fullText = `[초등 5학년 역사 탐구 MUD]\n\n나의 역사적 결단 회고:\n${text}`;
       navigator.clipboard.writeText(fullText).then(() => {
-        alert('📋 장계가 클립보드에 복사되었습니다! 구글 클래스룸이나 패들렛에 붙여넣어 제출하세요.');
+        alert('📋 회고 일기가 클립보드에 복사되었습니다! 구글 클래스룸이나 패들렛에 붙여넣어 제출하세요.');
       }).catch(() => {
         alert('복사되었습니다: ' + text);
       });
