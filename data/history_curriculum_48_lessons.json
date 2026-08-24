@@ -1,0 +1,508 @@
+{
+  "curriculum": "초등학교 5학년 2학기 사회 (역사)",
+  "totalUnits": 3,
+  "totalLessons": 48,
+  "units": [
+    {
+      "unitId": 1,
+      "unitTitle": "1단원. 옛 사람들의 삶과 문화",
+      "lessonCount": 20,
+      "themeColor": "#2D6A4F",
+      "accentColor": "#C19A6B",
+      "sections": [
+        {
+          "sectionId": "1-1",
+          "sectionTitle": "1. 선사 시대와 고조선 사람들의 생활 모습",
+          "lessons": [
+            {
+              "lessonNumber": 1,
+              "lessonDisplay": "1차시",
+              "title": "단원 도입",
+              "pages": "사6~11p",
+              "keyConcepts": "선사 시대의 의미와 유물·유적의 가치",
+              "mudPoint": null,
+              "color": { "hex": "#8D7B68", "name": "타임 샌드", "description": "역사 탐구의 시작, 고대 지층" }
+            },
+            {
+              "lessonNumber": 2,
+              "lessonDisplay": "2차시",
+              "title": "구석기 시대 사람들의 생활 모습",
+              "pages": "사12~14p",
+              "keyConcepts": "뗀석기(주먹도끼), 동굴·막집, 이동 생활",
+              "mudPoint": "구석기 MUD",
+              "color": { "hex": "#6F4E37", "name": "스톤 브라운", "description": "뗀석기 주먹도끼, 동굴" }
+            },
+            {
+              "lessonNumber": 3,
+              "lessonDisplay": "3차시",
+              "title": "신석기 시대 사람들의 생활 모습",
+              "pages": "사15~17p",
+              "keyConcepts": "농경의 시작, 빗살무늬 토기, 움집, 정착 생활",
+              "mudPoint": null,
+              "color": { "hex": "#A77950", "name": "토기 테라코타", "description": "빗살무늬 토기, 흙집" }
+            },
+            {
+              "lessonNumber": 4,
+              "lessonDisplay": "4~5차시 (1/2)",
+              "title": "청동기 시대 사람들의 생활 모습 (1)",
+              "pages": "사18~23p",
+              "keyConcepts": "벼농사, 사유 재산과 계급 발생, 고인돌",
+              "mudPoint": null,
+              "color": { "hex": "#B48448", "name": "비파 청동황토", "description": "벼농사, 청동기 문화" }
+            },
+            {
+              "lessonNumber": 5,
+              "lessonDisplay": "4~5차시 (2/2)",
+              "title": "청동기 시대 사람들의 생활 모습 (2)",
+              "pages": "사18~23p",
+              "keyConcepts": "비파형 동검, 거친무늬 거울, 청동기 무기 및 제사 도구",
+              "mudPoint": null,
+              "color": { "hex": "#B48448", "name": "비파 청동황토", "description": "비파형 동검, 청동기 계급 사회" }
+            },
+            {
+              "lessonNumber": 6,
+              "lessonDisplay": "6차시",
+              "title": "고조선 사람들의 생활 모습",
+              "pages": "사24~27p",
+              "keyConcepts": "단군왕검, 홍익인간, 8조법",
+              "mudPoint": "고조선 MUD",
+              "color": { "hex": "#C07C44", "name": "단군 앰버", "description": "청동기 바탕의 최초 국가" }
+            }
+          ]
+        },
+        {
+          "sectionId": "1-2",
+          "sectionTitle": "2. 고대 사람들의 생각과 생활 모습",
+          "lessons": [
+            {
+              "lessonNumber": 7,
+              "lessonDisplay": "7~8차시 (1/2)",
+              "title": "삼국과 가야의 성립과 발전 과정 (1)",
+              "pages": "사28~33p",
+              "keyConcepts": "고구려(광개토대왕·장수왕)의 대외 팽창과 전성기",
+              "mudPoint": null,
+              "color": { "hex": "#5F7A61", "name": "고대 올리브", "description": "광개토대왕비, 삼국 각축" }
+            },
+            {
+              "lessonNumber": 8,
+              "lessonDisplay": "7~8차시 (2/2)",
+              "title": "삼국과 가야의 성립과 발전 과정 (2)",
+              "pages": "사28~33p",
+              "keyConcepts": "백제(근초고왕), 신라(진흥왕) 전성기 및 가야 연맹",
+              "mudPoint": null,
+              "color": { "hex": "#5F7A61", "name": "고대 올리브", "description": "백제·신라·가야의 발전" }
+            },
+            {
+              "lessonNumber": 9,
+              "lessonDisplay": "9~10차시 (1/2)",
+              "title": "삼국과 가야 사람들의 생활 모습 (1)",
+              "pages": "사34~39p",
+              "keyConcepts": "백제 금동대향로, 신라 첨성대와 불국사",
+              "mudPoint": "삼국 MUD",
+              "color": { "hex": "#4D7C8A", "name": "금동 청록", "description": "백제 금동대향로, 찬란한 고대 예술" }
+            },
+            {
+              "lessonNumber": 10,
+              "lessonDisplay": "9~10차시 (2/2)",
+              "title": "삼국과 가야 사람들의 생활 모습 (2)",
+              "pages": "사34~39p",
+              "keyConcepts": "고분 벽화, 삼국의 의식주와 불교 신앙",
+              "mudPoint": null,
+              "color": { "hex": "#4D7C8A", "name": "금동 청록", "description": "고대인들의 신앙과 예술" }
+            },
+            {
+              "lessonNumber": 11,
+              "lessonDisplay": "11차시",
+              "title": "통일신라의 발전과 사람들의 생활",
+              "pages": "사40~42p",
+              "keyConcepts": "삼국 통일, 석굴암, 해상왕 장보고와 청해진",
+              "mudPoint": null,
+              "color": { "hex": "#3D7280", "name": "청해 딥오션", "description": "장보고 청해진, 해상 무역" }
+            },
+            {
+              "lessonNumber": 12,
+              "lessonDisplay": "12차시",
+              "title": "발해의 발전과 사람들의 생활 모습",
+              "pages": "사43~45p",
+              "keyConcepts": "대조영의 발해 건국, 고구려 계승 의식, 해동성국",
+              "mudPoint": null,
+              "color": { "hex": "#35626F", "name": "해동성국 틸", "description": "고구려 계승, 북방의 기상" }
+            }
+          ]
+        },
+        {
+          "sectionId": "1-3",
+          "sectionTitle": "3. 고려 사회와 사람들의 생활 모습",
+          "lessons": [
+            {
+              "lessonNumber": 13,
+              "lessonDisplay": "13차시",
+              "title": "고려의 건국 과정",
+              "pages": "사46~48p",
+              "keyConcepts": "왕건의 후삼국 통일, 훈요 10조, 민족 재통합",
+              "mudPoint": null,
+              "color": { "hex": "#3A7D69", "name": "태조 그린", "description": "민족 재통합, 고려 개경" }
+            },
+            {
+              "lessonNumber": 14,
+              "lessonDisplay": "14차시",
+              "title": "고려 사회의 모습",
+              "pages": "사49~52p",
+              "keyConcepts": "신분 제도, 국제 무역항 벽란도(코리아의 유래)",
+              "mudPoint": null,
+              "color": { "hex": "#32746D", "name": "벽란도 에메랄드", "description": "국제 무역항 코리아" }
+            },
+            {
+              "lessonNumber": 15,
+              "lessonDisplay": "15~16차시 (1/2)",
+              "title": "고려와 주변 나라들의 관계 (1)",
+              "pages": "사53~57p",
+              "keyConcepts": "서희의 외교 담판(강동 6주), 강감찬의 귀주대첩",
+              "mudPoint": null,
+              "color": { "hex": "#2C6B64", "name": "호국 딥그린", "description": "서희 담판, 귀주대첩" }
+            },
+            {
+              "lessonNumber": 16,
+              "lessonDisplay": "15~16차시 (2/2)",
+              "title": "고려와 주변 나라들의 관계 (2)",
+              "pages": "사53~57p",
+              "keyConcepts": "몽골 침략과 삼별초의 대몽 항쟁",
+              "mudPoint": null,
+              "color": { "hex": "#2C6B64", "name": "호국 딥그린", "description": "삼별초 항쟁과 자주 의식" }
+            },
+            {
+              "lessonNumber": 17,
+              "lessonDisplay": "17~18차시 (1/2)",
+              "title": "고려의 문화와 사람들의 생활 (1)",
+              "pages": "사58~63p",
+              "keyConcepts": "고려청자의 비색과 상감 기법",
+              "mudPoint": null,
+              "color": { "hex": "#2A9D8F", "name": "청자 비색", "description": "고려청자 비색" }
+            },
+            {
+              "lessonNumber": 18,
+              "lessonDisplay": "17~18차시 (2/2)",
+              "title": "고려의 문화와 사람들의 생활 (2)",
+              "pages": "사58~63p",
+              "keyConcepts": "직지심체요절, 팔만대장경과 인쇄술 발전",
+              "mudPoint": null,
+              "color": { "hex": "#2A9D8F", "name": "청자 비색", "description": "금속활자와 팔만대장경" }
+            },
+            {
+              "lessonNumber": 19,
+              "lessonDisplay": "19차시",
+              "title": "생각을 펼쳐요",
+              "pages": "사64~65p",
+              "keyConcepts": "고려 시대 인물 가상 인터뷰 및 문화유산 탐구",
+              "mudPoint": null,
+              "color": { "hex": "#3B979B", "name": "탐구 아쿠아", "description": "가상 인터뷰, 문화유산 탐구" }
+            },
+            {
+              "lessonNumber": 20,
+              "lessonDisplay": "20차시",
+              "title": "생각 그물 완성 / 교실 놀이",
+              "pages": "사66~69p",
+              "keyConcepts": "1단원 총정리 골든벨 Quiz",
+              "mudPoint": "1단원 골든벨",
+              "color": { "hex": "#E9C46A", "name": "골든벨 옐로", "description": "성취감과 지식 완결" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": 2,
+      "unitTitle": "2단원. 달라지는 시대, 변화하는 생활 모습",
+      "lessonCount": 14,
+      "themeColor": "#8A3B29",
+      "accentColor": "#D97706",
+      "sections": [
+        {
+          "sectionId": "2-1",
+          "sectionTitle": "1. 유교 문화의 영향으로 달라진 조선 사회",
+          "lessons": [
+            {
+              "lessonNumber": 21,
+              "lessonDisplay": "1차시",
+              "title": "단원 도입",
+              "pages": "사70~75p",
+              "keyConcepts": "조선의 건국 배경과 유교 사상의 도입",
+              "mudPoint": null,
+              "color": { "hex": "#9E4734", "name": "조선 개국 버건디", "description": "유교 사상의 도입" }
+            },
+            {
+              "lessonNumber": 22,
+              "lessonDisplay": "2~3차시 (1/2)",
+              "title": "유교를 바탕으로 건국한 조선 (1)",
+              "pages": "사76~81p",
+              "keyConcepts": "이성계와 정도전, 조선의 건국 이념",
+              "mudPoint": null,
+              "color": { "hex": "#8A3B29", "name": "궁궐 단청레드", "description": "이성계와 정도전" }
+            },
+            {
+              "lessonNumber": 23,
+              "lessonDisplay": "2~3차시 (2/2)",
+              "title": "유교를 바탕으로 건국한 조선 (2)",
+              "pages": "사76~81p",
+              "keyConcepts": "한양 도읍과 경복궁·사대문의 유교적 의미",
+              "mudPoint": null,
+              "color": { "hex": "#8A3B29", "name": "궁궐 단청레드", "description": "한양 도읍과 4대문" }
+            },
+            {
+              "lessonNumber": 24,
+              "lessonDisplay": "4~5차시 (1/2)",
+              "title": "유교 질서에 따른 조선 사회의 모습 (1)",
+              "pages": "사82~86p",
+              "keyConcepts": "양반·중인·상민·천민의 신분 제도 구조",
+              "mudPoint": null,
+              "color": { "hex": "#783526", "name": "유교 브릭", "description": "조선의 신분 질서" }
+            },
+            {
+              "lessonNumber": 25,
+              "lessonDisplay": "4~5차시 (2/2)",
+              "title": "유교 질서에 따른 조선 사회의 모습 (2)",
+              "pages": "사82~86p",
+              "keyConcepts": "삼강오륜, 제례 문화, 가정과 마을의 유교 생활",
+              "mudPoint": null,
+              "color": { "hex": "#783526", "name": "유교 브릭", "description": "삼강오륜과 일상 예절" }
+            },
+            {
+              "lessonNumber": 26,
+              "lessonDisplay": "6차시",
+              "title": "조선의 발전에 따른 생활 모습",
+              "pages": "사87~89p",
+              "keyConcepts": "훈민정음 창제, 측우기·자격루·혼천의",
+              "mudPoint": "세종 MUD",
+              "color": { "hex": "#B45309", "name": "집현전 앰버", "description": "훈민정음, 측우기·자격루의 지혜" }
+            },
+            {
+              "lessonNumber": 27,
+              "lessonDisplay": "7차시",
+              "title": "조선과 주변 나라들의 관계",
+              "pages": "사90~93p",
+              "keyConcepts": "임진왜란(이순신·의병)과 병자호란(남한산성)",
+              "mudPoint": "명량 MUD",
+              "color": { "hex": "#6B21A8", "name": "명량 퍼플", "description": "임진왜란·병자호란의 결연한 의지" }
+            }
+          ]
+        },
+        {
+          "sectionId": "2-2",
+          "sectionTitle": "2. 조선 후기 사회 변화와 달라진 생활 모습",
+          "lessons": [
+            {
+              "lessonNumber": 28,
+              "lessonDisplay": "8차시",
+              "title": "조선 후기의 경제적 변화",
+              "pages": "사94~96p",
+              "keyConcepts": "모내기법(이앙법) 보급, 상평통보, 장시와 보부상",
+              "mudPoint": null,
+              "color": { "hex": "#B8860B", "name": "엽전 놋쇠골드", "description": "상평통보, 장시, 모내기법" }
+            },
+            {
+              "lessonNumber": 29,
+              "lessonDisplay": "9차시",
+              "title": "조선 후기 달라진 사회 모습",
+              "pages": "사97~99p",
+              "keyConcepts": "영조·정조의 탕평책, 정약용과 수원 화성, 실학 발달",
+              "mudPoint": null,
+              "color": { "hex": "#C27803", "name": "실학 오렌지", "description": "영·정조 탕평책, 정약용과 화성" }
+            },
+            {
+              "lessonNumber": 30,
+              "lessonDisplay": "10차시",
+              "title": "서민 문화에 나타난 사람들의 생활",
+              "pages": "사100~103p",
+              "keyConcepts": "김홍도·신윤복의 풍속화, 민화, 한글 소설, 판소리·탈춤",
+              "mudPoint": null,
+              "color": { "hex": "#D97706", "name": "풍속화 웜옐로", "description": "풍속화 화폭, 서민 문화" }
+            },
+            {
+              "lessonNumber": 31,
+              "lessonDisplay": "11~12차시 (1/2)",
+              "title": "개항 이후 달라진 사회와 생활 모습 (1)",
+              "pages": "사104~109p",
+              "keyConcepts": "강화도 조약과 문호 개방의 배경",
+              "mudPoint": null,
+              "color": { "hex": "#475569", "name": "근대 증기그레이", "description": "강화도 조약, 개항의 시작" }
+            },
+            {
+              "lessonNumber": 32,
+              "lessonDisplay": "11~12차시 (2/2)",
+              "title": "개항 이후 달라진 사회와 생활 모습 (2)",
+              "pages": "사104~109p",
+              "keyConcepts": "근대 문물(전차·철도·전등·우편) 도입과 일상의 변화",
+              "mudPoint": null,
+              "color": { "hex": "#475569", "name": "근대 증기그레이", "description": "전차, 철도, 근대 시설" }
+            },
+            {
+              "lessonNumber": 33,
+              "lessonDisplay": "13차시",
+              "title": "생각을 펼쳐요",
+              "pages": "사110~111p",
+              "keyConcepts": "조선 후기 서민 문화 축제 기획 및 토론",
+              "mudPoint": null,
+              "color": { "hex": "#0D9488", "name": "창의 민트", "description": "서민 문화 축제 기획" }
+            },
+            {
+              "lessonNumber": 34,
+              "lessonDisplay": "14차시",
+              "title": "생각 그물 완성 / 교실 놀이",
+              "pages": "사112~115p",
+              "keyConcepts": "2단원 총정리 골든벨 Quiz",
+              "mudPoint": "2단원 골든벨",
+              "color": { "hex": "#F59E0B", "name": "골든벨 앰버", "description": "2단원 성취 보상" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": 3,
+      "unitTitle": "3단원. 식민 통치와 저항, 전쟁이 바꾼 사회와 생활",
+      "lessonCount": 14,
+      "themeColor": "#1E3A8A",
+      "accentColor": "#DC2626",
+      "sections": [
+        {
+          "sectionId": "3-1",
+          "sectionTitle": "1. 식민 통치와 저항으로 달라진 사회와 생활",
+          "lessons": [
+            {
+              "lessonNumber": 35,
+              "lessonDisplay": "1차시",
+              "title": "단원 도입",
+              "pages": "사116~121p",
+              "keyConcepts": "일제의 침략과 근대 역사 인식",
+              "mudPoint": null,
+              "color": { "hex": "#4B5563", "name": "격동 슬레이트", "description": "일제 침략과 근대 인식" }
+            },
+            {
+              "lessonNumber": 36,
+              "lessonDisplay": "2차시",
+              "title": "일제에 맞서 나라를 지키려는 노력",
+              "pages": "사122~124p",
+              "keyConcepts": "을사의병, 안중근 의사의 하얼빈 의거, 국채보상운동",
+              "mudPoint": null,
+              "color": { "hex": "#374151", "name": "의병 챠콜", "description": "을사의병, 안중근 하얼빈 의거" }
+            },
+            {
+              "lessonNumber": 37,
+              "lessonDisplay": "3차시",
+              "title": "일제 통치 시기 우리 민족의 고통과 저항",
+              "pages": "사125~127p",
+              "keyConcepts": "헌병 경찰 통치, 토지 조사 사업의 피해",
+              "mudPoint": null,
+              "color": { "hex": "#1F2937", "name": "암흑기 딥그레이", "description": "헌병 경찰, 토지 조사 사업" }
+            },
+            {
+              "lessonNumber": 38,
+              "lessonDisplay": "4차시",
+              "title": "3·1 운동과 대한민국 임시 정부",
+              "pages": "사128~130p",
+              "keyConcepts": "비폭력 평화 만세 운동, 상하이 임시정부",
+              "mudPoint": "3·1운동 MUD",
+              "color": { "hex": "#DC2626", "name": "태극 크림슨", "description": "3·1 비폭력 만세 운동, 임시정부" }
+            },
+            {
+              "lessonNumber": 39,
+              "lessonDisplay": "5차시",
+              "title": "3·1 운동 이후의 다양한 민족 운동",
+              "pages": "사131~133p",
+              "keyConcepts": "물산장려운동, 6·10 만세운동, 광주학생항일운동, 한인애국단",
+              "mudPoint": null,
+              "color": { "hex": "#B91C1C", "name": "항일 루비", "description": "물산장려, 학생항일운동, 한인애국단" }
+            },
+            {
+              "lessonNumber": 40,
+              "lessonDisplay": "6~7차시 (1/2)",
+              "title": "일제 통치 시기 달라진 사회와 생활 (1)",
+              "pages": "사134~139p",
+              "keyConcepts": "민족 말살 정책, 신사 참배 및 창씨개명 강요",
+              "mudPoint": null,
+              "color": { "hex": "#334155", "name": "수탈 스틸그레이", "description": "민족 말살 정책" }
+            },
+            {
+              "lessonNumber": 41,
+              "lessonDisplay": "6~7차시 (2/2)",
+              "title": "일제 통치 시기 달라진 사회와 생활 (2)",
+              "pages": "사134~139p",
+              "keyConcepts": "강제 동원(징용·징병·위안부)과 식량·자원 수탈",
+              "mudPoint": null,
+              "color": { "hex": "#334155", "name": "수탈 스틸그레이", "description": "강제 동원과 전시 수탈" }
+            }
+          ]
+        },
+        {
+          "sectionId": "3-2",
+          "sectionTitle": "2. 8·15 광복과 6·25 전쟁으로 달라진 생활",
+          "lessons": [
+            {
+              "lessonNumber": 42,
+              "lessonDisplay": "8~9차시 (1/2)",
+              "title": "8·15 광복 이후 달라진 사회 모습 (1)",
+              "pages": "사140~145p",
+              "keyConcepts": "8·15 광복의 환희와 민족의 기쁨",
+              "mudPoint": null,
+              "color": { "hex": "#1D4ED8", "name": "광복 코발트", "description": "8·15 광복의 환희" }
+            },
+            {
+              "lessonNumber": 43,
+              "lessonDisplay": "8~9차시 (2/2)",
+              "title": "8·15 광복 이후 달라진 사회 모습 (2)",
+              "pages": "사140~145p",
+              "keyConcepts": "5·10 총선거와 대한민국 정부 수립",
+              "mudPoint": null,
+              "color": { "hex": "#1D4ED8", "name": "광복 코발트", "description": "대한민국 정부 수립" }
+            },
+            {
+              "lessonNumber": 44,
+              "lessonDisplay": "10~11차시 (1/2)",
+              "title": "6·25 전쟁과 사람들의 생활 모습 (1)",
+              "pages": "사146~150p",
+              "keyConcepts": "6·25 전쟁의 발발과 피란민의 생활",
+              "mudPoint": null,
+              "color": { "hex": "#4338CA", "name": "분단 인디고", "description": "전쟁 발발, 피란민의 삶" }
+            },
+            {
+              "lessonNumber": 45,
+              "lessonDisplay": "10~11차시 (2/2)",
+              "title": "6·25 전쟁과 사람들의 생활 모습 (2)",
+              "pages": "사146~150p",
+              "keyConcepts": "인천상륙작전과 휴전 협정, 한반도 분단",
+              "mudPoint": null,
+              "color": { "hex": "#4338CA", "name": "분단 인디고", "description": "휴전 협정과 분단의 비극" }
+            },
+            {
+              "lessonNumber": 46,
+              "lessonDisplay": "12차시",
+              "title": "6·25 전쟁 이후 달라진 생활 모습",
+              "pages": "사151~153p",
+              "keyConcepts": "전후 복구 노력, 이산가족의 아픔과 통일을 위한 노력",
+              "mudPoint": null,
+              "color": { "hex": "#2563EB", "name": "전후 복구 로열블루", "description": "전후 복구와 통일 노력" }
+            },
+            {
+              "lessonNumber": 47,
+              "lessonDisplay": "13차시",
+              "title": "생각을 펼쳐요",
+              "pages": "사154~155p",
+              "keyConcepts": "평화 통일 신문 만들기 및 미래 비전 토론",
+              "mudPoint": null,
+              "color": { "hex": "#0284C7", "name": "평화 스카이블루", "description": "평화 통일 신문, 미래 비전" }
+            },
+            {
+              "lessonNumber": 48,
+              "lessonDisplay": "14차시",
+              "title": "생각 그물 완성 / 교실 놀이",
+              "pages": "사156~159p",
+              "keyConcepts": "3단원 총정리 골든벨 Quiz",
+              "mudPoint": "3단원 골든벨",
+              "color": { "hex": "#EAB308", "name": "마스터 골드", "description": "초등 5-2 역사 전 과정 완주" }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
