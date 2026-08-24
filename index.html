@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUD 명량 해전: 울돌목의 13척 | 초등 5학년 역사 인터랙티브 시뮬레이터</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Korean Traditional Navy Theme -->
+    <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Noto+Serif+KR:wght@300;600;900&family=Noto+Sans+KR:wght@300;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚓</text></svg>">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .serif-font {
+            font-family: 'Noto Serif KR', serif;
+        }
+        .primitive-font {
+            font-family: 'East Sea Dokdo', cursive;
+        }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 flex flex-col min-h-screen selection:bg-red-900 selection:text-red-100">
+
+    <!-- Top Navigation Header -->
+    <header class="bg-slate-900 text-slate-200 py-3.5 px-4 md:px-6 shadow-md border-b-4 border-red-800 flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center space-x-3">
+            <span class="text-3xl animate-pulse">⚓</span>
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold primitive-font tracking-wider text-red-500">명량 해전: 울돌목의 13척</h1>
+                <p class="text-xs text-slate-400 serif-font">초등 5학년 역사 체험 • 신에게는 아직 열두 척의 배가 있사옵니다</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-2 md:space-x-3">
+            <button id="btn-sound" onclick="toggleMute()" class="p-2 md:p-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-red-500 transition text-sm md:text-base" title="소리 켜기/끄기">
+                <i id="sound-icon" class="fas fa-volume-up"></i>
+            </button>
+            <button onclick="toggleFullscreen()" class="hidden sm:inline-flex text-xs px-3 py-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition items-center gap-1.5 font-semibold">
+                <i class="fas fa-expand"></i> 전체화면
+            </button>
+            <button onclick="resetGame()" class="text-xs px-3 py-2 rounded bg-red-950/80 hover:bg-red-900 text-red-200 border border-red-800 transition flex items-center gap-1.5 font-semibold">
+                <i class="fas fa-undo"></i> 처음부터 다시
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Game Workspace -->
+    <main class="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto p-4 md:p-6 gap-6">
+
+        <!-- Left Column: Story Narrator and Choices -->
+        <section class="flex-1 flex flex-col bg-slate-900 rounded-2xl border border-slate-800 shadow-xl overflow-hidden min-h-[550px]">
+            <!-- Current Stage Header -->
+            <div class="bg-slate-950 text-red-500 px-6 py-3.5 border-b border-slate-800 flex justify-between items-center">
+                <span id="stage-badge" class="text-xs px-2.5 py-1 rounded bg-red-950/80 border border-red-800 font-bold serif-font uppercase tracking-widest">
+                    SYSTEM: INITIALIZING...
+                </span>
+                <span id="stage-location" class="text-xs text-slate-400 flex items-center gap-1.5 font-mono">
+                    <i class="fas fa-compass text-red-500 animate-spin-slow"></i> 삼도수군통제영
+                </span>
+            </div>
+
+            <!-- Content Area inside raw stone textured scroll container -->
+            <div class="flex-1 p-6 md:p-8 flex flex-col justify-between overflow-y-auto relative bg-gradient-to-b from-slate-900 to-slate-950">
+                <div class="space-y-6">
+                    <!-- Character Dialogue Box / Avatar -->
+                    <div id="character-card" class="hidden flex items-start gap-4 p-4 rounded-xl border border-slate-800 bg-slate-950/70 shadow-inner">
+                        <span id="char-avatar" class="text-4xl bg-slate-800 p-2.5 rounded-xl border border-slate-700">🧔</span>
+                        <div>
+                            <h4 id="char-name" class="font-bold text-red-400 serif-font">선조 임금</h4>
+                            <p id="char-subtitle" class="text-xs text-slate-500 mt-0.5">조선의 14대 국왕</p>
+                        </div>
+                    </div>
+
+                    <!-- Main Story Content with beautiful ancient serif font -->
+                    <div id="story-content" class="text-slate-300 leading-relaxed text-base md:text-lg space-y-4 font-normal transition-opacity duration-200 serif-font">
+                        <!-- Content injected dynamically via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Choices Container -->
+                <div class="mt-8 space-y-3">
+                    <div class="text-xs font-semibold text-red-500/70 tracking-wider mb-2 flex items-center gap-1.5 uppercase font-mono">
+                        <i class="fas fa-scroll"></i> 사생결단: 장군의 결단은 무엇입니까?
+                    </div>
+                    <div id="choices-grid" class="grid grid-cols-1 gap-3">
+                        <!-- Choice buttons populated via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column: Interactive Sandbox & Roadmap -->
+        <aside class="w-full lg:w-[420px] flex flex-col gap-6">
+            
+            <!-- Dynamic Naval Tactical Battle Station (Interactive Canvas) -->
+            <div class="bg-slate-900 text-slate-100 rounded-2xl border border-slate-800 shadow-xl p-5 flex flex-col">
+                <div class="flex justify-between items-center mb-3 border-b border-slate-800 pb-2">
+                    <h3 class="font-bold text-sm text-red-400 serif-font flex items-center gap-2">
+                        <i class="fas fa-ship animate-pulse text-red-500"></i> 울돌목 전술 해상 훈련 (Battle Station)
+                    </h3>
+                    <span id="tool-mode-badge" class="text-[10px] bg-red-950 text-red-300 px-2 py-0.5 rounded-full border border-red-800 uppercase font-mono font-bold">
+                        TACTICAL SIMULATOR
+                    </span>
+                </div>
+
+                <!-- Interactive Canvas Rendering Workshop -->
+                <div class="relative bg-slate-950 rounded-xl h-64 border border-slate-800 overflow-hidden flex items-center justify-center group cursor-crosshair">
+                    <canvas id="canvas-workspace" class="absolute inset-0 w-full h-full"></canvas>
+                    
+                    <!-- Dynamic Hint Overlay inside Canvas -->
+                    <div id="canvas-instructions" class="absolute top-2 left-2 right-2 bg-slate-900/95 border border-slate-800 px-3 py-1.5 rounded-lg text-[11px] text-slate-300 text-center pointer-events-none backdrop-blur-sm">
+                        <!-- Injected via state -->
+                    </div>
+
+                    <!-- Canvas Interactive Feedback Indicator -->
+                    <div id="canvas-feedback" class="absolute bottom-2 left-2 right-2 bg-red-950/90 border border-red-800/50 px-2 py-1 rounded text-center text-[10px] text-red-400 font-mono">
+                        마우스나 터치로 해상을 지원해 보세요!
+                    </div>
+                </div>
+
+                <!-- Dynamic Interactive Sliders / Interactive Panel -->
+                <div id="control-widget-panel" class="mt-4 space-y-3 text-xs">
+                    
+                    <!-- Tactical Map Preview Controls -->
+                    <div id="widget-map" class="space-y-2">
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-slate-400 leading-relaxed text-[11px]">
+                            <p class="font-semibold text-slate-300 mb-1"><i class="fas fa-map-marked-alt text-red-500"></i> 해상 전술 사전 검토</p>
+                            부산 앞바다(넓은 전역)와 명량 울돌목(좁은 목)의 물리적 선박 한계 차이를 가늠해 보고 전지적인 결단을 이끄십시오.
+                        </div>
+                    </div>
+
+                    <!-- Gun Fire Combat Controls -->
+                    <div id="widget-combat" class="space-y-2 hidden">
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <div class="flex justify-between mb-1.5 text-slate-400">
+                                <span>천자총통 조준 위력:</span>
+                                <span class="font-mono text-red-400 font-bold" id="combat-progress">0%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2">
+                                <div id="combat-bar" class="bg-red-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                            <p class="text-[10px] text-slate-500 mt-2">위 화면의 왜선(붉은색 세키부네)을 연속 터치하여 포격 격침하세요!</p>
+                        </div>
+                    </div>
+
+                    <!-- Ocean Current Controls -->
+                    <div id="widget-current" class="space-y-2 hidden">
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-2.5">
+                            <div class="flex justify-between items-center text-slate-300">
+                                <span class="flex items-center gap-1"><i class="fas fa-water text-cyan-400"></i> 울돌목 조류 변화</span>
+                                <span class="font-mono text-cyan-400 font-bold" id="current-direction-val">밀물 (왜군 유리)</span>
+                            </div>
+                            <!-- Current Slider: Left is Incoming (Flood/밀물), Right is Outgoing (Ebb/썰물) -->
+                            <input type="range" id="slider-current" min="0" max="100" value="20" oninput="updateCurrent(this.value)" class="w-full accent-cyan-500 bg-slate-800 rounded-lg cursor-pointer h-2">
+                            <p class="text-[10px] text-slate-500 leading-relaxed">
+                                슬라이더를 <b>오른쪽(썰물)</b>으로 완전히 밀어 조류 흐름을 역전시켜 왜선들을 서로 충돌시켜 부수십시오!
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Joseon Naval Campaign Progress Roadmap -->
+            <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-xl p-5">
+                <h3 class="font-bold text-sm text-slate-200 serif-font mb-3.5 flex items-center gap-2">
+                    <i class="fas fa-map-location-dot text-red-500"></i> 난중일기 정벌 연대기 (Roadmap)
+                </h3>
+                <div class="grid grid-cols-2 gap-2 text-[11px]">
+                    <!-- Roadmap Timeline nodes matching the MUD sections -->
+                    <div id="node-1" class="p-2 border rounded-lg bg-slate-950 text-slate-500 flex items-center gap-1.5">
+                        <i class="fas fa-anchor text-[10px]"></i> 1. 신에게는 아직
+                    </div>
+                    <div id="node-1-1" class="p-2 border rounded-lg bg-slate-950 text-slate-500 flex items-center gap-1.5">
+                        <i class="fas fa-skull text-[10px]"></i> 1-1. 바다 해체 [사망]
+                    </div>
+                    <div id="node-2" class="p-2 border rounded-lg bg-slate-950 text-slate-500 flex items-center gap-1.5">
+                        <i class="fas fa-compass text-[10px]"></i> 2. 전장의 선택
+                    </div>
+                    <div id="node-2-1" class="p-2 border rounded-lg bg-slate-950 text-slate-500 flex items-center gap-1.5">
+                        <i class="fas fa-circle-exclamation text-[10px]"></i> 2-1. 정면승부 [대패]
+                    </div>
+                    <div id="node-3" class="p-2 border rounded-lg bg-slate-950 text-slate-500 flex items-center gap-1.5">
+                        <i class="fas fa-burst text-[10px]"></i> 3. 울돌목의 화포
+                    </div>
+                    <div id="node-3-1" class="p-2 border rounded-lg bg-slate-950 text-slate-500 flex items-center gap-1.5">
+                        <i class="fas fa-hand-fist text-[10px]"></i> 3-1. 백병전 늪 [대패]
+                    </div>
+                    <div id="node-4" class="p-2 border rounded-lg bg-slate-950 text-slate-500 flex items-center gap-1.5">
+                        <i class="fas fa-wind text-[10px]"></i> 4. 조류 대역전
+                    </div>
+                    <div id="node-4-1" class="p-2 border rounded-lg bg-slate-950 text-slate-500 flex items-center gap-1.5">
+                        <i class="fas fa-question text-[10px]"></i> 4-1. 반쪽의 승리 [회귀]
+                    </div>
+                    <div id="node-5" class="p-2 border rounded-lg bg-slate-950 text-slate-500 flex items-center gap-1.5">
+                        <i class="fas fa-crown text-[10px]"></i> 5. 명량대첩 완수
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-500 italic flex items-center gap-1.5">
+                    <i class="fas fa-lightbulb text-red-500 animate-bounce"></i>
+                    <span>지형의 협소함, 판옥선의 선회력, 그리고 서해의 거센 물살 흐름을 융합하십시오!</span>
+                </div>
+            </div>
+
+        </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-600 text-xs py-4 text-center border-t border-slate-900 font-mono">
+        <p>© 2026 초등 5학년 역사 융합 시뮬레이터 • 울돌목 13척 프로젝트 (GitHub Pages)</p>
+    </footer>
+
+    <script>
+        // All key names containing hyphens must be fully enclosed in double quotes to prevent Parse Engine SyntaxErrors
+        const storyNodes = {
+            "1": {
+                title: "섹션 1: 신에게는 아직... (메인 시작)",
+                location: "조선 선조 30년, 한양 편전",
+                badge: "⚓ 임금의 밀명",
+                character: {
+                    name: "선조 임금",
+                    subtitle: "두려움에 찬 구원 철회",
+                    avatar: "👑"
+                },
+                text: `<b>선조 임금의 긴박한 전갈이 전달되었습니다.</b><br><br>원균 장군이 이끄는 수군이 칠천량 해전에서 대패하여 바다의 방어망이 순식간에 녹아내렸습니다. 적들은 100여 척이 넘는 전함을 이끌고 당장 서해를 지나 한양 앞바다로 물밀듯 밀어닥치려 합니다.<br><br><b>선조 임금:</b> "수군은 이미 회복이 불가능하다. 정벌을 포기하고 남은 군사는 도원수 권율에게 합류하여 육전에 매진하라!"<br><br>하지만 바다를 버리는 것은 백성을 무자비한 약탈의 칼바람 아래 놓는 격입니다. 당신에겐 남해 구석구석에서 간신히 긁어모은 단 <b>13척의 판옥선</b>만이 조용히 바다 위에 누워있을 뿐입니다.`,
+                choices: [
+                    { text: "📜 조정의 윤허와 정세에 따라 수군을 전격 해체하고 장수들과 함께 육상 진영에 배속한다.", next: "1-1", sound: "fail" },
+                    { text: "⚔️ \"신에게는 아직 열두 척의 배가 남아있사옵니다!\" 장계를 올리고 조선의 푸른 바다를 사수한다.", next: "2", sound: "drum" }
+                ],
+                setupSim: "map-idle"
+            },
+            "1-1": {
+                title: "섹션 1-1: 바다가 뚫린 조선 (생존 실패)",
+                location: "패망한 서해 한양포구",
+                badge: "❌ MISSION FAILED",
+                character: {
+                    name: "왜군 수군 선봉장",
+                    subtitle: "보급로를 장악한 서해의 지배자",
+                    avatar: "👹"
+                },
+                text: `<b>❌ [SYSTEM: 제해권 상실 및 한양 함락]</b><br>당신이 바다를 거두고 육군으로 합류하자마자, 가로막을 것 없는 왜군 연합 함대는 기세등등하게 서해로 진입했습니다.<br><br>한반도의 서부 식량 창고이자 군량 공급로인 곡창지대 전라도는 무력하게 약탈당했고, 왜군은 지치지 않는 풍부한 식량을 해로로 보급받아 한양 성벽 앞까지 진격해 육군 방어선을 단숨에 무너뜨리고 맙니다.<br><br>후세는 당신을 '바다의 위협을 외면하고 포기해 대세를 무너뜨린 장수'로 혹독하게 평가할 것입니다.`,
+                choices: [
+                    { text: "🔄 시간을 뒤돌려 선조 30년 가을, 장계를 올리는 순간으로 회귀한다.", next: "1", sound: "restart" }
+                ],
+                setupSim: "map-idle"
+            },
+            "2": {
+                title: "섹션 2: 결전의 전장 (13척 vs 133척)",
+                location: "우수영 전술 회의장",
+                badge: "🗺️ 전술 기동 수립",
+                character: {
+                    name: "군관 송희립",
+                    subtitle: "충성스러운 우수영의 장수",
+                    avatar: "🛡️"
+                },
+                text: `<b>조정의 회유를 뿌리치고 목숨으로 바다를 지키기로 결심한 이순신 통제사.</b><br><br>수색 척후선들로부터 다급한 봉화와 보고가 당도했습니다. 왜군 장수 구루시마 미치후사가 거느리는 함대가 어란포를 떠나 <b>무려 133척의 중형 전선(세키부네)</b>을 끌고 당당하게 전진해 오고 있습니다.<br><br>13척 대 133척. 정면 대결을 벌이는 넓은 개활지를 전장으로 선택하면 수적으로 완전히 포위되어 순식간에 화살과 백병전에 고사당하고 말 것입니다. 왜군을 함정에 빠뜨려 궤멸시킬 최상의 입지는 어디일까요?`,
+                choices: [
+                    { text: "🌊 해역이 넓어 아군의 화포 집중력과 유기적인 진법(학익진)을 완전히 과시할 수 있는 부산 넓은 바다를 고른다.", next: "2-1", sound: "fail" },
+                    { text: "🌀 폭이 극도로 좁고 조수가 부딪쳐 바다가 우는 소리를 내는 거친 소용돌이 협로 '울돌목'으로 적을 끌어들인다.", next: "3", sound: "gong" }
+                ],
+                setupSim: "map-choose"
+            },
+            "2-1": {
+                title: "섹션 2-1: 숫자의 함정 (대패)",
+                location: "포위 당한 부산 앞바다",
+                badge: "❌ TACTICAL ERROR",
+                character: {
+                    name: "왜선 함대 전력",
+                    subtitle: "포위 전술을 활용하는 수군",
+                    avatar: "🎏"
+                },
+                text: `<b>❌ [SYSTEM: 수적 우세를 도외시한 전술 에러]</b><br>당신은 넓은 대양에 13척의 웅장한 판옥선들을 세우고 한산도에서 승리했던 '학익진'을 재현하려 전개했습니다.<br><br>하지만 바다가 너무 넓어 상대는 조선 수군의 포격 사거리를 우회해 날개처럼 빠르게 갈라지더니, 순식간에 판옥선의 좌우측과 후면을 133척의 수많은 선박으로 사방 포위했습니다.<br><br>포구의 한계를 넘어 접근을 허용한 판옥선 위로 적의 조총 세례가 쏟아지고, 사방에서 뛰어드는 백병전에 무력하게 전 함대가 제압되고 말았습니다. 좁은 길목의 지리적 한계를 영리하게 활용해야만 승리가 가능합니다.`,
+                choices: [
+                    { text: "🔄 후퇴하여 전장을 울돌목으로 재지정하고 함대를 재배치한다.", next: "2", sound: "restart" }
+                ],
+                setupSim: "map-choose"
+            },
+            "3": {
+                title: "섹션 3: 울돌목의 포화 (격렬한 교전)",
+                location: "명량 해협 울돌목",
+                badge: "💥 울돌목의 불꽃",
+                character: {
+                    name: "대장선 지휘관",
+                    subtitle: "고립무원의 사선에 선 용사",
+                    avatar: "⚓"
+                },
+                text: `<b>우르르릉! 콰아앙!</b><br>좁고 성난 거센 물결이 암초에 부딪치며 소용돌이치는 울돌목 한가운데 아군의 판옥선들이 자리를 틀어잡았습니다.<br><br>적들의 엄청난 수에 압도당한 조선 장수들의 함선들이 저 멀리서 겁에 질려 전진하지 못하는 찰나, 오직 당신이 탄 '대장선 한 척'만이 울돌목의 가장 좁은 통로에 가로놓여 적의 세키부네 수십 척과 홀로 부딪쳐 싸움을 벌이기 시작합니다.<br><br>왜선들은 한순간 대장선을 둘러싸고 밧줄을 던져 기어오를 백병전 거리를 좁히려고 필사적으로 노를 젓고 있습니다! 어떻게 대처하겠습니까?`,
+                choices: [
+                    { text: "⚔️ 아군의 무사들을 갑판 끝에 배치하여 다가오는 적선 위로 도검을 쥐고 돌격하여 진흙탕 백병전을 치른다.", next: "3-1", sound: "fail" },
+                    { text: "💣 판옥선만의 단단한 구조와 평평한 선체(제자리 선회) 장점을 극대화해 배를 신속히 돌리며 황자/천자총통 화포를 집중 일사 포격한다.", next: "4", sound: "cannon" }
+                ],
+                setupSim: "combat-active"
+            },
+            "3-1": {
+                title: "섹션 3-1: 백병전의 덫 (사망)",
+                location: "피로 물든 판옥선 갑판",
+                badge: "❌ WAR ENGINE ERROR",
+                character: {
+                    name: "왜군 돌격 조총병",
+                    subtitle: "고도로 단련된 접근전 전문 무사",
+                    avatar: "⚔️"
+                },
+                text: `<b>❌ [SYSTEM: 적의 극단적 강점 수용 실패]</b><br>왜군은 가마쿠라 막부 이후 수많은 내전을 치르며 접근식 칼싸움(백병전)에 극도로 도가 튼 살육의 무사들입니다.<br><br>높은 판옥선 보루라는 물리학적 우위를 스스로 저버리고 사선에 발을 디딘 조선의 군사들은, 밀고 들어오는 왜군의 단도와 조총 백병전에 차례차례 쓰러졌습니다.<br><br>판옥선의 진짜 기적은 튼튼한 적송으로 깎은 내구성과 제자리에서 제동 없이 도는 선회 선형, 그리고 압도적 '화포 무장'의 사거리 포격전이었습니다!`,
+                choices: [
+                    { text: "🔄 화포 포술로 전술을 변경하고 사격 태세로 회귀한다.", next: "3", sound: "restart" }
+                ],
+                setupSim: "combat-active"
+            },
+            "4": {
+                title: "섹션 4: 물살의 대역전 (물리적 전환점)",
+                location: "소용돌이치는 명량 해수면",
+                badge: "🌀 조류 대역전",
+                character: {
+                    name: "안위 장군",
+                    subtitle: "전열에 다시 가담하는 거제현감",
+                    avatar: "✊"
+                },
+                text: `<b>쿵- 콰콰콰콰!</b><br>대장선 좌우에서 번뜩인 화포의 화력이 선두 왜선을 정통으로 강타했습니다! 수장 구루시마의 대장 기함이 침몰하고 그의 머리를 군선 기둥 꼭대기에 매달아 아군의 사기가 하늘을 찌릅니다.<br><br><b>그리고 바로 지금! 하늘이 도운 해상 골든타임이 도래했습니다.</b><br>왜선에 유리했던 밀물이 썰물로 급격하게 역전되며, 울돌목의 좁은 입구 안에서 왜군 배들이 거센 퇴조 조류에 떠밀려 갈팡질팡 엉키기 시작했습니다.<br><br>서로 다른 속도로 도망치려다 앞선 배들과 뒤엉켜 와장창 깨지는 왜선 함대를 무력화시킬 최후의 군령을 하달하십시오!`,
+                choices: [
+                    { text: "✊ \"적이 패퇴하기 시작했다! 무리한 전열 소모를 사리고 여기서 조용히 전공을 챙겨 철수한다.\"", next: "4-1", sound: "fail" },
+                    { text: "🔥 \"물러서지 말라! 전 함대는 우수영 군기와 신호징을 치며, 일자진을 갖추어 도망치는 잔당을 맹렬히 총공격 포격하라!\"", next: "5", sound: "victory" }
+                ],
+                setupSim: "current-switch"
+            },
+            "4-1": {
+                title: "섹션 4-1: 반쪽의 승리 (미지근한 사후)",
+                location: "도주하는 왜선의 잔상 너머",
+                badge: "⚠️ TACTICAL INFORMATION",
+                character: {
+                    name: "전사 부장들",
+                    subtitle: "남겨진 적을 염려하는 심복",
+                    avatar: "🛡️"
+                },
+                text: `<b>⚠️ [SYSTEM: 적의 잔존 전력 온전 보존 수습]</b><br>조선 수군이 무리한 충돌을 꺼리고 서둘러 추적을 멈춘 뒤 함대를 회항시켰습니다.<br><br>적은 거센 조류에 엄청난 골격을 유실했으나, 절반 이상의 본대 주력 함대를 온전하게 수습해 남해 깊숙이로 무사 대피시켰습니다. 왜군 지휘부는 조선 수군의 소극적 행보에 안심하며, 조만간 대규모 복수전 전열을 가다듬어 한강 서해 입구를 재타격할 기회를 여전히 엿보고 있습니다.<br><br>이 기적 같은 완벽한 자연의 힘이 도울 기회를 놓치지 않고, 그들의 해상 의지를 완전히 분쇄하여 전의를 상실하게 만들어야만 합니다.`,
+                choices: [
+                    { text: "🔄 다시 조류가 거세게 휘도는 최후 전열 추격의 시점으로 전장을 복구한다.", next: "4", sound: "restart" }
+                ],
+                setupSim: "current-switch"
+            },
+            "5": {
+                title: "섹션 5: 최종 성공 (명량대첩 승전)",
+                location: "명량 해역 울돌목",
+                badge: "👑 MISSION ACCOMPLISHED",
+                character: {
+                    name: "충무공 이순신",
+                    subtitle: "조선 수군 통제사",
+                    avatar: "⚓"
+                },
+                text: `<b>"필사즉생 필생즉사(必死則生 必生則死)"</b><br><br>조선 수군 함대가 썰물의 격랑을 헤치며 도망치는 적의 후미를 무자비하게 격파했습니다! 울돌목의 좁은 수로에 쳐놓은 사슬과 소용돌이에 갇혀 갈피를 잡지 못하던 왜군 선단은 서로 충돌하며 바닷속으로 고꾸라집니다.<br><br>이 기적의 대승으로 왜군의 보급망이 완전히 차단되었고, 조선은 한양 침공의 핵심 축이었던 수군 서해 진출 계획을 공중분해하는 대승을 완수했습니다.`,
+                choices: [
+                    { text: "🎉 승전 보고서를 조정에 제출하고 임무를 완전히 완수합니다.", next: "end", sound: "victory" }
+                ],
+                setupSim: "map-idle"
+            }
+        };
+
+        let currentStage = "1";
+        let isMuted = false;
+        let audioCtx = null;
+        let visitedNodes = new Set(["1"]);
+
+        // Synthesizer setup for historic battle ambient sounds
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // Web Audio Synthesizer (Realistic Korean Traditional Navy Sounds)
+        function playPrehistoricSound(type) {
+            if (isMuted) return;
+            initAudio();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'drum') {
+                // Traditional Naval War Drum (Buk - 묵직한 북소리)
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(80, now);
+                osc.frequency.exponentialRampToValueAtTime(30, now + 0.4);
+                gain.gain.setValueAtTime(0.8, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.45);
+            } else if (type === 'gong') {
+                // Traditional Brass Command Gong (Jing - 금속성의 징소리)
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                osc2.connect(gain2);
+                gain2.connect(audioCtx.destination);
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(220, now); // A3
+                osc.frequency.linearRampToValueAtTime(180, now + 1.2);
+                
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(223, now); // Detune
+                osc2.frequency.linearRampToValueAtTime(177, now + 1.2);
+
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+
+                gain2.gain.setValueAtTime(0.2, now);
+                gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+
+                osc.start(now);
+                osc2.start(now);
+                osc.stop(now + 1.25);
+                osc2.stop(now + 1.25);
+            } else if (type === 'cannon') {
+                // Chonja-chongtong Artillery fire (화포 포격음)
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(120, now);
+                osc.frequency.exponentialRampToValueAtTime(20, now + 0.3);
+                gain.gain.setValueAtTime(0.9, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+
+                osc.start(now);
+                osc.stop(now + 0.4);
+
+                // Add noise component using Web Audio Buffer
+                try {
+                    const bufferSize = audioCtx.sampleRate * 0.3;
+                    const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                    const output = noiseBuffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        output[i] = Math.random() * 2 - 1;
+                    }
+                    const noise = audioCtx.createBufferSource();
+                    noise.buffer = noiseBuffer;
+                    const noiseFilter = audioCtx.createBiquadFilter();
+                    noiseFilter.type = 'lowpass';
+                    noiseFilter.frequency.setValueAtTime(300, now);
+                    noiseFilter.frequency.exponentialRampToValueAtTime(50, now + 0.3);
+                    
+                    const noiseGain = audioCtx.createGain();
+                    noiseGain.gain.setValueAtTime(0.6, now);
+                    noiseGain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+
+                    noise.connect(noiseFilter);
+                    noiseFilter.connect(noiseGain);
+                    noiseGain.connect(audioCtx.destination);
+                    noise.start(now);
+                    noise.stop(now + 0.3);
+                } catch(e) {
+                    console.log("Noise buffer unsupported", e);
+                }
+            } else if (type === 'victory') {
+                // Dynamic Glorious Trumpet-like Brass Fanfare
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(392, now); // G4
+                osc.frequency.setValueAtTime(523.25, now + 0.25); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.5); // E5
+                osc.frequency.setValueAtTime(783.99, now + 0.75); // G5
+                gain.gain.setValueAtTime(0.4, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
+                osc.start(now);
+                osc.stop(now + 1.8);
+            } else if (type === 'fail') {
+                // Sad wooden collapse sweep
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(250, now);
+                osc.frequency.linearRampToValueAtTime(40, now + 0.6);
+                gain.gain.setValueAtTime(0.4, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+                osc.start(now);
+                osc.stop(now + 0.6);
+            } else if (type === 'restart') {
+                // Eerie wave swell rewind
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(60, now);
+                osc.frequency.exponentialRampToValueAtTime(1000, now + 0.8);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
+                osc.start(now);
+                osc.stop(now + 0.8);
+            }
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            const icon = document.getElementById('sound-icon');
+            if (isMuted) {
+                icon.className = 'fas fa-volume-mute';
+                icon.classList.add('text-slate-500');
+            } else {
+                icon.className = 'fas fa-volume-up';
+                icon.classList.remove('text-slate-500');
+                initAudio();
+                playPrehistoricSound('gong');
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.warn('Fullscreen request failed', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Interactive Canvas Multi-Simulator State Setup
+        const canvas = document.getElementById('canvas-workspace');
+        const ctx = canvas.getContext('2d');
+
+        let currentSimMode = 'map-idle'; // 'map-idle' | 'map-choose' | 'combat-active' | 'current-switch'
+        let combatProgress = 0;
+        let whirlpoolAngle = 0;
+        let targetCurrentMode = 20; // 0 = Flood (Incoming), 100 = Ebb (Outgoing)
+        let particles = [];
+        let enemyShips = []; // {x, y, type, size, alive, crashTimer}
+        let playerShip = { x: 50, y: 130, size: 28 };
+        let bullets = []; // {x, y, vx, vy, active}
+
+        function resizeCanvas() {
+            const rect = canvas.parentNode.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio;
+            canvas.height = rect.height * window.devicePixelRatio;
+            canvas.style.width = rect.width + 'px';
+            canvas.style.height = rect.height + 'px';
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            drawCurrentSim();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        // Spawns Japanese ships (Sekibune) in different directions based on game mode
+        function spawnEnemyShips(count) {
+            const w = canvas.width / window.devicePixelRatio;
+            const h = canvas.height / window.devicePixelRatio;
+            enemyShips = [];
+            for (let i = 0; i < count; i++) {
+                enemyShips.push({
+                    x: w - 80 - (Math.random() * 80),
+                    y: 40 + (i * (h - 80) / count) + (Math.random() * 15),
+                    size: 16,
+                    alive: true,
+                    speed: 0.5 + Math.random() * 0.5,
+                    crashTimer: 0,
+                    name: `세키부네-${i+1}`
+                });
+            }
+        }
+
+        // Click trigger inside the canvas representing the combat / tactical inputs
+        canvas.addEventListener('mousedown', function(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            if (currentSimMode === 'combat-active') {
+                // Fire cannonball from player flagship to targeted position
+                bullets.push({
+                    x: playerShip.x + 10,
+                    y: playerShip.y,
+                    targetX: x,
+                    targetY: y,
+                    vx: (x - (playerShip.x + 10)) * 0.08,
+                    vy: (y - playerShip.y) * 0.08,
+                    active: true
+                });
+
+                playPrehistoricSound('cannon');
+
+                // Blast spark particles
+                for (let i = 0; i < 15; i++) {
+                    particles.push({
+                        x: playerShip.x + 15,
+                        y: playerShip.y,
+                        vx: (Math.random() * 5) + 2,
+                        vy: (Math.random() - 0.5) * 4,
+                        alpha: 1,
+                        size: 3,
+                        color: '#f97316'
+                    });
+                }
+            }
+        });
+
+        // Touch support for tablets and Chromebooks
+        canvas.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+
+            if (currentSimMode === 'combat-active') {
+                bullets.push({
+                    x: playerShip.x + 10,
+                    y: playerShip.y,
+                    targetX: x,
+                    targetY: y,
+                    vx: (x - (playerShip.x + 10)) * 0.08,
+                    vy: (y - playerShip.y) * 0.08,
+                    active: true
+                });
+
+                playPrehistoricSound('cannon');
+
+                for (let i = 0; i < 15; i++) {
+                    particles.push({
+                        x: playerShip.x + 15,
+                        y: playerShip.y,
+                        vx: (Math.random() * 5) + 2,
+                        vy: (Math.random() - 0.5) * 4,
+                        alpha: 1,
+                        size: 3,
+                        color: '#f97316'
+                    });
+                }
+            }
+        }, { passive: false });
+
+        // Beautiful traditional blueprint/ocean maps renderer
+        function drawCurrentSim() {
+            const w = canvas.width / window.devicePixelRatio;
+            const h = canvas.height / window.devicePixelRatio;
+
+            ctx.clearRect(0, 0, w, h);
+            whirlpoolAngle += 0.02;
+
+            if (currentSimMode === 'map-idle') {
+                // Traditional blue ocean blueprint style
+                ctx.fillStyle = '#0f172a';
+                ctx.fillRect(0, 0, w, h);
+
+                // Wind waves lines
+                ctx.strokeStyle = '#1e293b';
+                ctx.lineWidth = 1;
+                for (let i = 20; i < h; i += 40) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, i);
+                    for (let j = 0; j < w; j += 15) {
+                        ctx.lineTo(j, i + Math.sin(j * 0.05 + whirlpoolAngle) * 4);
+                    }
+                    ctx.stroke();
+                }
+
+                // Show 13 Ships text layout on the left
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.15)';
+                ctx.fillRect(20, h/2 - 40, 140, 80);
+                ctx.strokeStyle = '#ef4444';
+                ctx.strokeRect(20, h/2 - 40, 140, 80);
+
+                ctx.fillStyle = '#ef4444';
+                ctx.font = 'bold 16px "Noto Serif KR"';
+                ctx.fillText("조선 수군 대장선", 30, h/2 - 15);
+                ctx.font = '11px "Noto Sans KR"';
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText("판옥선 13척 결집 대기", 30, h/2 + 10);
+                ctx.fillText("아군 사기 충만", 30, h/2 + 25);
+
+                // Flag icon representation
+                ctx.save();
+                ctx.translate(w/2 + 40, h/2);
+                ctx.fillStyle = '#334155';
+                ctx.beginPath();
+                ctx.arc(0, 0, 30, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.font = '28px serif';
+                ctx.fillText("⚓", -18, 10);
+                ctx.restore();
+
+            } else if (currentSimMode === 'map-choose') {
+                // Ocean blueprint with geographic boundaries
+                ctx.fillStyle = '#020617';
+                ctx.fillRect(0, 0, w, h);
+
+                // S-shape narrow bottleneck representation
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([4, 4]);
+
+                // Draw Strait borders
+                ctx.beginPath();
+                ctx.moveTo(w/2 - 50, 0);
+                ctx.quadraticCurveTo(w/2 - 10, h/2, w/2 - 60, h);
+                ctx.moveTo(w/2 + 50, 0);
+                ctx.quadraticCurveTo(w/2 + 90, h/2, w/2 + 40, h);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Distribute warning whirlpools in the center
+                ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+                ctx.lineWidth = 1.5;
+                ctx.save();
+                ctx.translate(w/2, h/2);
+                ctx.rotate(whirlpoolAngle);
+                ctx.beginPath();
+                ctx.arc(0, 0, 20, 0, Math.PI, false);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(0, 0, 35, Math.PI, Math.PI * 2, false);
+                ctx.stroke();
+                ctx.restore();
+
+                ctx.fillStyle = '#38bdf8';
+                ctx.font = 'bold 11px "Noto Sans KR"';
+                ctx.fillText("울돌목 거센 소용돌이 협로 (선두 차단형)", w/2 - 100, h/2 - 45);
+
+                // Japanese incoming fleet indicator arrow
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(w - 20, h/2);
+                ctx.lineTo(w - 70, h/2);
+                ctx.lineTo(w - 60, h/2 - 10);
+                ctx.moveTo(w - 70, h/2);
+                ctx.lineTo(w - 60, h/2 + 10);
+                ctx.stroke();
+
+                ctx.fillStyle = '#ef4444';
+                ctx.fillText("왜선 133척 대공세", w - 120, h/2 - 15);
+
+            } else if (currentSimMode === 'combat-active') {
+                // Battle field rendering: Ocean channel with actual active shooting
+                ctx.fillStyle = '#070f2b';
+                ctx.fillRect(0, 0, w, h);
+
+                // Draw narrow channel shores
+                ctx.fillStyle = '#1e1b4b';
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.quadraticCurveTo(w/2, 25, w, 0);
+                ctx.lineTo(w, 20);
+                ctx.quadraticCurveTo(w/2, 45, 0, 20);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(0, h);
+                ctx.quadraticCurveTo(w/2, h - 25, w, h);
+                ctx.lineTo(w, h - 20);
+                ctx.quadraticCurveTo(w/2, h - 45, 0, h - 20);
+                ctx.closePath();
+                ctx.fill();
+
+                // Draw whirlpool animations in background
+                ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+                ctx.lineWidth = 1.5;
+                for (let i = 1; i <= 3; i++) {
+                    ctx.save();
+                    ctx.translate(w/2 - 40 + (i * 30), h/2 - 20 + Math.sin(whirlpoolAngle + i)*20);
+                    ctx.rotate(whirlpoolAngle * i);
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 15, 0, Math.PI * 1.5);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+
+                // Draw Flagship (Panokseon - 바닥이 넓은 아군 대장선)
+                ctx.fillStyle = '#78350f'; // Dark wood
+                ctx.strokeStyle = '#f59e0b';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.roundRect(playerShip.x - 20, playerShip.y - 14, playerShip.size, 28, 4);
+                ctx.fill();
+                ctx.stroke();
+
+                // Banner Flag on Panokseon
+                ctx.fillStyle = '#b91c1c';
+                ctx.fillRect(playerShip.x - 15, playerShip.y - 8, 10, 8);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 8px serif';
+                ctx.fillText("帥", playerShip.x - 14, playerShip.y - 1); // Marshal flag
+
+                // Draw Enemy fleet
+                enemyShips.forEach(ship => {
+                    if (!ship.alive) return;
+                    ctx.fillStyle = '#1e293b'; // Sekibune (Dark paint)
+                    ctx.strokeStyle = '#ef4444';
+                    ctx.lineWidth = 1.5;
+
+                    ctx.beginPath();
+                    // Sharp bow shape (V-shape) for Sekibune
+                    ctx.moveTo(ship.x + ship.size/2, ship.y);
+                    ctx.lineTo(ship.x - ship.size/2, ship.y - 8);
+                    ctx.lineTo(ship.x - ship.size/2, ship.y + 8);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Mini sails
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(ship.x - 4, ship.y - 4, 3, 8);
+                });
+
+                // Bullets flight and update
+                bullets.forEach((bullet, index) => {
+                    if (!bullet.active) return;
+                    bullet.x += bullet.vx;
+                    bullet.y += bullet.vy;
+
+                    // Bullet render
+                    ctx.fillStyle = '#f59e0b';
+                    ctx.beginPath();
+                    ctx.arc(bullet.x, bullet.y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Check bullet hit on enemy ships
+                    enemyShips.forEach(ship => {
+                        if (!ship.alive) return;
+                        const dist = Math.hypot(bullet.x - ship.x, bullet.y - ship.y);
+                        if (dist < ship.size) {
+                            ship.alive = false;
+                            bullet.active = false;
+                            combatProgress = Math.min(100, combatProgress + 25);
+                            playPrehistoricSound('fail');
+
+                            // Splash fire particles
+                            for (let i = 0; i < 20; i++) {
+                                particles.push({
+                                    x: ship.x,
+                                    y: ship.y,
+                                    vx: (Math.random() - 0.5) * 6,
+                                    vy: (Math.random() - 0.5) * 6,
+                                    alpha: 1,
+                                    size: 4,
+                                    color: '#ea580c'
+                                });
+                            }
+
+                            document.getElementById('combat-progress').textContent = `${combatProgress}%`;
+                            document.getElementById('combat-bar').style.width = `${combatProgress}%`;
+
+                            if (combatProgress >= 100) {
+                                document.getElementById('canvas-feedback').textContent = "💥 세키부네 선두 격침 완료! [선택지]를 눌러 승전하십시오!";
+                                document.getElementById('canvas-feedback').className = "absolute bottom-2 left-2 right-2 bg-red-900 border border-red-400 px-2 py-1 rounded text-center text-[10px] text-red-300 font-mono font-bold animate-pulse";
+                            } else {
+                                document.getElementById('canvas-feedback').textContent = "천자총통 적중! 왜선 한 척이 산산조각 납니다!";
+                            }
+                        }
+                    });
+
+                    // Screen limits check
+                    if (bullet.x < 0 || bullet.x > w || bullet.y < 0 || bullet.y > h) {
+                        bullet.active = false;
+                    }
+                });
+
+            } else if (currentSimMode === 'current-switch') {
+                // Tidal Current manipulation mode visualizer
+                ctx.fillStyle = '#0f172a';
+                ctx.fillRect(0, 0, w, h);
+
+                // Render flowing water vector streams based on targetCurrentMode
+                const isEbb = targetCurrentMode > 50;
+                ctx.strokeStyle = isEbb ? '#06b6d4' : '#f97316';
+                ctx.lineWidth = 2;
+
+                const arrowSpacing = 50;
+                for (let yPos = 30; yPos < h; yPos += 45) {
+                    ctx.beginPath();
+                    if (isEbb) {
+                        // Right to Left flow
+                        ctx.moveTo(w - 30, yPos);
+                        ctx.lineTo(30, yPos);
+                        // Arrowheads pointing left
+                        ctx.moveTo(30, yPos);
+                        ctx.lineTo(40, yPos - 6);
+                        ctx.moveTo(30, yPos);
+                        ctx.lineTo(40, yPos + 6);
+                    } else {
+                        // Left to Right flow
+                        ctx.moveTo(30, yPos);
+                        ctx.lineTo(w - 30, yPos);
+                        // Arrowheads pointing right
+                        ctx.moveTo(30, yPos);
+                        ctx.lineTo(w - 40, yPos - 6);
+                        ctx.moveTo(30, yPos);
+                        ctx.lineTo(w - 40, yPos + 6);
+                    }
+                    ctx.stroke();
+                }
+
+                // Show central text indicator with background
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+                ctx.fillRect(w/2 - 100, h/2 - 25, 200, 50);
+                ctx.strokeStyle = isEbb ? '#06b6d4' : '#f97316';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(w/2 - 100, h/2 - 25, 200, 50);
+
+                ctx.fillStyle = isEbb ? '#06b6d4' : '#f97316';
+                ctx.font = 'bold 12px "Noto Sans KR"';
+                ctx.textAlign = 'center';
+                ctx.fillText(isEbb ? "역전된 썰물 (조선 압도적 유리)" : "거센 밀물 (왜군 침투 가속)", w/2, h/2 + 4);
+                ctx.textAlign = 'start'; // restore default
+
+                // Collision effect on background if Ebb is triggered
+                if (isEbb) {
+                    ctx.fillStyle = 'rgba(239, 68, 68, 0.9)';
+                    ctx.font = '24px serif';
+                    ctx.fillText("💥", w/2 - 50, h/2 - 40);
+                    ctx.fillText("💥", w/2 + 40, h/2 + 45);
+                }
+            }
+
+            // Draw particles (spark/splashes effects)
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.alpha -= 0.04;
+                if (p.alpha <= 0) {
+                    particles.splice(i, 1);
+                    continue;
+                }
+                ctx.save();
+                ctx.globalAlpha = p.alpha;
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // Continuous updates for bullets, particles, and current wave lines
+        function animLoop() {
+            if (currentSimMode === 'combat-active') {
+                // Keep spawning enemies as they are cleared
+                if (enemyShips.filter(s => s.alive).length === 0) {
+                    spawnEnemyShips(4);
+                }
+            }
+
+            drawCurrentSim();
+            requestAnimationFrame(animLoop);
+        }
+
+        // Slider movement changes current parameters and triggers collisions
+        function updateCurrent(val) {
+            targetCurrentMode = parseInt(val);
+            const currentText = document.getElementById('current-direction-val');
+
+            if (targetCurrentMode < 40) {
+                currentText.textContent = "밀물 (왜군 유리)";
+                currentText.className = "font-mono text-red-500 font-bold animate-pulse";
+                document.getElementById('canvas-feedback').textContent = "물살의 역전이 필요합니다. 슬라이더를 우측으로 미십시오!";
+            } else if (targetCurrentMode >= 40 && targetCurrentMode < 80) {
+                currentText.textContent = "정조 상태 (물살 정지)";
+                currentText.className = "font-mono text-slate-400 font-bold";
+                document.getElementById('canvas-feedback').textContent = "물길의 방향이 굳기 직전입니다. 조금 더 세게 밀어붙이세요!";
+            } else {
+                currentText.textContent = "썰물 (조선 대역전 개시)";
+                currentText.className = "font-mono text-cyan-400 font-bold animate-pulse";
+                document.getElementById('canvas-feedback').textContent = "물길 역전 대성공! 도망치는 왜선 무리를 향해 포격하세요!";
+                playPrehistoricSound('gong');
+
+                // Generate epic crash particles
+                const w = canvas.width / window.devicePixelRatio;
+                const h = canvas.height / window.devicePixelRatio;
+                for (let i = 0; i < 5; i++) {
+                    particles.push({
+                        x: w/2 + (Math.random() - 0.5) * 100,
+                        y: h/2 + (Math.random() - 0.5) * 80,
+                        vx: (Math.random() - 0.5) * 4,
+                        vy: (Math.random() - 0.5) * 4,
+                        alpha: 1,
+                        size: 6,
+                        color: '#ea580c'
+                    });
+                }
+            }
+        }
+
+        // Dynamic navigation, layouts switches, and sidebar widgets synchronization
+        function renderStage(stageId) {
+            // String conversion prevents numeric comparison issues with hyphen strings
+            currentStage = String(stageId);
+            const stage = storyNodes[currentStage];
+
+            if (!stage) return;
+
+            // Mark node in progress roadmap
+            visitedNodes.add(currentStage);
+            updateRoadmapUI();
+
+            // Set Stage Location & Badges
+            document.getElementById('stage-location').innerHTML = `<i class="fas fa-map-marker-alt text-red-500"></i> ${stage.location}`;
+            const badge = document.getElementById('stage-badge');
+            badge.textContent = stage.badge;
+
+            // Apply different dynamic colors to states badges
+            if (stage.badge.includes("FAILED") || stage.badge.includes("ERROR")) {
+                badge.className = "text-xs px-2.5 py-1 rounded bg-red-950/80 border border-red-800 font-bold serif-font uppercase tracking-widest";
+            } else if (stage.badge.includes("SUCCESS") || stage.badge.includes("대첩") || stage.badge.includes("ACCOMPLISHED")) {
+                badge.className = "text-xs px-2.5 py-1 rounded bg-cyan-900 border border-cyan-500 font-bold serif-font uppercase tracking-widest animate-bounce";
+            } else {
+                badge.className = "text-xs px-2.5 py-1 rounded bg-slate-900 border border-slate-700 font-bold serif-font uppercase tracking-widest";
+            }
+
+            // Setup appropriate Canvas Simulator mode dynamically based on story step
+            if (stage.setupSim) {
+                currentSimMode = stage.setupSim;
+                
+                // Toggle right sidebar simulator panels
+                document.getElementById('widget-map').classList.add('hidden');
+                document.getElementById('widget-combat').classList.add('hidden');
+                document.getElementById('widget-current').classList.add('hidden');
+
+                const modeBadge = document.getElementById('tool-mode-badge');
+                const instr = document.getElementById('canvas-instructions');
+
+                if (currentSimMode.startsWith('map')) {
+                    document.getElementById('widget-map').classList.remove('hidden');
+                    modeBadge.textContent = "TACTICAL MAP STRATEGY";
+                    modeBadge.className = "text-[10px] bg-amber-950 text-amber-400 px-2 py-0.5 rounded-full border border-amber-800 uppercase font-mono font-bold";
+                    
+                    if (currentSimMode === 'map-idle') {
+                        instr.innerHTML = "🗺️ <b>[정세 분석]</b> 13척 대 133척의 지형 설계를 분석해 우수 전장을 채택하십시오.";
+                    } else {
+                        instr.innerHTML = "🗺️ <b>[부산 vs 울돌목]</b> 사방 포위 협공 위협이 적은 극소 협로 지역을 조율하십시오.";
+                    }
+                } else if (currentSimMode === 'combat-active') {
+                    document.getElementById('widget-combat').classList.remove('hidden');
+                    modeBadge.textContent = "CHONJA-CHONGTONG CANNON FIRE";
+                    modeBadge.className = "text-[10px] bg-red-950 text-red-400 px-2 py-0.5 rounded-full border border-red-800 uppercase font-mono font-bold";
+                    instr.innerHTML = "🎯 <b>[명량 해협 교전]</b> 화면 우측의 일본 세키부네를 직접 탭/클릭하여 화포를 격발하십시오!";
+                    combatProgress = 0;
+                    document.getElementById('combat-progress').textContent = "0%";
+                    document.getElementById('combat-bar').style.width = "0%";
+                    spawnEnemyShips(4);
+                } else if (currentSimMode === 'current-switch') {
+                    document.getElementById('widget-current').classList.remove('hidden');
+                    modeBadge.textContent = "TIDAL CURRENT MANIPULATOR";
+                    modeBadge.className = "text-[10px] bg-cyan-900/60 text-cyan-300 px-2 py-0.5 rounded-full border border-cyan-700 uppercase font-mono font-bold";
+                    instr.innerHTML = "🎯 <b>[조류 흐름 역전]</b> 아래 슬라이더를 우측 끝으로 완전히 당겨 썰물 역전 상태를 완성시키십시오!";
+                    document.getElementById('slider-current').value = 20;
+                    updateCurrent(20);
+                }
+            }
+
+            // Character Card render
+            const charCard = document.getElementById('character-card');
+            if (stage.character) {
+                charCard.classList.remove('hidden');
+                document.getElementById('char-avatar').textContent = stage.character.avatar;
+                document.getElementById('char-name').textContent = stage.character.name;
+                document.getElementById('char-subtitle').textContent = stage.character.subtitle;
+            } else {
+                charCard.classList.add('hidden');
+            }
+
+            // Set main story text content with smooth transitions
+            const storyBox = document.getElementById('story-content');
+            storyBox.style.opacity = 0;
+            setTimeout(() => {
+                storyBox.innerHTML = stage.text;
+                storyBox.style.opacity = 1;
+            }, 100);
+
+            // Populate choices inside the grid buttons
+            const choicesGrid = document.getElementById('choices-grid');
+            choicesGrid.innerHTML = '';
+
+            stage.choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/40 hover:bg-red-950/30 hover:border-red-700 text-slate-200 transition duration-150 flex justify-between items-center group shadow active:translate-y-0.5";
+                
+                btn.innerHTML = `
+                    <span class="font-medium text-sm md:text-base group-hover:text-red-300 transition-colors">${choice.text}</span>
+                    <span class="text-[11px] bg-slate-800 group-hover:bg-red-900 text-slate-400 group-hover:text-red-300 px-2.5 py-1.5 rounded transition-colors flex items-center gap-1 font-mono font-bold">
+                        DECIDE <i class="fas fa-chevron-right text-[9px] animate-pulse"></i>
+                    </span>
+                `;
+
+                btn.onclick = () => {
+                    if (choice.next === "end") {
+                        triggerFinalSuccess();
+                    } else {
+                        if (choice.sound) {
+                            playPrehistoricSound(choice.sound);
+                        }
+                        renderStage(choice.next);
+                    }
+                };
+
+                choicesGrid.appendChild(btn);
+            });
+        }
+
+        function updateRoadmapUI() {
+            const allNodes = ["1", "1-1", "2", "2-1", "3", "3-1", "4", "4-1", "5"];
+            allNodes.forEach(nodeId => {
+                const element = document.getElementById(`node-${nodeId}`);
+                if (!element) return;
+
+                if (currentStage === String(nodeId)) {
+                    element.className = "p-2 border border-red-500 bg-red-950/70 text-red-300 font-bold rounded-lg flex items-center gap-1.5 shadow-sm";
+                } else if (visitedNodes.has(String(nodeId))) {
+                    element.className = "p-2 border border-slate-800 bg-slate-900 text-slate-300 rounded-lg flex items-center gap-1.5 opacity-90";
+                } else {
+                    element.className = "p-2 border border-slate-900 bg-slate-950/40 text-slate-700 rounded-lg flex items-center gap-1.5 opacity-40";
+                }
+            });
+        }
+
+        function triggerFinalSuccess() {
+            playPrehistoricSound('victory');
+            visitedNodes.add("5");
+            updateRoadmapUI();
+            
+            const storyBox = document.getElementById('story-content');
+            storyBox.innerHTML = `
+                <div class="text-center py-6 space-y-4">
+                    <div class="text-6xl animate-bounce">👑</div>
+                    <h2 class="text-2xl font-bold text-cyan-400 serif-font">명량대첩 기적의 대승 완수!</h2>
+                    <p class="text-slate-300 max-w-md mx-auto text-sm leading-relaxed serif-font">
+                        단 13척의 보잘것없는 함선으로 울돌목의 좁은 지형, 판옥선의 기동 포격, 그리고 하늘이 도운 썰물의 방향 전환 역전 원리를 전지적으로 연동해 왜군 133척의 침략군을 대파하셨습니다!
+                    </p>
+                    <div class="p-4 bg-cyan-950/70 rounded-xl border border-cyan-800/60 text-left text-xs max-w-sm mx-auto space-y-2">
+                        <p class="font-bold text-cyan-400"><i class="fas fa-medal"></i> 최종 해전 지휘 기록 평가:</p>
+                        <ul class="list-disc pl-4 text-cyan-200 space-y-1 font-mono">
+                            <li>포격전 격침 능력: <b>S클래스 (백병전 위험 차단)</b></li>
+                            <li>지리학적 조류 조율: <b>100% (썰물 대역전 유도 성공)</b></li>
+                            <li>조선 구국 안전망 확보: <b>서해 진입 완벽 방어</b></li>
+                            <li>역사적 보존: <b>세계 해전사 유례없는 불가사의 등극</b></li>
+                        </ul>
+                    </div>
+                    <p class="text-[11px] text-slate-500 italic mt-3">
+                        "장하도다! 이 승리는 참으로 하늘이 도운 천행(天幸)이로다!"
+                    </p>
+                    <div class="pt-4">
+                        <button onclick="resetGame()" class="px-6 py-2.5 bg-cyan-700 hover:bg-cyan-600 text-slate-100 rounded-xl font-bold shadow transition active:translate-y-0.5">
+                            <i class="fas fa-rotate-left"></i> 처음부터 다시 시작하기
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Clear option triggers
+            const choicesGrid = document.getElementById('choices-grid');
+            choicesGrid.innerHTML = '';
+        }
+
+        function resetGame() {
+            visitedNodes = new Set(["1"]);
+            playPrehistoricSound('restart');
+            renderStage("1");
+        }
+
+        // On Load Trigger
+        window.onload = function() {
+            resizeCanvas();
+            renderStage("1");
+            animLoop();
+        };
+    </script>
+</body>
+</html>
