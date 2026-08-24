@@ -483,6 +483,7 @@
     let mnBullets = [];
     let mnPlayerShip = { x: 50, y: 105, size: 24 };
     let mnTargetCurrent = 20;
+    let mnTaegeukState = { yangColor: false, yinColor: false, geon: false, gon: false, gam: false, ri: false };
 
     document.addEventListener('DOMContentLoaded', async () => {
       await Promise.all([
@@ -1852,13 +1853,14 @@
     function openGwangbokMUD() {
       currentActiveStoryId = 'story_gwangbok';
       mnVisited = new Set();
+      mnTaegeukState = { yangColor: false, yinColor: false, geon: false, gon: false, gam: false, ri: false };
       setMudTheme('#1D4ED8', '#2563EB');
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '3단원 8~9차시 · 광복과 정부 수립';
       document.getElementById('mn-header-title').textContent = 'MUD 8·15 광복의 환희와 대한민국 정부 수립: 최초의 5·10 총선거';
       
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-vote-yea" style="color: ${currentMudThemeColor};"></i> 5·10 총선거 민주 투표함 & 태극기 시뮬레이터`;
+      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-flag" style="color: ${currentMudThemeColor};"></i> 8·15 광복 태극기 색칠 & 사괘(건곤감리) 시뮬레이터`;
       document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 광복과 정부 수립 연대기`;
       
       renderRoadmapNodes([
@@ -2035,9 +2037,23 @@
           feedback.textContent = "남녀 균등 상속과 과거제를 확인하세요!";
         } else if (mnSimMode.startsWith('gwangbok')) {
           document.getElementById('widget-info').style.display = 'block';
-          document.getElementById('widget-info').innerHTML = "1945년 8·15 광복으로 우리말과 글을 되찾고, 1948년 5·10 총선거를 거쳐 대한민국 정부를 수립했습니다.";
-          instr.innerHTML = "🕊️ <b>8·15 광복의 환희 & 5·10 최초 민주 총선거</b>";
-          feedback.textContent = "자주독립 민주공화국 대한민국 수립을 확인하세요!";
+          document.getElementById('widget-info').innerHTML = `
+            <div style="font-size: 0.85rem; line-height: 1.5; margin-bottom: 8px; color: var(--text-main);">
+              <b>🇰🇷 태극기 색칠 & 사괘(건곤감리) 완성 시뮬레이터</b><br>
+              아래 버튼이나 캔버스를 터치하여 광복의 태극기를 올바르게 색칠해 보세요!
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 6px;">
+              <button onclick="colorTaegeukPart('yangColor')" class="btn secondary" style="padding: 6px 4px; font-size: 0.75rem; border-color: #CD2E3A; color: #CD2E3A;">🔴 양(빨강)</button>
+              <button onclick="colorTaegeukPart('yinColor')" class="btn secondary" style="padding: 6px 4px; font-size: 0.75rem; border-color: #0047A0; color: #0047A0;">🔵 음(파랑)</button>
+              <button onclick="colorTaegeukPart('geon')" class="btn secondary" style="padding: 6px 4px; font-size: 0.75rem;">☰ 건(하늘)</button>
+              <button onclick="colorTaegeukPart('gon')" class="btn secondary" style="padding: 6px 4px; font-size: 0.75rem;">☷ 곤(땅)</button>
+              <button onclick="colorTaegeukPart('gam')" class="btn secondary" style="padding: 6px 4px; font-size: 0.75rem;">☵ 감(달·물)</button>
+              <button onclick="colorTaegeukPart('ri')" class="btn secondary" style="padding: 6px 4px; font-size: 0.75rem;">☲ 리(해·불)</button>
+            </div>
+            <button onclick="colorAllTaegeuk()" class="btn" style="padding: 6px 8px; font-size: 0.82rem; background: #1D4ED8;">✨ 태극기 전체 완성하기</button>
+          `;
+          instr.innerHTML = "🇰🇷 <b>광복의 태극기 색칠하기 & 건·곤·감·리 4괘 완성</b>";
+          feedback.textContent = "버튼이나 화면을 터치하여 태극기를 색칠하세요!";
         } else if (mnSimMode.startsWith('mn')) {
           if (mnSimMode === 'mn-combat-active') {
             document.getElementById('widget-gauge').style.display = 'block';
@@ -2118,6 +2134,31 @@
       }
     }
 
+    function colorTaegeukPart(part) {
+      if (mnTaegeukState[part] !== undefined) {
+        mnTaegeukState[part] = true;
+        if (window.sounds) window.sounds.playClick();
+        checkTaegeukComplete();
+      }
+    }
+
+    function colorAllTaegeuk() {
+      mnTaegeukState = { yangColor: true, yinColor: true, geon: true, gon: true, gam: true, ri: true };
+      if (window.sounds) window.sounds.playFanfare();
+      checkTaegeukComplete();
+    }
+
+    function checkTaegeukComplete() {
+      const allCompleted = mnTaegeukState.yangColor && mnTaegeukState.yinColor && mnTaegeukState.geon && mnTaegeukState.gon && mnTaegeukState.gam && mnTaegeukState.ri;
+      const fb = document.getElementById('mn-canvas-feedback');
+      if (allCompleted) {
+        if (window.sounds) window.sounds.playFanfare();
+        if (fb) fb.innerHTML = "🎉 <b>대한독립만세!</b> 1945년 8·15 광복 태극기가 완성되었습니다!";
+      } else {
+        if (fb) fb.innerHTML = "남은 영역을 터치하여 태극기를 완성하세요!";
+      }
+    }
+
     mnCanvas.addEventListener('mousedown', (e) => handleCanvasTouch(e.clientX, e.clientY));
     mnCanvas.addEventListener('touchstart', (e) => {
       e.preventDefault();
@@ -2141,6 +2182,15 @@
         document.getElementById('gauge-bar').style.width = `${mnStoneHits}%`;
         if (window.sounds) window.sounds.playClick();
         if (mnStoneHits >= 100 && window.sounds) window.sounds.playCorrect();
+      } else if (mnSimMode.startsWith('gwangbok')) {
+        if (!mnTaegeukState.yangColor) mnTaegeukState.yangColor = true;
+        else if (!mnTaegeukState.yinColor) mnTaegeukState.yinColor = true;
+        else if (!mnTaegeukState.geon) mnTaegeukState.geon = true;
+        else if (!mnTaegeukState.gon) mnTaegeukState.gon = true;
+        else if (!mnTaegeukState.gam) mnTaegeukState.gam = true;
+        else if (!mnTaegeukState.ri) mnTaegeukState.ri = true;
+        if (window.sounds) window.sounds.playClick();
+        checkTaegeukComplete();
       } else if (mnSimMode === 'mn-combat-active') {
         mnBullets.push({
           x: mnPlayerShip.x + 10,
@@ -2336,28 +2386,158 @@
           });
         });
       } else if (mnSimMode.startsWith('gwangbok')) {
-        mnCtx.fillStyle = '#0f172a';
-        mnCtx.fillRect(0, 0, w, h);
-        // 태극기 바탕
-        mnCtx.fillStyle = '#FFFFFF';
-        mnCtx.fillRect(w/2 - 60, h/2 - 40, 120, 80);
-        mnCtx.strokeStyle = '#64748b';
-        mnCtx.lineWidth = 1;
-        mnCtx.strokeRect(w/2 - 60, h/2 - 40, 120, 80);
-        // 태극 문양
-        mnCtx.fillStyle = '#DC2626';
-        mnCtx.beginPath();
-        mnCtx.arc(w/2, h/2, 20, Math.PI, 0);
-        mnCtx.fill();
-        mnCtx.fillStyle = '#1D4ED8';
-        mnCtx.beginPath();
-        mnCtx.arc(w/2, h/2, 20, 0, Math.PI);
-        mnCtx.fill();
-        // 텍스트
-        mnCtx.fillStyle = '#FFFFFF';
-        mnCtx.font = 'bold 12px "Pretendard"';
-        mnCtx.fillText("1945.8.15 광복 & 1948.5.10 민주 총선거", w/2 - 110, h - 15);
+        drawPreciseTaegeukgi(mnCtx, w/2, h/2 - 8, 195, 130, mnTaegeukState);
+        
+        // 하단 설명 텍스트
+        const allCompleted = mnTaegeukState.yangColor && mnTaegeukState.yinColor && mnTaegeukState.geon && mnTaegeukState.gon && mnTaegeukState.gam && mnTaegeukState.ri;
+        mnCtx.fillStyle = allCompleted ? '#F59E0B' : '#FFFFFF';
+        mnCtx.font = 'bold 11px "Pretendard", sans-serif';
+        mnCtx.textAlign = 'center';
+        if (allCompleted) {
+          mnCtx.fillText("✨ 대한독립만세! 1945.8.15 광복과 태극기 완성 🇰🇷", w/2, h - 10);
+        } else {
+          mnCtx.fillText("🎨 화면이나 아래 버튼을 눌러 태극기를 완성하세요!", w/2, h - 10);
+        }
       }
+    }
+
+    // ==========================================
+    // 대한민국 국기법 공식 규격 태극기 정밀 렌더러
+    // ==========================================
+    function drawPreciseTaegeukgi(ctx, cx, cy, flagW, flagH, state) {
+      const x = cx - flagW / 2;
+      const y = cy - flagH / 2;
+
+      // 1. 흰색 깃면 (바탕 3:2 비율)
+      ctx.save();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.shadowColor = 'rgba(0,0,0,0.35)';
+      ctx.shadowBlur = 8;
+      ctx.fillRect(x, y, flagW, flagH);
+      ctx.restore();
+
+      ctx.strokeStyle = '#94A3B8';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x, y, flagW, flagH);
+
+      const radius = flagH / 4; // 태극 지름 = 세로의 1/2
+      const rSmall = radius / 2;
+      const diagAngle = Math.atan2(flagH, flagW); // 대각선 각도
+
+      // 2. 중앙 태극 문양 (대각선 축 회전)
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(-diagAngle); // 좌상단-우하단 대각선 축
+
+      // 밑그림 가이드 점선
+      ctx.strokeStyle = '#E2E8F0';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // [상부 양(陽) - 빨간색]
+      if (state.yangColor) {
+        ctx.fillStyle = '#CD2E3A'; // 대한민국 국기법 공식 태극 빨강
+        ctx.beginPath();
+        ctx.arc(0, 0, radius, Math.PI, 0, false);
+        ctx.arc(rSmall, 0, rSmall, 0, Math.PI, false);
+        ctx.arc(-rSmall, 0, rSmall, 0, Math.PI, true);
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        ctx.fillStyle = '#F1F5F9';
+        ctx.beginPath();
+        ctx.arc(0, 0, radius, Math.PI, 0, false);
+        ctx.arc(rSmall, 0, rSmall, 0, Math.PI, false);
+        ctx.arc(-rSmall, 0, rSmall, 0, Math.PI, true);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = '#94A3B8';
+        ctx.font = 'bold 8px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('🔴 양(빨강)', 0, -8);
+      }
+
+      // [하부 음(陰) - 파란색]
+      if (state.yinColor) {
+        ctx.fillStyle = '#0047A0'; // 대한민국 국기법 공식 태극 파랑
+        ctx.beginPath();
+        ctx.arc(0, 0, radius, 0, Math.PI, false);
+        ctx.arc(-rSmall, 0, rSmall, Math.PI, 0, false);
+        ctx.arc(rSmall, 0, rSmall, Math.PI, 0, true);
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        ctx.fillStyle = '#E2E8F0';
+        ctx.beginPath();
+        ctx.arc(0, 0, radius, 0, Math.PI, false);
+        ctx.arc(-rSmall, 0, rSmall, Math.PI, 0, false);
+        ctx.arc(rSmall, 0, rSmall, Math.PI, 0, true);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = '#64748B';
+        ctx.font = 'bold 8px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('🔵 음(파랑)', 0, 14);
+      }
+
+      ctx.restore();
+
+      // 3. 4괘 (건·곤·감·리) 정밀 렌더링
+      const kwaeDist = radius * 1.48;
+      const barW = radius * 0.52;
+      const barH = radius * 0.085;
+      const barGap = radius * 0.045;
+
+      function drawGwae(angle, dist, lines, isColored, name) {
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(angle);
+        ctx.translate(0, dist);
+
+        lines.forEach((isBroken, idx) => {
+          const lineY = (idx - 1) * (barH + barGap);
+          ctx.fillStyle = isColored ? '#000000' : '#E2E8F0';
+          if (!isBroken) {
+            // 양효 (연결된 막대)
+            ctx.fillRect(-barW / 2, lineY - barH / 2, barW, barH);
+            if (!isColored) {
+              ctx.strokeStyle = '#94A3B8';
+              ctx.lineWidth = 0.5;
+              ctx.strokeRect(-barW / 2, lineY - barH / 2, barW, barH);
+            }
+          } else {
+            // 음효 (가운데 분리된 막대)
+            const halfW = (barW - barGap) / 2;
+            ctx.fillRect(-barW / 2, lineY - barH / 2, halfW, barH);
+            ctx.fillRect(barGap / 2, lineY - barH / 2, halfW, barH);
+            if (!isColored) {
+              ctx.strokeStyle = '#94A3B8';
+              ctx.lineWidth = 0.5;
+              ctx.strokeRect(-barW / 2, lineY - barH / 2, halfW, barH);
+              ctx.strokeRect(barGap / 2, lineY - barH / 2, halfW, barH);
+            }
+          }
+        });
+
+        if (!isColored) {
+          ctx.fillStyle = '#64748B';
+          ctx.font = 'bold 7px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(name, 0, (barH + barGap) * 1.8);
+        }
+        ctx.restore();
+      }
+
+      // 1) 건괘 (☰, 좌상단): 양효 3개 [false, false, false]
+      drawGwae(-diagAngle - Math.PI/2, kwaeDist, [false, false, false], state.geon, '건(하늘)');
+      // 2) 곤괘 (☷, 우하단): 음효 3개 [true, true, true]
+      drawGwae(-diagAngle + Math.PI/2, kwaeDist, [true, true, true], state.gon, '곤(땅)');
+      // 3) 감괘 (☵, 우상단): 음-양-음 [true, false, true]
+      drawGwae(diagAngle - Math.PI/2, kwaeDist, [true, false, true], state.gam, '감(달·물)');
+      // 4) 리괘 (☲, 좌하단): 양-음-양 [false, true, false]
+      drawGwae(diagAngle + Math.PI/2, kwaeDist, [false, true, false], state.ri, '리(해·불)');
     }
 
     function animMnLoop() {
