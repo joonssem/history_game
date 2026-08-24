@@ -273,7 +273,7 @@
         <h1 class="main-title">초등 역사 탐구 교실</h1>
       </div>
       <div style="display: flex; gap: 8px;">
-        <button onclick="openQuizHub()" class="btn" style="width: auto; padding: 8px 14px; font-size: 0.88rem; background-color: #D97706;">
+        <button onclick="openQuizHub(currentUnitId)" class="btn" style="width: auto; padding: 8px 14px; font-size: 0.88rem; background-color: #D97706;">
           <i class="fas fa-bolt"></i> 골든벨 Quiz
         </button>
         <button onclick="openEncyclopediaModal()" class="btn secondary" style="width: auto; padding: 8px 14px; font-size: 0.88rem;">
@@ -409,13 +409,27 @@
   <!-- 3. [골든벨 퀴즈 모달] -->
   <!-- ============================================ -->
   <div id="view-quiz-modal" style="display: none; position: fixed; inset: 0; z-index: 100; background: rgba(44, 39, 36, 0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 16px;">
-    <div style="background: var(--card-bg); max-width: 600px; width: 100%; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); position: relative;">
-      <button onclick="closeQuizModal()" style="position: absolute; top: 16px; right: 16px; background: var(--card-sub); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 10px; cursor: pointer;">✕ 닫기</button>
-      <div id="quiz-intro-view" style="text-align: center; padding: 20px 0;">
+    <div style="background: var(--card-bg); max-width: 620px; width: 100%; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); position: relative;">
+      <button onclick="closeQuizModal()" style="position: absolute; top: 16px; right: 16px; background: var(--card-sub); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 10px; cursor: pointer; font-weight: 700;">✕ 닫기</button>
+      
+      <!-- 골든벨 단원 선택 탭 -->
+      <div style="display: flex; gap: 6px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);">
+        <button id="quiz-tab-1" onclick="switchQuizUnit(1)" style="flex: 1; padding: 8px 6px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.85rem; font-weight: 700; cursor: pointer; background: var(--card-sub);">
+          📜 1단원 퀴즈
+        </button>
+        <button id="quiz-tab-2" onclick="switchQuizUnit(2)" style="flex: 1; padding: 8px 6px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.85rem; font-weight: 700; cursor: pointer; background: var(--card-sub);">
+          ⚔️ 2단원 퀴즈
+        </button>
+        <button id="quiz-tab-3" onclick="switchQuizUnit(3)" style="flex: 1; padding: 8px 6px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.85rem; font-weight: 700; cursor: pointer; background: var(--card-sub);">
+          🇰🇷 3단원 퀴즈
+        </button>
+      </div>
+
+      <div id="quiz-intro-view" style="text-align: center; padding: 14px 0;">
         <span style="font-size: 3rem;">⚡</span>
-        <h2 id="quiz-modal-title" style="font-size: 1.5rem; color: var(--accent-red); margin: 12px 0 6px;">역사 스피드 골든벨</h2>
-        <p id="quiz-modal-desc" style="font-size: 0.95rem; color: #554D46; margin-bottom: 20px;">지도안에 수록된 생각 그물 & 초성 퀴즈로 역사를 완벽하게 마스터하세요!</p>
-        <button onclick="startUnitQuiz()" class="btn" style="background-color: var(--accent-red);">🚀 골든벨 시작하기</button>
+        <h2 id="quiz-modal-title" style="font-size: 1.45rem; color: var(--accent-red); margin: 10px 0 6px;">역사 스피드 골든벨</h2>
+        <p id="quiz-modal-desc" style="font-size: 0.92rem; color: #554D46; margin-bottom: 20px; line-height: 1.5;">생각 그물 & 초성 퀴즈로 역사를 완벽하게 마스터하세요!</p>
+        <button onclick="startUnitQuiz()" class="btn" style="background-color: var(--accent-red); font-size: 1rem; padding: 12px 20px;">🚀 골든벨 시작하기</button>
       </div>
       <div id="quiz-play-view" style="display: none;"></div>
       <div id="quiz-result-view" style="display: none;"></div>
@@ -2433,21 +2447,48 @@
     }
 
     // 골든벨 퀴즈 (단원별 지원)
+    // 골든벨 퀴즈 (1~3단원 전체 지원)
     let quizUnitTarget = 1;
+
     function openQuizHub(unitId = 1) {
-      quizUnitTarget = unitId;
+      quizUnitTarget = unitId || currentUnitId || 1;
       document.getElementById('view-quiz-modal').style.display = 'flex';
+      switchQuizUnit(quizUnitTarget);
+    }
+
+    function switchQuizUnit(unitId) {
+      quizUnitTarget = unitId;
       document.getElementById('quiz-intro-view').style.display = 'block';
       document.getElementById('quiz-play-view').style.display = 'none';
       document.getElementById('quiz-result-view').style.display = 'none';
+
+      // 탭 스타일 업데이트
+      [1, 2, 3].forEach(id => {
+        const tab = document.getElementById(`quiz-tab-${id}`);
+        if (tab) {
+          if (id === unitId) {
+            tab.style.background = id === 1 ? '#2D6A4F' : id === 2 ? '#8A3B29' : '#1D4ED8';
+            tab.style.color = '#FFFFFF';
+          } else {
+            tab.style.background = 'var(--card-sub)';
+            tab.style.color = 'var(--text-main)';
+          }
+        }
+      });
       
       const title = document.getElementById('quiz-modal-title');
       const desc = document.getElementById('quiz-modal-desc');
-      if (unitId === 2) {
+      if (unitId === 3) {
+        title.textContent = "3단원 총정리 스피드 골든벨 & 역사 탐정";
+        title.style.color = "#1D4ED8";
+        desc.textContent = "일제 침략과 저항(3·1운동), 8·15 광복, 최초의 5·10 총선거와 대한민국 정부 수립 퀴즈!";
+      } else if (unitId === 2) {
         title.textContent = "2단원 총정리 스피드 골든벨 & 방탈출 암호";
+        title.style.color = "#8A3B29";
         desc.textContent = "조선의 건국, 4대문 유교 덕목, 임진왜란·병자호란, 조선 후기 경제와 실학 퀴즈!";
       } else {
         title.textContent = "1단원 총정리 스피드 골든벨";
+        title.style.color = "#2D6A4F";
         desc.textContent = "선사 시대, 삼국과 가야, 통일신라와 발해, 고려의 건국과 사회 총정리 퀴즈!";
       }
     }
@@ -2457,7 +2498,34 @@
       document.getElementById('quiz-play-view').style.display = 'block';
 
       let quizzes = [];
-      if (quizUnitTarget === 2) {
+      if (quizUnitTarget === 3) {
+        quizzes = [
+          {
+            q: "1. [초성 퀴즈] 1919년 3월 1일 일제의 무단통치에 맞서 전국적으로 일어난 민족 최대의 평화 만세 운동은? (ㅅ·ㅇ ㅇㄷ)",
+            options: ["3·1 운동", "6·10 만세운동", "광주학생항일운동", "물산장려운동"],
+            ans: 0,
+            exp: "1919년 3·1 운동은 전 민족이 태극기를 들고 '대한 독립 만세'를 외친 평화 만세 운동으로, 대한민국 임시정부 수립의 계기가 되었습니다."
+          },
+          {
+            q: "2. [초성 퀴즈] 1948년 5월 10일 만 21세 이상 모든 국민에게 차별 없이 1표씩 주어진 우리 역사 최초의 민주 선거는? (ㅇ·ㅇ ㅊㅅㄱ)",
+            options: ["3·15 부정선거", "5·10 총선거", "제헌 국회 선거", "대통령 직선제"],
+            ans: 1,
+            exp: "5·10 총선거는 성별·재산·신분 차별 없이 모든 국민이 참여한 우리 역사 최초의 보통·평등·직접·비밀 민주 선거입니다."
+          },
+          {
+            q: "3. 1909년 중국 하얼빈 역에서 대한제국 침략의 원흉인 이토 히로부미를 처단한 독립운동가는?",
+            options: ["윤봉길 의사", "이봉창 의사", "안중근 의사", "김구 선생"],
+            ans: 2,
+            exp: "안중근 의사는 하얼빈 역에서 이토 히로부미를 사살하여 동양 평화와 대한제국의 자주독립 의지를 세계에 알렸습니다."
+          },
+          {
+            q: "4. [역사 헌법] 1948년 8월 15일 수립을 선포한 우리 민족의 자주독립 국가이자 현재 우리나라의 정식 국호는?",
+            options: ["대한제국", "고려민국", "조선민주국", "대한민국"],
+            ans: 3,
+            exp: "1948년 8월 15일, 3·1 운동과 대한민국 임시정부의 법통을 계승한 자주독립 민주공화국 '대한민국' 정부가 공식 수립되었습니다."
+          }
+        ];
+      } else if (quizUnitTarget === 2) {
         quizzes = [
           {
             q: "1. [초성 퀴즈] 조선 한양 도성의 동대문으로 '어짊(仁)'을 본받고자 지은 성문의 이름은? (ㅎㅇㅈㅁ)",
@@ -2523,9 +2591,12 @@
           document.getElementById('quiz-result-view').innerHTML = `
             <div style="text-align: center; padding: 20px 0;">
               <span style="font-size: 3rem;">🏆</span>
-              <h3 style="font-size: 1.3rem; color: var(--accent-red); margin: 10px 0;">골든벨 퀴즈 완료!</h3>
-              <p style="font-size: 1.1rem; font-weight: bold; margin-bottom: 20px;">총 ${quizzes.length}문제 중 ${score}문제 정답!</p>
-              <button onclick="closeQuizModal()" class="btn" style="background-color: var(--accent-teal);">확인</button>
+              <h3 style="font-size: 1.35rem; color: var(--accent-red); margin: 10px 0;">${quizUnitTarget}단원 골든벨 퀴즈 완료!</h3>
+              <p style="font-size: 1.1rem; font-weight: bold; margin-bottom: 20px;">총 ${quizzes.length}문제 중 <span style="color: #10B981; font-size: 1.3rem;">${score}</span>문제 정답!</p>
+              <div style="display: flex; gap: 8px; justify-content: center;">
+                <button onclick="switchQuizUnit(${quizUnitTarget})" class="btn secondary" style="width: auto;">🔄 다시 도전</button>
+                <button onclick="closeQuizModal()" class="btn" style="width: auto; background-color: var(--accent-teal);">확인</button>
+              </div>
             </div>
           `;
           return;
@@ -2535,17 +2606,20 @@
         let optHtml = '';
         cur.options.forEach((opt, idx) => {
           optHtml += `
-            <button onclick="handleQuizAns(${idx})" class="btn secondary" style="margin-bottom: 8px; text-align: left; justify-content: flex-start;">
-              <b>${idx + 1}.</b> ${opt}
+            <button onclick="handleQuizAns(${idx})" class="btn secondary" style="margin-bottom: 8px; text-align: left; justify-content: flex-start; padding: 10px 14px; font-size: 0.95rem;">
+              <b style="color: var(--accent-red); margin-right: 6px;">${idx + 1}.</b> ${opt}
             </button>
           `;
         });
 
         document.getElementById('quiz-play-view').innerHTML = `
           <div>
-            <div style="font-size: 0.8rem; color: var(--accent-red); font-weight: bold; margin-bottom: 6px;">문제 ${qIdx + 1} / ${quizzes.length}</div>
-            <h4 style="font-size: 1rem; font-weight: bold; margin-bottom: 16px; color: var(--text-main);">${cur.q}</h4>
-            <div>${optHtml}</div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--accent-red); font-weight: bold; margin-bottom: 8px;">
+              <span>${quizUnitTarget}단원 골든벨</span>
+              <span>문제 ${qIdx + 1} / ${quizzes.length}</span>
+            </div>
+            <h4 style="font-size: 1.05rem; font-weight: bold; margin-bottom: 16px; color: var(--text-main); line-height: 1.4;">${cur.q}</h4>
+            <div style="display: flex; flex-direction: column; gap: 4px;">${optHtml}</div>
           </div>
         `;
       }
