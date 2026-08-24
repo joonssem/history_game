@@ -454,6 +454,18 @@
     let currentUnitId = 1;
     let currentActiveStoryId = 'story_paleolithic';
 
+    // MUD 시뮬레이터 전역 상태 변수
+    let mnStoryNodes = {};
+    let mnCurrentStage = "1";
+    let mnVisited = new Set();
+    let mnSimMode = "paleo-intro";
+    let mnGaugeProgress = 0;
+    let mnStoneHits = 0;
+    let mnEnemyShips = [];
+    let mnBullets = [];
+    let mnPlayerShip = { x: 50, y: 105, size: 24 };
+    let mnTargetCurrent = 20;
+
     document.addEventListener('DOMContentLoaded', async () => {
       await Promise.all([
         window.encyclopedia.initArtifacts(),
@@ -601,6 +613,7 @@
     // ==========================================
     function openJoseonFoundingMUD() {
       currentActiveStoryId = 'story_joseon_founding';
+      mnVisited = new Set();
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '2단원 2~3차시 · 조선 건국';
@@ -699,6 +712,7 @@
     // ==========================================
     function openJoseonEconomyMUD() {
       currentActiveStoryId = 'story_joseon_economy';
+      mnVisited = new Set();
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '2단원 8차시 · 조선 후기 경제';
@@ -750,6 +764,105 @@
           setupSim: "economy-market"
         },
         "2-1": {
+          location: "소득 없는 장터",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "상업적 농업 착오", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 시장 경제 참여 기회 상실]</b><br>조선 후기 농민들은 <b>고추, 인삼, 담배</b>를 시장에 팔아 큰 이익을 남기고, 척박한 땅에서는 <b>고구마와 감자</b>로 굶주림을 해결했습니다!`,
+          choices: [{ text: "🔄 상품 작물을 재배한다.", next: "2", sound: "restart" }],
+          setupSim: "economy-market"
+        },
+        "3": {
+          location: "전국 5일장 장시",
+          badge: "🪙 상평통보의 유통",
+          character: { name: "보부상 대행수", subtitle: "전국 장터를 누비는 상인", avatar: "🎒" },
+          text: `<b>전국에 1,000개가 넘는 장시가 열리고 보부상들이 모여들었습니다!</b><br><br>쌀이나 무거운 곡식 대신 엽전으로 편리하게 물건을 사고팔 수 있도록 조선 후기 전국에 유통된 화폐는?`,
+          choices: [
+            { text: "🪨 \"조개껍데기와 무거운 쇠붙이\"", next: "3-1", sound: "fail" },
+            { text: "🪙 \"국가에서 발행한 엽전 '상평통보'!\"", next: "4", sound: "victory" }
+          ],
+          setupSim: "economy-market"
+        },
+        "3-1": {
+          location: "물물교환의 불편함",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "화폐 경제 부재", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 상업 거래 정체]</b><br>곡식이나 옷감으로 물건을 바꾸는 것은 너무 불편합니다! 조선 후기에는 <b>상평통보</b>가 전국적으로 사용되면서 상업이 비약적으로 발전했습니다.`,
+          choices: [{ text: "🔄 상평통보로 거래한다.", next: "3", sound: "restart" }],
+          setupSim: "economy-market"
+        },
+        "4": {
+          location: "번화한 한양 시전 거리",
+          badge: "👑 MISSION ACCOMPLISHED",
+          character: { name: "조선 거상", subtitle: "조선 후기 시장 경제 주역", avatar: "🎉" },
+          text: `<b>"농업 발전과 장시의 번영, 상평통보로 활짝 핀 조선 경제!"</b><br><br>모내기법과 상품 작물 재배, 보부상과 상평통보로 조선 후기 백성들의 삶은 더욱 풍요롭고 역동적으로 변화했습니다!`,
+          choices: [{ text: "🎉 조선 경제 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
+          setupSim: "economy-market"
+        }
+      };
+
+      resizeMnCanvas();
+      renderMnStage("1");
+      animMnLoop();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==========================================
+    // 2단원 9차시 [실학자 탐구 MUD]
+    // ==========================================
+    function openJoseonSilhakMUD() {
+      currentActiveStoryId = 'story_joseon_silhak';
+      mnVisited = new Set();
+      document.getElementById('view-portal').style.display = 'none';
+      document.getElementById('view-myeongnyang').style.display = 'block';
+      document.getElementById('mn-header-tag').textContent = '2단원 9차시 · 조선 후기 사회';
+      document.getElementById('mn-header-title').textContent = 'MUD 실학자 탐구: 지구의와 동학의 평등 세상';
+      
+      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-globe-asia" style="color: #C27803;"></i> 서양 문물(지구의·천리경)과 세계관 시뮬레이터';
+      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: #C27803;"></i> 실학 & 사회 변화 연대기';
+      
+      renderRoadmapNodes([
+        { id: "1", label: "1. 서양 문물과 지구의" },
+        { id: "1-1", label: "1-1. 중국 중심 고수 [실패]" },
+        { id: "2", label: "2. 실학의 사회 개혁론" },
+        { id: "2-1", label: "2-1. 공리공론 고수 [실패]" },
+        { id: "3", label: "3. 천주교와 동학(평등)" },
+        { id: "3-1", label: "3-1. 신분 차별 고수 [실패]" },
+        { id: "4", label: "4. 새로운 사회로의 전진" },
+        { id: "end", label: "5. 근대 사상 완수" }
+      ]);
+
+      mnStoryNodes = {
+        "1": {
+          location: "조선 후기 실학자의 서재",
+          badge: "🌍 둥근 지구와 세계관",
+          character: { name: "담헌 홍대용", subtitle: "지전설과 우주를 탐구한 실학자", avatar: "🔭" },
+          text: `<b>서양에서 들어온 둥근 공 모양의 '지구의'와 '곤여만국전도'를 보았습니다!</b><br><br>중국이 세상의 중심이라는 옛 생각(천하도)을 버리고, 실학자로서 깨달은 새로운 우주관은 무엇일까요?`,
+          choices: [
+            { text: "🗺️ \"그래도 세상의 중심은 무조건 중국이다.\"", next: "1-1", sound: "fail" },
+            { text: "🌍 \"지구는 둥글고 자전하며, 중국만이 세상의 중심이 아니다! 모든 나라가 동등하다!\"", next: "2", sound: "victory" }
+          ],
+          setupSim: "silhak-globe"
+        },
+        "1-1": {
+          location: "낡은 생각에 갇힌 서원",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "성리학적 고정관념", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 낡은 중화사상에 고립]</b><br>지구의와 천리경, 자명종은 서양의 발달된 과학 기술을 보여줍니다! 실학자들은 <b>중국 중심 세계관에서 벗어나 세계로 시야를 넓혔습니다.</b>`,
+          choices: [{ text: "🔄 새로운 세계관을 수용한다.", next: "1", sound: "restart" }],
+          setupSim: "silhak-globe"
+        },
+        "2": {
+          location: "다산 정약용의 유배지",
+          badge: "📜 실학의 실사구시",
+          character: { name: "다산 정약용", subtitle: "백성을 위한 실학의 집대성", avatar: "✍️" },
+          text: `<b>백성들의 삶을 실제로 윤택하게 만들 실용적인 학문(실학)이 절실합니다!</b><br><br>토지 제도를 개혁해 농민을 살리고(정약용), 거중기를 만들어 수원 화성을 쌓으며 수공업과 무역을 발전시키자는 주장은?`,
+          choices: [
+            { text: "📖 \"실생활과 상관없는 어려운 예절 논쟁만 고집한다.\"", next: "2-1", sound: "fail" },
+            { text: "⚙️ \"실제 생활에 도움이 되는 기술을 개발하고 제도를 개혁하는 '실학(實學)'을 펼친다!\"", next: "3", sound: "cannon" }
+          ],
+          setupSim: "silhak-globe"
+        },
+        "2-1": {
           location: "피폐해진 농촌",
           badge: "❌ 역사의 IF (실패)",
           character: { name: "시간 안내원 '타미'", subtitle: "공리공론의 한계", avatar: "🤖" },
@@ -792,8 +905,111 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // ==========================================
+    // 2단원 7차시 [명량해전 MUD]
+    // ==========================================
+    function openMyeongnyang() {
+      currentActiveStoryId = 'story_myeongnyang';
+      mnVisited = new Set();
+      document.getElementById('view-portal').style.display = 'none';
+      document.getElementById('view-myeongnyang').style.display = 'block';
+      document.getElementById('mn-header-tag').textContent = '2단원 7차시 · 임진왜란';
+      document.getElementById('mn-header-title').textContent = 'MUD 명량대첩: 13척으로 133척을 막아선 기적';
+      
+      document.getElementById('interactive-title').innerHTML = '<i class="fas fa-ship" style="color: var(--accent-red);"></i> 판옥선 천자총통 포격 & 조류 시뮬레이터';
+      document.getElementById('roadmap-title').innerHTML = '<i class="fas fa-history" style="color: var(--accent-red);"></i> 명량 해전 결전 연대기';
+      
+      renderRoadmapNodes([
+        { id: "1", label: "1. 13척 vs 133척" },
+        { id: "1-1", label: "1-1. 수군 폐지 [패배]" },
+        { id: "2", label: "2. 울돌목 협로 유인" },
+        { id: "2-1", label: "2-1. 넓은 바다 [패배]" },
+        { id: "3", label: "3. 대장선 화포 일사" },
+        { id: "3-1", label: "3-1. 백병전 허용 [패배]" },
+        { id: "4", label: "4. 조류 역전 총반격" },
+        { id: "end", label: "5. 승전 장계 완수" }
+      ]);
+
+      mnStoryNodes = {
+        "1": {
+          location: "정유재란 1597년, 진도 벽파진",
+          badge: "⚔️ 절체절명의 위기",
+          character: { name: "삼도수군통제사 이순신", subtitle: "조선 수군의 지휘관", avatar: "🛡️" },
+          text: `<b>"신에게는 아직 열두 척의 배가 남아 있사옵니다."</b><br><br>왜군 대함대 133척이 서해를 거쳐 한양으로 진격해 오고 있습니다. 조정에서는 수군을 폐지하고 육군과 합류하라 명합니다. 장군으로서 어떤 결단을 내리시겠습니까?`,
+          choices: [
+            { text: "🏳️ \"임금의 명대로 배를 버리고 육군에 합류한다.\"", next: "1-1", sound: "fail" },
+            { text: "⚔️ \"수군을 폐지하면 적들이 서해를 거쳐 한양으로 곧장 갈 것입니다! 바다를 지키겠습니다!\"", next: "2", sound: "drum" }
+          ],
+          setupSim: "mn-map-idle"
+        },
+        "1-1": {
+          location: "서해 바다 전역",
+          badge: "❌ 역사의 IF (패배)",
+          character: { name: "시간 안내원 '타미'", subtitle: "제해권 상실", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 조선 패망의 위기]</b><br>수군을 폐지하자 왜군 수륙병진 작전이 성공하여 곡창지대 호남과 한양이 함락되었습니다! 바다를 지켜야만 조선을 구할 수 있습니다.`,
+          choices: [{ text: "🔄 13척으로 결전을 준비한다.", next: "1", sound: "restart" }],
+          setupSim: "mn-map-idle"
+        },
+        "2": {
+          location: "전남 해남과 진도 사이",
+          badge: "🗺️ 전장의 선택",
+          character: { name: "녹도만호 송여종", subtitle: "조선 수군 장수", avatar: "⛵" },
+          text: `<b>13척의 적은 전력으로 133척의 왜선을 상대할 결전의 장소를 정해야 합니다!</b><br><br>물살이 좁고 거세어 적선이 대열을 갖추기 힘든 최고의 길목은 어디입니까?`,
+          choices: [
+            { text: "🌊 \"넓고 탁 트인 남해 넓은 바다로 나아가 싸우자!\"", next: "2-1", sound: "fail" },
+            { text: "🌀 \"물살이 험하고 좁은 해협 '울돌목(명량)'으로 적을 유인한다!\"", next: "3", sound: "cannon" }
+          ],
+          setupSim: "mn-map-choose"
+        },
+        "2-1": {
+          location: "남해 넓은 바다",
+          badge: "❌ 역사의 IF (패배)",
+          character: { name: "시간 안내원 '타미'", subtitle: "포위 섬멸 위기", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 수적 열세로 포위됨]</b><br>넓은 바다에서는 왜선 133척이 순식간에 판옥선 13척을 겹겹이 포위합니다! 좁은 해협 <b>울돌목</b>의 지형을 활용해야만 일자진으로 적을 막을 수 있습니다.`,
+          choices: [{ text: "🔄 울돌목으로 유인한다.", next: "2", sound: "restart" }],
+          setupSim: "mn-map-choose"
+        },
+        "3": {
+          location: "울돌목 한가운데 결전장",
+          badge: "💥 사즉생 생즉사",
+          character: { name: "삼도수군통제사 이순신", subtitle: "대장선 홀로 선봉에 서다", avatar: "🛡️" },
+          text: `<b>적선 수십 척이 울돌목으로 들이닥쳤으나, 겁에 질린 부하 장수들의 배가 뒤로 물러났습니다!</b><br><br>대장선 홀로 적선에 둘러싸인 절체절명의 순간, 어떻게 싸우시겠습니까?`,
+          choices: [
+            { text: "🏃 \"적의 수가 너무 많다, 일단 후퇴하여 기회를 보자.\"", next: "3-1", sound: "fail" },
+            { text: "💣 \"죽기를 각오하면 살고, 살고자 하면 죽는다! 천자·지자총통을 일제히 격발하라!\"", next: "4", sound: "cannon" }
+          ],
+          setupSim: "mn-combat-active"
+        },
+        "3-1": {
+          location: "울돌목 퇴각선",
+          badge: "❌ 역사의 IF (패배)",
+          character: { name: "시간 안내원 '타미'", subtitle: "전선 붕괴", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 진열 붕괴로 수군 궤멸]</b><br>대장선이 물러서자 수군 전체가 와해되었습니다! 이순신 장군은 대장선 홀로 굳건히 버티며 화포를 퍼부어 왜선의 접근을 막았습니다.`,
+          choices: [{ text: "🔄 대장선에서 총포 사격을 명한다.", next: "3", sound: "restart" }],
+          setupSim: "mn-combat-active"
+        },
+        "4": {
+          location: "울돌목 물살 역전의 순간",
+          badge: "🌊 승리의 파도",
+          character: { name: "삼도수군통제사 이순신", subtitle: "기적의 대승", avatar: "👑" },
+          text: `<b>정조 시간을 지나 마침내 물살이 왜군 쪽으로 거세게 흐르기 시작했습니다! (썰물 역전)</b><br><br>적선들이 서로 부딪치며 혼란에 빠졌습니다. 용기를 얻은 아군 전선들이 합세하여 총반격을 개시합니다!`,
+          choices: [{ text: "🏆 전 함대 돌격! 승전의 장계를 올린다!", next: "end", sound: "victory" }],
+          setupSim: "mn-current-switch"
+        }
+      };
+
+      resizeMnCanvas();
+      renderMnStage("1");
+      animMnLoop();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==========================================
+    // 1단원 2차시 [구석기 생존 MUD]
+    // ==========================================
     function openPaleolithicMUD() {
       currentActiveStoryId = 'story_paleolithic';
+      mnVisited = new Set();
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 2차시 · 구석기 시대';
@@ -813,7 +1029,74 @@
         { id: "end", label: "5. 구석기 생존 완수" }
       ]);
 
-      setupPaleolithicStory();
+      mnStoryNodes = {
+        "1": {
+          location: "약 70만 년 전 한반도 한탄강 유역",
+          badge: "❄️ 혹한의 계절",
+          character: { name: "구석기인 '바우'", subtitle: "사냥 무리의 청년", avatar: "🧔" },
+          text: `<b>매서운 빙하기의 바람이 불어오고, 매머드와 사슴 떼가 남쪽으로 이동하기 시작했습니다!</b><br><br>추위와 굶주림을 피해 살아남으려면 무리가 가장 먼저 내려야 할 결단은 무엇일까요?`,
+          choices: [
+            { text: "🌾 \"땅을 갈아 씨앗을 뿌리고 농사를 짓자!\"", next: "1-1", sound: "fail" },
+            { text: "🎒 \"동물 떼를 따라 동굴과 바위 그늘로 이동한다!\"", next: "2", sound: "drum" }
+          ],
+          setupSim: "paleo-intro"
+        },
+        "1-1": {
+          location: "얼어붙은 들판",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "시대착오 오류", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 시대착오 오류]</b><br>구석기 시대는 아직 농경 기술이 없었습니다! 식량을 구하려면 동물 떼를 따라 이동하며 사냥과 채집을 해야 합니다.`,
+          choices: [{ text: "🔄 사냥감을 따라 이동 생활을 시작한다.", next: "1", sound: "restart" }],
+          setupSim: "paleo-intro"
+        },
+        "2": {
+          location: "연천 전곡리 바위동굴",
+          badge: "🔥 어둠과 추위",
+          character: { name: "무리 족장", subtitle: "무리 최고의 지혜자", avatar: "👴" },
+          text: `<b>동굴에 도착했으나 맹수의 울음소리가 들리고 혹독한 어둠과 추위가 덮쳐옵니다!</b><br><br>맹수를 쫓아내고 고기를 익혀 먹을 구석기 최고의 생존 무기는 무엇일까요?`,
+          choices: [
+            { text: "🏺 \"진흙을 빚어 빗살무늬 토기를 굽는다.\"", next: "2-1", sound: "fail" },
+            { text: "🔥 \"나무를 강하게 비벼 불을 피워 동굴을 밝힌다!\"", next: "3", sound: "cannon" }
+          ],
+          setupSim: "paleo-fire"
+        },
+        "2-1": {
+          location: "차가운 진흙 앞",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "유물 혼선 오류", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 시대착오적 토기 제작]</b><br>토기는 신석기 시대부터 사용되었습니다! 구석기 사람들에게 가장 절실했던 것은 <b>불</b>이었습니다.`,
+          choices: [{ text: "🔄 마찰로 불을 피운다.", next: "2", sound: "restart" }],
+          setupSim: "paleo-fire"
+        },
+        "3": {
+          location: "한탄강 자갈밭",
+          badge: "⛏️ 만능 도구의 가공",
+          character: { name: "구석기인 '바우'", subtitle: "도구를 만드는 청년", avatar: "🧔" },
+          text: `<b>사냥한 동물의 가죽을 벗기고 뼈를 쪼갤 강력한 도구가 필요합니다!</b><br><br>자갈돌을 어떻게 다듬어야 사냥과 조리에 두루 쓸 수 있는 최고의 도구가 될까요?`,
+          choices: [
+            { text: "🪨 \"그냥 둥근 돌멩이를 그대로 집어 던진다.\"", next: "3-1", sound: "fail" },
+            { text: "⛏️ \"돌의 양쪽 면을 정교하게 떼어내 날을 세운다 (주먹도끼)!\"", next: "4", sound: "victory" }
+          ],
+          setupSim: "paleo-stone"
+        },
+        "3-1": {
+          location: "무딘 돌멩이 앞",
+          badge: "❌ 역사의 IF (실패)",
+          character: { name: "시간 안내원 '타미'", subtitle: "가공 기술 부재", avatar: "🤖" },
+          text: `<b>❌ [역사의 IF: 자연석의 한계]</b><br>그냥 돌멩이로는 단단한 가죽과 고기를 손질할 수 없습니다! 돌을 깨뜨려 양날을 세운 <b>뗀석기(주먹도끼)</b>가 필요합니다.`,
+          choices: [{ text: "🔄 양날을 떼어내 주먹도끼를 완성한다.", next: "3", sound: "restart" }],
+          setupSim: "paleo-stone"
+        },
+        "4": {
+          location: "연천 전곡리 선사 유적지",
+          badge: "👑 MISSION ACCOMPLISHED",
+          character: { name: "시간 안내원 '타미'", subtitle: "역사 탐구 완료", avatar: "🏆" },
+          text: `<b>"아시아 최초의 아슐리안형 주먹도끼 발견!"</b><br><br>연천 전곡리에서 발견된 주먹도끼는 동아시아에도 발달된 구석기 도구가 존재했음을 전 세계에 증명한 위대한 유물입니다!`,
+          choices: [{ text: "🎉 구석기 생존 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
+          setupSim: "paleo-stone"
+        }
+      };
+
       resizeMnCanvas();
       renderMnStage("1");
       animMnLoop();
@@ -822,6 +1105,7 @@
 
     function openNeolithicMUD() {
       currentActiveStoryId = 'story_neolithic';
+      mnVisited = new Set();
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 3차시 · 신석기 시대';
@@ -920,6 +1204,7 @@
     // ==========================================
     function openBronzeAgeMUD() {
       currentActiveStoryId = 'story_bronze_age';
+      mnVisited = new Set();
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 4~5차시 · 청동기 시대';
@@ -1018,6 +1303,7 @@
     // ==========================================
     function openGojoseonMUD() {
       currentActiveStoryId = 'story_gojoseon';
+      mnVisited = new Set();
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 6차시 · 고조선';
@@ -1116,6 +1402,7 @@
     // ==========================================
     function openThreeKingdomsConquestMUD() {
       currentActiveStoryId = 'story_three_kingdoms_conquest';
+      mnVisited = new Set();
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 7~8차시 · 삼국과 가야';
@@ -1214,6 +1501,7 @@
     // ==========================================
     function openThreeKingdomsLifeMUD() {
       currentActiveStoryId = 'story_three_kingdoms_life';
+      mnVisited = new Set();
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 9~10차시 · 삼국과 가야 생활';
@@ -1309,6 +1597,7 @@
 
     function openGoryeoFoundingMUD() {
       currentActiveStoryId = 'story_goryeo_founding';
+      mnVisited = new Set();
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 13차시 · 고려 시대';
@@ -1404,6 +1693,7 @@
 
     function openGoryeoSocietyMUD() {
       currentActiveStoryId = 'story_goryeo_society';
+      mnVisited = new Set();
       document.getElementById('view-portal').style.display = 'none';
       document.getElementById('view-myeongnyang').style.display = 'block';
       document.getElementById('mn-header-tag').textContent = '1단원 14차시 · 고려 사회';
