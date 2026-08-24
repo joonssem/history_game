@@ -595,8 +595,7 @@
           }
           if (ch.next === "end") {
             window.encyclopedia.unlockBadge('badge_timeline_master');
-            alert("👑 명량대첩 기적의 대승 완수! 축하합니다.");
-            showPortalView();
+            renderFinalReflectionView();
           } else {
             renderMnStage(ch.next);
           }
@@ -742,6 +741,56 @@
           mnCtx.stroke();
         }
       }
+    }
+
+    function renderFinalReflectionView() {
+      if (window.sounds) window.sounds.playFanfare();
+      const storyBox = document.getElementById('mn-story-content');
+      const grid = document.getElementById('mn-choices-grid');
+      
+      storyBox.innerHTML = `
+        <div class="space-y-4 py-2">
+          <div class="p-4 bg-gradient-to-r from-red-950/90 to-amber-950/80 border-2 border-amber-500/60 rounded-2xl text-center shadow-lg">
+            <span class="text-4xl">👑</span>
+            <h3 class="text-xl font-bold text-amber-300 mt-2 serif-font">명량대첩 기적의 대승 완수!</h3>
+            <p class="text-xs text-slate-300 mt-1">13척으로 133척을 물리치고 조선의 바다를 지켜냈습니다.</p>
+          </div>
+
+          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800 space-y-3">
+            <h4 class="text-xs font-bold text-amber-400 flex items-center gap-1.5 font-mono uppercase">
+              <i class="fas fa-feather-alt"></i> [메타인지 회고] 통제사의 승전 장계(일기) 작성
+            </h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              오늘 내린 결정 중 <b>가장 고민되었던 순간</b>이나 <b>가장 중요했던 승리의 열쇠</b>를 한 줄로 기록해 보세요:
+            </p>
+            <textarea id="student-reflection-text" class="w-full p-3 rounded-xl bg-slate-950 border border-slate-700 text-slate-200 text-xs focus:border-amber-400 focus:outline-none h-20 placeholder:text-slate-600" placeholder="예: 선조의 명령 대신 바다를 지키기로 결심했을 때 두려웠지만, 울돌목의 좁은 지형과 썰물 역전 덕분에 대승할 수 있었다!"></textarea>
+            
+            <div class="flex gap-2">
+              <button onclick="copyStudentReflection()" class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs transition shadow flex items-center justify-center gap-1.5">
+                <i class="fas fa-copy"></i> 장계 복사하기 (과제 제출용)
+              </button>
+              <button onclick="showPortalView()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs border border-slate-700 transition">
+                🏠 진도표로
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      grid.innerHTML = '';
+    }
+
+    function copyStudentReflection() {
+      const text = document.getElementById('student-reflection-text').value.trim();
+      if (!text) {
+        alert('장계(회고) 내용을 입력해 주세요!');
+        return;
+      }
+      const fullText = `[초등 5학년 역사 명량해전 MUD 승전 장계]\n"신에게는 아직 열두 척의 배가 남아있사옵니다."\n\n나의 역사적 결단 회고:\n${text}`;
+      navigator.clipboard.writeText(fullText).then(() => {
+        alert('📋 장계가 클립보드에 복사되었습니다! 구글 클래스룸이나 패들렛에 붙여넣어 제출하세요.');
+      }).catch(() => {
+        alert('복사되었습니다: ' + text);
+      });
     }
 
     function animMnLoop() {
