@@ -27,7 +27,7 @@
         window.miniGames.init(),
         loadCurriculum()
       ]);
-      renderCurriculum(1);
+      switchUnitTab(1);
     });
 
     async function loadCurriculum() {
