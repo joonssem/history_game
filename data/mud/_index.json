@@ -310,6 +310,79 @@
       "themeColor": "#2C3E50",
       "accentColor": "#E74C3C",
       "file": "regular_korean_war.json"
+    },
+    {
+      "mudId": "regular_goryeo_war",
+      "tier": "regular",
+      "unitId": 1,
+      "lessonNumbers": [
+        15,
+        16
+      ],
+      "title": "서희의 외교 담판과 강감찬의 귀주대첩",
+      "subtitle": "1단원 고려 15~16차시",
+      "storyId": "story_goryeo_war",
+      "themeColor": "#8B5CF6",
+      "accentColor": "#6D28D9",
+      "file": "regular_goryeo_war.json"
+    },
+    {
+      "mudId": "regular_goryeo_culture",
+      "tier": "regular",
+      "unitId": 1,
+      "lessonNumbers": [
+        17,
+        18
+      ],
+      "title": "팔만대장경과 벽란도: 세계와 만난 고려 문화",
+      "subtitle": "1단원 고려 17~18차시",
+      "storyId": "story_goryeo_culture",
+      "themeColor": "#059669",
+      "accentColor": "#10B981",
+      "file": "regular_goryeo_culture.json"
+    },
+    {
+      "mudId": "regular_joseon_folk",
+      "tier": "regular",
+      "unitId": 2,
+      "lessonNumbers": [
+        10
+      ],
+      "title": "조선 후기 서민 문화: 신명 나는 탈춤과 풍속화",
+      "subtitle": "2단원 조선 후기 10차시",
+      "storyId": "story_joseon_folk",
+      "themeColor": "#D97706",
+      "accentColor": "#B45309",
+      "file": "regular_joseon_folk.json"
+    },
+    {
+      "mudId": "regular_modern_open",
+      "tier": "regular",
+      "unitId": 2,
+      "lessonNumbers": [
+        11,
+        12
+      ],
+      "title": "강화도 조약과 근대 문물의 도입: 전차 달리는 한양",
+      "subtitle": "2단원 개항기 11~12차시",
+      "storyId": "story_modern_open",
+      "themeColor": "#0284C7",
+      "accentColor": "#0369A1",
+      "file": "regular_modern_open.json"
+    },
+    {
+      "mudId": "regular_independence_army",
+      "tier": "regular",
+      "unitId": 3,
+      "lessonNumbers": [
+        2
+      ],
+      "title": "안중근의 하얼빈 의거와 의병: 조국을 향한 맹세",
+      "subtitle": "3단원 근현대사 2차시",
+      "storyId": "story_independence_army",
+      "themeColor": "#991B1B",
+      "accentColor": "#DC2626",
+      "file": "regular_independence_army.json"
     }
   ]
 }

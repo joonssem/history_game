@@ -89,25 +89,35 @@ function renderCurriculum(unitId) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_goryeo_founding')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 👑 왕건의 고려 건국 MUD</button>`;
       } else if (num === 14 || title.includes('고려의 생활') || title.includes('고려 사회')) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_goryeo_society')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 📜 고려 사회 탐정 MUD</button>`;
-      } 
+      } else if (unitId === 1 && (num === 15 || num === 16 || title.includes('주변 나라') || title.includes('거란') || display.includes('15~16차시'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_goryeo_war')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-shield-alt"></i> ⚔️ 서희와 강감찬 MUD</button>`;
+      } else if (unitId === 1 && (num === 17 || num === 18 || title.includes('고려의 문화') || title.includes('대장경') || display.includes('17~18차시'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_goryeo_culture')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-book"></i> 📜 팔만대장경과 벽란도 MUD</button>`;
+      }
       // 2단원 MUD 매핑
-      else if (num === 22 || num === 23 || title.includes('조선의 건국') || title.includes('한양')) {
+      else if (unitId === 2 && (num === 2 || num === 3 || num === 22 || num === 23 || title.includes('조선의 건국') || title.includes('한양') || display.includes('2~3차시'))) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_joseon_founding')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🏛️ 한양 도읍 설계 MUD</button>`;
-      } else if (num === 24 || num === 25 || title.includes('세종') || title.includes('과학') || title.includes('훈민정음')) {
+      } else if (unitId === 2 && (num === 4 || num === 5 || num === 24 || num === 25 || title.includes('세종') || title.includes('과학') || title.includes('유교 질서') || display.includes('4~5차시'))) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_sejong')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 👑 세종대왕 과학 발전 MUD</button>`;
       } else if (num === 27 || title.includes('명량') || title.includes('임진왜란과 수군')) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_myeongnyang')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-ship"></i> ⚔️ 명량해전 MUD 플레이</button>`;
-      } else if (num === 28 || title.includes('조선 후기 경제') || title.includes('모내기') || title.includes('농업과 상업')) {
+      } else if (unitId === 2 && (num === 8 || num === 9 || num === 28 || title.includes('조선 후기 경제') || title.includes('모내기') || title.includes('경제적 변화'))) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_joseon_economy')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 💰 조선 후기 경제 MUD</button>`;
       } else if (num === 29 || title.includes('실학') || title.includes('새로운 생각') || title.includes('서학')) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_joseon_silhak')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🌍 실학자 탐구 MUD</button>`;
+      } else if (unitId === 2 && (num === 10 || title.includes('서민 문화') || title.includes('풍속화') || title.includes('탈춤'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_joseon_folk')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-theater-masks"></i> 🎭 서민 문화와 탈춤 MUD</button>`;
+      } else if (unitId === 2 && (num === 11 || num === 12 || title.includes('개항') || title.includes('근대') || display.includes('11~12차시'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_modern_open')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-subway"></i> 🚂 개항과 근대 문물 MUD</button>`;
       }
       // 3단원 MUD 매핑
-      else if (num === 38 || num === 39 || title.includes('3·1') || title.includes('임시 정부') || title.includes('독립운동')) {
+      else if (unitId === 3 && (num === 2 || title.includes('나라를 지키려는') || title.includes('의병') || title.includes('안중근'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_independence_army')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-crosshairs"></i> 🇰🇷 안중근과 항일 의병 MUD</button>`;
+      } else if (unitId === 3 && (num === 4 || num === 5 || num === 38 || num === 39 || title.includes('3·1') || title.includes('임시 정부') || title.includes('민족 운동') || display.includes('4차시') || display.includes('5차시'))) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_independence')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🇰🇷 3·1 운동과 임시정부 MUD</button>`;
-      } else if (num === 42 || num === 43 || title.includes('8·15 광복') || title.includes('정부 수립') || (unitId === 3 && display.includes('8~9차시'))) {
+      } else if (unitId === 3 && (num === 8 || num === 9 || num === 42 || num === 43 || title.includes('8·15 광복') || title.includes('정부 수립') || display.includes('8~9차시'))) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_gwangbok')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🕊️ 8·15 광복과 정부 수립 MUD</button>`;
-      } else if (num === 44 || num === 45 || num === 46 || title.includes('6·25') || title.includes('전쟁')) {
+      } else if (unitId === 3 && (num === 10 || num === 11 || num === 12 || num === 44 || num === 45 || num === 46 || title.includes('6·25') || title.includes('전쟁') || display.includes('10~11차시') || display.includes('12차시'))) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_korean_war')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🪖 6·25 전쟁과 조국 수호 MUD</button>`;
       }
       // 골든벨 퀴즈
