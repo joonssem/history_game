@@ -48,7 +48,7 @@ const MudSimulators = {
         engine.dolmenState.earthRemoved = true;
         if (window.sounds) window.sounds.playFanfare();
       }
-    } else if (simMode === 'gwangbok-vote') {
+    } else if (simMode === 'gwangbok-vote' || simMode === 'precise-vote') {
       if (!engine.voteState.stamped) {
         engine.voteState.stamped = true;
         if (window.sounds) window.sounds.playClick();
@@ -72,7 +72,7 @@ const MudSimulators = {
       if (gb) gb.style.width = `${engine.stoneHits}%`;
       if (window.sounds) window.sounds.playClick();
       if (engine.stoneHits >= 100 && window.sounds) window.sounds.playCorrect();
-    } else if (simMode.startsWith('gwangbok-flag')) {
+    } else if (simMode.startsWith('gwangbok-flag') || simMode === 'precise-taegeukgi') {
       if (!engine.taegeukState.yangColor) engine.taegeukState.yangColor = true;
       else if (!engine.taegeukState.yinColor) engine.taegeukState.yinColor = true;
       else if (!engine.taegeukState.geon) engine.taegeukState.geon = true;
@@ -108,9 +108,9 @@ const MudSimulators = {
 
     if (simMode.startsWith('dolmen')) {
       this.drawPreciseDolmen(ctx, w, h, engine.dolmenState, simMode);
-    } else if (simMode === 'gwangbok-vote') {
+    } else if (simMode === 'gwangbok-vote' || simMode === 'precise-vote') {
       this.drawPreciseVote(ctx, w, h, engine.voteState);
-    } else if (simMode.startsWith('gwangbok-flag') || simMode === 'gwangbok-flag') {
+    } else if (simMode.startsWith('gwangbok-flag') || simMode === 'gwangbok-flag' || simMode === 'precise-taegeukgi') {
       this.drawPreciseTaegeukgi(ctx, w/2, h/2 - 8, 195, 130, engine.taegeukState);
       const allCompleted = engine.taegeukState.yangColor && engine.taegeukState.yinColor && engine.taegeukState.geon && engine.taegeukState.gon && engine.taegeukState.gam && engine.taegeukState.ri;
       ctx.fillStyle = allCompleted ? '#F59E0B' : '#FFFFFF';

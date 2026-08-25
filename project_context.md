@@ -54,12 +54,12 @@ history_game/
 │   ├── mudSimulators.js                # Canvas 인터랙티브 시뮬레이터 렌더러·이벤트
 │   ├── encyclopedia.js                 # 유물 도감: localStorage 수집·배지·탐험가 레벨
 │   ├── quizGame.js                     # 골든벨 퀴즈 엔진
-│   ├── storyEngine.js                  # 스토리 보조 엔진 (확인 필요: 현재 역할 불명확)
-│   ├── miniGames.js                    # 미니게임 (확인 필요: 현재 활용 범위 불명확)
+│   ├── storyEngine.js                  # 타임머신 스토리 엔진
+│   ├── miniGames.js                    # 유물 카드·역사 연표 미니게임
 │   └── soundEffects.js                 # Web Audio API 효과음 (playClick/playFanfare/playWrong)
 ├── data/
 │   ├── history_curriculum_48_lessons.json  # 48차시 커리큘럼 DB (단원·차시·색상·키개념)
-│   ├── artifacts.json                  # 유물 도감 20종 DB (id, name, tier, desc 등)
+│   ├── artifacts.json                  # 유물 도감 36종 DB (id, name, tier, desc 등)
 │   ├── quizzes.json                    # 골든벨 퀴즈 문항 DB
 │   └── mud/
 │       ├── _index.json                 # 전체 MUD 메타데이터 인덱스 (32종 등록)
@@ -75,13 +75,13 @@ history_game/
 | 파일 | 역할 |
 |---|---|
 | `index.html` | 단일 페이지. `view-portal`(메인 포털)과 `view-myeongnyang`(MUD 뷰) 두 div를 display 전환으로 사용. 모달 2개(퀴즈, 도감)도 내부에 있음 |
-| `js/app.js` | DOMContentLoaded 시 데이터 로드 및 초기화. `renderCurriculum(unitId)`가 핵심으로, 차시 번호·제목 키워드 조건문으로 각 차시에 맞는 MUD 버튼을 동적 생성 |
+| `js/app.js` | DOMContentLoaded 시 데이터 로드 및 초기화. `renderCurriculum(unitId)`가 핵심으로, `_index.json`을 우선 사용하고 레거시 조건문을 fallback으로 두어 MUD 버튼을 동적 생성 |
 | `js/mudEngine.js` | `window.MudEngine` 전역 객체. `openMUD(mudId)`로 JSON fetch → 상태 초기화 → 뷰 전환 → 첫 스테이지 렌더링. `renderStage(stageId)`로 narrative·choices·simulator 렌더링 |
 | `js/mudSimulators.js` | `window.MudSimulators` 전역 객체. Canvas `mousedown`/`touchstart` 이벤트를 `simMode` 분기로 처리. `drawSim()`이 rAF 루프에서 계속 호출됨 |
 | `js/encyclopedia.js` | `window.encyclopedia`. localStorage 키 `history_explorer_save_v1`. `unlockArtifact(id)`와 `unlockBadge(id)` 호출로 수집 기록 |
 | `js/quizGame.js` | `window.quizGame`. `data/quizzes.json` 로드 후 랜덤 셔플·타이머(15초)·채점 |
 | `js/soundEffects.js` | `window.sounds`. Web Audio API로 생성한 비트 신스 효과음 |
-| `data/mud/_index.json` | 32개 MUD의 메타 정보(mudId, tier, unitId, lessonNumbers, themeColor, file 등). **현재 app.js의 버튼 매핑에는 직접 사용되지 않고** app.js에 하드코딩된 조건으로 MUD를 연결함 |
+| `data/mud/_index.json` | 32개 MUD의 메타 정보(mudId, tier, unitId, lessonNumbers, themeColor, file 등). `app.js`가 Regular MUD 버튼 매핑에 우선 사용하고, 누락 시 레거시 조건문으로 보완함 |
 
 ### 중요한 의존 관계
 
@@ -99,18 +99,17 @@ history_game/
 
 - **Regular MUD 28종**: 48개 차시 본문 학습 차시 100% 커버
 - **Deep-dive MUD 4종**: 선사/삼국/조선/근현대 각 대단원 통사 롤플레이, 3대 멀티엔딩(ending_true / ending_normal / ending_bad)
-- **캔버스 인터랙티브 시뮬레이터**: 19종 모드 (고인돌 물리, 명량해전 포격, 태극기 컬러링, 사료 두루마리, 호국 게이지, 문화 파티클 등)
-- **유물 도감 수집 시스템**: 국보·보물 20종, localStorage 영구 저장, 탐험가 레벨
-- **골든벨 퀴즈**: 3개 단원별 퀴즈, 15초 타이머, 점수 기록
+- **캔버스 인터랙티브 시뮬레이터**: 20종 모드 (고인돌 물리, 명량해전 포격, 태극기 컬러링, 사료 두루마리, 호국 게이지, 문화 파티클 등)
+- **유물 도감 수집 시스템**: 국보·보물 36종, MUD·스토리 ID 연동, localStorage 영구 저장, 탐험가 레벨
+- **골든벨 퀴즈**: `data/quizzes.json` 기반 단원별 랜덤 퀴즈, 15초 타이머, 점수 기록
+- **확장 역사 활동**: 타임머신 스토리 3종, 유물 카드 게임, 역사 연표 게임
 - **성찰 일기**: MUD 완료 후 textarea 작성 → 클립보드 복사 제출
 - **용어 돋보기(Glossary)**: narrative 내 핵심 용어를 tooltip으로 자동 변환
 - **시대별 컬러 테마**: MUD별 themeColor를 CSS 변수(`--current-mud-color`)로 동적 적용
 
 ### 부분적으로 구현된 기능
 
-- **`storyEngine.js`**: 로드 및 초기화는 되나 현재 실제로 MUD 흐름에 연결되어 있는지 불명확 (확인 필요)
-- **`miniGames.js`**: 초기화되나 포털 UI에 진입 경로가 없음 (확인 필요)
-- **_index.json 활용**: 현재 app.js 버튼 매핑이 _index.json을 읽지 않고 하드코딩 조건문으로 동작. _index.json은 데이터 명세 목적으로만 존재
+- **_index.json 활용**: Regular MUD는 인덱스 기반 매핑을 우선 사용하며, 기존 조건문은 호환성을 위한 fallback으로 남아 있음
 
 ---
 
@@ -122,9 +121,9 @@ history_game/
 페이지 로드
 └─ DOMContentLoaded (app.js)
    ├─ encyclopedia.initArtifacts()       → data/artifacts.json fetch
-   ├─ storyEngine.loadStories()          → (확인 필요)
+   ├─ storyEngine.loadStories()          → 확장 활동의 스토리 목록 렌더링
    ├─ quizGame.loadQuizzes()             → data/quizzes.json fetch
-   ├─ miniGames.init()                   → (확인 필요)
+   ├─ miniGames.init()                   → 카드·연표 미니게임 데이터 로드
    └─ loadCurriculum()                   → data/history_curriculum_48_lessons.json fetch
       └─ switchUnitTab(1)
          └─ renderCurriculum(1)          → 차시 카드 + MUD 버튼 동적 생성
@@ -160,7 +159,11 @@ renderFinalReflection()
 ```
 openQuizHub(unitId) → view-quiz-modal display:flex
 └─ startUnitQuiz()
-   └─ quizGame (또는 app.js 내 함수) 로 처리 (확인 필요: 어느 함수가 startUnitQuiz를 구현하는지)
+   └─ quizGame.startQuizGame(unitId)
+      ├─ data/quizzes.json 단원 필터링
+      ├─ 랜덤 셔플
+      ├─ 15초 타이머
+      └─ 점수·최고점 저장
 ```
 
 ---
@@ -181,10 +184,10 @@ openQuizHub(unitId) → view-quiz-modal display:flex
 
 ### app.js 버튼 매핑 방식
 
-차시 번호(`lessonNumber`)와 제목 키워드(`title.includes(...)`) 조건문 체인으로
-각 차시에 `MudEngine.openMUD('mudId')` 버튼을 결정한다.
-`_index.json`을 동적으로 읽어 버튼을 생성하는 방식이 아니므로,
-새 MUD를 추가하면 JSON 파일 생성과 함께 **app.js 조건문에도 직접 추가**해야 한다.
+Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
+각 차시에 `MudEngine.openMUD('mudId')` 버튼을 생성한다.
+기존 제목 키워드 조건문은 인덱스에 없는 레거시·특수 버튼을 위한 fallback으로 유지한다.
+새 Regular MUD를 추가할 때는 JSON 파일과 `_index.json` 메타데이터를 함께 갱신해야 한다.
 
 ### 시뮬레이터 모드 분기
 
@@ -206,12 +209,16 @@ openQuizHub(unitId) → view-quiz-modal display:flex
 
 ### 버그
 
-#### [중요] 선택지 `next` 필드 누락 (95건)
-- **증상**: 최신 Track 1 MUD(regular_balhae, regular_goryeo_culture, regular_goryeo_war 등)에서 선택지 클릭 시 다음 스테이지로 이동하지 않음
-- **원인**: 해당 MUD JSON의 choices 배열 항목에 `next` 필드가 없음. `mudEngine.js`의 `renderStage`는 `ch.next`를 그대로 `renderStage(ch.next)`에 전달하므로 `undefined`가 들어가 동작 안 함
-- **영향 파일**: regular_balhae, regular_goryeo_culture, regular_goryeo_war, regular_independence, regular_independence_army, regular_japanese_rule_1, regular_japanese_rule_2, regular_joseon_diplomacy, regular_joseon_folk, regular_joseon_status, regular_korean_war, regular_modern_open, regular_post_war, regular_silla (및 일부 deep MUD 내부 스테이지)
-- **수정 방법**: 정답 choice → `next: "2"` (다음 스테이지 ID), 오답 choice → `next: "1-1"` 형식의 IF 스테이지 또는 동일 스테이지 재시도로 채워야 함
-- **준비된 스크립트**: `scripts/fix_missing_next.py` 자동 수정 스크립트 존재 (단, 자동 생성된 IF 스테이지 내용이 빈약하므로 콘텐츠 보완 필요)
+#### 선택지 `next` 필드 누락 (해결)
+- 15개 Regular MUD의 95개 누락 필드를 보완함
+- 정답은 다음 본 스테이지, 오답은 같은 번호의 IF 재시도 스테이지로 연결함
+- `scripts/02_fix_missing_next.py`로 재현 가능한 일괄 수정 가능
+- `scripts/03_validate_mud_integrity.py`에서 누락·dangling·unreachable 경로를 검사함
+
+#### 보상 ID·유물 DB 불일치 (해결)
+- 중복 사용되던 보상 ID에 고유 ID를 부여하고 유물 카드 36종으로 정리함
+- MUD 보상 ID와 보상명이 `artifacts.json`의 카드 ID·이름과 일치함
+- Deep-dive와 스토리 보상도 ID 기반으로 도감에 연결함
 
 #### 선택지 버튼 외형이 모두 동일함 (UX 문제)
 - **증상**: 모든 choice 버튼이 동일하게 "결단 ➔" 뱃지로 표시되어 정답/오답을 구분할 수 없음
@@ -220,9 +227,7 @@ openQuizHub(unitId) → view-quiz-modal display:flex
 
 ### 미완성 기능
 
-- **`storyEngine.js`**: 초기화는 되나 실제 동작 범위 불명확 (확인 필요)
-- **`miniGames.js`**: 포털 진입점 없음 (확인 필요)
-- **`_index.json` 연동**: 현재 app.js 버튼 매핑이 이 파일을 사용하지 않음
+- **MUD 콘텐츠 품질 확장**: 일부 자동 생성 IF 스테이지와 유물 설명은 추가 교육적 검수가 필요함
 
 ### 임시 구현
 
@@ -239,27 +244,18 @@ openQuizHub(unitId) → view-quiz-modal display:flex
 
 ### 우선순위 높음 (기능 정상화)
 
-1. **선택지 `next` 필드 95건 수정**
-   - `scripts/fix_missing_next.py` 실행 후 자동 생성된 IF 스테이지 내용 검수
-   - 특히 정답 분기의 next 체인이 올바른지 확인 (1 → 2 → 3 → end 흐름)
-
-2. **선택지 버튼 차별화 (UX 개선)**
+1. **선택지 버튼 차별화 (UX 개선)**
    - 사용자 요청: "오른쪽 화살표의 내용과 모양이 같은 것이 너무 많음"
    - 아이콘, 색상 또는 힌트 텍스트로 선택지 유형 구분 방안 검토
 
 ### 우선순위 보통
 
-3. **app.js 버튼 매핑 리팩토링**
-   - `_index.json`을 활용해 동적으로 버튼을 생성하도록 변경
-   - 현재 하드코딩 조건문 체인 제거
-
-4. **IF 스테이지 콘텐츠 보강**
+2. **IF 스테이지 콘텐츠 보강**
    - 자동 생성된 최소 구현 IF 스테이지에 실제 역사적 설명 추가
 
 ### 우선순위 낮음 (추후 확장)
 
-5. **유물 도감 MUD 연동 확대**: 현재 일부 Regular MUD의 rewards 필드가 비어 있음
-6. **storyEngine / miniGames 역할 정리**: 불필요하면 제거, 필요하면 UI 진입점 추가
+3. **유물·보상 콘텐츠 품질 검수**: 카드 설명의 교육과정 표현과 역사적 세부 사실 추가 검수
 
 ---
 
@@ -292,7 +288,8 @@ npx serve .
 ### JSON 무결성 검증
 
 ```bash
-python scripts/validate_all_json.py
+python scripts/01_validate_game_data.py
+python scripts/03_validate_mud_integrity.py
 ```
 
 ### JS 문법 검사

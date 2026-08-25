@@ -62,8 +62,8 @@ class StoryEngine {
     if (window.sounds) window.sounds.playTimeWarp();
 
     // 화면 전환
-    document.getElementById('story-select-view').classList.add('hidden');
-    document.getElementById('story-play-view').classList.remove('hidden');
+    document.getElementById('story-select-view').style.display = 'none';
+    document.getElementById('story-play-view').style.display = 'block';
 
     this.goToScene(1);
   }
@@ -83,7 +83,7 @@ class StoryEngine {
 
     // 보상 체크
     if (scene.reward) {
-      window.encyclopedia.recordStoryClear(story.id, story.badgeId, scene.reward.artifact);
+      window.encyclopedia.recordStoryClear(story.id, story.badgeId, scene.reward.artifactId);
     }
 
     playView.innerHTML = `
@@ -193,8 +193,8 @@ class StoryEngine {
 
   exitStory() {
     if (window.sounds) window.sounds.playClick();
-    document.getElementById('story-play-view').classList.add('hidden');
-    document.getElementById('story-select-view').classList.remove('hidden');
+    document.getElementById('story-play-view').style.display = 'none';
+    document.getElementById('story-select-view').style.display = 'block';
     this.renderEpisodeList('story-episodes-container');
     window.encyclopedia.renderEncyclopedia('encyclopedia-content');
   }

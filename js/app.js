@@ -3,6 +3,7 @@
 // =========================================================
 
 let curriculumData = null;
+let mudIndexData = [];
 let currentUnitId = 1;
 let currentActiveStoryId = 'story_paleolithic';
 
@@ -13,8 +14,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.storyEngine ? window.storyEngine.loadStories() : Promise.resolve(),
     window.quizGame ? window.quizGame.loadQuizzes() : Promise.resolve(),
     window.miniGames ? window.miniGames.init() : Promise.resolve(),
-    loadCurriculum()
+    loadCurriculum(),
+    loadMudIndex()
   ]);
+  if (window.storyEngine) window.storyEngine.renderEpisodeList('story-episodes-container');
   switchUnitTab(1);
 });
 
@@ -26,6 +29,26 @@ async function loadCurriculum() {
   } catch (e) {
     console.error('Failed to load history_curriculum_48_lessons.json', e);
   }
+}
+
+async function loadMudIndex() {
+  try {
+    const res = await fetch('data/mud/_index.json');
+    const data = await res.json();
+    mudIndexData = Array.isArray(data.muds) ? data.muds : [];
+  } catch (e) {
+    console.error('Failed to load data/mud/_index.json', e);
+  }
+}
+
+function findIndexedMud(unitId, lesson) {
+  const display = (lesson.lessonDisplay || '').split('(')[0];
+  const lessonNumbers = display.match(/\d+/g)?.map(Number) || [];
+  return mudIndexData.find(mud =>
+    mud.tier === 'regular' &&
+    mud.unitId === unitId &&
+    mud.lessonNumbers.some(number => lessonNumbers.includes(number))
+  );
 }
 
 // 단원 탭 전환
@@ -70,10 +93,14 @@ function renderCurriculum(unitId) {
       const num = lesson.lessonNumber;
       const display = lesson.lessonDisplay || '';
       const title = lesson.title || '';
+      const indexedMud = findIndexedMud(unitId, lesson);
       let btnHtml = '';
 
-      // 1단원 MUD 매핑
-      if (num === 2 || title.includes('구석기')) {
+      // _index.json 기반 Regular MUD 매핑
+      if (indexedMud) {
+        btnHtml = `<button onclick="MudEngine.openMUD('${indexedMud.mudId}')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> ${indexedMud.title}</button>`;
+      // 레거시 조건 매핑: 인덱스에 없는 차시의 예비 경로
+      } else if (num === 2 || title.includes('구석기')) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_paleolithic')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🪨 구석기 생존 MUD</button>`;
       } else if (num === 3 || title.includes('신석기')) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_neolithic')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🏺 신석기 빗살무늬 MUD</button>`;
@@ -187,7 +214,7 @@ function renderCurriculum(unitId) {
       }
 
       // 1단원 삼국 통일 & 발해 심화 배너 (7~12차시 완료 시점)
-      if (unitId === 1 && (section.sectionTitle.includes('통일') || section.sectionTitle.includes('삼국') || section.sectionTitle.includes('발해') || section.sectionTitle.includes('남북국'))) {
+      if (unitId === 1 && (section.sectionTitle.includes('고대') || section.sectionTitle.includes('통일') || section.sectionTitle.includes('삼국') || section.sectionTitle.includes('발해') || section.sectionTitle.includes('남북국'))) {
         html += `
           <div style="margin-top: 15px; background: linear-gradient(135deg, #1A252F, #2C3E50); border-radius: 12px; padding: 18px 20px; color: #FFFFFF; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 2px solid #5D6D7E;">
             <div style="flex: 1; min-width: 260px;">
@@ -205,7 +232,7 @@ function renderCurriculum(unitId) {
       }
 
       // 2단원 조선 시대 심화 배너 (조선 후기/실학 완료 시점)
-      if (unitId === 2 && (section.sectionTitle.includes('조선') || section.sectionTitle.includes('사회') || section.sectionTitle.includes('문화') || section.sectionTitle.includes('새로운') || section.sectionTitle.includes('발전'))) {
+      if (unitId === 2 && section.sectionTitle.includes('조선 후기')) {
         html += `
           <div style="margin-top: 15px; background: linear-gradient(135deg, #0F2027, #203A43, #2C5364); border-radius: 12px; padding: 18px 20px; color: #FFFFFF; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 2px solid #4CA1AF;">
             <div style="flex: 1; min-width: 260px;">
@@ -223,7 +250,7 @@ function renderCurriculum(unitId) {
       }
 
       // 3단원 근현대사 심화 배너 (민주화와 경제 발전 완료 시점)
-      if (unitId === 3 && (section.sectionTitle.includes('대한민국') || section.sectionTitle.includes('발전') || section.sectionTitle.includes('민주') || section.sectionTitle.includes('오늘날') || section.sectionTitle.includes('통일'))) {
+      if (unitId === 3 && (section.sectionTitle.includes('8·15') || section.sectionTitle.includes('전쟁'))) {
         html += `
           <div style="margin-top: 15px; background: linear-gradient(135deg, #0A192F, #0047A0); border-radius: 12px; padding: 18px 20px; color: #FFFFFF; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 2px solid #CD2E3A;">
             <div style="flex: 1; min-width: 260px;">
@@ -303,151 +330,11 @@ function switchQuizUnit(unitId) {
 }
 
 function startUnitQuiz() {
-  document.getElementById('quiz-intro-view').style.display = 'none';
-  document.getElementById('quiz-play-view').style.display = 'block';
-
-  let quizzes = [];
-  if (quizUnitTarget === 3) {
-    quizzes = [
-      {
-        q: "1. [초성 퀴즈] 1919년 3월 1일 일제의 무단통치에 맞서 전국적으로 일어난 민족 최대의 평화 만세 운동은? (ㅅ·ㅇ ㅇㄷ)",
-        options: ["3·1 운동", "6·10 만세운동", "광주학생항일운동", "물산장려운동"],
-        ans: 0,
-        exp: "1919년 3·1 운동은 전 민족이 태극기를 들고 '대한 독립 만세'를 외친 평화 만세 운동으로, 대한민국 임시정부 수립의 계기가 되었습니다."
-      },
-      {
-        q: "2. [초성 퀴즈] 1948년 5월 10일 만 21세 이상 모든 국민에게 차별 없이 1표씩 주어진 우리 역사 최초의 민주 선거는? (ㅇ·ㅇ ㅊㅅㄱ)",
-        options: ["3·15 부정선거", "5·10 총선거", "제헌 국회 선거", "대통령 직선제"],
-        ans: 1,
-        exp: "5·10 총선거는 성별·재산·신분 차별 없이 모든 국민이 참여한 우리 역사 최초의 보통·평등·직접·비밀 민주 선거입니다."
-      },
-      {
-        q: "3. 1909년 중국 하얼빈 역에서 대한제국 침략의 원흉인 이토 히로부미를 처단한 독립운동가는?",
-        options: ["윤봉길 의사", "이봉창 의사", "안중근 의사", "김구 선생"],
-        ans: 2,
-        exp: "안중근 의사는 하얼빈 역에서 이토 히로부미를 사살하여 동양 평화와 대한제국의 자주독립 의지를 세계에 알렸습니다."
-      },
-      {
-        q: "4. [역사 헌법] 1948년 8월 15일 수립을 선포한 우리 민족의 자주독립 국가이자 현재 우리나라의 정식 국호는?",
-        options: ["대한제국", "고려민국", "조선민주국", "대한민국"],
-        ans: 3,
-        exp: "1948년 8월 15일, 3·1 운동과 대한민국 임시정부의 법통을 계승한 자주독립 민주공화국 '대한민국' 정부가 공식 수립되었습니다."
-      }
-    ];
-  } else if (quizUnitTarget === 2) {
-    quizzes = [
-      {
-        q: "1. [초성 퀴즈] 조선 한양 도성의 동대문으로 '어짊(仁)'을 본받고자 지은 성문의 이름은? (ㅎㅇㅈㅁ)",
-        options: ["흥인지문", "돈의문", "숭례문", "숙정문"],
-        ans: 0,
-        exp: "동대문은 어짊(仁)을 흥하게 한다는 뜻의 '흥인지문'입니다."
-      },
-      {
-        q: "2. [초성 퀴즈] 조선 후기 모판에서 벼를 길러 논에 옮겨 심어 쌀 생산량을 크게 늘린 농사법은? (ㅁㄴㄱㅂ)",
-        options: ["직파법", "모내기법(이앙법)", "화전농법", "윤작법"],
-        ans: 1,
-        exp: "모내기법(이앙법)으로 노동력을 줄이고 쌀 생산량을 획기적으로 늘렸습니다."
-      },
-      {
-        q: "3. 조선 후기 전국 장시에서 널리 유통된 국가 화폐(엽전)는?",
-        options: ["건원중보", "해동통보", "상평통보", "당백전"],
-        ans: 2,
-        exp: "숙종 때 주조된 상평통보가 전국적으로 널리 사용되었습니다."
-      },
-      {
-        q: "4. [방탈출 암호] '사람이 곧 하늘이다(인내천)'라는 인간 평등 사상을 내세운 조선 후기 민족 종교는?",
-        options: ["성리학", "불교", "동학", "도교"],
-        ans: 2,
-        exp: "최제우가 창시한 동학은 모든 사람이 하늘처럼 존귀하다는 평등사상을 전파했습니다."
-      }
-    ];
-  } else {
-    quizzes = [
-      {
-        q: "1. [초성 퀴즈] 신석기 시대 사람들이 강가나 바닷가 모래밭에 꽂아두기 위해 바닥을 뾰족하게 빚은 토기는? (ㅂㅅㅁㄴ ㅌㄱ)",
-        options: ["빗살무늬 토기", "민무늬 토기", "미송리식 토기", "상감청자"],
-        ans: 0,
-        exp: "신석기 시대 사람들은 모래밭에 꽂아두기 편하게 바닥이 뾰족한 빗살무늬 토기를 사용했습니다."
-      },
-      {
-        q: "2. [초성 퀴즈] 고려 시대 과거 시험에 합격한 사람에게 국왕이 수여한 붉은색 합격증은? (ㅎㅍ)",
-        options: ["호패", "홍패", "마패", "교지"],
-        ans: 1,
-        exp: "고려는 과거 시험 합격자에게 붉은 종이에 쓴 '홍패'를 주어 능력을 우대했습니다."
-      },
-      {
-        q: "3. 태조 왕건이 후대 왕들에게 남긴 열 가지 가르침(유훈)은 무엇인가요?",
-        options: ["경국대전", "삼강오륜", "훈요 10조", "홍익인간"],
-        ans: 2,
-        exp: "왕건은 불교 숭상, 서경 중시, 거란 경계 등의 내용을 담은 훈요 10조를 남겼습니다."
-      },
-      {
-        q: "4. 고려 시대 판관 '손변의 재판'을 통해 알 수 있는 고려 사회의 가족 모습은?",
-        options: ["아들만 재산을 상속받았다", "아들과 딸이 재산을 똑같이 나누어 가졌다", "여성은 재혼할 수 없었다", "딸은 제사를 지낼 수 없었다"],
-        ans: 1,
-        exp: "고려는 아들과 딸이 균등하게 유산을 상속받고, 제사도 돌아가며 지냈습니다."
-      }
-    ];
+  if (!window.quizGame) {
+    console.error('Quiz engine is unavailable.');
+    return;
   }
-
-  let qIdx = 0;
-  let score = 0;
-
-  function showQ() {
-    if (qIdx >= quizzes.length) {
-      document.getElementById('quiz-play-view').style.display = 'none';
-      document.getElementById('quiz-result-view').style.display = 'block';
-      document.getElementById('quiz-result-view').innerHTML = `
-        <div style="text-align: center; padding: 20px 0;">
-          <span style="font-size: 3rem;">🏆</span>
-          <h3 style="font-size: 1.35rem; color: var(--accent-red); margin: 10px 0;">${quizUnitTarget}단원 골든벨 퀴즈 완료!</h3>
-          <p style="font-size: 1.1rem; font-weight: bold; margin-bottom: 20px;">총 ${quizzes.length}문제 중 <span style="color: #10B981; font-size: 1.3rem;">${score}</span>문제 정답!</p>
-          <div style="display: flex; gap: 8px; justify-content: center;">
-            <button onclick="switchQuizUnit(${quizUnitTarget})" class="btn secondary" style="width: auto;">🔄 다시 도전</button>
-            <button onclick="closeQuizModal()" class="btn" style="width: auto; background-color: var(--accent-teal);">확인</button>
-          </div>
-        </div>
-      `;
-      return;
-    }
-
-    const cur = quizzes[qIdx];
-    let optHtml = '';
-    cur.options.forEach((opt, idx) => {
-      optHtml += `
-        <button onclick="handleQuizAns(${idx})" class="btn secondary" style="margin-bottom: 8px; text-align: left; justify-content: flex-start; padding: 10px 14px; font-size: 0.95rem;">
-          <b style="color: var(--accent-red); margin-right: 6px;">${idx + 1}.</b> ${opt}
-        </button>
-      `;
-    });
-
-    document.getElementById('quiz-play-view').innerHTML = `
-      <div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--accent-red); font-weight: bold; margin-bottom: 8px;">
-          <span>${quizUnitTarget}단원 골든벨</span>
-          <span>문제 ${qIdx + 1} / ${quizzes.length}</span>
-        </div>
-        <h4 style="font-size: 1.05rem; font-weight: bold; margin-bottom: 16px; color: var(--text-main); line-height: 1.4;">${cur.q}</h4>
-        <div style="display: flex; flex-direction: column; gap: 4px;">${optHtml}</div>
-      </div>
-    `;
-  }
-
-  window.handleQuizAns = (selected) => {
-    const cur = quizzes[qIdx];
-    if (selected === cur.ans) {
-      score++;
-      if (window.sounds) window.sounds.playCorrect();
-      alert('정답입니다! 👏\n\n' + cur.exp);
-    } else {
-      if (window.sounds) window.sounds.playWrong();
-      alert('아쉽네요! 정답은 [' + cur.options[cur.ans] + '] 입니다.\n\n' + cur.exp);
-    }
-    qIdx++;
-    showQ();
-  };
-
-  showQ();
+  window.quizGame.startQuizGame(quizUnitTarget);
 }
 
 function closeQuizModal() {

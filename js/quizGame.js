@@ -12,6 +12,8 @@ class QuizGame {
     this.timeLeft = 15;
     this.maxTime = 15;
     this.userAnswers = [];
+    this.unitId = null;
+    this.answerLocked = false;
   }
 
   async loadQuizzes() {
@@ -23,16 +25,27 @@ class QuizGame {
     }
   }
 
-  startQuizGame() {
+  startQuizGame(unitId = null) {
     if (window.sounds) window.sounds.playClick();
-    this.currentList = [...this.quizzes].sort(() => Math.random() - 0.5); // 랜덤 셔플
+    this.unitId = unitId;
+    const unitNames = {
+      1: ['고조선과 삼국', '통일신라와 발해', '고려 시대'],
+      2: ['조선 시대', '조선 후기'],
+      3: ['일제강점기 및 근현대']
+    };
+    const allowedUnits = unitNames[unitId];
+    const filtered = allowedUnits
+      ? this.quizzes.filter((quiz) => allowedUnits.includes(quiz.unit))
+      : this.quizzes;
+    this.currentList = [...(filtered.length ? filtered : this.quizzes)].sort(() => Math.random() - 0.5);
     this.currentIndex = 0;
     this.score = 0;
     this.userAnswers = [];
+    this.answerLocked = false;
 
-    document.getElementById('quiz-intro-view').classList.add('hidden');
-    document.getElementById('quiz-result-view').classList.add('hidden');
-    document.getElementById('quiz-play-view').classList.remove('hidden');
+    document.getElementById('quiz-intro-view').style.display = 'none';
+    document.getElementById('quiz-result-view').style.display = 'none';
+    document.getElementById('quiz-play-view').style.display = 'block';
 
     this.showQuestion();
   }
@@ -45,6 +58,7 @@ class QuizGame {
 
     const q = this.currentList[this.currentIndex];
     this.timeLeft = this.maxTime;
+    this.answerLocked = false;
 
     const playView = document.getElementById('quiz-play-view');
     const totalQ = this.currentList.length;
@@ -132,6 +146,8 @@ class QuizGame {
   }
 
   handleAnswer(userAns, isTimeout = false) {
+    if (this.answerLocked) return;
+    this.answerLocked = true;
     if (this.timer) clearInterval(this.timer);
     const q = this.currentList[this.currentIndex];
     const isCorrect = !isTimeout && userAns === q.answer;
@@ -186,15 +202,14 @@ class QuizGame {
     if (this.timer) clearInterval(this.timer);
     if (window.sounds) window.sounds.playFanfare();
 
-    window.encyclopedia.recordQuizScore(this.score);
-
-    document.getElementById('quiz-play-view').classList.add('hidden');
-    const resultView = document.getElementById('quiz-result-view');
-    resultView.classList.remove('hidden');
-
     const totalQ = this.currentList.length;
     const correctCount = this.userAnswers.filter(a => a.isCorrect).length;
     const scoreRate = Math.round((correctCount / totalQ) * 100);
+    window.encyclopedia.recordQuizScore(scoreRate);
+
+    document.getElementById('quiz-play-view').style.display = 'none';
+    const resultView = document.getElementById('quiz-result-view');
+    resultView.style.display = 'block';
 
     let rankText = '역사 꿈나무 🌱';
     if (scoreRate >= 90) rankText = '역사 박사 마스터 👑';
@@ -212,7 +227,7 @@ class QuizGame {
         <div class="grid grid-cols-3 gap-3 bg-stone-800/80 p-4 rounded-2xl border border-stone-700 mb-6">
           <div>
             <span class="text-xs text-stone-400 block">최종 점수</span>
-            <strong class="text-2xl font-black text-amber-400">${this.score}점</strong>
+            <strong class="text-2xl font-black text-amber-400">${scoreRate}점</strong>
           </div>
           <div>
             <span class="text-xs text-stone-400 block">맞힌 문제</span>
@@ -225,7 +240,7 @@ class QuizGame {
         </div>
 
         <div class="flex flex-col sm:flex-row gap-3 justify-center">
-          <button onclick="window.quizGame.startQuizGame()" class="py-3 px-6 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-stone-950 font-bold rounded-xl shadow transition transform active:scale-95">
+          <button onclick="window.quizGame.startQuizGame(${this.unitId || 'null'})" class="py-3 px-6 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-stone-950 font-bold rounded-xl shadow transition transform active:scale-95">
             🔄 다시 도전하기
           </button>
           <button onclick="window.quizGame.exitQuiz()" class="py-3 px-6 bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold rounded-xl border border-stone-600 transition">
@@ -238,9 +253,9 @@ class QuizGame {
 
   exitQuiz() {
     if (this.timer) clearInterval(this.timer);
-    document.getElementById('quiz-play-view').classList.add('hidden');
-    document.getElementById('quiz-result-view').classList.add('hidden');
-    document.getElementById('quiz-intro-view').classList.remove('hidden');
+    document.getElementById('quiz-play-view').style.display = 'none';
+    document.getElementById('quiz-result-view').style.display = 'none';
+    document.getElementById('quiz-intro-view').style.display = 'block';
     window.encyclopedia.renderEncyclopedia('encyclopedia-content');
   }
 }
