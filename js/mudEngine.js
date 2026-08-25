@@ -194,9 +194,9 @@ const MudEngine = {
           else if (ch.sound === 'fail') window.sounds.playWrong();
           else window.sounds.playClick();
         }
-        if (ch.next === "end") {
+        if (ch.next === "end" || (typeof ch.next === 'string' && ch.next.startsWith("ending_"))) {
           if (window.encyclopedia) window.encyclopedia.unlockBadge('badge_timeline_master');
-          this.renderFinalReflection();
+          this.renderFinalReflection(ch.next);
         } else {
           this.renderStage(ch.next);
         }
@@ -368,7 +368,7 @@ const MudEngine = {
   },
 
   // === 최종 메타인지 회고록 렌더링 ===
-  renderFinalReflection() {
+  renderFinalReflection(endingId = "end") {
     if (window.sounds) window.sounds.playFanfare();
 
     // 스토리별 유물 자동 잠금 해제
@@ -381,6 +381,18 @@ const MudEngine = {
     const title = this.currentMudData ? this.currentMudData.title : '역사 탐구';
     const tag = this.currentMudData ? this.currentMudData.header.tag : '역사 탐험';
 
+    let endingHtml = '';
+    if (this.currentMudData && this.currentMudData.endings && this.currentMudData.endings[endingId]) {
+      const ending = this.currentMudData.endings[endingId];
+      endingHtml = `
+        <div style="background: #FFFFFF; border: 2px solid ${this.themeColor}; border-radius: 8px; padding: 14px; margin-bottom: 14px; text-align: center;">
+          <span style="font-size: 0.8rem; font-weight: 700; color: ${this.themeColor}; background: ${this.themeColor}15; padding: 3px 8px; border-radius: 4px;">🏆 도달한 역사적 결말</span>
+          <h4 style="font-size: 1.2rem; color: ${this.themeColor}; margin: 8px 0 4px;">${ending.title}</h4>
+          <p style="font-size: 0.9rem; color: #4B5563; line-height: 1.5; margin: 0;">${ending.description}</p>
+        </div>
+      `;
+    }
+
     const grid = document.getElementById('mn-choices-grid');
     if (grid) grid.innerHTML = '';
 
@@ -389,7 +401,8 @@ const MudEngine = {
       content.innerHTML = `
         <div class="mission-box" style="text-align: center; border: 2px solid ${this.themeColor}; background: ${this.themeColor}15;">
           <h3 style="font-size: 1.35rem; color: ${this.themeColor}; margin: 8px 0 4px;" class="serif-font">🎉 탐구 미션 완료!</h3>
-          <h4 style="font-size: 0.95rem; font-weight: 700; color: ${this.themeColor}; margin-bottom: 6px;">[${tag}] ${title}</h4>
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: ${this.themeColor}; margin-bottom: 10px;">[${tag}] ${title}</h4>
+          ${endingHtml}
           <p style="font-size: 0.9rem; color: #554D46; line-height: 1.6; margin-bottom: 14px;">
             역사적 결단을 내리고 시뮬레이션을 완수했습니다.<br>
             오늘 배운 역사적 사실과 나의 생각을 성찰 일기로 기록해 보세요.
