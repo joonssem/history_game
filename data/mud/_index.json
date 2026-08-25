@@ -264,6 +264,52 @@
       "themeColor": "#0047A0",
       "accentColor": "#CD2E3A",
       "file": "deep_modern.json"
+    },
+    {
+      "mudId": "regular_sejong",
+      "tier": "regular",
+      "unitId": 2,
+      "lessonNumbers": [
+        24,
+        25
+      ],
+      "title": "세종대왕과 과학 발전: 애민의 바른 소리",
+      "subtitle": "2단원 조선 전기 24~25차시",
+      "storyId": "story_sejong",
+      "themeColor": "#1E3A8A",
+      "accentColor": "#3B82F6",
+      "file": "regular_sejong.json"
+    },
+    {
+      "mudId": "regular_independence",
+      "tier": "regular",
+      "unitId": 3,
+      "lessonNumbers": [
+        38,
+        39
+      ],
+      "title": "3·1 만세 운동과 대한민국 임시정부",
+      "subtitle": "3단원 근현대사 38~39차시",
+      "storyId": "story_independence",
+      "themeColor": "#0047A0",
+      "accentColor": "#CD2E3A",
+      "file": "regular_independence.json"
+    },
+    {
+      "mudId": "regular_korean_war",
+      "tier": "regular",
+      "unitId": 3,
+      "lessonNumbers": [
+        44,
+        45,
+        46
+      ],
+      "title": "6·25 전쟁의 상흔과 자유 수호",
+      "subtitle": "3단원 근현대사 44~46차시",
+      "storyId": "story_korean_war",
+      "themeColor": "#2C3E50",
+      "accentColor": "#E74C3C",
+      "file": "regular_korean_war.json"
     }
   ]
 }

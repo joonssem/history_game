@@ -393,6 +393,18 @@ const MudEngine = {
       `;
     }
 
+    let rewardsHtml = '';
+    if (this.currentMudData && this.currentMudData.rewards && this.currentMudData.rewards.length > 0) {
+      const rewardNames = this.currentMudData.rewards.map(r => r.name).join(', ');
+      rewardsHtml = `
+        <div style="background: linear-gradient(135deg, #FEF3C7, #FDE68A); border: 2px solid #F59E0B; border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; text-align: center; color: #92400E;">
+          <div style="font-size: 1.2rem; margin-bottom: 4px;">✨ <b>국보 유물 획득!</b> ✨</div>
+          <div style="font-size: 0.95rem; font-weight: 800; color: #78350F;">[ ${rewardNames} ]</div>
+          <div style="font-size: 0.8rem; color: #B45309; margin-top: 4px;">나의 역사 국보 도감에 등록되었습니다.</div>
+        </div>
+      `;
+    }
+
     const grid = document.getElementById('mn-choices-grid');
     if (grid) grid.innerHTML = '';
 
@@ -403,6 +415,7 @@ const MudEngine = {
           <h3 style="font-size: 1.35rem; color: ${this.themeColor}; margin: 8px 0 4px;" class="serif-font">🎉 탐구 미션 완료!</h3>
           <h4 style="font-size: 0.95rem; font-weight: 700; color: ${this.themeColor}; margin-bottom: 10px;">[${tag}] ${title}</h4>
           ${endingHtml}
+          ${rewardsHtml}
           <p style="font-size: 0.9rem; color: #554D46; line-height: 1.6; margin-bottom: 14px;">
             역사적 결단을 내리고 시뮬레이션을 완수했습니다.<br>
             오늘 배운 역사적 사실과 나의 생각을 성찰 일기로 기록해 보세요.
