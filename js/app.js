@@ -192,6 +192,24 @@ function renderCurriculum(unitId) {
         `;
       }
 
+      // 3단원 근현대사 심화 배너 (민주화와 경제 발전 완료 시점)
+      if (unitId === 3 && (section.sectionTitle.includes('대한민국') || section.sectionTitle.includes('발전') || section.sectionTitle.includes('민주') || section.sectionTitle.includes('오늘날') || section.sectionTitle.includes('통일'))) {
+        html += `
+          <div style="margin-top: 15px; background: linear-gradient(135deg, #0A192F, #0047A0); border-radius: 12px; padding: 18px 20px; color: #FFFFFF; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 2px solid #CD2E3A;">
+            <div style="flex: 1; min-width: 260px;">
+              <div style="display: inline-block; background: #CD2E3A; color: #FFFFFF; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; margin-bottom: 6px;">
+                👑 3단원 근현대사 심화 Deep-dive MUD (30분+ 롤플레이)
+              </div>
+              <h3 style="font-size: 1.15rem; font-weight: 700; margin: 0 0 4px; color: #FFFFFF;">독립과 민주의 횃불: 잃어버린 빛을 찾아서</h3>
+              <p style="font-size: 0.85rem; color: #E0E0E0; margin: 0;">3·1 만세 운동에서 한국광복군, 6·25의 시련, 4·19와 5·18, 6월 항쟁까지! 대한민국을 일군 시민의 여정을 체험하세요.</p>
+            </div>
+            <button onclick="MudEngine.openMUD('deep_modern')" class="btn" style="width: auto; background: #CD2E3A; color: #FFFFFF; font-weight: 800; padding: 12px 20px; font-size: 0.95rem; border: none; cursor: pointer;">
+              <i class="fas fa-flag"></i> 근현대사 심화 플레이 ➔
+            </button>
+          </div>
+        `;
+      }
+
       html += `
       </div>
     `;

@@ -243,6 +243,27 @@
       "themeColor": "#1E3A8A",
       "accentColor": "#3B82F6",
       "file": "deep_joseon.json"
+    },
+    {
+      "mudId": "deep_modern",
+      "tier": "deep-dive",
+      "unitId": 3,
+      "lessonNumbers": [
+        2,
+        3,
+        5,
+        8,
+        9,
+        10,
+        11,
+        13
+      ],
+      "title": "독립과 민주의 횃불: 잃어버린 빛을 찾아서",
+      "subtitle": "근현대사 심화 MUD",
+      "storyId": "story_deep_modern",
+      "themeColor": "#0047A0",
+      "accentColor": "#CD2E3A",
+      "file": "deep_modern.json"
     }
   ]
 }
