@@ -1,0 +1,295 @@
+{
+  "mudId": "regular_joseon_silhak",
+  "tier": "regular",
+  "unitId": 2,
+  "lessonNumbers": [
+    9
+  ],
+  "title": "실학자 탐구: 지구의와 동학의 평등 세상",
+  "subtitle": "실학 탐구 MUD",
+  "storyId": "story_joseon_silhak",
+  "playTime": "10-15min",
+  "themeColor": "#7B1FA2",
+  "accentColor": "#BA68C8",
+  "header": {
+    "tag": "2단원 9차시 · 실학 발전과 동학",
+    "title": "MUD 실학자 탐구: 지구의와 동학의 평등 세상",
+    "interactiveTitle": "<i class=\"fas fa-globe-asia\" style=\"color: #7B1FA2;\"></i> 둥근 지구의 & 실학 사상 시뮬레이터",
+    "roadmapTitle": "<i class=\"fas fa-history\" style=\"color: #7B1FA2;\"></i> 실학자 사상 연대기"
+  },
+  "roadmap": [
+    {
+      "id": "1",
+      "label": "1. 홍대용의 둥근 지구의"
+    },
+    {
+      "id": "1-1",
+      "label": "1-1. 평평한 지구 고수 [실패]"
+    },
+    {
+      "id": "2",
+      "label": "2. 정약용의 수원 화성과 거중기"
+    },
+    {
+      "id": "2-1",
+      "label": "2-1. 맨손 축조 [실패]"
+    },
+    {
+      "id": "3",
+      "label": "3. 최제우의 동학 인내천 사상"
+    },
+    {
+      "id": "3-1",
+      "label": "3-1. 신분 차별 고수 [실패]"
+    },
+    {
+      "id": "4",
+      "label": "4. 실사구시와 평등 세상"
+    },
+    {
+      "id": "end",
+      "label": "5. 실학 사상 탐구 완수"
+    }
+  ],
+  "stages": {
+    "1": {
+      "location": "담헌 홍대용의 서재",
+      "badge": "🌍 둥근 지구와 지전설",
+      "character": {
+        "name": "담헌 홍대용",
+        "subtitle": "실학자이자 천문학자",
+        "avatar": "🔭"
+      },
+      "narrative": "<b>\"지구는 둥글고 스스로 하루에 한 바퀴씩 자전한다!\"</b><br><br>중국만이 세계의 중심이라는 낡은 생각을 깨뜨리고, 서양 과학 기술을 수용하여 제작한 천문 기구는 무엇일까요?",
+      "glossary": [
+        {
+          "term": "지구의",
+          "definition": "지구가 둥근 구형임을 나타내고 대륙과 바다의 위치를 표시한 모형"
+        },
+        {
+          "term": "지전설",
+          "definition": "지구가 우주의 중심에 정지해 있지 않고 자전한다는 학설"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🌍 \"지구가 둥글고 자전함을 증명하는 '둥근 지구의'와 '혼천의'를 연구한다!\"",
+          "next": "2",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "⏹️ \"지구는 네모나고 평평해서 끝으로 가면 낭떠러지로 떨어진다고 우긴다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🪐 \"하늘에 해와 달이 없다고 주장한다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "silhak-globe",
+        "type": "info",
+        "infoText": "실학자들은 둥근 지구의와 서양 과학 기술을 통해 세계로 시야를 넓혔습니다.",
+        "instruction": "🌍 <b>서양 문물과 둥근 지구의 탐구</b>",
+        "feedback": "새로운 세계관을 확인하세요!"
+      }
+    },
+    "1-1": {
+      "location": "낡은 세계관에 갇힌 방",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "과학적 사고 부재",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 세계관 확장 실패]</b><br>홍대용은 <b>지전설과 둥근 지구설</b>을 주장하며 중국 중심의 좁은 세계관을 타파하고 모든 나라가 동등하다는 자주적 인식을 열었습니다.",
+      "choices": [
+        {
+          "text": "🔄 둥근 지구의와 지전설을 받아들인다.",
+          "next": "1",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "silhak-globe",
+        "type": "info",
+        "infoText": "홍대용의 사상은 조선 지식인들의 시야를 세계로 확장시켰습니다.",
+        "instruction": "🌍 <b>과학적 사고를 다시 열어보세요!</b>",
+        "feedback": "새로운 세계관을 확립하세요!"
+      }
+    },
+    "2": {
+      "location": "수원 화성 축조 현장",
+      "badge": "🏗️ 정약용과 거중기",
+      "character": {
+        "name": "다산 정약용",
+        "subtitle": "실학의 집대성자",
+        "avatar": "📐"
+      },
+      "narrative": "<b>정조 임금의 명으로 과학적 계획도시 '수원 화성'을 쌓고 있습니다!</b><br><br>도르래의 원리를 이용하여 무거운 돌을 적은 힘으로 번쩍 들어 올릴 수 있는 기계는 무엇일까요?",
+      "glossary": [
+        {
+          "term": "거중기",
+          "definition": "도르래 원리를 이용해 무거운 돌을 적은 힘으로 들어 올리도록 정약용이 고안한 기계"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🏗️ \"움직도르래와 고정도르래를 결합한 '거중기'를 발명하여 안전하게 쌓는다!\"",
+          "next": "3",
+          "correct": true,
+          "sound": "victory"
+        },
+        {
+          "text": "✋ \"기계 없이 백성 수만 명의 맨손과 허리 힘으로만 바위를 든다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🧱 \"돌 대신 볏짚으로 성벽을 쌓는다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "silhak-globe",
+        "type": "info",
+        "infoText": "거중기와 녹로, 유형거의 활용으로 수원 화성은 10년 예정 공사를 2년 9개월 만에 마쳤습니다.",
+        "instruction": "🏗️ <b>정약용의 거중기와 화성 축조 기술</b>",
+        "feedback": "도르래의 과학 원리를 확인하세요!"
+      }
+    },
+    "2-1": {
+      "location": "지친 백성들",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "과학 기구 활용 실패",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 백성의 고통과 공사 지연]</b><br>정약용은 백성들의 노고를 덜고 효율을 높이기 위해 <b>거중기와 유형거</b>를 고안했습니다! 화성은 유네스코 세계유산으로 등재된 걸작입니다.",
+      "choices": [
+        {
+          "text": "🔄 거중기를 활용하여 화성을 축조한다.",
+          "next": "2",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "silhak-globe",
+        "type": "info",
+        "infoText": "거중기는 서양 기술(기기도설)을 창의적으로 개량한 발명품입니다.",
+        "instruction": "🏗️ <b>거중기를 다시 활용하세요!</b>",
+        "feedback": "백성을 위하는 과학을 실천하세요!"
+      }
+    },
+    "3": {
+      "location": "경주 용담정",
+      "badge": "🕊️ 인내천(사람이 곧 하늘)",
+      "character": {
+        "name": "수운 최제우",
+        "subtitle": "동학의 창시자",
+        "avatar": "📜"
+      },
+      "narrative": "<b>서양 세력의 침략에 맞서고(동학), 억압받던 백성들에게 희망을 주고자 합니다.</b><br><br>\"사람이 곧 하늘(인내천)\"이라 선언하며 모든 인간은 신분과 성별에 관계없이 평등하다고 외친 사상은?",
+      "glossary": [
+        {
+          "term": "인내천",
+          "definition": "'사람이 곧 하늘이다'라는 뜻으로 모든 인간의 절대적 평등과 존엄성을 강조한 동학의 핵심 사상"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🕊️ \"'사람이 곧 하늘(인내천)'이며 모든 인간은 평등하다는 '동학'을 전파한다!\"",
+          "next": "4",
+          "correct": true,
+          "sound": "cannon"
+        },
+        {
+          "text": "⛓️ \"양반만 사람이고 평민과 노비는 짐승 취급해야 한다고 주장한다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "⚔️ \"외세에 나라를 팔아넘기자고 선동한다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "silhak-globe",
+        "type": "info",
+        "infoText": "동학은 훗날 동학 농민 운동과 3·1 운동으로 이어지는 민족 평등 운동의 뿌리가 되었습니다.",
+        "instruction": "🕊️ <b>동학의 인내천 평등사상 탐구</b>",
+        "feedback": "인간 존엄과 평등을 확인하세요!"
+      }
+    },
+    "3-1": {
+      "location": "신분 차별의 고통",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "평등 사상 부재",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 민중의 희망 상실]</b><br>동학의 <b>인내천(人乃天) 사상</b>은 봉건적 신분 차별을 타파하고 민중이 역사의 주체로 일어서게 한 위대한 근대적 평등 사상이었습니다.",
+      "choices": [
+        {
+          "text": "🔄 인내천 평등사상을 널리 전파한다.",
+          "next": "3",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "silhak-globe",
+        "type": "info",
+        "infoText": "동학은 어린이와 여성, 천민도 하늘처럼 존중했습니다.",
+        "instruction": "🕊️ <b>평등사상을 다시 전파하세요!</b>",
+        "feedback": "인간 존중의 세상을 여세요!"
+      }
+    },
+    "4": {
+      "location": "실학과 근대의 갈림길",
+      "badge": "👑 MISSION ACCOMPLISHED",
+      "character": {
+        "name": "실학 연구자",
+        "subtitle": "실사구시 정신",
+        "avatar": "💡"
+      },
+      "narrative": "<b>\"지구의의 넓은 시야, 거중기의 실용적 과학, 동학의 평등사상 완성!\"</b><br><br>실사구시(실제 사실에서 진리를 구함)를 추구한 실학자들의 개혁 정신은 오늘날 우리가 이어받아야 할 소중한 유산입니다!",
+      "choices": [
+        {
+          "text": "🎉 홍대용의 둥근 지구의를 도감에 등록합니다!",
+          "next": "end",
+          "correct": true,
+          "sound": "victory"
+        }
+      ],
+      "simulator": {
+        "mode": "silhak-globe",
+        "type": "info",
+        "infoText": "실학은 백성의 삶을 이롭게(이용후생) 하고 진리를 밝히는 학문이었습니다.",
+        "instruction": "🏆 <b>실학자 탐구 미션 대성공!</b>",
+        "feedback": "국보 도감에서 지구의를 확인하세요!"
+      }
+    }
+  },
+  "rewards": [
+    {
+      "artifactId": "art_14",
+      "name": "홍대용의 둥근 지구의"
+    }
+  ]
+}

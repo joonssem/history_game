@@ -1,0 +1,292 @@
+{
+  "mudId": "regular_bronze_age",
+  "tier": "regular",
+  "unitId": 1,
+  "lessonNumbers": [
+    4,
+    5
+  ],
+  "title": "청동기 고인돌 축조자: 거석 운반과 군장의 탄생",
+  "subtitle": "청동기 MUD",
+  "storyId": "story_bronze_age",
+  "playTime": "10-15min",
+  "themeColor": "#B48448",
+  "accentColor": "#E9C46A",
+  "header": {
+    "tag": "1단원 4~5차시 · 청동기 시대",
+    "title": "MUD 청동기 고인돌 축조자: 거석 운반과 군장의 탄생",
+    "interactiveTitle": "<i class=\"fas fa-hammer\" style=\"color: #B48448;\"></i> 탁자식 고인돌 정밀 축조 시뮬레이터",
+    "roadmapTitle": "<i class=\"fas fa-history\" style=\"color: #B48448;\"></i> 고인돌 축조 4단계 연대기"
+  },
+  "roadmap": [
+    {
+      "id": "1",
+      "label": "1. 벼농사와 사유재산"
+    },
+    {
+      "id": "1-1",
+      "label": "1-1. 평등 분배 고수 [실패]"
+    },
+    {
+      "id": "2",
+      "label": "2. 받침돌(지석) 세우기"
+    },
+    {
+      "id": "2-1",
+      "label": "2-1. 진흙 받침돌 [실패]"
+    },
+    {
+      "id": "3",
+      "label": "3. 흙 경사로와 덮개돌 운반"
+    },
+    {
+      "id": "3-1",
+      "label": "3-1. 맨손 견인 [실패]"
+    },
+    {
+      "id": "4",
+      "label": "4. 탁자식 고인돌 완성"
+    },
+    {
+      "id": "end",
+      "label": "5. 청동기 문명 완수"
+    }
+  ],
+  "stages": {
+    "1": {
+      "location": "청동기 배산임수 마을",
+      "badge": "🌾 사유재산과 계급 발생",
+      "character": {
+        "name": "청동기 농부",
+        "subtitle": "벼농사를 짓는 농민",
+        "avatar": "🌾"
+      },
+      "narrative": "<b>반달 돌칼로 벼 이삭을 거두며 풍년이 들었습니다! 잉여 생산물이 생겨났습니다.</b><br><br>곡식을 남들보다 많이 가진 사람은 부유해지고, 청동 무기를 든 강력한 지배자 '군장'이 나타났습니다. 이 거대한 권력을 어떻게 증명할까요?",
+      "glossary": [
+        {
+          "term": "군장",
+          "definition": "청동기 시대 사유재산과 계급이 생겨나면서 무리를 다스리게 된 정치적 지배자"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🗿 \"수십 톤의 거대한 바위를 끌어와 웅장한 '탁자식 고인돌'을 세운다!\"",
+          "next": "2",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "🌾 \"모든 잉여 곡식을 버리고 아무것도 남기지 않는다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🏕️ \"혼자서 산속으로 숨어버린다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "dolmen-step1",
+        "type": "buttons",
+        "buttonsHtml": "<div style=\"font-size: 0.85rem; line-height: 1.5; color: var(--text-main);\"><b>🗿 1단계: 튼튼한 받침돌(지석) 세우기</b><br>화면을 터치하거나 아래 버튼을 눌러 땅을 파고 좌우 받침돌 2개를 단단히 세우세요!</div><button onclick=\"MudEngine.triggerDolmenAction('base')\" class=\"btn\" style=\"margin-top: 8px; padding: 6px 10px; font-size: 0.82rem; background: #B48448;\">🔨 받침돌 2개 세우기</button>",
+        "instruction": "🗿 <b>화면을 터치하여 고인돌 받침돌을 세우세요!</b>",
+        "feedback": "터치하여 좌우 받침돌을 똑바로 세우세요!"
+      }
+    },
+    "1-1": {
+      "location": "흩어지는 부족",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "계급 사회 이해 부재",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 군장의 권위 부재]</b><br>청동기 시대는 벼농사 발전으로 <b>사유재산과 빈부격차, 지배 계급(군장)</b>이 탄생한 시대입니다. 군장의 권력을 과시하고 부족을 결집하기 위해 거대한 고인돌을 축조했습니다.",
+      "choices": [
+        {
+          "text": "🔄 군장의 무덤인 고인돌을 축조한다.",
+          "next": "1",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "dolmen-step1",
+        "type": "info",
+        "infoText": "고인돌의 크기는 군장의 권력 크기를 나타냅니다.",
+        "instruction": "🗿 <b>고인돌 축조를 결단하세요!</b>",
+        "feedback": "거석 문명을 시작하세요!"
+      }
+    },
+    "2": {
+      "location": "고인돌 축조 터",
+      "badge": "🔨 1단계: 받침돌 세우기",
+      "character": {
+        "name": "석공 장인",
+        "subtitle": "돌을 다루는 장인",
+        "avatar": "🔨"
+      },
+      "narrative": "<b>수십 톤의 덮개돌 무게를 버텨낼 튼튼한 받침돌(지석) 2개를 땅에 묻어야 합니다.</b><br><br>받침돌을 어떻게 세워야 기울어지지 않고 덮개돌을 안전하게 지탱할 수 있을까요?",
+      "choices": [
+        {
+          "text": "🪨 \"땅을 깊게 파고 좌우에 직사각형 판석을 단단하게 수직으로 묻는다!\"",
+          "next": "3",
+          "correct": true,
+          "sound": "victory"
+        },
+        {
+          "text": "흙 \"물렁물렁한 진흙 덩어리를 대충 뭉쳐서 세운다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🪵 \"가느다란 수수깡 막대기를 꽂아둔다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "dolmen-step2",
+        "type": "gauge",
+        "gaugeLabel": "흙 경사로 쌓기:",
+        "instruction": "⛰️ <b>화면을 터치하여 받침돌 주위에 흙 경사로를 쌓으세요!</b>",
+        "feedback": "흙을 완만하게 쌓아 올려 비탈길을 만드세요!"
+      }
+    },
+    "2-1": {
+      "location": "무너진 받침돌",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "하중 계산 실패",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 받침돌 붕괴]</b><br>진흙이나 수수깡은 수십 톤의 거석 무게를 견디지 못하고 무너집니다! 청동기인들은 <b>단단한 판석을 땅속 깊이 묻어</b> 튼튼한 기초를 만들었습니다.",
+      "choices": [
+        {
+          "text": "🔄 단단한 판석 받침돌을 세운다.",
+          "next": "2",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "dolmen-step1",
+        "type": "info",
+        "infoText": "단단한 판석을 세워야 덮개돌을 지탱할 수 있습니다.",
+        "instruction": "🔨 <b>다시 받침돌을 세우세요!</b>",
+        "feedback": "튼튼한 받침돌을 묻으세요!"
+      }
+    },
+    "3": {
+      "location": "흙 경사로와 통나무 굴림대",
+      "badge": "🪵 2~3단계: 거석 견인",
+      "character": {
+        "name": "청동기 군장",
+        "subtitle": "부족민을 지휘하는 군장",
+        "avatar": "👑"
+      },
+      "narrative": "<b>받침돌 주위에 흙을 쌓아 완만한 경사로를 만들었습니다! 이제 거대한 덮개돌을 올려야 합니다.</b><br><br>마찰력을 줄여 수십 톤의 바위를 끌어올리려면 어떤 과학적 원리를 사용해야 할까요?",
+      "glossary": [
+        {
+          "term": "통나무 굴림대",
+          "definition": "무거운 물체 밑에 통나무를 깔아 굴림으로써 마찰력을 줄여 쉽게 이동시키는 도구"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🪵 \"통나무 굴림대를 바닥에 깔고 부족민 수십 명이 밧줄로 힘을 합쳐 끈다!\"",
+          "next": "4",
+          "correct": true,
+          "sound": "cannon"
+        },
+        {
+          "text": "✋ \"도구 없이 맨손으로 바위를 번쩍 들어 던진다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🪨 \"바위 밑에 기름 대신 모래를 가득 부어 뻑뻑하게 만든다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "dolmen-step3",
+        "type": "slider",
+        "sliderLabel": "동원 부족민 수:",
+        "sliderMin": 20,
+        "sliderMax": 100,
+        "sliderDefault": 50,
+        "instruction": "🪵 <b>통나무 굴림대 화면을 터치하여 거대한 덮개돌을 끌어올리세요!</b>",
+        "feedback": "부족민을 늘리고 화면을 탭하여 덮개돌을 전진시키세요!"
+      }
+    },
+    "3-1": {
+      "location": "멈춰선 거석",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "물리 원리 착오",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 견인 불가능]</b><br>수십 톤의 바위는 맨손으로 들 수 없습니다! 청동기인들은 <b>통나무 굴림대와 흙 경사로, 지렛대 원리</b>를 활용해 거대한 돌을 이동시켰습니다.",
+      "choices": [
+        {
+          "text": "🔄 통나무 굴림대로 거석을 끈다.",
+          "next": "3",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "dolmen-step3",
+        "type": "slider",
+        "sliderLabel": "동원 부족민 수:",
+        "sliderMin": 20,
+        "sliderMax": 100,
+        "sliderDefault": 50,
+        "instruction": "🪵 <b>슬라이더로 인원을 늘려보세요!</b>",
+        "feedback": "통나무 굴림대를 활용하세요!"
+      }
+    },
+    "4": {
+      "location": "완성된 탁자식 고인돌 앞",
+      "badge": "👑 MISSION ACCOMPLISHED",
+      "character": {
+        "name": "청동기 군장",
+        "subtitle": "위대한 군장",
+        "avatar": "👑"
+      },
+      "narrative": "<b>\"덮개돌을 올린 뒤 경사로의 흙을 걷어내니 웅장한 탁자식 고인돌이 완성되었다!\"</b><br><br>우리나라는 전 세계 고인돌의 절반 이상이 모여 있는 '고인돌 왕국'이며, 고창·화순·강화 고인돌 유적은 유네스코 세계문화유산으로 등재되어 있습니다!",
+      "choices": [
+        {
+          "text": "🎉 탁자식 고인돌을 도감에 등록하고 완료합니다!",
+          "next": "end",
+          "correct": true,
+          "sound": "victory"
+        }
+      ],
+      "simulator": {
+        "mode": "dolmen-step4",
+        "type": "buttons",
+        "buttonsHtml": "<div style=\"font-size: 0.85rem; line-height: 1.5; color: var(--text-main);\"><b>👑 4단계: 흙을 파내고 탁자식 고인돌 완성!</b><br>덮개돌을 올린 뒤 흙을 모두 걷어내어 웅장한 지배자(군장)의 무덤을 완성했습니다.</div><button onclick=\"MudEngine.triggerDolmenAction('complete')\" class=\"btn\" style=\"margin-top: 8px; padding: 6px 10px; font-size: 0.82rem; background: #D97706;\">🎉 완성 축제 벌이기</button>",
+        "instruction": "🏆 <b>탁자식 고인돌 축조 대성공!</b>",
+        "feedback": "청동기 거석 문명의 위엄을 확인하세요!"
+      }
+    }
+  },
+  "rewards": [
+    {
+      "artifactId": "art_3",
+      "name": "고창 탁자식 고인돌"
+    }
+  ]
+}

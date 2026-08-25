@@ -1,0 +1,192 @@
+{
+  "version": "2.0",
+  "muds": [
+    {
+      "mudId": "regular_paleolithic",
+      "tier": "regular",
+      "unitId": 1,
+      "lessonNumbers": [
+        2
+      ],
+      "title": "구석기 생존기: 전곡리의 만능 주먹도끼",
+      "subtitle": "구석기 MUD",
+      "storyId": "story_paleolithic",
+      "themeColor": "#6F4E37",
+      "accentColor": "#C19A6B",
+      "file": "regular_paleolithic.json"
+    },
+    {
+      "mudId": "regular_neolithic",
+      "tier": "regular",
+      "unitId": 1,
+      "lessonNumbers": [
+        3
+      ],
+      "title": "신석기 생존기: 암사동의 뾰족 그릇과 정착",
+      "subtitle": "신석기 MUD",
+      "storyId": "story_neolithic",
+      "themeColor": "#2E6B4D",
+      "accentColor": "#84A98C",
+      "file": "regular_neolithic.json"
+    },
+    {
+      "mudId": "regular_bronze_age",
+      "tier": "regular",
+      "unitId": 1,
+      "lessonNumbers": [
+        4,
+        5
+      ],
+      "title": "청동기 고인돌 축조자: 거석 운반과 군장의 탄생",
+      "subtitle": "청동기 MUD",
+      "storyId": "story_bronze_age",
+      "themeColor": "#B48448",
+      "accentColor": "#E9C46A",
+      "file": "regular_bronze_age.json"
+    },
+    {
+      "mudId": "regular_gojoseon",
+      "tier": "regular",
+      "unitId": 1,
+      "lessonNumbers": [
+        6
+      ],
+      "title": "단군왕검의 고조선 개국: 8조법과 비파형 동검",
+      "subtitle": "고조선 MUD",
+      "storyId": "story_gojoseon",
+      "themeColor": "#A0522D",
+      "accentColor": "#D27D2D",
+      "file": "regular_gojoseon.json"
+    },
+    {
+      "mudId": "regular_three_kingdoms",
+      "tier": "regular",
+      "unitId": 1,
+      "lessonNumbers": [
+        7,
+        8
+      ],
+      "title": "삼국의 전성기 한강 쟁탈전: 근초고왕·광개토대왕·진흥왕",
+      "subtitle": "삼국 전성기 MUD",
+      "storyId": "story_three_kingdoms_conquest",
+      "themeColor": "#C0392B",
+      "accentColor": "#E74C3C",
+      "file": "regular_three_kingdoms.json"
+    },
+    {
+      "mudId": "regular_three_kingdoms_life",
+      "tier": "regular",
+      "unitId": 1,
+      "lessonNumbers": [
+        9,
+        10
+      ],
+      "title": "고분 벽화 탐정: 삼국 귀족의 맥적과 가야 철갑옷",
+      "subtitle": "삼국 생활 MUD",
+      "storyId": "story_three_kingdoms_life",
+      "themeColor": "#4A3B32",
+      "accentColor": "#8D6E63",
+      "file": "regular_three_kingdoms_life.json"
+    },
+    {
+      "mudId": "regular_goryeo_founding",
+      "tier": "regular",
+      "unitId": 1,
+      "lessonNumbers": [
+        13
+      ],
+      "title": "고려 건국기: 태조 왕건의 후삼국 통일과 훈요 10조",
+      "subtitle": "고려 건국 MUD",
+      "storyId": "story_goryeo_founding",
+      "themeColor": "#1A5276",
+      "accentColor": "#2980B9",
+      "file": "regular_goryeo_founding.json"
+    },
+    {
+      "mudId": "regular_goryeo_society",
+      "tier": "regular",
+      "unitId": 1,
+      "lessonNumbers": [
+        14
+      ],
+      "title": "고려 사회 탐정: 손변의 지혜로운 재판과 과거 홍패",
+      "subtitle": "고려 사회 MUD",
+      "storyId": "story_goryeo_society",
+      "themeColor": "#196F3D",
+      "accentColor": "#27AE60",
+      "file": "regular_goryeo_society.json"
+    },
+    {
+      "mudId": "regular_joseon_founding",
+      "tier": "regular",
+      "unitId": 2,
+      "lessonNumbers": [
+        2,
+        3
+      ],
+      "title": "한양 도읍 설계자: 정도전의 사대문과 경복궁",
+      "subtitle": "조선 건국 MUD",
+      "storyId": "story_joseon_founding",
+      "themeColor": "#8A3B29",
+      "accentColor": "#EFEAE1",
+      "file": "regular_joseon_founding.json"
+    },
+    {
+      "mudId": "regular_myeongnyang",
+      "tier": "regular",
+      "unitId": 2,
+      "lessonNumbers": [
+        7
+      ],
+      "title": "명량대첩: 13척으로 133척을 막아선 기적",
+      "subtitle": "명량대첩 MUD",
+      "storyId": "story_myeongnyang",
+      "themeColor": "#1D4ED8",
+      "accentColor": "#93C5FD",
+      "file": "regular_myeongnyang.json"
+    },
+    {
+      "mudId": "regular_joseon_economy",
+      "tier": "regular",
+      "unitId": 2,
+      "lessonNumbers": [
+        8
+      ],
+      "title": "조선 후기 보부상과 모내기 대박",
+      "subtitle": "조선 후기 경제 MUD",
+      "storyId": "story_joseon_economy",
+      "themeColor": "#B8860B",
+      "accentColor": "#EAB308",
+      "file": "regular_joseon_economy.json"
+    },
+    {
+      "mudId": "regular_joseon_silhak",
+      "tier": "regular",
+      "unitId": 2,
+      "lessonNumbers": [
+        9
+      ],
+      "title": "실학자 탐구: 지구의와 동학의 평등 세상",
+      "subtitle": "실학 탐구 MUD",
+      "storyId": "story_joseon_silhak",
+      "themeColor": "#7B1FA2",
+      "accentColor": "#BA68C8",
+      "file": "regular_joseon_silhak.json"
+    },
+    {
+      "mudId": "regular_gwangbok",
+      "tier": "regular",
+      "unitId": 3,
+      "lessonNumbers": [
+        8,
+        9
+      ],
+      "title": "8·15 광복의 환희와 대한민국 정부 수립: 최초의 5·10 총선거",
+      "subtitle": "광복과 정부수립 MUD",
+      "storyId": "story_gwangbok",
+      "themeColor": "#CD2E3A",
+      "accentColor": "#0047A0",
+      "file": "regular_gwangbok.json"
+    }
+  ]
+}

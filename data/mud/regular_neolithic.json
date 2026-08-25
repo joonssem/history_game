@@ -1,0 +1,291 @@
+{
+  "mudId": "regular_neolithic",
+  "tier": "regular",
+  "unitId": 1,
+  "lessonNumbers": [
+    3
+  ],
+  "title": "신석기 생존기: 암사동의 뾰족 그릇과 정착",
+  "subtitle": "신석기 MUD",
+  "storyId": "story_neolithic",
+  "playTime": "10-15min",
+  "themeColor": "#2E6B4D",
+  "accentColor": "#84A98C",
+  "header": {
+    "tag": "1단원 3차시 · 신석기 시대",
+    "title": "MUD 신석기 생존기: 암사동의 뾰족 그릇과 정착",
+    "interactiveTitle": "<i class=\"fas fa-seedling\" style=\"color: #2E6B4D;\"></i> 빗살무늬 토기 빚기 시뮬레이터",
+    "roadmapTitle": "<i class=\"fas fa-history\" style=\"color: #2E6B4D;\"></i> 신석기 정착 연대기"
+  },
+  "roadmap": [
+    {
+      "id": "1",
+      "label": "1. 한강변 움집 정착"
+    },
+    {
+      "id": "1-1",
+      "label": "1-1. 동굴 이동 고수 [실패]"
+    },
+    {
+      "id": "2",
+      "label": "2. 빗살무늬 토기 제작"
+    },
+    {
+      "id": "2-1",
+      "label": "2-1. 평평한 바닥 [실패]"
+    },
+    {
+      "id": "3",
+      "label": "3. 가락바퀴 옷감 짜기"
+    },
+    {
+      "id": "3-1",
+      "label": "3-1. 나뭇잎 옷 [실패]"
+    },
+    {
+      "id": "4",
+      "label": "4. 농경과 정착 성공"
+    },
+    {
+      "id": "end",
+      "label": "5. 신석기 혁명 완수"
+    }
+  ],
+  "stages": {
+    "1": {
+      "location": "한강 유역 암사동 모래톱",
+      "badge": "🏡 정착 생활의 시작",
+      "character": {
+        "name": "신석기 촌장",
+        "subtitle": "암사동 마을의 지도자",
+        "avatar": "🌾"
+      },
+      "narrative": "<b>빙하기가 끝나고 날씨가 따뜻해졌습니다! 강가에 풀과 곡식이 자라납니다.</b><br><br>이제 위험하게 동굴을 떠돌지 않고 한곳에 머물러 살 집을 지으려 합니다. 어떤 집을 지어야 할까요?",
+      "glossary": [
+        {
+          "term": "움집",
+          "definition": "땅을 파고 기둥을 세운 뒤 짚으로 지붕을 덮은 신석기인의 집"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🏠 \"땅을 파고 기둥을 세운 아늑한 '움집'을 짓고 화덕을 놓자!\"",
+          "next": "2",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "🏔️ \"여전히 험한 산속 깊은 동굴로 들어가자.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🌲 \"높은 나무 꼭대기에 새둥지처럼 엮어 살자.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "neolithic-settle",
+        "type": "info",
+        "infoText": "신석기인들은 강가나 바닷가에 움집을 짓고 정착하여 농경 생활을 시작했습니다.",
+        "instruction": "🏡 <b>암사동 한강변 신석기 마을 탐험</b>",
+        "feedback": "움집과 화덕의 위치를 확인하세요!"
+      }
+    },
+    "1-1": {
+      "location": "외딴 숲속",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "농경 지형 착오",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 농경과 어로 불가능]</b><br>신석기 시대에는 곡식을 기르고 물고기를 잡아야 합니다! 강가나 바닷가 평지에 <b>움집을 짓고 정착</b>해야 식량을 비축할 수 있습니다.",
+      "choices": [
+        {
+          "text": "🔄 강가 암사동에 움집을 짓는다.",
+          "next": "1",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "neolithic-settle",
+        "type": "info",
+        "infoText": "강가 암사동은 농사와 고기잡이에 최적의 환경이었습니다.",
+        "instruction": "🏡 <b>강가로 돌아가 움집을 지으세요!</b>",
+        "feedback": "정착 생활의 기틀을 마련하세요!"
+      }
+    },
+    "2": {
+      "location": "암사동 점토 가마터",
+      "badge": "🏺 빗살무늬 토기의 비밀",
+      "character": {
+        "name": "토기 장인",
+        "subtitle": "그릇을 빚는 어머니",
+        "avatar": "👩"
+      },
+      "narrative": "<b>수확한 곡식과 생선을 담아 보관하고 끓여 먹을 흙그릇이 필요합니다!</b><br><br>강가의 부드러운 모래흙 바닥에 푹 꽂아서 넘어지지 않게 세우려면 그릇 밑바닥을 어떤 모양으로 만들어야 할까요?",
+      "glossary": [
+        {
+          "term": "빗살무늬 토기",
+          "definition": "겉면에 빗살무늬를 새기고 밑바닥이 뾰족한 신석기 대표 그릇"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🔻 \"모래밭에 꽂기 편하게 밑이 뾰족(V자)하고 겉에 빗살무늬를 새긴다!\"",
+          "next": "3",
+          "correct": true,
+          "sound": "victory"
+        },
+        {
+          "text": "⏹️ \"유리처럼 반듯하고 평평한 넓은 바닥으로 만든다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🕳️ \"가운데 커다란 구멍을 뚫어서 물이 다 빠져나가게 한다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "neolithic-pottery",
+        "type": "gauge",
+        "gaugeLabel": "빗살무늬 빚기:",
+        "instruction": "🏺 <b>진흙을 터치하여 뾰족 바닥 토기를 빚으세요!</b>",
+        "feedback": "화면을 터치해 빗살무늬를 새기세요!"
+      }
+    },
+    "2-1": {
+      "location": "넘어지는 그릇",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "지형 적응 실패",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 모래밭에서 그릇 넘어짐]</b><br>평평한 그릇은 모래 위에서 쉽게 기우뚱하고 넘어집니다! <b>밑이 뾰족한 빗살무늬 토기</b>를 모래에 푹 꽂아 세웠습니다.",
+      "choices": [
+        {
+          "text": "🔄 밑이 뾰족한 빗살무늬 토기를 빚는다.",
+          "next": "2",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "neolithic-pottery",
+        "type": "gauge",
+        "gaugeLabel": "빗살무늬 빚기:",
+        "instruction": "🏺 <b>다시 빗살무늬를 새겨보세요!</b>",
+        "feedback": "뾰족 바닥 토기를 완성하세요!"
+      }
+    },
+    "3": {
+      "location": "움집 안 화덕 자리",
+      "badge": "🧵 가락바퀴와 뼈바늘",
+      "character": {
+        "name": "부족 어머니",
+        "subtitle": "옷감을 짓는 지혜",
+        "avatar": "👵"
+      },
+      "narrative": "<b>동물 가죽뿐만 아니라 실을 뽑아 따뜻하고 편안한 옷을 직접 만들어 입고자 합니다.</b><br><br>삼이나 풀 줄기에서 실을 잣고 옷을 짓는 데 사용한 신석기 도구는 무엇일까요?",
+      "glossary": [
+        {
+          "term": "가락바퀴",
+          "definition": "가운데 구멍에 막대를 꽂고 돌려 실을 꼬아 뽑는 도구"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🧶 \"돌로 만든 '가락바퀴'를 돌려 실을 뽑고 '뼈바늘'로 꿰맨다!\"",
+          "next": "4",
+          "correct": true,
+          "sound": "cannon"
+        },
+        {
+          "text": "🍃 \"마른 가을 나뭇잎을 끈 없이 몸에 대충 붙인다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "❄️ \"차가운 고드름으로 옷을 엮어 입는다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "neolithic-weave",
+        "type": "info",
+        "infoText": "가락바퀴와 뼈바늘의 발견은 인류가 스스로 옷감을 만들어 입기 시작했음을 증명합니다.",
+        "instruction": "🧵 <b>가락바퀴와 뼈바늘 원리 확인</b>",
+        "feedback": "원형 가락바퀴로 실을 뽑아내세요!"
+      }
+    },
+    "3-1": {
+      "location": "부서지는 옷",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "방한 실패",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 의생활 혁명 부재]</b><br>나뭇잎이나 고드름은 옷이 될 수 없습니다! 신석기인들은 <b>가락바퀴로 실을 뽑고 뼈바늘로 옷을 짓는 방직 기술</b>을 시작했습니다.",
+      "choices": [
+        {
+          "text": "🔄 가락바퀴와 뼈바늘을 사용한다.",
+          "next": "3",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "neolithic-weave",
+        "type": "info",
+        "infoText": "가락바퀴로 튼튼한 삼베 실을 꼬아 뽑았습니다.",
+        "instruction": "🧵 <b>가락바퀴로 다시 실을 뽑으세요!</b>",
+        "feedback": "의생활 혁명을 완수하세요!"
+      }
+    },
+    "4": {
+      "location": "암사동 유적지 전경",
+      "badge": "👑 MISSION ACCOMPLISHED",
+      "character": {
+        "name": "신석기 촌장",
+        "subtitle": "신석기 혁명",
+        "avatar": "🌾"
+      },
+      "narrative": "<b>\"농경이 시작되고 그릇과 옷을 만들어 정착 생활을 완벽히 이루어냈다!\"</b><br><br>서울 암사동 빗살무늬 토기는 인류가 스스로 식량을 생산하고 정착한 신석기 혁명의 상징입니다!",
+      "choices": [
+        {
+          "text": "🎉 빗살무늬 토기를 도감에 등록하고 완료합니다!",
+          "next": "end",
+          "correct": true,
+          "sound": "victory"
+        }
+      ],
+      "simulator": {
+        "mode": "neolithic-settle",
+        "type": "info",
+        "infoText": "서울 암사동 유적은 신석기 시대 대규모 집터와 토기가 발견된 유적입니다.",
+        "instruction": "🏆 <b>신석기 정착 미션 대성공!</b>",
+        "feedback": "국보 도감에서 빗살무늬 토기를 확인하세요!"
+      }
+    }
+  },
+  "rewards": [
+    {
+      "artifactId": "art_2",
+      "name": "암사동 빗살무늬 토기"
+    }
+  ]
+}

@@ -1,0 +1,290 @@
+{
+  "mudId": "regular_joseon_founding",
+  "tier": "regular",
+  "unitId": 2,
+  "lessonNumbers": [
+    2,
+    3
+  ],
+  "title": "한양 도읍 설계자: 정도전의 사대문과 경복궁",
+  "subtitle": "조선 건국 MUD",
+  "storyId": "story_joseon_founding",
+  "playTime": "10-15min",
+  "themeColor": "#8A3B29",
+  "accentColor": "#EFEAE1",
+  "header": {
+    "tag": "2단원 2~3차시 · 조선 건국",
+    "title": "MUD 한양 도읍 설계자: 정도전의 사대문과 경복궁",
+    "interactiveTitle": "<i class=\"fas fa-landmark\" style=\"color: #8A3B29;\"></i> 한양 4대문(인·의·예·지) 배치 시뮬레이터",
+    "roadmapTitle": "<i class=\"fas fa-history\" style=\"color: #8A3B29;\"></i> 한양 건국 연대기"
+  },
+  "roadmap": [
+    {
+      "id": "1",
+      "label": "1. 한양 천도 결단"
+    },
+    {
+      "id": "1-1",
+      "label": "1-1. 개경 잔류 [실패]"
+    },
+    {
+      "id": "2",
+      "label": "2. 4대문 유교 덕목 명명"
+    },
+    {
+      "id": "2-1",
+      "label": "2-1. 불교 명칭 [실패]"
+    },
+    {
+      "id": "3",
+      "label": "3. 경복궁 근정전 박석"
+    },
+    {
+      "id": "3-1",
+      "label": "3-1. 매끄러운 바닥 [실패]"
+    },
+    {
+      "id": "4",
+      "label": "4. 성균관과 유교 통치"
+    },
+    {
+      "id": "end",
+      "label": "5. 유교 국가 완성"
+    }
+  ],
+  "stages": {
+    "1": {
+      "location": "조선 태조 3년, 한양",
+      "badge": "🗺️ 도읍의 선택",
+      "character": {
+        "name": "태조 이성계",
+        "subtitle": "조선의 개국 국왕",
+        "avatar": "👑"
+      },
+      "narrative": "<b>새로운 나라 조선을 세우고 고려의 옛 도읍 개경을 떠나 새 수도를 정하려 합니다!</b><br><br>사방이 산으로 둘러싸여 방어하기 좋고, 한강을 통해 남북의 물자를 운반하기 편리한 최고의 명당은 어디일까요?",
+      "choices": [
+        {
+          "text": "🌊 \"산세가 아늑하고 한강 수운이 편리한 '한양'을 도읍으로 삼는다!\"",
+          "next": "2",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "⛰️ \"험준한 북쪽 산골짜기 묘향산으로 가자!\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🏝️ \"외딴 제주도 섬으로 도읍을 옮긴다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "hanyang-map",
+        "type": "info",
+        "infoText": "조선은 유교 이념에 따라 4대문(흥인지문, 돈의문, 숭례문, 숙정문)과 경복궁을 설계했습니다.",
+        "instruction": "🏛️ <b>한양 도성과 4대문 유교 덕목 배치</b>",
+        "feedback": "도성 건축물 위치를 확인하세요!"
+      }
+    },
+    "1-1": {
+      "location": "고립된 산악 지대",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "지리적 조건 착오",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 물자 운반 및 통치 곤란]</b><br>산골짜기나 외딴 섬은 물자 운반이 어렵고 전국을 다스릴 수 없습니다! 한양은 <b>한강을 통한 수운과 배산임수의 천혜 지형</b>을 갖추었습니다.",
+      "choices": [
+        {
+          "text": "🔄 한양을 새로운 수도로 정한다.",
+          "next": "1",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "hanyang-map",
+        "type": "info",
+        "infoText": "한양은 한반도의 정중앙에 위치한 명당이었습니다.",
+        "instruction": "🏛️ <b>한양 도읍을 다시 선택하세요!</b>",
+        "feedback": "새 수도를 건설하세요!"
+      }
+    },
+    "2": {
+      "location": "한양 도성 설계소",
+      "badge": "🏛️ 4대문의 유교 덕목",
+      "character": {
+        "name": "삼봉 정도전",
+        "subtitle": "한양 도성의 총설계자",
+        "avatar": "📐"
+      },
+      "narrative": "<b>도성을 둘러싼 4대문과 중심 종루의 이름을 짓고자 합니다.</b><br><br>백성에게 <b>인(仁)·의(義)·예(禮)·지(智)·신(信)</b>의 유교 덕목을 가르치기 위해 동대문과 남대문, 보신각의 이름을 어떻게 지을까요?",
+      "glossary": [
+        {
+          "term": "흥인지문",
+          "definition": "어짊(仁)을 흥하게 한다는 뜻의 동대문"
+        },
+        {
+          "term": "숭례문",
+          "definition": "예절(禮)을 숭상한다는 뜻의 남대문 (국보 제1호)"
+        }
+      ],
+      "choices": [
+        {
+          "text": "📜 \"동대문은 흥인지문(仁), 남대문은 숭례문(禮), 종루는 보신각(信)으로 짓는다!\"",
+          "next": "3",
+          "correct": true,
+          "sound": "victory"
+        },
+        {
+          "text": "⛩️ \"불교식 이름인 대자대비문과 극락루로 짓는다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🔢 \"단순하게 1호문, 2호문, 3호문으로 번호만 붙인다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "hanyang-gates",
+        "type": "info",
+        "infoText": "흥인지문, 돈의문, 숭례문, 숙정문은 인의예지의 유교 덕목을 담고 있습니다.",
+        "instruction": "🏛️ <b>4대문 이름과 유교 덕목 확인</b>",
+        "feedback": "인의예지신(仁義禮智信)을 확인하세요!"
+      }
+    },
+    "2-1": {
+      "location": "사상 혼선 발생",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "유교 통치 이념 부재",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 유교 건국 이념 퇴색]</b><br>조선은 <b>유교를 통치 이념</b>으로 세운 나라입니다! 흥인지문(어짊), 돈의문(의로움), 숭례문(예의), 보신각(믿음)에 유교 덕목을 담았습니다.",
+      "choices": [
+        {
+          "text": "🔄 유교 덕목이 담긴 성문 이름을 짓는다.",
+          "next": "2",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "hanyang-gates",
+        "type": "info",
+        "infoText": "유교 덕목은 조선 왕조 500년의 도덕적 기초였습니다.",
+        "instruction": "🏛️ <b>성문 이름을 다시 명명하세요!</b>",
+        "feedback": "유교 국가의 이상을 담으세요!"
+      }
+    },
+    "3": {
+      "location": "경복궁 근정전 앞마당",
+      "badge": "🏛️ 근정전 박석의 비밀",
+      "character": {
+        "name": "궁궐 석공 장인",
+        "subtitle": "근정전 뜰을 까는 장인",
+        "avatar": "🔨"
+      },
+      "narrative": "<b>왕과 신하들이 조회를 여는 근정전 앞마당 바닥을 깔 차례입니다!</b><br><br>햇빛의 눈부심을 막고, 비가 올 때 미끄러지지 않으며 빗물이 잘 빠져나가도록 신하들을 배려한 돌은?",
+      "glossary": [
+        {
+          "term": "박석",
+          "definition": "표면이 거칠고 평평한 화강암 돌판으로, 빛 반사를 막고 미끄럼을 방지하는 궁궐 바닥 돌"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🪨 \"표면이 거칠고 울퉁불퉁하여 빛 반사를 막는 화강암 '박석'!\"",
+          "next": "4",
+          "correct": true,
+          "sound": "cannon"
+        },
+        {
+          "text": "🧊 \"유리처럼 반짝이고 매끄럽게 갈아낸 대리석\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🪵 \"물에 젖으면 썩는 나무껍질을 깐다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "hanyang-bakseok",
+        "type": "info",
+        "infoText": "근정전 박석은 거친 질감으로 눈부심과 미끄러짐을 방지하는 조상의 지혜입니다.",
+        "instruction": "🪨 <b>근정전 앞마당 박석 깔기</b>",
+        "feedback": "거친 화강암 박석의 과학을 확인하세요!"
+      }
+    },
+    "3-1": {
+      "location": "눈이 부신 대궐 마당",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "과학적 배려 부재",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 미끄러짐과 눈부심 발생]</b><br>매끄러운 돌은 햇빛을 반사해 신하들의 눈을 피로하게 하고 비 올 때 미끄러집니다! 조선의 장인들은 울퉁불퉁한 <b>박석</b>을 깔아 과학적 배려를 완성했습니다.",
+      "choices": [
+        {
+          "text": "🔄 박석을 마당에 깐다.",
+          "next": "3",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "hanyang-bakseok",
+        "type": "info",
+        "infoText": "박석은 빗물이 자연스럽게 배수되는 틈새 역할도 했습니다.",
+        "instruction": "🪨 <b>박석을 다시 깔아보세요!</b>",
+        "feedback": "조상의 지혜를 되살리세요!"
+      }
+    },
+    "4": {
+      "location": "성균관 명륜당",
+      "badge": "👑 MISSION ACCOMPLISHED",
+      "character": {
+        "name": "조선 유학자",
+        "subtitle": "유교 교육의 확산",
+        "avatar": "📚"
+      },
+      "narrative": "<b>\"유교의 질서가 바로 선 조선의 도읍 완성!\"</b><br><br>중앙의 성균관과 지방의 향교, 서당을 통해 유교의 도덕과 충효 사상이 조선 전역에 널리 퍼져나갔습니다!",
+      "choices": [
+        {
+          "text": "🎉 한양 도읍 탐구 일기를 작성하고 완료합니다!",
+          "next": "end",
+          "correct": true,
+          "sound": "victory"
+        }
+      ],
+      "simulator": {
+        "mode": "hanyang-map",
+        "type": "info",
+        "infoText": "한양은 자연과 인간, 유교 이념이 조화를 이룬 계획도시였습니다.",
+        "instruction": "🏆 <b>한양 도읍 설계 미션 대성공!</b>",
+        "feedback": "국보 도감에서 근정전 박석을 확인하세요!"
+      }
+    }
+  },
+  "rewards": [
+    {
+      "artifactId": "art_11",
+      "name": "경복궁 근정전 박석"
+    }
+  ]
+}

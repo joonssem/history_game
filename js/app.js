@@ -1,2795 +1,359 @@
+// =========================================================
+// js/app.js - 초등 5학년 역사 포털 메인 애플리케이션
+// =========================================================
 
-    let curriculumData = null;
-    let currentUnitId = 1;
-    let currentActiveStoryId = 'story_paleolithic';
+let curriculumData = null;
+let currentUnitId = 1;
+let currentActiveStoryId = 'story_paleolithic';
 
-    // MUD 시뮬레이터 전역 상태 변수
-    let currentMudThemeColor = '#8A3B29';
-    let mnStoryNodes = {};
-    let mnCurrentStage = "1";
-    let mnVisited = new Set();
-    let mnSimMode = "paleo-intro";
-    let mnGaugeProgress = 0;
-    let mnStoneHits = 0;
-    let mnEnemyShips = [];
-    let mnBullets = [];
-    let mnPlayerShip = { x: 50, y: 105, size: 24 };
-    let mnTargetCurrent = 20;
-    let mnTaegeukState = { yangColor: false, yinColor: false, geon: false, gon: false, gam: false, ri: false };
-    let mnDolmenState = { stage: 1, baseSet: false, earthProgress: 0, stoneProgress: 0, earthRemoved: false, workers: 50 };
-    let mnVoteState = { stamped: false, voteInserted: false, animY: 0 };
+// 초기화
+document.addEventListener('DOMContentLoaded', async () => {
+  await Promise.all([
+    window.encyclopedia ? window.encyclopedia.initArtifacts() : Promise.resolve(),
+    window.storyEngine ? window.storyEngine.loadStories() : Promise.resolve(),
+    window.quizGame ? window.quizGame.loadQuizzes() : Promise.resolve(),
+    window.miniGames ? window.miniGames.init() : Promise.resolve(),
+    loadCurriculum()
+  ]);
+  switchUnitTab(1);
+});
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      await Promise.all([
-        window.encyclopedia.initArtifacts(),
-        window.storyEngine.loadStories(),
-        window.quizGame.loadQuizzes(),
-        window.miniGames.init(),
-        loadCurriculum()
-      ]);
-      switchUnitTab(1);
+// 커리큘럼 데이터 로드
+async function loadCurriculum() {
+  try {
+    const res = await fetch('data/history_curriculum_48_lessons.json');
+    curriculumData = await res.json();
+  } catch (e) {
+    console.error('Failed to load history_curriculum_48_lessons.json', e);
+  }
+}
+
+// 단원 탭 전환
+function switchUnitTab(unitId) {
+  currentUnitId = unitId;
+  document.querySelectorAll('.unit-btn').forEach(btn => {
+    btn.classList.remove('active');
+    btn.style.backgroundColor = 'var(--card-bg)';
+    btn.style.color = 'var(--text-main)';
+  });
+
+  const activeBtn = document.getElementById(`tab-unit-${unitId}`);
+  if (activeBtn && curriculumData) {
+    const unit = curriculumData.units.find(u => u.unitId === unitId);
+    activeBtn.classList.add('active');
+    activeBtn.style.backgroundColor = unit ? unit.themeColor : 'var(--accent-teal)';
+    activeBtn.style.color = '#ffffff';
+  }
+  renderCurriculum(unitId);
+}
+
+// 커리큘럼 카드 렌더링
+function renderCurriculum(unitId) {
+  const container = document.getElementById('curriculum-container');
+  if (!container || !curriculumData) return;
+
+  const unit = curriculumData.units.find(u => u.unitId === unitId);
+  if (!unit) return;
+
+  let html = '';
+
+  unit.sections.forEach((section) => {
+    html += `
+      <div style="margin-bottom: 30px;">
+        <h2 style="font-size: 1.25rem; color: var(--text-main); margin-bottom: 14px; border-left: 4px solid ${unit.themeColor}; padding-left: 10px;">
+          ${section.sectionTitle}
+        </h2>
+        <div class="card-grid">
+    `;
+
+    section.lessons.forEach(lesson => {
+      const num = lesson.lessonNumber;
+      const display = lesson.lessonDisplay || '';
+      const title = lesson.title || '';
+      let btnHtml = '';
+
+      // 1단원 MUD 매핑
+      if (num === 2 || title.includes('구석기')) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_paleolithic')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🪨 구석기 생존 MUD</button>`;
+      } else if (num === 3 || title.includes('신석기')) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_neolithic')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🏺 신석기 빗살무늬 MUD</button>`;
+      } else if (num === 4 || num === 5 || title.includes('청동기')) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_bronze_age')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🗿 청동기 고인돌 MUD</button>`;
+      } else if (num === 6 || title.includes('고조선')) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_gojoseon')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 📜 고조선 8조법 MUD</button>`;
+      } else if (num === 7 || num === 8 || title.includes('성립과 발전') || (unitId === 1 && display.includes('7~8차시'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_three_kingdoms')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> ⚔️ 삼국 한강 쟁탈전 MUD</button>`;
+      } else if (num === 9 || num === 10 || (title.includes('생활 모습') && unitId === 1 && (num === 9 || num === 10 || display.includes('9~10차시')))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_three_kingdoms_life')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🎨 고분 벽화 탐정 MUD</button>`;
+      } else if (num === 13 || title.includes('고려의 건국') || title.includes('후삼국 통일')) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_goryeo_founding')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 👑 왕건의 고려 건국 MUD</button>`;
+      } else if (num === 14 || title.includes('고려의 생활') || title.includes('고려 사회')) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_goryeo_society')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 📜 고려 사회 탐정 MUD</button>`;
+      } 
+      // 2단원 MUD 매핑
+      else if (num === 22 || num === 23 || title.includes('조선의 건국') || title.includes('한양')) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_joseon_founding')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🏛️ 한양 도읍 설계 MUD</button>`;
+      } else if (num === 27 || title.includes('명량') || title.includes('임진왜란과 수군')) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_myeongnyang')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-ship"></i> ⚔️ 명량해전 MUD 플레이</button>`;
+      } else if (num === 28 || title.includes('조선 후기 경제') || title.includes('모내기') || title.includes('농업과 상업')) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_joseon_economy')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 💰 조선 후기 경제 MUD</button>`;
+      } else if (num === 29 || title.includes('실학') || title.includes('새로운 생각') || title.includes('서학')) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_joseon_silhak')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🌍 실학자 탐구 MUD</button>`;
+      }
+      // 3단원 MUD 매핑
+      else if (num === 42 || num === 43 || title.includes('8·15 광복') || title.includes('정부 수립') || (unitId === 3 && display.includes('8~9차시'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_gwangbok')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🕊️ 8·15 광복과 정부 수립 MUD</button>`;
+      }
+      // 골든벨 퀴즈
+      else if (num === 20 || num === 34 || num === 48 || title.includes('정리') || title.includes('골든벨')) {
+        btnHtml = `<button onclick="openQuizHub(${unitId})" class="btn" style="background-color: ${lesson.color.hex}; color: #1F2937 !important; font-weight: 700;"><i class="fas fa-bolt"></i> ${lesson.title} Quiz</button>`;
+      } else if (lesson.mudPoint) {
+        btnHtml = `<button onclick="alert('[${lesson.title}] MUD 퀘스트 준비 중입니다!')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> ${lesson.mudPoint} 플레이</button>`;
+      } else {
+        btnHtml = `<button class="btn disabled" disabled><i class="fas fa-book-open"></i> 교과서 탐구 차시</button>`;
+      }
+
+      html += `
+        <article class="card" style="border-top: 4px solid ${lesson.color.hex};">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span class="chasi-badge" style="background-color: ${lesson.color.hex}; color: #FFFFFF;">
+                ${lesson.lessonDisplay}
+              </span>
+              <span style="font-size: 0.8rem; color: #776F66; font-weight: 500;">
+                ${lesson.pages}
+              </span>
+            </div>
+            <h2 style="border-left: 3px solid ${lesson.color.hex};">${lesson.title}</h2>
+            <p>💡 ${lesson.keyConcepts}</p>
+          </div>
+          <div style="margin-top: 10px;">
+            ${btnHtml}
+          </div>
+        </article>
+      `;
     });
 
-    async function loadCurriculum() {
-      try {
-        const res = await fetch('data/history_curriculum_48_lessons.json');
-        curriculumData = await res.json();
-      } catch (e) {
-        console.error('Failed to load history_curriculum_48_lessons.json', e);
-      }
-    }
+    html += `
+        </div>
+      </div>
+    `;
+  });
 
-    function switchUnitTab(unitId) {
-      currentUnitId = unitId;
-      document.querySelectorAll('.unit-btn').forEach(btn => {
-        btn.classList.remove('active');
-        btn.style.backgroundColor = 'var(--card-bg)';
-        btn.style.color = 'var(--text-main)';
-      });
+  container.innerHTML = html;
+}
 
-      const activeBtn = document.getElementById(`tab-unit-${unitId}`);
-      if (activeBtn && curriculumData) {
-        const unit = curriculumData.units.find(u => u.unitId === unitId);
-        activeBtn.classList.add('active');
-        activeBtn.style.backgroundColor = unit ? unit.themeColor : 'var(--accent-teal)';
-        activeBtn.style.color = '#ffffff';
-      }
-      renderCurriculum(unitId);
-    }
+// 메인 포털 뷰로 돌아가기
+function showPortalView() {
+  document.getElementById('view-portal').style.display = 'block';
+  document.getElementById('view-myeongnyang').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-    function renderCurriculum(unitId) {
-      const container = document.getElementById('curriculum-container');
-      if (!container || !curriculumData) return;
+// ==========================================
+// 골든벨 퀴즈 시스템
+// ==========================================
+let quizUnitTarget = 1;
 
-      const unit = curriculumData.units.find(u => u.unitId === unitId);
-      if (!unit) return;
+function openQuizHub(unitId = 1) {
+  quizUnitTarget = unitId || currentUnitId || 1;
+  document.getElementById('view-quiz-modal').style.display = 'flex';
+  switchQuizUnit(quizUnitTarget);
+}
 
-      let html = '';
+function switchQuizUnit(unitId) {
+  quizUnitTarget = unitId;
+  document.getElementById('quiz-intro-view').style.display = 'block';
+  document.getElementById('quiz-play-view').style.display = 'none';
+  document.getElementById('quiz-result-view').style.display = 'none';
 
-      unit.sections.forEach((section, sIdx) => {
-        html += `
-          <div style="margin-bottom: 30px;">
-            <h2 style="font-size: 1.25rem; color: var(--text-main); margin-bottom: 14px; border-left: 4px solid ${unit.themeColor}; padding-left: 10px;">
-              ${section.sectionTitle}
-            </h2>
-            <div class="card-grid">
-        `;
-
-        section.lessons.forEach(lesson => {
-          const num = lesson.lessonNumber;
-          const display = lesson.lessonDisplay || '';
-          const title = lesson.title || '';
-          let btnHtml = '';
-
-          // 1단원
-          if (num === 2 || title.includes('구석기')) {
-            btnHtml = `<button onclick="openPaleolithicMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🪨 구석기 생존 MUD</button>`;
-          } else if (num === 3 || title.includes('신석기')) {
-            btnHtml = `<button onclick="openNeolithicMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🏺 신석기 빗살무늬 MUD</button>`;
-          } else if (num === 4 || num === 5 || title.includes('청동기')) {
-            btnHtml = `<button onclick="openBronzeAgeMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🗿 청동기 고인돌 MUD</button>`;
-          } else if (num === 6 || title.includes('고조선')) {
-            btnHtml = `<button onclick="openGojoseonMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 📜 고조선 8조법 MUD</button>`;
-          } else if (num === 7 || num === 8 || title.includes('성립과 발전') || (unitId === 1 && display.includes('7~8차시'))) {
-            btnHtml = `<button onclick="openThreeKingdomsConquestMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> ⚔️ 삼국 한강 쟁탈전 MUD</button>`;
-          } else if (num === 9 || num === 10 || title.includes('생활 모습') && unitId === 1 && (num === 9 || num === 10 || display.includes('9~10차시'))) {
-            btnHtml = `<button onclick="openThreeKingdomsLifeMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🎨 고분 벽화 탐정 MUD</button>`;
-          } else if (num === 13 || title.includes('고려의 건국') || title.includes('후삼국 통일')) {
-            btnHtml = `<button onclick="openGoryeoFoundingMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 👑 왕건의 고려 건국 MUD</button>`;
-          } else if (num === 14 || title.includes('고려의 생활') || title.includes('고려 사회')) {
-            btnHtml = `<button onclick="openGoryeoSocietyMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 📜 고려 사회 탐정 MUD</button>`;
-          } 
-          // 2단원
-          else if (num === 22 || num === 23 || title.includes('조선의 건국') || title.includes('한양')) {
-            btnHtml = `<button onclick="openJoseonFoundingMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🏛️ 한양 도읍 설계 MUD</button>`;
-          } else if (num === 27 || title.includes('명량') || title.includes('임진왜란과 수군')) {
-            btnHtml = `<button onclick="openMyeongnyang()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-ship"></i> ⚔️ 명량해전 MUD 플레이</button>`;
-          } else if (num === 28 || title.includes('조선 후기 경제') || title.includes('모내기') || title.includes('농업과 상업')) {
-            btnHtml = `<button onclick="openJoseonEconomyMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 💰 조선 후기 경제 MUD</button>`;
-          } else if (num === 29 || title.includes('실학') || title.includes('새로운 생각') || title.includes('서학')) {
-            btnHtml = `<button onclick="openJoseonSilhakMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🌍 실학자 탐구 MUD</button>`;
-          }
-          // 3단원
-          else if (num === 42 || num === 43 || title.includes('8·15 광복') || title.includes('정부 수립') || (unitId === 3 && display.includes('8~9차시'))) {
-            btnHtml = `<button onclick="openGwangbokMUD()" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🕊️ 8·15 광복과 정부 수립 MUD</button>`;
-          }
-          // 골든벨
-          else if (num === 20 || num === 34 || num === 48 || title.includes('정리') || title.includes('골든벨')) {
-            btnHtml = `<button onclick="openQuizHub(${unitId})" class="btn" style="background-color: ${lesson.color.hex}; color: #1F2937 !important; font-weight: 700;"><i class="fas fa-bolt"></i> ${lesson.title} Quiz</button>`;
-          } else if (lesson.mudPoint) {
-            btnHtml = `<button onclick="alert('[${lesson.title}] MUD 퀘스트 준비 중입니다!')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> ${lesson.mudPoint} 플레이</button>`;
-          } else {
-            btnHtml = `<button class="btn disabled" disabled><i class="fas fa-book-open"></i> 교과서 탐구 차시</button>`;
-          }
-
-          html += `
-            <article class="card" style="border-top: 4px solid ${lesson.color.hex};">
-              <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                  <span class="chasi-badge" style="background-color: ${lesson.color.hex}; color: #FFFFFF;">
-                    ${lesson.lessonDisplay}
-                  </span>
-                  <span style="font-size: 0.8rem; color: #776F66; font-weight: 500;">
-                    ${lesson.pages}
-                  </span>
-                </div>
-                <h2 style="border-left: 3px solid ${lesson.color.hex};">${lesson.title}</h2>
-                <p>💡 ${lesson.keyConcepts}</p>
-              </div>
-              <div style="margin-top: 10px;">
-                ${btnHtml}
-              </div>
-            </article>
-          `;
-        });
-
-        html += `
-            </div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-    }
-
-    function showPortalView() {
-      document.getElementById('view-portal').style.display = 'block';
-      document.getElementById('view-myeongnyang').style.display = 'none';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function setMudTheme(primaryHex, subHex = '#EFEAE1') {
-      currentMudThemeColor = primaryHex;
-      document.documentElement.style.setProperty('--current-mud-color', primaryHex);
-      
-      const headerTag = document.getElementById('mn-header-tag');
-      if (headerTag) headerTag.style.backgroundColor = primaryHex;
-      
-      const stageBadge = document.getElementById('mn-stage-badge');
-      if (stageBadge) stageBadge.style.backgroundColor = primaryHex;
-      
-      const fb = document.getElementById('mn-canvas-feedback');
-      if (fb) fb.style.backgroundColor = primaryHex;
-      
-      const gb = document.getElementById('gauge-bar');
-      if (gb) gb.style.backgroundColor = primaryHex;
-
-      const titleEl = document.getElementById('mn-header-title');
-      if (titleEl) titleEl.style.borderLeft = `5px solid ${primaryHex}`;
-    }
-
-    function renderRoadmapNodes(nodes) {
-      const grid = document.getElementById('roadmap-grid');
-      let html = '';
-      nodes.forEach(n => {
-        html += `<div id="mn-node-${n.id}" style="padding: 6px; border-radius: 6px; background: var(--card-sub); font-size: 0.8rem;">${n.label}</div>`;
-      });
-      grid.innerHTML = html;
-    }
-
-    // ==========================================
-    // 2단원 2~3차시 [한양 도읍 설계 MUD]
-    // ==========================================
-    function openJoseonFoundingMUD() {
-      currentActiveStoryId = 'story_joseon_founding';
-      mnVisited = new Set();
-      setMudTheme('#8A3B29', '#EFEAE1');
-      document.getElementById('view-portal').style.display = 'none';
-      document.getElementById('view-myeongnyang').style.display = 'block';
-      document.getElementById('mn-header-tag').textContent = '2단원 2~3차시 · 조선 건국';
-      document.getElementById('mn-header-title').textContent = 'MUD 한양 도읍 설계자: 정도전의 사대문과 경복궁';
-      
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-landmark" style="color: ${currentMudThemeColor};"></i> 한양 4대문(인·의·예·지) 배치 시뮬레이터`;
-      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 한양 건국 연대기`;
-      
-      renderRoadmapNodes([
-        { id: "1", label: "1. 한양 천도 결단" },
-        { id: "1-1", label: "1-1. 개경 잔류 [실패]" },
-        { id: "2", label: "2. 4대문 유교 덕목 명명" },
-        { id: "2-1", label: "2-1. 불교 명칭 [실패]" },
-        { id: "3", label: "3. 경복궁 근정전 박석" },
-        { id: "3-1", label: "3-1. 매끄러운 바닥 [실패]" },
-        { id: "4", label: "4. 성균관과 향교 설립" },
-        { id: "end", label: "5. 유교 국가 완성" }
-      ]);
-
-      mnStoryNodes = {
-        "1": {
-          location: "조선 태조 3년, 한양",
-          badge: "🗺️ 도읍의 선택",
-          character: { name: "태조 이성계", subtitle: "조선의 개국 국왕", avatar: "👑" },
-          text: `<b>새로운 나라 조선을 세우고 고려의 옛 도읍 개경을 떠나 새 수도를 정하려 합니다!</b><br><br>사방이 산으로 둘러싸여 방어하기 좋고, 한강을 통해 남북의 물자를 운반하기 편리한 최고의 명당은 어디일까요?`,
-          choices: [
-            { text: "⛰️ \"험준한 북쪽 산골짜기 묘향산으로 가자!\"", next: "1-1", sound: "fail" },
-            { text: "🌊 \"산세가 아늑하고 한강 수운이 편리한 '한양'을 도읍으로 삼는다!\"", next: "2", sound: "drum" }
-          ],
-          setupSim: "hanyang-map"
-        },
-        "1-1": {
-          location: "고립된 산악 지대",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "지리적 조건 착오", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 물자 운반 및 통치 곤란]</b><br>산골짜기는 물자 운반이 어렵고 전국을 다스릴 수 없습니다! 한양은 한반도의 중심이며 <b>한강을 통한 수운과 배산임수의 천혜 지형</b>을 갖추었습니다.`,
-          choices: [{ text: "🔄 한양을 새로운 수도로 정한다.", next: "1", sound: "restart" }],
-          setupSim: "hanyang-map"
-        },
-        "2": {
-          location: "한양 도성 설계소",
-          badge: "🏛️ 4대문의 유교 덕목",
-          character: { name: "삼봉 정도전", subtitle: "한양 도성의 총설계자", avatar: "📐" },
-          text: `<b>도성을 둘러싼 4대문과 중심 종루의 이름을 짓고자 합니다.</b><br><br>백성에게 <b>인(仁)·의(義)·예(禮)·지(智)·신(信)</b>의 유교 덕목을 가르치기 위해 동대문과 남대문, 보신각의 이름을 어떻게 지을까요?`,
-          choices: [
-            { text: "⛩️ \"불교식 이름인 대자대비문과 극락루로 짓는다.\"", next: "2-1", sound: "fail" },
-            { text: "📜 \"동대문은 흥인지문(仁), 남대문은 숭례문(禮), 종루는 보신각(信)으로 짓는다!\"", next: "3", sound: "victory" }
-          ],
-          setupSim: "hanyang-gates"
-        },
-        "2-1": {
-          location: "사상 혼선 발생",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "유교 통치 이념 부재", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 유교 건국 이념 퇴색]</b><br>조선은 불교의 폐단을 극복하고 <b>유교를 통치 이념</b>으로 세운 나라입니다! 흥인지문(어짊), 돈의문(의로움), 숭례문(예의), 보신각(믿음)에 유교 덕목을 담았습니다.`,
-          choices: [{ text: "🔄 유교 덕목이 담긴 성문 이름을 짓는다.", next: "2", sound: "restart" }],
-          setupSim: "hanyang-gates"
-        },
-        "3": {
-          location: "경복궁 근정전 앞마당",
-          badge: "🏛️ 근정전 박석의 비밀",
-          character: { name: "궁궐 석공 장인", subtitle: "근정전 뜰을 까는 장인", avatar: "🔨" },
-          text: `<b>왕과 신하들이 조회를 여는 근정전 앞마당 바닥을 깔 차례입니다!</b><br><br>햇빛의 눈부심을 막고, 비가 올 때 미끄러지지 않으며 빗물이 잘 빠져나가도록 신하들을 배려한 돌은?`,
-          choices: [
-            { text: "🧊 \"유리처럼 반짝이고 매끄럽게 갈아낸 대리석\"", next: "3-1", sound: "fail" },
-            { text: "🪨 \"표면이 거칠고 울퉁불퉁하여 빛 반사를 막는 화강암 '박석'!\"", next: "4", sound: "cannon" }
-          ],
-          setupSim: "hanyang-bakseok"
-        },
-        "3-1": {
-          location: "눈이 부신 대궐 마당",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "과학적 배려 부재", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 미끄러짐과 눈부심 발생]</b><br>매끄러운 돌은 햇빛을 반사해 신하들의 눈을 피로하게 하고 비 올 때 미끄러집니다! 조선의 장인들은 울퉁불퉁한 <b>박석</b>을 깔아 과학적 배려를 완성했습니다.`,
-          choices: [{ text: "🔄 박석을 마당에 깐다.", next: "3", sound: "restart" }],
-          setupSim: "hanyang-bakseok"
-        },
-        "4": {
-          location: "성균관 명륜당",
-          badge: "👑 MISSION ACCOMPLISHED",
-          character: { name: "조선 유학자", subtitle: "유교 교육의 확산", avatar: "📚" },
-          text: `<b>"유교의 질서가 바로 선 조선의 도읍 완성!"</b><br><br>중앙의 성균관과 지방의 향교, 서당을 통해 유교의 도덕과 충효 사상이 조선 전역에 널리 퍼져나갔습니다!`,
-          choices: [{ text: "🎉 한양 도읍 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
-          setupSim: "hanyang-map"
-        }
-      };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==========================================
-    // 2단원 8차시 [조선 후기 경제 MUD]
-    // ==========================================
-    function openJoseonEconomyMUD() {
-      currentActiveStoryId = 'story_joseon_economy';
-      mnVisited = new Set();
-      setMudTheme('#B8860B', '#EAB308');
-      document.getElementById('view-portal').style.display = 'none';
-      document.getElementById('view-myeongnyang').style.display = 'block';
-      document.getElementById('mn-header-tag').textContent = '2단원 8차시 · 조선 후기 경제';
-      document.getElementById('mn-header-title').textContent = 'MUD 조선 후기 보부상과 모내기 대박';
-      
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-coins" style="color: ${currentMudThemeColor};"></i> 상평통보 장시 거래 시뮬레이터`;
-      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 조선 경제 변혁 연대기`;
-      
-      renderRoadmapNodes([
-        { id: "1", label: "1. 모내기법(이앙법) 보급" },
-        { id: "1-1", label: "1-1. 직파법 고수 [실패]" },
-        { id: "2", label: "2. 상품작물(담배·인삼) 재배" },
-        { id: "2-1", label: "2-1. 자급자족 고수 [실패]" },
-        { id: "3", label: "3. 상평통보와 5일장 개장" },
-        { id: "3-1", label: "3-1. 물물교환 고수 [실패]" },
-        { id: "4", label: "4. 장시의 번영과 대상인" },
-        { id: "end", label: "5. 경제 성장 완수" }
-      ]);
-
-      mnStoryNodes = {
-        "1": {
-          location: "삼남 지방 논두렁",
-          badge: "🌾 농업의 혁명",
-          character: { name: "조선 농민", subtitle: "새 농사법을 고민하는 농부", avatar: "🌾" },
-          text: `<b>조선 후기, 가뭄을 이겨내고 벼 수확량을 획기적으로 늘릴 농사 기술이 필요합니다!</b><br><br>모판에서 벼를 길러 논에 옮겨 심어 일손을 덜고 잡초를 쉽게 뽑는 혁신적인 농법은?`,
-          choices: [
-            { text: "🌱 \"씨앗을 그냥 논에 직접 뿌린다 (직파법).\"", next: "1-1", sound: "fail" },
-            { text: "🌾 \"모판에서 키운 뒤 줄 맞춰 옮겨 심는다 (모내기법·이앙법)!\"", next: "2", sound: "victory" }
-          ],
-          setupSim: "economy-farm"
-        },
-        "1-1": {
-          location: "잡초가 무성한 논",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "농업 기술 낙후", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 잡초 뽑기 과다 및 수확량 정체]</b><br>직파법은 일손이 너무 많이 듭니다! <b>모내기법</b>을 통해 노동력을 줄이고 벼와 보리의 이모작이 가능해져 쌀 생산량이 폭발적으로 늘어났습니다.`,
-          choices: [{ text: "🔄 모내기법을 도입한다.", next: "1", sound: "restart" }],
-          setupSim: "economy-farm"
-        },
-        "2": {
-          location: "시장에 내다 팔 밭",
-          badge: "🥬 상품 작물 재배",
-          character: { name: "부농(富農)", subtitle: "농사로 부를 쌓은 농민", avatar: "💰" },
-          text: `<b>쌀 수확이 늘어남자 시장에 내다 팔 고소득 '상품 작물'을 재배하고자 합니다.</b><br><br>조선 후기 백성들이 널리 기르고 시장에서 큰돈이 되었던 작물들은?`,
-          choices: [
-            { text: "🪵 \"오직 땔나무만 베어서 장에 나간다.\"", next: "2-1", sound: "fail" },
-            { text: "🌶️ \"고추, 인삼, 담배, 목화와 구황작물인 감자·고구마를 심는다!\"", next: "3", sound: "cannon" }
-          ],
-          setupSim: "economy-market"
-        },
-        "2-1": {
-          location: "소득 없는 장터",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "상업적 농업 착오", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 시장 경제 참여 기회 상실]</b><br>조선 후기 농민들은 <b>고추, 인삼, 담배</b>를 시장에 팔아 큰 이익을 남기고, 척박한 땅에서는 <b>고구마와 감자</b>로 굶주림을 해결했습니다!`,
-          choices: [{ text: "🔄 상품 작물을 재배한다.", next: "2", sound: "restart" }],
-          setupSim: "economy-market"
-        },
-        "3": {
-          location: "전국 5일장 장시",
-          badge: "🪙 상평통보의 유통",
-          character: { name: "보부상 대행수", subtitle: "전국 장터를 누비는 상인", avatar: "🎒" },
-          text: `<b>전국에 1,000개가 넘는 장시가 열리고 보부상들이 모여들었습니다!</b><br><br>쌀이나 무거운 곡식 대신 엽전으로 편리하게 물건을 사고팔 수 있도록 조선 후기 전국에 유통된 화폐는?`,
-          choices: [
-            { text: "🪨 \"조개껍데기와 무거운 쇠붙이\"", next: "3-1", sound: "fail" },
-            { text: "🪙 \"국가에서 발행한 엽전 '상평통보'!\"", next: "4", sound: "victory" }
-          ],
-          setupSim: "economy-market"
-        },
-        "3-1": {
-          location: "물물교환의 불편함",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "화폐 경제 부재", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 상업 거래 정체]</b><br>곡식이나 옷감으로 물건을 바꾸는 것은 너무 불편합니다! 조선 후기에는 <b>상평통보</b>가 전국적으로 사용되면서 상업이 비약적으로 발전했습니다.`,
-          choices: [{ text: "🔄 상평통보로 거래한다.", next: "3", sound: "restart" }],
-          setupSim: "economy-market"
-        },
-        "4": {
-          location: "번화한 한양 시전 거리",
-          badge: "👑 MISSION ACCOMPLISHED",
-          character: { name: "조선 거상", subtitle: "조선 후기 시장 경제 주역", avatar: "🎉" },
-          text: `<b>"농업 발전과 장시의 번영, 상평통보로 활짝 핀 조선 경제!"</b><br><br>모내기법과 상품 작물 재배, 보부상과 상평통보로 조선 후기 백성들의 삶은 더욱 풍요롭고 역동적으로 변화했습니다!`,
-          choices: [{ text: "🎉 조선 경제 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
-          setupSim: "economy-market"
-        }
-      };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==========================================
-    // 2단원 9차시 [실학자 탐구 MUD]
-    // ==========================================
-    function openJoseonSilhakMUD() {
-      currentActiveStoryId = 'story_joseon_silhak';
-      mnVisited = new Set();
-      setMudTheme('#C27803', '#F59E0B');
-      document.getElementById('view-portal').style.display = 'none';
-      document.getElementById('view-myeongnyang').style.display = 'block';
-      document.getElementById('mn-header-tag').textContent = '2단원 9차시 · 조선 후기 사회';
-      document.getElementById('mn-header-title').textContent = 'MUD 실학자 탐구: 지구의와 동학의 평등 세상';
-      
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-globe-asia" style="color: ${currentMudThemeColor};"></i> 서양 문물(지구의·천리경)과 세계관 시뮬레이터`;
-      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 실학 & 사회 변화 연대기`;
-      
-      renderRoadmapNodes([
-        { id: "1", label: "1. 서양 문물과 지구의" },
-        { id: "1-1", label: "1-1. 중국 중심 고수 [실패]" },
-        { id: "2", label: "2. 실학의 사회 개혁론" },
-        { id: "2-1", label: "2-1. 공리공론 고수 [실패]" },
-        { id: "3", label: "3. 천주교와 동학(평등)" },
-        { id: "3-1", label: "3-1. 신분 차별 고수 [실패]" },
-        { id: "4", label: "4. 새로운 사회로의 전진" },
-        { id: "end", label: "5. 근대 사상 완수" }
-      ]);
-
-      mnStoryNodes = {
-        "1": {
-          location: "조선 후기 실학자의 서재",
-          badge: "🌍 둥근 지구와 세계관",
-          character: { name: "담헌 홍대용", subtitle: "지전설과 우주를 탐구한 실학자", avatar: "🔭" },
-          text: `<b>서양에서 들어온 둥근 공 모양의 '지구의'와 '곤여만국전도'를 보았습니다!</b><br><br>중국이 세상의 중심이라는 옛 생각(천하도)을 버리고, 실학자로서 깨달은 새로운 우주관은 무엇일까요?`,
-          choices: [
-            { text: "🗺️ \"그래도 세상의 중심은 무조건 중국이다.\"", next: "1-1", sound: "fail" },
-            { text: "🌍 \"지구는 둥글고 자전하며, 중국만이 세상의 중심이 아니다! 모든 나라가 동등하다!\"", next: "2", sound: "victory" }
-          ],
-          setupSim: "silhak-globe"
-        },
-        "1-1": {
-          location: "낡은 생각에 갇힌 서원",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "성리학적 고정관념", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 낡은 중화사상에 고립]</b><br>지구의와 천리경, 자명종은 서양의 발달된 과학 기술을 보여줍니다! 실학자들은 <b>중국 중심 세계관에서 벗어나 세계로 시야를 넓혔습니다.</b>`,
-          choices: [{ text: "🔄 새로운 세계관을 수용한다.", next: "1", sound: "restart" }],
-          setupSim: "silhak-globe"
-        },
-        "2": {
-          location: "다산 정약용의 유배지",
-          badge: "📜 실학의 실사구시",
-          character: { name: "다산 정약용", subtitle: "백성을 위한 실학의 집대성", avatar: "✍️" },
-          text: `<b>백성들의 삶을 실제로 윤택하게 만들 실용적인 학문(실학)이 절실합니다!</b><br><br>토지 제도를 개혁해 농민을 살리고(정약용), 거중기를 만들어 수원 화성을 쌓으며 수공업과 무역을 발전시키자는 주장은?`,
-          choices: [
-            { text: "📖 \"실생활과 상관없는 어려운 예절 논쟁만 고집한다.\"", next: "2-1", sound: "fail" },
-            { text: "⚙️ \"실제 생활에 도움이 되는 기술을 개발하고 제도를 개혁하는 '실학(實學)'을 펼친다!\"", next: "3", sound: "cannon" }
-          ],
-          setupSim: "silhak-globe"
-        },
-        "2-1": {
-          location: "피폐해진 농촌",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "공리공론의 한계", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 백성의 고통 방치]</b><br>탁상공론으로는 굶주린 백성을 구할 수 없습니다! <b>실사구시(사실에 근거하여 진리를 탐구함)</b>의 실학이야말로 진정한 개혁의 열쇠입니다.`,
-          choices: [{ text: "🔄 실학 사상을 실천한다.", next: "2", sound: "restart" }],
-          setupSim: "silhak-globe"
-        },
-        "3": {
-          location: "동학이 퍼져나가는 마을",
-          badge: "👥 모든 사람은 평등하다",
-          character: { name: "수운 최제우", subtitle: "동학의 창시자", avatar: "🕊️" },
-          text: `<b>신분 차별과 탐관오리의 수탈에 지친 백성들에게 새로운 종교가 다가왔습니다!</b><br><br>사람이 곧 하늘이라는 <b>'인내천(人乃天)'</b> 사상을 내세워 양반과 천민의 구별 없이 모든 인간의 평등을 외친 민족 종교는?`,
-          choices: [
-            { text: "👑 \"신분 차별을 더 엄격히 하는 제도\"", next: "3-1", sound: "fail" },
-            { text: "🕊️ \"모든 사람은 한울님처럼 존귀하고 평등하다는 '동학(東學)'!\"", next: "4", sound: "victory" }
-          ],
-          setupSim: "silhak-globe"
-        },
-        "3-1": {
-          location: "억압받는 백성들",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "신분 질서 맹신", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 평등 사회 요구 무시]</b><br>조선 후기에는 천주교와 <b>동학</b>을 통해 "모든 사람은 평등하다"는 생각이 백성들 사이에 널리 퍼져 새로운 사회를 향한 거대한 물결이 일어났습니다!`,
-          choices: [{ text: "🔄 동학의 인간 존중 평등 사상을 선택한다.", next: "3", sound: "restart" }],
-          setupSim: "silhak-globe"
-        },
-        "4": {
-          location: "역사의 새 지평",
-          badge: "👑 MISSION ACCOMPLISHED",
-          character: { name: "역사학자", subtitle: "근대 사회의 태동", avatar: "📜" },
-          text: `<b>"실학과 평등사상, 근대 한국으로 향하는 위대한 도약!"</b><br><br>서양 문물의 수용, 실학자들의 제도 개혁, 그리고 백성들의 평등의식 성장은 근대 사회로 나아가는 강력한 원동력이 되었습니다!`,
-          choices: [{ text: "🎉 실학자 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
-          setupSim: "silhak-globe"
-        }
-      };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==========================================
-    // 2단원 7차시 [명량해전 MUD]
-    // ==========================================
-    function openMyeongnyang() {
-      currentActiveStoryId = 'story_myeongnyang';
-      mnVisited = new Set();
-      setMudTheme('#991B1B', '#1E3A8A');
-      document.getElementById('view-portal').style.display = 'none';
-      document.getElementById('view-myeongnyang').style.display = 'block';
-      document.getElementById('mn-header-tag').textContent = '2단원 7차시 · 임진왜란';
-      document.getElementById('mn-header-title').textContent = 'MUD 명량대첩: 13척으로 133척을 막아선 기적';
-      
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-ship" style="color: ${currentMudThemeColor};"></i> 판옥선 천자총통 포격 & 조류 시뮬레이터`;
-      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 명량 해전 결전 연대기`;
-      
-      renderRoadmapNodes([
-        { id: "1", label: "1. 13척 vs 133척" },
-        { id: "1-1", label: "1-1. 수군 폐지 [패배]" },
-        { id: "2", label: "2. 울돌목 협로 유인" },
-        { id: "2-1", label: "2-1. 넓은 바다 [패배]" },
-        { id: "3", label: "3. 대장선 화포 일사" },
-        { id: "3-1", label: "3-1. 백병전 허용 [패배]" },
-        { id: "4", label: "4. 조류 역전 총반격" },
-        { id: "end", label: "5. 승전 장계 완수" }
-      ]);
-
-      mnStoryNodes = {
-        "1": {
-          location: "정유재란 1597년, 진도 벽파진",
-          badge: "⚔️ 절체절명의 위기",
-          character: { name: "삼도수군통제사 이순신", subtitle: "조선 수군의 지휘관", avatar: "🛡️" },
-          text: `<b>"신에게는 아직 열두 척의 배가 남아 있사옵니다."</b><br><br>왜군 대함대 133척이 서해를 거쳐 한양으로 진격해 오고 있습니다. 조정에서는 수군을 폐지하고 육군과 합류하라 명합니다. 장군으로서 어떤 결단을 내리시겠습니까?`,
-          choices: [
-            { text: "🏳️ \"임금의 명대로 배를 버리고 육군에 합류한다.\"", next: "1-1", sound: "fail" },
-            { text: "⚔️ \"수군을 폐지하면 적들이 서해를 거쳐 한양으로 곧장 갈 것입니다! 바다를 지키겠습니다!\"", next: "2", sound: "drum" }
-          ],
-          setupSim: "mn-map-idle"
-        },
-        "1-1": {
-          location: "서해 바다 전역",
-          badge: "❌ 역사의 IF (패배)",
-          character: { name: "시간 안내원 '타미'", subtitle: "제해권 상실", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 조선 패망의 위기]</b><br>수군을 폐지하자 왜군 수륙병진 작전이 성공하여 곡창지대 호남과 한양이 함락되었습니다! 바다를 지켜야만 조선을 구할 수 있습니다.`,
-          choices: [{ text: "🔄 13척으로 결전을 준비한다.", next: "1", sound: "restart" }],
-          setupSim: "mn-map-idle"
-        },
-        "2": {
-          location: "전남 해남과 진도 사이",
-          badge: "🗺️ 전장의 선택",
-          character: { name: "녹도만호 송여종", subtitle: "조선 수군 장수", avatar: "⛵" },
-          text: `<b>13척의 적은 전력으로 133척의 왜선을 상대할 결전의 장소를 정해야 합니다!</b><br><br>물살이 좁고 거세어 적선이 대열을 갖추기 힘든 최고의 길목은 어디입니까?`,
-          choices: [
-            { text: "🌊 \"넓고 탁 트인 남해 넓은 바다로 나아가 싸우자!\"", next: "2-1", sound: "fail" },
-            { text: "🌀 \"물살이 험하고 좁은 해협 '울돌목(명량)'으로 적을 유인한다!\"", next: "3", sound: "cannon" }
-          ],
-          setupSim: "mn-map-choose"
-        },
-        "2-1": {
-          location: "남해 넓은 바다",
-          badge: "❌ 역사의 IF (패배)",
-          character: { name: "시간 안내원 '타미'", subtitle: "포위 섬멸 위기", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 수적 열세로 포위됨]</b><br>넓은 바다에서는 왜선 133척이 순식간에 판옥선 13척을 겹겹이 포위합니다! 좁은 해협 <b>울돌목</b>의 지형을 활용해야만 일자진으로 적을 막을 수 있습니다.`,
-          choices: [{ text: "🔄 울돌목으로 유인한다.", next: "2", sound: "restart" }],
-          setupSim: "mn-map-choose"
-        },
-        "3": {
-          location: "울돌목 한가운데 결전장",
-          badge: "💥 사즉생 생즉사",
-          character: { name: "삼도수군통제사 이순신", subtitle: "대장선 홀로 선봉에 서다", avatar: "🛡️" },
-          text: `<b>적선 수십 척이 울돌목으로 들이닥쳤으나, 겁에 질린 부하 장수들의 배가 뒤로 물러났습니다!</b><br><br>대장선 홀로 적선에 둘러싸인 절체절명의 순간, 어떻게 싸우시겠습니까?`,
-          choices: [
-            { text: "🏃 \"적의 수가 너무 많다, 일단 후퇴하여 기회를 보자.\"", next: "3-1", sound: "fail" },
-            { text: "💣 \"죽기를 각오하면 살고, 살고자 하면 죽는다! 천자·지자총통을 일제히 격발하라!\"", next: "4", sound: "cannon" }
-          ],
-          setupSim: "mn-combat-active"
-        },
-        "3-1": {
-          location: "울돌목 퇴각선",
-          badge: "❌ 역사의 IF (패배)",
-          character: { name: "시간 안내원 '타미'", subtitle: "전선 붕괴", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 진열 붕괴로 수군 궤멸]</b><br>대장선이 물러서자 수군 전체가 와해되었습니다! 이순신 장군은 대장선 홀로 굳건히 버티며 화포를 퍼부어 왜선의 접근을 막았습니다.`,
-          choices: [{ text: "🔄 대장선에서 총포 사격을 명한다.", next: "3", sound: "restart" }],
-          setupSim: "mn-combat-active"
-        },
-        "4": {
-          location: "울돌목 물살 역전의 순간",
-          badge: "🌊 승리의 파도",
-          character: { name: "삼도수군통제사 이순신", subtitle: "기적의 대승", avatar: "👑" },
-          text: `<b>정조 시간을 지나 마침내 물살이 왜군 쪽으로 거세게 흐르기 시작했습니다! (썰물 역전)</b><br><br>적선들이 서로 부딪치며 혼란에 빠졌습니다. 용기를 얻은 아군 전선들이 합세하여 총반격을 개시합니다!`,
-          choices: [{ text: "🏆 전 함대 돌격! 승전의 장계를 올린다!", next: "end", sound: "victory" }],
-          setupSim: "mn-current-switch"
-        }
-      };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==========================================
-    // 1단원 2차시 [구석기 생존 MUD]
-    // ==========================================
-    function openPaleolithicMUD() {
-      currentActiveStoryId = 'story_paleolithic';
-      mnVisited = new Set();
-      setMudTheme('#6F4E37', '#A77950');
-      document.getElementById('view-portal').style.display = 'none';
-      document.getElementById('view-myeongnyang').style.display = 'block';
-      document.getElementById('mn-header-tag').textContent = '1단원 2차시 · 구석기 시대';
-      document.getElementById('mn-header-title').textContent = 'MUD 구석기 생존기: 전곡리의 만능 주먹도끼';
-      
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-fire-alt" style="color: ${currentMudThemeColor};"></i> 구석기 생존 인터랙티브 체험`;
-      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 구석기 생존 연대기`;
-      
-      renderRoadmapNodes([
-        { id: "1", label: "1. 혹한과 이동 결단" },
-        { id: "1-1", label: "1-1. 농경 착오 [실패]" },
-        { id: "2", label: "2. 동굴과 불 피우기" },
-        { id: "2-1", label: "2-1. 토기 착오 [실패]" },
-        { id: "3", label: "3. 뗀석기 주먹도끼" },
-        { id: "3-1", label: "3-1. 자연석 한계 [실패]" },
-        { id: "4", label: "4. 아슐리안의 기적" },
-        { id: "end", label: "5. 구석기 생존 완수" }
-      ]);
-
-      mnStoryNodes = {
-        "1": {
-          location: "약 70만 년 전 한반도 한탄강 유역",
-          badge: "❄️ 혹한의 계절",
-          character: { name: "구석기인 '바우'", subtitle: "사냥 무리의 청년", avatar: "🧔" },
-          text: `<b>매서운 빙하기의 바람이 불어오고, 매머드와 사슴 떼가 남쪽으로 이동하기 시작했습니다!</b><br><br>추위와 굶주림을 피해 살아남으려면 무리가 가장 먼저 내려야 할 결단은 무엇일까요?`,
-          choices: [
-            { text: "🌾 \"땅을 갈아 씨앗을 뿌리고 농사를 짓자!\"", next: "1-1", sound: "fail" },
-            { text: "🎒 \"동물 떼를 따라 동굴과 바위 그늘로 이동한다!\"", next: "2", sound: "drum" }
-          ],
-          setupSim: "paleo-intro"
-        },
-        "1-1": {
-          location: "얼어붙은 들판",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "시대착오 오류", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 시대착오 오류]</b><br>구석기 시대는 아직 농경 기술이 없었습니다! 식량을 구하려면 동물 떼를 따라 이동하며 사냥과 채집을 해야 합니다.`,
-          choices: [{ text: "🔄 사냥감을 따라 이동 생활을 시작한다.", next: "1", sound: "restart" }],
-          setupSim: "paleo-intro"
-        },
-        "2": {
-          location: "연천 전곡리 바위동굴",
-          badge: "🔥 어둠과 추위",
-          character: { name: "무리 족장", subtitle: "무리 최고의 지혜자", avatar: "👴" },
-          text: `<b>동굴에 도착했으나 맹수의 울음소리가 들리고 혹독한 어둠과 추위가 덮쳐옵니다!</b><br><br>맹수를 쫓아내고 고기를 익혀 먹을 구석기 최고의 생존 무기는 무엇일까요?`,
-          choices: [
-            { text: "🏺 \"진흙을 빚어 빗살무늬 토기를 굽는다.\"", next: "2-1", sound: "fail" },
-            { text: "🔥 \"나무를 강하게 비벼 불을 피워 동굴을 밝힌다!\"", next: "3", sound: "cannon" }
-          ],
-          setupSim: "paleo-fire"
-        },
-        "2-1": {
-          location: "차가운 진흙 앞",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "유물 혼선 오류", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 시대착오적 토기 제작]</b><br>토기는 신석기 시대부터 사용되었습니다! 구석기 사람들에게 가장 절실했던 것은 <b>불</b>이었습니다.`,
-          choices: [{ text: "🔄 마찰로 불을 피운다.", next: "2", sound: "restart" }],
-          setupSim: "paleo-fire"
-        },
-        "3": {
-          location: "한탄강 자갈밭",
-          badge: "⛏️ 만능 도구의 가공",
-          character: { name: "구석기인 '바우'", subtitle: "도구를 만드는 청년", avatar: "🧔" },
-          text: `<b>사냥한 동물의 가죽을 벗기고 뼈를 쪼갤 강력한 도구가 필요합니다!</b><br><br>자갈돌을 어떻게 다듬어야 사냥과 조리에 두루 쓸 수 있는 최고의 도구가 될까요?`,
-          choices: [
-            { text: "🪨 \"그냥 둥근 돌멩이를 그대로 집어 던진다.\"", next: "3-1", sound: "fail" },
-            { text: "⛏️ \"돌의 양쪽 면을 정교하게 떼어내 날을 세운다 (주먹도끼)!\"", next: "4", sound: "victory" }
-          ],
-          setupSim: "paleo-stone"
-        },
-        "3-1": {
-          location: "무딘 돌멩이 앞",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "가공 기술 부재", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 자연석의 한계]</b><br>그냥 돌멩이로는 단단한 가죽과 고기를 손질할 수 없습니다! 돌을 깨뜨려 양날을 세운 <b>뗀석기(주먹도끼)</b>가 필요합니다.`,
-          choices: [{ text: "🔄 양날을 떼어내 주먹도끼를 완성한다.", next: "3", sound: "restart" }],
-          setupSim: "paleo-stone"
-        },
-        "4": {
-          location: "연천 전곡리 선사 유적지",
-          badge: "👑 MISSION ACCOMPLISHED",
-          character: { name: "시간 안내원 '타미'", subtitle: "역사 탐구 완료", avatar: "🏆" },
-          text: `<b>"아시아 최초의 아슐리안형 주먹도끼 발견!"</b><br><br>연천 전곡리에서 발견된 주먹도끼는 동아시아에도 발달된 구석기 도구가 존재했음을 전 세계에 증명한 위대한 유물입니다!`,
-          choices: [{ text: "🎉 구석기 생존 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
-          setupSim: "paleo-stone"
-        }
-      };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function openNeolithicMUD() {
-      currentActiveStoryId = 'story_neolithic';
-      mnVisited = new Set();
-      setMudTheme('#A77950', '#8C5B3F');
-      document.getElementById('view-portal').style.display = 'none';
-      document.getElementById('view-myeongnyang').style.display = 'block';
-      document.getElementById('mn-header-tag').textContent = '1단원 3차시 · 신석기 시대';
-      document.getElementById('mn-header-title').textContent = 'MUD 신석기 생존기: 암사동의 뾰족 그릇과 정착';
-      
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-hand-holding-water" style="color: ${currentMudThemeColor};"></i> 신석기 빗살무늬 빚기 시뮬레이터`;
-      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 신석기 혁명 연대기`;
-      
-      renderRoadmapNodes([
-        { id: "1", label: "1. 한강변 정착 결단" },
-        { id: "1-1", label: "1-1. 이동 집착 [실패]" },
-        { id: "2", label: "2. 뾰족 바닥 그릇 빚기" },
-        { id: "2-1", label: "2-1. 평평 바닥 [실패]" },
-        { id: "3", label: "3. 가락바퀴와 뼈바늘" },
-        { id: "3-1", label: "3-1. 생가죽 한계 [실패]" },
-        { id: "4", label: "4. 암사동 마을의 번영" },
-        { id: "end", label: "5. 신석기 혁명 완수" }
-      ]);
-
-      mnStoryNodes = {
-        "1": {
-          location: "약 1만 년 전 서울 암사동 한강변",
-          badge: "🌾 정착의 시작",
-          character: { name: "신석기 촌장", subtitle: "강가 모래밭의 부족장", avatar: "🏕️" },
-          text: `<b>날씨가 따뜻해지며 한강변에 조와 기장이 자라기 시작했습니다!</b><br><br>더 이상 사냥감을 찾아 떠돌지 않고 강가에 머물러 식량을 생산하고자 합니다. 부족원들을 위해 가장 먼저 지어야 할 보금자리는 무엇일까요?`,
-          choices: [
-            { text: "⛺ \"바람에 날아가는 임시 막집을 대충 세우자!\"", next: "1-1", sound: "fail" },
-            { text: "🏡 \"땅을 파고 기둥을 세운 튼튼한 '움집'을 짓고 정착하자!\"", next: "2", sound: "click" }
-          ],
-          setupSim: "neolithic-settle"
-        },
-        "1-1": {
-          location: "비바람 치는 들판",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "구석기 이동 오류", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 정착 생활 인프라 부족]</b><br>농경과 채집을 위해 한곳에 머무르려면 비바람과 짐승을 막아줄 바닥을 판 <b>움집</b>이 필수입니다!`,
-          choices: [{ text: "🔄 움집을 짓는다.", next: "1", sound: "restart" }],
-          setupSim: "neolithic-settle"
-        },
-        "2": {
-          location: "한강변 모래밭",
-          badge: "🏺 뾰족 그릇의 비밀",
-          character: { name: "토기 장인", subtitle: "진흙을 빚는 장인", avatar: "🖐️" },
-          text: `<b>곡식을 수확하고 물고기를 끓여 먹을 그릇을 만들 차례입니다!</b><br><br>우리가 사는 곳은 부드러운 <b>모래밭</b>입니다. 그릇 바닥을 어떤 모양으로 빚어야 모래에 잘 세워둘 수 있을까요?`,
-          choices: [
-            { text: "🪑 \"바닥을 평평하고 넓적하게 빚는다.\"", next: "2-1", sound: "fail" },
-            { text: "🔻 \"바닥을 뾰족하게 빚어 모래밭에 푹 꽂아둔다! (빗살무늬 토기)\"", next: "3", sound: "cannon" }
-          ],
-          setupSim: "neolithic-pottery"
-        },
-        "2-1": {
-          location: "기울어진 진흙 그릇",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "모래 지형 착오", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 모래밭에서 넘어진 그릇]</b><br>울퉁불퉁한 강가 모래밭에서는 평평한 그릇이 쉽게 넘어집니다! 바닥을 <b>V자 뾰족한 모양</b>으로 만들어 꽂아야 합니다!`,
-          choices: [{ text: "🔄 뾰족한 빗살무늬 토기를 빚는다.", next: "2", sound: "restart" }],
-          setupSim: "neolithic-pottery"
-        },
-        "3": {
-          location: "암사동 움집 내부",
-          badge: "🧵 옷을 만드는 지혜",
-          character: { name: "부족 어머니", subtitle: "실을 뽑는 여성", avatar: "🧶" },
-          text: `<b>추위를 막고 몸을 보호할 옷과 물고기 그물이 필요합니다.</b><br><br>질긴 동물의 털과 삼베에서 실을 뽑아내고 옷을 꿰매려면 어떤 도구를 사용해야 할까요?`,
-          choices: [
-            { text: "🪨 \"그냥 날카로운 돌멩이로 가죽을 묶는다.\"", next: "3-1", sound: "fail" },
-            { text: "🪡 \"가락바퀴로 실을 잣고, 뼈바늘로 옷과 그물을 짠다!\"", next: "4", sound: "victory" }
-          ],
-          setupSim: "neolithic-weave"
-        },
-        "3-1": {
-          location: "찢어진 가죽 앞",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "직조 도구 부재", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 옷과 그물 제작 한계]</b><br>신석기 사람들은 <b>가락바퀴</b>로 실을 뽑고, <b>뼈바늘</b>로 꿰매어 인류 최초로 옷을 직접 지어 입었습니다!`,
-          choices: [{ text: "🔄 가락바퀴와 뼈바늘을 활용한다.", next: "3", sound: "restart" }],
-          setupSim: "neolithic-weave"
-        },
-        "4": {
-          location: "서울 암사동 유적지",
-          badge: "👑 MISSION ACCOMPLISHED",
-          character: { name: "신석기 촌장", subtitle: "신석기 혁명 완수", avatar: "🎉" },
-          text: `<b>"신석기 혁명의 대성공!"</b><br><br>농경, 간석기, 빗살무늬 토기, 그리고 움집 정착 생활로 인류는 스스로 식량을 생산하는 위대한 문명을 열었습니다!`,
-          choices: [{ text: "🎉 신석기 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
-          setupSim: "neolithic-settle"
-        }
-      };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==========================================
-    // 1단원 4~5차시 [청동기 고인돌 MUD]
-    // ==========================================
-    function openBronzeAgeMUD() {
-      currentActiveStoryId = 'story_bronze_age';
-      mnVisited = new Set();
-      setMudTheme('#B48448', '#D97706');
-      document.getElementById('view-portal').style.display = 'none';
-      document.getElementById('view-myeongnyang').style.display = 'block';
-      document.getElementById('mn-header-tag').textContent = '1단원 4~5차시 · 청동기 시대';
-      document.getElementById('mn-header-title').textContent = 'MUD 청동기 고인돌 축조자: 거석 운반과 군장의 탄생';
-      
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-mountain" style="color: ${currentMudThemeColor};"></i> 고인돌 거석 운반 & 덮개돌 올리기 시뮬레이터`;
-      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 청동기 문명 연대기`;
-      
-      renderRoadmapNodes([
-        { id: "1", label: "1. 벼농사와 잉여 생산" },
-        { id: "1-1", label: "1-1. 수렵 채집 고수 [실패]" },
-        { id: "2", label: "2. 비파형 동검과 군장" },
-        { id: "2-1", label: "2-1. 평등 분배 착오 [실패]" },
-        { id: "3", label: "3. 거대 고인돌 축조" },
-        { id: "3-1", label: "3-1. 흙더미 미사용 [실패]" },
-        { id: "4", label: "4. 반구대 암각화와 번영" },
-        { id: "end", label: "5. 청동기 문명 완수" }
-      ]);
-
-      mnStoryNodes = {
-        "1": {
-          location: "청동기 시대 배산임수 마을",
-          badge: "🌾 벼농사의 시작 & 받침돌",
-          character: { name: "청동기 농부", subtitle: "탄화미를 수확한 농민", avatar: "🌾" },
-          text: `<b>청동기 시대에 접어들며 한반도 남부에서 벼농사가 본격적으로 시작되었습니다!</b><br><br>곡식 수확량이 크게 늘어 남는 양식(잉여 생산물)이 생기자 부족에 어떤 변화가 나타났을까요?`,
-          choices: [
-            { text: "🏕️ \"여전히 빈부 격차 없는 원시 평등 사회가 지속된다.\"", next: "1-1", sound: "fail" },
-            { text: "💰 \"개인 재산이 생기며 빈부 격차가 발생하고 힘센 지배자(군장)가 등장한다!\"", next: "2", sound: "drum" }
-          ],
-          setupSim: "dolmen-step1"
-        },
-        "1-1": {
-          location: "정체된 부족",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "사회 구조 변화 착오", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 계급 발생 이해 오류]</b><br>농사 기술 발달로 사유재산이 생기면서 <b>빈부의 차이와 권력을 쥔 지배자(군장)</b>가 필연적으로 탄생했습니다!`,
-          choices: [{ text: "🔄 사유재산과 군장의 등장을 확인한다.", next: "1", sound: "restart" }],
-          setupSim: "dolmen-step1"
-        },
-        "2": {
-          location: "부족장의 제천 의식장 & 경사로",
-          badge: "🗡️ 권력의 상징 & 흙 경사로",
-          character: { name: "청동기 군장", subtitle: "청동 제기와 무기를 쥔 족장", avatar: "👑" },
-          text: `<b>군장의 권위와 위엄을 과시하고 거대한 고인돌을 세우기 위해 흙 경사로를 쌓으려 합니다!</b><br><br>지배자의 강력한 힘과 신성함을 상징하는 청동기 대표 유물은 무엇일까요?`,
-          choices: [
-            { text: "🪨 \"구석기식 뗀석기 주먹도끼\"", next: "2-1", sound: "fail" },
-            { text: "🗡️ \"비파형 동검, 거친무늬 청동 거울, 청동 방울!\"", next: "3", sound: "cannon" }
-          ],
-          setupSim: "dolmen-step2"
-        },
-        "2-1": {
-          location: "권위가 서지 않는 제단",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "청동 유물 이해 오류", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 지배자의 상징 부재]</b><br>청동기는 귀해서 농기구가 아닌 <b>지배자의 무기(비파형 동검)와 제사용 도구(거울, 방울)</b>로만 사용되었습니다!`,
-          choices: [{ text: "🔄 청동 유물을 선택한다.", next: "2", sound: "restart" }],
-          setupSim: "dolmen-step2"
-        },
-        "3": {
-          location: "고창 고인돌 축조 현장 & 굴림대",
-          badge: "🗿 거석의 위용 & 통나무 견인",
-          character: { name: "고인돌 석공 장인", subtitle: "수십 톤의 바위를 옮기는 장인", avatar: "🔨" },
-          text: `<b>돌 하나의 무게만 수십 톤에 달하는 거대한 '탁자식 고인돌'을 세우려 합니다!</b><br><br>수백 명의 부족민을 동원해 받침돌 위에 거대한 덮개돌을 올리는 가장 지혜로운 방법은?`,
-          choices: [
-            { text: "💪 \"도구 없이 사람 손으로만 번쩍 들어 올린다.\"", next: "3-1", sound: "fail" },
-            { text: "🪵 \"흙을 비스듬히 쌓아 경사로를 만들고 통나무 굴림대로 끌어올린다!\"", next: "4", sound: "victory" }
-          ],
-          setupSim: "dolmen-step3"
-        },
-        "3-1": {
-          location: "무너진 거석 앞",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "고인돌 축조 과학 오류", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 거석 운반 실패]</b><br>고대인들은 <b>흙 경사로와 통나무 굴림대, 지렛대의 원리</b>를 활용해 거대한 고인돌을 세웠습니다!`,
-          choices: [{ text: "🔄 과학적인 경사로 방법으로 덮개돌을 올린다.", next: "3", sound: "restart" }],
-          setupSim: "dolmen-step3"
-        },
-        "4": {
-          location: "울주 대곡리 반구대 암각화 앞",
-          badge: "👑 MISSION ACCOMPLISHED",
-          character: { name: "청동기 대군장", subtitle: "탁자식 고인돌 완성", avatar: "🏆" },
-          text: `<b>"청동기 거석 문명과 풍요로운 벼농사의 완성!"</b><br><br>흙을 파내어 웅장한 탁자식 고인돌을 완성하고, 비파형 동검으로 빛나는 청동기 문명을 꽃피웠습니다!`,
-          choices: [{ text: "🎉 청동기 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
-          setupSim: "dolmen-step4"
-        }
-      };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==========================================
-    // 1단원 6차시 [고조선 8조법 MUD]
-    // ==========================================
-    function openGojoseonMUD() {
-      currentActiveStoryId = 'story_gojoseon';
-      mnVisited = new Set();
-      setMudTheme('#8C5B3F', '#B45309');
-      document.getElementById('view-portal').style.display = 'none';
-      document.getElementById('view-myeongnyang').style.display = 'block';
-      document.getElementById('mn-header-tag').textContent = '1단원 6차시 · 고조선';
-      document.getElementById('mn-header-title').textContent = 'MUD 단군왕검의 고조선 개국: 8조법과 비파형 동검';
-      
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-balance-scale" style="color: ${currentMudThemeColor};"></i> 고조선 8조법 법정 시뮬레이터`;
-      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 최초 국가 고조선 연대기`;
-      
-      renderRoadmapNodes([
-        { id: "1", label: "1. 단군왕검 건국 결단" },
-        { id: "1-1", label: "1-1. 부족 융합 실패 [실패]" },
-        { id: "2", label: "2. 고조선 8조법 제정" },
-        { id: "2-1", label: "2-1. 무법 상태 [실패]" },
-        { id: "3", label: "3. 비파형 동검 문화권" },
-        { id: "3-1", label: "3-1. 문화권 오류 [실패]" },
-        { id: "4", label: "4. 홍익인간 대업 완성" },
-        { id: "end", label: "5. 고조선 탐구 완수" }
-      ]);
-
-      mnStoryNodes = {
-        "1": {
-          location: "기원전 2333년 아사달",
-          badge: "🐻 널리 인간을 이롭게",
-          character: { name: "단군왕검", subtitle: "우리 역사 최초의 국왕", avatar: "👑" },
-          text: `<b>환웅 부족과 곰을 숭상하는 부족이 힘을 합쳐 최초의 국가를 세우려 합니다!</b><br><br>단군왕검이 세운 나라의 건국 이념인 <b>'홍익인간(弘益人間)'</b>의 참뜻은 무엇일까요?`,
-          choices: [
-            { text: "⚔️ \"오직 힘으로 다른 부족을 짓밟고 빼앗는다.\"", next: "1-1", sound: "fail" },
-            { text: "🕊️ \"널리 인간을 이롭게 하고, 조화롭게 백성을 다스린다!\"", next: "2", sound: "victory" }
-          ],
-          setupSim: "goryeo-map"
-        },
-        "1-1": {
-          location: "반발하는 부족들",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "건국 이념 왜곡", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 부족 연합 분열]</b><br>단군왕검은 <b>홍익인간</b>의 숭고한 정신으로 농경 부족을 통합하고 고조선을 개국했습니다!`,
-          choices: [{ text: "🔄 홍익인간 정신으로 건국한다.", next: "1", sound: "restart" }],
-          setupSim: "goryeo-map"
-        },
-        "2": {
-          location: "고조선 법정",
-          badge: "📜 고조선 8조법",
-          character: { name: "고조선 재판관", subtitle: "질서를 수호하는 관리", avatar: "⚖️" },
-          text: `<b>사회를 유지하고 백성의 생명과 재산을 지키기 위해 법을 선포합니다!</b><br><br>남의 물건을 훔친 자는 노비로 삼고, 사람을 죽인 자는 사형에 처한다는 8조법으로 알 수 있는 사실은?`,
-          choices: [
-            { text: "❓ \"아무런 질서도 법도 없는 혼란한 사회였다.\"", next: "2-1", sound: "fail" },
-            { text: "🌾 \"생명을 존중하고, 사유재산과 신분제, 화폐를 사용한 사회였다!\"", next: "3", sound: "cannon" }
-          ],
-          setupSim: "society-exam"
-        },
-        "2-1": {
-          location: "혼란에 빠진 저잣거리",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "8조법 해석 오류", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 8조법의 역사적 의미 왜곡]</b><br>고조선 8조법은 <b>생명 존중, 농경 사회의 곡식 배상, 사유재산 인정, 신분제 존재</b>를 명확히 보여줍니다!`,
-          choices: [{ text: "🔄 8조법의 역사적 의미를 선택한다.", next: "2", sound: "restart" }],
-          setupSim: "society-exam"
-        },
-        "3": {
-          location: "요동과 한반도 북부 영토",
-          badge: "🗺️ 고조선의 문화 범위",
-          character: { name: "역사 탐험가", subtitle: "유물로 영토를 추적하는 학자", avatar: "🧭" },
-          text: `<b>고조선의 문화가 널리 퍼진 영역을 확인하는 결정적인 유물 2가지는?</b>`,
-          choices: [
-            { text: "🏺 \"빗살무늬 토기와 뗀석기\"", next: "3-1", sound: "fail" },
-            { text: "🗡️ \"비파형 동검과 탁자식 고인돌(미송리식 토기)!\"", next: "4", sound: "victory" }
-          ],
-          setupSim: "goryeo-map"
-        },
-        "3-1": {
-          location: "유물 혼선 지대",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "고조선 유물 착오", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 고조선 대표 유물 불일치]</b><br>고조선의 세력 범위는 <b>비파형 동검과 탁자식 고인돌</b>이 출토되는 요동 및 한반도 북부 지역과 일치합니다!`,
-          choices: [{ text: "🔄 비파형 동검과 탁자식 고인돌을 선택한다.", next: "3", sound: "restart" }],
-          setupSim: "goryeo-map"
-        },
-        "4": {
-          location: "고조선의 도읍",
-          badge: "👑 MISSION ACCOMPLISHED",
-          character: { name: "단군왕검", subtitle: "반만년 역사의 출발", avatar: "🎉" },
-          text: `<b>"우리 역사 최초의 국가 고조선의 번영!"</b><br><br>단군왕검의 건국과 엄격한 8조법, 찬란한 청동기 문화를 통해 반만년 배달민족 역사의 위대한 첫 장을 열었습니다!`,
-          choices: [{ text: "🎉 고조선 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
-          setupSim: "goryeo-map"
-        }
-      };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==========================================
-    // 1단원 7~8차시 [삼국 한강 쟁탈전 MUD]
-    // ==========================================
-    // ==========================================
-    // 1단원 7~8차시 [삼국 한강 쟁탈전 MUD]
-    // ==========================================
-    function openThreeKingdomsConquestMUD() {
-      currentActiveStoryId = 'story_three_kingdoms_conquest';
-      mnVisited = new Set();
-      setMudTheme('#B33939', '#DC2626');
-      document.getElementById('view-portal').style.display = 'none';
-      document.getElementById('view-myeongnyang').style.display = 'block';
-      document.getElementById('mn-header-tag').textContent = '1단원 7~8차시 · 삼국과 가야';
-      document.getElementById('mn-header-title').textContent = 'MUD 삼국의 전성기 한강 쟁탈전: 근초고왕·광개토대왕·진흥왕';
-      
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-flag" style="color: ${currentMudThemeColor};"></i> 한강 유역 쟁탈전 및 전성기 지도 시뮬레이터`;
-      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 삼국 전성기 연대기`;
-      
-      renderRoadmapNodes([
-        { id: "1", label: "1. 백제 근초고왕 (4세기)" },
-        { id: "1-1", label: "1-1. 한강 상실 오류 [실패]" },
-        { id: "2", label: "2. 고구려 광개토·장수왕 (5세기)" },
-        { id: "2-1", label: "2-1. 남진 포기 오류 [실패]" },
-        { id: "3", label: "3. 신라 진흥왕 (6세기)" },
-        { id: "3-1", label: "3-1. 외교 단절 오류 [실패]" },
-        { id: "4", label: "4. 가야 연맹과 대외교류" },
-        { id: "end", label: "5. 삼국 전성기 완수" }
-      ]);
-
-      mnStoryNodes = {
-        "1": {
-          location: "4세기 백제 한성(위례성)",
-          badge: "⚔️ 백제의 첫 전성기",
-          character: { name: "근초고왕", subtitle: "백제의 위대한 정복 군주", avatar: "👑" },
-          text: `<b>삼국 중 가장 먼저 한강 유역을 차지하고 4세기 전성기를 연 백제의 국왕입니다!</b><br><br>남쪽으로 마한을 통합하고 북쪽으로 평양성을 공격하며 중국, 왜(일본 칠지도 하사)와 활발히 교류한 왕은?`,
-          choices: [
-            { text: "🛡️ \"고구려 소수림왕\"", next: "1-1", sound: "fail" },
-            { text: "👑 \"백제의 전성기를 이끈 '근초고왕'!\"", next: "2", sound: "victory" }
-          ],
-          setupSim: "goryeo-map"
-        },
-        "1-1": {
-          location: "전성기 순서 착오",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "삼국 전성기 순서 오류", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 전성기 순서 착오]</b><br>삼국 중 한강 유역을 먼저 차지해 가장 먼저 전성기를 맞이한 나라는 <b>4세기 백제(근초고왕)</b>입니다!`,
-          choices: [{ text: "🔄 백제 근초고왕을 선택한다.", next: "1", sound: "restart" }],
-          setupSim: "goryeo-map"
-        },
-        "2": {
-          location: "5세기 고구려 국내성~평양성",
-          badge: "🏹 대륙을 호령한 고구려",
-          character: { name: "장수왕", subtitle: "광개토대왕의 아들", avatar: "🏹" },
-          text: `<b>광개토대왕이 북방 영토를 넓힌 데 이어, 수도를 평양으로 옮기고(남진 정책) 한강 유역을 모두 차지한 왕은?</b>`,
-          choices: [
-            { text: "🏯 \"신라 내물왕\"", next: "2-1", sound: "fail" },
-            { text: "🐎 \"평양 천도로 5세기 전성기를 연 '장수왕'!\"", next: "3", sound: "cannon" }
-          ],
-          setupSim: "goryeo-map"
-        },
-        "2-1": {
-          location: "남진 정책 실패",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "고구려 전성기 오류", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 5세기 주역 착오]</b><br>5세기는 <b>광개토대왕과 장수왕</b>의 활약으로 고구려가 한강 유역을 장악하고 동북아 최강국이 되었습니다!`,
-          choices: [{ text: "🔄 고구려 장수왕을 선택한다.", next: "2", sound: "restart" }],
-          setupSim: "goryeo-map"
-        },
-        "3": {
-          location: "6세기 신라 북한산 순수비",
-          badge: "🚩 신라의 대도약",
-          character: { name: "진흥왕", subtitle: "화랑도를 정비한 정복 군주", avatar: "👑" },
-          text: `<b>화랑도를 개편해 인재를 기르고, 한강 유역을 차지하여 서해를 통해 중국과 직접 교류한 6세기 신라의 왕은?</b>`,
-          choices: [
-            { text: "🐎 \"백제 무령왕\"", next: "3-1", sound: "fail" },
-            { text: "🚩 \"영토를 넓히고 순수비를 세운 신라 '진흥왕'!\"", next: "4", sound: "victory" }
-          ],
-          setupSim: "goryeo-map"
-        },
-        "3-1": {
-          location: "지리적 고립",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "신라 전성기 착오", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 신라 발전 과정 오류]</b><br>신라는 <b>6세기 진흥왕</b> 때 한강 유역을 차지하여 지리적 약점을 극복하고 삼국 통일의 발판을 마련했습니다!`,
-          choices: [{ text: "🔄 신라 진흥왕을 선택한다.", next: "3", sound: "restart" }],
-          setupSim: "goryeo-map"
-        },
-        "4": {
-          location: "철의 왕국 가야와 삼국의 전장",
-          badge: "👑 MISSION ACCOMPLISHED",
-          character: { name: "김수로왕 & 삼국 군주", subtitle: "찬란한 고대 국가의 발전", avatar: "🌟" },
-          text: `<b>"한강을 차지한 자가 시대를 지배한다!"</b><br><br>백제(4세기) ➔ 고구려(5세기) ➔ 신라(6세기)로 이어진 한강 쟁탈전과 우수한 철기 문화를 자랑한 가야의 역사를 완벽히 마스터했습니다!`,
-          choices: [{ text: "🎉 삼국 쟁탈전 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
-          setupSim: "goryeo-map"
-        }
-      };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==========================================
-    // 1단원 9~10차시 [고분 벽화 탐정 MUD]
-    // ==========================================
-    function openThreeKingdomsLifeMUD() {
-      currentActiveStoryId = 'story_three_kingdoms_life';
-      mnVisited = new Set();
-      setMudTheme('#A0522D', '#CA8A04');
-      document.getElementById('view-portal').style.display = 'none';
-      document.getElementById('view-myeongnyang').style.display = 'block';
-      document.getElementById('mn-header-tag').textContent = '1단원 9~10차시 · 삼국과 가야 생활';
-      document.getElementById('mn-header-title').textContent = 'MUD 고분 벽화 탐정: 삼국 귀족의 맥적과 가야 철갑옷';
-      
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-paint-brush" style="color: ${currentMudThemeColor};"></i> 고구려 수산리 고분 벽화 복원 시뮬레이터`;
-      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 삼국 생활상 연대기`;
-      
-      renderRoadmapNodes([
-        { id: "1", label: "1. 신분 제도와 의식주" },
-        { id: "1-1", label: "1-1. 평민 복식 오류 [실패]" },
-        { id: "2", label: "2. 불교 수용과 백성 통합" },
-        { id: "2-1", label: "2-1. 불교 배척 [실패]" },
-        { id: "3", label: "3. 가야의 철기 & 맥적 구이" },
-        { id: "3-1", label: "3-1. 철기 기술 부재 [실패]" },
-        { id: "4", label: "4. 삼국 문화의 완성" },
-        { id: "end", label: "5. 삼국 생활사 완수" }
-      ]);
-
-      mnStoryNodes = {
-        "1": {
-          location: "고구려 수산리 고분 벽화 앞",
-          badge: "🎨 벽화에 담긴 생활",
-          character: { name: "벽화 보존 탐정", subtitle: "고구려 고분을 조사하는 학자", avatar: "🔍" },
-          text: `<b>고구려 무덤 벽화에서 귀족과 평민의 옷차림을 발견했습니다!</b><br><br>삼국 시대 사람들의 복식 특징은 무엇일까요?`,
-          choices: [
-            { text: "🥻 \"모든 사람이 똑같이 서양식 드레스를 입었다.\"", next: "1-1", sound: "fail" },
-            { text: "👘 \"활동하기 편한 저고리와 바지를 입고, 여성은 주름치마를 덧입었으며 귀족은 비단옷을 입었다!\"", next: "2", sound: "victory" }
-          ],
-          setupSim: "society-temple"
-        },
-        "1-1": {
-          location: "벽화 훼손 오류",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "고대 복식사 착오", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 삼국 복식 이해 오류]</b><br>삼국 사람들은 <b>저고리와 바지, 치마</b> 중심의 고유한 한복 문화를 발전시켰습니다!`,
-          choices: [{ text: "🔄 저고리와 바지 문화를 확인한다.", next: "1", sound: "restart" }],
-          setupSim: "society-temple"
-        },
-        "2": {
-          location: "삼국의 사찰 법당",
-          badge: "🛕 불교의 수용",
-          character: { name: "삼국 고승", subtitle: "왕실과 백성을 인도하는 승려", avatar: "📿" },
-          text: `<b>삼국의 왕들이 불교를 국가 종교로 받아들인 가장 결정적인 까닭은?</b>`,
-          choices: [
-            { text: "⚔️ \"오직 이웃 나라와 전쟁하기 위해\"", next: "2-1", sound: "fail" },
-            { text: "👑 \"왕권을 강화하고 백성의 마음을 하나로 모아 나라를 통합하기 위해!\"", next: "3", sound: "cannon" }
-          ],
-          setupSim: "society-exam"
-        },
-        "2-1": {
-          location: "흩어지는 민심",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "불교 수용 목적 착오", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 종교 통합 실패]</b><br>삼국은 <b>왕이 곧 부처라는 사상으로 왕권을 높이고, 백성의 사상을 하나로 통합</b>하고자 불교를 공인했습니다!`,
-          choices: [{ text: "🔄 백성 통합과 왕권 강화를 선택한다.", next: "2", sound: "restart" }],
-          setupSim: "society-exam"
-        },
-        "3": {
-          location: "가야의 쇠부리 터 & 고구려 연회장",
-          badge: "🛡️ 철의 제국 & 전통 음식",
-          character: { name: "가야 대장장이", subtitle: "철제 갑옷을 만드는 장인", avatar: "🔨" },
-          text: `<b>가야가 다른 나라에 수출할 정도로 뛰어났던 기술과, 고구려 귀족이 즐겨 먹은 된장 양념 돼지구이(맥적)는?</b>`,
-          choices: [
-            { text: "🪵 \"가야의 목재 가공 기술과 생선회\"", next: "3-1", sound: "fail" },
-            { text: "🛡️ \"가야의 뛰어난 '철 다루는 기술(판갑옷/덩이쇠)'과 고구려 전통 '맥적(貊炙)'!\"", next: "4", sound: "victory" }
-          ],
-          setupSim: "society-court"
-        },
-        "3-1": {
-          location: "철기 기술 부족",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "가야 문화 착오", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 가야 철기 문명 착오]</b><br>가야는 <b>철의 왕국</b>으로서 단단한 판갑옷과 투구를 만들었고, 낙랑과 왜에 덩이쇠를 수출했습니다!`,
-          choices: [{ text: "🔄 가야 철갑옷과 맥적을 선택한다.", next: "3", sound: "restart" }],
-          setupSim: "society-court"
-        },
-        "4": {
-          location: "삼국과 가야 문화의 정점",
-          badge: "👑 MISSION ACCOMPLISHED",
-          character: { name: "역사 탐정", subtitle: "삼국 생활사 완성", avatar: "🎉" },
-          text: `<b>"고분 벽화에 살아 숨 쉬는 삼국과 가야의 숨결!"</b><br><br>신분제, 한복과 맥적, 기와집과 초가집, 불교와 뛰어난 가야 철기 문화를 완벽하게 탐구했습니다!`,
-          choices: [{ text: "🎉 삼국 생활사 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
-          setupSim: "society-temple"
-        }
-      };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function openGoryeoFoundingMUD() {
-      currentActiveStoryId = 'story_goryeo_founding';
-      mnVisited = new Set();
-      setMudTheme('#2D6A4F', '#059669');
-      document.getElementById('view-portal').style.display = 'none';
-      document.getElementById('view-myeongnyang').style.display = 'block';
-      document.getElementById('mn-header-tag').textContent = '1단원 13차시 · 고려 시대';
-      document.getElementById('mn-header-title').textContent = 'MUD 고려 건국기: 태조 왕건의 후삼국 통일과 훈요 10조';
-      
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-crown" style="color: ${currentMudThemeColor};"></i> 태조 왕건의 통합 정책 시뮬레이터`;
-      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 고려 건국 연대기`;
-      
-      renderRoadmapNodes([
-        { id: "1", label: "1. 궁예 축출과 고려 개국" },
-        { id: "1-1", label: "1-1. 가혹한 폭정 [실패]" },
-        { id: "2", label: "2. 발해 유민 포용 결단" },
-        { id: "2-1", label: "2-1. 유민 배척 [실패]" },
-        { id: "3", label: "3. 신라·후백제 통일" },
-        { id: "3-1", label: "3-1. 무력 탄압 [실패]" },
-        { id: "4", label: "4. 훈요 10조 선포" },
-        { id: "end", label: "5. 민족 재통합 완수" }
-      ]);
-
-      mnStoryNodes = {
-        "1": {
-          location: "서기 918년 철원, 후고구려",
-          badge: "⚔️ 민심의 결단",
-          character: { name: "왕건", subtitle: "송악 호족 출신 장수", avatar: "👑" },
-          text: `<b>궁예가 스스로 미륵불이라 칭하며 가혹한 폭정을 일삼고 있습니다!</b><br><br>신하들과 백성들이 왕건 장군에게 찾아와 새로운 나라를 세워줄 것을 청합니다.`,
-          choices: [
-            { text: "🤫 \"궁예의 폭정을 모른 척하고 현상 유지를 택한다.\"", next: "1-1", sound: "fail" },
-            { text: "🏰 \"궁예를 몰아내고, 고구려를 계승하는 '고려'를 건국한다!\"", next: "2", sound: "drum" }
-          ],
-          setupSim: "goryeo-map"
-        },
-        "1-1": {
-          location: "혼란에 빠진 철원",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "민심 이반 오류", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 민심 이반과 국가 붕괴]</b><br>궁예의 폭정을 방치하여 나라가 내분에 휩싸였습니다! 왕건은 고구려 계승 의지를 담아 <b>고려</b>를 건국해야 합니다.`,
-          choices: [{ text: "🔄 고려를 건국한다.", next: "1", sound: "restart" }],
-          setupSim: "goryeo-map"
-        },
-        "2": {
-          location: "개경 본궐",
-          badge: "🤝 발해 유민 포용",
-          character: { name: "대광현", subtitle: "거란에 멸망한 발해의 세자", avatar: "🛡️" },
-          text: `<b>거란에 멸망한 발해의 세자 대광현과 수만 명의 유민들이 고려로 피란해 왔습니다!</b><br><br>태조 왕건으로서 어떻게 하시겠습니까?`,
-          choices: [
-            { text: "🚫 \"국경을 닫고 발해 유민들을 돌려보낸다.\"", next: "2-1", sound: "fail" },
-            { text: "🤝 \"발해는 우리와 같은 친척이다! 세자에게 왕씨 성과 관직을 주어 따뜻하게 맞이한다!\"", next: "3", sound: "victory" }
-          ],
-          setupSim: "goryeo-policy"
-        },
-        "2-1": {
-          location: "북방 국경선",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "민족 통합 실패", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 북방 방어력 약화 및 민족 통합 실패]</b><br>발해 유민을 배척하면 거란에 맞설 북방 세력을 얻지 못합니다! 왕건은 발해 유민을 적극 포용하여 <b>민족 재통합</b>을 이뤘습니다.`,
-          choices: [{ text: "🔄 발해 유민을 포용한다.", next: "2", sound: "restart" }],
-          setupSim: "goryeo-policy"
-        },
-        "3": {
-          location: "후삼국 통일의 전장",
-          badge: "🚩 후삼국 통일",
-          character: { name: "경순왕", subtitle: "신라의 마지막 왕", avatar: "🕊️" },
-          text: `<b>신라 경순왕이 항복해 오고, 후백제 견훤이 투항해 왔습니다!</b><br><br>분열된 한반도를 다시 하나로 통일할 마지막 순간입니다!`,
-          choices: [
-            { text: "⚔️ \"정복한 백성들을 가혹하게 노비로 삼는다.\"", next: "3-1", sound: "fail" },
-            { text: "🕊️ \"백성의 세금을 낮추고(취민유도), 호족들과 화합하여 평화롭게 통일한다!\"", next: "4", sound: "cannon" }
-          ],
-          setupSim: "goryeo-policy"
-        },
-        "3-1": {
-          location: "반란이 일어난 영토",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "통합 정치 부재", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 지방 반발과 재분열]</b><br>왕건은 세금을 1/10로 줄이고, 흑창(빈민 구제)을 설치하며 포용 정책으로 나라를 안정시켰습니다.`,
-          choices: [{ text: "🔄 백성을 배려하는 정책을 편다.", next: "3", sound: "restart" }],
-          setupSim: "goryeo-policy"
-        },
-        "4": {
-          location: "태조 왕건의 침전",
-          badge: "👑 MISSION ACCOMPLISHED",
-          character: { name: "태조 왕건", subtitle: "후대 왕들에게 남기는 유훈", avatar: "📜" },
-          text: `<b>"후대 왕들이여, 훈요 10조를 가슴에 새기라!"</b><br><br>불교 숭상, 거란 경계, 서경 중시, 백성 세금 감면을 실천하여 코리아(KOREA) 500년 기틀을 완성했습니다!`,
-          choices: [{ text: "🎉 고려 건국 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
-          setupSim: "goryeo-map"
-        }
-      };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function openGoryeoSocietyMUD() {
-      currentActiveStoryId = 'story_goryeo_society';
-      mnVisited = new Set();
-      setMudTheme('#32746D', '#0D9488');
-      document.getElementById('view-portal').style.display = 'none';
-      document.getElementById('view-myeongnyang').style.display = 'block';
-      document.getElementById('mn-header-tag').textContent = '1단원 14차시 · 고려 사회';
-      document.getElementById('mn-header-title').textContent = 'MUD 고려 사회 탐정: 손변의 지혜로운 재판과 과거 홍패';
-      
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-balance-scale" style="color: ${currentMudThemeColor};"></i> 고려 사회 판결 & 과거 시험 시뮬레이터`;
-      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 고려 사회 탐구 연대기`;
-      
-      renderRoadmapNodes([
-        { id: "1", label: "1. 과거 시험과 홍패" },
-        { id: "1-1", label: "1-1. 신분 차별 오류 [실패]" },
-        { id: "2", label: "2. 손변의 남매 유산 재판" },
-        { id: "2-1", label: "2-1. 남존여비 판결 [실패]" },
-        { id: "3", label: "3. 부석사 무량수전 건축" },
-        { id: "3-1", label: "3-1. 건축 양식 착오 [실패]" },
-        { id: "4", label: "4. 개방적인 고려 사회 완성" },
-        { id: "end", label: "5. 고려 탐구 완수" }
-      ]);
-
-      mnStoryNodes = {
-        "1": {
-          location: "고려 개경 과거 시험장",
-          badge: "📜 능력 중심의 선발",
-          character: { name: "과거 응시생", subtitle: "실력으로 관직에 도전", avatar: "🎓" },
-          text: `<b>광종이 실시한 과거제에 합격하여 붉은색 합격증인 '홍패'를 받으려 합니다!</b><br><br>고려 사회의 특징은 무엇일까요?`,
-          choices: [
-            { text: "👑 \"오직 왕족과 귀족 혈통만 관리가 될 수 있다.\"", next: "1-1", sound: "fail" },
-            { text: "📚 \"과거 시험을 통해 개인의 학문과 실력으로 관리가 될 수 있는 개방적 사회이다!\"", next: "2", sound: "victory" }
-          ],
-          setupSim: "society-exam"
-        },
-        "1-1": {
-          location: "폐쇄적인 귀족 회의",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "고려 사회 이해 오류", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 고려 사회 성격 착오]</b><br>고려는 과거제를 실시하여 <b>능력 중심</b>으로 관리를 선발한 개방적 사회였습니다!`,
-          choices: [{ text: "🔄 과거제와 홍패의 의미를 확인한다.", next: "1", sound: "restart" }],
-          setupSim: "society-exam"
-        },
-        "2": {
-          location: "고려 재판정",
-          badge: "⚖️ 손변의 명재판",
-          character: { name: "명판관 손변", subtitle: "고려의 지혜로운 관리", avatar: "👨‍⚖️" },
-          text: `<b>남매의 유산 분쟁 재판입니다!</b><br><br>아버지가 남긴 유서에 어린 남동생에게는 옷 한 벌만 주라고 쓰여 있습니다. 손변으로서 어떻게 판결하시겠습니까?`,
-          choices: [
-            { text: "📜 \"유서 문자 그대로 누나에게 모든 재산을 준다.\"", next: "2-1", sound: "fail" },
-            { text: "⚖️ \"부모의 참뜻을 헤아려, 고려의 법대로 아들과 딸이 균등하게 절반씩 나눈다!\"", next: "3", sound: "cannon" }
-          ],
-          setupSim: "society-court"
-        },
-        "2-1": {
-          location: "원망이 가득한 법정",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "고려 여성 지위 착오", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 고려 가족 제도 이해 실패]</b><br>고려 시대는 <b>아들과 딸이 재산을 똑같이 상속</b>받고 여성의 지위가 높았습니다!`,
-          choices: [{ text: "🔄 균등 상속 판결을 내린다.", next: "2", sound: "restart" }],
-          setupSim: "society-court"
-        },
-        "3": {
-          location: "영주 부석사 무량수전",
-          badge: "🏛️ 고려의 대표 목조건축",
-          character: { name: "고려 건축 장인", subtitle: "무량수전을 짓는 장인", avatar: "🔨" },
-          text: `<b>기둥 가운데 부분이 불룩하여 시각적 안정감을 주는 건축 기법은?</b>`,
-          choices: [
-            { text: "🪵 \"가운데가 얇은 일자 기둥\"", next: "3-1", sound: "fail" },
-            { text: "🏛️ \"가운데가 볼록한 '배흘림기둥'!\"", next: "4", sound: "victory" }
-          ],
-          setupSim: "society-temple"
-        },
-        "3-1": {
-          location: "불안정한 기둥 앞",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "건축 양식 착오", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 건축 구조 불안정]</b><br>부석사 무량수전은 <b>배흘림기둥</b>으로 유명합니다!`,
-          choices: [{ text: "🔄 배흘림기둥을 선택한다.", next: "3", sound: "restart" }],
-          setupSim: "society-temple"
-        },
-        "4": {
-          location: "국제 무역항 벽란도",
-          badge: "👑 MISSION ACCOMPLISHED",
-          character: { name: "고려 관료", subtitle: "세계와 소통하는 고려", avatar: "🌏" },
-          text: `<b>"과거제, 남녀 평등, 그리고 벽란도의 코리아!"</b><br><br>개방적이고 품격 높은 고려 사회를 완벽하게 탐구했습니다!`,
-          choices: [{ text: "🎉 고려 사회 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
-          setupSim: "society-exam"
-        }
-      };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==========================================
-    // 3단원 8~9차시 [8·15 광복과 정부 수립 MUD]
-    // ==========================================
-    function openGwangbokMUD() {
-      currentActiveStoryId = 'story_gwangbok';
-      mnVisited = new Set();
-      mnTaegeukState = { yangColor: false, yinColor: false, geon: false, gon: false, gam: false, ri: false };
-      setMudTheme('#1D4ED8', '#2563EB');
-      document.getElementById('view-portal').style.display = 'none';
-      document.getElementById('view-myeongnyang').style.display = 'block';
-      document.getElementById('mn-header-tag').textContent = '3단원 8~9차시 · 광복과 정부 수립';
-      document.getElementById('mn-header-title').textContent = 'MUD 8·15 광복의 환희와 대한민국 정부 수립: 최초의 5·10 총선거';
-      
-      document.getElementById('interactive-title').innerHTML = `<i class="fas fa-flag" style="color: ${currentMudThemeColor};"></i> 8·15 광복 태극기 색칠 & 사괘(건곤감리) 시뮬레이터`;
-      document.getElementById('roadmap-title').innerHTML = `<i class="fas fa-history" style="color: ${currentMudThemeColor};"></i> 광복과 정부 수립 연대기`;
-      
-      renderRoadmapNodes([
-        { id: "1", label: "1. 8·15 광복의 환희" },
-        { id: "1-1", label: "1-1. 질서 혼란 [실패]" },
-        { id: "2", label: "2. 통일 정부 수립 노력" },
-        { id: "2-1", label: "2-1. 분단 방치 [실패]" },
-        { id: "3", label: "3. 5·10 최초 민주 총선거" },
-        { id: "3-1", label: "3-1. 신분 차별 선거 [실패]" },
-        { id: "4", label: "4. 대한민국 정부 수립" },
-        { id: "end", label: "5. 민주공화국 완수" }
-      ]);
-
-      mnStoryNodes = {
-        "1": {
-          location: "1945년 8월 15일 서울 종로 거리",
-          badge: "🕊️ 대한 독립 만세!",
-          character: { name: "시민 대표", subtitle: "태극기를 흔드는 청년", avatar: "🇰🇷" },
-          text: `<b>"조선 동포여, 마침내 일제가 패망하고 광복을 맞이하였습니다!"</b><br><br>옥문이 열리고 거리마다 태극기 물결이 넘실댑니다. 우리말과 글을 되찾고 자주 독립 국가를 세우기 위해 가장 먼저 해야 할 일은?`,
-          choices: [
-            { text: "🤐 \"외국 군대가 올 때까지 아무 일도 하지 않고 기다린다.\"", next: "1-1", sound: "fail" },
-            { text: "🤝 \"조선건국준비위원회를 중심으로 스스로 치안을 지키고 건국을 준비한다!\"", next: "2", sound: "victory" }
-          ],
-          setupSim: "gwangbok-flag"
-        },
-        "1-1": {
-          location: "혼란에 빠진 거리",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "자주적 건국 노력 부재", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 치안 공백과 사회 혼란]</b><br>광복 직후 우리 민족은 <b>여운형</b> 등을 중심으로 건국준비위원회를 결성하여 평화롭게 질서를 유지하고 건국을 준비했습니다!`,
-          choices: [{ text: "🔄 자주적 건국 준비를 선택한다.", next: "1", sound: "restart" }],
-          setupSim: "gwangbok-flag"
-        },
-        "2": {
-          location: "1948년 봄, 38도선 앞",
-          badge: "🗺️ 통일 정부를 향한 염원",
-          character: { name: "백범 김구", subtitle: "통일 조국을 꿈꾼 민족 지도자", avatar: "🕊️" },
-          text: `<b>미국과 소련에 의해 38선이 그어지고 남북이 분단될 위기에 처했습니다!</b><br><br>"나는 통일된 조국을 건설하려다가 38선을 베고 쓰러질지언정 일신의 안위를 위해 단독 정부를 세우는 데 협조하지 않겠다!" 김구 선생의 결단은?`,
-          choices: [
-            { text: "💔 \"분단을 당연하게 받아들이고 남북 교류를 영구 단절한다.\"", next: "2-1", sound: "fail" },
-            { text: "🤝 \"남북 지도자들이 한자리에 모여 통일 정부 수립을 논의하는 '남북 협상'을 추진한다!\"", next: "3", sound: "cannon" }
-          ],
-          setupSim: "gwangbok-flag"
-        },
-        "2-1": {
-          location: "영구 분단의 비극",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "통일 노력의 가치 착오", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 민족 분단 방치]</b><br>김구, 김규식 등 민족 지도자들은 분단을 막고 하나의 통일 국가를 이루기 위해 평양으로 건너가 <b>남북 협상</b>을 벌이는 등 끝까지 노력했습니다!`,
-          choices: [{ text: "🔄 남북 협상과 통일 노력을 확인한다.", next: "2", sound: "restart" }],
-          setupSim: "gwangbok-flag"
-        },
-        "3": {
-          location: "1948년 5월 10일 선거 투표소",
-          badge: "🗳️ 역사상 최초의 민주 선거",
-          character: { name: "선거 참여 시민", subtitle: "소중한 한 표를 행사하는 국민", avatar: "🗳️" },
-          text: `<b>우리 역사상 최초로 국민이 직접 국회의원을 뽑는 '5·10 총선거'가 열렸습니다!</b><br><br>민주주의 원칙에 따라 치러진 이 선거의 기본 원칙은 무엇일까요?`,
-          choices: [
-            { text: "💰 \"재산이 많고 신분이 높은 남성만 투표할 수 있다.\"", next: "3-1", sound: "fail" },
-            { text: "🗳️ \"만 21세 이상 모든 국민에게 성별·재산 차별 없이 1표씩 주어지는 '보통·평등·직접·비밀 선거'!\"", next: "4", sound: "victory" }
-          ],
-          setupSim: "gwangbok-vote"
-        },
-        "3-1": {
-          location: "차별 선거 규탄장",
-          badge: "❌ 역사의 IF (실패)",
-          character: { name: "시간 안내원 '타미'", subtitle: "민주 선거 4대 원칙 오류", avatar: "🤖" },
-          text: `<b>❌ [역사의 IF: 민주주의 참정권 왜곡]</b><br>5·10 총선거는 신분이나 성별, 재산에 상관없이 <b>만 21세 이상 국민 모두에게 평등하게 투표권이 주어진 최초의 민주 선거</b>였습니다!`,
-          choices: [{ text: "🔄 보통·평등·직접·비밀 선거를 선택한다.", next: "3", sound: "restart" }],
-          setupSim: "gwangbok-vote"
-        },
-        "4": {
-          location: "1948년 8월 15일 중앙청 광장",
-          badge: "👑 MISSION ACCOMPLISHED",
-          character: { name: "대한민국 제헌 국회", subtitle: "민주공화국의 탄생", avatar: "🎉" },
-          text: `<b>"대한민국 정부 수립 선포!"</b><br><br>헌법(7월 17일 제헌절)을 제정하고 3·1 운동과 상하이 임시정부의 법통을 계승하여 자유롭고 민주적인 <b>대한민국 정부</b>를 전 세계에 공식 선포했습니다!`,
-          choices: [{ text: "🎉 대한민국 정부 수립 탐구 일기를 작성하고 완료합니다!", next: "end", sound: "victory" }],
-          setupSim: "gwangbok-flag"
-        }
-      };
-
-      resizeMnCanvas();
-      renderMnStage("1");
-      animMnLoop();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    const mnCanvas = document.getElementById('mn-canvas');
-    const mnCtx = mnCanvas.getContext('2d');
-
-    function resizeMnCanvas() {
-      const rect = mnCanvas.parentNode.getBoundingClientRect();
-      mnCanvas.width = rect.width * window.devicePixelRatio;
-      mnCanvas.height = rect.height * window.devicePixelRatio;
-      mnCanvas.style.width = rect.width + 'px';
-      mnCanvas.style.height = rect.height + 'px';
-      mnCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    }
-
-    function renderMnStage(stageId) {
-      mnCurrentStage = String(stageId);
-      const stage = mnStoryNodes[mnCurrentStage];
-      if (!stage) return;
-
-      mnVisited.add(mnCurrentStage);
-      updateMnRoadmap();
-
-      document.getElementById('mn-stage-location').innerHTML = `<i class="fas fa-compass" style="color: var(--accent-red);"></i> ${stage.location}`;
-      const badge = document.getElementById('mn-stage-badge');
-      badge.textContent = stage.badge;
-
-      if (stage.setupSim) {
-        mnSimMode = stage.setupSim;
-        document.getElementById('widget-info').style.display = 'none';
-        document.getElementById('widget-gauge').style.display = 'none';
-        document.getElementById('widget-slider').style.display = 'none';
-
-        const instr = document.getElementById('mn-canvas-instr');
-        const feedback = document.getElementById('mn-canvas-feedback');
-
-        if (mnSimMode.startsWith('hanyang')) {
-          document.getElementById('widget-info').style.display = 'block';
-          document.getElementById('widget-info').innerHTML = "조선은 유교 이념에 따라 4대문(흥인지문, 돈의문, 숭례문, 숙정문)과 경복궁을 설계했습니다.";
-          instr.innerHTML = "🏛️ <b>한양 도성과 4대문 유교 덕목 배치</b>";
-          feedback.textContent = "도성 건축물 위치를 확인하세요!";
-        } else if (mnSimMode.startsWith('economy')) {
-          document.getElementById('widget-gauge').style.display = 'block';
-          document.getElementById('gauge-label').textContent = "상평통보 유통량:";
-          mnGaugeProgress = 0;
-          document.getElementById('gauge-progress').textContent = "0%";
-          document.getElementById('gauge-bar').style.width = "0%";
-          instr.innerHTML = "🪙 <b>화면을 터치하여 장시에서 상평통보를 유통하세요!</b>";
-          feedback.textContent = "화면을 터치해 장시를 활성화하세요!";
-        } else if (mnSimMode.startsWith('silhak')) {
-          document.getElementById('widget-info').style.display = 'block';
-          document.getElementById('widget-info').innerHTML = "실학자들은 둥근 지구의와 서양 과학 기술을 통해 세계로 시야를 넓혔습니다.";
-          instr.innerHTML = "🌍 <b>서양 문물과 둥근 지구의 탐구</b>";
-          feedback.textContent = "새로운 세계관을 확인하세요!";
-        } else if (mnSimMode.startsWith('paleo')) {
-          if (mnSimMode === 'paleo-intro') {
-            document.getElementById('widget-info').style.display = 'block';
-            document.getElementById('widget-info').innerHTML = "구석기 사람들은 한탄강변 바위 그늘과 막집을 지으며 이동 생활을 했습니다.";
-            instr.innerHTML = "🏕️ <b>70만 년 전 한탄강 구석기 자연환경 탐색</b>";
-            feedback.textContent = "동굴과 강가를 확인하세요!";
-          } else if (mnSimMode === 'paleo-fire') {
-            document.getElementById('widget-gauge').style.display = 'block';
-            document.getElementById('gauge-label').textContent = "불꽃 마찰열:";
-            mnGaugeProgress = 0;
-            document.getElementById('gauge-progress').textContent = "0%";
-            document.getElementById('gauge-bar').style.width = "0%";
-            instr.innerHTML = "🔥 <b>동굴 화면을 연타(터치)하여 불을 피우세요!</b>";
-            feedback.textContent = "화면을 빠르게 탭하여 마찰열을 올리세요!";
-          } else if (mnSimMode === 'paleo-stone') {
-            document.getElementById('widget-gauge').style.display = 'block';
-            document.getElementById('gauge-label').textContent = "주먹도끼 완성도:";
-            mnStoneHits = 0;
-            document.getElementById('gauge-progress').textContent = "0%";
-            document.getElementById('gauge-bar').style.width = "0%";
-            instr.innerHTML = "⛏️ <b>돌을 터치하여 양날을 정교하게 떼어내세요!</b>";
-            feedback.textContent = "돌을 여러 번 내리쳐 날을 세우세요!";
-          }
-        } else if (mnSimMode.startsWith('dolmen')) {
-          if (mnSimMode === 'dolmen-step1') {
-            document.getElementById('widget-info').style.display = 'block';
-            document.getElementById('widget-info').innerHTML = `
-              <div style="font-size: 0.85rem; line-height: 1.5; color: var(--text-main);">
-                <b>🗿 1단계: 튼튼한 받침돌(지석) 세우기</b><br>
-                화면을 터치하거나 아래 버튼을 눌러 땅을 파고 좌우 받침돌 2개를 단단히 세우세요!
-              </div>
-              <button onclick="triggerDolmenAction('base')" class="btn" style="margin-top: 8px; padding: 6px 10px; font-size: 0.82rem; background: #B48448;">🔨 받침돌 2개 세우기</button>
-            `;
-            instr.innerHTML = "🗿 <b>화면을 터치하여 고인돌 받침돌을 세우세요!</b>";
-            feedback.textContent = "터치하여 좌우 받침돌을 똑바로 세우세요!";
-          } else if (mnSimMode === 'dolmen-step2') {
-            document.getElementById('widget-gauge').style.display = 'block';
-            document.getElementById('gauge-label').textContent = "흙 경사로 쌓기:";
-            document.getElementById('gauge-progress').textContent = `${mnDolmenState.earthProgress}%`;
-            document.getElementById('gauge-bar').style.width = `${mnDolmenState.earthProgress}%`;
-            instr.innerHTML = "⛰️ <b>화면을 터치하여 받침돌 주위에 흙 경사로를 쌓으세요!</b>";
-            feedback.textContent = "흙을 완만하게 쌓아 올려 비탈길을 만드세요!";
-          } else if (mnSimMode === 'dolmen-step3') {
-            document.getElementById('widget-slider').style.display = 'block';
-            document.getElementById('slider-label').textContent = "동원 부족민 수:";
-            document.getElementById('slider-val').textContent = `${mnDolmenState.workers}명`;
-            document.getElementById('interactive-slider').min = "20";
-            document.getElementById('interactive-slider').max = "100";
-            document.getElementById('interactive-slider').value = mnDolmenState.workers;
-            instr.innerHTML = "🪵 <b>통나무 굴림대 화면을 터치하여 거대한 덮개돌을 끌어올리세요!</b>";
-            feedback.textContent = "부족민을 늘리고 화면을 탭하여 덮개돌을 전진시키세요!";
-          } else {
-            document.getElementById('widget-info').style.display = 'block';
-            document.getElementById('widget-info').innerHTML = `
-              <div style="font-size: 0.85rem; line-height: 1.5; color: var(--text-main);">
-                <b>👑 4단계: 흙을 파내고 탁자식 고인돌 완성!</b><br>
-                덮개돌을 올린 뒤 흙을 모두 걷어내어 웅장한 지배자(군장)의 무덤을 완성했습니다.
-              </div>
-              <button onclick="triggerDolmenAction('complete')" class="btn" style="margin-top: 8px; padding: 6px 10px; font-size: 0.82rem; background: #D97706;">🎉 완성 축제 벌이기</button>
-            `;
-            instr.innerHTML = "🏆 <b>탁자식 고인돌 축조 대성공!</b>";
-            feedback.textContent = "청동기 거석 문명의 위엄을 확인하세요!";
-          }
-        } else if (mnSimMode.startsWith('neolithic')) {
-          document.getElementById('widget-gauge').style.display = 'block';
-          document.getElementById('gauge-label').textContent = "빗살무늬 빚기:";
-          mnGaugeProgress = 0;
-          document.getElementById('gauge-progress').textContent = "0%";
-          document.getElementById('gauge-bar').style.width = "0%";
-          instr.innerHTML = "🏺 <b>진흙을 터치하여 뾰족 바닥 토기를 빚으세요!</b>";
-          feedback.textContent = "화면을 터치해 빗살무늬를 새기세요!";
-        } else if (mnSimMode.startsWith('goryeo') || mnSimMode.startsWith('society')) {
-          document.getElementById('widget-info').style.display = 'block';
-          document.getElementById('widget-info').innerHTML = "고려는 과거제(홍패)를 통한 능력 중심 사회였으며, 남녀가 평등하게 유산을 나누어 가졌습니다.";
-          instr.innerHTML = "⚖️ <b>고려 사회 탐정 & 손변의 지혜로운 재판</b>";
-          feedback.textContent = "남녀 균등 상속과 과거제를 확인하세요!";
-        } else if (mnSimMode === 'gwangbok-vote') {
-          document.getElementById('widget-info').style.display = 'block';
-          document.getElementById('widget-info').innerHTML = `
-            <div style="font-size: 0.85rem; line-height: 1.5; color: var(--text-main); margin-bottom: 8px;">
-              <b>🗳️ 1948년 5·10 최초 민주 총선거 비밀 투표소</b><br>
-              투표용지의 후보자 칸에 도장(卜)을 찍고, 나무 투표함에 쏙 넣어보세요!
-            </div>
-            <div style="display: flex; gap: 6px;">
-              <button onclick="triggerVoteAction('stamp')" class="btn secondary" style="flex: 1; padding: 6px 4px; font-size: 0.78rem; border-color: #DC2626; color: #DC2626;">🔴 기표 도장(卜) 찍기</button>
-              <button onclick="triggerVoteAction('insert')" class="btn" style="flex: 1; padding: 6px 4px; font-size: 0.78rem; background: #1D4ED8;">📥 투표함에 넣기</button>
-            </div>
-          `;
-          instr.innerHTML = "🗳️ <b>투표용지를 터치하여 도장을 찍고 투표함에 넣으세요!</b>";
-          feedback.textContent = "우리 역사 최초의 보통·평등·직접·비밀 선거를 체험하세요!";
-        } else if (mnSimMode.startsWith('gwangbok')) {
-          document.getElementById('widget-info').style.display = 'block';
-          document.getElementById('widget-info').innerHTML = `
-            <div style="font-size: 0.85rem; line-height: 1.5; margin-bottom: 8px; color: var(--text-main);">
-              <b>🇰🇷 태극기 색칠 & 사괘(건곤감리) 완성 시뮬레이터</b><br>
-              아래 버튼이나 캔버스를 터치하여 광복의 태극기를 올바르게 색칠해 보세요!
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 6px;">
-              <button onclick="colorTaegeukPart('yangColor')" class="btn secondary" style="padding: 6px 4px; font-size: 0.75rem; border-color: #CD2E3A; color: #CD2E3A;">🔴 양(빨강)</button>
-              <button onclick="colorTaegeukPart('yinColor')" class="btn secondary" style="padding: 6px 4px; font-size: 0.75rem; border-color: #0047A0; color: #0047A0;">🔵 음(파랑)</button>
-              <button onclick="colorTaegeukPart('geon')" class="btn secondary" style="padding: 6px 4px; font-size: 0.75rem;">☰ 건(하늘)</button>
-              <button onclick="colorTaegeukPart('gon')" class="btn secondary" style="padding: 6px 4px; font-size: 0.75rem;">☷ 곤(땅)</button>
-              <button onclick="colorTaegeukPart('gam')" class="btn secondary" style="padding: 6px 4px; font-size: 0.75rem;">☵ 감(달·물)</button>
-              <button onclick="colorTaegeukPart('ri')" class="btn secondary" style="padding: 6px 4px; font-size: 0.75rem;">☲ 리(해·불)</button>
-            </div>
-            <button onclick="colorAllTaegeuk()" class="btn" style="padding: 6px 8px; font-size: 0.82rem; background: #1D4ED8;">✨ 태극기 전체 완성하기</button>
-          `;
-          instr.innerHTML = "🇰🇷 <b>광복의 태극기 색칠하기 & 건·곤·감·리 4괘 완성</b>";
-          feedback.textContent = "버튼이나 화면을 터치하여 태극기를 색칠하세요!";
-        } else if (mnSimMode.startsWith('mn')) {
-          if (mnSimMode === 'mn-combat-active') {
-            document.getElementById('widget-gauge').style.display = 'block';
-            document.getElementById('gauge-label').textContent = "천자총통 위력:";
-            mnGaugeProgress = 0;
-            document.getElementById('gauge-progress').textContent = "0%";
-            document.getElementById('gauge-bar').style.width = "0%";
-            instr.innerHTML = "🎯 <b>화면의 왜선을 직접 터치하여 화포 격발!</b>";
-            feedback.textContent = "화면의 왜선을 향해 터치하세요!";
-            spawnMnEnemyShips(4);
-          } else if (mnSimMode === 'mn-current-switch') {
-            document.getElementById('widget-slider').style.display = 'block';
-            document.getElementById('slider-label').textContent = "울돌목 조류:";
-            instr.innerHTML = "🎯 <b>슬라이더를 우측으로 밀어 썰물 역전 유도!</b>";
-            feedback.textContent = "슬라이더를 조작해 역전하세요!";
-            document.getElementById('interactive-slider').min = "0";
-            document.getElementById('interactive-slider').max = "100";
-            document.getElementById('interactive-slider').value = 20;
-            updateSliderInteraction(20);
-          } else {
-            document.getElementById('widget-info').style.display = 'block';
-            document.getElementById('widget-info').innerHTML = "13척의 판옥선으로 133척의 대함대를 격파할 좁은 협로 '울돌목'으로 유인하십시오.";
-            instr.innerHTML = "🗺️ <b>울돌목 협로 유인 전술 시뮬레이션</b>";
-            feedback.textContent = "협로 위치를 확인하세요!";
-          }
-        }
-      }
-
-      const charCard = document.getElementById('mn-character-card');
-      if (stage.character) {
-        charCard.style.display = 'flex';
-        document.getElementById('mn-char-avatar').textContent = stage.character.avatar;
-        document.getElementById('mn-char-name').textContent = stage.character.name;
-        document.getElementById('mn-char-subtitle').textContent = stage.character.subtitle;
+  [1, 2, 3].forEach(id => {
+    const tab = document.getElementById(`quiz-tab-${id}`);
+    if (tab) {
+      if (id === unitId) {
+        tab.style.background = id === 1 ? '#2D6A4F' : id === 2 ? '#8A3B29' : '#1D4ED8';
+        tab.style.color = '#FFFFFF';
       } else {
-        charCard.style.display = 'none';
-      }
-
-      document.getElementById('mn-story-content').innerHTML = stage.text;
-
-      const grid = document.getElementById('mn-choices-grid');
-      grid.innerHTML = '';
-      stage.choices.forEach(ch => {
-        const btn = document.createElement('button');
-        btn.className = "btn secondary";
-        btn.style.textAlign = 'left';
-        btn.style.justifyContent = 'space-between';
-        btn.innerHTML = `
-          <span>${ch.text}</span>
-          <span style="font-size: 0.75rem; background: var(--card-sub); padding: 2px 6px; border-radius: 4px;">결단 ➔</span>
-        `;
-        btn.onclick = () => {
-          if (ch.sound && window.sounds) {
-            if (ch.sound === 'cannon') window.sounds.playWrong();
-            else if (ch.sound === 'victory') window.sounds.playFanfare();
-            else window.sounds.playClick();
-          }
-          if (ch.next === "end") {
-            window.encyclopedia.unlockBadge('badge_timeline_master');
-            renderFinalReflectionView();
-          } else {
-            renderMnStage(ch.next);
-          }
-        };
-        grid.appendChild(btn);
-      });
-    }
-
-    function spawnMnEnemyShips(count) {
-      const w = mnCanvas.width / window.devicePixelRatio;
-      const h = mnCanvas.height / window.devicePixelRatio;
-      mnEnemyShips = [];
-      for (let i = 0; i < count; i++) {
-        mnEnemyShips.push({
-          x: w - 70 - (Math.random() * 60),
-          y: 35 + (i * (h - 70) / count) + (Math.random() * 10),
-          size: 15,
-          alive: true
-        });
+        tab.style.background = 'var(--card-sub)';
+        tab.style.color = 'var(--text-main)';
       }
     }
+  });
 
-    function triggerDolmenAction(action) {
-      if (action === 'base') {
-        mnDolmenState.baseSet = true;
-        if (window.sounds) window.sounds.playClick();
-      } else if (action === 'complete') {
-        mnDolmenState.earthRemoved = true;
-        if (window.sounds) window.sounds.playFanfare();
+  const title = document.getElementById('quiz-modal-title');
+  const desc = document.getElementById('quiz-modal-desc');
+  if (unitId === 3) {
+    title.textContent = "3단원 총정리 스피드 골든벨 & 역사 탐정";
+    title.style.color = "#1D4ED8";
+    desc.textContent = "일제 침략과 저항(3·1운동), 8·15 광복, 최초의 5·10 총선거와 대한민국 정부 수립 퀴즈!";
+  } else if (unitId === 2) {
+    title.textContent = "2단원 총정리 스피드 골든벨 & 방탈출 암호";
+    title.style.color = "#8A3B29";
+    desc.textContent = "조선의 건국, 4대문 유교 덕목, 임진왜란·병자호란, 조선 후기 경제와 실학 퀴즈!";
+  } else {
+    title.textContent = "1단원 총정리 스피드 골든벨";
+    title.style.color = "#2D6A4F";
+    desc.textContent = "선사 시대, 삼국과 가야, 통일신라와 발해, 고려의 건국과 사회 총정리 퀴즈!";
+  }
+}
+
+function startUnitQuiz() {
+  document.getElementById('quiz-intro-view').style.display = 'none';
+  document.getElementById('quiz-play-view').style.display = 'block';
+
+  let quizzes = [];
+  if (quizUnitTarget === 3) {
+    quizzes = [
+      {
+        q: "1. [초성 퀴즈] 1919년 3월 1일 일제의 무단통치에 맞서 전국적으로 일어난 민족 최대의 평화 만세 운동은? (ㅅ·ㅇ ㅇㄷ)",
+        options: ["3·1 운동", "6·10 만세운동", "광주학생항일운동", "물산장려운동"],
+        ans: 0,
+        exp: "1919년 3·1 운동은 전 민족이 태극기를 들고 '대한 독립 만세'를 외친 평화 만세 운동으로, 대한민국 임시정부 수립의 계기가 되었습니다."
+      },
+      {
+        q: "2. [초성 퀴즈] 1948년 5월 10일 만 21세 이상 모든 국민에게 차별 없이 1표씩 주어진 우리 역사 최초의 민주 선거는? (ㅇ·ㅇ ㅊㅅㄱ)",
+        options: ["3·15 부정선거", "5·10 총선거", "제헌 국회 선거", "대통령 직선제"],
+        ans: 1,
+        exp: "5·10 총선거는 성별·재산·신분 차별 없이 모든 국민이 참여한 우리 역사 최초의 보통·평등·직접·비밀 민주 선거입니다."
+      },
+      {
+        q: "3. 1909년 중국 하얼빈 역에서 대한제국 침략의 원흉인 이토 히로부미를 처단한 독립운동가는?",
+        options: ["윤봉길 의사", "이봉창 의사", "안중근 의사", "김구 선생"],
+        ans: 2,
+        exp: "안중근 의사는 하얼빈 역에서 이토 히로부미를 사살하여 동양 평화와 대한제국의 자주독립 의지를 세계에 알렸습니다."
+      },
+      {
+        q: "4. [역사 헌법] 1948년 8월 15일 수립을 선포한 우리 민족의 자주독립 국가이자 현재 우리나라의 정식 국호는?",
+        options: ["대한제국", "고려민국", "조선민주국", "대한민국"],
+        ans: 3,
+        exp: "1948년 8월 15일, 3·1 운동과 대한민국 임시정부의 법통을 계승한 자주독립 민주공화국 '대한민국' 정부가 공식 수립되었습니다."
       }
-    }
-
-    function triggerVoteAction(action) {
-      if (action === 'stamp') {
-        mnVoteState.stamped = true;
-        if (window.sounds) window.sounds.playClick();
-      } else if (action === 'insert') {
-        if (!mnVoteState.stamped) {
-          alert('먼저 투표용지에 기표 도장(卜)을 찍어주세요!');
-          return;
-        }
-        mnVoteState.voteInserted = true;
-        if (window.sounds) window.sounds.playFanfare();
+    ];
+  } else if (quizUnitTarget === 2) {
+    quizzes = [
+      {
+        q: "1. [초성 퀴즈] 조선 한양 도성의 동대문으로 '어짊(仁)'을 본받고자 지은 성문의 이름은? (ㅎㅇㅈㅁ)",
+        options: ["흥인지문", "돈의문", "숭례문", "숙정문"],
+        ans: 0,
+        exp: "동대문은 어짊(仁)을 흥하게 한다는 뜻의 '흥인지문'입니다."
+      },
+      {
+        q: "2. [초성 퀴즈] 조선 후기 모판에서 벼를 길러 논에 옮겨 심어 쌀 생산량을 크게 늘린 농사법은? (ㅁㄴㄱㅂ)",
+        options: ["직파법", "모내기법(이앙법)", "화전농법", "윤작법"],
+        ans: 1,
+        exp: "모내기법(이앙법)으로 노동력을 줄이고 쌀 생산량을 획기적으로 늘렸습니다."
+      },
+      {
+        q: "3. 조선 후기 전국 장시에서 널리 유통된 국가 화폐(엽전)는?",
+        options: ["건원중보", "해동통보", "상평통보", "당백전"],
+        ans: 2,
+        exp: "숙종 때 주조된 상평통보가 전국적으로 널리 사용되었습니다."
+      },
+      {
+        q: "4. [방탈출 암호] '사람이 곧 하늘이다(인내천)'라는 인간 평등 사상을 내세운 조선 후기 민족 종교는?",
+        options: ["성리학", "불교", "동학", "도교"],
+        ans: 2,
+        exp: "최제우가 창시한 동학은 모든 사람이 하늘처럼 존귀하다는 평등사상을 전파했습니다."
       }
-    }
-
-    function colorTaegeukPart(part) {
-      if (mnTaegeukState[part] !== undefined) {
-        mnTaegeukState[part] = true;
-        if (window.sounds) window.sounds.playClick();
-        checkTaegeukComplete();
+    ];
+  } else {
+    quizzes = [
+      {
+        q: "1. [초성 퀴즈] 신석기 시대 사람들이 강가나 바닷가 모래밭에 꽂아두기 위해 바닥을 뾰족하게 빚은 토기는? (ㅂㅅㅁㄴ ㅌㄱ)",
+        options: ["빗살무늬 토기", "민무늬 토기", "미송리식 토기", "상감청자"],
+        ans: 0,
+        exp: "신석기 시대 사람들은 모래밭에 꽂아두기 편하게 바닥이 뾰족한 빗살무늬 토기를 사용했습니다."
+      },
+      {
+        q: "2. [초성 퀴즈] 고려 시대 과거 시험에 합격한 사람에게 국왕이 수여한 붉은색 합격증은? (ㅎㅍ)",
+        options: ["호패", "홍패", "마패", "교지"],
+        ans: 1,
+        exp: "고려는 과거 시험 합격자에게 붉은 종이에 쓴 '홍패'를 주어 능력을 우대했습니다."
+      },
+      {
+        q: "3. 태조 왕건이 후대 왕들에게 남긴 열 가지 가르침(유훈)은 무엇인가요?",
+        options: ["경국대전", "삼강오륜", "훈요 10조", "홍익인간"],
+        ans: 2,
+        exp: "왕건은 불교 숭상, 서경 중시, 거란 경계 등의 내용을 담은 훈요 10조를 남겼습니다."
+      },
+      {
+        q: "4. 고려 시대 판관 '손변의 재판'을 통해 알 수 있는 고려 사회의 가족 모습은?",
+        options: ["아들만 재산을 상속받았다", "아들과 딸이 재산을 똑같이 나누어 가졌다", "여성은 재혼할 수 없었다", "딸은 제사를 지낼 수 없었다"],
+        ans: 1,
+        exp: "고려는 아들과 딸이 균등하게 유산을 상속받고, 제사도 돌아가며 지냈습니다."
       }
-    }
-
-    function colorAllTaegeuk() {
-      mnTaegeukState = { yangColor: true, yinColor: true, geon: true, gon: true, gam: true, ri: true };
-      if (window.sounds) window.sounds.playFanfare();
-      checkTaegeukComplete();
-    }
-
-    function checkTaegeukComplete() {
-      const allCompleted = mnTaegeukState.yangColor && mnTaegeukState.yinColor && mnTaegeukState.geon && mnTaegeukState.gon && mnTaegeukState.gam && mnTaegeukState.ri;
-      const fb = document.getElementById('mn-canvas-feedback');
-      if (allCompleted) {
-        if (window.sounds) window.sounds.playFanfare();
-        if (fb) fb.innerHTML = "🎉 <b>대한독립만세!</b> 1945년 8·15 광복 태극기가 완성되었습니다!";
-      } else {
-        if (fb) fb.innerHTML = "남은 영역을 터치하여 태극기를 완성하세요!";
-      }
-    }
-
-    mnCanvas.addEventListener('mousedown', (e) => handleCanvasTouch(e.clientX, e.clientY));
-    mnCanvas.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      handleCanvasTouch(e.touches[0].clientX, e.touches[0].clientY);
-    }, { passive: false });
-
-    function handleCanvasTouch(clientX, clientY) {
-      const rect = mnCanvas.getBoundingClientRect();
-      const x = clientX - rect.left;
-      const y = clientY - rect.top;
-
-      if (mnSimMode.startsWith('dolmen')) {
-        if (mnSimMode === 'dolmen-step1') {
-          mnDolmenState.baseSet = true;
-          if (window.sounds) window.sounds.playClick();
-        } else if (mnSimMode === 'dolmen-step2') {
-          mnDolmenState.earthProgress = Math.min(100, mnDolmenState.earthProgress + 25);
-          document.getElementById('gauge-progress').textContent = `${mnDolmenState.earthProgress}%`;
-          document.getElementById('gauge-bar').style.width = `${mnDolmenState.earthProgress}%`;
-          if (window.sounds) window.sounds.playClick();
-          if (mnDolmenState.earthProgress >= 100 && window.sounds) window.sounds.playCorrect();
-        } else if (mnSimMode === 'dolmen-step3') {
-          mnDolmenState.stoneProgress = Math.min(100, mnDolmenState.stoneProgress + (mnDolmenState.workers * 0.35));
-          if (window.sounds) window.sounds.playClick();
-          if (mnDolmenState.stoneProgress >= 100 && window.sounds) window.sounds.playCorrect();
-        } else if (mnSimMode === 'dolmen-step4') {
-          mnDolmenState.earthRemoved = true;
-          if (window.sounds) window.sounds.playFanfare();
-        }
-      } else if (mnSimMode === 'gwangbok-vote') {
-        if (!mnVoteState.stamped) {
-          mnVoteState.stamped = true;
-          if (window.sounds) window.sounds.playClick();
-        } else if (!mnVoteState.voteInserted) {
-          mnVoteState.voteInserted = true;
-          if (window.sounds) window.sounds.playFanfare();
-        }
-      } else if (mnSimMode === 'paleo-fire' || mnSimMode === 'neolithic-pottery' || mnSimMode.startsWith('economy')) {
-        mnGaugeProgress = Math.min(100, mnGaugeProgress + 25);
-        document.getElementById('gauge-progress').textContent = `${mnGaugeProgress}%`;
-        document.getElementById('gauge-bar').style.width = `${mnGaugeProgress}%`;
-        if (window.sounds) window.sounds.playClick();
-        if (mnGaugeProgress >= 100 && window.sounds) window.sounds.playCorrect();
-      } else if (mnSimMode === 'paleo-stone') {
-        mnStoneHits = Math.min(100, mnStoneHits + 25);
-        document.getElementById('gauge-progress').textContent = `${mnStoneHits}%`;
-        document.getElementById('gauge-bar').style.width = `${mnStoneHits}%`;
-        if (window.sounds) window.sounds.playClick();
-        if (mnStoneHits >= 100 && window.sounds) window.sounds.playCorrect();
-      } else if (mnSimMode.startsWith('gwangbok-flag')) {
-        if (!mnTaegeukState.yangColor) mnTaegeukState.yangColor = true;
-        else if (!mnTaegeukState.yinColor) mnTaegeukState.yinColor = true;
-        else if (!mnTaegeukState.geon) mnTaegeukState.geon = true;
-        else if (!mnTaegeukState.gon) mnTaegeukState.gon = true;
-        else if (!mnTaegeukState.gam) mnTaegeukState.gam = true;
-        else if (!mnTaegeukState.ri) mnTaegeukState.ri = true;
-        if (window.sounds) window.sounds.playClick();
-        checkTaegeukComplete();
-      } else if (mnSimMode === 'mn-combat-active') {
-        mnBullets.push({
-          x: mnPlayerShip.x + 10,
-          y: mnPlayerShip.y,
-          vx: (x - (mnPlayerShip.x + 10)) * 0.09,
-          vy: (y - mnPlayerShip.y) * 0.09,
-          active: true
-        });
-        if (window.sounds) window.sounds.playClick();
-      }
-    }
-
-    function updateSliderInteraction(val) {
-      if (mnSimMode.startsWith('dolmen')) {
-        mnDolmenState.workers = parseInt(val);
-        const txt = document.getElementById('slider-val');
-        if (txt) txt.textContent = `${mnDolmenState.workers}명`;
-      } else if (mnSimMode.startsWith('mn')) {
-        mnTargetCurrent = parseInt(val);
-        const txt = document.getElementById('slider-val');
-        if (mnTargetCurrent < 40) {
-          txt.textContent = "밀물 (왜군 유리)";
-          txt.style.color = 'var(--accent-red)';
-        } else if (mnTargetCurrent < 80) {
-          txt.textContent = "정조 상태 (물살 정지)";
-          txt.style.color = '#665F59';
-        } else {
-          txt.textContent = "썰물 (조선 대역전 개시)";
-          txt.style.color = 'var(--accent-teal)';
-          if (window.sounds) window.sounds.playCorrect();
-        }
-      }
-    }
-
-    function updateMnRoadmap() {
-      const stageId = mnCurrentStage;
-      document.querySelectorAll('#roadmap-grid > div').forEach(el => {
-        el.style.border = 'none';
-        el.style.backgroundColor = 'var(--card-sub)';
-        el.style.color = '#776F66';
-        el.style.fontWeight = 'normal';
-      });
-
-      const currentEl = document.getElementById(`mn-node-${stageId}`);
-      if (currentEl) {
-        currentEl.style.border = `1.5px solid ${currentMudThemeColor}`;
-        currentEl.style.backgroundColor = '#FFFFFF';
-        currentEl.style.color = currentMudThemeColor;
-        currentEl.style.fontWeight = 'bold';
-      }
-
-      mnVisited.forEach(id => {
-        const visitedEl = document.getElementById(`mn-node-${id}`);
-        if (visitedEl && id !== stageId) {
-          visitedEl.style.border = '1px solid var(--border-color)';
-          visitedEl.style.backgroundColor = '#FFFFFF';
-          visitedEl.style.color = 'var(--text-main)';
-        }
-      });
-    }
-
-    function drawMnSim() {
-      const w = mnCanvas.width / window.devicePixelRatio;
-      const h = mnCanvas.height / window.devicePixelRatio;
-      mnCtx.clearRect(0, 0, w, h);
-
-      if (mnSimMode.startsWith('dolmen')) {
-        drawPreciseDolmen(mnCtx, w, h, mnDolmenState, mnSimMode);
-      } else if (mnSimMode === 'gwangbok-vote') {
-        drawPreciseVote(mnCtx, w, h, mnVoteState);
-      } else if (mnSimMode.startsWith('gwangbok-flag') || mnSimMode === 'gwangbok-flag') {
-        drawPreciseTaegeukgi(mnCtx, w/2, h/2 - 8, 195, 130, mnTaegeukState);
-        const allCompleted = mnTaegeukState.yangColor && mnTaegeukState.yinColor && mnTaegeukState.geon && mnTaegeukState.gon && mnTaegeukState.gam && mnTaegeukState.ri;
-        mnCtx.fillStyle = allCompleted ? '#F59E0B' : '#FFFFFF';
-        mnCtx.font = 'bold 11px "Pretendard", sans-serif';
-        mnCtx.textAlign = 'center';
-        if (allCompleted) {
-          mnCtx.fillText("✨ 대한독립만세! 1945.8.15 광복과 태극기 완성 🇰🇷", w/2, h - 10);
-        } else {
-          mnCtx.fillText("🎨 화면이나 아래 버튼을 눌러 태극기를 완성하세요!", w/2, h - 10);
-        }
-      } else if (mnSimMode.startsWith('mn-')) {
-        drawPreciseMyeongnyang(mnCtx, w, h, mnSimMode);
-      } else if (mnSimMode === 'hanyang-map' || mnSimMode === 'hanyang-gates' || mnSimMode === 'hanyang-bakseok') {
-        mnCtx.fillStyle = '#1e293b';
-        mnCtx.fillRect(0, 0, w, h);
-        mnCtx.fillStyle = '#8A3B29';
-        mnCtx.fillRect(w/2 - 40, h/2 - 40, 80, 80);
-        mnCtx.fillStyle = '#ffffff';
-        mnCtx.font = 'bold 12px "Pretendard"';
-        mnCtx.textAlign = 'center';
-        mnCtx.fillText("한양 도성과 4대문", w/2, h/2 + 5);
-      } else if (mnSimMode.startsWith('economy')) {
-        mnCtx.fillStyle = '#1c1917';
-        mnCtx.fillRect(0, 0, w, h);
-        mnCtx.fillStyle = '#B8860B';
-        mnCtx.beginPath();
-        mnCtx.arc(w/2, h/2, 40, 0, Math.PI * 2);
-        mnCtx.fill();
-        mnCtx.fillStyle = '#1c1917';
-        mnCtx.fillRect(w/2 - 12, h/2 - 12, 24, 24);
-        mnCtx.fillStyle = '#ffffff';
-        mnCtx.font = 'bold 11px "Pretendard"';
-        mnCtx.textAlign = 'center';
-        mnCtx.fillText("常平通寶 (상평통보)", w/2, h - 15);
-      } else if (mnSimMode.startsWith('silhak')) {
-        mnCtx.fillStyle = '#0f172a';
-        mnCtx.fillRect(0, 0, w, h);
-        mnCtx.strokeStyle = '#38bdf8';
-        mnCtx.lineWidth = 2;
-        mnCtx.beginPath();
-        mnCtx.arc(w/2, h/2, 45, 0, Math.PI * 2);
-        mnCtx.stroke();
-        mnCtx.beginPath();
-        mnCtx.ellipse(w/2, h/2, 45, 18, 0, 0, Math.PI * 2);
-        mnCtx.stroke();
-        mnCtx.fillStyle = '#ffffff';
-        mnCtx.font = 'bold 11px "Pretendard"';
-        mnCtx.textAlign = 'center';
-        mnCtx.fillText("서양 문물: 둥근 지구의", w/2, h - 15);
-      } else if (mnSimMode === 'paleo-intro') {
-        mnCtx.fillStyle = '#1e1b18';
-        mnCtx.fillRect(0, 0, w, h);
-        mnCtx.fillStyle = '#6F4E37';
-        mnCtx.beginPath();
-        mnCtx.arc(w/2, h/2 + 20, 70, Math.PI, 0);
-        mnCtx.fill();
-        mnCtx.fillStyle = '#A77950';
-        mnCtx.font = 'bold 13px "Pretendard"';
-        mnCtx.textAlign = 'center';
-        mnCtx.fillText("🏕️ 한탄강변 전곡리 바위그늘", w/2, h - 25);
-      } else if (mnSimMode === 'paleo-fire') {
-        mnCtx.fillStyle = '#110e0c';
-        mnCtx.fillRect(0, 0, w, h);
-        mnCtx.fillStyle = '#4a2f1b';
-        mnCtx.fillRect(w/2 - 30, h/2 + 25, 60, 10);
-        const flameSize = 10 + (mnGaugeProgress * 0.4);
-        mnCtx.fillStyle = '#ea580c';
-        mnCtx.beginPath();
-        mnCtx.arc(w/2, h/2 + 20, flameSize, 0, Math.PI * 2);
-        mnCtx.fill();
-        mnCtx.fillStyle = '#facc15';
-        mnCtx.beginPath();
-        mnCtx.arc(w/2, h/2 + 20, flameSize * 0.6, 0, Math.PI * 2);
-        mnCtx.fill();
-      } else if (mnSimMode === 'paleo-stone') {
-        mnCtx.fillStyle = '#161412';
-        mnCtx.fillRect(0, 0, w, h);
-        mnCtx.fillStyle = '#6F4E37';
-        mnCtx.strokeStyle = '#facc15';
-        mnCtx.lineWidth = 2;
-        mnCtx.beginPath();
-        mnCtx.moveTo(w/2, h/2 - 45);
-        mnCtx.lineTo(w/2 + 35, h/2 + 35);
-        mnCtx.lineTo(w/2 - 35, h/2 + 35);
-        mnCtx.closePath();
-        mnCtx.fill();
-        if (mnStoneHits > 0) mnCtx.stroke();
-      } else if (mnSimMode.startsWith('neolithic')) {
-        mnCtx.fillStyle = '#1e293b';
-        mnCtx.fillRect(0, 0, w, h);
-        mnCtx.fillStyle = '#A77950';
-        mnCtx.beginPath();
-        mnCtx.moveTo(w/2 - 30, h/2 - 30);
-        mnCtx.lineTo(w/2 + 30, h/2 - 30);
-        mnCtx.lineTo(w/2, h/2 + 40);
-        mnCtx.closePath();
-        mnCtx.fill();
-        mnCtx.strokeStyle = '#fde047';
-        mnCtx.stroke();
-        mnCtx.fillStyle = '#f8fafc';
-        mnCtx.font = '11px "Pretendard"';
-        mnCtx.textAlign = 'center';
-        mnCtx.fillText("암사동 빗살무늬 뾰족 토기", w/2, h - 15);
-      } else if (mnSimMode.startsWith('goryeo') || mnSimMode.startsWith('society')) {
-        mnCtx.fillStyle = '#0f291e';
-        mnCtx.fillRect(0, 0, w, h);
-        mnCtx.fillStyle = '#3A7D69';
-        mnCtx.font = 'bold 13px "Pretendard"';
-        mnCtx.textAlign = 'center';
-        mnCtx.fillText("고려 과거 합격 홍패 & 손변 재판", w/2, h/2);
-      }
-    }
-
-    // ==========================================
-    // 1단원: 고인돌 거석 축조 정밀 렌더러
-    // ==========================================
-    function drawPreciseDolmen(ctx, w, h, state, mode) {
-      // 1. 선사 시대 하늘 및 초원 지형
-      const grad = ctx.createLinearGradient(0, 0, 0, h);
-      grad.addColorStop(0, '#38bdf8');
-      grad.addColorStop(0.55, '#bae6fd');
-      grad.addColorStop(0.56, '#65a30d');
-      grad.addColorStop(1, '#4d7c0f');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, w, h);
-
-      // 원경 산맥
-      ctx.fillStyle = '#4ade80';
-      ctx.beginPath();
-      ctx.arc(w * 0.25, h * 0.55, 60, Math.PI, 0);
-      ctx.arc(w * 0.75, h * 0.55, 80, Math.PI, 0);
-      ctx.fill();
-
-      const groundY = h * 0.72;
-
-      // 2. 받침돌 (2개 지석)
-      const leftPostX = w * 0.36;
-      const rightPostX = w * 0.64;
-      const postW = 22;
-      const postH = 48;
-
-      if (state.baseSet || mode !== 'dolmen-step1') {
-        ctx.fillStyle = '#78716c';
-        ctx.strokeStyle = '#44403c';
-        ctx.lineWidth = 1.5;
-        // 좌측 받침돌
-        ctx.fillRect(leftPostX - postW/2, groundY - postH, postW, postH);
-        ctx.strokeRect(leftPostX - postW/2, groundY - postH, postW, postH);
-        // 우측 받침돌
-        ctx.fillRect(rightPostX - postW/2, groundY - postH, postW, postH);
-        ctx.strokeRect(rightPostX - postW/2, groundY - postH, postW, postH);
-      } else {
-        // 미설치 점선 가이드
-        ctx.strokeStyle = '#94a3b8';
-        ctx.setLineDash([4, 4]);
-        ctx.strokeRect(leftPostX - postW/2, groundY - postH, postW, postH);
-        ctx.strokeRect(rightPostX - postW/2, groundY - postH, postW, postH);
-        ctx.setLineDash([]);
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 9px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText("터치하여 받침돌 세우기", w/2, groundY - 15);
-      }
-
-      // 3. 흙 경사로 (비탈길)
-      if ((mode === 'dolmen-step2' || mode === 'dolmen-step3') && !state.earthRemoved) {
-        const rampProgress = mode === 'dolmen-step3' ? 100 : (state.earthProgress || 0);
-        const rampHeight = postH * (rampProgress / 100);
-        ctx.fillStyle = '#92400e';
-        ctx.beginPath();
-        ctx.moveTo(w * 0.1, groundY);
-        ctx.lineTo(rightPostX + 15, groundY - rampHeight);
-        ctx.lineTo(rightPostX + 15, groundY);
-        ctx.closePath();
-        ctx.fill();
-
-        // 흙 질감 점선
-        ctx.strokeStyle = '#78350f';
-        ctx.stroke();
-      }
-
-      // 4. 통나무 굴림대 & 덮개돌 운반
-      if (mode === 'dolmen-step3') {
-        const moveRatio = Math.min(1, (state.stoneProgress || 0) / 100);
-        const startX = w * 0.18;
-        const targetX = w * 0.5;
-        const currentStoneX = startX + (targetX - startX) * moveRatio;
-        const currentStoneY = groundY - (postH * (0.3 + 0.7 * moveRatio)) - 14;
-
-        // 통나무 굴림대 4개
-        ctx.fillStyle = '#d97706';
-        for (let i = 0; i < 4; i++) {
-          const logX = currentStoneX - 35 + (i * 24);
-          ctx.beginPath();
-          ctx.arc(logX, currentStoneY + 16, 6, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.stroke();
-        }
-
-        // 거대한 덮개돌
-        ctx.fillStyle = '#57534e';
-        ctx.strokeStyle = '#292524';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.ellipse(currentStoneX, currentStoneY, 52, 18, -0.08, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
-
-        // 견인 밧줄과 인부들
-        ctx.strokeStyle = '#fbbf24';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(currentStoneX + 45, currentStoneY);
-        ctx.lineTo(w * 0.88, groundY - 10);
-        ctx.stroke();
-
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 12px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(`👥 부족민 ${state.workers}명이 끄는 중!`, w * 0.75, groundY - 24);
-      }
-
-      // 5. 4단계 탁자식 고인돌 완성형
-      if (mode === 'dolmen-step4' || state.earthRemoved) {
-        ctx.fillStyle = '#57534e';
-        ctx.strokeStyle = '#292524';
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        ctx.ellipse(w * 0.5, groundY - postH - 12, 60, 20, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
-
-        // 완성 축하 반짝임
-        ctx.fillStyle = '#facc15';
-        ctx.font = 'bold 14px "SchoolSafetyNotification", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText("✨ 탁자식 고인돌 축조 완수! 👑", w/2, 28);
-      }
-    }
-
-    // ==========================================
-    // 2단원: 명량대첩 울돌목 해전 정밀 렌더러
-    // ==========================================
-    function drawPreciseMyeongnyang(ctx, w, h, mode) {
-      // 1. 울돌목 좁은 해협 바다와 양쪽 육지 (진도 & 해남)
-      ctx.fillStyle = '#0f172a';
-      ctx.fillRect(0, 0, w, h);
-
-      // 울돌목 거친 소용돌이 물살
-      const time = Date.now() * 0.003;
-      const isCurrentReversed = mnTargetCurrent >= 80;
-
-      ctx.strokeStyle = isCurrentReversed ? '#38bdf8' : '#64748b';
-      ctx.lineWidth = 1.5;
-      for (let i = 0; i < 5; i++) {
-        const waveY = 30 + (i * 35);
-        ctx.beginPath();
-        ctx.moveTo(w * 0.15, waveY);
-        for (let x = w * 0.15; x <= w * 0.85; x += 15) {
-          const waveOffset = Math.sin((x * 0.05) + (isCurrentReversed ? -time : time)) * 4;
-          ctx.lineTo(x, waveY + waveOffset);
-        }
-        ctx.stroke();
-      }
-
-      // 좌측(진도 육지), 우측(해남 육지) 협로 협곡
-      ctx.fillStyle = '#334155';
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(w * 0.14, 0);
-      ctx.lineTo(w * 0.18, h);
-      ctx.lineTo(0, h);
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.moveTo(w, 0);
-      ctx.lineTo(w * 0.86, 0);
-      ctx.lineTo(w * 0.82, h);
-      ctx.lineTo(w, h);
-      ctx.fill();
-
-      ctx.fillStyle = '#94a3b8';
-      ctx.font = 'bold 9px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText("진도", w * 0.08, h/2);
-      ctx.fillText("해남", w * 0.92, h/2);
-
-      // 2. 아군 조선 수군 (판옥선 13척 일자진)
-      const playerX = isCurrentReversed ? w * 0.45 : w * 0.28;
-      // 대장선
-      ctx.fillStyle = '#78350f';
-      ctx.strokeStyle = '#f59e0b';
-      ctx.lineWidth = 2;
-      ctx.fillRect(playerX - 16, h/2 - 12, 32, 24);
-      ctx.strokeRect(playerX - 16, h/2 - 12, 32, 24);
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 9px sans-serif';
-      ctx.fillText("대장선", playerX, h/2 + 4);
-
-      // 뒤따르는 12척 판옥선 일자진
-      ctx.fillStyle = '#92400e';
-      for (let i = 1; i <= 3; i++) {
-        ctx.fillRect(playerX - 25, (h/2) - (i * 26), 20, 14);
-        ctx.fillRect(playerX - 25, (h/2) + (i * 26) - 10, 20, 14);
-      }
-
-      // 3. 왜군 함선 133척 대열
-      if (mode === 'mn-combat-active') {
-        mnEnemyShips.forEach(s => {
-          if (!s.alive) return;
-          ctx.fillStyle = '#1e293b';
-          ctx.strokeStyle = '#ef4444';
-          ctx.lineWidth = 1.5;
-          ctx.strokeRect(s.x - 8, s.y - 8, s.size, s.size);
-          ctx.fillStyle = '#ef4444';
-          ctx.fillText("왜선", s.x, s.y + 4);
-        });
-
-        // 포탄 궤적
-        mnBullets.forEach(b => {
-          if (!b.active) return;
-          b.x += b.vx;
-          b.y += b.vy;
-          ctx.fillStyle = '#f59e0b';
-          ctx.beginPath();
-          ctx.arc(b.x, b.y, 4, 0, Math.PI * 2);
-          ctx.fill();
-
-          mnEnemyShips.forEach(s => {
-            if (!s.alive) return;
-            if (Math.hypot(b.x - s.x, b.y - s.y) < s.size) {
-              s.alive = false;
-              b.active = false;
-              mnGaugeProgress = Math.min(100, mnGaugeProgress + 25);
-              const gp = document.getElementById('gauge-progress');
-              if (gp) gp.textContent = `${mnGaugeProgress}%`;
-              const gb = document.getElementById('gauge-bar');
-              if (gb) gb.style.width = `${mnGaugeProgress}%`;
-            }
-          });
-        });
-      } else {
-        // 왜선 군집
-        ctx.fillStyle = '#450a0a';
-        for (let row = -2; row <= 2; row++) {
-          for (let col = 0; col < 3; col++) {
-            ctx.fillRect(w * 0.68 + (col * 22), (h/2) + (row * 24) - 6, 16, 12);
-          }
-        }
-        ctx.fillStyle = '#fca5a5';
-        ctx.font = 'bold 9px sans-serif';
-        ctx.fillText("왜선 133척 대함대", w * 0.76, 20);
-      }
-
-      // 조류 방향 안내
-      ctx.fillStyle = isCurrentReversed ? '#38bdf8' : '#ef4444';
-      ctx.font = 'bold 11px sans-serif';
-      ctx.fillText(isCurrentReversed ? "🌊 썰물 역전! 왜군 쪽으로 총돌격! ➔➔" : "⬅️⬅️ 밀물 (왜군 쪽에서 밀려오는 중)", w/2, h - 8);
-    }
-
-    // ==========================================
-    // 3단원: 5·10 총선거 민주 투표소 정밀 렌더러
-    // ==========================================
-    function drawPreciseVote(ctx, w, h, state) {
-      // 투표소 배경
-      ctx.fillStyle = '#1e1b18';
-      ctx.fillRect(0, 0, w, h);
-
-      const boxX = w * 0.68;
-      const boxY = h * 0.42;
-      const boxW = 85;
-      const boxH = 95;
-
-      // 1. 1948년 5·10 총선거 나무 투표함 (투표구 제1호함)
-      ctx.fillStyle = '#78350f';
-      ctx.strokeStyle = '#451a03';
-      ctx.lineWidth = 2;
-      ctx.fillRect(boxX - boxW/2, boxY, boxW, boxH);
-      ctx.strokeRect(boxX - boxW/2, boxY, boxW, boxH);
-
-      // 투표함 입구 (슬롯)
-      ctx.fillStyle = '#1c1917';
-      ctx.fillRect(boxX - 25, boxY + 6, 50, 6);
-
-      // 투표함 명패
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 9px "Pretendard", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText("투표구 제1호함", boxX, boxY + 36);
-      ctx.font = '8px sans-serif';
-      ctx.fillStyle = '#d4d4d8';
-      ctx.fillText("1948.5.10", boxX, boxY + 52);
-      ctx.fillText("대한민국 총선거", boxX, boxY + 66);
-
-      // 2. 가상의 제헌 국회의원 투표용지
-      const paperX = state.voteInserted ? boxX : w * 0.28;
-      const paperY = state.voteInserted ? boxY + 10 : h * 0.22;
-      const paperW = 85;
-      const paperH = 115;
-
-      if (!state.voteInserted) {
-        ctx.save();
-        ctx.fillStyle = '#FFFFFF';
-        ctx.shadowColor = 'rgba(0,0,0,0.4)';
-        ctx.shadowBlur = 8;
-        ctx.fillRect(paperX - paperW/2, paperY, paperW, paperH);
-        ctx.restore();
-
-        ctx.strokeStyle = '#cbd5e1';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(paperX - paperW/2, paperY, paperW, paperH);
-
-        // 투표용지 서식
-        ctx.fillStyle = '#1e293b';
-        ctx.font = 'bold 8px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText("제헌 국회의원 투표용지", paperX, paperY + 14);
-
-        // 후보자 1, 2 칸
-        ctx.strokeRect(paperX - 35, paperY + 22, 70, 36);
-        ctx.fillText("기호 1번 독립투사", paperX - 5, paperY + 42);
-
-        ctx.strokeRect(paperX - 35, paperY + 62, 70, 36);
-        ctx.fillText("기호 2번 민족대표", paperX - 5, paperY + 82);
-
-        // 기표 도장(卜) 날인 여부
-        if (state.stamped) {
-          ctx.strokeStyle = '#dc2626';
-          ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          ctx.arc(paperX + 22, paperY + 40, 10, 0, Math.PI * 2);
-          ctx.stroke();
-          ctx.fillStyle = '#dc2626';
-          ctx.font = 'bold 12px sans-serif';
-          ctx.fillText("卜", paperX + 22, paperY + 44);
-        } else {
-          ctx.fillStyle = '#94a3b8';
-          ctx.font = '8px sans-serif';
-          ctx.fillText("👆 터치 기표", paperX + 20, paperY + 43);
-        }
-
-        // 안내문
-        ctx.fillStyle = '#fde047';
-        ctx.font = 'bold 10px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(state.stamped ? "📥 아래 [투표함에 넣기]를 누르세요!" : "🔴 투표용지를 터치해 기표(卜)하세요!", w/2, h - 10);
-      } else {
-        // 투표 완료 연출
-        ctx.fillStyle = '#10b981';
-        ctx.font = 'bold 12px "Pretendard", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText("✨ 투표 완료! 소중한 민주 주권 행사 🗳️", w/2, h - 10);
-      }
-    }
-
-    // ==========================================
-    // 대한민국 공식 태극기 정밀 렌더러 (사료 이미지 100% 일치)
-    // ==========================================
-    function drawPreciseTaegeukgi(ctx, cx, cy, flagW, flagH, state) {
-      const x = cx - flagW / 2;
-      const y = cy - flagH / 2;
-
-      // 1. 흰색 깃면 (바탕 3:2 비율)
-      ctx.save();
-      ctx.fillStyle = '#FFFFFF';
-      ctx.shadowColor = 'rgba(0,0,0,0.25)';
-      ctx.shadowBlur = 8;
-      ctx.fillRect(x, y, flagW, flagH);
-      ctx.restore();
-
-      ctx.strokeStyle = '#CBD5E1';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(x, y, flagW, flagH);
-
-      const radius = flagH / 4; // 태극 반지름 = 세로의 1/4 (지름 = 세로의 1/2)
-      const rSmall = radius / 2;
-      const theta = Math.atan2(flagH, flagW); // 대각선 각도 (약 33.69도)
-
-      // 2. 4괘 (건: 좌상단, 곤: 우하단, 감: 우상단, 리: 좌하단) - 태극과 겹치지 않도록 간격 정밀 조정
-      const barLength = radius * 0.9;         // 괘의 길이
-      const barThickness = radius * 0.24;     // 효의 두께
-      const barGap = radius * 0.12;           // 효 사이 간격
-      const centerGap = radius * 0.14;        // 음효 끊어진 간격
-      const gwaeDist = radius * 1.68;         // 태극 중심에서 괘 중심까지 거리 (태극과 겹치지 않게!)
-
-      function drawGwae(angle, dist, lines, isColored, name) {
-        ctx.save();
-        ctx.translate(cx, cy);
-        ctx.rotate(angle);
-        ctx.translate(dist, 0); // 대각선 방향 이동
-
-        lines.forEach((isBroken, idx) => {
-          // idx = 0 (안쪽), 1 (중간), 2 (바깥쪽)
-          const lineX = (idx - 1) * (barThickness + barGap);
-          ctx.fillStyle = isColored ? '#1E293B' : '#E2E8F0';
-
-          if (!isBroken) {
-            // 양효: 연결된 직사각형 막대
-            ctx.fillRect(lineX - barThickness/2, -barLength/2, barThickness, barLength);
-            if (!isColored) {
-              ctx.strokeStyle = '#94A3B8';
-              ctx.lineWidth = 0.5;
-              ctx.strokeRect(lineX - barThickness/2, -barLength/2, barThickness, barLength);
-            }
-          } else {
-            // 음효: 가운데 끊어진 막대
-            const halfLen = (barLength - centerGap) / 2;
-            ctx.fillRect(lineX - barThickness/2, -barLength/2, barThickness, halfLen);
-            ctx.fillRect(lineX - barThickness/2, centerGap/2, barThickness, halfLen);
-            if (!isColored) {
-              ctx.strokeStyle = '#94A3B8';
-              ctx.lineWidth = 0.5;
-              ctx.strokeRect(lineX - barThickness/2, -barLength/2, barThickness, halfLen);
-              ctx.strokeRect(lineX - barThickness/2, centerGap/2, barThickness, halfLen);
-            }
-          }
-        });
-
-        if (!isColored) {
-          ctx.fillStyle = '#64748B';
-          ctx.font = 'bold 8px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText(name, 0, barLength/2 + 10);
-        }
-        ctx.restore();
-      }
-
-      // 1) 건괘 (☰, 좌측 상단 - 10시 반): 양효 3개 [false, false, false]
-      drawGwae(Math.PI + theta, gwaeDist, [false, false, false], state.geon, '건(하늘)');
-      // 2) 곤괘 (☷, 우측 하단 - 4시 반): 음효 3개 [true, true, true]
-      drawGwae(theta, gwaeDist, [true, true, true], state.gon, '곤(땅)');
-      // 3) 감괘 (☵, 우측 상단 - 1시 반): 음-양-음 [true, false, true]
-      drawGwae(-theta, gwaeDist, [true, false, true], state.gam, '감(달·물)');
-      // 4) 리괘 (☲, 좌측 하단 - 7시 반): 양-음-양 [false, true, false]
-      drawGwae(Math.PI - theta, gwaeDist, [false, true, false], state.ri, '리(해·불)');
-
-      // 3. 중앙 태극 문양 (4단계 완전 채우기 방식 - 아크 왜곡 100% 방지)
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.rotate(theta); // 대각선 축 회전
-
-      // 바탕 원형 클리핑
-      ctx.beginPath();
-      ctx.arc(0, 0, radius, 0, Math.PI * 2);
-      ctx.clip();
-
-      // [기본 바탕 채우기]
-      // 1) 하부 음(파랑) 전체 채우기
-      ctx.fillStyle = state.yinColor ? '#0047A0' : '#E2E8F0';
-      ctx.beginPath();
-      ctx.arc(0, 0, radius, 0, Math.PI * 2);
-      ctx.fill();
-
-      // 2) 상부 양(빨강) 상반부 채우기 (Y <= 0)
-      ctx.fillStyle = state.yangColor ? '#CD2E3A' : '#F1F5F9';
-      ctx.beginPath();
-      ctx.arc(0, 0, radius, Math.PI, 0, false);
-      ctx.fill();
-
-      // 3) 좌측 작은 원 (X < 0): 빨간색으로 채우기 (빨간색이 아래로 볼록하게 나옴)
-      ctx.fillStyle = state.yangColor ? '#CD2E3A' : '#F1F5F9';
-      ctx.beginPath();
-      ctx.arc(-rSmall, 0, rSmall, 0, Math.PI * 2);
-      ctx.fill();
-
-      // 4) 우측 작은 원 (X > 0): 파란색으로 채우기 (파란색이 위로 볼록하게 올라옴)
-      ctx.fillStyle = state.yinColor ? '#0047A0' : '#E2E8F0';
-      ctx.beginPath();
-      ctx.arc(rSmall, 0, rSmall, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.restore();
-
-      // 태극 테두리 선
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.strokeStyle = '#CBD5E1';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.arc(0, 0, radius, 0, Math.PI * 2);
-      ctx.stroke();
-
-      if (!state.yangColor) {
-        ctx.fillStyle = '#94A3B8';
-        ctx.font = 'bold 8px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('🔴 양(빨강)', 0, -radius * 0.4);
-      }
-      if (!state.yinColor) {
-        ctx.fillStyle = '#64748B';
-        ctx.font = 'bold 8px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('🔵 음(파랑)', 0, radius * 0.6);
-      }
-      ctx.restore();
-    }
-
-    function animMnLoop() {
-      drawMnSim();
-      if (document.getElementById('view-myeongnyang').style.display !== 'none') {
-        requestAnimationFrame(animMnLoop);
-      }
-    }
-
-    function renderFinalReflectionView() {
-      if (window.sounds) window.sounds.playFanfare();
-      
-      // 스토리별 유물 자동 잠금 해제
-      const storyArtifactMap = {
-        'story_paleolithic': ['art_1', '연천 전곡리 주먹도끼'],
-        'story_neolithic': ['art_2', '암사동 빗살무늬 토기'],
-        'story_bronze_age': ['art_3', '고창 탁자식 고인돌'],
-        'story_gojoseon': ['art_4', '비파형 동검'],
-        'story_three_kingdoms_conquest': ['art_5', '백제 칠지도', 'art_6', '신라 북한산 순수비'],
-        'story_three_kingdoms_life': ['art_7', '가야 철제 판갑옷과 투구', 'art_8', '고구려 수산리 고분 벽화'],
-        'story_goryeo_founding': ['art_9', '태조 왕건 훈요 10조'],
-        'story_goryeo_society': ['art_10', '고려 과거 합격증 \'홍패\''],
-        'story_joseon_founding': ['art_11', '경복궁 근정전 박석'],
-        'story_myeongnyang': ['art_12', '조선 수군 판옥선 & 천자총통'],
-        'story_joseon_economy': ['art_13', '상평통보 엽전'],
-        'story_joseon_silhak': ['art_14', '홍대용의 둥근 지구의'],
-        'story_gwangbok': ['art_15', '1948년 5·10 총선거 투표함', 'art_16', '대한민국 제헌 헌법 원본']
-      };
-
-      const artsToUnlock = storyArtifactMap[currentActiveStoryId] || [];
-      artsToUnlock.forEach(art => {
-        if (window.encyclopedia) window.encyclopedia.unlockArtifact(art);
-      });
-
-      const storyBox = document.getElementById('mn-story-content');
-      const grid = document.getElementById('mn-choices-grid');
-      
-      storyBox.innerHTML = `
-        <div style="display: flex; flex-direction: column; gap: 14px;">
-          <div class="mission-box" style="text-align: center; border: 2px solid ${currentMudThemeColor}; background: ${currentMudThemeColor}15;">
-            <span style="font-size: 2.8rem;">👑</span>
-            <h3 style="font-size: 1.35rem; color: ${currentMudThemeColor}; margin: 8px 0 4px;" class="serif-font">역사적 탐구 미션 완수!</h3>
-            <p style="font-size: 0.92rem; color: var(--text-main); margin: 0 0 6px 0;">역사의 주인공이 되어 올바른 결단을 성공적으로 완수했습니다.</p>
-            <div style="display: inline-block; font-size: 0.8rem; font-weight: 700; color: #F59E0B; background: rgba(245,158,11,0.15); border: 1px solid #F59E0B66; padding: 4px 10px; border-radius: 20px;">
-              🎁 도감에 새로운 국보급 유물이 등록되었습니다!
-            </div>
-          </div>
-
-          <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 16px;">
-            <h4 style="font-size: 0.95rem; font-weight: 700; color: ${currentMudThemeColor}; margin-bottom: 6px;">
-              <i class="fas fa-feather-alt"></i> [메타인지 회고] 나의 역사적 결단 일기 작성
-            </h4>
-            <p style="font-size: 0.85rem; color: #554D46; margin-bottom: 10px;">
-              오늘 내린 결정 중 <b>가장 고민되었던 순간</b>이나 <b>가장 중요했던 지혜</b>를 한 줄로 기록해 보세요:
-            </p>
-            <textarea id="student-reflection-text" style="width: 100%; height: 75px; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-sub); font-size: 0.9rem; font-family: inherit; resize: none; margin-bottom: 12px;" placeholder="오늘 탐구 활동을 통해 배운 가장 중요한 역사적 사실과 느낀 점을 적어보세요!"></textarea>
-            
-            <div style="display: flex; gap: 8px;">
-              <button onclick="copyStudentReflection()" class="btn" style="flex: 1; background-color: ${currentMudThemeColor};">
-                <i class="fas fa-copy"></i> 회고 일기 복사하기 (과제 제출용)
-              </button>
-              <button onclick="openEncyclopediaModal()" class="btn secondary" style="width: auto;">
-                📜 나의 도감 보기
-              </button>
-              <button onclick="showPortalView()" class="btn secondary" style="width: auto;">
-                🏠 진도표로
-              </button>
-            </div>
+    ];
+  }
+
+  let qIdx = 0;
+  let score = 0;
+
+  function showQ() {
+    if (qIdx >= quizzes.length) {
+      document.getElementById('quiz-play-view').style.display = 'none';
+      document.getElementById('quiz-result-view').style.display = 'block';
+      document.getElementById('quiz-result-view').innerHTML = `
+        <div style="text-align: center; padding: 20px 0;">
+          <span style="font-size: 3rem;">🏆</span>
+          <h3 style="font-size: 1.35rem; color: var(--accent-red); margin: 10px 0;">${quizUnitTarget}단원 골든벨 퀴즈 완료!</h3>
+          <p style="font-size: 1.1rem; font-weight: bold; margin-bottom: 20px;">총 ${quizzes.length}문제 중 <span style="color: #10B981; font-size: 1.3rem;">${score}</span>문제 정답!</p>
+          <div style="display: flex; gap: 8px; justify-content: center;">
+            <button onclick="switchQuizUnit(${quizUnitTarget})" class="btn secondary" style="width: auto;">🔄 다시 도전</button>
+            <button onclick="closeQuizModal()" class="btn" style="width: auto; background-color: var(--accent-teal);">확인</button>
           </div>
         </div>
       `;
-      grid.innerHTML = '';
+      return;
     }
 
-    function copyStudentReflection() {
-      const text = document.getElementById('student-reflection-text').value.trim();
-      if (!text) {
-        alert('회고 일기 내용을 입력해 주세요!');
-        return;
-      }
-      const fullText = `[초등 5학년 역사 탐구 MUD]\n\n나의 역사적 결단 회고:\n${text}`;
-      navigator.clipboard.writeText(fullText).then(() => {
-        alert('📋 회고 일기가 클립보드에 복사되었습니다! 구글 클래스룸이나 패들렛에 붙여넣어 제출하세요.');
-      }).catch(() => {
-        alert('복사되었습니다: ' + text);
-      });
+    const cur = quizzes[qIdx];
+    let optHtml = '';
+    cur.options.forEach((opt, idx) => {
+      optHtml += `
+        <button onclick="handleQuizAns(${idx})" class="btn secondary" style="margin-bottom: 8px; text-align: left; justify-content: flex-start; padding: 10px 14px; font-size: 0.95rem;">
+          <b style="color: var(--accent-red); margin-right: 6px;">${idx + 1}.</b> ${opt}
+        </button>
+      `;
+    });
+
+    document.getElementById('quiz-play-view').innerHTML = `
+      <div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--accent-red); font-weight: bold; margin-bottom: 8px;">
+          <span>${quizUnitTarget}단원 골든벨</span>
+          <span>문제 ${qIdx + 1} / ${quizzes.length}</span>
+        </div>
+        <h4 style="font-size: 1.05rem; font-weight: bold; margin-bottom: 16px; color: var(--text-main); line-height: 1.4;">${cur.q}</h4>
+        <div style="display: flex; flex-direction: column; gap: 4px;">${optHtml}</div>
+      </div>
+    `;
+  }
+
+  window.handleQuizAns = (selected) => {
+    const cur = quizzes[qIdx];
+    if (selected === cur.ans) {
+      score++;
+      if (window.sounds) window.sounds.playCorrect();
+      alert('정답입니다! 👏\n\n' + cur.exp);
+    } else {
+      if (window.sounds) window.sounds.playWrong();
+      alert('아쉽네요! 정답은 [' + cur.options[cur.ans] + '] 입니다.\n\n' + cur.exp);
     }
+    qIdx++;
+    showQ();
+  };
 
-    // 골든벨 퀴즈 (단원별 지원)
-    // 골든벨 퀴즈 (1~3단원 전체 지원)
-    let quizUnitTarget = 1;
+  showQ();
+}
 
-    function openQuizHub(unitId = 1) {
-      quizUnitTarget = unitId || currentUnitId || 1;
-      document.getElementById('view-quiz-modal').style.display = 'flex';
-      switchQuizUnit(quizUnitTarget);
-    }
+function closeQuizModal() {
+  document.getElementById('view-quiz-modal').style.display = 'none';
+}
 
-    function switchQuizUnit(unitId) {
-      quizUnitTarget = unitId;
-      document.getElementById('quiz-intro-view').style.display = 'block';
-      document.getElementById('quiz-play-view').style.display = 'none';
-      document.getElementById('quiz-result-view').style.display = 'none';
+function openEncyclopediaModal() {
+  document.getElementById('view-encyclopedia-modal').style.display = 'flex';
+  if (window.encyclopedia) window.encyclopedia.renderEncyclopedia('encyclopedia-content');
+}
 
-      // 탭 스타일 업데이트
-      [1, 2, 3].forEach(id => {
-        const tab = document.getElementById(`quiz-tab-${id}`);
-        if (tab) {
-          if (id === unitId) {
-            tab.style.background = id === 1 ? '#2D6A4F' : id === 2 ? '#8A3B29' : '#1D4ED8';
-            tab.style.color = '#FFFFFF';
-          } else {
-            tab.style.background = 'var(--card-sub)';
-            tab.style.color = 'var(--text-main)';
-          }
-        }
-      });
-      
-      const title = document.getElementById('quiz-modal-title');
-      const desc = document.getElementById('quiz-modal-desc');
-      if (unitId === 3) {
-        title.textContent = "3단원 총정리 스피드 골든벨 & 역사 탐정";
-        title.style.color = "#1D4ED8";
-        desc.textContent = "일제 침략과 저항(3·1운동), 8·15 광복, 최초의 5·10 총선거와 대한민국 정부 수립 퀴즈!";
-      } else if (unitId === 2) {
-        title.textContent = "2단원 총정리 스피드 골든벨 & 방탈출 암호";
-        title.style.color = "#8A3B29";
-        desc.textContent = "조선의 건국, 4대문 유교 덕목, 임진왜란·병자호란, 조선 후기 경제와 실학 퀴즈!";
-      } else {
-        title.textContent = "1단원 총정리 스피드 골든벨";
-        title.style.color = "#2D6A4F";
-        desc.textContent = "선사 시대, 삼국과 가야, 통일신라와 발해, 고려의 건국과 사회 총정리 퀴즈!";
-      }
-    }
-
-    function startUnitQuiz() {
-      document.getElementById('quiz-intro-view').style.display = 'none';
-      document.getElementById('quiz-play-view').style.display = 'block';
-
-      let quizzes = [];
-      if (quizUnitTarget === 3) {
-        quizzes = [
-          {
-            q: "1. [초성 퀴즈] 1919년 3월 1일 일제의 무단통치에 맞서 전국적으로 일어난 민족 최대의 평화 만세 운동은? (ㅅ·ㅇ ㅇㄷ)",
-            options: ["3·1 운동", "6·10 만세운동", "광주학생항일운동", "물산장려운동"],
-            ans: 0,
-            exp: "1919년 3·1 운동은 전 민족이 태극기를 들고 '대한 독립 만세'를 외친 평화 만세 운동으로, 대한민국 임시정부 수립의 계기가 되었습니다."
-          },
-          {
-            q: "2. [초성 퀴즈] 1948년 5월 10일 만 21세 이상 모든 국민에게 차별 없이 1표씩 주어진 우리 역사 최초의 민주 선거는? (ㅇ·ㅇ ㅊㅅㄱ)",
-            options: ["3·15 부정선거", "5·10 총선거", "제헌 국회 선거", "대통령 직선제"],
-            ans: 1,
-            exp: "5·10 총선거는 성별·재산·신분 차별 없이 모든 국민이 참여한 우리 역사 최초의 보통·평등·직접·비밀 민주 선거입니다."
-          },
-          {
-            q: "3. 1909년 중국 하얼빈 역에서 대한제국 침략의 원흉인 이토 히로부미를 처단한 독립운동가는?",
-            options: ["윤봉길 의사", "이봉창 의사", "안중근 의사", "김구 선생"],
-            ans: 2,
-            exp: "안중근 의사는 하얼빈 역에서 이토 히로부미를 사살하여 동양 평화와 대한제국의 자주독립 의지를 세계에 알렸습니다."
-          },
-          {
-            q: "4. [역사 헌법] 1948년 8월 15일 수립을 선포한 우리 민족의 자주독립 국가이자 현재 우리나라의 정식 국호는?",
-            options: ["대한제국", "고려민국", "조선민주국", "대한민국"],
-            ans: 3,
-            exp: "1948년 8월 15일, 3·1 운동과 대한민국 임시정부의 법통을 계승한 자주독립 민주공화국 '대한민국' 정부가 공식 수립되었습니다."
-          }
-        ];
-      } else if (quizUnitTarget === 2) {
-        quizzes = [
-          {
-            q: "1. [초성 퀴즈] 조선 한양 도성의 동대문으로 '어짊(仁)'을 본받고자 지은 성문의 이름은? (ㅎㅇㅈㅁ)",
-            options: ["흥인지문", "돈의문", "숭례문", "숙정문"],
-            ans: 0,
-            exp: "동대문은 어짊(仁)을 흥하게 한다는 뜻의 '흥인지문'입니다."
-          },
-          {
-            q: "2. [초성 퀴즈] 조선 후기 모판에서 벼를 길러 논에 옮겨 심어 쌀 생산량을 크게 늘린 농사법은? (ㅁㄴㄱㅂ)",
-            options: ["직파법", "모내기법(이앙법)", "화전농법", "윤작법"],
-            ans: 1,
-            exp: "모내기법(이앙법)으로 노동력을 줄이고 쌀 생산량을 획기적으로 늘렸습니다."
-          },
-          {
-            q: "3. 조선 후기 전국 장시에서 널리 유통된 국가 화폐(엽전)는?",
-            options: ["건원중보", "해동통보", "상평통보", "당백전"],
-            ans: 2,
-            exp: "숙종 때 주조된 상평통보가 전국적으로 널리 사용되었습니다."
-          },
-          {
-            q: "4. [방탈출 암호] '사람이 곧 하늘이다(인내천)'라는 인간 평등 사상을 내세운 조선 후기 민족 종교는?",
-            options: ["성리학", "불교", "동학", "도교"],
-            ans: 2,
-            exp: "최제우가 창시한 동학은 모든 사람이 하늘처럼 존귀하다는 평등사상을 전파했습니다."
-          }
-        ];
-      } else {
-        quizzes = [
-          {
-            q: "1. [초성 퀴즈] 신석기 시대 사람들이 강가나 바닷가 모래밭에 꽂아두기 위해 바닥을 뾰족하게 빚은 토기는? (ㅂㅅㅁㄴ ㅌㄱ)",
-            options: ["빗살무늬 토기", "민무늬 토기", "미송리식 토기", "상감청자"],
-            ans: 0,
-            exp: "신석기 시대 사람들은 모래밭에 꽂아두기 편하게 바닥이 뾰족한 빗살무늬 토기를 사용했습니다."
-          },
-          {
-            q: "2. [초성 퀴즈] 고려 시대 과거 시험에 합격한 사람에게 국왕이 수여한 붉은색 합격증은? (ㅎㅍ)",
-            options: ["호패", "홍패", "마패", "교지"],
-            ans: 1,
-            exp: "고려는 과거 시험 합격자에게 붉은 종이에 쓴 '홍패'를 주어 능력을 우대했습니다."
-          },
-          {
-            q: "3. 태조 왕건이 후대 왕들에게 남긴 열 가지 가르침(유훈)은 무엇인가요?",
-            options: ["경국대전", "삼강오륜", "훈요 10조", "홍익인간"],
-            ans: 2,
-            exp: "왕건은 불교 숭상, 서경 중시, 거란 경계 등의 내용을 담은 훈요 10조를 남겼습니다."
-          },
-          {
-            q: "4. 고려 시대 판관 '손변의 재판'을 통해 알 수 있는 고려 사회의 가족 모습은?",
-            options: ["아들만 재산을 상속받았다", "아들과 딸이 재산을 똑같이 나누어 가졌다", "여성은 재혼할 수 없었다", "딸은 제사를 지낼 수 없었다"],
-            ans: 1,
-            exp: "고려는 아들과 딸이 균등하게 유산을 상속받고, 제사도 돌아가며 지냈습니다."
-          }
-        ];
-      }
-
-      let qIdx = 0;
-      let score = 0;
-
-      function showQ() {
-        if (qIdx >= quizzes.length) {
-          document.getElementById('quiz-play-view').style.display = 'none';
-          document.getElementById('quiz-result-view').style.display = 'block';
-          document.getElementById('quiz-result-view').innerHTML = `
-            <div style="text-align: center; padding: 20px 0;">
-              <span style="font-size: 3rem;">🏆</span>
-              <h3 style="font-size: 1.35rem; color: var(--accent-red); margin: 10px 0;">${quizUnitTarget}단원 골든벨 퀴즈 완료!</h3>
-              <p style="font-size: 1.1rem; font-weight: bold; margin-bottom: 20px;">총 ${quizzes.length}문제 중 <span style="color: #10B981; font-size: 1.3rem;">${score}</span>문제 정답!</p>
-              <div style="display: flex; gap: 8px; justify-content: center;">
-                <button onclick="switchQuizUnit(${quizUnitTarget})" class="btn secondary" style="width: auto;">🔄 다시 도전</button>
-                <button onclick="closeQuizModal()" class="btn" style="width: auto; background-color: var(--accent-teal);">확인</button>
-              </div>
-            </div>
-          `;
-          return;
-        }
-
-        const cur = quizzes[qIdx];
-        let optHtml = '';
-        cur.options.forEach((opt, idx) => {
-          optHtml += `
-            <button onclick="handleQuizAns(${idx})" class="btn secondary" style="margin-bottom: 8px; text-align: left; justify-content: flex-start; padding: 10px 14px; font-size: 0.95rem;">
-              <b style="color: var(--accent-red); margin-right: 6px;">${idx + 1}.</b> ${opt}
-            </button>
-          `;
-        });
-
-        document.getElementById('quiz-play-view').innerHTML = `
-          <div>
-            <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--accent-red); font-weight: bold; margin-bottom: 8px;">
-              <span>${quizUnitTarget}단원 골든벨</span>
-              <span>문제 ${qIdx + 1} / ${quizzes.length}</span>
-            </div>
-            <h4 style="font-size: 1.05rem; font-weight: bold; margin-bottom: 16px; color: var(--text-main); line-height: 1.4;">${cur.q}</h4>
-            <div style="display: flex; flex-direction: column; gap: 4px;">${optHtml}</div>
-          </div>
-        `;
-      }
-
-      window.handleQuizAns = (selected) => {
-        const cur = quizzes[qIdx];
-        if (selected === cur.ans) {
-          score++;
-          if (window.sounds) window.sounds.playCorrect();
-          alert('정답입니다! 👏\n\n' + cur.exp);
-        } else {
-          if (window.sounds) window.sounds.playWrong();
-          alert('아쉽네요! 정답은 [' + cur.options[cur.ans] + '] 입니다.\n\n' + cur.exp);
-        }
-        qIdx++;
-        showQ();
-      };
-
-      showQ();
-    }
-
-    function closeQuizModal() {
-      document.getElementById('view-quiz-modal').style.display = 'none';
-    }
-
-    function openEncyclopediaModal() {
-      document.getElementById('view-encyclopedia-modal').style.display = 'flex';
-      window.encyclopedia.renderEncyclopedia('encyclopedia-content');
-    }
-
-    function closeEncyclopediaModal() {
-      document.getElementById('view-encyclopedia-modal').style.display = 'none';
-    }
-  
+function closeEncyclopediaModal() {
+  document.getElementById('view-encyclopedia-modal').style.display = 'none';
+}

@@ -1,0 +1,298 @@
+{
+  "mudId": "regular_myeongnyang",
+  "tier": "regular",
+  "unitId": 2,
+  "lessonNumbers": [
+    7
+  ],
+  "title": "명량대첩: 13척으로 133척을 막아선 기적",
+  "subtitle": "명량대첩 MUD",
+  "storyId": "story_myeongnyang",
+  "playTime": "10-15min",
+  "themeColor": "#1D4ED8",
+  "accentColor": "#93C5FD",
+  "header": {
+    "tag": "2단원 7차시 · 임진왜란 극복",
+    "title": "MUD 명량대첩: 13척으로 133척을 막아선 기적",
+    "interactiveTitle": "<i class=\"fas fa-ship\" style=\"color: #1D4ED8;\"></i> 울돌목 협로 & 천자총통 포격 시뮬레이터",
+    "roadmapTitle": "<i class=\"fas fa-history\" style=\"color: #1D4ED8;\"></i> 명량대첩 전술 연대기"
+  },
+  "roadmap": [
+    {
+      "id": "1",
+      "label": "1. 수군 폐지 반대와 결의"
+    },
+    {
+      "id": "1-1",
+      "label": "1-1. 수군 폐지 수용 [실패]"
+    },
+    {
+      "id": "2",
+      "label": "2. 울돌목 좁은 협로 유인"
+    },
+    {
+      "id": "2-1",
+      "label": "2-1. 넓은 바다 맞대결 [실패]"
+    },
+    {
+      "id": "3",
+      "label": "3. 판옥선 일자진과 천자총통"
+    },
+    {
+      "id": "3-1",
+      "label": "3-1. 육탄 백병전 [실패]"
+    },
+    {
+      "id": "4",
+      "label": "4. 썰물 역전과 총반격"
+    },
+    {
+      "id": "end",
+      "label": "5. 명량대첩 대승리"
+    }
+  ],
+  "stages": {
+    "1": {
+      "location": "1597년 진도 벽파진 군영",
+      "badge": "⚓ 수군 폐지 반대 상소",
+      "character": {
+        "name": "삼도수군통제사 이순신",
+        "subtitle": "구국의 명장",
+        "avatar": "⚔️"
+      },
+      "narrative": "<b>선조 임금이 수군을 폐지하고 육군에 합류하라 명했습니다! 남은 배는 겨우 13척뿐입니다.</b><br><br>바다를 포기하면 왜적이 서해를 타고 한양으로 직행합니다. 국왕께 어떤 결의를 담아 장계를 올리시겠습니까?",
+      "glossary": [
+        {
+          "term": "신에게는 아직 열두 척의 배가 남아 있사옵니다",
+          "definition": "이순신 장군이 수군 폐지령에 맞서 바다를 지키겠다고 올린 결연한 장계의 명문"
+        }
+      ],
+      "choices": [
+        {
+          "text": "⚔️ \"'신에게는 아직 열세 척의 배가 있사옵니다. 바다를 버릴 수 없습니다!'\"",
+          "next": "2",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "🏃 \"배를 모두 불태우고 육지로 도망친다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🏳️ \"싸우지 않고 왜군에 항복한다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "mn-map-idle",
+        "type": "info",
+        "infoText": "13척의 판옥선으로 133척의 대함대를 격파할 좁은 협로 '울돌목'으로 유인하십시오.",
+        "instruction": "🗺️ <b>울돌목 협로 유인 전술 시뮬레이션</b>",
+        "feedback": "협로 위치를 확인하세요!"
+      }
+    },
+    "1-1": {
+      "location": "제해권을 빼앗긴 서해",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "해상 방어선 붕괴",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 한양 함락과 패전]</b><br>수군을 폐지했다면 왜선 133척이 서해를 거쳐 한양으로 진격했을 것입니다! 이순신 장군은 <b>바다를 지켜 왜군의 보급로를 완벽히 차단</b>했습니다.",
+      "choices": [
+        {
+          "text": "🔄 13척으로 바다를 지키겠다고 결단한다.",
+          "next": "1",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "mn-map-idle",
+        "type": "info",
+        "infoText": "조선 수군은 제해권을 장악하여 전세를 역전시켰습니다.",
+        "instruction": "⚓ <b>바다를 지키는 결단을 내리세요!</b>",
+        "feedback": "구국의 결단을 다시 내리세요!"
+      }
+    },
+    "2": {
+      "location": "진도와 해남 사이 '울돌목'",
+      "badge": "🌊 울돌목 좁은 협로",
+      "character": {
+        "name": "녹도만호 송여종",
+        "subtitle": "조선 수군 장수",
+        "avatar": "🛡️"
+      },
+      "narrative": "<b>왜선 133척이 몰려옵니다! 13척으로 맞서려면 지형과 물살을 이용해야 합니다.</b><br><br>바위가 울부짖을 정도로 물살이 거세고 폭이 좁은 최적의 결전 장소는 어디일까요?",
+      "glossary": [
+        {
+          "term": "울돌목(명량)",
+          "definition": "전남 해남과 진도 사이의 좁은 해협으로 물살이 몹시 빠르고 소용돌이치는 곳"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🌊 \"바위가 울부짖는 좁은 협로 '울돌목'으로 왜선을 한 척씩 유인한다!\"",
+          "next": "3",
+          "correct": true,
+          "sound": "victory"
+        },
+        {
+          "text": "🌊 \"넓고 잔잔한 먼바다 한가운데로 나가 133척에 포위당한다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "⚓ \"부두에 배를 묶어두고 아무것도 하지 않는다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "mn-map-choose",
+        "type": "info",
+        "infoText": "울돌목의 좁은 폭 때문에 왜선은 한꺼번에 진입하지 못하고 일렬로 들어와야 했습니다.",
+        "instruction": "🌊 <b>울돌목 지형의 이점을 확인하세요</b>",
+        "feedback": "좁은 협로로 왜선을 유인하세요!"
+      }
+    },
+    "2-1": {
+      "location": "포위당한 판옥선",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "전술 지형 착오",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 수적 열세로 포위 전멸]</b><br>넓은 바다에서는 10배가 넘는 왜선에 포위당합니다! 이순신 장군은 <b>좁은 울돌목으로 적을 유인해 왜선의 수적 우세를 무력화</b>했습니다.",
+      "choices": [
+        {
+          "text": "🔄 좁은 울돌목으로 적을 유인한다.",
+          "next": "2",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "mn-map-choose",
+        "type": "info",
+        "infoText": "지형지물 활용은 명량대첩 승리의 핵심 열쇠였습니다.",
+        "instruction": "🌊 <b>울돌목으로 다시 유인하세요!</b>",
+        "feedback": "협로 전술을 펼치세요!"
+      }
+    },
+    "3": {
+      "location": "울돌목 결전 해역",
+      "badge": "🎯 일자진과 천자총통 포격",
+      "character": {
+        "name": "삼도수군통제사 이순신",
+        "subtitle": "전투 지휘",
+        "avatar": "⚔️"
+      },
+      "narrative": "<b>좁은 협로에 왜선들이 빽빽하게 밀려들어왔습니다!</b><br><br>바닥이 평평해 선회가 빠른 판옥선으로 일자진(一字陣)을 펴고, 강력한 화포로 어떻게 타격하시겠습니까?",
+      "glossary": [
+        {
+          "term": "판옥선",
+          "definition": "바닥이 평평한 평저선으로 회전이 빠르고 튼튼한 소나무로 만든 조선의 주력 군함"
+        },
+        {
+          "term": "천자총통",
+          "definition": "대형 화살(대장군전)을 발사해 적선을 격파하는 조선 수군의 최강 화포"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🎯 \"판옥선 일자진을 굳히고 천자총통과 지자총통으로 적선을 일제 포격 격파한다!\"",
+          "next": "4",
+          "correct": true,
+          "sound": "cannon"
+        },
+        {
+          "text": "🗡️ \"화포를 쏘지 않고 왜선에 올라타 칼싸움(백병전)을 벌인다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "💧 \"모든 대포를 바다에 버리고 후퇴한다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "mn-combat-active",
+        "type": "gauge",
+        "gaugeLabel": "천자총통 위력:",
+        "instruction": "🎯 <b>화면의 왜선을 직접 터치하여 화포 격발!</b>",
+        "feedback": "화면의 왜선을 향해 터치하세요!"
+      }
+    },
+    "3-1": {
+      "location": "백병전의 위험",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "전술 무기 착오",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 적의 장기인 칼싸움에 말려듦]</b><br>왜군은 칼을 쓰는 백병전에 능했습니다! 조선 수군은 <b>튼튼한 판옥선의 높은 구조와 천자총통의 막강한 원거리 화포 화력</b>으로 적선에 접근하지 않고 격파했습니다.",
+      "choices": [
+        {
+          "text": "🔄 일자진을 펴고 천자총통으로 포격한다.",
+          "next": "3",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "mn-combat-active",
+        "type": "gauge",
+        "gaugeLabel": "천자총통 위력:",
+        "instruction": "🎯 <b>다시 화포를 일제 사격하세요!</b>",
+        "feedback": "적선을 원거리에서 격파하세요!"
+      }
+    },
+    "4": {
+      "location": "명량 해협 소용돌이",
+      "badge": "👑 MISSION ACCOMPLISHED",
+      "character": {
+        "name": "삼도수군통제사 이순신",
+        "subtitle": "기적의 대승리",
+        "avatar": "⚔️"
+      },
+      "narrative": "<b>\"정오가 지나 조류가 썰물로 바뀌어 왜선들이 서로 부딪치며 침몰한다! 총공격하라!\"</b><br><br>13척으로 왜선 31척을 분쇄하고 133척을 물리친 명량대첩은 세계 해전사에 길이 남을 기적의 승리입니다!",
+      "choices": [
+        {
+          "text": "🎉 판옥선과 천자총통을 도감에 등록하고 완료합니다!",
+          "next": "end",
+          "correct": true,
+          "sound": "victory"
+        }
+      ],
+      "simulator": {
+        "mode": "mn-current-switch",
+        "type": "slider",
+        "sliderLabel": "울돌목 조류:",
+        "sliderMin": 0,
+        "sliderMax": 100,
+        "sliderDefault": 20,
+        "instruction": "🎯 <b>슬라이더를 우측으로 밀어 썰물 역전 유도!</b>",
+        "feedback": "슬라이더를 조작해 역전하세요!"
+      }
+    }
+  },
+  "rewards": [
+    {
+      "artifactId": "art_12",
+      "name": "조선 수군 판옥선 & 천자총통"
+    }
+  ]
+}

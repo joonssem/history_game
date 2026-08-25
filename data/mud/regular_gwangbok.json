@@ -1,0 +1,296 @@
+{
+  "mudId": "regular_gwangbok",
+  "tier": "regular",
+  "unitId": 3,
+  "lessonNumbers": [
+    8,
+    9
+  ],
+  "title": "8·15 광복의 환희와 대한민국 정부 수립: 최초의 5·10 총선거",
+  "subtitle": "광복과 정부수립 MUD",
+  "storyId": "story_gwangbok",
+  "playTime": "10-15min",
+  "themeColor": "#CD2E3A",
+  "accentColor": "#0047A0",
+  "header": {
+    "tag": "3단원 8~9차시 · 8·15 광복과 정부 수립",
+    "title": "MUD 8·15 광복의 환희와 대한민국 정부 수립: 최초의 5·10 총선거",
+    "interactiveTitle": "<i class=\"fas fa-flag\" style=\"color: #CD2E3A;\"></i> 광복 태극기 색칠 & 5·10 총선거 투표 시뮬레이터",
+    "roadmapTitle": "<i class=\"fas fa-history\" style=\"color: #CD2E3A;\"></i> 대한민국 정부 수립 연대기"
+  },
+  "roadmap": [
+    {
+      "id": "1",
+      "label": "1. 8·15 광복의 태극기"
+    },
+    {
+      "id": "1-1",
+      "label": "1-1. 일장기 방치 [실패]"
+    },
+    {
+      "id": "2",
+      "label": "2. 건국준비위원회 활동"
+    },
+    {
+      "id": "2-1",
+      "label": "2-1. 치안 공백 방치 [실패]"
+    },
+    {
+      "id": "3",
+      "label": "3. 1948년 5·10 총선거"
+    },
+    {
+      "id": "3-1",
+      "label": "3-1. 독재자 지명 [실패]"
+    },
+    {
+      "id": "4",
+      "label": "4. 대한민국 정부 수립"
+    },
+    {
+      "id": "end",
+      "label": "5. 정부 수립 완수"
+    }
+  ],
+  "stages": {
+    "1": {
+      "location": "1945년 8월 15일 서울 거리",
+      "badge": "🇰🇷 8·15 광복의 만세",
+      "character": {
+        "name": "거리의 청년",
+        "subtitle": "해방의 기쁨을 외치는 시민",
+        "avatar": "🧑"
+      },
+      "narrative": "<b>1945년 8월 15일, 마침내 일제의 가혹한 식민 지배에서 벗어나 나라를 되찾았습니다!</b><br><br>장롱 깊숙이 숨겨두었던 태극기를 꺼내 들고 거리로 뛰어나와 '대한독립만세'를 외쳐야 합니다! 태극기를 어떻게 올바르게 완성하시겠습니까?",
+      "glossary": [
+        {
+          "term": "건곤감리",
+          "definition": "태극기 네 모서리의 4괘로 건(하늘), 곤(땅), 감(달·물), 리(해·불)를 뜻함"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🇰🇷 \"태극(빨강·파랑)과 4괘(건·곤·감·리)를 바르게 색칠하고 대한독립만세를 외친다!\"",
+          "next": "2",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "⚪ \"태극기 대신 일장기를 그대로 들고 있는다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🏴 \"까만 깃발만 흔든다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "gwangbok-flag",
+        "type": "buttons",
+        "buttonsHtml": "<div style=\"font-size: 0.85rem; line-height: 1.5; margin-bottom: 8px; color: var(--text-main);\"><b>🇰🇷 태극기 색칠 & 사괘(건곤감리) 완성 시뮬레이터</b><br>아래 버튼이나 캔버스를 터치하여 광복의 태극기를 올바르게 색칠해 보세요!</div><div style=\"display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 6px;\"><button onclick=\"MudEngine.colorTaegeukPart('yangColor')\" class=\"btn secondary\" style=\"padding: 6px 4px; font-size: 0.75rem; border-color: #CD2E3A; color: #CD2E3A;\">🔴 양(빨강)</button><button onclick=\"MudEngine.colorTaegeukPart('yinColor')\" class=\"btn secondary\" style=\"padding: 6px 4px; font-size: 0.75rem; border-color: #0047A0; color: #0047A0;\">🔵 음(파랑)</button><button onclick=\"MudEngine.colorTaegeukPart('geon')\" class=\"btn secondary\" style=\"padding: 6px 4px; font-size: 0.75rem;\">☰ 건(하늘)</button><button onclick=\"MudEngine.colorTaegeukPart('gon')\" class=\"btn secondary\" style=\"padding: 6px 4px; font-size: 0.75rem;\">☷ 곤(땅)</button><button onclick=\"MudEngine.colorTaegeukPart('gam')\" class=\"btn secondary\" style=\"padding: 6px 4px; font-size: 0.75rem;\">☵ 감(달·물)</button><button onclick=\"MudEngine.colorTaegeukPart('ri')\" class=\"btn secondary\" style=\"padding: 6px 4px; font-size: 0.75rem;\">☲ 리(해·불)</button></div><button onclick=\"MudEngine.colorAllTaegeuk()\" class=\"btn\" style=\"padding: 6px 8px; font-size: 0.82rem; background: #1D4ED8;\">✨ 태극기 전체 완성하기</button>",
+        "instruction": "🇰🇷 <b>광복의 태극기 색칠하기 & 건·곤·감·리 4괘 완성</b>",
+        "feedback": "버튼이나 화면을 터치하여 태극기를 색칠하세요!"
+      }
+    },
+    "1-1": {
+      "location": "어두운 서울 거리",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "광복의 의미 상실",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 국권 회복 의미 퇴색]</b><br>광복은 우리 민족이 수많은 순국선열의 희생으로 되찾은 기적입니다! <b>태극기</b>를 당당히 휘날리며 주권 회복을 만천하에 선포해야 합니다.",
+      "choices": [
+        {
+          "text": "🔄 태극기를 색칠하여 완성한다.",
+          "next": "1",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "gwangbok-flag",
+        "type": "info",
+        "infoText": "태극기는 우리 민족의 자주독립을 상징합니다.",
+        "instruction": "🇰🇷 <b>태극기를 다시 색칠하세요!</b>",
+        "feedback": "자유와 독립을 외치세요!"
+      }
+    },
+    "2": {
+      "location": "조선건국준비위원회 본부",
+      "badge": "🤝 치안 유지와 건국 준비",
+      "character": {
+        "name": "몽양 여운형",
+        "subtitle": "건국준비위원회 위원장",
+        "avatar": "🕊️"
+      },
+      "narrative": "<b>광복 직후 일제가 물러나며 발생할 수 있는 혼란과 폭동을 막아야 합니다!</b><br><br>백성들의 안전을 지키고 질서를 유지하며 새 나라 건설을 준비하기 위해 조직한 단체는 무엇일까요?",
+      "glossary": [
+        {
+          "term": "조선건국준비위원회",
+          "definition": "광복 직후 여운형, 안재홍 등이 중심이 되어 치안을 유지하고 새 나라 건설을 준비한 단체"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🤝 \"'조선건국준비위원회'를 결성하여 치안을 유지하고 식량을 확보한다!\"",
+          "next": "3",
+          "correct": true,
+          "sound": "victory"
+        },
+        {
+          "text": "💥 \"치안을 방치하여 도시를 혼란에 빠뜨린다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🏃 \"모든 지도자가 외국으로 도망친다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "gwangbok-flag",
+        "type": "info",
+        "infoText": "건국준비위원회는 전국에 지부를 두고 평화적으로 치안을 유지했습니다.",
+        "instruction": "🤝 <b>조선건국준비위원회의 자치 활동 확인</b>",
+        "feedback": "질서 있는 건국 준비를 확인하세요!"
+      }
+    },
+    "2-1": {
+      "location": "치안 부재의 혼란",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "자주적 건국 노력 부재",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 사회 혼란과 무질서]</b><br>여운형과 지도자들은 <b>건국준비위원회를 통해 신속하게 치안대와 자치 기구</b>를 조직하여 평화적인 질서를 유지했습니다.",
+      "choices": [
+        {
+          "text": "🔄 건국준비위원회를 조직하여 질서를 유지한다.",
+          "next": "2",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "gwangbok-flag",
+        "type": "info",
+        "infoText": "건준은 자주적 정부 수립의 첫걸음이었습니다.",
+        "instruction": "🤝 <b>건국 준비를 다시 시작하세요!</b>",
+        "feedback": "평화로운 질서를 회복하세요!"
+      }
+    },
+    "3": {
+      "location": "1948년 5월 10일 투표소",
+      "badge": "🗳️ 5·10 최초 민주 총선거",
+      "character": {
+        "name": "선거 관리위원",
+        "subtitle": "민주 선거 관리자",
+        "avatar": "🗳️"
+      },
+      "narrative": "<b>1948년 5월 10일, 우리 역사상 최초로 21세 이상 모든 국민이 참여하는 민주 선거가 열렸습니다!</b><br><br>신분, 성별, 재산에 상관없이 한 표씩 행사하는 민주주의 4대 원칙(보통·평등·직접·비밀)에 따라 제헌 국회의원을 선출해 봅시다!",
+      "glossary": [
+        {
+          "term": "5·10 총선거",
+          "definition": "1948년 5월 10일 치러진 우리나라 최초의 민주적 보통선거로 제헌 국회의원을 선출함"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🗳️ \"기표소에서 비밀리에 도장(卜)을 찍어 나무 투표함에 넣는다!\"",
+          "next": "4",
+          "correct": true,
+          "sound": "cannon"
+        },
+        {
+          "text": "👑 \"국민 투표 없이 독재자 한 명이 모든 권력을 독점한다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "💰 \"돈을 가장 많이 낸 부자에게만 투표권을 준다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "gwangbok-vote",
+        "type": "buttons",
+        "buttonsHtml": "<div style=\"font-size: 0.85rem; line-height: 1.5; color: var(--text-main); margin-bottom: 8px;\"><b>🗳️ 1948년 5·10 최초 민주 총선거 비밀 투표소</b><br>투표용지의 후보자 칸에 도장(卜)을 찍고, 나무 투표함에 쏙 넣어보세요!</div><div style=\"display: flex; gap: 6px;\"><button onclick=\"MudEngine.triggerVoteAction('stamp')\" class=\"btn secondary\" style=\"flex: 1; padding: 6px 4px; font-size: 0.78rem; border-color: #DC2626; color: #DC2626;\">🔴 기표 도장(卜) 찍기</button><button onclick=\"MudEngine.triggerVoteAction('insert')\" class=\"btn\" style=\"flex: 1; padding: 6px 4px; font-size: 0.78rem; background: #1D4ED8;\">📥 투표함에 넣기</button></div>",
+        "instruction": "🗳️ <b>투표용지를 터치하여 도장을 찍고 투표함에 넣으세요!</b>",
+        "feedback": "우리 역사 최초의 보통·평등·직접·비밀 선거를 체험하세요!"
+      }
+    },
+    "3-1": {
+      "location": "민주주의 파괴 현장",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "민주주의 4대 원칙 위배",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 독재와 민주주의 압살]</b><br>5·10 총선거는 <b>성별·빈부 차별 없이 모든 국민이 주권을 행사한 대한민국 민주주의의 출발점</b>이었습니다!",
+      "choices": [
+        {
+          "text": "🔄 5·10 총선거에 참여하여 소중한 한 표를 행사한다.",
+          "next": "3",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "gwangbok-vote",
+        "type": "info",
+        "infoText": "5·10 총선거로 선출된 제헌 국회가 대한민국 헌법을 제정했습니다.",
+        "instruction": "🗳️ <b>투표소로 다시 가세요!</b>",
+        "feedback": "민주 시민의 권리를 행사하세요!"
+      }
+    },
+    "4": {
+      "location": "1948년 8월 15일 대한민국 정부 수립 기념식장",
+      "badge": "👑 MISSION ACCOMPLISHED",
+      "character": {
+        "name": "제헌 국회 의장",
+        "subtitle": "대한민국 정부 수립",
+        "avatar": "🏛️"
+      },
+      "narrative": "<b>\"대한민국은 민주공화국이며, 대한민국의 주권은 국민에게 있고 모든 권력은 국민으로부터 나온다!\"</b><br><br>1948년 7월 17일 제헌 헌법을 공포하고, 8월 15일 유엔(UN)이 인정한 한반도 유일의 합법 정부인 '대한민국'이 당당히 수립되었습니다!",
+      "choices": [
+        {
+          "text": "🎉 5·10 투표함과 제헌 헌법을 도감에 등록하고 완료합니다!",
+          "next": "end",
+          "correct": true,
+          "sound": "victory"
+        }
+      ],
+      "simulator": {
+        "mode": "gwangbok-vote",
+        "type": "info",
+        "infoText": "대한민국 헌법 제1조: 대한민국은 민주공화국이다.",
+        "instruction": "🏆 <b>대한민국 정부 수립 미션 대성공!</b>",
+        "feedback": "국보 도감에서 제헌 헌법을 확인하세요!"
+      }
+    }
+  },
+  "rewards": [
+    {
+      "artifactId": "art_15",
+      "name": "5·10 총선거 투표함"
+    },
+    {
+      "artifactId": "art_16",
+      "name": "대한민국 제헌 헌법 원본"
+    }
+  ]
+}

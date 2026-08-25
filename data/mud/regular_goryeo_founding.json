@@ -1,0 +1,285 @@
+{
+  "mudId": "regular_goryeo_founding",
+  "tier": "regular",
+  "unitId": 1,
+  "lessonNumbers": [
+    13
+  ],
+  "title": "고려 건국기: 태조 왕건의 후삼국 통일과 훈요 10조",
+  "subtitle": "고려 건국 MUD",
+  "storyId": "story_goryeo_founding",
+  "playTime": "10-15min",
+  "themeColor": "#1A5276",
+  "accentColor": "#2980B9",
+  "header": {
+    "tag": "1단원 13차시 · 고려 건국",
+    "title": "MUD 고려 건국기: 태조 왕건의 후삼국 통일과 훈요 10조",
+    "interactiveTitle": "<i class=\"fas fa-shield-alt\" style=\"color: #1A5276;\"></i> 후삼국 통일 지도 & 북진 정책 시뮬레이터",
+    "roadmapTitle": "<i class=\"fas fa-history\" style=\"color: #1A5276;\"></i> 고려 건국과 민족 재통일 연대기"
+  },
+  "roadmap": [
+    {
+      "id": "1",
+      "label": "1. 궁예 축출과 고려 건국"
+    },
+    {
+      "id": "1-1",
+      "label": "1-1. 가혹한 폭정 고수 [실패]"
+    },
+    {
+      "id": "2",
+      "label": "2. 발해 유민 포용"
+    },
+    {
+      "id": "2-1",
+      "label": "2-1. 유민 배척 [실패]"
+    },
+    {
+      "id": "3",
+      "label": "3. 취민유도와 훈요 10조"
+    },
+    {
+      "id": "3-1",
+      "label": "3-1. 과도한 수탈 [실패]"
+    },
+    {
+      "id": "4",
+      "label": "4. 민족의 재통일 완수"
+    },
+    {
+      "id": "end",
+      "label": "5. 고려 건국 완수"
+    }
+  ],
+  "stages": {
+    "1": {
+      "location": "918년 철원 송악산 기슭",
+      "badge": "👑 새로운 나라 고려의 탄생",
+      "character": {
+        "name": "태조 왕건",
+        "subtitle": "고려 제1대 국왕",
+        "avatar": "👑"
+      },
+      "narrative": "<b>궁예의 난폭한 정치로 백성들의 원성이 높습니다! 신하들과 장수들이 저 왕건을 추대했습니다.</b><br><br>고구려의 웅장한 기상을 계승한다는 뜻을 담아 새 나라의 이름을 무엇으로 정하고 도읍을 송악(개경)으로 옮길까요?",
+      "glossary": [
+        {
+          "term": "고려",
+          "definition": "고구려를 계승한다는 뜻을 담아 왕건이 918년에 세운 나라"
+        }
+      ],
+      "choices": [
+        {
+          "text": "📜 \"고구려를 계승하는 '고려(高麗)'를 세우고 백성을 편안하게 한다!\"",
+          "next": "2",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "👹 \"궁예처럼 관심법을 쓰며 신하들을 계속 처형한다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🏕️ \"나라 이름을 짓지 않고 군벌로만 남는다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "goryeo-map",
+        "type": "info",
+        "infoText": "왕건은 호족 세력을 포용하고 고구려 계승 의식을 분명히 하여 고려를 건국했습니다.",
+        "instruction": "🗺️ <b>후삼국 분열과 고려 건국 지도 확인</b>",
+        "feedback": "송악(개경)의 위치를 확인하세요!"
+      }
+    },
+    "1-1": {
+      "location": "민심을 잃은 궁궐",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "건국 명분 부재",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 민심 이반과 반란]</b><br>공포 정치는 나라를 유지할 수 없습니다! 왕건은 <b>온건하고 포용적인 리더십과 고구려 계승 의식</b>으로 고려를 세워 민심을 얻었습니다.",
+      "choices": [
+        {
+          "text": "🔄 고구려를 계승하는 고려를 건국한다.",
+          "next": "1",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "goryeo-map",
+        "type": "info",
+        "infoText": "왕건은 신라와 후백제 백성들의 마음을 모두 얻었습니다.",
+        "instruction": "👑 <b>건국 명분을 바로 세우세요!</b>",
+        "feedback": "새로운 시대를 여세요!"
+      }
+    },
+    "2": {
+      "location": "개경 성문 앞",
+      "badge": "🤝 발해 세자 대광현 맞이",
+      "character": {
+        "name": "대광현",
+        "subtitle": "멸망한 발해의 마지막 세자",
+        "avatar": "🛡️"
+      },
+      "narrative": "<b>거란의 침략으로 멸망한 발해의 세자 대광현과 수만 명의 유민이 고려를 찾아왔습니다!</b><br><br>발해 역시 고구려를 계승한 한뿌리 형제 국가입니다. 이 유민들을 어떻게 대우해야 할까요?",
+      "choices": [
+        {
+          "text": "🤝 \"왕씨 성을 하사하고 벼슬과 토지를 주어 따뜻하게 포용한다!\"",
+          "next": "3",
+          "correct": true,
+          "sound": "victory"
+        },
+        {
+          "text": "⚔️ \"국경 밖으로 내쫓고 거란에 포로로 넘긴다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "⛓️ \"모두 가두어 감옥에 넣는다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "goryeo-policy",
+        "type": "info",
+        "infoText": "발해 유민 포용을 통해 고려는 진정한 의미의 민족 재통일을 완성했습니다.",
+        "instruction": "🤝 <b>발해 유민 포용과 북진 정책 확인</b>",
+        "feedback": "민족 재통일의 결단을 확인하세요!"
+      }
+    },
+    "2-1": {
+      "location": "국경의 비극",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "민족 융합 실패",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 북방 방어력 약화]</b><br>발해는 고구려를 계승한 우리의 형제국입니다! 왕건은 <b>발해 유민을 적극 포용하여 진정한 민족의 재통일</b>을 이루고 북방 국경을 튼튼히 했습니다.",
+      "choices": [
+        {
+          "text": "🔄 발해 유민을 형제로 받아들인다.",
+          "next": "2",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "goryeo-policy",
+        "type": "info",
+        "infoText": "발해 유민의 수용은 고려의 북진 정책에 큰 힘이 되었습니다.",
+        "instruction": "🤝 <b>발해 유민을 따뜻하게 맞이하세요!</b>",
+        "feedback": "민족 통합을 이루세요!"
+      }
+    },
+    "3": {
+      "location": "개경 본궐 정전",
+      "badge": "📜 취민유도와 훈요 10조",
+      "character": {
+        "name": "태조 왕건",
+        "subtitle": "후대 왕들을 위한 유훈",
+        "avatar": "👑"
+      },
+      "narrative": "<b>백성의 세금을 10분의 1로 낮추어(취민유도) 살림을 안정시켰습니다.</b><br><br>이제 후대 왕들이 나라를 올바르게 다스리도록 불교 숭상, 서경(평양) 중시, 거란 경계 등을 담아 남긴 10가지 가르침은 무엇일까요?",
+      "glossary": [
+        {
+          "term": "훈요 10조",
+          "definition": "태조 왕건이 세상을 떠나기 전 후대 왕들에게 남긴 10가지 정치적 유훈"
+        }
+      ],
+      "choices": [
+        {
+          "text": "📜 \"후대 왕들이 지켜야 할 국가 통치 지침 '훈요 10조'를 반포한다!\"",
+          "next": "4",
+          "correct": true,
+          "sound": "cannon"
+        },
+        {
+          "text": "💰 \"백성들에게 세금을 90%까지 거두어 호화로운 잔치를 연다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "📜 \"아무런 기록도 남기지 않고 후대 왕들이 싸우게 둔다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "goryeo-policy",
+        "type": "info",
+        "infoText": "훈요 10조는 고려 500년 역사의 든든한 나침반 역할을 하였습니다.",
+        "instruction": "📜 <b>태조 왕건의 훈요 10조 조항 확인</b>",
+        "feedback": "불교와 서경 중시 정책을 확인하세요!"
+      }
+    },
+    "3-1": {
+      "location": "혼란스러운 조정",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "통치 지침 부재",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 국가 기반 흔들림]</b><br>과도한 수탈이나 지침 부재는 국가를 파멸로 이끕니다! 왕건은 <b>취민유도(세금 감면)와 훈요 10조</b>로 고려 왕조의 굳건한 기틀을 세웠습니다.",
+      "choices": [
+        {
+          "text": "🔄 훈요 10조를 반포하여 기틀을 다진다.",
+          "next": "3",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "goryeo-policy",
+        "type": "info",
+        "infoText": "훈요 10조는 고려의 독자적인 정체성을 확립했습니다.",
+        "instruction": "📜 <b>훈요 10조를 완성하세요!</b>",
+        "feedback": "500년 왕조의 길을 여세요!"
+      }
+    },
+    "4": {
+      "location": "통일 고려의 수도 개경",
+      "badge": "👑 MISSION ACCOMPLISHED",
+      "character": {
+        "name": "태조 왕건",
+        "subtitle": "고려의 건국자",
+        "avatar": "👑"
+      },
+      "narrative": "<b>\"신라와 후백제, 발해 유민까지 하나로 아우른 진정한 민족의 재통일 완성!\"</b><br><br>고려(Corea)는 벽란도를 통해 세계로 뻗어나가 오늘날 대한민국 '코리아'의 유래가 된 자랑스러운 나라입니다!",
+      "choices": [
+        {
+          "text": "🎉 태조 왕건 훈요 10조를 도감에 등록합니다!",
+          "next": "end",
+          "correct": true,
+          "sound": "victory"
+        }
+      ],
+      "simulator": {
+        "mode": "goryeo-map",
+        "type": "info",
+        "infoText": "고려는 신라의 삼국 통일보다 한층 발전된 진정한 민족 재통일을 이루었습니다.",
+        "instruction": "🏆 <b>고려 건국 미션 대성공!</b>",
+        "feedback": "국보 도감에서 훈요 10조를 확인하세요!"
+      }
+    }
+  },
+  "rewards": [
+    {
+      "artifactId": "art_9",
+      "name": "태조 왕건 훈요 10조"
+    }
+  ]
+}

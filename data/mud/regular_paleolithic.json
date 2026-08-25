@@ -1,0 +1,289 @@
+{
+  "mudId": "regular_paleolithic",
+  "tier": "regular",
+  "unitId": 1,
+  "lessonNumbers": [
+    2
+  ],
+  "title": "구석기 생존기: 전곡리의 만능 주먹도끼",
+  "subtitle": "구석기 MUD",
+  "storyId": "story_paleolithic",
+  "playTime": "10-15min",
+  "themeColor": "#6F4E37",
+  "accentColor": "#C19A6B",
+  "header": {
+    "tag": "1단원 2차시 · 구석기 시대",
+    "title": "MUD 구석기 생존기: 전곡리의 만능 주먹도끼",
+    "interactiveTitle": "<i class=\"fas fa-campground\" style=\"color: #6F4E37;\"></i> 구석기 자연환경 탐험 시뮬레이터",
+    "roadmapTitle": "<i class=\"fas fa-history\" style=\"color: #6F4E37;\"></i> 구석기 생존 연대기"
+  },
+  "roadmap": [
+    {
+      "id": "1",
+      "label": "1. 빙하기 동굴 탐색"
+    },
+    {
+      "id": "1-1",
+      "label": "1-1. 평야 노출 [실패]"
+    },
+    {
+      "id": "2",
+      "label": "2. 불 피우기 도전"
+    },
+    {
+      "id": "2-1",
+      "label": "2-1. 얼음 접촉 [실패]"
+    },
+    {
+      "id": "3",
+      "label": "3. 주먹도끼 제작"
+    },
+    {
+      "id": "3-1",
+      "label": "3-1. 자갈돌 고수 [실패]"
+    },
+    {
+      "id": "4",
+      "label": "4. 사냥과 조리 완수"
+    },
+    {
+      "id": "end",
+      "label": "5. 구석기 생존 완료"
+    }
+  ],
+  "stages": {
+    "1": {
+      "location": "한반도 중부, 한탄강 유역",
+      "badge": "🏕️ 빙하기 생존",
+      "character": {
+        "name": "청년 '바우'",
+        "subtitle": "구석기 사냥꾼",
+        "avatar": "🧑"
+      },
+      "narrative": "<b>빙하기 한반도, 매서운 바람이 불어옵니다!</b><br><br>무리의 족장이 새로운 보금자리를 찾으라 했습니다. 동굴은 바람을 막아주고 맹수의 공격도 피할 수 있는 최적의 장소입니다. 어디로 향해야 할까요?",
+      "glossary": [
+        {
+          "term": "구석기 시대",
+          "definition": "돌을 깨뜨려 만든 뗀석기를 사용하며 이동 생활을 하던 시대"
+        },
+        {
+          "term": "뗀석기",
+          "definition": "돌을 깨뜨려 날카롭게 만든 도구 (주먹도끼, 긁개 등)"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🏔️ \"바위가 갈라진 동굴 안으로 들어가 바람을 피하자!\"",
+          "next": "2",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "🌿 \"탁 트인 평원으로 나가서 넓은 땅을 차지하자!\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🌊 \"얼어붙은 강 한가운데 얼음 위에 집을 짓자!\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "paleo-intro",
+        "type": "info",
+        "infoText": "구석기 사람들은 한탄강변 바위 그늘과 막집을 지으며 이동 생활을 했습니다.",
+        "instruction": "🏕️ <b>70만 년 전 한탄강 구석기 자연환경 탐색</b>",
+        "feedback": "동굴과 강가를 확인하세요!"
+      }
+    },
+    "1-1": {
+      "location": "차가운 평원",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "지리적 판단 착오",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 맹수와 강추위 노출]</b><br>탁 트인 평원은 매서운 삭풍을 막을 수 없고 맹수의 표적이 됩니다! 구석기 사람들은 <b>자연 동굴이나 바위 그늘</b>을 찾아 이동 생활을 했습니다.",
+      "choices": [
+        {
+          "text": "🔄 안전한 동굴로 이동한다.",
+          "next": "1",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "paleo-intro",
+        "type": "info",
+        "infoText": "구석기인들은 자연 동굴이나 바위 그늘에서 생활했습니다.",
+        "instruction": "🏕️ <b>안전한 보금자리를 다시 찾아보세요</b>",
+        "feedback": "동굴과 바위 그늘이 안전합니다!"
+      }
+    },
+    "2": {
+      "location": "연천 전곡리 바위동굴 내부",
+      "badge": "🔥 생존의 불꽃",
+      "character": {
+        "name": "무리 족장",
+        "subtitle": "경험 많은 지도자",
+        "avatar": "🧔"
+      },
+      "narrative": "<b>동굴 안이 너무 춥고 어둡습니다. 체온을 유지하고 맹수를 쫓으려면 불을 피워야 합니다!</b><br><br>마른 나뭇가지와 차돌(석영)을 부딪쳐 불씨를 일으켜야 합니다. 어떻게 불을 피우시겠습니까?",
+      "choices": [
+        {
+          "text": "🪵 \"단단한 부싯돌을 마른 풀잎 위에 강하게 내리쳐 불꽃을 튀긴다!\"",
+          "next": "3",
+          "correct": true,
+          "sound": "victory"
+        },
+        {
+          "text": "💧 \"차디찬 얼음 덩어리를 비벼서 열을 내본다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🍂 \"젖은 진흙을 뭉쳐서 불씨가 생기길 기다린다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "paleo-fire",
+        "type": "gauge",
+        "gaugeLabel": "불꽃 마찰열:",
+        "instruction": "🔥 <b>동굴 화면을 연타(터치)하여 불을 피우세요!</b>",
+        "feedback": "화면을 빠르게 탭하여 마찰열을 올리세요!"
+      }
+    },
+    "2-1": {
+      "location": "얼어붙은 동굴",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "발화 원리 착오",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 저체온증 위험]</b><br>얼음이나 젖은 흙으로는 마찰열을 일으킬 수 없습니다! 구석기인들은 <b>부싯돌을 맞부딪치거나 마른 나무를 마찰</b>시켜 귀중한 불씨를 얻었습니다.",
+      "choices": [
+        {
+          "text": "🔄 부싯돌과 마른 풀로 불을 피운다.",
+          "next": "2",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "paleo-fire",
+        "type": "gauge",
+        "gaugeLabel": "불꽃 마찰열:",
+        "instruction": "🔥 <b>다시 불을 피워보세요!</b>",
+        "feedback": "빠르게 탭하여 열을 발생시키세요!"
+      }
+    },
+    "3": {
+      "location": "한탄강 자갈밭",
+      "badge": "⛏️ 만능 도구 주먹도끼",
+      "character": {
+        "name": "청년 '바우'",
+        "subtitle": "뗀석기 제작",
+        "avatar": "🧑"
+      },
+      "narrative": "<b>사냥한 사슴을 손질하고 나무를 자를 만능 도구가 필요합니다!</b><br><br>규암 덩어리를 다른 돌로 정교하게 떼어내어 한 손에 쥐기 편하고 끝이 뾰족하며 양쪽에 날이 선 '아슐리안형 주먹도끼'를 제작해 봅시다!",
+      "glossary": [
+        {
+          "term": "주먹도끼",
+          "definition": "한 손에 쥐고 자르기, 긁기, 찌르기 등 다용도로 쓰인 구석기의 만능 칼"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🪨 \"양쪽 면을 번갈아 떼어내어 날카로운 타원형 만능 날을 세운다!\"",
+          "next": "4",
+          "correct": true,
+          "sound": "cannon"
+        },
+        {
+          "text": "⚪ \"강가의 둥글둥글하고 매끄러운 자갈돌을 그대로 쓴다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🌿 \"연약한 나뭇가지를 엮어서 고기를 썰어본다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "paleo-stone",
+        "type": "gauge",
+        "gaugeLabel": "주먹도끼 완성도:",
+        "instruction": "⛏️ <b>돌을 터치하여 양날을 정교하게 떼어내세요!</b>",
+        "feedback": "돌을 여러 번 내리쳐 날을 세우세요!"
+      }
+    },
+    "3-1": {
+      "location": "사냥터 앞",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "도구 가공 부재",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 질긴 가죽 손질 불가]</b><br>둥근 자갈돌이나 나뭇가지로는 질긴 가죽을 벗길 수 없습니다! <b>돌을 깨뜨려 날을 세운 '뗀석기(주먹도끼)'</b>야말로 인류 최초의 위대한 발명품입니다.",
+      "choices": [
+        {
+          "text": "🔄 날카로운 주먹도끼를 떼어낸다.",
+          "next": "3",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "paleo-stone",
+        "type": "gauge",
+        "gaugeLabel": "주먹도끼 완성도:",
+        "instruction": "⛏️ <b>다시 돌을 내리쳐 떼어내세요!</b>",
+        "feedback": "날카로운 양날을 완성하세요!"
+      }
+    },
+    "4": {
+      "location": "한탄강 동굴 앞 모닥불",
+      "badge": "👑 MISSION ACCOMPLISHED",
+      "character": {
+        "name": "무리 족장",
+        "subtitle": "구석기 공동체",
+        "avatar": "🧔"
+      },
+      "narrative": "<b>\"훌륭하다! 불과 주먹도끼 덕분에 우리 무리가 혹독한 빙하기를 이겨냈다!\"</b><br><br>연천 전곡리 주먹도끼는 동아시아에도 정교한 양날 주먹도끼가 존재했음을 전 세계에 알린 위대한 국보급 유물입니다!",
+      "choices": [
+        {
+          "text": "🎉 전곡리 주먹도끼를 도감에 등록하고 완료합니다!",
+          "next": "end",
+          "correct": true,
+          "sound": "victory"
+        }
+      ],
+      "simulator": {
+        "mode": "paleo-intro",
+        "type": "info",
+        "infoText": "연천 전곡리 주먹도끼는 동아시아 최초로 발견된 아슐리안형 주먹도끼입니다.",
+        "instruction": "🏆 <b>구석기 생존 미션 대성공!</b>",
+        "feedback": "국보 도감에서 주먹도끼를 확인하세요!"
+      }
+    }
+  },
+  "rewards": [
+    {
+      "artifactId": "art_1",
+      "name": "연천 전곡리 주먹도끼"
+    }
+  ]
+}

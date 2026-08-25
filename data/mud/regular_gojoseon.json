@@ -1,0 +1,295 @@
+{
+  "mudId": "regular_gojoseon",
+  "tier": "regular",
+  "unitId": 1,
+  "lessonNumbers": [
+    6
+  ],
+  "title": "단군왕검의 고조선 개국: 8조법과 비파형 동검",
+  "subtitle": "고조선 MUD",
+  "storyId": "story_gojoseon",
+  "playTime": "10-15min",
+  "themeColor": "#A0522D",
+  "accentColor": "#D27D2D",
+  "header": {
+    "tag": "1단원 6차시 · 고조선 건국",
+    "title": "MUD 단군왕검의 고조선 개국: 8조법과 비파형 동검",
+    "interactiveTitle": "<i class=\"fas fa-gavel\" style=\"color: #A0522D;\"></i> 고조선 8조법 재판 & 비파형 동검 문화권",
+    "roadmapTitle": "<i class=\"fas fa-history\" style=\"color: #A0522D;\"></i> 최초의 국가 개국 연대기"
+  },
+  "roadmap": [
+    {
+      "id": "1",
+      "label": "1. 홍익인간 건국 이념"
+    },
+    {
+      "id": "1-1",
+      "label": "1-1. 독재 통치 [실패]"
+    },
+    {
+      "id": "2",
+      "label": "2. 8조법 엄정한 판결"
+    },
+    {
+      "id": "2-1",
+      "label": "2-1. 무법 방치 [실패]"
+    },
+    {
+      "id": "3",
+      "label": "3. 비파형 동검과 영역"
+    },
+    {
+      "id": "3-1",
+      "label": "3-1. 나무 막대 [실패]"
+    },
+    {
+      "id": "4",
+      "label": "4. 최초의 국가 번영"
+    },
+    {
+      "id": "end",
+      "label": "5. 고조선 개국 완수"
+    }
+  ],
+  "stages": {
+    "1": {
+      "location": "아사달(평양성) 백두산 기슭",
+      "badge": "👑 최초의 국가 건국",
+      "character": {
+        "name": "단군왕검",
+        "subtitle": "고조선의 시조",
+        "avatar": "👑"
+      },
+      "narrative": "<b>기원전 2333년, 우리 민족 최초의 국가 '고조선'을 세우고자 합니다!</b><br><br>널리 인간을 이롭게 한다는 <b>'홍익인간(弘益人間)'</b>의 뜻을 펼치기 위해 백성들을 어떤 마음으로 다스려야 할까요?",
+      "glossary": [
+        {
+          "term": "단군왕검",
+          "definition": "제사장(단군)과 정치적 지배자(왕검)의 역할을 함께 수행한 고조선의 지도자"
+        },
+        {
+          "term": "홍익인간",
+          "definition": "'널리 인간 세상을 이롭게 한다'는 뜻의 고조선 건국 이념"
+        }
+      ],
+      "choices": [
+        {
+          "text": "☀️ \"홍익인간 이념으로 백성을 널리 이롭게 하고 평화로운 세상을 연다!\"",
+          "next": "2",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "⚔️ \"백성들을 괴롭히고 모든 곡식을 빼앗아 혼자만 부자가 된다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🏔️ \"나라를 세우지 않고 각자 흩어져 마음대로 살게 한다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "goryeo-map",
+        "type": "info",
+        "infoText": "고조선은 한반도와 요동 일대에 걸쳐 성립된 우리 역사상 최초의 국가입니다.",
+        "instruction": "🗺️ <b>고조선의 건국 위치와 영역 확인</b>",
+        "feedback": "요동과 한반도 북부를 확인하세요!"
+      }
+    },
+    "1-1": {
+      "location": "혼란에 빠진 마을",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "통치 철학 부재",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 국가 질서 붕괴]</b><br>폭정이나 무질서는 나라를 유지할 수 없습니다! 단군왕검은 <b>홍익인간의 숭고한 정신</b>으로 백성을 보살피고 최초의 문명국가를 열었습니다.",
+      "choices": [
+        {
+          "text": "🔄 홍익인간 정신으로 나라를 세운다.",
+          "next": "1",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "goryeo-map",
+        "type": "info",
+        "infoText": "홍익인간은 오늘날 대한민국의 교육 이념이기도 합니다.",
+        "instruction": "👑 <b>건국 이념을 바로잡으세요!</b>",
+        "feedback": "최초의 국가를 세우세요!"
+      }
+    },
+    "2": {
+      "location": "고조선 재판정",
+      "badge": "📜 고조선 8조법의 엄정함",
+      "character": {
+        "name": "고조선 재판관",
+        "subtitle": "법과 질서의 수호자",
+        "avatar": "⚖️"
+      },
+      "narrative": "<b>다른 사람을 다치게 하거나 도둑질을 한 자가 재판정에 끌려왔습니다!</b><br><br>생명 존중, 사유재산 보호, 노동력 중시의 고조선 8조법에 따라 어떻게 판결해야 할까요?",
+      "glossary": [
+        {
+          "term": "8조법",
+          "definition": "고조선 사회의 질서를 유지하기 위해 만든 8가지 법률 중 전해지는 3개 조항(살인, 상해, 절도)"
+        }
+      ],
+      "choices": [
+        {
+          "text": "⚖️ \"남을 다치게 한 자는 곡식으로 갚고, 도둑질한 자는 노비로 삼는다!\"",
+          "next": "3",
+          "correct": true,
+          "sound": "victory"
+        },
+        {
+          "text": "🎉 \"모든 죄를 용서하고 아무런 처벌도 내리지 않는다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "💰 \"벌금으로 나뭇잎 3장을 내게 하고 돌려보낸다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "society-exam",
+        "type": "info",
+        "infoText": "8조법을 통해 고조선이 생명과 농경(곡식), 사유재산(노비)을 매우 중시했음을 알 수 있습니다.",
+        "instruction": "⚖️ <b>고조선 8조법 판결 시뮬레이션</b>",
+        "feedback": "법 조항의 의미를 확인하세요!"
+      }
+    },
+    "2-1": {
+      "location": "무법지대",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "사회 질서 붕괴",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 범죄 만연과 질서 파괴]</b><br>법이 없으면 백성의 생명과 재산을 지킬 수 없습니다! 고조선은 <b>엄격한 8조법</b>을 통해 사회 질서와 사유재산을 안전하게 수호했습니다.",
+      "choices": [
+        {
+          "text": "🔄 8조법에 따라 공정하게 판결한다.",
+          "next": "2",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "society-exam",
+        "type": "info",
+        "infoText": "8조법은 백성의 안전과 재산을 지키는 방패였습니다.",
+        "instruction": "⚖️ <b>다시 엄정하게 판결하세요!</b>",
+        "feedback": "질서를 회복하세요!"
+      }
+    },
+    "3": {
+      "location": "고조선 청동기 대장간",
+      "badge": "🗡️ 비파형 동검 문화권",
+      "character": {
+        "name": "고조선 장수",
+        "subtitle": "국토를 지키는 장군",
+        "avatar": "🛡️"
+      },
+      "narrative": "<b>고조선의 강력한 군사력과 독창적인 청동기 문화를 상징하는 대표 무기를 제작하려 합니다!</b><br><br>악기 '비파' 모양을 닮았으며 고조선의 독자적 문화 영역을 증명하는 청동검은 무엇일까요?",
+      "glossary": [
+        {
+          "term": "비파형 동검",
+          "definition": "중국 동검과 달리 몸체가 악기 비파처럼 둥글고 날이 날카로운 고조선 고유의 청동검"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🗡️ \"허리가 잘록하고 날이 곡선을 이루는 독창적인 '비파형 동검'을 주조한다!\"",
+          "next": "4",
+          "correct": true,
+          "sound": "cannon"
+        },
+        {
+          "text": "🥢 \"가느다란 나무 젓가락을 깎아 무기로 쓴다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🧊 \"쉽게 녹아내리는 얼음 칼을 만들어 지급한다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "goryeo-map",
+        "type": "info",
+        "infoText": "비파형 동검과 탁자식 고인돌의 출토 범위는 고조선의 문화 통치 영역과 정확히 일치합니다.",
+        "instruction": "🗡️ <b>비파형 동검 문화권 지도 확인</b>",
+        "feedback": "요동과 한반도 전역의 분포를 확인하세요!"
+      }
+    },
+    "3-1": {
+      "location": "약체화된 군대",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "무기 체계 부재",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 국방력 상실]</b><br>나무나 얼음으로는 나라를 지킬 수 없습니다! 고조선은 <b>비파형 동검과 청동 거울, 미송리식 토기</b>로 대표되는 독창적이고 강력한 청동기 문화를 꽃피웠습니다.",
+      "choices": [
+        {
+          "text": "🔄 비파형 동검을 제작한다.",
+          "next": "3",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "goryeo-map",
+        "type": "info",
+        "infoText": "비파형 동검은 고조선 청동기 기술의 정수입니다.",
+        "instruction": "🗡️ <b>동검을 다시 제작하세요!</b>",
+        "feedback": "강력한 국방력을 갖추세요!"
+      }
+    },
+    "4": {
+      "location": "고조선 도읍 아사달",
+      "badge": "👑 MISSION ACCOMPLISHED",
+      "character": {
+        "name": "단군왕검",
+        "subtitle": "고조선의 시조",
+        "avatar": "👑"
+      },
+      "narrative": "<b>\"반만년 유구한 역사의 서막, 최초의 국가 고조선이 당당히 우뚝 섰다!\"</b><br><br>단군왕검의 고조선 개국은 우리 민족사의 시작이며, 비파형 동검은 요동과 한반도를 아우른 자랑스러운 증거입니다!",
+      "choices": [
+        {
+          "text": "🎉 비파형 동검을 도감에 등록하고 완료합니다!",
+          "next": "end",
+          "correct": true,
+          "sound": "victory"
+        }
+      ],
+      "simulator": {
+        "mode": "goryeo-map",
+        "type": "info",
+        "infoText": "고조선은 기원전 2333년 건국된 우리 민족 최초의 국가입니다.",
+        "instruction": "🏆 <b>고조선 개국 미션 대성공!</b>",
+        "feedback": "국보 도감에서 비파형 동검을 확인하세요!"
+      }
+    }
+  },
+  "rewards": [
+    {
+      "artifactId": "art_4",
+      "name": "비파형 동검"
+    }
+  ]
+}

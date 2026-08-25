@@ -1,0 +1,290 @@
+{
+  "mudId": "regular_three_kingdoms_life",
+  "tier": "regular",
+  "unitId": 1,
+  "lessonNumbers": [
+    9,
+    10
+  ],
+  "title": "고분 벽화 탐정: 삼국 귀족의 맥적과 가야 철갑옷",
+  "subtitle": "삼국 생활 MUD",
+  "storyId": "story_three_kingdoms_life",
+  "playTime": "10-15min",
+  "themeColor": "#4A3B32",
+  "accentColor": "#8D6E63",
+  "header": {
+    "tag": "1단원 9~10차시 · 삼국의 생활과 문화",
+    "title": "MUD 고분 벽화 탐정: 삼국 귀족의 맥적과 가야 철갑옷",
+    "interactiveTitle": "<i class=\"fas fa-search\" style=\"color: #4A3B32;\"></i> 고구려 수산리 고분 벽화 & 가야 제철 시뮬레이터",
+    "roadmapTitle": "<i class=\"fas fa-history\" style=\"color: #4A3B32;\"></i> 고분 벽화 탐정 연대기"
+  },
+  "roadmap": [
+    {
+      "id": "1",
+      "label": "1. 수산리 고분 벽화 복식"
+    },
+    {
+      "id": "1-1",
+      "label": "1-1. 청바지 상상 [실패]"
+    },
+    {
+      "id": "2",
+      "label": "2. 삼국의 불교 수용"
+    },
+    {
+      "id": "2-1",
+      "label": "2-1. 미신 조장 [실패]"
+    },
+    {
+      "id": "3",
+      "label": "3. 철의 왕국 가야 판갑옷"
+    },
+    {
+      "id": "3-1",
+      "label": "3-1. 종이 갑옷 [실패]"
+    },
+    {
+      "id": "4",
+      "label": "4. 삼국 문화 전파"
+    },
+    {
+      "id": "end",
+      "label": "5. 삼국 생활 탐구 완수"
+    }
+  ],
+  "stages": {
+    "1": {
+      "location": "고구려 수산리 고분 내부",
+      "badge": "🎨 고분 벽화의 비밀",
+      "character": {
+        "name": "고분 벽화 탐정",
+        "subtitle": "삼국 문화 연구자",
+        "avatar": "🕵️"
+      },
+      "narrative": "<b>1500년 전 고구려 사람들의 화려한 생활 모습을 담은 수산리 고분 벽화를 조사 중입니다!</b><br><br>벽화 속 귀족 여인이 입고 있는 주름치마와 긴 저고리, 점무늬 옷은 어떤 의미를 담고 있을까요?",
+      "glossary": [
+        {
+          "term": "수산리 고분 벽화",
+          "definition": "고구려 귀족의 화려한 복식과 교예(서커스) 공연 모습이 생생하게 그려진 유네스코 세계유산 벽화"
+        }
+      ],
+      "choices": [
+        {
+          "text": "👗 \"풍성한 주름치마와 긴 저고리를 입어 신분과 우아한 멋을 뽐냈다!\"",
+          "next": "2",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "👖 \"현대의 파란색 청바지와 티셔츠를 입고 있었다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🩳 \"추운 북쪽인데 수영복만 입고 생활했다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "society-court",
+        "type": "info",
+        "infoText": "고구려 수산리 고분 벽화는 당시 귀족들의 세련된 복식 문화를 보여줍니다.",
+        "instruction": "🎨 <b>수산리 고분 벽화 복식 탐구</b>",
+        "feedback": "주름치마와 저고리를 확인하세요!"
+      }
+    },
+    "1-1": {
+      "location": "잘못된 시대 착오",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "복식 고증 착오",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 시대착오적 복식]</b><br>청바지나 수영복은 현대의 옷입니다! 삼국 시대 귀족들은 <b>비단 주름치마, 두루마기, 화려한 관모</b>를 착용하여 신분을 나타냈습니다.",
+      "choices": [
+        {
+          "text": "🔄 고구려 전통 주름치마를 복원한다.",
+          "next": "1",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "society-court",
+        "type": "info",
+        "infoText": "벽화의 복식은 일본 다카마쓰 고분 벽화에도 영향을 주었습니다.",
+        "instruction": "👗 <b>전통 복식을 다시 확인하세요!</b>",
+        "feedback": "고구려의 멋을 되살리세요!"
+      }
+    },
+    "2": {
+      "location": "삼국의 불교 사찰",
+      "badge": "🛕 불교 수용과 백성 통합",
+      "character": {
+        "name": "삼국 고승",
+        "subtitle": "불법을 전하는 승려",
+        "avatar": "🧘"
+      },
+      "narrative": "<b>삼국의 왕들이 외국의 '불교'를 적극적으로 받아들여 국교로 삼은 까닭은 무엇일까요?</b><br><br>왕의 권위를 부처처럼 높이고(왕즉불 사상), 여러 부족의 마음을 하나로 모으기 위한 지혜는?",
+      "choices": [
+        {
+          "text": "🛕 \"'왕이 곧 부처'라는 사상으로 백성의 마음을 하나로 통합하고 왕권을 강화한다!\"",
+          "next": "3",
+          "correct": true,
+          "sound": "victory"
+        },
+        {
+          "text": "🎉 \"모든 사람이 공부하지 않고 매일 놀기만 하려고 받아들였다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "💰 \"금을 모아 탑만 쌓고 백성은 돌보지 않으려 했다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "society-temple",
+        "type": "info",
+        "infoText": "삼국은 불교를 통해 귀족의 세력을 억누르고 백성을 하나로 결집시켰습니다.",
+        "instruction": "🛕 <b>삼국의 불교 수용 의미 확인</b>",
+        "feedback": "왕권 강화와 백성 통합을 확인하세요!"
+      }
+    },
+    "2-1": {
+      "location": "분열된 백성",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "불교 수용 배경 오해",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 국가 결속 실패]</b><br>불교는 단순한 종교가 아니라 <b>중앙 집권 국가의 통치 사상</b>이었습니다! 고구려 소수림왕, 백제 침류왕, 신라 법흥왕은 불교로 나라의 기틀을 확립했습니다.",
+      "choices": [
+        {
+          "text": "🔄 불교를 통해 백성을 결집시킨다.",
+          "next": "2",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "society-temple",
+        "type": "info",
+        "infoText": "불교는 뛰어난 건축과 미술 문화 발전으로도 이어졌습니다.",
+        "instruction": "🛕 <b>불교의 역할을 다시 생각해보세요!</b>",
+        "feedback": "국가 통합을 이루세요!"
+      }
+    },
+    "3": {
+      "location": "가야 낙동강변 제철소",
+      "badge": "⚔️ 철의 왕국 가야",
+      "character": {
+        "name": "가야 철기 장인",
+        "subtitle": "갑옷을 만드는 장인",
+        "avatar": "🔨"
+      },
+      "narrative": "<b>낙동강 하류의 가야는 질 좋은 철이 풍부하여 바다 건너 왜와 낙랑으로 수출했습니다!</b><br><br>말과 무사를 빈틈없이 보호하기 위해 철판을 두드려 연결해 만든 정교한 방어구는 무엇일까요?",
+      "glossary": [
+        {
+          "term": "가야 철제 판갑옷",
+          "definition": "여러 장의 철판을 못으로 잇대어 인체 곡선에 맞게 제작한 가야의 정교한 갑옷"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🛡️ \"단단한 철판을 정교하게 이어 붙인 '철제 판갑옷과 투구'를 무장한다!\"",
+          "next": "4",
+          "correct": true,
+          "sound": "cannon"
+        },
+        {
+          "text": "📄 \"가벼운 한지 종이 여러 겹을 풀로 붙여 만든 종이 갑옷을 입는다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🪵 \"썩은 나무껍질을 엮어서 화살을 막아본다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "society-exam",
+        "type": "info",
+        "infoText": "가야의 제철 기술은 동아시아 최고 수준이었으며, 덩이쇠는 화폐처럼 쓰였습니다.",
+        "instruction": "⚔️ <b>가야 철제 판갑옷과 제철 기술 탐구</b>",
+        "feedback": "철판을 이어 붙인 갑옷을 확인하세요!"
+      }
+    },
+    "3-1": {
+      "location": "화살에 뚫린 방어구",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "제철 기술 경시",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 방어력 붕괴]</b><br>종이나 나무껍질로는 적의 쇠화살과 칼을 막을 수 없습니다! 가야는 <b>철제 판갑옷과 말 갑옷(개마무사)</b>을 제작한 강력한 철의 왕국이었습니다.",
+      "choices": [
+        {
+          "text": "🔄 가야 철제 판갑옷을 제작한다.",
+          "next": "3",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "society-exam",
+        "type": "info",
+        "infoText": "가야의 철은 낙랑과 왜에 수출되어 국제 교역의 중심이 되었습니다.",
+        "instruction": "⚔️ <b>철갑옷을 다시 완성하세요!</b>",
+        "feedback": "철의 왕국 가야를 증명하세요!"
+      }
+    },
+    "4": {
+      "location": "삼국과 가야 문화 전시장",
+      "badge": "👑 MISSION ACCOMPLISHED",
+      "character": {
+        "name": "문화재 보존관",
+        "subtitle": "유물 수호자",
+        "avatar": "🏛️"
+      },
+      "narrative": "<b>\"고구려의 웅혼한 벽화와 가야의 우수한 철기 문화가 찬란히 빛난다!\"</b><br><br>삼국과 가야의 수준 높은 문화는 바다 건너 일본 아스카 문화 형성에도 결정적인 영향을 끼쳤습니다!",
+      "choices": [
+        {
+          "text": "🎉 가야 판갑옷과 고구려 벽화를 도감에 등록합니다!",
+          "next": "end",
+          "correct": true,
+          "sound": "victory"
+        }
+      ],
+      "simulator": {
+        "mode": "society-court",
+        "type": "info",
+        "infoText": "삼국과 가야의 문화는 각국의 독창성과 뛰어난 예술성을 보여줍니다.",
+        "instruction": "🏆 <b>삼국 생활 문화 탐험 대성공!</b>",
+        "feedback": "국보 도감에서 유물을 확인하세요!"
+      }
+    }
+  },
+  "rewards": [
+    {
+      "artifactId": "art_7",
+      "name": "가야 철제 판갑옷과 투구"
+    },
+    {
+      "artifactId": "art_8",
+      "name": "고구려 수산리 고분 벽화"
+    }
+  ]
+}

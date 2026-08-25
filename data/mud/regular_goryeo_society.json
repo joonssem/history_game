@@ -1,0 +1,285 @@
+{
+  "mudId": "regular_goryeo_society",
+  "tier": "regular",
+  "unitId": 1,
+  "lessonNumbers": [
+    14
+  ],
+  "title": "고려 사회 탐정: 손변의 지혜로운 재판과 과거 홍패",
+  "subtitle": "고려 사회 MUD",
+  "storyId": "story_goryeo_society",
+  "playTime": "10-15min",
+  "themeColor": "#196F3D",
+  "accentColor": "#27AE60",
+  "header": {
+    "tag": "1단원 14차시 · 고려 사회와 법률",
+    "title": "MUD 고려 사회 탐정: 손변의 지혜로운 재판과 과거 홍패",
+    "interactiveTitle": "<i class=\"fas fa-balance-scale\" style=\"color: #196F3D;\"></i> 손변 명판관 재판 & 고려 과거 시험 시뮬레이터",
+    "roadmapTitle": "<i class=\"fas fa-history\" style=\"color: #196F3D;\"></i> 고려 사회 탐정 연대기"
+  },
+  "roadmap": [
+    {
+      "id": "1",
+      "label": "1. 광종의 과거제(홍패)"
+    },
+    {
+      "id": "1-1",
+      "label": "1-1. 세습 독점 [실패]"
+    },
+    {
+      "id": "2",
+      "label": "2. 손변의 남매 유산 재판"
+    },
+    {
+      "id": "2-1",
+      "label": "2-1. 장남 독식 판결 [실패]"
+    },
+    {
+      "id": "3",
+      "label": "3. 부석사 무량수전 건축"
+    },
+    {
+      "id": "3-1",
+      "label": "3-1. 직선 기둥 [실패]"
+    },
+    {
+      "id": "4",
+      "label": "4. 자주적 고려 문화"
+    },
+    {
+      "id": "end",
+      "label": "5. 고려 사회 탐구 완수"
+    }
+  ],
+  "stages": {
+    "1": {
+      "location": "고려 개경 과거 시험장",
+      "badge": "📜 능력 중심의 과거제",
+      "character": {
+        "name": "과거 응시생",
+        "subtitle": "유교 경전을 익힌 선비",
+        "avatar": "📚"
+      },
+      "narrative": "<b>고려 광종 때 도입된 과거 시험에 합격하여 붉은빛 합격증을 받았습니다!</b><br><br>귀족의 혈통뿐만 아니라 개인의 학문 실력으로 관리를 뽑았던 고려의 과거 합격증 이름은 무엇일까요?",
+      "glossary": [
+        {
+          "term": "홍패",
+          "definition": "고려·조선 시대 문과나 무과에 최종 합격한 사람에게 붉은 종이에 써서 주던 합격증"
+        }
+      ],
+      "choices": [
+        {
+          "text": "📜 \"국왕이 하사한 붉은 합격증 '홍패(紅牌)'를 받아 관직에 나아간다!\"",
+          "next": "2",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "⚔️ \"칼싸움만 잘하면 시험 없이 영구 세습한다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🎲 \"주사위를 굴려 관리를 정한다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "society-exam",
+        "type": "info",
+        "infoText": "광종은 노비안검법과 과거제를 통해 호족 세력을 누르고 왕권을 강화했습니다.",
+        "instruction": "📜 <b>고려 과거 시험과 홍패 확인</b>",
+        "feedback": "능력 중심 사회의 기틀을 확인하세요!"
+      }
+    },
+    "1-1": {
+      "location": "부패한 조정",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "과거제 의의 몰이해",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 신진 세력 등용 실패]</b><br>과거제는 유교적 소양을 갖춘 <b>능력 있는 인재를 공정하게 선발</b>한 획기적인 제도였습니다!",
+      "choices": [
+        {
+          "text": "🔄 과거제를 통해 인재를 등용한다.",
+          "next": "1",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "society-exam",
+        "type": "info",
+        "infoText": "과거제는 고려 사회의 활력을 불어넣었습니다.",
+        "instruction": "📜 <b>과거제를 다시 시행하세요!</b>",
+        "feedback": "공정한 인재 선발을 이루세요!"
+      }
+    },
+    "2": {
+      "location": "경상도 안찰사 재판정",
+      "badge": "⚖️ 손변의 지혜로운 재판",
+      "character": {
+        "name": "명판관 손변",
+        "subtitle": "고려의 지혜로운 판관",
+        "avatar": "⚖️"
+      },
+      "narrative": "<b>부모님이 돌아가시며 어린 여동생에게 거의 모든 재산을 남겼고 오빠에게는 옷 한 벌만 주었습니다.</b><br><br>오빠가 불만을 품고 소송을 걸었습니다. 손변 판관은 고려의 남녀 균등 상속 풍습과 부모의 숨은 뜻을 어떻게 판결했을까요?",
+      "choices": [
+        {
+          "text": "⚖️ \"부모님은 어린 누이가 혼자 살 것을 염려하신 것! 재산을 남매에게 공평히 똑같이 나눈다!\"",
+          "next": "3",
+          "correct": true,
+          "sound": "victory"
+        },
+        {
+          "text": "👨 \"장남인 오빠가 모든 재산을 독차지하고 여동생을 내쫓는다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "💰 \"모든 재산을 관청에서 몰수한다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "society-court",
+        "type": "info",
+        "infoText": "고려 시대는 아들과 딸이 재산을 똑같이 나누어 상속받았으며, 여성의 지위가 높았습니다.",
+        "instruction": "⚖️ <b>손변 명판관의 지혜로운 재판</b>",
+        "feedback": "남녀 균등 상속의 지혜를 확인하세요!"
+      }
+    },
+    "2-1": {
+      "location": "불화가 생긴 남매",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "고려 가족 제도 착오",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 고려 사회상 왜곡]</b><br>고려 시대는 조선 후기와 달리 <b>아들과 딸이 균등하게 유산을 상속</b>받고 제사도 돌아가며 지냈습니다!",
+      "choices": [
+        {
+          "text": "🔄 남매에게 재산을 똑같이 균등 분할한다.",
+          "next": "2",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "society-court",
+        "type": "info",
+        "infoText": "고려의 여성은 호주가 될 수도 있었고 재산권을 행사했습니다.",
+        "instruction": "⚖️ <b>공평하게 다시 판결하세요!</b>",
+        "feedback": "남녀 평등의 가치를 살리세요!"
+      }
+    },
+    "3": {
+      "location": "영주 부석사 무량수전 앞",
+      "badge": "🏛️ 배흘림기둥의 착시 보정",
+      "character": {
+        "name": "건축 장인",
+        "subtitle": "목조 건축의 대가",
+        "avatar": "📐"
+      },
+      "narrative": "<b>현존하는 가장 오래된 목조 건축물 중 하나인 부석사 무량수전을 짓고 있습니다!</b><br><br>기둥이 가운데가 굵고 위아래가 가늘게 만든 '배흘림기둥(엔타시스)'을 쓴 까닭은 무엇일까요?",
+      "glossary": [
+        {
+          "term": "배흘림기둥",
+          "definition": "기둥의 중간 부분이 가장 굵고 위아래로 갈수록 좁아져 시각적 안정감을 주는 건축 기법"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🏛️ \"가운데를 볼록하게 깎아 기둥이 안쪽으로 휘어 보이는 착시를 막고 시각적 안정감을 준다!\"",
+          "next": "4",
+          "correct": true,
+          "sound": "cannon"
+        },
+        {
+          "text": "🪵 \"나무를 깎기 귀찮아서 대충 통나무를 세웠다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🧊 \"기둥을 가늘게 깎아 비가 오면 쉽게 무너지게 했다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "society-temple",
+        "type": "info",
+        "infoText": "부석사 무량수전의 배흘림기둥과 주심포 양식은 고려 목조 건축의 극치를 보여줍니다.",
+        "instruction": "🏛️ <b>부석사 무량수전 배흘림기둥 탐구</b>",
+        "feedback": "기둥의 완만한 곡선을 확인하세요!"
+      }
+    },
+    "3-1": {
+      "location": "불안정한 건물",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "건축 미학 착오",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 시각적 왜곡 발생]</b><br>직선 기둥은 멀리서 보면 가운데가 홀쭉하게 휘어 보입니다! 고려 장인들은 <b>배흘림기둥</b>을 통해 완벽한 착시 보정과 조형미를 완성했습니다.",
+      "choices": [
+        {
+          "text": "🔄 배흘림기둥을 세워 안정감을 완성한다.",
+          "next": "3",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "society-temple",
+        "type": "info",
+        "infoText": "배흘림기둥은 그리스 신전과 고려 건축에서 발견되는 과학적 미학입니다.",
+        "instruction": "🏛️ <b>배흘림기둥을 다시 깎으세요!</b>",
+        "feedback": "천년의 아름다움을 완성하세요!"
+      }
+    },
+    "4": {
+      "location": "고려 문화의 전당",
+      "badge": "👑 MISSION ACCOMPLISHED",
+      "character": {
+        "name": "고려 사회 탐정",
+        "subtitle": "문화 탐구 완수",
+        "avatar": "🕵️"
+      },
+      "narrative": "<b>\"과거제의 공정함, 손변의 지혜로운 균등 상속, 배흘림기둥의 과학적 미학 완성!\"</b><br><br>고려 사회는 열린 신분 상승의 길과 평등한 가족 제도, 뛰어난 예술 감각을 지닌 역동적인 사회였습니다!",
+      "choices": [
+        {
+          "text": "🎉 고려 과거 홍패를 도감에 등록하고 완료합니다!",
+          "next": "end",
+          "correct": true,
+          "sound": "victory"
+        }
+      ],
+      "simulator": {
+        "mode": "society-exam",
+        "type": "info",
+        "infoText": "고려의 문화와 사회 제도는 높은 문화적 자부심을 보여줍니다.",
+        "instruction": "🏆 <b>고려 사회 탐정 미션 대성공!</b>",
+        "feedback": "국보 도감에서 홍패를 확인하세요!"
+      }
+    }
+  },
+  "rewards": [
+    {
+      "artifactId": "art_10",
+      "name": "고려 과거 합격증 '홍패'"
+    }
+  ]
+}

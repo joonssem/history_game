@@ -1,0 +1,291 @@
+{
+  "mudId": "regular_joseon_economy",
+  "tier": "regular",
+  "unitId": 2,
+  "lessonNumbers": [
+    8
+  ],
+  "title": "조선 후기 보부상과 모내기 대박",
+  "subtitle": "조선 후기 경제 MUD",
+  "storyId": "story_joseon_economy",
+  "playTime": "10-15min",
+  "themeColor": "#B8860B",
+  "accentColor": "#EAB308",
+  "header": {
+    "tag": "2단원 8차시 · 조선 후기 경제",
+    "title": "MUD 조선 후기 보부상과 모내기 대박",
+    "interactiveTitle": "<i class=\"fas fa-coins\" style=\"color: #B8860B;\"></i> 상평통보 장시 거래 시뮬레이터",
+    "roadmapTitle": "<i class=\"fas fa-history\" style=\"color: #B8860B;\"></i> 조선 경제 변혁 연대기"
+  },
+  "roadmap": [
+    {
+      "id": "1",
+      "label": "1. 모내기법(이앙법) 보급"
+    },
+    {
+      "id": "1-1",
+      "label": "1-1. 직파법 고수 [실패]"
+    },
+    {
+      "id": "2",
+      "label": "2. 상품작물(담배·인삼) 재배"
+    },
+    {
+      "id": "2-1",
+      "label": "2-1. 자급자족 고수 [실패]"
+    },
+    {
+      "id": "3",
+      "label": "3. 상평통보와 5일장 개장"
+    },
+    {
+      "id": "3-1",
+      "label": "3-1. 물물교환 고수 [실패]"
+    },
+    {
+      "id": "4",
+      "label": "4. 장시의 번영과 대상인"
+    },
+    {
+      "id": "end",
+      "label": "5. 경제 성장 완수"
+    }
+  ],
+  "stages": {
+    "1": {
+      "location": "삼남 지방 논두렁",
+      "badge": "🌾 농업의 혁명",
+      "character": {
+        "name": "조선 농민",
+        "subtitle": "새 농사법을 고민하는 농부",
+        "avatar": "🌾"
+      },
+      "narrative": "<b>논에 직접 볍씨를 뿌리던 직파법 대신 모판에서 모를 길러 옮겨 심는 '모내기법(이앙법)'이 퍼지고 있습니다!</b><br><br>김매기(잡초 뽑기) 일손을 획기적으로 줄이고 벼와 보리의 이모작이 가능한 이 농법을 도입하시겠습니까?",
+      "glossary": [
+        {
+          "term": "모내기법(이앙법)",
+          "definition": "모판에서 벼를 길러 논에 옮겨 심는 농법으로 잡초 뽑는 노동력을 크게 줄임"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🌱 \"모내기법을 도입하여 잡초를 줄이고 벼와 보리를 이모작한다!\"",
+          "next": "2",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "🍂 \"힘들어도 씨앗을 맨땅에 대충 던져두는 옛 방식을 고집한다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🌾 \"농사를 아예 짓지 않고 풀만 자라게 둔다.\"",
+          "next": "1-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "economy-farm",
+        "type": "info",
+        "infoText": "모내기법의 전국적 보급으로 한 사람이 넓은 논을 농사짓는 '광작(廣作)'이 가능해졌습니다.",
+        "instruction": "🌾 <b>모내기법(이앙법)과 광작의 원리 확인</b>",
+        "feedback": "벼농사 생산량 증대를 확인하세요!"
+      }
+    },
+    "1-1": {
+      "location": "수확량이 적은 논",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "농업 기술 정체",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 생산량 증가 실패]</b><br>직파법은 잡초를 뽑는 데 너무 많은 일손이 듭니다! 조선 후기 농민들은 <b>저수지와 보를 쌓고 모내기법을 보급</b>하여 수확량을 획기적으로 늘렸습니다.",
+      "choices": [
+        {
+          "text": "🔄 모내기법을 도입한다.",
+          "next": "1",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "economy-farm",
+        "type": "info",
+        "infoText": "모내기법 덕분에 부농이 등장하고 상품 작물 재배가 늘었습니다.",
+        "instruction": "🌱 <b>모내기법을 다시 선택하세요!</b>",
+        "feedback": "농업 혁신을 이루세요!"
+      }
+    },
+    "2": {
+      "location": "장시 근처 밭",
+      "badge": "🌿 상품 작물의 재배",
+      "character": {
+        "name": "부농 '박서방'",
+        "subtitle": "시장에 내다 파는 농민",
+        "avatar": "🧑‍🌾"
+      },
+      "narrative": "<b>먹을 쌀 외에도 장시에 내다 팔아 돈을 벌기 위한 '상품 작물'을 심으려 합니다!</b><br><br>조선 후기 시장에서 인기가 높아 큰 이익을 남길 수 있었던 작물은 무엇일까요?",
+      "glossary": [
+        {
+          "term": "상품 작물",
+          "definition": "자가 소비가 아니라 시장에 내다 팔아 이익을 얻을 목적으로 재배하는 작물 (인삼, 담배, 목화, 고추 등)"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🌿 \"인삼, 담배, 목화, 고추를 심어 시장에 팔아 큰돈을 번다!\"",
+          "next": "3",
+          "correct": true,
+          "sound": "victory"
+        },
+        {
+          "text": "🍂 \"아무도 사지 않는 마른 잡초를 대량으로 심는다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "❄️ \"밭에 소금만 뿌려둔다.\"",
+          "next": "2-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "economy-farm",
+        "type": "info",
+        "infoText": "상품 작물의 활성화로 농촌과 도시 간의 상업 교류가 폭발적으로 증가했습니다.",
+        "instruction": "🌿 <b>상품 작물 재배와 화폐 유통 확인</b>",
+        "feedback": "인삼과 담배의 시장 가치를 확인하세요!"
+      }
+    },
+    "2-1": {
+      "location": "팔리지 않는 작물",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "시장성 분석 실패",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 상업적 이익 부재]</b><br>잡초나 소금은 상품이 될 수 없습니다! 농민들은 <b>인삼, 담배, 채소 등 시장에서 인기 있는 상품 작물</b>을 길러 농가 소득을 크게 높였습니다.",
+      "choices": [
+        {
+          "text": "🔄 인삼과 담배 등 상품 작물을 재배한다.",
+          "next": "2",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "economy-farm",
+        "type": "info",
+        "infoText": "상품 작물은 조선 후기 시장 경제 발전을 이끌었습니다.",
+        "instruction": "🌿 <b>상품 작물을 다시 선택하세요!</b>",
+        "feedback": "상업 농업을 시작하세요!"
+      }
+    },
+    "3": {
+      "location": "송파 5일장 장터",
+      "badge": "🪙 상평통보와 5일장",
+      "character": {
+        "name": "보부상 대행수",
+        "subtitle": "전국 장시를 잇는 상인",
+        "avatar": "🎒"
+      },
+      "narrative": "<b>전국 1000여 곳에 5일마다 서는 '장시(5일장)'가 열리고 있습니다!</b><br><br>무거운 쌀이나 베 대신 전국 어디서나 간편하게 물건을 사고팔 수 있는 조선의 엽전 화폐는?",
+      "glossary": [
+        {
+          "term": "상평통보",
+          "definition": "조선 숙종 때 전국적으로 널리 쓰이게 된 동전 화폐 (엽전)"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🪙 \"조선 숙종 때 널리 쓰인 전국 화폐 '상평통보(엽전)'로 거래한다!\"",
+          "next": "4",
+          "correct": true,
+          "sound": "cannon"
+        },
+        {
+          "text": "🌾 \"수백 가마니의 무거운 쌀을 지고 다니며 물물교환만 한다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        },
+        {
+          "text": "🐚 \"원시 시대 조개껍데기를 돈이라고 내민다.\"",
+          "next": "3-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "economy-market",
+        "type": "gauge",
+        "gaugeLabel": "상평통보 유통량:",
+        "instruction": "🪙 <b>화면을 터치하여 장시에서 상평통보를 유통하세요!</b>",
+        "feedback": "화면을 터치해 장시를 활성화하세요!"
+      }
+    },
+    "3-1": {
+      "location": "불편한 물물교환",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "화폐 경제 몰이해",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 상거래 위축]</b><br>무거운 쌀이나 조개껍데기는 전국 상거래에 쓸 수 없습니다! <b>상평통보의 유통</b> 덕분에 상업이 비약적으로 발전하고 대상인(만상, 송상)이 탄생했습니다.",
+      "choices": [
+        {
+          "text": "🔄 상평통보를 사용하여 거래한다.",
+          "next": "3",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "economy-market",
+        "type": "gauge",
+        "gaugeLabel": "상평통보 유통량:",
+        "instruction": "🪙 <b>다시 상평통보를 유통해 보세요!</b>",
+        "feedback": "화폐 경제를 꽃피우세요!"
+      }
+    },
+    "4": {
+      "location": "번영하는 한양 시전과 장시",
+      "badge": "👑 MISSION ACCOMPLISHED",
+      "character": {
+        "name": "보부상 대행수",
+        "subtitle": "상업의 번영",
+        "avatar": "🎒"
+      },
+      "narrative": "<b>\"모내기법과 상평통보로 조선 후기 상업과 서민 문화가 찬란히 꽃피었다!\"</b><br><br>보부상과 객주, 여각이 활약하며 활기를 띤 5일장은 오늘날 전통시장의 소중한 뿌리가 되었습니다!",
+      "choices": [
+        {
+          "text": "🎉 상평통보 엽전을 도감에 등록하고 완료합니다!",
+          "next": "end",
+          "correct": true,
+          "sound": "victory"
+        }
+      ],
+      "simulator": {
+        "mode": "economy-market",
+        "type": "info",
+        "infoText": "조선 후기 상업 발전은 서민 문화(판소리, 탈춤, 풍속화) 발전의 토대가 되었습니다.",
+        "instruction": "🏆 <b>조선 후기 경제 미션 대성공!</b>",
+        "feedback": "국보 도감에서 상평통보를 확인하세요!"
+      }
+    }
+  },
+  "rewards": [
+    {
+      "artifactId": "art_13",
+      "name": "상평통보 엽전"
+    }
+  ]
+}
