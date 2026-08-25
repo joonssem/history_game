@@ -77,7 +77,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "강화도 조약으로 부산, 원산, 인천 3개 항구가 차례로 열리며 조선은 세계 무대로 내던져졌습니다.",
         "instruction": "📜 <b>불평등 조약의 실체를 파악하세요</b>",
@@ -133,7 +133,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "제중원은 신분 차별 없이 가난한 백성까지 평등하게 치료한 사랑과 의술의 공간이었습니다.",
         "instruction": "🏥 <b>근대식 의술과 통신을 보급하세요</b>",
@@ -189,7 +189,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "전차는 신분 차별 없이 누구나 나란히 앉아 타던 평등한 근대 대중교통이었습니다.",
         "instruction": "🚋 <b>한양 전차에 올라타 근대의 거리를 달려보세요</b>",

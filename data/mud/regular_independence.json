@@ -82,7 +82,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-fire",
+        "mode": "text-reading",
         "type": "gauge",
         "gaugeLabel": "만세 함성 확산도:",
         "instruction": "🇰🇷 <b>화면을 연속 터치하여 독립 만세의 함성을 드높이세요!</b>",
@@ -138,7 +138,7 @@
         }
       ],
       "simulator": {
-        "mode": "precise-taegeukgi",
+        "mode": "battle-gauge",
         "type": "info",
         "infoText": "유관순 열사의 아우내 장터 만세 운동은 3·1 운동의 대표적인 상징입니다.",
         "instruction": "🇰🇷 <b>아우내 장터에 태극기를 드높이세요</b>",
@@ -194,7 +194,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "대한민국 임시정부는 삼권분립과 민주공화제를 채택한 최초의 근대 정부였습니다.",
         "instruction": "🏛️ <b>민주공화국 대한민국의 헌장을 선포하세요</b>",

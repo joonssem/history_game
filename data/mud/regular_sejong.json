@@ -82,7 +82,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-fire",
+        "mode": "text-reading",
         "type": "gauge",
         "gaugeLabel": "훈민정음 창제도:",
         "instruction": "📖 <b>자음과 모음의 원리를 터치하여 훈민정음을 완성하세요!</b>",
@@ -143,7 +143,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "칠정산은 서울(한양)을 기준으로 한 최초의 달력으로 우리 천문학의 황금기를 열었습니다.",
         "instruction": "🌌 <b>한양 기준의 천문 역법을 확립하세요</b>",
@@ -208,7 +208,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "앙부일구는 백성들이 자유롭게 드나드는 종로 거리에 설치된 조선의 공공 시계였습니다.",
         "instruction": "☀️ <b>백성을 위한 앙부일구를 설치하세요</b>",

@@ -76,7 +76,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "battle-gauge",
         "type": "info",
         "infoText": "을사의병은 신분제를 뛰어넘어 평민과 해산 군인까지 합류한 범국민적 항일 구국 투쟁이었습니다.",
         "instruction": "🐯 <b>태백산맥에서 조국을 지키는 의병을 이끄세요</b>",
@@ -188,7 +188,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "battle-gauge",
         "type": "info",
         "infoText": "안중근 의사의 하얼빈 의거는 전 세계에 한국인의 독립 의지를 강렬하게 각인시킨 횃불이었습니다.",
         "instruction": "🎯 <b>정의의 총성으로 침략의 원흉을 단죄하세요</b>",

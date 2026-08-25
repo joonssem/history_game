@@ -56,8 +56,8 @@ const MudSimulators = {
         engine.voteState.voteInserted = true;
         if (window.sounds) window.sounds.playFanfare();
       }
-    } else if (simMode === 'paleo-fire' || simMode === 'neolithic-pottery' || simMode.startsWith('economy')) {
-      engine.gaugeProgress = Math.min(100, engine.gaugeProgress + 25);
+    } else if (simMode === 'paleo-fire' || simMode === 'neolithic-pottery' || simMode.startsWith('economy') || simMode.startsWith('battle-gauge') || simMode.startsWith('culture-touch') || simMode.startsWith('text-reading')) {
+      engine.gaugeProgress = Math.min(100, (engine.gaugeProgress || 0) + 25);
       const gp = document.getElementById('gauge-progress');
       if (gp) gp.textContent = `${engine.gaugeProgress}%`;
       const gb = document.getElementById('gauge-bar');
@@ -221,6 +221,60 @@ const MudSimulators = {
       ctx.font = 'bold 13px "Pretendard"';
       ctx.textAlign = 'center';
       ctx.fillText("고려 과거 합격 홍패 & 손변 재판", w/2, h/2);
+    } else if (simMode.startsWith('text-reading')) {
+      // 📜 역사 기록 & 사료 두루마리 모드
+      ctx.fillStyle = '#1c1917';
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#FEF3C7';
+      ctx.fillRect(w/2 - 70, h/2 - 45, 140, 90);
+      ctx.strokeStyle = '#D97706';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(w/2 - 70, h/2 - 45, 140, 90);
+      ctx.fillStyle = '#92400E';
+      ctx.font = 'bold 12px "Pretendard"';
+      ctx.textAlign = 'center';
+      ctx.fillText("📜 史料 & 記録 (사료 탐구)", w/2, h/2 - 15);
+      ctx.fillStyle = '#B45309';
+      ctx.font = '10px "Pretendard"';
+      ctx.fillText("진본 역사 기록을 탐구합니다", w/2, h/2 + 8);
+      ctx.fillStyle = '#DC2626';
+      ctx.fillText("【 대한국새 / 옥새 직인 】", w/2, h/2 + 28);
+    } else if (simMode.startsWith('battle-gauge')) {
+      // ⚔️ 구국 결전 & 방어선 게이지 모드
+      ctx.fillStyle = '#18181b';
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#DC2626';
+      ctx.beginPath();
+      ctx.arc(w/2, h/2, 45, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#FBBF24';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 13px "Pretendard"';
+      ctx.textAlign = 'center';
+      ctx.fillText("⚔️ 호국 결전 🛡️", w/2, h/2 + 5);
+      ctx.fillStyle = '#FCD34D';
+      ctx.font = '10px "Pretendard"';
+      ctx.fillText("화면을 터치하여 승기를 잡으세요!", w/2, h - 15);
+    } else if (simMode.startsWith('culture-touch')) {
+      // ✨ 문화 예술 & 생활 유물 체험 모드
+      ctx.fillStyle = '#064e3b';
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#10B981';
+      ctx.beginPath();
+      ctx.arc(w/2, h/2 - 10, 40, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#34D399';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 13px "Pretendard"';
+      ctx.textAlign = 'center';
+      ctx.fillText("✨ 찬란한 민족 문화 🏺", w/2, h/2 - 5);
+      ctx.fillStyle = '#A7F3D0';
+      ctx.font = '10px "Pretendard"';
+      ctx.fillText("신명 나는 터치로 흥과 문화를 피워내세요!", w/2, h - 15);
     }
   },
 

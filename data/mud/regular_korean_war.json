@@ -78,7 +78,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "피난 수도 부산에는 천막 교실과 판자촌이 들어서며 폐허 속에서도 배움과 희망을 놓지 않았습니다.",
         "instruction": "🎒 <b>피난길의 생명과 연대를 지키세요</b>",
@@ -134,7 +134,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-stone",
+        "mode": "battle-gauge",
         "type": "gauge",
         "gaugeLabel": "다부동 고지 사수율:",
         "instruction": "🪖 <b>화면을 터치하여 다부동 고지의 탄약과 방어선을 사수하세요!</b>",

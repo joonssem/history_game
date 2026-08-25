@@ -85,6 +85,10 @@ function renderCurriculum(unitId) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_three_kingdoms')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> ⚔️ 삼국 한강 쟁탈전 MUD</button>`;
       } else if (num === 9 || num === 10 || (title.includes('생활 모습') && unitId === 1 && (num === 9 || num === 10 || display.includes('9~10차시')))) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_three_kingdoms_life')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🎨 고분 벽화 탐정 MUD</button>`;
+      } else if (unitId === 1 && (num === 11 || title.includes('통일신라'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_silla')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-gem"></i> 🏛️ 통일신라와 불국사 MUD</button>`;
+      } else if (unitId === 1 && (num === 12 || title.includes('발해'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_balhae')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-feather-alt"></i> 🦅 해동성국 발해 MUD</button>`;
       } else if (num === 13 || title.includes('고려의 건국') || title.includes('후삼국 통일')) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_goryeo_founding')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 👑 왕건의 고려 건국 MUD</button>`;
       } else if (num === 14 || title.includes('고려의 생활') || title.includes('고려 사회')) {
@@ -99,6 +103,10 @@ function renderCurriculum(unitId) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_joseon_founding')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🏛️ 한양 도읍 설계 MUD</button>`;
       } else if (unitId === 2 && (num === 4 || num === 5 || num === 24 || num === 25 || title.includes('세종') || title.includes('과학') || title.includes('유교 질서') || display.includes('4~5차시'))) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_sejong')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 👑 세종대왕 과학 발전 MUD</button>`;
+      } else if (unitId === 2 && (num === 6 || title.includes('신분') || title.includes('발전에 따른 생활 모습'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_joseon_status')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-id-card"></i> 📜 조선 4대 신분제 MUD</button>`;
+      } else if (unitId === 2 && (num === 7 || title.includes('주변 나라들의 관계') || title.includes('사대교린') || title.includes('병자호란'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_joseon_diplomacy')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-mountain"></i> ⚔️ 사대교린과 남한산성 MUD</button>`;
       } else if (num === 27 || title.includes('명량') || title.includes('임진왜란과 수군')) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_myeongnyang')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-ship"></i> ⚔️ 명량해전 MUD 플레이</button>`;
       } else if (unitId === 2 && (num === 8 || num === 9 || num === 28 || title.includes('조선 후기 경제') || title.includes('모내기') || title.includes('경제적 변화'))) {
@@ -113,12 +121,18 @@ function renderCurriculum(unitId) {
       // 3단원 MUD 매핑
       else if (unitId === 3 && (num === 2 || title.includes('나라를 지키려는') || title.includes('의병') || title.includes('안중근'))) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_independence_army')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-crosshairs"></i> 🇰🇷 안중근과 항일 의병 MUD</button>`;
+      } else if (unitId === 3 && (num === 3 || title.includes('고통과 저항') || title.includes('무단 통치') || title.includes('토지 조사'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_japanese_rule_1')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-balance-scale"></i> ⛓️ 1910년대 무단 통치 MUD</button>`;
       } else if (unitId === 3 && (num === 4 || num === 5 || num === 38 || num === 39 || title.includes('3·1') || title.includes('임시 정부') || title.includes('민족 운동') || display.includes('4차시') || display.includes('5차시'))) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_independence')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🇰🇷 3·1 운동과 임시정부 MUD</button>`;
+      } else if (unitId === 3 && (num === 6 || num === 7 || title.includes('식민 통치 시기 달라진') || title.includes('말살') || title.includes('조선어학회') || display.includes('6~7차시'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_japanese_rule_2')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-spell-check"></i> 📚 민족 말살과 한글 수호 MUD</button>`;
       } else if (unitId === 3 && (num === 8 || num === 9 || num === 42 || num === 43 || title.includes('8·15 광복') || title.includes('정부 수립') || display.includes('8~9차시'))) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_gwangbok')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🕊️ 8·15 광복과 정부 수립 MUD</button>`;
-      } else if (unitId === 3 && (num === 10 || num === 11 || num === 12 || num === 44 || num === 45 || num === 46 || title.includes('6·25') || title.includes('전쟁') || display.includes('10~11차시') || display.includes('12차시'))) {
+      } else if (unitId === 3 && (num === 10 || num === 11 || num === 44 || num === 45 || (title.includes('6·25') && !title.includes('이후')) || display.includes('10~11차시'))) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_korean_war')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🪖 6·25 전쟁과 조국 수호 MUD</button>`;
+      } else if (unitId === 3 && (num === 12 || num === 46 || title.includes('전쟁 이후') || title.includes('피난민') || display.includes('12차시'))) {
+        btnHtml = `<button onclick="MudEngine.openMUD('regular_post_war')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-hand-holding-heart"></i> 🕊️ 전후 피난민과 재건 MUD</button>`;
       }
       // 골든벨 퀴즈
       else if (num === 20 || num === 34 || num === 48 || title.includes('정리') || title.includes('골든벨')) {
