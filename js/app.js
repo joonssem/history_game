@@ -174,6 +174,24 @@ function renderCurriculum(unitId) {
         `;
       }
 
+      // 2단원 조선 시대 심화 배너 (조선 후기/실학 완료 시점)
+      if (unitId === 2 && (section.sectionTitle.includes('조선') || section.sectionTitle.includes('사회') || section.sectionTitle.includes('문화') || section.sectionTitle.includes('새로운') || section.sectionTitle.includes('발전'))) {
+        html += `
+          <div style="margin-top: 15px; background: linear-gradient(135deg, #0F2027, #203A43, #2C5364); border-radius: 12px; padding: 18px 20px; color: #FFFFFF; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 2px solid #4CA1AF;">
+            <div style="flex: 1; min-width: 260px;">
+              <div style="display: inline-block; background: #00ADB5; color: #FFFFFF; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; margin-bottom: 6px;">
+                👑 2단원 조선 시대 심화 Deep-dive MUD (30분+ 롤플레이)
+              </div>
+              <h3 style="font-size: 1.15rem; font-weight: 700; margin: 0 0 4px; color: #FFFFFF;">조선 500년의 붓: 사관의 기록과 실학의 꿈</h3>
+              <p style="font-size: 0.85rem; color: #ECEFF1; margin: 0;">정도전의 한양 설계부터 훈민정음, 임진왜란의 위기, 수원 화성과 실학까지! 역사를 기록하고 이끄는 사관이 되세요.</p>
+            </div>
+            <button onclick="MudEngine.openMUD('deep_joseon')" class="btn" style="width: auto; background: #00ADB5; color: #FFFFFF; font-weight: 800; padding: 12px 20px; font-size: 0.95rem; border: none; cursor: pointer;">
+              <i class="fas fa-scroll"></i> 조선 심화 플레이 ➔
+            </button>
+          </div>
+        `;
+      }
+
       html += `
       </div>
     `;
