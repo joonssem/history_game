@@ -205,6 +205,25 @@
       "themeColor": "#4E342E",
       "accentColor": "#8D6E63",
       "file": "deep_prehistoric.json"
+    },
+    {
+      "mudId": "deep_three_kingdoms",
+      "tier": "deep-dive",
+      "unitId": 1,
+      "lessonNumbers": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "title": "삼국 통일의 대서사시: 화랑의 맹세와 발해의 건국",
+      "subtitle": "삼국·남북국 심화 MUD",
+      "storyId": "story_deep_three_kingdoms",
+      "themeColor": "#2C3E50",
+      "accentColor": "#E74C3C",
+      "file": "deep_three_kingdoms.json"
     }
   ]
 }

@@ -150,7 +150,25 @@ function renderCurriculum(unitId) {
               <p style="font-size: 0.85rem; color: #D7CCC8; margin: 0;">청동기 군장에서 고조선의 왕으로! 다층 분기와 다중 엔딩의 역사적 대서사시를 체험하세요.</p>
             </div>
             <button onclick="MudEngine.openMUD('deep_prehistoric')" class="btn" style="width: auto; background: #FFC107; color: #212121; font-weight: 800; padding: 12px 20px; font-size: 0.95rem; border: none; cursor: pointer;">
-              <i class="fas fa-crown"></i> 심화 결단 플레이 ➔
+              <i class="fas fa-crown"></i> 선사 심화 플레이 ➔
+            </button>
+          </div>
+        `;
+      }
+
+      // 1단원 삼국 통일 & 발해 심화 배너 (7~12차시 완료 시점)
+      if (unitId === 1 && (section.sectionTitle.includes('통일') || section.sectionTitle.includes('삼국') || section.sectionTitle.includes('발해') || section.sectionTitle.includes('남북국'))) {
+        html += `
+          <div style="margin-top: 15px; background: linear-gradient(135deg, #1A252F, #2C3E50); border-radius: 12px; padding: 18px 20px; color: #FFFFFF; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 2px solid #5D6D7E;">
+            <div style="flex: 1; min-width: 260px;">
+              <div style="display: inline-block; background: #E74C3C; color: #FFFFFF; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; margin-bottom: 6px;">
+                👑 1단원 삼국 통일·남북국 심화 Deep-dive MUD (30분+ 롤플레이)
+              </div>
+              <h3 style="font-size: 1.15rem; font-weight: 700; margin: 0 0 4px; color: #FFFFFF;">삼국 통일의 대서사시: 화랑의 맹세와 발해의 건국</h3>
+              <p style="font-size: 0.85rem; color: #BDC3C7; margin: 0;">황산벌에서 매소성·기벌포 해전, 그리고 대조영의 발해 건국까지! 삼국의 운명을 건 대결단을 내리세요.</p>
+            </div>
+            <button onclick="MudEngine.openMUD('deep_three_kingdoms')" class="btn" style="width: auto; background: #E74C3C; color: #FFFFFF; font-weight: 800; padding: 12px 20px; font-size: 0.95rem; border: none; cursor: pointer;">
+              <i class="fas fa-horse-head"></i> 삼국 심화 플레이 ➔
             </button>
           </div>
         `;
