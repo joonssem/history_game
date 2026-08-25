@@ -1,144 +1,344 @@
-﻿# 📚 프로젝트 컨텍스트 (project_context.md)
+﻿# PROJECT_CONTEXT.md
 
-> **작성일**: 2026-08-25  
-> **버전**: v3.2 (Hotfix: 시뮬레이터 전수 정상화)  
-> **라이브 주소**: https://joonssem.github.io/history_game/
+> **작성일**: 2026-08-25 | **버전**: v3.2 | **인수자**: OpenAI Codex
+> **라이브 URL**: https://joonssem.github.io/history_game/
 
----
-
-## 🎯 프로젝트 목적
-
-초등학교 5학년 2학기 사회(역사) 48개 차시 교육과정 전체를 커버하는 **인터랙티브 텍스트 MUD 교육 포털**. 학생들이 역사적 결정의 순간에 직접 개입해 선택의 결과를 체험하며 역사적 사고력을 키우는 블렌디드 러닝 환경.
+이 문서는 새 개발자가 프로젝트를 빠르게 파악하고 작업을 이어갈 수 있도록 작성한 인수인계 문서다.
+코드로 확인할 수 없는 내용은 `확인 필요`로 표시했다.
 
 ---
 
-## 🏗️ 현재 시스템 구조
+## 1. 프로젝트 목적
 
-### MUD 시나리오 구성 (data/mud/)
-- **Regular MUD (1계층)**: 28종 — 각 본문 차시당 10~15분 복습형 어드벤처
-- **Deep-dive MUD (2계층)**: 4종 — 대단원 종합 통사 롤플레이 (30분+, 3대 멀티 엔딩)
-- **총 JSON 파일**: 33개 (index 포함), 전수 스키마 검증 통과
+### 무엇을 위한 것인가
 
-### Regular MUD 28종 전체 목록
+초등학교 5학년 2학기 사회(역사) 교과서 48개 차시를 100% 커버하는
+**인터랙티브 텍스트 MUD(Multi-User Dungeon) 교육 포털**이다.
+단순 암기 대신, 학생이 역사적 결단의 순간에 직접 개입해 선택의 결과를 체험한다.
 
-**1단원 (옛 사람들의 삶과 문화)**
-| mudId | 차시 | 제목 |
-|---|---|---|
-| regular_paleolithic | 2차시 | 구석기 생존기: 전곡리의 만능 주먹도끼 |
-| regular_neolithic | 3차시 | 신석기 생존기: 암사동의 뾰족 그릇과 정착 |
-| regular_bronze_age | 4~5차시 | 청동기 고인돌 거석 축조 시뮬레이터 |
-| regular_gojoseon | 6차시 | 고조선 8조법: 단군왕검의 법정 |
-| regular_three_kingdoms | 7~8차시 | 삼국의 전성기 한강 쟁탈전 |
-| regular_three_kingdoms_life | 9~10차시 | 고분 벽화 탐정: 삼국 귀족의 삶과 가야 |
-| regular_silla | 11차시 | 통일신라의 번영과 불국사의 과학 |
-| regular_balhae | 12차시 | 해동성국 발해: 대조영의 건국 |
-| regular_goryeo_founding | 13차시 | 왕건의 고려 건국 |
-| regular_goryeo_society | 14차시 | 고려 사회 탐정: 과거제와 신분 |
-| regular_goryeo_war | 15~16차시 | 서희와 강감찬: 거란 격퇴 |
-| regular_goryeo_culture | 17~18차시 | 팔만대장경과 벽란도 국제 무역 |
+### 주요 사용자
 
-**2단원 (사회의 새로운 변화와 오늘날의 우리)**
-| mudId | 차시 | 제목 |
-|---|---|---|
-| regular_joseon_founding | 2~3차시 | 한양 도읍 설계: 정도전의 4대문 |
-| regular_sejong | 4~5차시 | 세종대왕과 과학 발전: 훈민정음 |
-| regular_joseon_status | 6차시 | 조선의 신분제: 양반·중인·상민·노비 |
-| regular_joseon_diplomacy | 7차시 | 조선 외교와 병자호란: 남한산성 47일 |
-| regular_myeongnyang | 8차시 | 명량대첩: 13척으로 133척을 막아선 기적 |
-| regular_joseon_economy | 9차시 | 조선 후기 보부상과 모내기 대박 |
-| regular_joseon_silhak | 10차시 | 실학자 탐구: 지구의와 동학의 평등 세상 |
-| regular_joseon_folk | 11차시 | 조선 후기 서민 문화: 탈춤과 풍속화 |
-| regular_modern_open | 12차시 | 강화도 조약과 근대 문물: 전차 달리는 한양 |
+- 초등학교 5~6학년 학생 (태블릿·스마트패드 환경)
+- 초등학교 교사 (수업 보조 도구, 과제 제출 연동)
 
-**3단원 (대한민국의 발전과 오늘의 우리)**
-| mudId | 차시 | 제목 |
-|---|---|---|
-| regular_independence_army | 2차시 | 안중근의 하얼빈 의거와 의병 |
-| regular_japanese_rule_1 | 3차시 | 1910년대 무단 통치: 헌병 경찰과 토지 수탈 |
-| regular_independence | 4~5차시 | 3·1 운동과 대한민국 임시정부 |
-| regular_japanese_rule_2 | 6~7차시 | 민족 말살 통치: 조선어학회와 강제 동원 |
-| regular_gwangbok | 8~9차시 | 8·15 광복과 5·10 총선거 |
-| regular_korean_war | 10~11차시 | 6·25 전쟁과 조국 수호 |
-| regular_post_war | 12차시 | 6·25 이후 피난민의 삶과 재건 |
+### 핵심 사용 시나리오
 
-**Deep-dive MUD 4종**
-| mudId | 단원 | 제목 |
-|---|---|---|
-| deep_prehistoric | 1단원 | 선사시대 대서사 (선사 → 삼국 통합 롤플레이) |
-| deep_three_kingdoms | 1단원 | 삼국의 운명을 바꾼 결전 |
-| deep_joseon | 2단원 | 조선 왕조 대서사 |
-| deep_modern | 3단원 | 근현대 격동의 역사 |
+1. 교사가 수업 중 해당 차시 MUD 버튼을 학생 기기에서 실행
+2. 학생이 역사 인물의 시각에서 3지선다 결단을 선택
+3. 정답 선택 → 다음 스테이지, 오답 → IF 스테이지(역사가 틀어지는 상황) → 재시도
+4. MUD 완료 시 유물 도감 자동 언락, 성찰 일기 작성 후 클립보드 복사해 제출
 
 ---
 
-## 🎮 인터랙티브 시뮬레이터 모드 (js/mudSimulators.js)
+## 2. 기술 구조
 
-| 모드명 | 설명 | 사용 사례 |
-|---|---|---|
-| paleo-fire | 불 피우기 연타 게이지 | 구석기 불 피우기 |
-| paleo-stone | 돌 떼어내기 게이지 | 구석기 주먹도끼 제작 |
-| paleo-intro | 동굴 배경 정보화면 | 구석기 자연환경 탐색 |
-| dolmen-step1~4 | 고인돌 4단계 물리 시뮬레이터 | 청동기 거석 운반 |
-| 
-eolithic-pottery | 빗살무늬 토기 빚기 게이지 | 신석기 토기 제작 |
-| 
-eolithic-settle / weave | 신석기 정착 / 직조 | 신석기 생활 |
-| mn-map-idle / choose | 명량 작전 지도 | 전술 결정 |
-| mn-combat-active | 왜선 격파 캔버스 인터랙션 | 명량해전 포격 |
-| mn-current-switch | 조류 역전 슬라이더 | 울돌목 조류 조작 |
-| hanyang-map/gates/bakseok | 한양 도성 정보 | 한양 도읍 설계 |
-| economy-farm/market | 농업/시장 경제 | 조선 후기 경제 |
-| silhak-globe | 지구의 시각화 | 실학자 탐구 |
-| gwangbok-flag | 태극기 정밀 컬러링 | 광복·태극기 |
-| gwangbok-vote / precise-vote | 투표용지 기표 | 5·10 총선거 |
-| precise-taegeukgi | 태극기 렌더링 | 독립 선언 |
-| 	ext-reading | 📜 사료 두루마리 탐구 | 조약·선언·법령 사료 |
-| attle-gauge | ⚔️ 호국 결전 게이지 | 전투·영토·저항 활동 |
-| culture-touch | ✨ 문화 파티클 터치 | 문화재·예술·생활 활동 |
+### 사용 기술
 
----
+- **순수 Vanilla JS (ES6+)** — 프레임워크 없음, 빌드 도구 없음
+- **HTML5 Canvas** — 인터랙티브 시뮬레이터 렌더링
+- **Web Audio API** — 브라우저 내장 효과음 (외부 파일 없음)
+- **localStorage** — 개인별 진행상황 영구 저장
+- **GitHub Pages** — 정적 파일 배포 (CI/CD 자동화)
+- **FontAwesome 6.4.0** (CDN), **Pretendard / SchoolSafetyNotification / MaruBuri** (웹폰트)
 
-## 🧩 핵심 JS 파일 구조
+### 주요 파일과 폴더
+
+```
+history_game/
+├── index.html                          # 진입점. 모든 뷰가 단일 HTML 안에 있음
+├── css/
+│   └── style.css                       # 전체 스타일 (CSS 변수 기반 테마 시스템)
+├── js/
+│   ├── app.js                          # 포털 메인: 커리큘럼 렌더링, 뷰 전환, 퀴즈 허브
+│   ├── mudEngine.js                    # MUD 핵심 엔진: JSON 로드·스테이지 렌더링·회고록
+│   ├── mudSimulators.js                # Canvas 인터랙티브 시뮬레이터 렌더러·이벤트
+│   ├── encyclopedia.js                 # 유물 도감: localStorage 수집·배지·탐험가 레벨
+│   ├── quizGame.js                     # 골든벨 퀴즈 엔진
+│   ├── storyEngine.js                  # 스토리 보조 엔진 (확인 필요: 현재 역할 불명확)
+│   ├── miniGames.js                    # 미니게임 (확인 필요: 현재 활용 범위 불명확)
+│   └── soundEffects.js                 # Web Audio API 효과음 (playClick/playFanfare/playWrong)
+├── data/
+│   ├── history_curriculum_48_lessons.json  # 48차시 커리큘럼 DB (단원·차시·색상·키개념)
+│   ├── artifacts.json                  # 유물 도감 20종 DB (id, name, tier, desc 등)
+│   ├── quizzes.json                    # 골든벨 퀴즈 문항 DB
+│   └── mud/
+│       ├── _index.json                 # 전체 MUD 메타데이터 인덱스 (32종 등록)
+│       ├── regular_*.json (28개)       # 차시별 Regular MUD 시나리오
+│       └── deep_*.json (4개)           # 대단원 Deep-dive MUD (30분+, 3대 멀티엔딩)
+├── README.md                           # 프로젝트 소개
+├── agents.md                           # AI 에이전트 협업 체계 및 작업 원칙
+└── project_context.md                  # 이 파일
+```
+
+### 각 파일의 역할
 
 | 파일 | 역할 |
 |---|---|
-| js/mudEngine.js | MUD 메인 엔진: JSON fetch, 스테이지 렌더링, 선택지 로직, 회고록 |
-| js/mudSimulators.js | 캔버스 인터랙티브 렌더링 및 터치 이벤트 처리 |
-| js/app.js | 커리큘럼 UI 렌더링, 차시별 MUD 버튼 매핑 |
-| js/encyclopedia.js | 유물 도감: localStorage 저장, 수집률, 탐험가 레벨 |
-| js/quizGame.js | 골든벨 퀴즈 허브 |
-| js/storyEngine.js | 스토리 보조 엔진 |
-| js/miniGames.js | 미니게임 |
-| js/soundEffects.js | Web Audio API 기반 효과음 |
+| `index.html` | 단일 페이지. `view-portal`(메인 포털)과 `view-myeongnyang`(MUD 뷰) 두 div를 display 전환으로 사용. 모달 2개(퀴즈, 도감)도 내부에 있음 |
+| `js/app.js` | DOMContentLoaded 시 데이터 로드 및 초기화. `renderCurriculum(unitId)`가 핵심으로, 차시 번호·제목 키워드 조건문으로 각 차시에 맞는 MUD 버튼을 동적 생성 |
+| `js/mudEngine.js` | `window.MudEngine` 전역 객체. `openMUD(mudId)`로 JSON fetch → 상태 초기화 → 뷰 전환 → 첫 스테이지 렌더링. `renderStage(stageId)`로 narrative·choices·simulator 렌더링 |
+| `js/mudSimulators.js` | `window.MudSimulators` 전역 객체. Canvas `mousedown`/`touchstart` 이벤트를 `simMode` 분기로 처리. `drawSim()`이 rAF 루프에서 계속 호출됨 |
+| `js/encyclopedia.js` | `window.encyclopedia`. localStorage 키 `history_explorer_save_v1`. `unlockArtifact(id)`와 `unlockBadge(id)` 호출로 수집 기록 |
+| `js/quizGame.js` | `window.quizGame`. `data/quizzes.json` 로드 후 랜덤 셔플·타이머(15초)·채점 |
+| `js/soundEffects.js` | `window.sounds`. Web Audio API로 생성한 비트 신스 효과음 |
+| `data/mud/_index.json` | 32개 MUD의 메타 정보(mudId, tier, unitId, lessonNumbers, themeColor, file 등). **현재 app.js의 버튼 매핑에는 직접 사용되지 않고** app.js에 하드코딩된 조건으로 MUD를 연결함 |
+
+### 중요한 의존 관계
+
+- **스크립트 로드 순서** (index.html): `soundEffects` → `encyclopedia` → `storyEngine` → `quizGame` → `miniGames` → `mudEngine` → `mudSimulators` → `app.js`
+  - `mudSimulators.js`는 `window.MudEngine`을 직접 참조하므로 `mudEngine.js` 이후 로드 필수
+  - `app.js`는 마지막에 로드되어 나머지 모듈이 전역에 등록된 상태를 전제함
+- **뷰 전환**: `MudEngine.openMUD()` → `view-portal` hide + `view-myeongnyang` show. `showPortalView()` → 반대
+- **유물 언락 흐름**: MUD 클리어 → `renderFinalReflection()` → `encyclopedia.unlockArtifact(r.artifactId)` 순서로 호출
 
 ---
 
-## 🐛 알려진 미해결 이슈
+## 3. 현재 구현된 기능
 
-1. **선택지 
-ext 필드 누락 (95건)**: 최신 Track 1에서 추가된 7종 MUD의 정답/오답 선택지 중 
-ext 필드가 없는 경우가 있어 좌측 화살표(결단 버튼) 클릭 시 이동이 안 되는 버그 존재. → ix_missing_next.py 스크립트로 자동 수정 예정.
-2. **오답 선택지 피드백 연출 일원화 필요**: 오답 선택 후 IF 스테이지로 넘어가는 방식이 MUD마다 일관되지 않음.
+### 완료된 기능
 
----
+- **Regular MUD 28종**: 48개 차시 본문 학습 차시 100% 커버
+- **Deep-dive MUD 4종**: 선사/삼국/조선/근현대 각 대단원 통사 롤플레이, 3대 멀티엔딩(ending_true / ending_normal / ending_bad)
+- **캔버스 인터랙티브 시뮬레이터**: 19종 모드 (고인돌 물리, 명량해전 포격, 태극기 컬러링, 사료 두루마리, 호국 게이지, 문화 파티클 등)
+- **유물 도감 수집 시스템**: 국보·보물 20종, localStorage 영구 저장, 탐험가 레벨
+- **골든벨 퀴즈**: 3개 단원별 퀴즈, 15초 타이머, 점수 기록
+- **성찰 일기**: MUD 완료 후 textarea 작성 → 클립보드 복사 제출
+- **용어 돋보기(Glossary)**: narrative 내 핵심 용어를 tooltip으로 자동 변환
+- **시대별 컬러 테마**: MUD별 themeColor를 CSS 변수(`--current-mud-color`)로 동적 적용
 
-## 📦 데이터 파일 구조
+### 부분적으로 구현된 기능
 
-`
-data/
-├── history_curriculum_48_lessons.json   # 48개 차시 커리큘럼 정의
-├── artifacts.json                       # 국보 유물 도감 20종 DB
-└── mud/
-    ├── _index.json                      # 전체 MUD 메타데이터 인덱스
-    ├── deep_*.json (4개)                # 대단원 Deep-dive MUD
-    └── regular_*.json (28개)            # 차시별 Regular MUD
-`
+- **`storyEngine.js`**: 로드 및 초기화는 되나 현재 실제로 MUD 흐름에 연결되어 있는지 불명확 (확인 필요)
+- **`miniGames.js`**: 초기화되나 포털 UI에 진입 경로가 없음 (확인 필요)
+- **_index.json 활용**: 현재 app.js 버튼 매핑이 _index.json을 읽지 않고 하드코딩 조건문으로 동작. _index.json은 데이터 명세 목적으로만 존재
 
 ---
 
-## 🌐 배포 정보
+## 4. 주요 동작 흐름
 
-- **플랫폼**: GitHub Pages (자동 배포)
-- **저장소**: https://github.com/joonssem/history_game
-- **최신 커밋**: 9822f23 (Hotfix: 시뮬레이터 전수 정상화)
-- **배포 URL**: https://joonssem.github.io/history_game/
+### 기본 흐름: 포털 → MUD 플레이
+
+```
+페이지 로드
+└─ DOMContentLoaded (app.js)
+   ├─ encyclopedia.initArtifacts()       → data/artifacts.json fetch
+   ├─ storyEngine.loadStories()          → (확인 필요)
+   ├─ quizGame.loadQuizzes()             → data/quizzes.json fetch
+   ├─ miniGames.init()                   → (확인 필요)
+   └─ loadCurriculum()                   → data/history_curriculum_48_lessons.json fetch
+      └─ switchUnitTab(1)
+         └─ renderCurriculum(1)          → 차시 카드 + MUD 버튼 동적 생성
+
+학생이 MUD 버튼 클릭
+└─ MudEngine.openMUD('regular_balhae')
+   ├─ fetch('data/mud/regular_balhae.json')
+   ├─ 상태 초기화 (visited, gaugeProgress 등)
+   ├─ setTheme(themeColor)
+   ├─ view-portal hide / view-myeongnyang show
+   ├─ renderRoadmap()                    → 우측 연대기 노드 생성
+   ├─ resizeCanvas()                     → DPR 보정 캔버스 크기 조정
+   ├─ renderStage("1")                   → 첫 스테이지 렌더링
+   └─ startAnimLoop()                    → rAF로 drawSim() 반복 호출
+
+renderStage(stageId)
+├─ stage.badge, location 갱신
+├─ setupSimulator(stage.simulator)       → simMode 설정 + 위젯(gauge/info/slider) 표시
+├─ 캐릭터 카드 표시
+├─ narrative + glossary → innerHTML
+└─ choices 버튼 생성
+   ├─ ch.next === "end" 또는 "ending_*" → renderFinalReflection()
+   └─ 그 외                             → renderStage(ch.next)
+
+renderFinalReflection()
+├─ sounds.playFanfare()
+├─ encyclopedia.unlockArtifact()         → localStorage 저장
+└─ 성찰 일기 UI 표시 (textarea + 복사 버튼)
+```
+
+### 골든벨 퀴즈 흐름
+
+```
+openQuizHub(unitId) → view-quiz-modal display:flex
+└─ startUnitQuiz()
+   └─ quizGame (또는 app.js 내 함수) 로 처리 (확인 필요: 어느 함수가 startUnitQuiz를 구현하는지)
+```
+
+---
+
+## 5. 중요한 설계 결정
+
+### 단일 HTML, 뷰 전환 방식
+
+모든 뷰(`view-portal`, `view-myeongnyang`, 모달 2개)가 하나의 `index.html`에 존재한다.
+뷰 전환은 `display: none / block` 토글로 처리한다.
+라우터나 SPA 프레임워크를 쓰지 않아 GitHub Pages 정적 배포에 최적화되어 있다.
+
+### MUD 데이터 분리 (JSON 기반)
+
+초기엔 JS 함수 내에 MUD 데이터가 하드코딩되어 있었으나, 유지보수 불가 수준이 되어
+`data/mud/` 디렉토리의 JSON 파일로 완전 분리했다(Phase 1 리팩토링).
+이로 인해 MUD 콘텐츠 수정이 JSON 파일 편집만으로 가능하다.
+
+### app.js 버튼 매핑 방식
+
+차시 번호(`lessonNumber`)와 제목 키워드(`title.includes(...)`) 조건문 체인으로
+각 차시에 `MudEngine.openMUD('mudId')` 버튼을 결정한다.
+`_index.json`을 동적으로 읽어 버튼을 생성하는 방식이 아니므로,
+새 MUD를 추가하면 JSON 파일 생성과 함께 **app.js 조건문에도 직접 추가**해야 한다.
+
+### 시뮬레이터 모드 분기
+
+`mudEngine.js`의 `simMode`를 `mudSimulators.js`의 `drawSim()`과 `handleCanvasTouch()`가
+공유하며 분기 처리한다. 새 시뮬레이터 모드를 추가하려면 두 함수 모두 수정 필요.
+
+### 범용 시뮬레이터 3종
+
+역사별 맞춤 렌더러를 만들기 어려운 MUD에 적용하는 범용 모드:
+- `text-reading`: 사료 두루마리 (터치 → 게이지 상승)
+- `battle-gauge`: 호국 결전 게이지 (터치 → 게이지 상승)
+- `culture-touch`: 문화 파티클 (터치 → 게이지 상승)
+
+이 세 모드는 모두 `handleCanvasTouch`에서 동일한 로직(`gaugeProgress += 25`)으로 처리된다.
+
+---
+
+## 6. 현재 알려진 문제
+
+### 버그
+
+#### [중요] 선택지 `next` 필드 누락 (95건)
+- **증상**: 최신 Track 1 MUD(regular_balhae, regular_goryeo_culture, regular_goryeo_war 등)에서 선택지 클릭 시 다음 스테이지로 이동하지 않음
+- **원인**: 해당 MUD JSON의 choices 배열 항목에 `next` 필드가 없음. `mudEngine.js`의 `renderStage`는 `ch.next`를 그대로 `renderStage(ch.next)`에 전달하므로 `undefined`가 들어가 동작 안 함
+- **영향 파일**: regular_balhae, regular_goryeo_culture, regular_goryeo_war, regular_independence, regular_independence_army, regular_japanese_rule_1, regular_japanese_rule_2, regular_joseon_diplomacy, regular_joseon_folk, regular_joseon_status, regular_korean_war, regular_modern_open, regular_post_war, regular_silla (및 일부 deep MUD 내부 스테이지)
+- **수정 방법**: 정답 choice → `next: "2"` (다음 스테이지 ID), 오답 choice → `next: "1-1"` 형식의 IF 스테이지 또는 동일 스테이지 재시도로 채워야 함
+- **준비된 스크립트**: `scripts/fix_missing_next.py` 자동 수정 스크립트 존재 (단, 자동 생성된 IF 스테이지 내용이 빈약하므로 콘텐츠 보완 필요)
+
+#### 선택지 버튼 외형이 모두 동일함 (UX 문제)
+- **증상**: 모든 choice 버튼이 동일하게 "결단 ➔" 뱃지로 표시되어 정답/오답을 구분할 수 없음
+- **현재 동작**: 의도된 것으로 추정 (역사 탐구의 비결정적 경험)
+- **개선 필요 여부**: 확인 필요
+
+### 미완성 기능
+
+- **`storyEngine.js`**: 초기화는 되나 실제 동작 범위 불명확 (확인 필요)
+- **`miniGames.js`**: 포털 진입점 없음 (확인 필요)
+- **`_index.json` 연동**: 현재 app.js 버튼 매핑이 이 파일을 사용하지 않음
+
+### 임시 구현
+
+- 오답 선택지의 IF 스테이지: 일부 MUD는 IF 스테이지(`1-1`, `2-1` 등)가 잘 구성되어 있으나, 자동 생성된 일부는 "올바른 결단으로 다시 시도한다" 단일 선택지만 있는 최소 구현 상태
+
+### 기술 부채
+
+- `app.js`의 `renderCurriculum()` 내 MUD 버튼 조건문이 140줄 이상의 if-else 체인으로 구성됨. 새 MUD 추가 시 이 체인에 계속 붙여야 하므로 유지보수 어려움
+- `mudSimulators.js`의 `drawSim()`도 유사하게 simMode 분기가 많아 300줄 이상
+
+---
+
+## 7. 다음 작업 후보
+
+### 우선순위 높음 (기능 정상화)
+
+1. **선택지 `next` 필드 95건 수정**
+   - `scripts/fix_missing_next.py` 실행 후 자동 생성된 IF 스테이지 내용 검수
+   - 특히 정답 분기의 next 체인이 올바른지 확인 (1 → 2 → 3 → end 흐름)
+
+2. **선택지 버튼 차별화 (UX 개선)**
+   - 사용자 요청: "오른쪽 화살표의 내용과 모양이 같은 것이 너무 많음"
+   - 아이콘, 색상 또는 힌트 텍스트로 선택지 유형 구분 방안 검토
+
+### 우선순위 보통
+
+3. **app.js 버튼 매핑 리팩토링**
+   - `_index.json`을 활용해 동적으로 버튼을 생성하도록 변경
+   - 현재 하드코딩 조건문 체인 제거
+
+4. **IF 스테이지 콘텐츠 보강**
+   - 자동 생성된 최소 구현 IF 스테이지에 실제 역사적 설명 추가
+
+### 우선순위 낮음 (추후 확장)
+
+5. **유물 도감 MUD 연동 확대**: 현재 일부 Regular MUD의 rewards 필드가 비어 있음
+6. **storyEngine / miniGames 역할 정리**: 불필요하면 제거, 필요하면 UI 진입점 추가
+
+---
+
+## 8. 실행 및 테스트 방법
+
+### 로컬 실행
+
+```bash
+# Python 내장 서버 (권장)
+python -m http.server 8000
+# 브라우저에서 http://localhost:8000 접속
+
+# 또는 Node.js
+npx serve .
+```
+
+> **주의**: `fetch()`를 사용하므로 파일을 직접 열면(`file://`) CORS 오류 발생.
+> 반드시 로컬 서버를 통해 접근해야 한다.
+
+### 주요 기능 확인 체크리스트
+
+- [ ] 포털 메인 로드 → 3개 단원 탭 전환 정상 동작
+- [ ] 각 단원에서 MUD 버튼 클릭 → MUD 뷰 전환 및 첫 스테이지 렌더링
+- [ ] 선택지 클릭 → 다음 스테이지 이동 (next 필드 있는 MUD만 정상)
+- [ ] MUD 완료 → 유물 도감 언락 및 성찰 일기 UI 표시
+- [ ] 골든벨 Quiz 버튼 → 퀴즈 모달 오픈 및 타이머 동작
+- [ ] 나의 도감 버튼 → 도감 모달 오픈 및 수집률 표시
+- [ ] 페이지 새로고침 후 도감 수집 상태 유지 (localStorage)
+
+### JSON 무결성 검증
+
+```bash
+python scripts/validate_all_json.py
+```
+
+### JS 문법 검사
+
+```bash
+node -c js/app.js
+node -c js/mudEngine.js
+node -c js/mudSimulators.js
+```
+
+---
+
+## 9. 주의 사항
+
+### 깨뜨리기 쉬운 부분
+
+**1. 스크립트 로드 순서 (index.html)**
+`mudSimulators.js`가 `window.MudEngine`을 직접 참조한다.
+`mudEngine.js`보다 먼저 로드되면 `window.MudEngine`이 undefined라 `init()` 실패.
+순서: `mudEngine.js` → `mudSimulators.js` → `app.js` 반드시 유지.
+
+**2. MUD 추가 시 app.js 조건문도 수정 필요**
+JSON 파일만 추가해서는 포털에 버튼이 생기지 않는다.
+`renderCurriculum()` 내 조건문 체인에 새 분기를 추가해야 한다.
+
+**3. MUD JSON 스키마 필수 필드**
+`stages` 객체의 키는 문자열 숫자여야 한다(`"1"`, `"2"`, `"1-1"` 등).
+`choices` 배열의 각 항목에 `next` 필드가 없으면 클릭 시 이동 불가.
+`simulator.type`이 `gauge`여야 `widget-gauge`가 표시된다.
+
+**4. Canvas DPR 보정**
+`resizeCanvas()`가 `devicePixelRatio`로 캔버스를 확대한다.
+시뮬레이터 드로잉 코드에서 좌표 계산 시 `canvas.width / window.devicePixelRatio`로
+실제 CSS 픽셀 단위로 변환해야 올바르게 렌더링된다.
+
+**5. localStorage 키 변경 금지**
+`encyclopedia.js`의 `storageKey = 'history_explorer_save_v1'`를 바꾸면
+기존 사용자의 수집 데이터가 전부 초기화된다.
+
+**6. 뷰 ID 변경 금지**
+`view-portal`, `view-myeongnyang`은 `app.js`의 `showPortalView()`와
+`mudEngine.js`의 `openMUD()`에서 직접 getElementById로 참조한다.
+이 ID를 바꾸면 뷰 전환이 전부 망가진다.
+
+**7. 캔버스 애니메이션 루프**
+`startAnimLoop()`은 `view-myeongnyang`이 visible인 동안 계속 rAF를 돌린다.
+`showPortalView()`로 뷰가 숨겨지면 루프가 자동 중단된다.
+새 MUD를 열 때 `openMUD()`에서 `startAnimLoop()`가 다시 호출되므로
+중복 루프에 주의 (현재 `cancelAnimationFrame(this.animFrameId)`로 보호되어 있음).
