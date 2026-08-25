@@ -152,7 +152,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "3·1 운동은 우리 민족이 군주국에서 '민주공화국'으로 나아가는 결정적 출발점이었습니다.",
         "instruction": "🇰🇷 <b>자주독립의 함성을 다시 외치세요</b>",
@@ -218,7 +218,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "한국광복군은 대한민국 국군의 뿌리이자 민족의 자존심입니다.",
         "instruction": "🎖️ <b>자주 무장 투쟁으로 나아가세요</b>",
@@ -284,7 +284,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "6·25 전쟁의 참화는 우리에게 평화와 안보의 소중함을 일깨워 줍니다.",
         "instruction": "🛡️ <b>자유와 평화를 지켜내세요</b>",
@@ -350,7 +350,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "민주주의는 침묵하지 않는 시민들의 용기로 지켜집니다.",
         "instruction": "🗳️ <b>시민의 주권을 다시 세우세요</b>",
@@ -416,7 +416,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "대한민국은 국민의 힘으로 독재를 끝내고 민주화를 이룬 자랑스러운 역사를 가졌습니다.",
         "instruction": "🕊️ <b>민주주의의 승리를 향해 나아가세요</b>",
@@ -457,7 +457,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "오늘날 대한민국의 번영은 공장에서 땀 흘린 모든 산업 역군과 노동자들의 헌신 덕분입니다.",
         "instruction": "🤝 <b>성장과 인권의 조화로운 번영을 선택하세요</b>",
@@ -482,7 +482,7 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "전태일 열사의 외침은 한국 사회의 노동 인권을 깨운 소중한 불꽃이었습니다.",
         "instruction": "🤝 <b>따뜻한 공동체를 세우세요</b>",

@@ -92,7 +92,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-intro",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "구석기 사람들은 한탄강변 바위 그늘과 막집을 지으며 이동 생활을 했습니다.",
         "instruction": "🏕️ <b>70만 년 전 한탄강 구석기 자연환경 탐색</b>",
@@ -117,7 +117,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-intro",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "구석기인들은 자연 동굴이나 바위 그늘에서 생활했습니다.",
         "instruction": "🏕️ <b>안전한 보금자리를 다시 찾아보세요</b>",
@@ -272,7 +272,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-intro",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "연천 전곡리 주먹도끼는 동아시아 최초로 발견된 아슐리안형 주먹도끼입니다.",
         "instruction": "🏆 <b>구석기 생존 미션 대성공!</b>",

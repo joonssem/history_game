@@ -214,13 +214,7 @@ const MudSimulators = {
       ctx.font = '11px "Pretendard"';
       ctx.textAlign = 'center';
       ctx.fillText("암사동 빗살무늬 뾰족 토기", w/2, h - 15);
-    } else if (simMode.startsWith('goryeo') || simMode.startsWith('society')) {
-      ctx.fillStyle = '#0f291e';
-      ctx.fillRect(0, 0, w, h);
-      ctx.fillStyle = '#3A7D69';
-      ctx.font = 'bold 13px "Pretendard"';
-      ctx.textAlign = 'center';
-      ctx.fillText("고려 과거 합격 홍패 & 손변 재판", w/2, h/2);
+
     } else if (simMode.startsWith('text-reading')) {
       // 📜 역사 기록 & 사료 두루마리 모드
       ctx.fillStyle = '#1c1917';

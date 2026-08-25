@@ -83,7 +83,7 @@
         }
       ],
       "simulator": {
-        "mode": "hanyang-map",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "조선은 유교 이념에 따라 4대문(흥인지문, 돈의문, 숭례문, 숙정문)과 경복궁을 설계했습니다.",
         "instruction": "🏛️ <b>한양 도성과 4대문 유교 덕목 배치</b>",
@@ -108,7 +108,7 @@
         }
       ],
       "simulator": {
-        "mode": "hanyang-map",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "한양은 한반도의 정중앙에 위치한 명당이었습니다.",
         "instruction": "🏛️ <b>한양 도읍을 다시 선택하세요!</b>",
@@ -155,7 +155,7 @@
         }
       ],
       "simulator": {
-        "mode": "hanyang-gates",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "흥인지문, 돈의문, 숭례문, 숙정문은 인의예지의 유교 덕목을 담고 있습니다.",
         "instruction": "🏛️ <b>4대문 이름과 유교 덕목 확인</b>",
@@ -180,7 +180,7 @@
         }
       ],
       "simulator": {
-        "mode": "hanyang-gates",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "유교 덕목은 조선 왕조 500년의 도덕적 기초였습니다.",
         "instruction": "🏛️ <b>성문 이름을 다시 명명하세요!</b>",
@@ -223,7 +223,7 @@
         }
       ],
       "simulator": {
-        "mode": "hanyang-bakseok",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "근정전 박석은 거친 질감으로 눈부심과 미끄러짐을 방지하는 조상의 지혜입니다.",
         "instruction": "🪨 <b>근정전 앞마당 박석 깔기</b>",
@@ -248,7 +248,7 @@
         }
       ],
       "simulator": {
-        "mode": "hanyang-bakseok",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "박석은 빗물이 자연스럽게 배수되는 틈새 역할도 했습니다.",
         "instruction": "🪨 <b>박석을 다시 깔아보세요!</b>",
@@ -273,7 +273,7 @@
         }
       ],
       "simulator": {
-        "mode": "hanyang-map",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "한양은 자연과 인간, 유교 이념이 조화를 이룬 계획도시였습니다.",
         "instruction": "🏆 <b>한양 도읍 설계 미션 대성공!</b>",

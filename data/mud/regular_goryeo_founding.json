@@ -88,7 +88,7 @@
         }
       ],
       "simulator": {
-        "mode": "goryeo-map",
+        "mode": "battle-gauge",
         "type": "info",
         "infoText": "왕건은 호족 세력을 포용하고 고구려 계승 의식을 분명히 하여 고려를 건국했습니다.",
         "instruction": "🗺️ <b>후삼국 분열과 고려 건국 지도 확인</b>",
@@ -113,7 +113,7 @@
         }
       ],
       "simulator": {
-        "mode": "goryeo-map",
+        "mode": "battle-gauge",
         "type": "info",
         "infoText": "왕건은 신라와 후백제 백성들의 마음을 모두 얻었습니다.",
         "instruction": "👑 <b>건국 명분을 바로 세우세요!</b>",
@@ -150,7 +150,7 @@
         }
       ],
       "simulator": {
-        "mode": "goryeo-policy",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "발해 유민 포용을 통해 고려는 진정한 의미의 민족 재통일을 완성했습니다.",
         "instruction": "🤝 <b>발해 유민 포용과 북진 정책 확인</b>",
@@ -175,7 +175,7 @@
         }
       ],
       "simulator": {
-        "mode": "goryeo-policy",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "발해 유민의 수용은 고려의 북진 정책에 큰 힘이 되었습니다.",
         "instruction": "🤝 <b>발해 유민을 따뜻하게 맞이하세요!</b>",
@@ -218,7 +218,7 @@
         }
       ],
       "simulator": {
-        "mode": "goryeo-policy",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "훈요 10조는 고려 500년 역사의 든든한 나침반 역할을 하였습니다.",
         "instruction": "📜 <b>태조 왕건의 훈요 10조 조항 확인</b>",
@@ -243,7 +243,7 @@
         }
       ],
       "simulator": {
-        "mode": "goryeo-policy",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "훈요 10조는 고려의 독자적인 정체성을 확립했습니다.",
         "instruction": "📜 <b>훈요 10조를 완성하세요!</b>",
@@ -268,7 +268,7 @@
         }
       ],
       "simulator": {
-        "mode": "goryeo-map",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "고려는 신라의 삼국 통일보다 한층 발전된 진정한 민족 재통일을 이루었습니다.",
         "instruction": "🏆 <b>고려 건국 미션 대성공!</b>",

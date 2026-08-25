@@ -88,7 +88,7 @@
         }
       ],
       "simulator": {
-        "mode": "neolithic-settle",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "신석기인들은 강가나 바닷가에 움집을 짓고 정착하여 농경 생활을 시작했습니다.",
         "instruction": "🏡 <b>암사동 한강변 신석기 마을 탐험</b>",
@@ -113,7 +113,7 @@
         }
       ],
       "simulator": {
-        "mode": "neolithic-settle",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "강가 암사동은 농사와 고기잡이에 최적의 환경이었습니다.",
         "instruction": "🏡 <b>강가로 돌아가 움집을 지으세요!</b>",
@@ -224,7 +224,7 @@
         }
       ],
       "simulator": {
-        "mode": "neolithic-weave",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "가락바퀴와 뼈바늘의 발견은 인류가 스스로 옷감을 만들어 입기 시작했음을 증명합니다.",
         "instruction": "🧵 <b>가락바퀴와 뼈바늘 원리 확인</b>",
@@ -249,7 +249,7 @@
         }
       ],
       "simulator": {
-        "mode": "neolithic-weave",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "가락바퀴로 튼튼한 삼베 실을 꼬아 뽑았습니다.",
         "instruction": "🧵 <b>가락바퀴로 다시 실을 뽑으세요!</b>",
@@ -274,7 +274,7 @@
         }
       ],
       "simulator": {
-        "mode": "neolithic-settle",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "서울 암사동 유적은 신석기 시대 대규모 집터와 토기가 발견된 유적입니다.",
         "instruction": "🏆 <b>신석기 정착 미션 대성공!</b>",

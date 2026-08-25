@@ -89,7 +89,7 @@
         }
       ],
       "simulator": {
-        "mode": "society-court",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "고구려 수산리 고분 벽화는 당시 귀족들의 세련된 복식 문화를 보여줍니다.",
         "instruction": "🎨 <b>수산리 고분 벽화 복식 탐구</b>",
@@ -114,7 +114,7 @@
         }
       ],
       "simulator": {
-        "mode": "society-court",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "벽화의 복식은 일본 다카마쓰 고분 벽화에도 영향을 주었습니다.",
         "instruction": "👗 <b>전통 복식을 다시 확인하세요!</b>",
@@ -151,7 +151,7 @@
         }
       ],
       "simulator": {
-        "mode": "society-temple",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "삼국은 불교를 통해 귀족의 세력을 억누르고 백성을 하나로 결집시켰습니다.",
         "instruction": "🛕 <b>삼국의 불교 수용 의미 확인</b>",
@@ -176,7 +176,7 @@
         }
       ],
       "simulator": {
-        "mode": "society-temple",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "불교는 뛰어난 건축과 미술 문화 발전으로도 이어졌습니다.",
         "instruction": "🛕 <b>불교의 역할을 다시 생각해보세요!</b>",
@@ -219,7 +219,7 @@
         }
       ],
       "simulator": {
-        "mode": "society-exam",
+        "mode": "battle-gauge",
         "type": "info",
         "infoText": "가야의 제철 기술은 동아시아 최고 수준이었으며, 덩이쇠는 화폐처럼 쓰였습니다.",
         "instruction": "⚔️ <b>가야 철제 판갑옷과 제철 기술 탐구</b>",
@@ -244,7 +244,7 @@
         }
       ],
       "simulator": {
-        "mode": "society-exam",
+        "mode": "battle-gauge",
         "type": "info",
         "infoText": "가야의 철은 낙랑과 왜에 수출되어 국제 교역의 중심이 되었습니다.",
         "instruction": "⚔️ <b>철갑옷을 다시 완성하세요!</b>",
@@ -269,7 +269,7 @@
         }
       ],
       "simulator": {
-        "mode": "society-court",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "삼국과 가야의 문화는 각국의 독창성과 뛰어난 예술성을 보여줍니다.",
         "instruction": "🏆 <b>삼국 생활 문화 탐험 대성공!</b>",
