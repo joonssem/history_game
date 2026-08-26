@@ -12,6 +12,8 @@ const MudEngine = {
   currentSimulator: null,     // 현재 스테이지 시뮬레이터 계약
   simActionCount: 0,          // 현재 활동에서 수행한 행동 수
   simulatorComplete: true,    // 필수 활동 완료 여부
+  simulatorProgress: 0,
+  simulatorState: { found: [], step: 0, lastId: null },
 
   // === 시뮬레이터 전용 상태 변수 ===
   gaugeProgress: 0,
@@ -106,6 +108,8 @@ const MudEngine = {
     this.currentSimulator = null;
     this.simActionCount = 0;
     this.simulatorComplete = true;
+    this.simulatorProgress = 0;
+    this.simulatorState = { found: [], step: 0, lastId: null };
   },
 
   // === 테마 색상 적용 ===
@@ -289,6 +293,8 @@ const MudEngine = {
     this.currentSimulator = sim;
     this.simActionCount = 0;
     this.simulatorComplete = !sim.required;
+    this.simulatorProgress = 0;
+    this.simulatorState = { found: [], step: 0, lastId: null };
     if (sim.mode === 'paleo-environment') {
       this.paleoEnvironmentFound = 0;
       this.paleoEnvironmentState = { found: [], lastId: null };
