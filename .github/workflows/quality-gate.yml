@@ -1,0 +1,38 @@
+name: Static quality gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate JSON datasets
+        run: python scripts/01_validate_game_data.py
+      - name: Validate MUD integrity and contract
+        run: |
+          python scripts/03_validate_mud_integrity.py
+          python scripts/04_validate_mud_contract.py
+      - name: Test simulator runtime
+        run: node scripts/05_test_simulator_runtime.js
+      - name: Validate static assets
+        run: python scripts/06_validate_static_assets.py
+      - name: Check JavaScript syntax
+        run: for file in js/*.js; do node --check "$file"; done
+      - name: Check whitespace
+        run: git diff --check

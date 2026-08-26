@@ -125,28 +125,28 @@ HEAD: `27124cdafd57e1fe7f4d69457089f8d4dea3d9d7`
 
 ## 5. 자동 검증·GitHub 게이트
 
-- [ ] JavaScript 문법 검사
-- [ ] JSON 파싱·스키마 검사
-- [ ] 참조 무결성 검사
-- [ ] 실행 HTML·알 수 없는 interaction 검사
+- [x] JavaScript 문법 검사
+- [x] JSON 파싱·스키마 검사
+- [x] 참조 무결성 검사
+- [x] 실행 HTML·알 수 없는 interaction 검사
 - [ ] README MUD 목록 자동 생성 또는 비교
 - [ ] 핵심 주장·출처·무출처 수 집계
-- [ ] 상태 전이 단위 테스트
+- [x] 상태 전이 단위 테스트
 - [ ] renderer DOM/스냅샷 테스트
 - [ ] 구석기 E2E: 정답, 오답·재시도, 클릭 순열, 완료
 - [ ] 고조선 E2E
 - [ ] 근현대 E2E
 - [ ] 저장·새로고침·재진입 테스트
 - [ ] 반응형·키보드·접근성 테스트
-- [ ] GitHub Actions에 정적 검사·단위 테스트·E2E 등록
+- [x] GitHub Actions에 정적 검사·단위 테스트 등록
 - [ ] Pages 배포 후 스모크 테스트
 - [ ] `LICENSE` 추가 여부 확인
-- [ ] README의 “100%/완벽”을 측정 표현으로 교체
+- [x] README의 “100%/완벽”을 측정 표현으로 교체
 - [ ] 추출 JS/CSS 용도 확인 후 제거 또는 생성물로 격리
 - [ ] 배포 원본·생성물·롤백 절차 문서화
 
-CI 링크:  
-통과 수·커밋:
+CI 링크: `.github/workflows/quality-gate.yml`
+통과 수·커밋: 로컬 전체 게이트 통과 후 기록
 
 ## 6. UI/UX·접근성
 

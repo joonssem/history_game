@@ -126,3 +126,10 @@
 - MUD JSON의 `buttonsHtml` 6개와 인라인 JavaScript를 구조화 action 14개로 전환했다.
 - 광복 태극기의 전체 완성 단축 버튼을 제거하고 여섯 요소를 각각 수행해야 완료되도록 조정했다.
 - iPad 820×1180 브라우저 검증에서 구석기 3개 단서 후 잠금 해제, 광복 5개 후 잠금 유지·6개 후 해제, 콘솔 오류 0건을 확인했다.
+
+## 2026-08-26 — Phase 5 정적 품질 게이트
+
+- `.github/workflows/quality-gate.yml`을 추가해 push·pull request에서 JSON, MUD 계약, runtime 단위 테스트, 정적 asset, JS 문법, whitespace를 검사한다.
+- `scripts/06_validate_static_assets.py`로 index.html의 로컬 참조 파일과 `.nojekyll` 존재를 확인한다.
+- README의 검증 불가능한 100%·완벽 표현을 현재 기준선과 지원 범위 표현으로 조정했다.
+- 로컬 품질 게이트 전체 검증 통과. 기존 선택지 정답 1번 편중 경고는 별도 콘텐츠/랜덤화 과제로 남아 있다.
