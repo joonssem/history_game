@@ -396,6 +396,8 @@ const MudEngine = {
     canvas.style.width = rect.width + 'px';
     canvas.style.height = rect.height + 'px';
     const ctx = canvas.getContext('2d');
+    // resizeCanvas가 여러 번 호출되어도 이전 transform이 누적되지 않게 한다.
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
   },
 

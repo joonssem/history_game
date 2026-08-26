@@ -97,6 +97,9 @@ HEAD: `27124cdafd57e1fe7f4d69457089f8d4dea3d9d7`
 
 ## 4. 엔진·상호작용 분리
 
+- [x] hotspot interaction registry·dispatcher 경계 추가
+- [x] 유효한 활동만 action count에 반영
+- [x] Canvas resize transform 누적 방지
 - [ ] 전역 상태 목록과 소유자·수명주기 문서화
 - [ ] `MudEngine`을 단일 상태 소유자로 지정
 - [ ] renderer 내부 상태 변경 제거

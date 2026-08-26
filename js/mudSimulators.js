@@ -3,6 +3,20 @@
 // =========================================================
 
 const MudSimulators = {
+  // 입력 판정과 화면 표현이 같은 계약을 공유하도록 한 진입점이다.
+  interactionHandlers: {
+    'ordered-hotspot': 'processOrderedHotspot',
+    'hotspot-discovery': 'processPaleoDiscovery',
+    'resource-allocation': 'processPaleoDiscovery',
+    reflection: 'processPaleoDiscovery'
+  },
+
+  dispatchHotspotInteraction(mode, hotspot, engine) {
+    const interaction = engine.currentSimulator?.interaction;
+    const handlerName = this.interactionHandlers[interaction];
+    return handlerName ? this[handlerName](mode, hotspot, engine) : false;
+  },
+
   // === 캔버스 이벤트 리스너 초기화 ===
   init() {
     const canvas = document.getElementById('mn-canvas');
@@ -28,18 +42,20 @@ const MudSimulators = {
 
     const simMode = engine.simMode;
     const interaction = engine.currentSimulator?.interaction || simMode;
-    engine.registerSimulatorAction();
+    let actionAccepted = false;
 
     if (simMode.startsWith('dolmen')) {
       if (simMode === 'dolmen-step1') {
         if (!engine.dolmenState.baseSet) {
           engine.dolmenState.baseSet = true;
           engine.simulatorProgress = 1;
+          actionAccepted = true;
         }
         if (window.sounds) window.sounds.playClick();
       } else if (simMode === 'dolmen-step2') {
         engine.dolmenState.earthProgress = Math.min(100, engine.dolmenState.earthProgress + 25);
         engine.simulatorProgress = engine.dolmenState.earthProgress;
+        actionAccepted = true;
         const gp = document.getElementById('gauge-progress');
         if (gp) gp.textContent = `${engine.dolmenState.earthProgress}%`;
         const gb = document.getElementById('gauge-bar');
@@ -49,27 +65,34 @@ const MudSimulators = {
       } else if (simMode === 'dolmen-step3') {
         engine.dolmenState.stoneProgress = Math.min(100, engine.dolmenState.stoneProgress + (engine.dolmenState.workers * 0.35));
         engine.simulatorProgress = engine.dolmenState.stoneProgress;
+        actionAccepted = true;
         if (window.sounds) window.sounds.playClick();
         if (engine.dolmenState.stoneProgress >= 100 && window.sounds) window.sounds.playCorrect();
       } else if (simMode === 'dolmen-step4') {
-        engine.dolmenState.earthRemoved = true;
-        engine.simulatorProgress = 1;
-        if (window.sounds) window.sounds.playFanfare();
+        if (!engine.dolmenState.earthRemoved) {
+          engine.dolmenState.earthRemoved = true;
+          engine.simulatorProgress = 1;
+          actionAccepted = true;
+          if (window.sounds) window.sounds.playFanfare();
+        }
       }
     } else if (simMode === 'gwangbok-vote' || simMode === 'precise-vote') {
       if (!engine.voteState.stamped) {
         engine.voteState.stamped = true;
+        actionAccepted = true;
         if (window.sounds) window.sounds.playClick();
       } else if (!engine.voteState.voteInserted) {
         engine.voteState.voteInserted = true;
+        actionAccepted = true;
         if (window.sounds) window.sounds.playFanfare();
       }
     } else if (interaction === 'ordered-hotspot') {
-      this.processOrderedHotspot(simMode, this.getPaleoHotspot(simMode, x, y, canvas), engine);
+      actionAccepted = this.dispatchHotspotInteraction(simMode, this.getPaleoHotspot(simMode, x, y, canvas), engine);
     } else if (interaction === 'hotspot-discovery' || interaction === 'resource-allocation' || interaction === 'reflection') {
-      this.processPaleoDiscovery(simMode, this.getPaleoHotspot(simMode, x, y, canvas), engine);
+      actionAccepted = this.dispatchHotspotInteraction(simMode, this.getPaleoHotspot(simMode, x, y, canvas), engine);
     } else if (simMode === 'neolithic-pottery' || simMode.startsWith('economy') || simMode.startsWith('battle-gauge') || simMode.startsWith('culture-touch') || simMode.startsWith('text-reading')) {
       engine.gaugeProgress = Math.min(100, (engine.gaugeProgress || 0) + engine.simulatorIncrement());
+      actionAccepted = true;
       const gp = document.getElementById('gauge-progress');
       if (gp) gp.textContent = `${engine.gaugeProgress}%`;
       const gb = document.getElementById('gauge-bar');
@@ -77,15 +100,16 @@ const MudSimulators = {
       if (window.sounds) window.sounds.playClick();
       if (engine.gaugeProgress >= 100 && window.sounds) window.sounds.playCorrect();
     } else if (simMode.startsWith('gwangbok-flag') || simMode === 'precise-taegeukgi') {
-      if (!engine.taegeukState.yangColor) engine.taegeukState.yangColor = true;
-      else if (!engine.taegeukState.yinColor) engine.taegeukState.yinColor = true;
-      else if (!engine.taegeukState.geon) engine.taegeukState.geon = true;
-      else if (!engine.taegeukState.gon) engine.taegeukState.gon = true;
-      else if (!engine.taegeukState.gam) engine.taegeukState.gam = true;
-      else if (!engine.taegeukState.ri) engine.taegeukState.ri = true;
+      if (!engine.taegeukState.yangColor) { engine.taegeukState.yangColor = true; actionAccepted = true; }
+      else if (!engine.taegeukState.yinColor) { engine.taegeukState.yinColor = true; actionAccepted = true; }
+      else if (!engine.taegeukState.geon) { engine.taegeukState.geon = true; actionAccepted = true; }
+      else if (!engine.taegeukState.gon) { engine.taegeukState.gon = true; actionAccepted = true; }
+      else if (!engine.taegeukState.gam) { engine.taegeukState.gam = true; actionAccepted = true; }
+      else if (!engine.taegeukState.ri) { engine.taegeukState.ri = true; actionAccepted = true; }
       if (window.sounds) window.sounds.playClick();
       engine.checkTaegeukComplete();
     } else if (simMode === 'mn-combat-active') {
+      actionAccepted = true;
       engine.bullets.push({
         x: engine.playerShip.x + 10,
         y: engine.playerShip.y,
@@ -96,6 +120,7 @@ const MudSimulators = {
       if (window.sounds) window.sounds.playClick();
     }
 
+    if (actionAccepted) engine.registerSimulatorAction();
     engine.updateSimulatorCompletion();
     this.renderAlternativeControls();
   },
@@ -435,11 +460,11 @@ const MudSimulators = {
     const step = Number(configured ? engine.simulatorState.step : engine.paleoFireStep) || 0;
     if (!hotspot) {
       this.setPaleoFeedback(configured ? '화면의 재료를 안내된 순서대로 찾아보세요.' : '마른 풀·나뭇가지·부싯돌을 순서대로 찾아보세요.');
-      return;
+      return false;
     }
     if (hotspot.id !== sequence[step]) {
       this.setPaleoFeedback(`${hotspot.label}보다 먼저 ${this.getPaleoHotspotLabel(sequence[step])}을(를) 준비해야 합니다.`);
-      return;
+      return false;
     }
     state.found.push(hotspot.id);
     state.lastId = hotspot.id;
@@ -449,6 +474,7 @@ const MudSimulators = {
     this.updatePaleoGauge(state.step, sequence.length);
     this.setPaleoFeedback(`${hotspot.label}: ${hotspot.feedback} (${state.step}/${sequence.length})`, hotspot.id);
     if (window.sounds) window.sounds.playClick();
+    return true;
   },
 
   drawPaleoActivity(ctx, w, h, mode, state, progress) {
@@ -562,12 +588,9 @@ const MudSimulators = {
       .find(item => item.id === hotspotId);
     if (!hotspot) return;
 
-    engine.registerSimulatorAction();
-    if (engine.currentSimulator?.interaction === 'ordered-hotspot') {
-      this.processOrderedHotspot(engine.simMode, hotspot, engine);
-    } else {
-      this.processPaleoDiscovery(engine.simMode, hotspot, engine);
-    }
+    let actionAccepted = false;
+    actionAccepted = this.dispatchHotspotInteraction(engine.simMode, hotspot, engine);
+    if (actionAccepted) engine.registerSimulatorAction();
     engine.updateSimulatorCompletion();
     this.renderAlternativeControls();
     this.drawSim();

@@ -110,3 +110,11 @@
 - `scripts/04_validate_mud_contract.py`를 추가해 인덱스·파일·매핑 수와 MUD ID, 시작 단계, simulator 계약을 자동 검증한다.
 - README와 인수인계 문서의 교육과정·대시보드 범위를 실제 결정과 일치시켰다.
 - 검증: 게임 데이터, MUD 무결성, 새 계약 검증, JS 문법 검사, `git diff --check` 통과. 기존 정답 1번 편중 경고는 후속 단계로 유지.
+
+## 2026-08-26 — Phase 4 시뮬레이터 입력 경계 안정화
+
+- `MudSimulators.interactionHandlers`와 dispatcher를 추가해 hotspot interaction별 처리기를 한 곳에서 선택하도록 했다.
+- 캔버스 바깥 클릭, 이미 확인한 단서, 순서를 틀린 선택은 `simActionCount`에 반영하지 않도록 입력 판정과 행동 기록을 분리했다.
+- 고인돌·투표·태극기 활동도 실제 상태 변화가 발생한 경우에만 행동을 기록하도록 정리했다.
+- `resizeCanvas()`에서 Canvas transform을 초기화한 뒤 배율을 적용해 화면 재진입·회전 시 배경과 핫스팟이 누적 변형되지 않게 했다.
+- 검증: `node --check` 2개 파일, MUD 무결성, simulator contract, `git diff --check` 통과.
