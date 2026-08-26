@@ -93,7 +93,15 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "manchuria", "label": "요동", "x": 0.22, "y": 0.48, "feedback": "고조선의 세력은 요동 지역까지 이어졌습니다." },
+          { "id": "north-korea", "label": "한반도 북부", "x": 0.50, "y": 0.65, "feedback": "청동기 문화를 바탕으로 고조선이 성장한 지역입니다." },
+          { "id": "asadal", "label": "아사달", "x": 0.78, "y": 0.48, "feedback": "단군왕검이 나라를 세웠다고 전해지는 도읍입니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🗺️ 고조선의 건국 위치와 영역 단서를 모두 확인했습니다." },
         "infoText": "고조선은 한반도와 요동 일대에 걸쳐 성립된 우리 역사상 최초의 국가입니다.",
         "instruction": "🗺️ <b>고조선의 건국 위치와 영역 확인</b>",
         "feedback": "요동과 한반도 북부를 확인하세요!"
@@ -161,7 +169,15 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "murder-law", "label": "살인 조항", "x": 0.22, "y": 0.48, "feedback": "사람을 죽인 자를 사형에 처해 생명을 중시했습니다." },
+          { "id": "injury-law", "label": "상해 조항", "x": 0.50, "y": 0.65, "feedback": "남에게 상처를 입히면 곡식으로 갚게 했습니다." },
+          { "id": "theft-law", "label": "절도 조항", "x": 0.78, "y": 0.48, "feedback": "도둑질한 자를 노비로 삼아 사유 재산을 보호했습니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "⚖️ 8조법에 담긴 생명·농경·재산의 의미를 모두 확인했습니다." },
         "infoText": "8조법을 통해 고조선이 생명과 농경(곡식), 사유재산(노비)을 매우 중시했음을 알 수 있습니다.",
         "instruction": "⚖️ <b>고조선 8조법 판결 시뮬레이션</b>",
         "feedback": "법 조항의 의미를 확인하세요!"
@@ -229,7 +245,15 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "lute-sword", "label": "비파형 동검", "x": 0.22, "y": 0.48, "feedback": "고조선의 독창적인 청동기 문화를 보여주는 무기입니다." },
+          { "id": "dolmen-culture", "label": "고인돌", "x": 0.50, "y": 0.65, "feedback": "고인돌 분포는 고조선 문화권을 보여주는 단서입니다." },
+          { "id": "bronze-culture", "label": "청동기 문화권", "x": 0.78, "y": 0.48, "feedback": "비파형 동검과 고인돌의 분포가 서로 이어집니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🗡️ 고조선 청동기 문화권의 단서를 모두 확인했습니다." },
         "infoText": "비파형 동검과 탁자식 고인돌의 출토 범위는 고조선의 문화 통치 영역과 정확히 일치합니다.",
         "instruction": "🗡️ <b>비파형 동검 문화권 지도 확인</b>",
         "feedback": "요동과 한반도 전역의 분포를 확인하세요!"
