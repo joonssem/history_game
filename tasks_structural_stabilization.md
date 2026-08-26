@@ -66,12 +66,12 @@ HEAD: `27124cdafd57e1fe7f4d69457089f8d4dea3d9d7`
 
 - [x] 앱 버전 표시
 - [ ] asset cache-busting 정책
-- [ ] `.nojekyll` 배포 후 라이브 `_index.json` JSON 응답 확인
+- [x] `.nojekyll` 배포 후 라이브 `_index.json` JSON 응답 확인
 - [ ] 배포 후 라이브 버전 확인 절차
 - [ ] 구버전 새로고침 안내
 
 테스트: 로컬 iPad 820×1180에서 구석기 환경 탐색 버튼 완료, 불 피우기 오답 후 재시도·100% 완료, 콘솔 오류 0건  
-수정 커밋·라이브 버전: 배포 후 기록
+수정 커밋·라이브 버전: `7608cb7` · Pages `_index.json` HTTP 200 / `application/json` · `2026.08.26-p2`
 
 ## 3. 데이터 계약·인덱스
 
