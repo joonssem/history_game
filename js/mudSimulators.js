@@ -97,6 +97,7 @@ const MudSimulators = {
     }
 
     engine.updateSimulatorCompletion();
+    this.renderAlternativeControls();
   },
 
   // === 중앙 캔버스 렌더러 ===
@@ -431,7 +432,7 @@ const MudSimulators = {
     const configured = Array.isArray(engine.currentSimulator?.hotspots);
     const state = configured ? engine.simulatorState : engine.paleoFireState;
     const sequence = engine.currentSimulator?.sequence || ['dry-grass', 'branches', 'stone'];
-    const step = configured ? engine.simulatorState.step : engine.paleoFireStep;
+    const step = Number(configured ? engine.simulatorState.step : engine.paleoFireStep) || 0;
     if (!hotspot) {
       this.setPaleoFeedback(configured ? '화면의 재료를 안내된 순서대로 찾아보세요.' : '마른 풀·나뭇가지·부싯돌을 순서대로 찾아보세요.');
       return;
@@ -442,7 +443,7 @@ const MudSimulators = {
     }
     state.found.push(hotspot.id);
     state.lastId = hotspot.id;
-    state.step += 1;
+    state.step = step + 1;
     if (configured) engine.simulatorProgress = state.step;
     else engine.paleoFireStep = state.step;
     this.updatePaleoGauge(state.step, sequence.length);
@@ -501,11 +502,75 @@ const MudSimulators = {
   },
 
   updatePaleoGauge(progress, total) {
-    const percent = Math.round((progress / total) * 100);
+    const safeProgress = Number(progress);
+    const safeTotal = Number(total);
+    const percent = Number.isFinite(safeProgress) && Number.isFinite(safeTotal) && safeTotal > 0
+      ? Math.max(0, Math.min(100, Math.round((safeProgress / safeTotal) * 100)))
+      : 0;
     const gp = document.getElementById('gauge-progress');
     const gb = document.getElementById('gauge-bar');
     if (gp) gp.textContent = `${percent}%`;
     if (gb) gb.style.width = `${percent}%`;
+  },
+
+  renderAlternativeControls() {
+    const container = document.getElementById('mn-hotspot-actions');
+    const engine = window.MudEngine;
+    if (!container || !engine) return;
+
+    const supported = ['hotspot-discovery', 'resource-allocation', 'reflection', 'ordered-hotspot'];
+    const interaction = engine.currentSimulator?.interaction;
+    if (!engine.currentSimulator?.required || !supported.includes(interaction)) {
+      container.replaceChildren();
+      container.style.display = 'none';
+      return;
+    }
+
+    const canvas = document.getElementById('mn-canvas');
+    const hotspots = this.getPaleoHotspots(engine.simMode, canvas?.width || 100, canvas?.height || 100);
+    const legacyStates = {
+      'paleo-environment': engine.paleoEnvironmentState,
+      'paleo-stone': engine.paleoStoneState,
+      'paleo-hunt': engine.paleoHuntState,
+      'paleo-community': engine.paleoCommunityState,
+      'paleo-reflection': engine.paleoReflectionState
+    };
+    const state = Array.isArray(engine.currentSimulator?.hotspots)
+      ? engine.simulatorState
+      : (interaction === 'ordered-hotspot' ? engine.paleoFireState : legacyStates[engine.simMode]);
+
+    container.replaceChildren();
+    hotspots.forEach(hotspot => {
+      const button = document.createElement('button');
+      const found = state?.found?.includes(hotspot.id);
+      button.type = 'button';
+      button.className = 'btn secondary';
+      button.style.cssText = 'width: auto; flex: 1 1 30%; min-width: 92px; padding: 7px 8px; font-size: 0.82rem;';
+      button.textContent = `${found ? '✓ ' : ''}${hotspot.label}`;
+      button.disabled = Boolean(found);
+      button.addEventListener('click', () => this.activateHotspot(hotspot.id));
+      container.appendChild(button);
+    });
+    container.style.display = hotspots.length ? 'flex' : 'none';
+  },
+
+  activateHotspot(hotspotId) {
+    const engine = window.MudEngine;
+    const canvas = document.getElementById('mn-canvas');
+    if (!engine || !canvas) return;
+    const hotspot = this.getPaleoHotspots(engine.simMode, canvas.width || 100, canvas.height || 100)
+      .find(item => item.id === hotspotId);
+    if (!hotspot) return;
+
+    engine.registerSimulatorAction();
+    if (engine.currentSimulator?.interaction === 'ordered-hotspot') {
+      this.processOrderedHotspot(engine.simMode, hotspot, engine);
+    } else {
+      this.processPaleoDiscovery(engine.simMode, hotspot, engine);
+    }
+    engine.updateSimulatorCompletion();
+    this.renderAlternativeControls();
+    this.drawSim();
   },
 
   // === 1단원: 고인돌 정밀 렌더러 ===

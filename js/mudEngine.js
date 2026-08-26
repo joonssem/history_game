@@ -21,7 +21,7 @@ const MudEngine = {
   paleoEnvironmentFound: 0,
   paleoEnvironmentState: { found: [], lastId: null },
   paleoFireStep: 0,
-  paleoFireState: { found: [], lastId: null },
+  paleoFireState: { found: [], step: 0, lastId: null },
   paleoStoneFacets: 0,
   paleoStoneState: { found: [], lastId: null },
   paleoHuntFound: 0,
@@ -89,7 +89,7 @@ const MudEngine = {
     this.paleoEnvironmentFound = 0;
     this.paleoEnvironmentState = { found: [], lastId: null };
     this.paleoFireStep = 0;
-    this.paleoFireState = { found: [], lastId: null };
+    this.paleoFireState = { found: [], step: 0, lastId: null };
     this.paleoStoneFacets = 0;
     this.paleoStoneState = { found: [], lastId: null };
     this.paleoHuntFound = 0;
@@ -302,7 +302,7 @@ const MudEngine = {
     }
     if (sim.mode === 'paleo-fire') {
       this.paleoFireStep = 0;
-      this.paleoFireState = { found: [], lastId: null };
+      this.paleoFireState = { found: [], step: 0, lastId: null };
     }
     if (sim.mode === 'paleo-stone') {
       this.paleoStoneFacets = 0;
@@ -330,6 +330,8 @@ const MudEngine = {
     const feedback = document.getElementById('mn-canvas-feedback');
     if (instr) instr.innerHTML = sim.instruction || '';
     if (feedback) feedback.textContent = sim.feedback || '화면을 터치하여 체험을 진행하세요!';
+
+    if (window.MudSimulators) window.MudSimulators.renderAlternativeControls();
 
     switch (sim.type) {
       case 'info':

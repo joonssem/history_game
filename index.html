@@ -145,10 +145,12 @@
           <div style="position: relative; height: 210px; background: #0c1222; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color);">
             <canvas id="mn-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%;"></canvas>
             <div id="mn-canvas-instr" style="position: absolute; top: 8px; left: 8px; right: 8px; background: rgba(249, 246, 240, 0.95); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 8px; font-size: 0.75rem; text-align: center; color: var(--text-main);"></div>
-            <div id="mn-canvas-feedback" style="position: absolute; bottom: 8px; left: 8px; right: 8px; background: rgba(138, 59, 41, 0.9); color: #ffffff; border-radius: 6px; padding: 4px; font-size: 0.75rem; text-align: center;">
-              화면을 터치하여 체험을 진행하세요!
-            </div>
           </div>
+
+          <div id="mn-canvas-feedback" role="status" aria-live="polite" style="margin-top: 8px; background: var(--card-sub); color: var(--text-main); border-radius: 6px; padding: 7px 8px; font-size: 0.85rem; text-align: center;">
+            화면을 터치하여 체험을 진행하세요!
+          </div>
+          <div id="mn-hotspot-actions" aria-label="시뮬레이터 대체 조작" style="display: none; margin-top: 8px; gap: 6px; flex-wrap: wrap;"></div>
 
           <div id="mn-controls" style="margin-top: 12px;">
             <div id="widget-info" style="font-size: 0.85rem; background: var(--card-sub); padding: 10px; border-radius: 8px; color: #554D46;">
@@ -235,7 +237,7 @@
 
   <!-- 푸터 -->
   <footer style="border-top: 1px solid var(--border-color); padding: 20px; text-align: center; font-size: 0.85rem; color: #776F66; background: var(--card-sub); margin-top: 40px;">
-    <p>초등 5학년 사회(역사) 탐구 교실 • 지도안 연계 MUD 시뮬레이션 포털 • GitHub Pages</p>
+    <p>초등 5학년 사회(역사) 탐구 교실 • 지도안 연계 MUD 시뮬레이션 포털 • GitHub Pages <span id="app-version"></span></p>
   </footer>
 
   <!-- 스크립트 모듈 -->

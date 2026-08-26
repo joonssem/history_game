@@ -6,9 +6,12 @@ let curriculumData = null;
 let mudIndexData = [];
 let currentUnitId = 1;
 let currentActiveStoryId = 'story_paleolithic';
+const APP_VERSION = '2026.08.26-p2';
 
 // 초기화
 document.addEventListener('DOMContentLoaded', async () => {
+  const versionEl = document.getElementById('app-version');
+  if (versionEl) versionEl.textContent = `• 버전 ${APP_VERSION}`;
   await Promise.all([
     window.encyclopedia ? window.encyclopedia.initArtifacts() : Promise.resolve(),
     window.storyEngine ? window.storyEngine.loadStories() : Promise.resolve(),
