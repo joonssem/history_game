@@ -369,7 +369,15 @@
         "type": "info",
         "infoText": "한강은 비옥한 토지, 풍부한 수운, 서해 교역로를 갖춘 전략적 요충지였습니다.",
         "instruction": "🏆 <b>삼국 전성기 탐험 대성공!</b>",
-        "feedback": "국보 도감에서 유물을 확인하세요!"
+        "feedback": "국보 도감에서 유물을 확인하세요!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     }
   },

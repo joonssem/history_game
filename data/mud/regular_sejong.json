@@ -89,7 +89,15 @@
         "type": "gauge",
         "gaugeLabel": "훈민정음 창제도:",
         "instruction": "📖 <b>자음과 모음의 원리를 터치하여 훈민정음을 완성하세요!</b>",
-        "feedback": "훈민정음 28자가 완성되었습니다!"
+        "feedback": "훈민정음 28자가 완성되었습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "1-1": {
@@ -153,7 +161,15 @@
         "type": "info",
         "infoText": "칠정산은 조선의 관측 환경을 반영해 만든 자주적인 천문 역법서로, 당시 천문학의 수준을 보여 줍니다.",
         "instruction": "🌌 <b>한양 기준의 천문 역법을 확립하세요</b>",
-        "feedback": "칠정산 내편과 외편이 완성되었습니다."
+        "feedback": "칠정산 내편과 외편이 완성되었습니다.",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "2-1": {
@@ -221,7 +237,15 @@
         "type": "info",
         "infoText": "앙부일구는 백성들이 자유롭게 드나드는 종로 거리에 설치된 조선의 공공 시계였습니다.",
         "instruction": "☀️ <b>백성을 위한 앙부일구를 설치하세요</b>",
-        "feedback": "백성들이 시간을 알고 과학의 혜택을 누리게 되었습니다."
+        "feedback": "백성들이 시간을 알고 과학의 혜택을 누리게 되었습니다.",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "3-1": {

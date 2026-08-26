@@ -96,7 +96,15 @@
         "type": "info",
         "infoText": "실학자들은 둥근 지구의와 서양 과학 기술을 통해 세계로 시야를 넓혔습니다.",
         "instruction": "🌍 <b>서양 문물과 둥근 지구의 탐구</b>",
-        "feedback": "새로운 세계관을 확인하세요!"
+        "feedback": "새로운 세계관을 확인하세요!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "1-1": {
@@ -164,7 +172,15 @@
         "type": "info",
         "infoText": "거중기와 녹로, 유형거의 활용으로 수원 화성은 10년 예정 공사를 2년 9개월 만에 마쳤습니다.",
         "instruction": "🏗️ <b>정약용의 거중기와 화성 축조 기술</b>",
-        "feedback": "도르래의 과학 원리를 확인하세요!"
+        "feedback": "도르래의 과학 원리를 확인하세요!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "2-1": {
@@ -232,7 +248,15 @@
         "type": "info",
         "infoText": "동학은 훗날 동학 농민 운동과 3·1 운동으로 이어지는 민족 평등 운동의 뿌리가 되었습니다.",
         "instruction": "🕊️ <b>동학의 인내천 평등사상 탐구</b>",
-        "feedback": "인간 존엄과 평등을 확인하세요!"
+        "feedback": "인간 존엄과 평등을 확인하세요!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "3-1": {
@@ -282,7 +306,15 @@
         "type": "info",
         "infoText": "실학은 백성의 삶을 이롭게(이용후생) 하고 진리를 밝히는 학문이었습니다.",
         "instruction": "🏆 <b>실학자 탐구 미션 대성공!</b>",
-        "feedback": "국보 도감에서 지구의를 확인하세요!"
+        "feedback": "국보 도감에서 지구의를 확인하세요!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     }
   },

@@ -83,7 +83,15 @@
         "type": "info",
         "infoText": "창씨개명을 거부한 학생들은 학교 입학이 거부되고 배급을 끊는 등 악랄한 탄압을 받았습니다.",
         "instruction": "🇰🇷 <b>일제의 황국신민화 정책의 반인륜적 실태를 직시하세요</b>",
-        "feedback": "빼앗길 수 없는 한민족의 자긍심을 지켰습니다!"
+        "feedback": "빼앗길 수 없는 한민족의 자긍심을 지켰습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "1-1": {
@@ -141,7 +149,15 @@
         "type": "gauge",
         "gaugeLabel": "진실과 인권의 촛불:",
         "instruction": "🕯️ <b>화면을 터치하여 군함도와 위안부 피해자들을 위로하는 평화의 불을 밝히세요!</b>",
-        "feedback": "진실을 밝히는 평화와 인권의 촛불이 타올랐습니다!"
+        "feedback": "진실을 밝히는 평화와 인권의 촛불이 타올랐습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "2-1": {
@@ -199,7 +215,15 @@
         "type": "info",
         "infoText": "조선어학회 학자들의 숭고한 희생 덕분에 우리는 오늘날 아름다운 한글을 자유롭게 쓰고 있습니다.",
         "instruction": "📚 <b>기적의 조선말 큰사전 원고(말모이)를 지키세요</b>",
-        "feedback": "우리 민족의 얼인 한글 큰사전 원고가 무사히 지켜졌습니다!"
+        "feedback": "우리 민족의 얼인 한글 큰사전 원고가 무사히 지켜졌습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "3-1": {

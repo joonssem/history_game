@@ -82,7 +82,15 @@
         "type": "info",
         "infoText": "세종대왕의 4군 6진 개척은 오늘날 대한민국 영토의 북쪽 경계선을 확립한 위대한 업적입니다.",
         "instruction": "🗺️ <b>압록강과 두만강 4군 6진의 지도를 확인하세요</b>",
-        "feedback": "압록강-두만강 국경선이 굳건히 확립되었습니다!"
+        "feedback": "압록강-두만강 국경선이 굳건히 확립되었습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "1-1": {
@@ -140,7 +148,15 @@
         "type": "gauge",
         "gaugeLabel": "남한산성 방어 게이지:",
         "instruction": "❄️ <b>화면을 터치하여 청나라 군대의 공성을 막아내고 성벽을 사수하세요!</b>",
-        "feedback": "매서운 눈보라 속에서 47일간 성벽을 사수했습니다!"
+        "feedback": "매서운 눈보라 속에서 47일간 성벽을 사수했습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "2-1": {
@@ -198,7 +214,15 @@
         "type": "info",
         "infoText": "병자호란의 비극은 힘이 없는 평화는 불가능하다는 냉혹한 국제정세의 교훈을 남겼습니다.",
         "instruction": "🛡️ <b>효종의 북벌 결의문과 조총 부대 양성책을 확인하세요</b>",
-        "feedback": "자주국방을 향한 불굴의 의지를 가슴에 새겼습니다!"
+        "feedback": "자주국방을 향한 불굴의 의지를 가슴에 새겼습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "3-1": {

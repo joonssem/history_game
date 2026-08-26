@@ -82,7 +82,15 @@
         "type": "info",
         "infoText": "을사의병은 신분제를 뛰어넘어 평민과 해산 군인까지 합류한 범국민적 항일 구국 투쟁이었습니다.",
         "instruction": "🐯 <b>태백산맥에서 조국을 지키는 의병을 이끄세요</b>",
-        "feedback": "신돌석 의병대가 일본군을 격퇴하고 승리를 거두었습니다!"
+        "feedback": "신돌석 의병대가 일본군을 격퇴하고 승리를 거두었습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "1-1": {
@@ -198,7 +206,15 @@
         "type": "info",
         "infoText": "안중근 의사의 하얼빈 의거는 전 세계에 한국인의 독립 의지를 강렬하게 각인시킨 횃불이었습니다.",
         "instruction": "🎯 <b>정의의 총성으로 침략의 원흉을 단죄하세요</b>",
-        "feedback": "하얼빈역에 '대한 만세(코레아 우라)'의 함성이 울려 퍼졌습니다!"
+        "feedback": "하얼빈역에 '대한 만세(코레아 우라)'의 함성이 울려 퍼졌습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "3-1": {

@@ -82,7 +82,15 @@
         "type": "gauge",
         "gaugeLabel": "천문령 결전 게이지:",
         "instruction": "🦅 <b>화면을 터치하여 당나라 추격군을 격파하고 동모산에 깃발을 꽂으세요!</b>",
-        "feedback": "천문령 대승과 함께 발해가 건국되었습니다!"
+        "feedback": "천문령 대승과 함께 발해가 건국되었습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "1-1": {
@@ -140,7 +148,15 @@
         "type": "info",
         "infoText": "발해는 선왕 대에 이르러 5경 15부 62주의 거대한 지방 행정망을 완성하며 전성기를 누렸습니다.",
         "instruction": "🌊 <b>해동성국의 위풍당당한 국서를 확인하세요</b>",
-        "feedback": "동방의 번성한 제국 해동성국의 위상이 드높아졌습니다!"
+        "feedback": "동방의 번성한 제국 해동성국의 위상이 드높아졌습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "2-1": {
@@ -198,7 +214,15 @@
         "type": "info",
         "infoText": "발해의 온돌과 기와, 석등은 고구려의 씩씩한 기상과 문화를 그대로 이어받은 결정적 증거입니다.",
         "instruction": "🏛️ <b>고구려를 계승한 발해의 온돌과 석등을 확인하세요</b>",
-        "feedback": "발해가 고구려의 후계자임이 완벽히 증명되었습니다!"
+        "feedback": "발해가 고구려의 후계자임이 완벽히 증명되었습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "3-1": {

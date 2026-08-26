@@ -92,7 +92,15 @@
         "type": "info",
         "infoText": "모내기법의 전국적 보급으로 한 사람이 넓은 논을 농사짓는 '광작(廣作)'이 가능해졌습니다.",
         "instruction": "🌾 <b>모내기법(이앙법)과 광작의 원리 확인</b>",
-        "feedback": "벼농사 생산량 증대를 확인하세요!"
+        "feedback": "벼농사 생산량 증대를 확인하세요!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "1-1": {
@@ -160,7 +168,15 @@
         "type": "info",
         "infoText": "상품 작물의 활성화로 농촌과 도시 간의 상업 교류가 폭발적으로 증가했습니다.",
         "instruction": "🌿 <b>상품 작물 재배와 화폐 유통 확인</b>",
-        "feedback": "인삼과 담배의 시장 가치를 확인하세요!"
+        "feedback": "인삼과 담배의 시장 가치를 확인하세요!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "2-1": {
@@ -228,7 +244,15 @@
         "type": "gauge",
         "gaugeLabel": "상평통보 유통량:",
         "instruction": "🪙 <b>화면을 터치하여 장시에서 상평통보를 유통하세요!</b>",
-        "feedback": "화면을 터치해 장시를 활성화하세요!"
+        "feedback": "화면을 터치해 장시를 활성화하세요!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "3-1": {
@@ -278,7 +302,15 @@
         "type": "info",
         "infoText": "조선 후기 상업 발전은 서민 문화(판소리, 탈춤, 풍속화) 발전의 토대가 되었습니다.",
         "instruction": "🏆 <b>조선 후기 경제 미션 대성공!</b>",
-        "feedback": "국보 도감에서 상평통보를 확인하세요!"
+        "feedback": "국보 도감에서 상평통보를 확인하세요!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     }
   },

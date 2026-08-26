@@ -76,4 +76,26 @@ engine.updateSimulatorCompletion();
 assert.equal(engine.paleoEnvironmentFound, 1);
 assert.equal(engine.simulatorComplete, true);
 
+const legacyGauge = {
+  mode: 'battle-gauge',
+  required: true,
+  completion: {
+    target: 100,
+    increment: 50,
+    minActions: 2,
+    progressKey: 'gaugeProgress',
+    successText: '완료'
+  }
+};
+
+prepare(legacyGauge);
+engine.setSimulatorProgress(50);
+engine.registerSimulatorAction();
+engine.updateSimulatorCompletion();
+assert.equal(engine.simulatorComplete, false, 'one legacy touch must not unlock choices');
+engine.setSimulatorProgress(100);
+engine.registerSimulatorAction();
+engine.updateSimulatorCompletion();
+assert.equal(engine.simulatorComplete, true, 'two legacy touches must unlock choices');
+
 console.log('PASS: simulator runtime state, valid-action counting, and legacy progress adapters');

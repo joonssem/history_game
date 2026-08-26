@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import re
+from collections import Counter
 from pathlib import Path
 
 
@@ -73,6 +74,7 @@ def audit(path: Path) -> dict:
         "simulators": len(simulators),
         "active": len(active),
         "required": len(required),
+        "simModes": [sim.get("mode") or "(미지정)" for sim in simulators],
         "estimatedMinutes": round(estimated / 60, 1),
         "flags": flags,
     }
@@ -82,6 +84,12 @@ def main() -> int:
     rows = [audit(path) for path in sorted(MUD_DIR.glob("*.json")) if path.name != "_index.json"]
     regular = [row for row in rows if row["tier"] == "regular"]
     flagged = [row for row in regular if row["flags"]]
+    ungated_modes = Counter(
+        mode
+        for row in regular
+        if row["required"] == 0
+        for mode in row["simModes"]
+    )
     lines = [
         "# MUD 활동 시간·상호작용 전수 감사",
         "",
@@ -112,7 +120,14 @@ def main() -> int:
         "3. `핵심 단계 4개 미만`은 학습 목표와 직접 연결되는 판단·성찰 단계를 추가합니다.",
         "4. 자동 추정 통과 후에도 초등학생 3명 이상으로 실제 5~10분 소요 시간을 측정합니다.",
         "",
+        "## 필수 조작 미적용 시뮬레이터 모드",
+        "",
+        "| 모드 | Regular MUD 단계 수 |",
+        "|---|---:|",
     ])
+    for mode, count in sorted(ungated_modes.items(), key=lambda item: (-item[1], item[0])):
+        lines.append(f"| `{mode}` | {count} |")
+    lines.append("")
     REPORT.write_text("\n".join(lines), encoding="utf-8")
     print(f"Audited {len(rows)} MUDs; {len(flagged)}/{len(regular)} regular MUDs need review.")
     return 0

@@ -82,7 +82,15 @@
         "type": "info",
         "infoText": "양반은 갓과 도포를 입고 학문과 정치를 담당한 조선 유교 사회의 엘리트였습니다.",
         "instruction": "🪪 <b>경국대전의 호패 규정과 신분을 확인하세요</b>",
-        "feedback": "호패 확인과 함께 과거 시험장에 입장했습니다!"
+        "feedback": "호패 확인과 함께 과거 시험장에 입장했습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "1-1": {
@@ -140,7 +148,15 @@
         "type": "info",
         "infoText": "중인들은 높은 교양과 실무 능력으로 조선 후기 새로운 문화와 개화 사상의 선구자가 되었습니다.",
         "instruction": "💊 <b>동의보감의 처방전과 침통을 정비하세요</b>",
-        "feedback": "백성을 구하는 훌륭한 의술이 펼쳐졌습니다!"
+        "feedback": "백성을 구하는 훌륭한 의술이 펼쳐졌습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "2-1": {
@@ -198,7 +214,15 @@
         "type": "gauge",
         "gaugeLabel": "풍년 농사 땀방울:",
         "instruction": "🌾 <b>화면을 터치하여 벼를 수확하고 백성들의 삶을 응원하세요!</b>",
-        "feedback": "정직한 땀방울로 황금 들판의 벼를 수확했습니다!"
+        "feedback": "정직한 땀방울로 황금 들판의 벼를 수확했습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "3-1": {

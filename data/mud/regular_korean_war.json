@@ -84,7 +84,15 @@
         "type": "info",
         "infoText": "피난 수도 부산에는 천막 교실과 판자촌이 들어서며 폐허 속에서도 배움과 희망을 놓지 않았습니다.",
         "instruction": "🎒 <b>피난길의 생명과 연대를 지키세요</b>",
-        "feedback": "부산 임시 수도에 무사히 도착했습니다."
+        "feedback": "부산 임시 수도에 무사히 도착했습니다.",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "1-1": {
@@ -142,7 +150,15 @@
         "type": "gauge",
         "gaugeLabel": "다부동 고지 사수율:",
         "instruction": "🪖 <b>화면을 터치하여 다부동 고지의 탄약과 방어선을 사수하세요!</b>",
-        "feedback": "낙동강 방어선을 기적처럼 결사 수호했습니다!"
+        "feedback": "낙동강 방어선을 기적처럼 결사 수호했습니다!",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 50,
+          "minActions": 2,
+          "progressKey": "gaugeProgress",
+          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+        }
       }
     },
     "2-1": {
