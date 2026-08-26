@@ -220,11 +220,12 @@ const MudEngine = {
       [choices[i], choices[j]] = [choices[j], choices[i]];
     }
 
-    choices.forEach(ch => {
+    choices.forEach((ch, index) => {
       const btn = document.createElement('button');
       btn.className = "btn secondary";
       btn.style.textAlign = 'left';
       btn.style.justifyContent = 'space-between';
+      btn.setAttribute('aria-label', `선택지 ${index + 1}: ${ch.text}`);
       btn.disabled = Boolean(this.currentSimulator?.required && !this.simulatorComplete);
       if (btn.disabled) {
         btn.style.opacity = '0.45';
@@ -232,7 +233,7 @@ const MudEngine = {
       }
       btn.innerHTML = `
         <span>${ch.text}</span>
-        <span style="font-size: 0.75rem; background: var(--card-sub); padding: 2px 6px; border-radius: 4px;">결단 ➔</span>
+        <span style="font-size: 0.75rem; background: var(--card-sub); padding: 2px 6px; border-radius: 4px; white-space: nowrap;">선택 ${index + 1} →</span>
       `;
       btn.onclick = () => {
         if (ch.sound && window.sounds) {
