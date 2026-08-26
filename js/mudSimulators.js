@@ -27,6 +27,7 @@ const MudSimulators = {
     if (!engine) return;
 
     const simMode = engine.simMode;
+    const interaction = engine.currentSimulator?.interaction || simMode;
     engine.registerSimulatorAction();
 
     if (simMode.startsWith('dolmen')) {
@@ -57,42 +58,9 @@ const MudSimulators = {
         engine.voteState.voteInserted = true;
         if (window.sounds) window.sounds.playFanfare();
       }
-    } else if (simMode === 'paleo-environment') {
-      const hotspot = this.getPaleoEnvironmentHotspot(x, y, canvas);
-      if (!hotspot) {
-        this.setPaleoEnvironmentFeedback('주변의 다른 장소를 살펴보세요. 동굴·강가·평야를 찾아보세요.');
-      } else if (engine.paleoEnvironmentState.found.includes(hotspot.id)) {
-        this.setPaleoEnvironmentFeedback(`${hotspot.label}은(는) 이미 확인했습니다. 다른 단서를 찾아보세요.`);
-      } else {
-        engine.paleoEnvironmentState.found.push(hotspot.id);
-        engine.paleoEnvironmentState.lastId = hotspot.id;
-        engine.paleoEnvironmentFound = engine.paleoEnvironmentState.found.length;
-        this.setPaleoEnvironmentFeedback(`${hotspot.label}: ${hotspot.feedback} (${engine.paleoEnvironmentFound}/3)`, hotspot.id);
-        if (window.sounds) window.sounds.playClick();
-      }
-    } else if (simMode === 'paleo-fire') {
-      const hotspot = this.getPaleoHotspot('paleo-fire', x, y, canvas);
-      const order = ['dry-grass', 'branches', 'stone'];
-      const step = engine.paleoFireStep;
-      if (!hotspot) {
-        this.setPaleoFeedback('마른 풀·나뭇가지·돌을 차례로 찾아보세요.');
-      } else if (hotspot.id !== order[step]) {
-        this.setPaleoFeedback(`${hotspot.label}보다 먼저 ${this.getPaleoHotspotLabel(order[step])}을(를) 준비해야 합니다.`);
-      } else {
-        engine.paleoFireState.found.push(hotspot.id);
-        engine.paleoFireState.lastId = hotspot.id;
-        engine.paleoFireStep += 1;
-        this.updatePaleoGauge(engine.paleoFireStep, 3);
-        this.setPaleoFeedback(`${hotspot.label}: ${hotspot.feedback} (${engine.paleoFireStep}/3)`, hotspot.id);
-        if (window.sounds) window.sounds.playClick();
-      }
-    } else if (simMode === 'paleo-stone') {
-      const hotspot = this.getPaleoHotspot('paleo-stone', x, y, canvas);
-      if (this.processPaleoDiscovery('paleo-stone', hotspot, engine)) {
-        engine.paleoStoneFacets = engine.paleoStoneState.found.length;
-        this.updatePaleoGauge(engine.paleoStoneFacets, 3);
-      }
-    } else if (simMode === 'paleo-hunt' || simMode === 'paleo-community' || simMode === 'paleo-reflection') {
+    } else if (interaction === 'ordered-hotspot') {
+      this.processOrderedHotspot(simMode, this.getPaleoHotspot(simMode, x, y, canvas), engine);
+    } else if (interaction === 'hotspot-discovery' || interaction === 'resource-allocation' || interaction === 'reflection') {
       this.processPaleoDiscovery(simMode, this.getPaleoHotspot(simMode, x, y, canvas), engine);
     } else if (simMode === 'neolithic-pottery' || simMode.startsWith('economy') || simMode.startsWith('battle-gauge') || simMode.startsWith('culture-touch') || simMode.startsWith('text-reading')) {
       engine.gaugeProgress = Math.min(100, (engine.gaugeProgress || 0) + engine.simulatorIncrement());
@@ -137,6 +105,7 @@ const MudSimulators = {
     const engine = window.MudEngine;
     if (!engine) return;
     const simMode = engine.simMode;
+    const interaction = engine.currentSimulator?.interaction || simMode;
 
     if (simMode.startsWith('dolmen')) {
       this.drawPreciseDolmen(ctx, w, h, engine.dolmenState, simMode);
@@ -256,15 +225,14 @@ const MudSimulators = {
       ctx.fillStyle = '#FCD34D';
       ctx.font = '10px "Pretendard"';
       ctx.fillText("화면을 터치하여 승기를 잡으세요!", w/2, h - 15);
-    } else if (simMode === 'paleo-environment') {
-      this.drawPaleoEnvironment(ctx, w, h, engine.paleoEnvironmentState);
-    } else if (simMode === 'paleo-fire') {
-      this.drawPaleoActivity(ctx, w, h, simMode, engine.paleoFireState, engine.paleoFireStep);
-    } else if (simMode === 'paleo-stone') {
-      this.drawPaleoActivity(ctx, w, h, simMode, engine.paleoStoneState, engine.paleoStoneFacets);
-    } else if (simMode === 'paleo-hunt' || simMode === 'paleo-community' || simMode === 'paleo-reflection') {
-      const state = simMode === 'paleo-hunt' ? engine.paleoHuntState : simMode === 'paleo-community' ? engine.paleoCommunityState : engine.paleoReflectionState;
-      this.drawPaleoActivity(ctx, w, h, simMode, state, state.found.length);
+    } else if (interaction === 'hotspot-discovery' || interaction === 'resource-allocation' || interaction === 'reflection' || interaction === 'ordered-hotspot') {
+      const stateKey = { 'paleo-environment': 'paleoEnvironmentState', 'paleo-fire': 'paleoFireState', 'paleo-stone': 'paleoStoneState', 'paleo-hunt': 'paleoHuntState', 'paleo-community': 'paleoCommunityState', 'paleo-reflection': 'paleoReflectionState' }[simMode];
+      const state = engine[stateKey] || { found: [] };
+      if (simMode === 'paleo-environment') {
+        this.drawPaleoEnvironment(ctx, w, h, state);
+      } else {
+        this.drawPaleoActivity(ctx, w, h, simMode, state, simMode === 'paleo-fire' ? engine.paleoFireStep : state.found.length);
+      }
     } else if (simMode.startsWith('culture-touch')) {
       // ✨ 문화 예술 & 생활 유물 체험 모드
       ctx.fillStyle = '#064e3b';
@@ -368,6 +336,7 @@ const MudSimulators = {
   },
 
   getPaleoHotspots(mode, canvasWidth, canvasHeight) {
+    if (mode === 'paleo-environment') return this.getPaleoEnvironmentHotspots(canvasWidth, canvasHeight);
     const base = {
       'paleo-fire': [
         { id: 'dry-grass', label: '마른 풀', x: 0.23, y: 0.68, feedback: '불씨를 살릴 가벼운 재료입니다.' },
@@ -416,7 +385,7 @@ const MudSimulators = {
   },
 
   processPaleoDiscovery(mode, hotspot, engine) {
-    const stateKey = mode === 'paleo-stone' ? 'paleoStoneState' : mode === 'paleo-hunt' ? 'paleoHuntState' : mode === 'paleo-community' ? 'paleoCommunityState' : 'paleoReflectionState';
+    const stateKey = mode === 'paleo-environment' ? 'paleoEnvironmentState' : mode === 'paleo-stone' ? 'paleoStoneState' : mode === 'paleo-hunt' ? 'paleoHuntState' : mode === 'paleo-community' ? 'paleoCommunityState' : 'paleoReflectionState';
     const state = engine[stateKey];
     if (!hotspot) {
       this.setPaleoFeedback('화면의 표시된 단서를 눌러 활동을 계속하세요.');
@@ -428,11 +397,33 @@ const MudSimulators = {
     }
     state.found.push(hotspot.id);
     state.lastId = hotspot.id;
-    const progressKey = mode === 'paleo-stone' ? 'paleoStoneFacets' : mode === 'paleo-hunt' ? 'paleoHuntFound' : mode === 'paleo-community' ? 'paleoCommunityFound' : 'paleoReflectionFound';
+    const progressKey = mode === 'paleo-environment' ? 'paleoEnvironmentFound' : mode === 'paleo-stone' ? 'paleoStoneFacets' : mode === 'paleo-hunt' ? 'paleoHuntFound' : mode === 'paleo-community' ? 'paleoCommunityFound' : 'paleoReflectionFound';
     engine[progressKey] = state.found.length;
-    this.setPaleoFeedback(`${hotspot.label}: ${hotspot.feedback} (${state.found.length}/${this.getPaleoHotspots(mode, 100, 100).length})`, hotspot.id);
+    const total = this.getPaleoHotspots(mode, 100, 100).length;
+    if (mode === 'paleo-stone') this.updatePaleoGauge(state.found.length, total);
+    this.setPaleoFeedback(`${hotspot.label}: ${hotspot.feedback} (${state.found.length}/${total})`, hotspot.id);
     if (window.sounds) window.sounds.playClick();
     return true;
+  },
+
+  processOrderedHotspot(mode, hotspot, engine) {
+    const state = engine.paleoFireState;
+    const sequence = engine.currentSimulator?.sequence || ['dry-grass', 'branches', 'stone'];
+    const step = engine.paleoFireStep;
+    if (!hotspot) {
+      this.setPaleoFeedback('마른 풀·나뭇가지·부싯돌을 순서대로 찾아보세요.');
+      return;
+    }
+    if (hotspot.id !== sequence[step]) {
+      this.setPaleoFeedback(`${hotspot.label}보다 먼저 ${this.getPaleoHotspotLabel(sequence[step])}을(를) 준비해야 합니다.`);
+      return;
+    }
+    state.found.push(hotspot.id);
+    state.lastId = hotspot.id;
+    engine.paleoFireStep += 1;
+    this.updatePaleoGauge(engine.paleoFireStep, sequence.length);
+    this.setPaleoFeedback(`${hotspot.label}: ${hotspot.feedback} (${engine.paleoFireStep}/${sequence.length})`, hotspot.id);
+    if (window.sounds) window.sounds.playClick();
   },
 
   drawPaleoActivity(ctx, w, h, mode, state, progress) {

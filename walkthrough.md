@@ -13,6 +13,8 @@
 - 구석기 실패 분기 시뮬레이터도 해당 본 단계의 전용 활동을 재사용하도록 정리했다.
 - 구형 `paleo-fire`·`paleo-stone` 렌더러가 전용 렌더러를 가로채던 분기 충돌을 제거했다.
 - 불 피우기·주먹도끼의 단계 진행률을 화면 게이지와 연결하고, 안내 문구를 실제 상호작용 순서와 일치시켰다.
+- 활동 판정 유형을 `interaction` 필드로 분리해 구석기 시뮬레이터가 공통 처리기(`hotspot-discovery`, `ordered-hotspot`, `resource-allocation`, `reflection`)를 사용하도록 전환했다.
+- 시뮬레이터 활동 유형 문서를 `simulator_schema.md`에 정리하고 무결성 검증기에 유형 검사를 추가했다.
 - MUD 무결성 검증기에 새 시뮬레이터 모드를 등록했다.
 - 검증: `node --check` 2개 파일, 게임 데이터 검증, MUD 무결성 검증, `git diff --check`, 브라우저 반복 클릭·3개 단서 탐색 흐름.
 

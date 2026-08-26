@@ -109,6 +109,7 @@
       ],
       "simulator": {
         "mode": "paleo-environment",
+        "interaction": "hotspot-discovery",
         "type": "info",
         "required": true,
         "completion": {
@@ -142,6 +143,7 @@
       ],
       "simulator": {
         "mode": "paleo-environment",
+        "interaction": "hotspot-discovery",
         "type": "info",
         "infoText": "구석기인들은 자연 동굴이나 바위 그늘에서 생활했습니다.",
         "instruction": "🏕️ <b>안전한 보금자리를 다시 찾아보세요</b>",
@@ -179,6 +181,7 @@
       ],
       "simulator": {
         "mode": "paleo-fire",
+        "interaction": "ordered-hotspot",
         "type": "gauge",
         "required": true,
         "completion": {
@@ -212,6 +215,7 @@
       ],
       "simulator": {
         "mode": "paleo-fire",
+        "interaction": "ordered-hotspot",
         "type": "gauge",
         "gaugeLabel": "불꽃 마찰열:",
         "instruction": "🔥 <b>마른 풀 → 나뭇가지 → 부싯돌 순서로 다시 찾아보세요!</b>",
@@ -255,6 +259,7 @@
       ],
       "simulator": {
         "mode": "paleo-stone",
+        "interaction": "hotspot-discovery",
         "type": "gauge",
         "required": true,
         "completion": {
@@ -288,6 +293,7 @@
       ],
       "simulator": {
         "mode": "paleo-stone",
+        "interaction": "hotspot-discovery",
         "type": "gauge",
         "gaugeLabel": "주먹도끼 완성도:",
         "instruction": "⛏️ <b>가장자리·돌의 면·뾰족한 끝을 다시 차례로 확인하세요!</b>",
@@ -319,6 +325,7 @@
       ],
       "simulator": {
         "mode": "paleo-hunt",
+        "interaction": "hotspot-discovery",
         "type": "info",
         "required": true,
         "completion": {
@@ -352,6 +359,7 @@
       ],
       "simulator": {
         "mode": "paleo-hunt",
+        "interaction": "hotspot-discovery",
         "type": "info",
         "infoText": "사냥은 무리의 협력과 지형 관찰이 필요합니다.",
         "instruction": "🦌 <b>사냥터의 단서를 다시 확인하세요.</b>",
@@ -383,6 +391,7 @@
       ],
       "simulator": {
         "mode": "paleo-community",
+        "interaction": "resource-allocation",
         "type": "info",
         "required": true,
         "completion": {
@@ -416,6 +425,7 @@
       ],
       "simulator": {
         "mode": "paleo-community",
+        "interaction": "resource-allocation",
         "type": "info",
         "infoText": "공동체의 생존은 역할을 나누고 서로 돕는 데서 시작됩니다.",
         "instruction": "🤝 <b>공동체의 흔적을 다시 살펴보세요.</b>",
@@ -441,6 +451,7 @@
       ],
       "simulator": {
         "mode": "paleo-reflection",
+        "interaction": "reflection",
         "required": true,
         "completion": {
           "target": 3,

@@ -48,6 +48,16 @@ def is_supported_mode(mode: str) -> bool:
     return mode in exact or mode.startswith(prefixes)
 
 
+def is_supported_interaction(interaction: str) -> bool:
+    return interaction in {
+        "hotspot-discovery",
+        "ordered-hotspot",
+        "resource-allocation",
+        "reflection",
+        "gauge",
+    }
+
+
 def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
@@ -103,6 +113,9 @@ def main() -> int:
             mode = simulator.get("mode")
             if mode and not is_supported_mode(mode):
                 fail(errors, f"{path.name}:{stage_id} unsupported simulator mode {mode}")
+            interaction = simulator.get("interaction")
+            if interaction and not is_supported_interaction(interaction):
+                fail(errors, f"{path.name}:{stage_id} unsupported interaction type {interaction}")
 
             if simulator.get("required"):
                 completion = simulator.get("completion") or {}
