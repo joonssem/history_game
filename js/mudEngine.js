@@ -441,30 +441,45 @@ const MudEngine = {
 
   triggerVoteAction(action) {
     if (action === 'stamp') {
+      if (this.voteState.stamped) return;
       this.voteState.stamped = true;
+      this.registerSimulatorAction();
+      this.simulatorProgress = 1;
       if (window.sounds) window.sounds.playClick();
     } else if (action === 'insert') {
       if (!this.voteState.stamped) {
         alert('먼저 투표용지에 기표 도장(卜)을 찍어주세요!');
         return;
       }
+      if (this.voteState.voteInserted) return;
       this.voteState.voteInserted = true;
+      this.registerSimulatorAction();
+      this.simulatorProgress = 2;
       if (window.sounds) window.sounds.playFanfare();
     }
+    this.updateSimulatorCompletion();
   },
 
   colorTaegeukPart(part) {
     if (this.taegeukState[part] !== undefined) {
+      if (this.taegeukState[part]) return;
       this.taegeukState[part] = true;
+      this.registerSimulatorAction();
+      this.simulatorProgress = Object.values(this.taegeukState).filter(Boolean).length;
       if (window.sounds) window.sounds.playClick();
       this.checkTaegeukComplete();
+      this.updateSimulatorCompletion();
     }
   },
 
   colorAllTaegeuk() {
+    if (Object.values(this.taegeukState).every(Boolean)) return;
     this.taegeukState = { yangColor: true, yinColor: true, geon: true, gon: true, gam: true, ri: true };
+    this.registerSimulatorAction();
+    this.simulatorProgress = 6;
     if (window.sounds) window.sounds.playFanfare();
     this.checkTaegeukComplete();
+    this.updateSimulatorCompletion();
   },
 
   checkTaegeukComplete() {
