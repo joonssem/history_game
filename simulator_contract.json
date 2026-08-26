@@ -27,7 +27,8 @@
     "dolmen",
     "vote",
     "taegeuk-part",
-    "slider-set"
+    "slider-set",
+    "observe"
   ],
   "hotspotFields": ["id", "label", "feedback", "x", "y"],
   "curriculumMetadata": {

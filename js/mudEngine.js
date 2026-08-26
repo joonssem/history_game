@@ -331,12 +331,23 @@ const MudEngine = {
     } else if (action.type === 'taegeuk-part') {
       this.colorTaegeukPart(action.value);
     } else if (action.type === 'slider-set') {
-      this.updateSlider(Number(action.value));
+      this.updateSlider(Number(action.value), true);
       if (action.sound && window.sounds) {
         if (action.sound === 'fanfare') window.sounds.playFanfare();
         else window.sounds.playClick();
       }
+    } else if (action.type === 'observe') {
+      this.recordObservation(action.value);
     }
+  },
+
+  recordObservation(value) {
+    const observation = String(value || '').trim();
+    if (!observation || this.simulatorState.found.includes(observation)) return;
+    this.simulatorState.found.push(observation);
+    this.registerSimulatorAction();
+    this.setSimulatorProgress(this.simulatorState.found.length);
+    this.updateSimulatorCompletion();
   },
 
   renderSimulatorActions(sim, container) {
@@ -449,7 +460,7 @@ const MudEngine = {
   },
 
   // === 슬라이더 변경 반응 ===
-  updateSlider(val) {
+  updateSlider(val, userInitiated = false) {
     this.targetCurrent = Number(val);
     const sliderValEl = document.getElementById('slider-val');
     if (this.simMode.startsWith('dolmen')) {
@@ -462,6 +473,11 @@ const MudEngine = {
       if (sliderValEl) sliderValEl.textContent = desc;
     } else {
       if (sliderValEl) sliderValEl.textContent = `${val}`;
+    }
+    if (userInitiated && this.currentSimulator?.required) {
+      this.registerSimulatorAction();
+      this.setSimulatorProgress(Number(val));
+      this.updateSimulatorCompletion();
     }
   },
 

@@ -98,4 +98,42 @@ engine.registerSimulatorAction();
 engine.updateSimulatorCompletion();
 assert.equal(engine.simulatorComplete, true, 'two legacy touches must unlock choices');
 
+const observation = {
+  mode: 'mn-map-idle',
+  required: true,
+  completion: {
+    target: 3,
+    minActions: 3,
+    progressKey: 'simulatorProgress',
+    successText: '완료'
+  }
+};
+
+prepare(observation);
+engine.recordObservation('joseon-fleet');
+engine.recordObservation('joseon-fleet');
+assert.equal(engine.simActionCount, 1, 'duplicate observations must not count twice');
+assert.equal(engine.simulatorProgress, 1, 'duplicate observations must not advance progress');
+engine.recordObservation('japanese-fleet');
+engine.recordObservation('narrow-channel');
+assert.equal(engine.simulatorComplete, true, 'three unique observations must unlock choices');
+
+const currentSlider = {
+  mode: 'mn-current-switch',
+  required: true,
+  completion: {
+    target: 80,
+    minActions: 1,
+    progressKey: 'simulatorProgress',
+    successText: '완료'
+  }
+};
+
+prepare(currentSlider);
+engine.updateSlider(79, true);
+assert.equal(engine.simulatorComplete, false, 'slider below target must keep choices locked');
+engine.updateSlider(80, true);
+assert.equal(engine.simulatorProgress, 80);
+assert.equal(engine.simulatorComplete, true, 'user slider input at target must unlock choices');
+
 console.log('PASS: simulator runtime state, valid-action counting, and legacy progress adapters');

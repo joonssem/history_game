@@ -780,6 +780,7 @@ const MudSimulators = {
             if (gp) gp.textContent = `${engine.gaugeProgress}%`;
             const gb = document.getElementById('gauge-bar');
             if (gb) gb.style.width = `${engine.gaugeProgress}%`;
+            engine.updateSimulatorCompletion();
           }
         });
       });
