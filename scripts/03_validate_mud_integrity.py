@@ -18,6 +18,10 @@ def fail(errors: list[str], message: str) -> None:
     errors.append(message)
 
 
+def warn(warnings: list[str], message: str) -> None:
+    warnings.append(message)
+
+
 def is_supported_mode(mode: str) -> bool:
     exact = {
         "dolmen-step1",
@@ -42,6 +46,8 @@ def is_supported_mode(mode: str) -> bool:
 
 def main() -> int:
     errors: list[str] = []
+    warnings: list[str] = []
+    correct_positions: list[int] = []
     artifact_data = json.loads(ARTIFACTS.read_text(encoding="utf-8"))
     artifact_ids = {item["id"] for item in artifact_data}
     artifact_names = {item["id"]: item.get("name") for item in artifact_data}
@@ -66,7 +72,21 @@ def main() -> int:
             continue
 
         for stage_id, stage in stages.items():
-            for choice_index, choice in enumerate(stage.get("choices", [])):
+            choices = stage.get("choices", [])
+            if len(choices) > 1:
+                correct_indices = [
+                    index for index, choice in enumerate(choices) if choice.get("correct") is True
+                ]
+                if not correct_indices or len(correct_indices) == len(choices):
+                    fail(
+                        errors,
+                        f"{path.name}:{stage_id} must contain both correct and incorrect choices, "
+                        f"found {len(correct_indices)} correct of {len(choices)}",
+                    )
+                elif len(correct_indices) == 1:
+                    correct_positions.append(correct_indices[0] + 1)
+
+            for choice_index, choice in enumerate(choices):
                 target = choice.get("next")
                 if not target:
                     fail(errors, f"{path.name}:{stage_id}:{choice_index} missing next")
@@ -114,12 +134,21 @@ def main() -> int:
             if artifact_id and artifact_id not in artifact_ids:
                 fail(errors, f"{story.get('id')}: unknown story artifact {artifact_id}")
 
+    if correct_positions and len(set(correct_positions)) == 1:
+        warn(
+            warnings,
+            "All multi-choice stages currently place the correct choice at "
+            f"position {correct_positions[0]}; runtime shuffling is required.",
+        )
+
     if errors:
         print(f"FAIL: {len(errors)} integrity errors")
         print("\n".join(f"- {error}" for error in errors))
         return 1
 
     print("PASS: MUD integrity, transitions, rewards, index, and simulator modes are valid.")
+    for warning in warnings:
+        print(f"WARNING: {warning}")
     return 0
 
 

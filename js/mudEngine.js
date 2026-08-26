@@ -178,7 +178,15 @@ const MudEngine = {
     // 선택지 버튼 생성
     const grid = document.getElementById('mn-choices-grid');
     grid.innerHTML = '';
-    stage.choices.forEach(ch => {
+    // 선택지 원본 순서는 보존하고, 화면에 표시할 복사본만 섞는다.
+    // 선택지가 하나뿐인 IF 재시도 단계는 불필요하게 처리하지 않는다.
+    const choices = [...(stage.choices || [])];
+    for (let i = choices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [choices[i], choices[j]] = [choices[j], choices[i]];
+    }
+
+    choices.forEach(ch => {
       const btn = document.createElement('button');
       btn.className = "btn secondary";
       btn.style.textAlign = 'left';
