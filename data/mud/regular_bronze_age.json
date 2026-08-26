@@ -10,6 +10,27 @@
   "subtitle": "청동기 MUD",
   "storyId": "story_bronze_age",
   "playTime": "10-15min",
+  "curriculum": {
+    "version": "2022-revised",
+    "achievementStandards": ["6사04-01"],
+    "mappingStatus": "pilot-achievement-standard-mapped"
+  },
+  "sources": [
+    {
+      "institution": "국립특수교육원",
+      "title": "2022 개정 공통 교육과정(초등학교) 사회과 성취수준",
+      "url": "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+      "checkedAt": "2026-08-26",
+      "claimScope": "[6사04-01] 성취기준과 유적·유물 기반 추론 활동"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "단군과 고조선",
+      "url": "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h71_0030_0020_0010_0050",
+      "checkedAt": "2026-08-26",
+      "claimScope": "청동기 문화·계급 분화·지배자·고인돌"
+    }
+  ],
   "themeColor": "#B48448",
   "accentColor": "#E9C46A",
   "header": {
@@ -54,7 +75,7 @@
   ],
   "stages": {
     "1": {
-      "location": "청동기 배산임수 마을",
+      "location": "청동기 시대 강가의 농경 마을",
       "badge": "🌾 사유재산과 계급 발생",
       "character": {
         "name": "청동기 농부",

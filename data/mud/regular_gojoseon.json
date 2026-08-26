@@ -9,6 +9,27 @@
   "subtitle": "고조선 MUD",
   "storyId": "story_gojoseon",
   "playTime": "10-15min",
+  "curriculum": {
+    "version": "2022-revised",
+    "achievementStandards": ["6사04-01"],
+    "mappingStatus": "pilot-achievement-standard-mapped"
+  },
+  "sources": [
+    {
+      "institution": "국립특수교육원",
+      "title": "2022 개정 공통 교육과정(초등학교) 사회과 성취수준",
+      "url": "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+      "checkedAt": "2026-08-26",
+      "claimScope": "[6사04-01] 성취기준과 유적·유물 기반 추론 활동"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "단군과 고조선",
+      "url": "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h71_0030_0020_0010_0050",
+      "checkedAt": "2026-08-26",
+      "claimScope": "건국 전승·청동기 문화·비파형 동검·고인돌·국가 형성"
+    }
+  ],
   "themeColor": "#A0522D",
   "accentColor": "#D27D2D",
   "header": {
@@ -53,14 +74,14 @@
   ],
   "stages": {
     "1": {
-      "location": "아사달(평양성) 백두산 기슭",
-      "badge": "👑 최초의 국가 건국",
+      "location": "고조선의 성장 지역, 요령 지방과 대동강 유역",
+      "badge": "👑 건국 전승과 국가 형성",
       "character": {
         "name": "단군왕검",
         "subtitle": "고조선의 시조",
         "avatar": "👑"
       },
-      "narrative": "<b>단군왕검이 청동기 문화를 바탕으로 우리 역사상 최초의 국가인 '고조선'을 세웠습니다! (기원전 2333년)</b><br><br>건국 이념인 <b>'홍익인간(널리 인간을 이롭게 하라)'</b>의 정신을 널리 펼쳐 수많은 부족이 모여들며 거대한 국가 형태를 갖추게 되었습니다. 그러나 사람들이 많아지면서 남의 물건을 훔치거나 서로 다투는 일이 자주 발생하기 시작했습니다.<br><br>지배자인 단군왕검으로서, 백성들의 생명과 재산을 보호하고 사회 질서를 유지하기 위해 무엇을 만들어야 할까요?",
+      "narrative": "<b>청동기 문화가 발전하고 지배자가 등장하면서 고조선이 성장했습니다.</b><br><br>《삼국유사》에는 단군왕검이 기원전 2333년에 고조선을 세웠다고 <b>전합니다</b>. 이 기록은 고조선의 건국 전승이며, 비파형 동검과 고인돌 같은 유적·유물을 함께 살펴 당시 사회 모습을 추론해야 합니다.<br><br>고조선에는 사회 질서를 유지하기 위한 법이 있었습니다. 남아 있는 법 조항을 통해 당시 사람들이 중요하게 여긴 것이 무엇인지 알아봅시다.",
       "glossary": [
         {
           "term": "단군왕검",
@@ -304,7 +325,7 @@
       "simulator": {
         "mode": "text-reading",
         "type": "info",
-        "infoText": "고조선은 기원전 2333년 건국된 우리 민족 최초의 국가입니다.",
+        "infoText": "《삼국유사》에는 단군왕검이 기원전 2333년에 고조선을 세웠다고 전합니다. 유적·유물과 기록을 함께 살펴봅시다.",
         "instruction": "🏆 <b>고조선 개국 미션 대성공!</b>",
         "feedback": "국보 도감에서 비파형 동검을 확인하세요!"
       }

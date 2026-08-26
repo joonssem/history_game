@@ -6,7 +6,7 @@ let curriculumData = null;
 let mudIndexData = [];
 let currentUnitId = 1;
 let currentActiveStoryId = 'story_paleolithic';
-const APP_VERSION = '2026.08.26-p4';
+const APP_VERSION = '2026.08.26-p6';
 
 // 초기화
 document.addEventListener('DOMContentLoaded', async () => {

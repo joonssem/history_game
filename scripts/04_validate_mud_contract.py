@@ -11,6 +11,7 @@ MUD_DIR = ROOT / "data" / "mud"
 INDEX = MUD_DIR / "_index.json"
 MAPPING = ROOT / "data" / "curriculum_mapping.json"
 CONTRACT = ROOT / "simulator_contract.json"
+STANDARDS = ROOT / "data" / "curriculum_standards_2022.json"
 
 
 def main() -> int:
@@ -18,6 +19,7 @@ def main() -> int:
     index = json.loads(INDEX.read_text(encoding="utf-8"))
     mapping = json.loads(MAPPING.read_text(encoding="utf-8"))
     contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    standards = json.loads(STANDARDS.read_text(encoding="utf-8"))["standards"]
 
     if index.get("curriculumVersion") != "2015-revised-grade5-semester2":
         errors.append("_index.json must identify its current content curriculum")
@@ -53,6 +55,21 @@ def main() -> int:
         errors.append(f"{filename}: missing from _index.json")
     if set(entries) != mapped_ids:
         errors.append("curriculum_mapping.json must contain exactly one record per indexed MUD")
+
+    mapping_by_id = {item["mudId"]: item for item in mapping.get("mappings", [])}
+    for mud_id, item in mapping_by_id.items():
+        target_standards = item.get("targetAchievementStandards", [])
+        for standard_id in target_standards:
+            if standard_id not in standards:
+                errors.append(f"{mud_id}: unknown 2022 achievement standard {standard_id}")
+        if item.get("status") == "pilot-achievement-standard-mapped":
+            source_path = MUD_DIR / entries[mud_id]["file"]
+            mud_data = json.loads(source_path.read_text(encoding="utf-8"))
+            mud_standards = mud_data.get("curriculum", {}).get("achievementStandards", [])
+            if set(mud_standards) != set(target_standards):
+                errors.append(f"{mud_id}: MUD and mapping achievement standards differ")
+            if len(mud_data.get("sources", [])) < 2:
+                errors.append(f"{mud_id}: pilot mapping requires curriculum and content sources")
 
     supported = set(contract.get("supportedInteractions", []))
     supported_progress_keys = set(contract.get("supportedProgressKeys", []))

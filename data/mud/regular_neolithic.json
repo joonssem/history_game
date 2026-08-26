@@ -9,6 +9,27 @@
   "subtitle": "신석기 MUD",
   "storyId": "story_neolithic",
   "playTime": "10-15min",
+  "curriculum": {
+    "version": "2022-revised",
+    "achievementStandards": ["6사04-01"],
+    "mappingStatus": "pilot-achievement-standard-mapped"
+  },
+  "sources": [
+    {
+      "institution": "국립특수교육원",
+      "title": "2022 개정 공통 교육과정(초등학교) 사회과 성취수준",
+      "url": "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+      "checkedAt": "2026-08-26",
+      "claimScope": "[6사04-01] 성취기준과 유적·유물 기반 추론 활동"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "우리나라의 선사 시대",
+      "url": "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h71_0030_0010",
+      "checkedAt": "2026-08-26",
+      "claimScope": "신석기 간석기·토기·농경·정착 생활"
+    }
+  ],
   "themeColor": "#2E6B4D",
   "accentColor": "#84A98C",
   "header": {
@@ -60,7 +81,7 @@
         "subtitle": "암사동 마을의 지도자",
         "avatar": "🌾"
       },
-      "narrative": "<b>빙하기가 끝나고 날씨가 따뜻해졌습니다!</b><br><br>날씨가 풀리면서 한반도의 식물과 동물 생태계가 크게 변했습니다. 거대하고 둔한 매머드는 사라지고, 작고 날랜 토끼와 사슴이 나타났습니다. 신석기 사람들은 이제 끊임없이 이동하는 대신, 먹을 것이 풍부한 곳에 정착하여 <b>마을</b>을 이루려 합니다.<br><br>정착 생활을 하려면 어디에 터를 잡는 것이 가장 유리할까요?",
+      "narrative": "<b>빙하기가 끝나고 날씨가 따뜻해지면서 생활 환경이 달라졌습니다!</b><br><br>신석기 사람들은 간석기와 토기를 사용하고 농경을 시작했습니다. 강가나 바닷가에 움집을 짓고 머물며 <b>정착 생활</b>과 마을 공동체를 이루었습니다.<br><br>정착 생활을 하려면 어떤 환경과 생활 도구가 필요할지 유적과 유물을 근거로 추론해 봅시다. 어디에 터를 잡는 것이 유리할까요?",
       "glossary": [
         {
           "term": "움집",

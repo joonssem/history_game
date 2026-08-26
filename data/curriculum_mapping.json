@@ -14,8 +14,16 @@
       "targetCurriculum": "2022-revised",
       "targetUnitId": null,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "pilot-achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-01"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h71_0030_0010"
+      ]
     },
     {
       "mudId": "regular_neolithic",
@@ -27,8 +35,16 @@
       "targetCurriculum": "2022-revised",
       "targetUnitId": null,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "pilot-achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-01"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h71_0030_0010"
+      ]
     },
     {
       "mudId": "regular_bronze_age",
@@ -41,8 +57,16 @@
       "targetCurriculum": "2022-revised",
       "targetUnitId": null,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "pilot-achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-01"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h71_0030_0020_0010_0050"
+      ]
     },
     {
       "mudId": "regular_gojoseon",
@@ -54,8 +78,16 @@
       "targetCurriculum": "2022-revised",
       "targetUnitId": null,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "pilot-achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-01"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h71_0030_0020_0010_0050"
+      ]
     },
     {
       "mudId": "regular_three_kingdoms",

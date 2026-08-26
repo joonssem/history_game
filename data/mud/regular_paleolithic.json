@@ -9,6 +9,27 @@
   "subtitle": "구석기 MUD",
   "storyId": "story_paleolithic",
   "playTime": "5-10min",
+  "curriculum": {
+    "version": "2022-revised",
+    "achievementStandards": ["6사04-01"],
+    "mappingStatus": "pilot-achievement-standard-mapped"
+  },
+  "sources": [
+    {
+      "institution": "국립특수교육원",
+      "title": "2022 개정 공통 교육과정(초등학교) 사회과 성취수준",
+      "url": "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+      "checkedAt": "2026-08-26",
+      "claimScope": "[6사04-01] 성취기준과 유적·유물 기반 추론 활동"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "우리나라의 선사 시대",
+      "url": "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h71_0030_0010",
+      "checkedAt": "2026-08-26",
+      "claimScope": "구석기 뗀석기·채집·사냥·이동 생활"
+    }
+  ],
   "themeColor": "#6F4E37",
   "accentColor": "#C19A6B",
   "header": {
@@ -120,7 +141,7 @@
           "successText": "🏕️ 안전한 보금자리의 단서를 모두 확인했습니다."
         },
         "infoText": "구석기 사람들은 한탄강변 바위 그늘과 막집을 지으며 이동 생활을 했습니다.",
-        "instruction": "🏕️ <b>70만 년 전 한탄강 구석기 자연환경 탐색</b>",
+        "instruction": "🏕️ <b>구석기 시대 한탄강 전곡리 자연환경 탐색</b>",
         "feedback": "동굴과 강가를 확인하세요!"
       }
     },
