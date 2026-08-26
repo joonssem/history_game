@@ -62,14 +62,18 @@ def main() -> int:
         for standard_id in target_standards:
             if standard_id not in standards:
                 errors.append(f"{mud_id}: unknown 2022 achievement standard {standard_id}")
-        if item.get("status") == "pilot-achievement-standard-mapped":
+        if item.get("status") in {
+            "pilot-achievement-standard-mapped",
+            "achievement-standard-mapped",
+        }:
             source_path = MUD_DIR / entries[mud_id]["file"]
             mud_data = json.loads(source_path.read_text(encoding="utf-8"))
             mud_standards = mud_data.get("curriculum", {}).get("achievementStandards", [])
             if set(mud_standards) != set(target_standards):
                 errors.append(f"{mud_id}: MUD and mapping achievement standards differ")
-            if len(mud_data.get("sources", [])) < 2:
-                errors.append(f"{mud_id}: pilot mapping requires curriculum and content sources")
+            minimum_source_count = 2 if item.get("status") == "pilot-achievement-standard-mapped" else 1
+            if len(mud_data.get("sources", [])) < minimum_source_count:
+                errors.append(f"{mud_id}: mapped MUD requires curriculum source metadata")
 
     supported = set(contract.get("supportedInteractions", []))
     supported_progress_keys = set(contract.get("supportedProgressKeys", []))

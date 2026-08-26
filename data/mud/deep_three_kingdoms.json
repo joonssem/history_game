@@ -340,8 +340,18 @@
         "mode": "text-reading",
         "type": "buttons",
         "actions": [
-          { "type": "slider-set", "value": 80, "label": "1. 장창 숲 전개", "sound": "click" },
-          { "type": "slider-set", "value": 100, "label": "2. 보급로 기습", "sound": "fanfare" }
+          {
+            "type": "slider-set",
+            "value": 80,
+            "label": "1. 장창 숲 전개",
+            "sound": "click"
+          },
+          {
+            "type": "slider-set",
+            "value": 100,
+            "label": "2. 보급로 기습",
+            "sound": "fanfare"
+          }
         ],
         "instruction": "🛡️ <b>장창 방진을 펼치고 적의 보급로를 차단하세요!</b>",
         "feedback": "당나라 기병의 돌격을 완벽히 차단했습니다! 말 3만 필 노획!"
@@ -577,6 +587,22 @@
     {
       "artifactId": "art_deep_2",
       "name": "화랑의 서약검과 정혜공주 묘지석"
+    }
+  ],
+  "curriculum": {
+    "version": "2022-revised",
+    "achievementStandards": [
+      "6사04-02"
+    ],
+    "mappingStatus": "achievement-standard-mapped"
+  },
+  "sources": [
+    {
+      "institution": "국립특수교육원",
+      "title": "2022 개정 공통 교육과정(초등학교) 사회과 성취수준",
+      "url": "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+      "checkedAt": "2026-08-26",
+      "claimScope": "2022 개정 성취기준 6사04-02과의 주제 정합성"
     }
   ]
 }

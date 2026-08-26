@@ -2,7 +2,7 @@
   "version": "1.0",
   "status": "pending-content-review",
   "source": "data/mud/_index.json",
-  "description": "기존 차시 연결과 2022 개정 교육과정 연결을 분리한 매핑 기준선",
+  "description": "2022 개정 성취기준 직접 매핑과 보조 역사 맥락을 구분한 매핑 기준선",
   "mappings": [
     {
       "mudId": "regular_paleolithic",
@@ -98,10 +98,17 @@
         8
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 4,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_three_kingdoms_life",
@@ -112,10 +119,17 @@
         10
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 4,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_goryeo_founding",
@@ -125,10 +139,17 @@
         13
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 4,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-03"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_goryeo_society",
@@ -138,10 +159,17 @@
         14
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 4,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-03"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_joseon_founding",
@@ -152,10 +180,17 @@
         3
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 5,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "달라지는 시대, 변화하는 생활 모습",
+      "targetAchievementStandards": [
+        "6사05-01"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_myeongnyang",
@@ -167,8 +202,13 @@
       "targetCurriculum": "2022-revised",
       "targetUnitId": null,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "supplementary-content-review-required",
+      "reviewNote": "임진왜란·명량대첩은 현행 성취기준의 직접 성취 과제로 단정하지 않고 보조 역사 맥락으로 유지한다.",
+      "targetUnitTitle": null,
+      "targetAchievementStandards": [],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_joseon_economy",
@@ -178,10 +218,17 @@
         8
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 5,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "달라지는 시대, 변화하는 생활 모습",
+      "targetAchievementStandards": [
+        "6사05-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_joseon_silhak",
@@ -191,10 +238,17 @@
         9
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 5,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "달라지는 시대, 변화하는 생활 모습",
+      "targetAchievementStandards": [
+        "6사05-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_gwangbok",
@@ -205,10 +259,17 @@
         9
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 6,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "식민 통치와 저항, 전쟁이 바꾼 사회와 생활",
+      "targetAchievementStandards": [
+        "6사06-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "deep_prehistoric",
@@ -222,10 +283,17 @@
         6
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 4,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-01"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "deep_three_kingdoms",
@@ -240,10 +308,17 @@
         12
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 4,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "deep_joseon",
@@ -258,10 +333,18 @@
         9
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 5,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "달라지는 시대, 변화하는 생활 모습",
+      "targetAchievementStandards": [
+        "6사05-01",
+        "6사05-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "deep_modern",
@@ -278,10 +361,19 @@
         13
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 6,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "식민 통치와 저항, 전쟁이 바꾼 사회와 생활",
+      "targetAchievementStandards": [
+        "6사06-01",
+        "6사06-02",
+        "6사07-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_sejong",
@@ -292,10 +384,17 @@
         25
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 5,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "달라지는 시대, 변화하는 생활 모습",
+      "targetAchievementStandards": [
+        "6사05-01"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_independence",
@@ -306,10 +405,17 @@
         39
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 6,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "식민 통치와 저항, 전쟁이 바꾼 사회와 생활",
+      "targetAchievementStandards": [
+        "6사06-01"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_korean_war",
@@ -321,10 +427,17 @@
         46
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 6,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "식민 통치와 저항, 전쟁이 바꾼 사회와 생활",
+      "targetAchievementStandards": [
+        "6사06-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_goryeo_war",
@@ -335,10 +448,17 @@
         16
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 4,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-03"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_goryeo_culture",
@@ -349,10 +469,17 @@
         18
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 4,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-03"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_joseon_folk",
@@ -362,10 +489,17 @@
         10
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 5,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "달라지는 시대, 변화하는 생활 모습",
+      "targetAchievementStandards": [
+        "6사05-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_modern_open",
@@ -376,10 +510,17 @@
         12
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 5,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "달라지는 시대, 변화하는 생활 모습",
+      "targetAchievementStandards": [
+        "6사05-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_independence_army",
@@ -389,10 +530,17 @@
         2
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 6,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "식민 통치와 저항, 전쟁이 바꾼 사회와 생활",
+      "targetAchievementStandards": [
+        "6사06-01"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_silla",
@@ -402,10 +550,17 @@
         11
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 4,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_balhae",
@@ -415,10 +570,17 @@
         12
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 4,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "유적과 유물로 살펴본 옛 사람들의 생활",
+      "targetAchievementStandards": [
+        "6사04-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_joseon_status",
@@ -428,10 +590,17 @@
         6
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 5,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "달라지는 시대, 변화하는 생활 모습",
+      "targetAchievementStandards": [
+        "6사05-01"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_joseon_diplomacy",
@@ -443,8 +612,13 @@
       "targetCurriculum": "2022-revised",
       "targetUnitId": null,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "supplementary-content-review-required",
+      "reviewNote": "조선 외교·병자호란은 현행 성취기준의 직접 성취 과제로 단정하지 않고 보조 역사 맥락으로 유지한다.",
+      "targetUnitTitle": null,
+      "targetAchievementStandards": [],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_japanese_rule_1",
@@ -454,10 +628,17 @@
         3
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 6,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "식민 통치와 저항, 전쟁이 바꾼 사회와 생활",
+      "targetAchievementStandards": [
+        "6사06-01"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_japanese_rule_2",
@@ -468,10 +649,17 @@
         7
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 6,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "식민 통치와 저항, 전쟁이 바꾼 사회와 생활",
+      "targetAchievementStandards": [
+        "6사06-01"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     },
     {
       "mudId": "regular_post_war",
@@ -481,10 +669,17 @@
         12
       ],
       "targetCurriculum": "2022-revised",
-      "targetUnitId": null,
+      "targetUnitId": 6,
       "targetLessonNumbers": [],
-      "status": "unmapped",
-      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+      "status": "achievement-standard-mapped",
+      "reviewNote": "성취기준 직접 매핑 완료, 출판사별 차시 번호 및 개별 서술 근거 확인 필요",
+      "targetUnitTitle": "식민 통치와 저항, 전쟁이 바꾼 사회와 생활",
+      "targetAchievementStandards": [
+        "6사06-02"
+      ],
+      "sources": [
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+      ]
     }
   ]
 }

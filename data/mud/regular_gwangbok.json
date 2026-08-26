@@ -92,15 +92,45 @@
         "mode": "gwangbok-flag",
         "type": "buttons",
         "required": true,
-        "completion": { "target": 6, "increment": 1, "minActions": 6, "progressKey": "simulatorProgress", "successText": "🇰🇷 태극기의 태극 문양과 건·곤·감·리를 모두 완성했습니다." },
+        "completion": {
+          "target": 6,
+          "increment": 1,
+          "minActions": 6,
+          "progressKey": "simulatorProgress",
+          "successText": "🇰🇷 태극기의 태극 문양과 건·곤·감·리를 모두 완성했습니다."
+        },
         "infoText": "<b>🇰🇷 태극기 색칠 & 사괘(건곤감리) 완성 시뮬레이터</b><br>태극 문양과 건·곤·감·리의 여섯 부분을 하나씩 완성하세요!",
         "actions": [
-          { "type": "taegeuk-part", "value": "yangColor", "label": "🔴 양(빨강)" },
-          { "type": "taegeuk-part", "value": "yinColor", "label": "🔵 음(파랑)" },
-          { "type": "taegeuk-part", "value": "geon", "label": "☰ 건(하늘)" },
-          { "type": "taegeuk-part", "value": "gon", "label": "☷ 곤(땅)" },
-          { "type": "taegeuk-part", "value": "gam", "label": "☵ 감(달·물)" },
-          { "type": "taegeuk-part", "value": "ri", "label": "☲ 리(해·불)" }
+          {
+            "type": "taegeuk-part",
+            "value": "yangColor",
+            "label": "🔴 양(빨강)"
+          },
+          {
+            "type": "taegeuk-part",
+            "value": "yinColor",
+            "label": "🔵 음(파랑)"
+          },
+          {
+            "type": "taegeuk-part",
+            "value": "geon",
+            "label": "☰ 건(하늘)"
+          },
+          {
+            "type": "taegeuk-part",
+            "value": "gon",
+            "label": "☷ 곤(땅)"
+          },
+          {
+            "type": "taegeuk-part",
+            "value": "gam",
+            "label": "☵ 감(달·물)"
+          },
+          {
+            "type": "taegeuk-part",
+            "value": "ri",
+            "label": "☲ 리(해·불)"
+          }
         ],
         "instruction": "🇰🇷 <b>광복의 태극기 색칠하기 & 건·곤·감·리 4괘 완성</b>",
         "feedback": "버튼이나 화면을 터치하여 태극기를 색칠하세요!"
@@ -238,11 +268,26 @@
         "mode": "gwangbok-vote",
         "type": "buttons",
         "required": true,
-        "completion": { "target": 2, "increment": 1, "minActions": 2, "progressKey": "simulatorProgress", "successText": "🗳️ 기표와 투표함 투입을 모두 마쳐 비밀투표를 완료했습니다." },
+        "completion": {
+          "target": 2,
+          "increment": 1,
+          "minActions": 2,
+          "progressKey": "simulatorProgress",
+          "successText": "🗳️ 기표와 투표함 투입을 모두 마쳐 비밀투표를 완료했습니다."
+        },
         "infoText": "<b>🗳️ 1948년 5·10 최초 민주 총선거 비밀 투표소</b><br>투표용지의 후보자 칸에 도장을 찍고 투표함에 넣어보세요!",
         "actions": [
-          { "type": "vote", "value": "stamp", "label": "🔴 기표 도장(卜) 찍기" },
-          { "type": "vote", "value": "insert", "label": "📥 투표함에 넣기", "variant": "primary" }
+          {
+            "type": "vote",
+            "value": "stamp",
+            "label": "🔴 기표 도장(卜) 찍기"
+          },
+          {
+            "type": "vote",
+            "value": "insert",
+            "label": "📥 투표함에 넣기",
+            "variant": "primary"
+          }
         ],
         "instruction": "🗳️ <b>투표용지를 터치하여 도장을 찍고 투표함에 넣으세요!</b>",
         "feedback": "우리 역사 최초의 보통·평등·직접·비밀 선거를 체험하세요!"
@@ -307,6 +352,22 @@
     {
       "artifactId": "art_16",
       "name": "대한민국 제헌 헌법 원본"
+    }
+  ],
+  "curriculum": {
+    "version": "2022-revised",
+    "achievementStandards": [
+      "6사06-02"
+    ],
+    "mappingStatus": "achievement-standard-mapped"
+  },
+  "sources": [
+    {
+      "institution": "국립특수교육원",
+      "title": "2022 개정 공통 교육과정(초등학교) 사회과 성취수준",
+      "url": "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+      "checkedAt": "2026-08-26",
+      "claimScope": "2022 개정 성취기준 6사06-02과의 주제 정합성"
     }
   ]
 }

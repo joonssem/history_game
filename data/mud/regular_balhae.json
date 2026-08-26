@@ -224,5 +224,21 @@
       "artifactId": "art_25",
       "name": "발해 석등과 이불병좌상"
     }
+  ],
+  "curriculum": {
+    "version": "2022-revised",
+    "achievementStandards": [
+      "6사04-02"
+    ],
+    "mappingStatus": "achievement-standard-mapped"
+  },
+  "sources": [
+    {
+      "institution": "국립특수교육원",
+      "title": "2022 개정 공통 교육과정(초등학교) 사회과 성취수준",
+      "url": "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+      "checkedAt": "2026-08-26",
+      "claimScope": "2022 개정 성취기준 6사04-02과의 주제 정합성"
+    }
   ]
 }

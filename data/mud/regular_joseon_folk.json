@@ -224,5 +224,21 @@
       "artifactId": "art_11",
       "name": "김홍도 서당도 영인본과 하회탈"
     }
+  ],
+  "curriculum": {
+    "version": "2022-revised",
+    "achievementStandards": [
+      "6사05-02"
+    ],
+    "mappingStatus": "achievement-standard-mapped"
+  },
+  "sources": [
+    {
+      "institution": "국립특수교육원",
+      "title": "2022 개정 공통 교육과정(초등학교) 사회과 성취수준",
+      "url": "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+      "checkedAt": "2026-08-26",
+      "claimScope": "2022 개정 성취기준 6사05-02과의 주제 정합성"
+    }
   ]
 }

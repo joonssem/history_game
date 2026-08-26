@@ -333,8 +333,16 @@
         "mode": "dolmen-step1",
         "type": "buttons",
         "actions": [
-          { "type": "dolmen", "value": "base", "label": "1. 받침돌 세우기" },
-          { "type": "dolmen", "value": "complete", "label": "2. 흙 치우고 완성" }
+          {
+            "type": "dolmen",
+            "value": "base",
+            "label": "1. 받침돌 세우기"
+          },
+          {
+            "type": "dolmen",
+            "value": "complete",
+            "label": "2. 흙 치우고 완성"
+          }
         ],
         "instruction": "🗿 <b>아래 버튼을 눌러 고인돌 축조를 완성하세요!</b>",
         "feedback": "받침돌을 세우고 흙을 치워 고인돌을 완성하세요!"
@@ -591,6 +599,22 @@
     {
       "artifactId": "art_deep_1",
       "name": "단군왕검의 비파형 동검과 8조법 목판"
+    }
+  ],
+  "curriculum": {
+    "version": "2022-revised",
+    "achievementStandards": [
+      "6사04-01"
+    ],
+    "mappingStatus": "achievement-standard-mapped"
+  },
+  "sources": [
+    {
+      "institution": "국립특수교육원",
+      "title": "2022 개정 공통 교육과정(초등학교) 사회과 성취수준",
+      "url": "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+      "checkedAt": "2026-08-26",
+      "claimScope": "2022 개정 성취기준 6사04-01과의 주제 정합성"
     }
   ]
 }
