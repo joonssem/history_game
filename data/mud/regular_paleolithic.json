@@ -11,7 +11,9 @@
   "playTime": "5-10min",
   "curriculum": {
     "version": "2022-revised",
-    "achievementStandards": ["6사04-01"],
+    "achievementStandards": [
+      "6사04-01"
+    ],
     "mappingStatus": "pilot-achievement-standard-mapped"
   },
   "sources": [

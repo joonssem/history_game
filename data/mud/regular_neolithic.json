@@ -11,7 +11,9 @@
   "playTime": "10-15min",
   "curriculum": {
     "version": "2022-revised",
-    "achievementStandards": ["6사04-01"],
+    "achievementStandards": [
+      "6사04-01"
+    ],
     "mappingStatus": "pilot-achievement-standard-mapped"
   },
   "sources": [
@@ -113,12 +115,36 @@
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
-          { "id": "riverbank", "label": "강가", "x": 0.22, "y": 0.48, "feedback": "물을 얻고 물고기와 조개를 찾을 수 있습니다." },
-          { "id": "farmland", "label": "농경지", "x": 0.50, "y": 0.65, "feedback": "씨앗을 심고 가꾸며 농경을 시작할 수 있습니다." },
-          { "id": "pit-house", "label": "움집", "x": 0.78, "y": 0.48, "feedback": "강가에 머물며 생활할 수 있는 정착 공간입니다." }
+          {
+            "id": "riverbank",
+            "label": "강가",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "물을 얻고 물고기와 조개를 찾을 수 있습니다."
+          },
+          {
+            "id": "farmland",
+            "label": "농경지",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "씨앗을 심고 가꾸며 농경을 시작할 수 있습니다."
+          },
+          {
+            "id": "pit-house",
+            "label": "움집",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "강가에 머물며 생활할 수 있는 정착 공간입니다."
+          }
         ],
         "required": true,
-        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🏡 정착 생활에 필요한 환경 단서를 모두 확인했습니다." },
+        "completion": {
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "🏡 정착 생활에 필요한 환경 단서를 모두 확인했습니다."
+        },
         "infoText": "신석기인들은 강가나 바닷가에 움집을 짓고 정착하여 농경 생활을 시작했습니다.",
         "instruction": "🏡 <b>암사동 한강변 신석기 마을 탐험</b>",
         "feedback": "움집과 화덕의 위치를 확인하세요!"
@@ -146,9 +172,27 @@
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
-          { "id": "riverbank", "label": "강가", "x": 0.22, "y": 0.48, "feedback": "물을 얻고 물고기와 조개를 찾을 수 있습니다." },
-          { "id": "farmland", "label": "농경지", "x": 0.50, "y": 0.65, "feedback": "씨앗을 심고 가꾸며 농경을 시작할 수 있습니다." },
-          { "id": "pit-house", "label": "움집", "x": 0.78, "y": 0.48, "feedback": "강가에 머물며 생활할 수 있는 정착 공간입니다." }
+          {
+            "id": "riverbank",
+            "label": "강가",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "물을 얻고 물고기와 조개를 찾을 수 있습니다."
+          },
+          {
+            "id": "farmland",
+            "label": "농경지",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "씨앗을 심고 가꾸며 농경을 시작할 수 있습니다."
+          },
+          {
+            "id": "pit-house",
+            "label": "움집",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "강가에 머물며 생활할 수 있는 정착 공간입니다."
+          }
         ],
         "infoText": "강가 암사동은 농사와 고기잡이에 최적의 환경이었습니다.",
         "instruction": "🏡 <b>강가로 돌아가 움집을 지으세요!</b>",
@@ -194,14 +238,42 @@
         "mode": "neolithic-pottery",
         "interaction": "ordered-hotspot",
         "type": "gauge",
-        "sequence": ["clay", "pointed-base", "comb-pattern"],
+        "sequence": [
+          "clay",
+          "pointed-base",
+          "comb-pattern"
+        ],
         "hotspots": [
-          { "id": "clay", "label": "진흙", "x": 0.22, "y": 0.65, "feedback": "물을 섞은 진흙을 준비합니다." },
-          { "id": "pointed-base", "label": "뾰족한 바닥", "x": 0.50, "y": 0.45, "feedback": "모래밭에 꽂기 좋은 뾰족한 바닥을 만듭니다." },
-          { "id": "comb-pattern", "label": "빗살무늬", "x": 0.78, "y": 0.65, "feedback": "겉면에 빗살무늬를 새겨 토기를 완성합니다." }
+          {
+            "id": "clay",
+            "label": "진흙",
+            "x": 0.22,
+            "y": 0.65,
+            "feedback": "물을 섞은 진흙을 준비합니다."
+          },
+          {
+            "id": "pointed-base",
+            "label": "뾰족한 바닥",
+            "x": 0.5,
+            "y": 0.45,
+            "feedback": "모래밭에 꽂기 좋은 뾰족한 바닥을 만듭니다."
+          },
+          {
+            "id": "comb-pattern",
+            "label": "빗살무늬",
+            "x": 0.78,
+            "y": 0.65,
+            "feedback": "겉면에 빗살무늬를 새겨 토기를 완성합니다."
+          }
         ],
         "required": true,
-        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🏺 빗살무늬 토기의 제작 순서를 완성했습니다." },
+        "completion": {
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "🏺 빗살무늬 토기의 제작 순서를 완성했습니다."
+        },
         "gaugeLabel": "빗살무늬 빚기:",
         "instruction": "🏺 <b>진흙을 터치하여 뾰족 바닥 토기를 빚으세요!</b>",
         "feedback": "화면을 터치해 빗살무늬를 새기세요!"
@@ -227,11 +299,33 @@
       "simulator": {
         "mode": "neolithic-pottery",
         "interaction": "ordered-hotspot",
-        "sequence": ["clay", "pointed-base", "comb-pattern"],
+        "sequence": [
+          "clay",
+          "pointed-base",
+          "comb-pattern"
+        ],
         "hotspots": [
-          { "id": "clay", "label": "진흙", "x": 0.22, "y": 0.65, "feedback": "물을 섞은 진흙을 준비합니다." },
-          { "id": "pointed-base", "label": "뾰족한 바닥", "x": 0.50, "y": 0.45, "feedback": "모래밭에 꽂기 좋은 뾰족한 바닥을 만듭니다." },
-          { "id": "comb-pattern", "label": "빗살무늬", "x": 0.78, "y": 0.65, "feedback": "겉면에 빗살무늬를 새겨 토기를 완성합니다." }
+          {
+            "id": "clay",
+            "label": "진흙",
+            "x": 0.22,
+            "y": 0.65,
+            "feedback": "물을 섞은 진흙을 준비합니다."
+          },
+          {
+            "id": "pointed-base",
+            "label": "뾰족한 바닥",
+            "x": 0.5,
+            "y": 0.45,
+            "feedback": "모래밭에 꽂기 좋은 뾰족한 바닥을 만듭니다."
+          },
+          {
+            "id": "comb-pattern",
+            "label": "빗살무늬",
+            "x": 0.78,
+            "y": 0.65,
+            "feedback": "겉면에 빗살무늬를 새겨 토기를 완성합니다."
+          }
         ],
         "type": "gauge",
         "gaugeLabel": "빗살무늬 빚기:",
@@ -279,12 +373,36 @@
         "interaction": "resource-allocation",
         "type": "info",
         "hotspots": [
-          { "id": "spindle-whorl", "label": "가락바퀴", "x": 0.22, "y": 0.48, "feedback": "실을 꼬아 옷감을 만드는 도구입니다." },
-          { "id": "bone-needle", "label": "뼈바늘", "x": 0.50, "y": 0.38, "feedback": "실을 꿰어 옷감을 잇는 도구입니다." },
-          { "id": "thread", "label": "실과 옷감", "x": 0.78, "y": 0.48, "feedback": "도구와 재료를 함께 사용해 옷을 만듭니다." }
+          {
+            "id": "spindle-whorl",
+            "label": "가락바퀴",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "실을 꼬아 옷감을 만드는 도구입니다."
+          },
+          {
+            "id": "bone-needle",
+            "label": "뼈바늘",
+            "x": 0.5,
+            "y": 0.38,
+            "feedback": "실을 꿰어 옷감을 잇는 도구입니다."
+          },
+          {
+            "id": "thread",
+            "label": "실과 옷감",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "도구와 재료를 함께 사용해 옷을 만듭니다."
+          }
         ],
         "required": true,
-        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🧵 신석기 의생활의 도구와 재료를 모두 확인했습니다." },
+        "completion": {
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "🧵 신석기 의생활의 도구와 재료를 모두 확인했습니다."
+        },
         "infoText": "가락바퀴와 뼈바늘의 발견은 인류가 스스로 옷감을 만들어 입기 시작했음을 증명합니다.",
         "instruction": "🧵 <b>가락바퀴와 뼈바늘 원리 확인</b>",
         "feedback": "원형 가락바퀴로 실을 뽑아내세요!"
@@ -312,9 +430,27 @@
         "interaction": "resource-allocation",
         "type": "info",
         "hotspots": [
-          { "id": "spindle-whorl", "label": "가락바퀴", "x": 0.22, "y": 0.48, "feedback": "실을 꼬아 옷감을 만드는 도구입니다." },
-          { "id": "bone-needle", "label": "뼈바늘", "x": 0.50, "y": 0.38, "feedback": "실을 꿰어 옷감을 잇는 도구입니다." },
-          { "id": "thread", "label": "실과 옷감", "x": 0.78, "y": 0.48, "feedback": "도구와 재료를 함께 사용해 옷을 만듭니다." }
+          {
+            "id": "spindle-whorl",
+            "label": "가락바퀴",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "실을 꼬아 옷감을 만드는 도구입니다."
+          },
+          {
+            "id": "bone-needle",
+            "label": "뼈바늘",
+            "x": 0.5,
+            "y": 0.38,
+            "feedback": "실을 꿰어 옷감을 잇는 도구입니다."
+          },
+          {
+            "id": "thread",
+            "label": "실과 옷감",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "도구와 재료를 함께 사용해 옷을 만듭니다."
+          }
         ],
         "infoText": "가락바퀴로 튼튼한 삼베 실을 꼬아 뽑았습니다.",
         "instruction": "🧵 <b>가락바퀴로 다시 실을 뽑으세요!</b>",
@@ -343,12 +479,36 @@
         "interaction": "reflection",
         "type": "info",
         "hotspots": [
-          { "id": "settlement", "label": "정착 생활", "x": 0.22, "y": 0.48, "feedback": "움집을 짓고 한곳에 머물며 생활했습니다." },
-          { "id": "farming", "label": "농경", "x": 0.50, "y": 0.38, "feedback": "농경은 식량을 직접 기르는 생활을 열었습니다." },
-          { "id": "pottery", "label": "빗살무늬 토기", "x": 0.78, "y": 0.48, "feedback": "토기는 식량을 저장하고 조리하는 데 쓰였습니다." }
+          {
+            "id": "settlement",
+            "label": "정착 생활",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "움집을 짓고 한곳에 머물며 생활했습니다."
+          },
+          {
+            "id": "farming",
+            "label": "농경",
+            "x": 0.5,
+            "y": 0.38,
+            "feedback": "농경은 식량을 직접 기르는 생활을 열었습니다."
+          },
+          {
+            "id": "pottery",
+            "label": "빗살무늬 토기",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "토기는 식량을 저장하고 조리하는 데 쓰였습니다."
+          }
         ],
         "required": true,
-        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🌾 신석기 혁명의 핵심 단서를 모두 되돌아보았습니다." },
+        "completion": {
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "🌾 신석기 혁명의 핵심 단서를 모두 되돌아보았습니다."
+        },
         "infoText": "서울 암사동 유적은 신석기 시대 대규모 집터와 토기가 발견된 유적입니다.",
         "instruction": "🏆 <b>신석기 정착 미션 대성공!</b>",
         "feedback": "국보 도감에서 빗살무늬 토기를 확인하세요!"

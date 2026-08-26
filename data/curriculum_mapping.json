@@ -65,7 +65,7 @@
       ],
       "sources": [
         "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
-        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h71_0030_0020_0010_0050"
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h71_0030_0010"
       ]
     },
     {
@@ -86,7 +86,7 @@
       ],
       "sources": [
         "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
-        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h71_0030_0020_0010_0050"
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h71_0030_0010"
       ]
     },
     {
@@ -107,7 +107,8 @@
         "6사04-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h31_0040_0030_0020"
       ]
     },
     {
@@ -128,7 +129,8 @@
         "6사04-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h31_0040_0030_0020"
       ]
     },
     {
@@ -148,7 +150,8 @@
         "6사04-03"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_e21_0010_0020_0060"
       ]
     },
     {
@@ -168,7 +171,8 @@
         "6사04-03"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_e21_0010_0020_0060"
       ]
     },
     {
@@ -189,7 +193,8 @@
         "6사05-01"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h21_0050_0010"
       ]
     },
     {
@@ -227,7 +232,8 @@
         "6사05-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h21_0050_0070"
       ]
     },
     {
@@ -247,7 +253,8 @@
         "6사05-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h21_0050_0070"
       ]
     },
     {
@@ -268,7 +275,8 @@
         "6사06-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_m42_0060_0020"
       ]
     },
     {
@@ -292,7 +300,8 @@
         "6사04-01"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h71_0030_0010"
       ]
     },
     {
@@ -317,7 +326,8 @@
         "6사04-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h31_0040_0030_0020"
       ]
     },
     {
@@ -343,7 +353,9 @@
         "6사05-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h21_0050_0010",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h21_0050_0070"
       ]
     },
     {
@@ -372,7 +384,10 @@
         "6사07-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h62_0040_0030",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_m42_0060_0020",
+        "https://contents.history.go.kr/front/hm/main.do"
       ]
     },
     {
@@ -393,7 +408,8 @@
         "6사05-01"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h21_0050_0010"
       ]
     },
     {
@@ -414,7 +430,8 @@
         "6사06-01"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h62_0040_0030"
       ]
     },
     {
@@ -436,7 +453,8 @@
         "6사06-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_m42_0060_0020"
       ]
     },
     {
@@ -457,7 +475,8 @@
         "6사04-03"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_e21_0010_0020_0060"
       ]
     },
     {
@@ -478,7 +497,8 @@
         "6사04-03"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_e21_0010_0020_0060"
       ]
     },
     {
@@ -498,7 +518,8 @@
         "6사05-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h21_0050_0070"
       ]
     },
     {
@@ -519,7 +540,8 @@
         "6사05-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h21_0050_0070"
       ]
     },
     {
@@ -539,7 +561,8 @@
         "6사06-01"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h62_0040_0030"
       ]
     },
     {
@@ -559,7 +582,8 @@
         "6사04-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h31_0040_0030_0020"
       ]
     },
     {
@@ -579,7 +603,8 @@
         "6사04-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h31_0040_0030_0020"
       ]
     },
     {
@@ -599,7 +624,8 @@
         "6사05-01"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h21_0050_0010"
       ]
     },
     {
@@ -637,7 +663,8 @@
         "6사06-01"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h62_0040_0030"
       ]
     },
     {
@@ -658,7 +685,8 @@
         "6사06-01"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h62_0040_0030"
       ]
     },
     {
@@ -678,7 +706,8 @@
         "6사06-02"
       ],
       "sources": [
-        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144"
+        "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+        "https://contents.history.go.kr/front/ta/view.do?levelId=ta_m42_0060_0020"
       ]
     }
   ]

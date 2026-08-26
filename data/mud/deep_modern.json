@@ -559,6 +559,27 @@
       "url": "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
       "checkedAt": "2026-08-26",
       "claimScope": "2022 개정 성취기준 6사06-01, 6사06-02, 6사07-02과의 주제 정합성"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "일제 강점기의 민족 운동",
+      "url": "https://contents.history.go.kr/front/ta/view.do?levelId=ta_h62_0040_0030",
+      "checkedAt": "2026-08-26",
+      "claimScope": "6사06-01 관련 주제와 자료를 확인하기 위한 참고 출처; 개별 서술은 별도 검증 필요"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "6·25 전쟁",
+      "url": "https://contents.history.go.kr/front/ta/view.do?levelId=ta_m42_0060_0020",
+      "checkedAt": "2026-08-26",
+      "claimScope": "6사06-02 관련 주제와 자료를 확인하기 위한 참고 출처; 개별 서술은 별도 검증 필요"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "사료로 본 한국사",
+      "url": "https://contents.history.go.kr/front/hm/main.do",
+      "checkedAt": "2026-08-26",
+      "claimScope": "6사07-02 관련 주제와 자료를 확인하기 위한 참고 출처; 개별 서술은 별도 검증 필요"
     }
   ]
 }

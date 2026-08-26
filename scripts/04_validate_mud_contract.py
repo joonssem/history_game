@@ -71,9 +71,8 @@ def main() -> int:
             mud_standards = mud_data.get("curriculum", {}).get("achievementStandards", [])
             if set(mud_standards) != set(target_standards):
                 errors.append(f"{mud_id}: MUD and mapping achievement standards differ")
-            minimum_source_count = 2 if item.get("status") == "pilot-achievement-standard-mapped" else 1
-            if len(mud_data.get("sources", [])) < minimum_source_count:
-                errors.append(f"{mud_id}: mapped MUD requires curriculum source metadata")
+            if len(mud_data.get("sources", [])) < 2:
+                errors.append(f"{mud_id}: mapped MUD requires curriculum and historical source metadata")
 
     supported = set(contract.get("supportedInteractions", []))
     supported_progress_keys = set(contract.get("supportedProgressKeys", []))
