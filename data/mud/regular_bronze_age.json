@@ -91,6 +91,8 @@
       "simulator": {
         "mode": "dolmen-step1",
         "type": "buttons",
+        "required": true,
+        "completion": { "target": 1, "increment": 1, "minActions": 1, "progressKey": "simulatorProgress", "successText": "🗿 두 받침돌을 안정적으로 세웠습니다." },
         "buttonsHtml": "<div style=\"font-size: 0.85rem; line-height: 1.5; color: var(--text-main);\"><b>🗿 1단계: 튼튼한 받침돌(지석) 세우기</b><br>화면을 터치하거나 아래 버튼을 눌러 땅을 파고 좌우 받침돌 2개를 단단히 세우세요!</div><button onclick=\"MudEngine.triggerDolmenAction('base')\" class=\"btn\" style=\"margin-top: 8px; padding: 6px 10px; font-size: 0.82rem; background: #B48448;\">🔨 받침돌 2개 세우기</button>",
         "instruction": "🗿 <b>화면을 터치하여 고인돌 받침돌을 세우세요!</b>",
         "feedback": "터치하여 좌우 받침돌을 똑바로 세우세요!"
@@ -153,6 +155,8 @@
       "simulator": {
         "mode": "dolmen-step2",
         "type": "gauge",
+        "required": true,
+        "completion": { "target": 100, "increment": 25, "minActions": 4, "progressKey": "simulatorProgress", "successText": "⛰️ 받침돌 주위에 흙 경사로를 완성했습니다." },
         "gaugeLabel": "흙 경사로 쌓기:",
         "instruction": "⛰️ <b>화면을 터치하여 받침돌 주위에 흙 경사로를 쌓으세요!</b>",
         "feedback": "흙을 완만하게 쌓아 올려 비탈길을 만드세요!"
@@ -221,6 +225,8 @@
       "simulator": {
         "mode": "dolmen-step3",
         "type": "slider",
+        "required": true,
+        "completion": { "target": 100, "increment": 35, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🪵 부족민의 힘으로 덮개돌을 받침돌 위에 올렸습니다." },
         "sliderLabel": "동원 부족민 수:",
         "sliderMin": 20,
         "sliderMax": 100,
@@ -277,6 +283,8 @@
       "simulator": {
         "mode": "dolmen-step4",
         "type": "buttons",
+        "required": true,
+        "completion": { "target": 1, "increment": 1, "minActions": 1, "progressKey": "simulatorProgress", "successText": "👑 탁자식 고인돌 축조를 완성했습니다." },
         "buttonsHtml": "<div style=\"font-size: 0.85rem; line-height: 1.5; color: var(--text-main);\"><b>👑 4단계: 흙을 파내고 탁자식 고인돌 완성!</b><br>덮개돌을 올린 뒤 흙을 모두 걷어내어 웅장한 지배자(군장)의 무덤을 완성했습니다.</div><button onclick=\"MudEngine.triggerDolmenAction('complete')\" class=\"btn\" style=\"margin-top: 8px; padding: 6px 10px; font-size: 0.82rem; background: #D97706;\">🎉 완성 축제 벌이기</button>",
         "instruction": "🏆 <b>탁자식 고인돌 축조 대성공!</b>",
         "feedback": "청동기 거석 문명의 위엄을 확인하세요!"

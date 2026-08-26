@@ -32,10 +32,14 @@ const MudSimulators = {
 
     if (simMode.startsWith('dolmen')) {
       if (simMode === 'dolmen-step1') {
-        engine.dolmenState.baseSet = true;
+        if (!engine.dolmenState.baseSet) {
+          engine.dolmenState.baseSet = true;
+          engine.simulatorProgress = 1;
+        }
         if (window.sounds) window.sounds.playClick();
       } else if (simMode === 'dolmen-step2') {
         engine.dolmenState.earthProgress = Math.min(100, engine.dolmenState.earthProgress + 25);
+        engine.simulatorProgress = engine.dolmenState.earthProgress;
         const gp = document.getElementById('gauge-progress');
         if (gp) gp.textContent = `${engine.dolmenState.earthProgress}%`;
         const gb = document.getElementById('gauge-bar');
@@ -44,10 +48,12 @@ const MudSimulators = {
         if (engine.dolmenState.earthProgress >= 100 && window.sounds) window.sounds.playCorrect();
       } else if (simMode === 'dolmen-step3') {
         engine.dolmenState.stoneProgress = Math.min(100, engine.dolmenState.stoneProgress + (engine.dolmenState.workers * 0.35));
+        engine.simulatorProgress = engine.dolmenState.stoneProgress;
         if (window.sounds) window.sounds.playClick();
         if (engine.dolmenState.stoneProgress >= 100 && window.sounds) window.sounds.playCorrect();
       } else if (simMode === 'dolmen-step4') {
         engine.dolmenState.earthRemoved = true;
+        engine.simulatorProgress = 1;
         if (window.sounds) window.sounds.playFanfare();
       }
     } else if (simMode === 'gwangbok-vote' || simMode === 'precise-vote') {

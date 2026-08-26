@@ -431,12 +431,19 @@ const MudEngine = {
   // === 시뮬레이터 인터랙션 트리거 ===
   triggerDolmenAction(action) {
     if (action === 'base') {
+      if (this.dolmenState.baseSet) return;
       this.dolmenState.baseSet = true;
+      this.registerSimulatorAction();
+      this.simulatorProgress = 1;
       if (window.sounds) window.sounds.playClick();
     } else if (action === 'complete') {
+      if (this.dolmenState.earthRemoved) return;
       this.dolmenState.earthRemoved = true;
+      this.registerSimulatorAction();
+      this.simulatorProgress = 1;
       if (window.sounds) window.sounds.playFanfare();
     }
+    this.updateSimulatorCompletion();
   },
 
   triggerVoteAction(action) {
