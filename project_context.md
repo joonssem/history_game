@@ -19,7 +19,7 @@
 ### 주요 사용자
 
 - 초등학교 5~6학년 학생 (태블릿·스마트패드 환경)
-- 초등학교 교사 (수업 보조 도구, 과제 제출 연동)
+- 초등학교 교사 (현재 범위에서는 대시보드·과제 제출 연동 제외)
 
 ### 핵심 사용 시나리오
 
@@ -65,6 +65,8 @@ history_game/
 │       ├── _index.json                 # 전체 MUD 메타데이터 인덱스 (32종 등록)
 │       ├── regular_*.json (28개)       # 차시별 Regular MUD 시나리오
 │       └── deep_*.json (4개)           # 대단원 Deep-dive MUD (30분+, 3대 멀티엔딩)
+├── data/curriculum_mapping.json         # 기존 차시와 2022 개정 교육과정 매핑 기준선
+├── simulator_contract.json              # 시뮬레이터 기계 계약
 ├── README.md                           # 프로젝트 소개
 ├── agents.md                           # AI 에이전트 협업 체계 및 작업 원칙
 └── project_context.md                  # 이 파일
@@ -81,7 +83,7 @@ history_game/
 | `js/encyclopedia.js` | `window.encyclopedia`. localStorage 키 `history_explorer_save_v1`. `unlockArtifact(id)`와 `unlockBadge(id)` 호출로 수집 기록 |
 | `js/quizGame.js` | `window.quizGame`. `data/quizzes.json` 로드 후 랜덤 셔플·타이머(15초)·채점 |
 | `js/soundEffects.js` | `window.sounds`. Web Audio API로 생성한 비트 신스 효과음 |
-| `data/mud/_index.json` | 32개 MUD의 메타 정보(mudId, tier, unitId, lessonNumbers, themeColor, file 등). `app.js`가 Regular MUD 버튼 매핑에 우선 사용하고, 누락 시 레거시 조건문으로 보완함 |
+| `data/mud/_index.json` | 32개 MUD의 메타 정보와 현재·목표 교육과정 상태. `app.js`가 Regular MUD 버튼 매핑에 우선 사용하고, 누락 시 레거시 조건문으로 보완함 |
 
 ### 중요한 의존 관계
 

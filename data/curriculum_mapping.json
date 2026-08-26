@@ -1,0 +1,458 @@
+{
+  "version": "1.0",
+  "status": "pending-content-review",
+  "source": "data/mud/_index.json",
+  "description": "기존 차시 연결과 2022 개정 교육과정 연결을 분리한 매핑 기준선",
+  "mappings": [
+    {
+      "mudId": "regular_paleolithic",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        2
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_neolithic",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        3
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_bronze_age",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        4,
+        5
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_gojoseon",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        6
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_three_kingdoms",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        7,
+        8
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_three_kingdoms_life",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        9,
+        10
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_goryeo_founding",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        13
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_goryeo_society",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        14
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_joseon_founding",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 2,
+      "legacyLessonNumbers": [
+        2,
+        3
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_myeongnyang",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 2,
+      "legacyLessonNumbers": [
+        7
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_joseon_economy",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 2,
+      "legacyLessonNumbers": [
+        8
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_joseon_silhak",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 2,
+      "legacyLessonNumbers": [
+        9
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_gwangbok",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 3,
+      "legacyLessonNumbers": [
+        8,
+        9
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "deep_prehistoric",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "deep_three_kingdoms",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "deep_joseon",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 2,
+      "legacyLessonNumbers": [
+        2,
+        3,
+        5,
+        7,
+        8,
+        9
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "deep_modern",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 3,
+      "legacyLessonNumbers": [
+        2,
+        3,
+        5,
+        8,
+        9,
+        10,
+        11,
+        13
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_sejong",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 2,
+      "legacyLessonNumbers": [
+        24,
+        25
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_independence",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 3,
+      "legacyLessonNumbers": [
+        38,
+        39
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_korean_war",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 3,
+      "legacyLessonNumbers": [
+        44,
+        45,
+        46
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_goryeo_war",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        15,
+        16
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_goryeo_culture",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        17,
+        18
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_joseon_folk",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 2,
+      "legacyLessonNumbers": [
+        10
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_modern_open",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 2,
+      "legacyLessonNumbers": [
+        11,
+        12
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_independence_army",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 3,
+      "legacyLessonNumbers": [
+        2
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_silla",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        11
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_balhae",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 1,
+      "legacyLessonNumbers": [
+        12
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_joseon_status",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 2,
+      "legacyLessonNumbers": [
+        6
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_joseon_diplomacy",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 2,
+      "legacyLessonNumbers": [
+        7
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_japanese_rule_1",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 3,
+      "legacyLessonNumbers": [
+        3
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_japanese_rule_2",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 3,
+      "legacyLessonNumbers": [
+        6,
+        7
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    },
+    {
+      "mudId": "regular_post_war",
+      "legacyCurriculum": "2015-revised-grade5-semester2",
+      "legacyUnitId": 3,
+      "legacyLessonNumbers": [
+        12
+      ],
+      "targetCurriculum": "2022-revised",
+      "targetUnitId": null,
+      "targetLessonNumbers": [],
+      "status": "unmapped",
+      "reviewNote": "2022 개정 교육과정 교과서 차시 확인 필요"
+    }
+  ]
+}

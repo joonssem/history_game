@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "supportedInteractions": [
+    "hotspot-discovery",
+    "ordered-hotspot",
+    "resource-allocation",
+    "reflection",
+    "gauge"
+  ],
+  "requiredSimulatorCompletion": [
+    "target",
+    "increment",
+    "minActions",
+    "successText"
+  ],
+  "hotspotFields": ["id", "label", "feedback", "x", "y"],
+  "curriculumMetadata": {
+    "currentContent": "2015-revised-grade5-semester2",
+    "targetContent": "2022-revised",
+    "mappingStatus": "pending-content-review"
+  }
+}

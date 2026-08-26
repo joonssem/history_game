@@ -75,22 +75,25 @@ HEAD: `27124cdafd57e1fe7f4d69457089f8d4dea3d9d7`
 
 ## 3. 데이터 계약·인덱스
 
-- [ ] 최상위 필드 정의: MUD ID, 교육과정, 단원, 차시, 제목
+- [x] 최상위 필드 정의: MUD ID, 교육과정, 단원, 차시, 제목
 - [ ] 단계 필드 정의: ID, 유형, 본문, 선택, 다음 단계
 - [ ] 학습 목표·성취기준·예상 시간 필드 정의
 - [ ] 출처 필드 정의: 기관, 제목, URL, 확인일, 주장 범위
 - [ ] `fact/tradition/interpretation/controversy` 구분
-- [ ] interaction 허용 유형 목록
+- [x] interaction 허용 유형 목록
 - [ ] 유형별 필수 필드·초기 상태·action 정의
 - [ ] 완료·실패·재시도·리셋 규칙
 - [ ] 접근 가능한 대체 조작 규칙
-- [ ] MUD·단계·interaction ID 고유성 검사
+- [x] MUD ID·파일·interaction 허용 유형 기본 검사
 - [ ] 다음·복귀 단계와 유물 참조 검사
+- [x] `_index.json`의 현재/목표 교육과정과 매핑 상태 명시
+- [x] 기존 차시와 2022 개정 차시 매핑 분리 기준선 생성
 - [ ] `_index.json` 번호 체계 단일화
 - [ ] `app.js` fallback 의존 목록 및 제거 순서
 
-스키마:  
-검증 명령·통과 건수:
+스키마: `simulator_contract.json`, `simulator_schema.md`
+검증 명령: `python scripts/04_validate_mud_contract.py`
+통과 건수: 32개 MUD 인덱스·파일·매핑 레코드 일치
 
 ## 4. 엔진·상호작용 분리
 

@@ -101,3 +101,12 @@
 - 피드백을 캔버스 밖으로 옮겨 iPad에서 남은 hotspot을 가리던 문제를 제거하고, 상태 알림을 추가했다.
 - 앱 푸터에 배포 확인용 버전을 표시하고 `.nojekyll` 마커를 추가해 `_index.json`의 Pages 정적 제공을 준비했다.
 - 검증: JS 문법, 게임/MUD 무결성, 로컬 iPad 820×1180에서 구석기 탐색·불 피우기 오답 후 재시도·완료, 콘솔 오류 0건, Pages `_index.json` HTTP 200 / `application/json`, 배포 버전 `2026.08.26-p2`.
+
+## 2026-08-26 — Phase 3 데이터 계약·교육과정 매핑 기준선
+
+- 현재 MUD 차시 번호가 2015 개정 교육과정 기준임을 `_index.json`에 명시하고, 목표 교육과정은 2022 개정으로 분리했다.
+- `data/curriculum_mapping.json`에 32개 MUD의 기존 차시 연결을 보존하면서 2022 매핑은 `unmapped`·`pending-content-review`로 기록했다.
+- `simulator_contract.json`과 `simulator_schema.md`에 지원 interaction과 필수 완료 필드의 기준을 문서화했다.
+- `scripts/04_validate_mud_contract.py`를 추가해 인덱스·파일·매핑 수와 MUD ID, 시작 단계, simulator 계약을 자동 검증한다.
+- README와 인수인계 문서의 교육과정·대시보드 범위를 실제 결정과 일치시켰다.
+- 검증: 게임 데이터, MUD 무결성, 새 계약 검증, JS 문법 검사, `git diff --check` 통과. 기존 정답 1번 편중 경고는 후속 단계로 유지.

@@ -24,6 +24,18 @@ MUD의 `simulator` 객체는 화면 모드(`mode`)와 활동 판정 방식(`inte
 }
 ```
 
+## 교육과정 메타데이터 계약
+
+현재 MUD 본문과 인덱스의 차시 번호는 `2015-revised-grade5-semester2` 기준선이다.
+실제 수업에서 사용하는 2022 개정 교육과정 교과서 매핑은 별도 파일
+`data/curriculum_mapping.json`에서 관리하며, 검토 전에는 `unmapped`로 둔다.
+따라서 기존 차시 번호를 2022 개정 차시로 임의 해석하거나 문서에서 100% 일치한다고
+표현하지 않는다. 인덱스의 `curriculumVersion`, `targetCurriculumVersion`,
+`mappingStatus`가 이 구분을 보장한다.
+
+기계 검증 기준은 `simulator_contract.json`에 기록하고,
+`python scripts/04_validate_mud_contract.py`로 실행한다.
+
 ## interaction 유형
 
 - `hotspot-discovery`: 여러 단서를 각각 한 번씩 발견한다.
