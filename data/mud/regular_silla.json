@@ -79,7 +79,15 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "nine-provinces", "label": "9주", "x": 0.22, "y": 0.48, "feedback": "신문왕은 전국을 9주로 나누어 행정 체계를 정비했습니다." },
+          { "id": "five-capitals", "label": "5소경", "x": 0.50, "y": 0.65, "feedback": "5소경은 지방 통치와 군사·문화 중심지 역할을 했습니다." },
+          { "id": "royal-power", "label": "왕권 강화", "x": 0.78, "y": 0.48, "feedback": "신문왕의 개혁으로 귀족 세력을 누르고 왕권을 강화했습니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "📜 통일신라 행정망과 왕권 강화의 단서를 모두 확인했습니다." },
         "infoText": "신문왕의 과감한 개혁으로 통일신라는 9주 5소경의 전국 행정망과 강력한 왕권을 확립했습니다.",
         "instruction": "📜 <b>신문왕의 개혁 칙령을 선포하세요</b>",
         "feedback": "통일신라의 굳건한 평화 기틀이 완성되었습니다!"
@@ -137,7 +145,15 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "interaction": "hotspot-discovery",
         "type": "gauge",
+        "hotspots": [
+          { "id": "seokgatap", "label": "석가탑", "x": 0.22, "y": 0.48, "feedback": "단아하고 균형 잡힌 아름다움을 보여주는 삼층석탑입니다." },
+          { "id": "dabotap", "label": "다보탑", "x": 0.50, "y": 0.65, "feedback": "화려하고 정교한 돌조각으로 불국사의 예술성을 보여줍니다." },
+          { "id": "bridge", "label": "청운교·백운교", "x": 0.78, "y": 0.48, "feedback": "다리를 건너 부처의 이상 세계인 불국토로 들어갑니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🛕 불국사의 탑과 다리의 예술적 의미를 모두 확인했습니다." },
         "gaugeLabel": "불국사 완성도:",
         "instruction": "✨ <b>화면을 터치하여 다보탑과 석가탑의 정교한 돌조각을 완성하세요!</b>",
         "feedback": "천 년의 빛을 발하는 불국사가 완성되었습니다!"
@@ -195,7 +211,15 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "dome-keystone", "label": "돔 쐐기돌", "x": 0.22, "y": 0.48, "feedback": "쐐기돌이 돔 천장의 돌을 서로 단단히 결합합니다." },
+          { "id": "ventilation", "label": "습도 조절", "x": 0.50, "y": 0.65, "feedback": "지하수와 통풍을 이용해 석굴 내부의 습기를 조절했습니다." },
+          { "id": "main-buddha", "label": "본존불", "x": 0.78, "y": 0.48, "feedback": "온화한 미소의 본존불은 신라 석조 예술의 정수를 보여줍니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🌕 석굴암의 구조·과학·예술 단서를 모두 확인했습니다." },
         "infoText": "석굴암은 1:√2의 완벽한 황금비율과 일출 햇살을 받아 빛나는 첨단 조각 예술입니다.",
         "instruction": "🌕 <b>석굴암 돔 천장의 연꽃 쐐기돌을 결합하세요</b>",
         "feedback": "자비로운 미소의 석굴암 본존불이 완성되었습니다!"
