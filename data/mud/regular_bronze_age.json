@@ -93,7 +93,10 @@
         "type": "buttons",
         "required": true,
         "completion": { "target": 1, "increment": 1, "minActions": 1, "progressKey": "simulatorProgress", "successText": "🗿 두 받침돌을 안정적으로 세웠습니다." },
-        "buttonsHtml": "<div style=\"font-size: 0.85rem; line-height: 1.5; color: var(--text-main);\"><b>🗿 1단계: 튼튼한 받침돌(지석) 세우기</b><br>화면을 터치하거나 아래 버튼을 눌러 땅을 파고 좌우 받침돌 2개를 단단히 세우세요!</div><button onclick=\"MudEngine.triggerDolmenAction('base')\" class=\"btn\" style=\"margin-top: 8px; padding: 6px 10px; font-size: 0.82rem; background: #B48448;\">🔨 받침돌 2개 세우기</button>",
+        "infoText": "<b>🗿 1단계: 튼튼한 받침돌(지석) 세우기</b><br>화면을 터치하거나 아래 버튼을 눌러 땅을 파고 좌우 받침돌 2개를 단단히 세우세요!",
+        "actions": [
+          { "type": "dolmen", "value": "base", "label": "🔨 받침돌 2개 세우기", "variant": "primary" }
+        ],
         "instruction": "🗿 <b>화면을 터치하여 고인돌 받침돌을 세우세요!</b>",
         "feedback": "터치하여 좌우 받침돌을 똑바로 세우세요!"
       }
@@ -285,7 +288,10 @@
         "type": "buttons",
         "required": true,
         "completion": { "target": 1, "increment": 1, "minActions": 1, "progressKey": "simulatorProgress", "successText": "👑 탁자식 고인돌 축조를 완성했습니다." },
-        "buttonsHtml": "<div style=\"font-size: 0.85rem; line-height: 1.5; color: var(--text-main);\"><b>👑 4단계: 흙을 파내고 탁자식 고인돌 완성!</b><br>덮개돌을 올린 뒤 흙을 모두 걷어내어 웅장한 지배자(군장)의 무덤을 완성했습니다.</div><button onclick=\"MudEngine.triggerDolmenAction('complete')\" class=\"btn\" style=\"margin-top: 8px; padding: 6px 10px; font-size: 0.82rem; background: #D97706;\">🎉 완성 축제 벌이기</button>",
+        "infoText": "<b>👑 4단계: 흙을 파내고 탁자식 고인돌 완성!</b><br>덮개돌을 올린 뒤 흙을 모두 걷어내어 웅장한 지배자(군장)의 무덤을 완성했습니다.",
+        "actions": [
+          { "type": "dolmen", "value": "complete", "label": "🎉 완성 축제 벌이기", "variant": "primary" }
+        ],
         "instruction": "🏆 <b>탁자식 고인돌 축조 대성공!</b>",
         "feedback": "청동기 거석 문명의 위엄을 확인하세요!"
       }

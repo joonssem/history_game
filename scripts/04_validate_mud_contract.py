@@ -55,6 +55,8 @@ def main() -> int:
         errors.append("curriculum_mapping.json must contain exactly one record per indexed MUD")
 
     supported = set(contract.get("supportedInteractions", []))
+    supported_progress_keys = set(contract.get("supportedProgressKeys", []))
+    supported_action_types = set(contract.get("supportedActionTypes", []))
     for path in sorted(MUD_DIR.glob("*.json")):
         if path.name == "_index.json":
             continue
@@ -64,11 +66,34 @@ def main() -> int:
             interaction = simulator.get("interaction")
             if interaction and interaction not in supported:
                 errors.append(f"{path.name}:{stage_id}: unsupported interaction {interaction}")
+            if "buttonsHtml" in simulator:
+                errors.append(f"{path.name}:{stage_id}: executable buttonsHtml is not allowed")
+            actions = simulator.get("actions")
+            if simulator.get("type") == "buttons":
+                if not isinstance(actions, list) or not actions:
+                    errors.append(f"{path.name}:{stage_id}: buttons simulator requires actions")
+                else:
+                    for action_index, action in enumerate(actions):
+                        prefix = f"{path.name}:{stage_id}:actions[{action_index}]"
+                        if not isinstance(action, dict):
+                            errors.append(f"{prefix}: action must be an object")
+                            continue
+                        if action.get("type") not in supported_action_types:
+                            errors.append(f"{prefix}: unsupported action type {action.get('type')}")
+                        if not isinstance(action.get("label"), str) or not action["label"].strip():
+                            errors.append(f"{prefix}: missing label")
+                        if "value" not in action:
+                            errors.append(f"{prefix}: missing value")
             if simulator.get("required"):
                 completion = simulator.get("completion") or {}
                 for field in contract["requiredSimulatorCompletion"]:
                     if field not in completion or not completion[field]:
                         errors.append(f"{path.name}:{stage_id}: missing completion.{field}")
+                progress_key = completion.get("progressKey", "gaugeProgress")
+                if progress_key not in supported_progress_keys:
+                    errors.append(
+                        f"{path.name}:{stage_id}: unsupported completion.progressKey {progress_key}"
+                    )
 
     if errors:
         print(f"FAIL: {len(errors)} contract errors")

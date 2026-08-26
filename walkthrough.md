@@ -118,3 +118,11 @@
 - 고인돌·투표·태극기 활동도 실제 상태 변화가 발생한 경우에만 행동을 기록하도록 정리했다.
 - `resizeCanvas()`에서 Canvas transform을 초기화한 뒤 배율을 적용해 화면 재진입·회전 시 배경과 핫스팟이 누적 변형되지 않게 했다.
 - 검증: `node --check` 2개 파일, MUD 무결성, simulator contract, `git diff --check` 통과.
+
+## 2026-08-26 — Phase 4 runtime 상태·버튼 action 분리
+
+- `MudEngine`에 simulator state·progress 접근자를 추가하고 JSON의 `progressKey`와 공통 진행률을 동기화했다.
+- 화면상 진행과 완료 잠금이 다른 키를 읽던 구석기 6개 활동의 구조 결함을 수정하고 상태 단위 테스트를 추가했다.
+- MUD JSON의 `buttonsHtml` 6개와 인라인 JavaScript를 구조화 action 14개로 전환했다.
+- 광복 태극기의 전체 완성 단축 버튼을 제거하고 여섯 요소를 각각 수행해야 완료되도록 조정했다.
+- iPad 820×1180 브라우저 검증에서 구석기 3개 단서 후 잠금 해제, 광복 5개 후 잠금 유지·6개 후 해제, 콘솔 오류 0건을 확인했다.

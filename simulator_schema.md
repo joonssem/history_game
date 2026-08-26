@@ -47,3 +47,10 @@ MUD의 `simulator` 객체는 화면 모드(`mode`)와 활동 판정 방식(`inte
 `mode`는 역사적 콘텐츠와 시각 표현을 식별하고, `interaction`은 재사용 가능한 입력 판정 방식을 식별한다. 새 MUD는 가능한 한 `interaction`을 선언하고, 완료 조건의 `progressKey`가 실제 엔진 상태와 일치하는지 검증해야 한다.
 
 `hotspots`는 캔버스에서 탐색할 대상의 상대 좌표(`x`, `y`)와 피드백을 정의한다. `ordered-hotspot` 유형은 `sequence`에 선언된 ID 순서를 따른다. 이 필드를 사용하면 시대별 JavaScript 분기를 추가하지 않고도 새 활동을 만들 수 있다.
+
+## 버튼 활동
+
+실행 가능한 HTML인 `buttonsHtml`은 사용하지 않는다. 버튼 활동은 `actions` 배열에
+`type`, `value`, `label`, 선택적 `variant`와 `sound`를 선언한다. 엔진은 허용된
+`dolmen`, `vote`, `taegeuk-part`, `slider-set` action만 실행한다. 이렇게 하면 JSON
+콘텐츠가 JavaScript 함수명과 인라인 `onclick`에 직접 의존하지 않는다.

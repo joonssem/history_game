@@ -13,6 +13,22 @@
     "minActions",
     "successText"
   ],
+  "supportedProgressKeys": [
+    "simulatorProgress",
+    "gaugeProgress",
+    "paleoEnvironmentFound",
+    "paleoFireStep",
+    "paleoStoneFacets",
+    "paleoHuntFound",
+    "paleoCommunityFound",
+    "paleoReflectionFound"
+  ],
+  "supportedActionTypes": [
+    "dolmen",
+    "vote",
+    "taegeuk-part",
+    "slider-set"
+  ],
   "hotspotFields": ["id", "label", "feedback", "x", "y"],
   "curriculumMetadata": {
     "currentContent": "2015-revised-grade5-semester2",

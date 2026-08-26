@@ -100,8 +100,8 @@ HEAD: `27124cdafd57e1fe7f4d69457089f8d4dea3d9d7`
 - [x] hotspot interaction registry·dispatcher 경계 추가
 - [x] 유효한 활동만 action count에 반영
 - [x] Canvas resize transform 누적 방지
-- [ ] 전역 상태 목록과 소유자·수명주기 문서화
-- [ ] `MudEngine`을 단일 상태 소유자로 지정
+- [x] 전역 상태 목록과 소유자·수명주기 문서화
+- [x] `MudEngine`을 현재 simulator runtime 상태 소유자로 지정
 - [ ] renderer 내부 상태 변경 제거
 - [ ] 동일 상태 → 동일 화면 테스트
 - [ ] registry 인터페이스 확정
@@ -110,17 +110,18 @@ HEAD: `27124cdafd57e1fe7f4d69457089f8d4dea3d9d7`
   - [ ] `isComplete(state)`
   - [ ] `getFeedback(state)`
   - [ ] `render(viewModel)`
-- [ ] 구형 simulator adapter
+- [x] 구형 simulator state·progressKey adapter
 - [ ] 알 수 없는 유형 fallback
-- [ ] JSON `buttonsHtml`과 인라인 `onclick` 전수 목록
-- [ ] 의미 기반 action으로 대체
-- [ ] 새 전역 `window` 함수 추가 금지
+- [x] JSON `buttonsHtml`과 인라인 `onclick` 전수 목록
+- [x] 의미 기반 action으로 대체
+- [x] 새 전역 `window` 함수 추가 없이 registry 메서드로 처리
 - [ ] 캔버스 좌표 정규화와 터치·마우스 변환 공통화
-- [ ] 키보드/버튼 대체 조작
-- [ ] 리사이즈·회전 후 상태 유지
+- [x] 필수 hotspot과 buttons 활동의 키보드/버튼 대체 조작
+- [x] 리사이즈·회전 시 Canvas transform 누적 방지
 
-구조 결정 기록:  
-단위 테스트·전환 수:
+구조 결정 기록: `simulator_runtime_architecture.md`
+단위 테스트: `node scripts/05_test_simulator_runtime.js`
+전환 수: `buttonsHtml` 6개 → 구조화 action 14개
 
 ## 5. 자동 검증·GitHub 게이트
 

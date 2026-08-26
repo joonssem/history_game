@@ -14,6 +14,11 @@ const MudEngine = {
   simulatorComplete: true,    // 필수 활동 완료 여부
   simulatorProgress: 0,
   simulatorState: { found: [], step: 0, lastId: null },
+  simulatorProgressKeys: [
+    'simulatorProgress', 'gaugeProgress', 'paleoEnvironmentFound',
+    'paleoFireStep', 'paleoStoneFacets', 'paleoHuntFound',
+    'paleoCommunityFound', 'paleoReflectionFound'
+  ],
 
   // === 시뮬레이터 전용 상태 변수 ===
   gaugeProgress: 0,
@@ -258,6 +263,36 @@ const MudEngine = {
     this.simActionCount += 1;
   },
 
+  getSimulatorState(mode = this.simMode) {
+    if (Array.isArray(this.currentSimulator?.hotspots)) return this.simulatorState;
+    const legacyStateKey = {
+      'paleo-environment': 'paleoEnvironmentState',
+      'paleo-fire': 'paleoFireState',
+      'paleo-stone': 'paleoStoneState',
+      'paleo-hunt': 'paleoHuntState',
+      'paleo-community': 'paleoCommunityState',
+      'paleo-reflection': 'paleoReflectionState'
+    }[mode];
+    return legacyStateKey ? this[legacyStateKey] : this.simulatorState;
+  },
+
+  getSimulatorProgress() {
+    const requestedKey = this.currentSimulator?.completion?.progressKey || 'gaugeProgress';
+    const progressKey = this.simulatorProgressKeys.includes(requestedKey) ? requestedKey : 'simulatorProgress';
+    const progress = Number(this[progressKey]);
+    return Number.isFinite(progress) ? progress : 0;
+  },
+
+  setSimulatorProgress(value) {
+    const progress = Number(value);
+    const safeProgress = Number.isFinite(progress) ? progress : 0;
+    const requestedKey = this.currentSimulator?.completion?.progressKey || 'gaugeProgress';
+    const progressKey = this.simulatorProgressKeys.includes(requestedKey) ? requestedKey : 'simulatorProgress';
+    this.simulatorProgress = safeProgress;
+    this[progressKey] = safeProgress;
+    return safeProgress;
+  },
+
   simulatorIncrement(fallback = 25) {
     return Number(this.currentSimulator?.completion?.increment || fallback);
   },
@@ -266,8 +301,7 @@ const MudEngine = {
     const completion = this.currentSimulator?.completion;
     if (!this.currentSimulator?.required || !completion) return;
 
-    const progressKey = completion.progressKey || 'gaugeProgress';
-    const progress = Number(this[progressKey] || 0);
+    const progress = this.getSimulatorProgress();
     const target = Number(completion.target || 0);
     const minActions = Number(completion.minActions || 0);
     const actionReady = this.simActionCount >= minActions;
@@ -286,6 +320,52 @@ const MudEngine = {
         });
       }
     }
+  },
+
+  runSimulatorAction(action) {
+    if (!action || typeof action !== 'object') return;
+    if (action.type === 'dolmen') {
+      this.triggerDolmenAction(action.value);
+    } else if (action.type === 'vote') {
+      this.triggerVoteAction(action.value);
+    } else if (action.type === 'taegeuk-part') {
+      this.colorTaegeukPart(action.value);
+    } else if (action.type === 'slider-set') {
+      this.updateSlider(Number(action.value));
+      if (action.sound && window.sounds) {
+        if (action.sound === 'fanfare') window.sounds.playFanfare();
+        else window.sounds.playClick();
+      }
+    }
+  },
+
+  renderSimulatorActions(sim, container) {
+    container.replaceChildren();
+    if (sim.infoText) {
+      const info = document.createElement('div');
+      info.className = 'simulator-action-info';
+      info.innerHTML = sim.infoText;
+      container.appendChild(info);
+    }
+
+    const actions = Array.isArray(sim.actions) ? sim.actions : [];
+    if (!actions.length && sim.buttonsHtml) {
+      console.warn(`Legacy buttonsHtml is still in use for simulator mode: ${sim.mode}`);
+      container.innerHTML = sim.buttonsHtml;
+      return;
+    }
+
+    const actionGroup = document.createElement('div');
+    actionGroup.className = 'simulator-action-group';
+    actions.forEach(action => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = action.variant === 'primary' ? 'btn' : 'btn secondary';
+      button.textContent = action.label;
+      button.addEventListener('click', () => this.runSimulatorAction(action));
+      actionGroup.appendChild(button);
+    });
+    container.appendChild(actionGroup);
   },
 
   // === 시뮬레이터 위젯 및 가이드 설정 ===
@@ -363,7 +443,7 @@ const MudEngine = {
 
       case 'buttons':
         document.getElementById('widget-info').style.display = 'block';
-        document.getElementById('widget-info').innerHTML = sim.buttonsHtml || '';
+        this.renderSimulatorActions(sim, document.getElementById('widget-info'));
         break;
     }
   },
@@ -438,13 +518,13 @@ const MudEngine = {
       if (this.dolmenState.baseSet) return;
       this.dolmenState.baseSet = true;
       this.registerSimulatorAction();
-      this.simulatorProgress = 1;
+      this.setSimulatorProgress(1);
       if (window.sounds) window.sounds.playClick();
     } else if (action === 'complete') {
       if (this.dolmenState.earthRemoved) return;
       this.dolmenState.earthRemoved = true;
       this.registerSimulatorAction();
-      this.simulatorProgress = 1;
+      this.setSimulatorProgress(1);
       if (window.sounds) window.sounds.playFanfare();
     }
     this.updateSimulatorCompletion();
@@ -455,7 +535,7 @@ const MudEngine = {
       if (this.voteState.stamped) return;
       this.voteState.stamped = true;
       this.registerSimulatorAction();
-      this.simulatorProgress = 1;
+      this.setSimulatorProgress(1);
       if (window.sounds) window.sounds.playClick();
     } else if (action === 'insert') {
       if (!this.voteState.stamped) {
@@ -465,7 +545,7 @@ const MudEngine = {
       if (this.voteState.voteInserted) return;
       this.voteState.voteInserted = true;
       this.registerSimulatorAction();
-      this.simulatorProgress = 2;
+      this.setSimulatorProgress(2);
       if (window.sounds) window.sounds.playFanfare();
     }
     this.updateSimulatorCompletion();
@@ -476,7 +556,7 @@ const MudEngine = {
       if (this.taegeukState[part]) return;
       this.taegeukState[part] = true;
       this.registerSimulatorAction();
-      this.simulatorProgress = Object.values(this.taegeukState).filter(Boolean).length;
+      this.setSimulatorProgress(Object.values(this.taegeukState).filter(Boolean).length);
       if (window.sounds) window.sounds.playClick();
       this.checkTaegeukComplete();
       this.updateSimulatorCompletion();
@@ -487,7 +567,7 @@ const MudEngine = {
     if (Object.values(this.taegeukState).every(Boolean)) return;
     this.taegeukState = { yangColor: true, yinColor: true, geon: true, gon: true, gam: true, ri: true };
     this.registerSimulatorAction();
-    this.simulatorProgress = 6;
+    this.setSimulatorProgress(6);
     if (window.sounds) window.sounds.playFanfare();
     this.checkTaegeukComplete();
     this.updateSimulatorCompletion();

@@ -332,7 +332,10 @@
       "simulator": {
         "mode": "dolmen-step1",
         "type": "buttons",
-        "buttonsHtml": "<div style=\"display:flex;gap:6px;\"><button onclick=\"MudEngine.triggerDolmenAction('base')\" class=\"btn secondary\" style=\"flex:1;font-size:0.8rem;\">1.받침돌 세우기</button><button onclick=\"MudEngine.triggerDolmenAction('complete')\" class=\"btn secondary\" style=\"flex:1;font-size:0.8rem;\">2.흙 치우고 완성</button></div>",
+        "actions": [
+          { "type": "dolmen", "value": "base", "label": "1. 받침돌 세우기" },
+          { "type": "dolmen", "value": "complete", "label": "2. 흙 치우고 완성" }
+        ],
         "instruction": "🗿 <b>아래 버튼을 눌러 고인돌 축조를 완성하세요!</b>",
         "feedback": "받침돌을 세우고 흙을 치워 고인돌을 완성하세요!"
       }

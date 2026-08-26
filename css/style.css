@@ -246,3 +246,22 @@
     .serif-font {
       font-family: 'MaruBuri', serif !important;
     }
+.simulator-action-info {
+  margin-bottom: 8px;
+  color: var(--text-main);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.simulator-action-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.simulator-action-group .btn {
+  flex: 1 1 120px;
+  min-height: 44px;
+  padding: 7px 8px;
+  font-size: 0.82rem;
+}

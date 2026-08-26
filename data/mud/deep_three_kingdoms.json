@@ -339,7 +339,10 @@
       "simulator": {
         "mode": "text-reading",
         "type": "buttons",
-        "buttonsHtml": "<div style=\"display:flex;gap:6px;\"><button onclick=\"MudEngine.updateSlider(80); if(window.sounds)window.sounds.playClick();\" class=\"btn secondary\" style=\"flex:1;font-size:0.8rem;\">1.장창 숲 전개</button><button onclick=\"MudEngine.updateSlider(100); if(window.sounds)window.sounds.playFanfare();\" class=\"btn secondary\" style=\"flex:1;font-size:0.8rem;\">2.보급로 기습</button></div>",
+        "actions": [
+          { "type": "slider-set", "value": 80, "label": "1. 장창 숲 전개", "sound": "click" },
+          { "type": "slider-set", "value": 100, "label": "2. 보급로 기습", "sound": "fanfare" }
+        ],
         "instruction": "🛡️ <b>장창 방진을 펼치고 적의 보급로를 차단하세요!</b>",
         "feedback": "당나라 기병의 돌격을 완벽히 차단했습니다! 말 3만 필 노획!"
       }
