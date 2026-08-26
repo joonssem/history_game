@@ -90,7 +90,15 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "han-river", "label": "한강 유역", "x": 0.22, "y": 0.48, "feedback": "비옥한 농토와 수운을 갖춘 삼국의 핵심 지역입니다." },
+          { "id": "west-sea-route", "label": "서해 교역로", "x": 0.50, "y": 0.65, "feedback": "서해를 통해 중국·가야·왜와 교류할 수 있습니다." },
+          { "id": "baekje-territory", "label": "백제 영토", "x": 0.78, "y": 0.48, "feedback": "한강을 중심으로 백제의 세력이 성장했습니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🗺️ 백제의 한강·교역·영토 단서를 모두 확인했습니다." },
         "infoText": "4세기 백제는 한강 유역의 풍요로움을 바탕으로 삼국 중 가장 먼저 전성기를 이룩했습니다.",
         "instruction": "🗺️ <b>4세기 백제 전성기 지도 확인</b>",
         "feedback": "서해 무역로와 영토를 확인하세요!"
@@ -152,7 +160,15 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "pyeongyang", "label": "평양성", "x": 0.22, "y": 0.48, "feedback": "427년 장수왕은 남쪽의 평양으로 수도를 옮겼습니다." },
+          { "id": "han-river", "label": "한강 유역", "x": 0.50, "y": 0.65, "feedback": "남진 정책으로 한강 유역을 차지했습니다." },
+          { "id": "guknae", "label": "국내성", "x": 0.78, "y": 0.48, "feedback": "고구려의 옛 수도로 북방 영토를 다스리던 곳입니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🏹 평양 천도와 남진 정책의 지리적 단서를 모두 확인했습니다." },
         "infoText": "5세기 고구려는 평양 천도와 남진 정책으로 한강 유역을 차지하며 전성기를 맞았습니다.",
         "instruction": "🗺️ <b>5세기 고구려 대제국 지도 확인</b>",
         "feedback": "만주에서 한강까지 이르는 영토를 확인하세요!"
@@ -220,7 +236,15 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "bukhansan-monument", "label": "북한산 순수비", "x": 0.22, "y": 0.48, "feedback": "진흥왕이 한강 유역을 순행한 뒤 세운 영토 기념비입니다." },
+          { "id": "han-river", "label": "한강 유역", "x": 0.50, "y": 0.65, "feedback": "신라는 한강 유역을 차지해 삼국 통일의 기반을 마련했습니다." },
+          { "id": "danghangseong", "label": "당항성", "x": 0.78, "y": 0.48, "feedback": "서해안의 당항성을 통해 중국과 직접 교류할 수 있었습니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "⛰️ 신라의 영토·교류·기록 단서를 모두 확인했습니다." },
         "infoText": "6세기 신라는 한강 유역을 차지하여 당항성을 통해 중국과 직접 교류하며 삼국 통일의 기틀을 마련했습니다.",
         "instruction": "⛰️ <b>6세기 신라 진흥왕 순수비 확인</b>",
         "feedback": "북한산 순수비의 위치를 확인하세요!"
