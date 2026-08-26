@@ -9,6 +9,9 @@ const MudEngine = {
   visited: new Set(),         // 방문한 스테이지 집합
   themeColor: '#8A3B29',      // 현재 MUD 테마 색상
   simMode: '',                // 현재 시뮬레이터 모드
+  currentSimulator: null,     // 현재 스테이지 시뮬레이터 계약
+  simActionCount: 0,          // 현재 활동에서 수행한 행동 수
+  simulatorComplete: true,    // 필수 활동 완료 여부
 
   // === 시뮬레이터 전용 상태 변수 ===
   gaugeProgress: 0,
@@ -76,6 +79,9 @@ const MudEngine = {
     this.taegeukState = { yangColor: false, yinColor: false, geon: false, gon: false, gam: false, ri: false };
     this.dolmenState = { stage: 1, baseSet: false, earthProgress: 0, stoneProgress: 0, earthRemoved: false, workers: 50 };
     this.voteState = { stamped: false, voteInserted: false, animY: 0 };
+    this.currentSimulator = null;
+    this.simActionCount = 0;
+    this.simulatorComplete = true;
   },
 
   // === 테마 색상 적용 ===
@@ -191,6 +197,11 @@ const MudEngine = {
       btn.className = "btn secondary";
       btn.style.textAlign = 'left';
       btn.style.justifyContent = 'space-between';
+      btn.disabled = Boolean(this.currentSimulator?.required && !this.simulatorComplete);
+      if (btn.disabled) {
+        btn.style.opacity = '0.45';
+        btn.style.cursor = 'not-allowed';
+      }
       btn.innerHTML = `
         <span>${ch.text}</span>
         <span style="font-size: 0.75rem; background: var(--card-sub); padding: 2px 6px; border-radius: 4px;">결단 ➔</span>
@@ -213,9 +224,47 @@ const MudEngine = {
     });
   },
 
+  // === 필수 시뮬레이터 진행 계약 ===
+  registerSimulatorAction() {
+    this.simActionCount += 1;
+  },
+
+  simulatorIncrement(fallback = 25) {
+    return Number(this.currentSimulator?.completion?.increment || fallback);
+  },
+
+  updateSimulatorCompletion() {
+    const completion = this.currentSimulator?.completion;
+    if (!this.currentSimulator?.required || !completion) return;
+
+    const progressKey = completion.progressKey || 'gaugeProgress';
+    const progress = Number(this[progressKey] || 0);
+    const target = Number(completion.target || 0);
+    const minActions = Number(completion.minActions || 0);
+    const actionReady = this.simActionCount >= minActions;
+    const progressReady = !target || progress >= target;
+
+    if (actionReady && progressReady && !this.simulatorComplete) {
+      this.simulatorComplete = true;
+      const feedback = document.getElementById('mn-canvas-feedback');
+      if (feedback && completion.successText) feedback.innerHTML = completion.successText;
+      const grid = document.getElementById('mn-choices-grid');
+      if (grid) {
+        grid.querySelectorAll('button').forEach(btn => {
+          btn.disabled = false;
+          btn.style.opacity = '';
+          btn.style.cursor = '';
+        });
+      }
+    }
+  },
+
   // === 시뮬레이터 위젯 및 가이드 설정 ===
   setupSimulator(sim) {
     this.simMode = sim.mode;
+    this.currentSimulator = sim;
+    this.simActionCount = 0;
+    this.simulatorComplete = !sim.required;
 
     // 위젯 일괄 숨김
     document.getElementById('widget-info').style.display = 'none';

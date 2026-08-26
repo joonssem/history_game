@@ -27,6 +27,7 @@ const MudSimulators = {
     if (!engine) return;
 
     const simMode = engine.simMode;
+    engine.registerSimulatorAction();
 
     if (simMode.startsWith('dolmen')) {
       if (simMode === 'dolmen-step1') {
@@ -57,7 +58,7 @@ const MudSimulators = {
         if (window.sounds) window.sounds.playFanfare();
       }
     } else if (simMode === 'paleo-fire' || simMode === 'neolithic-pottery' || simMode.startsWith('economy') || simMode.startsWith('battle-gauge') || simMode.startsWith('culture-touch') || simMode.startsWith('text-reading')) {
-      engine.gaugeProgress = Math.min(100, (engine.gaugeProgress || 0) + 25);
+      engine.gaugeProgress = Math.min(100, (engine.gaugeProgress || 0) + engine.simulatorIncrement());
       const gp = document.getElementById('gauge-progress');
       if (gp) gp.textContent = `${engine.gaugeProgress}%`;
       const gb = document.getElementById('gauge-bar');
@@ -65,7 +66,7 @@ const MudSimulators = {
       if (window.sounds) window.sounds.playClick();
       if (engine.gaugeProgress >= 100 && window.sounds) window.sounds.playCorrect();
     } else if (simMode === 'paleo-stone') {
-      engine.stoneHits = Math.min(100, engine.stoneHits + 25);
+      engine.stoneHits = Math.min(100, engine.stoneHits + engine.simulatorIncrement());
       const gp = document.getElementById('gauge-progress');
       if (gp) gp.textContent = `${engine.stoneHits}%`;
       const gb = document.getElementById('gauge-bar');
@@ -91,6 +92,8 @@ const MudSimulators = {
       });
       if (window.sounds) window.sounds.playClick();
     }
+
+    engine.updateSimulatorCompletion();
   },
 
   // === 중앙 캔버스 렌더러 ===

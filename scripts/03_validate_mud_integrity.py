@@ -100,6 +100,18 @@ def main() -> int:
             if mode and not is_supported_mode(mode):
                 fail(errors, f"{path.name}:{stage_id} unsupported simulator mode {mode}")
 
+            if simulator.get("required"):
+                completion = simulator.get("completion") or {}
+                for field in ("target", "increment", "minActions"):
+                    value = completion.get(field)
+                    if not isinstance(value, (int, float)) or value <= 0:
+                        fail(
+                            errors,
+                            f"{path.name}:{stage_id} required simulator has invalid completion.{field}",
+                        )
+                if not completion.get("successText"):
+                    fail(errors, f"{path.name}:{stage_id} required simulator missing successText")
+
         reachable: set[str] = set()
         queue: deque[str] = deque(["1"])
         while queue:

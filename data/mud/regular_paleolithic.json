@@ -8,7 +8,7 @@
   "title": "구석기 생존기: 전곡리의 만능 주먹도끼",
   "subtitle": "구석기 MUD",
   "storyId": "story_paleolithic",
-  "playTime": "10-15min",
+  "playTime": "5-10min",
   "themeColor": "#6F4E37",
   "accentColor": "#C19A6B",
   "header": {
@@ -44,11 +44,27 @@
     },
     {
       "id": "4",
-      "label": "4. 사냥과 조리 완수"
+      "label": "4. 사냥감과 식량 확보"
+    },
+    {
+      "id": "4-1",
+      "label": "4-1. 무리한 사냥 [실패]"
+    },
+    {
+      "id": "5",
+      "label": "5. 공동체 협력"
+    },
+    {
+      "id": "5-1",
+      "label": "5-1. 독점의 대가 [실패]"
+    },
+    {
+      "id": "6",
+      "label": "6. 구석기 생존 성찰"
     },
     {
       "id": "end",
-      "label": "5. 구석기 생존 완료"
+      "label": "7. 구석기 생존 완료"
     }
   ],
   "stages": {
@@ -94,6 +110,13 @@
       "simulator": {
         "mode": "culture-touch",
         "type": "info",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 20,
+          "minActions": 5,
+          "successText": "🏕️ 안전한 보금자리의 단서를 모두 확인했습니다."
+        },
         "infoText": "구석기 사람들은 한탄강변 바위 그늘과 막집을 지으며 이동 생활을 했습니다.",
         "instruction": "🏕️ <b>70만 년 전 한탄강 구석기 자연환경 탐색</b>",
         "feedback": "동굴과 강가를 확인하세요!"
@@ -156,6 +179,13 @@
       "simulator": {
         "mode": "paleo-fire",
         "type": "gauge",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 12.5,
+          "minActions": 8,
+          "successText": "🔥 마찰열이 충분히 쌓여 불씨가 살아났습니다."
+        },
         "gaugeLabel": "불꽃 마찰열:",
         "instruction": "🔥 <b>동굴 화면을 연타(터치)하여 불을 피우세요!</b>",
         "feedback": "화면을 빠르게 탭하여 마찰열을 올리세요!"
@@ -224,6 +254,14 @@
       "simulator": {
         "mode": "paleo-stone",
         "type": "gauge",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 10,
+          "minActions": 10,
+          "progressKey": "stoneHits",
+          "successText": "⛏️ 양쪽 면의 날이 고르게 완성되었습니다."
+        },
         "gaugeLabel": "주먹도끼 완성도:",
         "instruction": "⛏️ <b>돌을 터치하여 양날을 정교하게 떼어내세요!</b>",
         "feedback": "돌을 여러 번 내리쳐 날을 세우세요!"
@@ -255,6 +293,132 @@
       }
     },
     "4": {
+      "location": "한탄강 사냥터",
+      "badge": "🦌 사냥 전략",
+      "character": {
+        "name": "청년 '바우'",
+        "subtitle": "구석기 사냥꾼",
+        "avatar": "🧑"
+      },
+      "narrative": "<b>주먹도끼를 완성했지만, 도구만으로는 무리를 먹여 살릴 수 없습니다.</b><br><br>사냥감의 흔적을 따라가 보니 넓은 평원과 바위 절벽이 만나는 곳에 발자국이 모여 있습니다. 구석기 사람들은 동물의 이동 경로와 지형을 관찰하며 힘을 합쳐 사냥했습니다.<br><br>사냥감을 몰아갈 방법을 선택하세요.",
+      "choices": [
+        {
+          "text": "🪨 바위 절벽 쪽으로 천천히 몰아 안전하게 포위한다.",
+          "next": "5",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "🏃 혼자서 큰 소리를 내며 정면으로 쫓아간다.",
+          "next": "4-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "culture-touch",
+        "type": "info",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 12.5,
+          "minActions": 8,
+          "successText": "🦌 발자국·바람·절벽의 위치를 모두 확인했습니다."
+        },
+        "infoText": "사냥감의 발자국과 바람의 방향을 살펴보며 안전한 이동 경로를 찾으세요.",
+        "instruction": "🦌 <b>화면을 8번 이상 터치하여 사냥터의 단서를 탐색하세요!</b>",
+        "feedback": "발자국과 절벽 주변을 차례로 살펴보세요."
+      }
+    },
+    "4-1": {
+      "location": "사냥터의 빈 평원",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "협력 없는 사냥",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ 혼자 달려들자 사냥감이 방향을 바꾸어 멀리 달아났습니다.</b><br><br>구석기 사냥은 개인의 힘보다 지형을 읽고 무리가 역할을 나누는 협력이 중요했습니다. 발자국과 절벽의 위치를 다시 살펴보면 사냥감을 안전하게 몰아갈 수 있습니다.",
+      "choices": [
+        {
+          "text": "🔄 무리와 함께 발자국을 따라 포위한다.",
+          "next": "4",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "culture-touch",
+        "type": "info",
+        "infoText": "사냥은 무리의 협력과 지형 관찰이 필요합니다.",
+        "instruction": "🦌 <b>사냥터의 단서를 다시 확인하세요.</b>",
+        "feedback": "발자국과 절벽을 살펴보세요."
+      }
+    },
+    "5": {
+      "location": "한탄강 공동체 야영지",
+      "badge": "🤝 나눔과 협력",
+      "character": {
+        "name": "무리 족장",
+        "subtitle": "구석기 공동체",
+        "avatar": "🧔"
+      },
+      "narrative": "<b>사냥에 성공했지만, 이제 더 중요한 선택이 남았습니다.</b><br><br>사냥한 고기와 가죽을 한 사람이 독차지하면 다음 사냥에서 협력할 사람이 줄어듭니다. 반대로 역할에 따라 나누면 아이와 노인도 공동체의 생존에 힘을 보탤 수 있습니다.<br><br>사냥의 흔적과 무리의 필요를 살펴본 뒤 식량을 나누세요.",
+      "choices": [
+        {
+          "text": "🍖 사냥에 참여한 사람뿐 아니라 무리 전체의 필요에 따라 나눈다.",
+          "next": "6",
+          "correct": true,
+          "sound": "drum"
+        },
+        {
+          "text": "🏆 가장 힘센 사냥꾼이 고기를 모두 차지하게 한다.",
+          "next": "5-1",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "text-reading",
+        "type": "info",
+        "required": true,
+        "completion": {
+          "target": 100,
+          "increment": 12.5,
+          "minActions": 8,
+          "successText": "🤝 무리 구성원의 흔적과 필요를 모두 확인했습니다."
+        },
+        "infoText": "사냥 도구, 불, 가죽, 식량의 흔적을 찾아 공동체의 역할을 생각해 보세요.",
+        "instruction": "📜 <b>화면을 8번 터치하여 공동체의 흔적을 탐색하세요!</b>",
+        "feedback": "무리 구성원의 다양한 역할을 찾아보세요."
+      }
+    },
+    "5-1": {
+      "location": "불 꺼진 공동체 야영지",
+      "badge": "❌ 역사의 IF (실패)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "공동체 붕괴의 위기",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ 식량을 독차지하자 무리의 신뢰가 무너졌습니다.</b><br><br>구석기 사람들은 이동과 사냥, 불 피우기와 도구 제작을 함께 해결해야 했습니다. 생존 기술은 뛰어난 한 사람의 소유물이 아니라 공동체가 나누는 지혜였습니다.",
+      "choices": [
+        {
+          "text": "🔄 모두의 역할과 필요를 살펴 식량을 다시 나눈다.",
+          "next": "5",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "text-reading",
+        "type": "info",
+        "infoText": "공동체의 생존은 역할을 나누고 서로 돕는 데서 시작됩니다.",
+        "instruction": "🤝 <b>공동체의 흔적을 다시 살펴보세요.</b>",
+        "feedback": "도구·불·식량·가죽의 역할을 찾아보세요."
+      }
+    },
+    "6": {
       "location": "한탄강 동굴 앞 모닥불",
       "badge": "👑 MISSION ACCOMPLISHED",
       "character": {
@@ -262,7 +426,7 @@
         "subtitle": "구석기 공동체",
         "avatar": "🧔"
       },
-      "narrative": "<b>\"훌륭하다! 불과 만능 주먹도끼 덕분에 우리 무리가 혹독한 빙하기를 무사히 넘길 수 있겠구나!\"</b><br><br>경기도 연천 전곡리에서 발견된 아슐리안형 주먹도끼는, 동아시아 지역에도 유럽·아프리카 못지않은 고도의 뗀석기 제작 기술이 존재했음을 전 세계에 알린 위대한 발견입니다. 이로써 여러분은 구석기 인류의 생존 지혜를 터득했습니다!",
+      "narrative": "<b>불, 주먹도끼, 사냥, 나눔이 하나의 생존 지혜로 이어졌습니다.</b><br><br>구경만 하는 활동은 생존을 바꾸지 못합니다. 주변 환경을 관찰하고, 도구를 만들고, 무리와 협력한 판단이 모닥불을 지키는 힘이 되었습니다.<br><br>경기도 연천 전곡리에서 발견된 아슐리안형 주먹도끼는 동아시아에도 높은 수준의 뗀석기 제작 기술이 있었음을 보여 주는 중요한 유물입니다.",
       "choices": [
         {
           "text": "🎉 전곡리 주먹도끼를 도감에 등록하고 완료합니다!",
@@ -275,7 +439,7 @@
         "mode": "culture-touch",
         "type": "info",
         "infoText": "연천 전곡리 주먹도끼는 동아시아 최초로 발견된 아슐리안형 주먹도끼입니다.",
-        "instruction": "🏆 <b>구석기 생존 미션 대성공!</b>",
+        "instruction": "🏆 <b>구석기 생존 미션을 돌아보고 완료하세요!</b>",
         "feedback": "국보 도감에서 주먹도끼를 확인하세요!"
       }
     }
