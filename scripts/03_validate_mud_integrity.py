@@ -117,6 +117,48 @@ def main() -> int:
             if interaction and not is_supported_interaction(interaction):
                 fail(errors, f"{path.name}:{stage_id} unsupported interaction type {interaction}")
 
+            hotspots = simulator.get("hotspots")
+            if hotspots is not None:
+                if not isinstance(hotspots, list) or not hotspots:
+                    fail(errors, f"{path.name}:{stage_id} simulator hotspots must be a non-empty list")
+                else:
+                    hotspot_ids: set[str] = set()
+                    for hotspot_index, hotspot in enumerate(hotspots):
+                        prefix = f"{path.name}:{stage_id}:hotspots[{hotspot_index}]"
+                        if not isinstance(hotspot, dict):
+                            fail(errors, f"{prefix} must be an object")
+                            continue
+                        hotspot_id = hotspot.get("id")
+                        if not isinstance(hotspot_id, str) or not hotspot_id:
+                            fail(errors, f"{prefix} missing string id")
+                        elif hotspot_id in hotspot_ids:
+                            fail(errors, f"{prefix} duplicate id {hotspot_id}")
+                        else:
+                            hotspot_ids.add(hotspot_id)
+                        for coordinate in ("x", "y"):
+                            value = hotspot.get(coordinate)
+                            if not isinstance(value, (int, float)) or not 0 <= value <= 1:
+                                fail(errors, f"{prefix} invalid {coordinate}; expected 0..1")
+                        for field in ("label", "feedback"):
+                            if not isinstance(hotspot.get(field), str) or not hotspot[field].strip():
+                                fail(errors, f"{prefix} missing {field}")
+
+                    sequence = simulator.get("sequence")
+                    if interaction == "ordered-hotspot":
+                        if not isinstance(sequence, list) or not sequence:
+                            fail(errors, f"{path.name}:{stage_id} ordered-hotspot requires a non-empty sequence")
+                        else:
+                            for sequence_id in sequence:
+                                if not isinstance(sequence_id, str) or sequence_id not in hotspot_ids:
+                                    fail(errors, f"{path.name}:{stage_id} sequence references unknown hotspot {sequence_id}")
+                    elif sequence is not None:
+                        fail(errors, f"{path.name}:{stage_id} sequence is only valid for ordered-hotspot")
+
+                    completion = simulator.get("completion") or {}
+                    if simulator.get("required") and isinstance(completion.get("target"), (int, float)):
+                        if completion["target"] > len(hotspots):
+                            fail(errors, f"{path.name}:{stage_id} completion.target exceeds hotspot count")
+
             if simulator.get("required"):
                 completion = simulator.get("completion") or {}
                 for field in ("target", "increment", "minActions"):
