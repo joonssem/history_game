@@ -82,6 +82,7 @@ const MudSimulators = {
         engine.paleoFireState.found.push(hotspot.id);
         engine.paleoFireState.lastId = hotspot.id;
         engine.paleoFireStep += 1;
+        this.updatePaleoGauge(engine.paleoFireStep, 3);
         this.setPaleoFeedback(`${hotspot.label}: ${hotspot.feedback} (${engine.paleoFireStep}/3)`, hotspot.id);
         if (window.sounds) window.sounds.playClick();
       }
@@ -89,6 +90,7 @@ const MudSimulators = {
       const hotspot = this.getPaleoHotspot('paleo-stone', x, y, canvas);
       if (this.processPaleoDiscovery('paleo-stone', hotspot, engine)) {
         engine.paleoStoneFacets = engine.paleoStoneState.found.length;
+        this.updatePaleoGauge(engine.paleoStoneFacets, 3);
       }
     } else if (simMode === 'paleo-hunt' || simMode === 'paleo-community' || simMode === 'paleo-reflection') {
       this.processPaleoDiscovery(simMode, this.getPaleoHotspot(simMode, x, y, canvas), engine);
@@ -201,33 +203,6 @@ const MudSimulators = {
       ctx.font = 'bold 13px "Pretendard"';
       ctx.textAlign = 'center';
       ctx.fillText("🏕️ 한탄강변 전곡리 바위그늘", w/2, h - 25);
-    } else if (simMode === 'paleo-fire') {
-      ctx.fillStyle = '#110e0c';
-      ctx.fillRect(0, 0, w, h);
-      ctx.fillStyle = '#4a2f1b';
-      ctx.fillRect(w/2 - 30, h/2 + 25, 60, 10);
-      const flameSize = 10 + (engine.gaugeProgress * 0.4);
-      ctx.fillStyle = '#ea580c';
-      ctx.beginPath();
-      ctx.arc(w/2, h/2 + 20, flameSize, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#facc15';
-      ctx.beginPath();
-      ctx.arc(w/2, h/2 + 20, flameSize * 0.6, 0, Math.PI * 2);
-      ctx.fill();
-    } else if (simMode === 'paleo-stone') {
-      ctx.fillStyle = '#161412';
-      ctx.fillRect(0, 0, w, h);
-      ctx.fillStyle = '#6F4E37';
-      ctx.strokeStyle = '#facc15';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(w/2, h/2 - 45);
-      ctx.lineTo(w/2 + 35, h/2 + 35);
-      ctx.lineTo(w/2 - 35, h/2 + 35);
-      ctx.closePath();
-      ctx.fill();
-      if (engine.stoneHits > 0) ctx.stroke();
     } else if (simMode.startsWith('neolithic')) {
       ctx.fillStyle = '#1e293b';
       ctx.fillRect(0, 0, w, h);
@@ -508,6 +483,14 @@ const MudSimulators = {
     const feedback = document.getElementById('mn-canvas-feedback');
     if (feedback) feedback.textContent = message;
     if (hotspotId) this.drawSim();
+  },
+
+  updatePaleoGauge(progress, total) {
+    const percent = Math.round((progress / total) * 100);
+    const gp = document.getElementById('gauge-progress');
+    const gb = document.getElementById('gauge-bar');
+    if (gp) gp.textContent = `${percent}%`;
+    if (gb) gb.style.width = `${percent}%`;
   },
 
   // === 1단원: 고인돌 정밀 렌더러 ===

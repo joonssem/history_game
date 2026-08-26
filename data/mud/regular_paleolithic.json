@@ -183,14 +183,14 @@
         "required": true,
         "completion": {
           "target": 3,
-          "increment": 12.5,
+          "increment": 1,
           "minActions": 3,
           "progressKey": "paleoFireStep",
           "successText": "🔥 마찰열이 충분히 쌓여 불씨가 살아났습니다."
         },
         "gaugeLabel": "불꽃 마찰열:",
-        "instruction": "🔥 <b>동굴 화면을 연타(터치)하여 불을 피우세요!</b>",
-        "feedback": "화면을 빠르게 탭하여 마찰열을 올리세요!"
+        "instruction": "🔥 <b>마른 풀·나뭇가지를 찾은 뒤 부싯돌을 마지막에 확인하세요!</b>",
+        "feedback": "먼저 마른 풀을 찾아보세요."
       }
     },
     "2-1": {
@@ -214,8 +214,8 @@
         "mode": "paleo-fire",
         "type": "gauge",
         "gaugeLabel": "불꽃 마찰열:",
-        "instruction": "🔥 <b>다시 불을 피워보세요!</b>",
-        "feedback": "빠르게 탭하여 열을 발생시키세요!"
+        "instruction": "🔥 <b>마른 풀 → 나뭇가지 → 부싯돌 순서로 다시 찾아보세요!</b>",
+        "feedback": "재료를 올바른 순서로 준비하세요."
       }
     },
     "3": {
@@ -259,14 +259,14 @@
         "required": true,
         "completion": {
           "target": 3,
-          "increment": 10,
+          "increment": 1,
           "minActions": 3,
           "progressKey": "paleoStoneFacets",
           "successText": "⛏️ 양쪽 면의 날이 고르게 완성되었습니다."
         },
         "gaugeLabel": "주먹도끼 완성도:",
-        "instruction": "⛏️ <b>돌을 터치하여 양날을 정교하게 떼어내세요!</b>",
-        "feedback": "돌을 여러 번 내리쳐 날을 세우세요!"
+        "instruction": "⛏️ <b>가장자리 → 돌의 면 → 뾰족한 끝을 차례로 다듬으세요!</b>",
+        "feedback": "돌의 세 작업 지점을 찾아보세요."
       }
     },
     "3-1": {
@@ -290,8 +290,8 @@
         "mode": "paleo-stone",
         "type": "gauge",
         "gaugeLabel": "주먹도끼 완성도:",
-        "instruction": "⛏️ <b>다시 돌을 내리쳐 떼어내세요!</b>",
-        "feedback": "날카로운 양날을 완성하세요!"
+        "instruction": "⛏️ <b>가장자리·돌의 면·뾰족한 끝을 다시 차례로 확인하세요!</b>",
+        "feedback": "세 작업 지점을 모두 찾아야 합니다."
       }
     },
     "4": {
@@ -329,8 +329,8 @@
           "successText": "🦌 발자국·바람·절벽의 위치를 모두 확인했습니다."
         },
         "infoText": "사냥감의 발자국과 바람의 방향을 살펴보며 안전한 이동 경로를 찾으세요.",
-        "instruction": "🦌 <b>화면을 8번 이상 터치하여 사냥터의 단서를 탐색하세요!</b>",
-        "feedback": "발자국과 절벽 주변을 차례로 살펴보세요."
+        "instruction": "🦌 <b>동물 발자국·바람 방향·바위 길목을 찾아 사냥 단서를 모으세요!</b>",
+        "feedback": "발자국과 바람, 바위 길목을 차례로 살펴보세요."
       }
     },
     "4-1": {
@@ -393,7 +393,7 @@
           "successText": "🤝 무리 구성원의 흔적과 필요를 모두 확인했습니다."
         },
         "infoText": "사냥 도구, 불, 가죽, 식량의 흔적을 찾아 공동체의 역할을 생각해 보세요.",
-        "instruction": "📜 <b>화면을 8번 터치하여 공동체의 흔적을 탐색하세요!</b>",
+        "instruction": "📜 <b>식량·불씨·도구·가죽을 찾아 공동체의 역할을 확인하세요!</b>",
         "feedback": "무리 구성원의 다양한 역할을 찾아보세요."
       }
     },
