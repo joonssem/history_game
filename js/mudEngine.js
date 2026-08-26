@@ -16,6 +16,18 @@ const MudEngine = {
   // === 시뮬레이터 전용 상태 변수 ===
   gaugeProgress: 0,
   stoneHits: 0,
+  paleoEnvironmentFound: 0,
+  paleoEnvironmentState: { found: [], lastId: null },
+  paleoFireStep: 0,
+  paleoFireState: { found: [], lastId: null },
+  paleoStoneFacets: 0,
+  paleoStoneState: { found: [], lastId: null },
+  paleoHuntFound: 0,
+  paleoHuntState: { found: [], lastId: null },
+  paleoCommunityFound: 0,
+  paleoCommunityState: { found: [], lastId: null },
+  paleoReflectionFound: 0,
+  paleoReflectionState: { found: [], lastId: null },
   enemyShips: [],
   bullets: [],
   playerShip: { x: 50, y: 105, size: 24 },
@@ -72,6 +84,18 @@ const MudEngine = {
   resetSimulatorStates() {
     this.gaugeProgress = 0;
     this.stoneHits = 0;
+    this.paleoEnvironmentFound = 0;
+    this.paleoEnvironmentState = { found: [], lastId: null };
+    this.paleoFireStep = 0;
+    this.paleoFireState = { found: [], lastId: null };
+    this.paleoStoneFacets = 0;
+    this.paleoStoneState = { found: [], lastId: null };
+    this.paleoHuntFound = 0;
+    this.paleoHuntState = { found: [], lastId: null };
+    this.paleoCommunityFound = 0;
+    this.paleoCommunityState = { found: [], lastId: null };
+    this.paleoReflectionFound = 0;
+    this.paleoReflectionState = { found: [], lastId: null };
     this.enemyShips = [];
     this.bullets = [];
     this.playerShip = { x: 50, y: 105, size: 24 };
@@ -265,6 +289,30 @@ const MudEngine = {
     this.currentSimulator = sim;
     this.simActionCount = 0;
     this.simulatorComplete = !sim.required;
+    if (sim.mode === 'paleo-environment') {
+      this.paleoEnvironmentFound = 0;
+      this.paleoEnvironmentState = { found: [], lastId: null };
+    }
+    if (sim.mode === 'paleo-fire') {
+      this.paleoFireStep = 0;
+      this.paleoFireState = { found: [], lastId: null };
+    }
+    if (sim.mode === 'paleo-stone') {
+      this.paleoStoneFacets = 0;
+      this.paleoStoneState = { found: [], lastId: null };
+    }
+    if (sim.mode === 'paleo-hunt') {
+      this.paleoHuntFound = 0;
+      this.paleoHuntState = { found: [], lastId: null };
+    }
+    if (sim.mode === 'paleo-community') {
+      this.paleoCommunityFound = 0;
+      this.paleoCommunityState = { found: [], lastId: null };
+    }
+    if (sim.mode === 'paleo-reflection') {
+      this.paleoReflectionFound = 0;
+      this.paleoReflectionState = { found: [], lastId: null };
+    }
 
     // 위젯 일괄 숨김
     document.getElementById('widget-info').style.display = 'none';

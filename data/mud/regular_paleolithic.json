@@ -108,13 +108,14 @@
         }
       ],
       "simulator": {
-        "mode": "culture-touch",
+        "mode": "paleo-environment",
         "type": "info",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 20,
-          "minActions": 5,
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "paleoEnvironmentFound",
           "successText": "🏕️ 안전한 보금자리의 단서를 모두 확인했습니다."
         },
         "infoText": "구석기 사람들은 한탄강변 바위 그늘과 막집을 지으며 이동 생활을 했습니다.",
@@ -140,7 +141,7 @@
         }
       ],
       "simulator": {
-        "mode": "culture-touch",
+        "mode": "paleo-environment",
         "type": "info",
         "infoText": "구석기인들은 자연 동굴이나 바위 그늘에서 생활했습니다.",
         "instruction": "🏕️ <b>안전한 보금자리를 다시 찾아보세요</b>",
@@ -181,9 +182,10 @@
         "type": "gauge",
         "required": true,
         "completion": {
-          "target": 100,
+          "target": 3,
           "increment": 12.5,
-          "minActions": 8,
+          "minActions": 3,
+          "progressKey": "paleoFireStep",
           "successText": "🔥 마찰열이 충분히 쌓여 불씨가 살아났습니다."
         },
         "gaugeLabel": "불꽃 마찰열:",
@@ -256,10 +258,10 @@
         "type": "gauge",
         "required": true,
         "completion": {
-          "target": 100,
+          "target": 3,
           "increment": 10,
-          "minActions": 10,
-          "progressKey": "stoneHits",
+          "minActions": 3,
+          "progressKey": "paleoStoneFacets",
           "successText": "⛏️ 양쪽 면의 날이 고르게 완성되었습니다."
         },
         "gaugeLabel": "주먹도끼 완성도:",
@@ -316,13 +318,14 @@
         }
       ],
       "simulator": {
-        "mode": "culture-touch",
+        "mode": "paleo-hunt",
         "type": "info",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 12.5,
-          "minActions": 8,
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "paleoHuntFound",
           "successText": "🦌 발자국·바람·절벽의 위치를 모두 확인했습니다."
         },
         "infoText": "사냥감의 발자국과 바람의 방향을 살펴보며 안전한 이동 경로를 찾으세요.",
@@ -348,7 +351,7 @@
         }
       ],
       "simulator": {
-        "mode": "culture-touch",
+        "mode": "paleo-hunt",
         "type": "info",
         "infoText": "사냥은 무리의 협력과 지형 관찰이 필요합니다.",
         "instruction": "🦌 <b>사냥터의 단서를 다시 확인하세요.</b>",
@@ -379,13 +382,14 @@
         }
       ],
       "simulator": {
-        "mode": "text-reading",
+        "mode": "paleo-community",
         "type": "info",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 12.5,
-          "minActions": 8,
+          "target": 4,
+          "increment": 1,
+          "minActions": 4,
+          "progressKey": "paleoCommunityFound",
           "successText": "🤝 무리 구성원의 흔적과 필요를 모두 확인했습니다."
         },
         "infoText": "사냥 도구, 불, 가죽, 식량의 흔적을 찾아 공동체의 역할을 생각해 보세요.",
@@ -411,7 +415,7 @@
         }
       ],
       "simulator": {
-        "mode": "text-reading",
+        "mode": "paleo-community",
         "type": "info",
         "infoText": "공동체의 생존은 역할을 나누고 서로 돕는 데서 시작됩니다.",
         "instruction": "🤝 <b>공동체의 흔적을 다시 살펴보세요.</b>",
@@ -436,7 +440,15 @@
         }
       ],
       "simulator": {
-        "mode": "culture-touch",
+        "mode": "paleo-reflection",
+        "required": true,
+        "completion": {
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "paleoReflectionFound",
+          "successText": "구석기 생존의 핵심 단서를 모두 되돌아보았습니다."
+        },
         "type": "info",
         "infoText": "연천 전곡리 주먹도끼는 동아시아 최초로 발견된 아슐리안형 주먹도끼입니다.",
         "instruction": "🏆 <b>구석기 생존 미션을 돌아보고 완료하세요!</b>",

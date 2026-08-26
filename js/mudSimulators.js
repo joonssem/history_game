@@ -57,7 +57,42 @@ const MudSimulators = {
         engine.voteState.voteInserted = true;
         if (window.sounds) window.sounds.playFanfare();
       }
-    } else if (simMode === 'paleo-fire' || simMode === 'neolithic-pottery' || simMode.startsWith('economy') || simMode.startsWith('battle-gauge') || simMode.startsWith('culture-touch') || simMode.startsWith('text-reading')) {
+    } else if (simMode === 'paleo-environment') {
+      const hotspot = this.getPaleoEnvironmentHotspot(x, y, canvas);
+      if (!hotspot) {
+        this.setPaleoEnvironmentFeedback('주변의 다른 장소를 살펴보세요. 동굴·강가·평야를 찾아보세요.');
+      } else if (engine.paleoEnvironmentState.found.includes(hotspot.id)) {
+        this.setPaleoEnvironmentFeedback(`${hotspot.label}은(는) 이미 확인했습니다. 다른 단서를 찾아보세요.`);
+      } else {
+        engine.paleoEnvironmentState.found.push(hotspot.id);
+        engine.paleoEnvironmentState.lastId = hotspot.id;
+        engine.paleoEnvironmentFound = engine.paleoEnvironmentState.found.length;
+        this.setPaleoEnvironmentFeedback(`${hotspot.label}: ${hotspot.feedback} (${engine.paleoEnvironmentFound}/3)`, hotspot.id);
+        if (window.sounds) window.sounds.playClick();
+      }
+    } else if (simMode === 'paleo-fire') {
+      const hotspot = this.getPaleoHotspot('paleo-fire', x, y, canvas);
+      const order = ['dry-grass', 'branches', 'stone'];
+      const step = engine.paleoFireStep;
+      if (!hotspot) {
+        this.setPaleoFeedback('마른 풀·나뭇가지·돌을 차례로 찾아보세요.');
+      } else if (hotspot.id !== order[step]) {
+        this.setPaleoFeedback(`${hotspot.label}보다 먼저 ${this.getPaleoHotspotLabel(order[step])}을(를) 준비해야 합니다.`);
+      } else {
+        engine.paleoFireState.found.push(hotspot.id);
+        engine.paleoFireState.lastId = hotspot.id;
+        engine.paleoFireStep += 1;
+        this.setPaleoFeedback(`${hotspot.label}: ${hotspot.feedback} (${engine.paleoFireStep}/3)`, hotspot.id);
+        if (window.sounds) window.sounds.playClick();
+      }
+    } else if (simMode === 'paleo-stone') {
+      const hotspot = this.getPaleoHotspot('paleo-stone', x, y, canvas);
+      if (this.processPaleoDiscovery('paleo-stone', hotspot, engine)) {
+        engine.paleoStoneFacets = engine.paleoStoneState.found.length;
+      }
+    } else if (simMode === 'paleo-hunt' || simMode === 'paleo-community' || simMode === 'paleo-reflection') {
+      this.processPaleoDiscovery(simMode, this.getPaleoHotspot(simMode, x, y, canvas), engine);
+    } else if (simMode === 'neolithic-pottery' || simMode.startsWith('economy') || simMode.startsWith('battle-gauge') || simMode.startsWith('culture-touch') || simMode.startsWith('text-reading')) {
       engine.gaugeProgress = Math.min(100, (engine.gaugeProgress || 0) + engine.simulatorIncrement());
       const gp = document.getElementById('gauge-progress');
       if (gp) gp.textContent = `${engine.gaugeProgress}%`;
@@ -65,14 +100,6 @@ const MudSimulators = {
       if (gb) gb.style.width = `${engine.gaugeProgress}%`;
       if (window.sounds) window.sounds.playClick();
       if (engine.gaugeProgress >= 100 && window.sounds) window.sounds.playCorrect();
-    } else if (simMode === 'paleo-stone') {
-      engine.stoneHits = Math.min(100, engine.stoneHits + engine.simulatorIncrement());
-      const gp = document.getElementById('gauge-progress');
-      if (gp) gp.textContent = `${engine.stoneHits}%`;
-      const gb = document.getElementById('gauge-bar');
-      if (gb) gb.style.width = `${engine.stoneHits}%`;
-      if (window.sounds) window.sounds.playClick();
-      if (engine.stoneHits >= 100 && window.sounds) window.sounds.playCorrect();
     } else if (simMode.startsWith('gwangbok-flag') || simMode === 'precise-taegeukgi') {
       if (!engine.taegeukState.yangColor) engine.taegeukState.yangColor = true;
       else if (!engine.taegeukState.yinColor) engine.taegeukState.yinColor = true;
@@ -254,6 +281,15 @@ const MudSimulators = {
       ctx.fillStyle = '#FCD34D';
       ctx.font = '10px "Pretendard"';
       ctx.fillText("화면을 터치하여 승기를 잡으세요!", w/2, h - 15);
+    } else if (simMode === 'paleo-environment') {
+      this.drawPaleoEnvironment(ctx, w, h, engine.paleoEnvironmentState);
+    } else if (simMode === 'paleo-fire') {
+      this.drawPaleoActivity(ctx, w, h, simMode, engine.paleoFireState, engine.paleoFireStep);
+    } else if (simMode === 'paleo-stone') {
+      this.drawPaleoActivity(ctx, w, h, simMode, engine.paleoStoneState, engine.paleoStoneFacets);
+    } else if (simMode === 'paleo-hunt' || simMode === 'paleo-community' || simMode === 'paleo-reflection') {
+      const state = simMode === 'paleo-hunt' ? engine.paleoHuntState : simMode === 'paleo-community' ? engine.paleoCommunityState : engine.paleoReflectionState;
+      this.drawPaleoActivity(ctx, w, h, simMode, state, state.found.length);
     } else if (simMode.startsWith('culture-touch')) {
       // ✨ 문화 예술 & 생활 유물 체험 모드
       ctx.fillStyle = '#064e3b';
@@ -273,6 +309,205 @@ const MudSimulators = {
       ctx.font = '10px "Pretendard"';
       ctx.fillText("신명 나는 터치로 흥과 문화를 피워내세요!", w/2, h - 15);
     }
+  },
+
+  getPaleoEnvironmentHotspots(canvasWidth, canvasHeight) {
+    return [
+      { id: 'rock-shelter', label: '바위 그늘', x: 0.22, y: 0.52, radius: Math.min(canvasWidth, canvasHeight) * 0.14, feedback: '바람과 추위를 피할 수 있는 보금자리입니다.' },
+      { id: 'riverbank', label: '강가', x: 0.72, y: 0.48, radius: Math.min(canvasWidth, canvasHeight) * 0.14, feedback: '물을 얻고 동물 흔적을 찾을 수 있지만 범람에 주의해야 합니다.' },
+      { id: 'open-plain', label: '트인 평야', x: 0.48, y: 0.76, radius: Math.min(canvasWidth, canvasHeight) * 0.13, feedback: '시야는 넓지만 바람과 추위에 그대로 노출됩니다.' }
+    ];
+  },
+
+  getPaleoEnvironmentHotspot(x, y, canvas) {
+    const w = canvas.width / window.devicePixelRatio;
+    const h = canvas.height / window.devicePixelRatio;
+    return this.getPaleoEnvironmentHotspots(w, h).find(hotspot => {
+      const dx = x - hotspot.x * w;
+      const dy = y - hotspot.y * h;
+      return Math.sqrt(dx * dx + dy * dy) <= hotspot.radius;
+    });
+  },
+
+  setPaleoEnvironmentFeedback(message, hotspotId = null) {
+    const feedback = document.getElementById('mn-canvas-feedback');
+    if (feedback) feedback.textContent = message;
+    if (hotspotId) this.drawSim();
+  },
+
+  drawPaleoEnvironment(ctx, w, h, state) {
+    const hotspots = this.getPaleoEnvironmentHotspots(w, h);
+    const found = state?.found || [];
+    const sky = ctx.createLinearGradient(0, 0, 0, h);
+    sky.addColorStop(0, '#b9d7d5');
+    sky.addColorStop(0.58, '#dce5c4');
+    sky.addColorStop(0.59, '#8da35c');
+    sky.addColorStop(1, '#5c713d');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, w, h);
+
+    // 한탄강과 강가
+    ctx.fillStyle = '#4d9ab3';
+    ctx.beginPath();
+    ctx.moveTo(w * 0.62, 0);
+    ctx.bezierCurveTo(w * 0.48, h * 0.28, w * 0.83, h * 0.5, w * 0.64, h);
+    ctx.lineTo(w * 0.93, h);
+    ctx.bezierCurveTo(w * 0.96, h * 0.54, w * 0.68, h * 0.32, w * 0.78, 0);
+    ctx.closePath();
+    ctx.fill();
+
+    // 바위 그늘
+    ctx.fillStyle = '#66564a';
+    ctx.beginPath();
+    ctx.moveTo(w * 0.05, h * 0.64);
+    ctx.lineTo(w * 0.08, h * 0.32);
+    ctx.quadraticCurveTo(w * 0.22, h * 0.17, w * 0.38, h * 0.36);
+    ctx.lineTo(w * 0.42, h * 0.64);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = '#2e2925';
+    ctx.beginPath();
+    ctx.arc(w * 0.23, h * 0.55, Math.min(w, h) * 0.12, Math.PI, 0);
+    ctx.fill();
+
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 11px "Pretendard", sans-serif';
+    hotspots.forEach(hotspot => {
+      const cx = hotspot.x * w;
+      const cy = hotspot.y * h;
+      const isFound = found.includes(hotspot.id);
+      ctx.fillStyle = isFound ? '#f59e0b' : 'rgba(255,255,255,0.92)';
+      ctx.strokeStyle = isFound ? '#fff7ed' : '#345c4b';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(cx, cy, hotspot.radius * 0.68, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = isFound ? '#422006' : '#16352b';
+      ctx.fillText(isFound ? `✓ ${hotspot.label}` : hotspot.label, cx, cy + 4);
+    });
+
+    ctx.fillStyle = '#173b31';
+    ctx.font = 'bold 12px "Pretendard", sans-serif';
+    ctx.fillText(`환경 단서 찾기: ${found.length}/3`, w / 2, h - 16);
+  },
+
+  getPaleoHotspots(mode, canvasWidth, canvasHeight) {
+    const base = {
+      'paleo-fire': [
+        { id: 'dry-grass', label: '마른 풀', x: 0.23, y: 0.68, feedback: '불씨를 살릴 가벼운 재료입니다.' },
+        { id: 'branches', label: '나뭇가지', x: 0.50, y: 0.67, feedback: '불씨를 오래 유지할 연료입니다.' },
+        { id: 'stone', label: '부싯돌', x: 0.76, y: 0.66, feedback: '마찰로 불꽃을 만들 도구입니다.' }
+      ],
+      'paleo-stone': [
+        { id: 'stone-edge', label: '가장자리', x: 0.25, y: 0.52, feedback: '가장자리부터 얇게 다듬어 날을 만듭니다.' },
+        { id: 'stone-face', label: '돌의 면', x: 0.50, y: 0.43, feedback: '한쪽 면을 고르게 다듬어 쥐기 좋은 모양을 만듭니다.' },
+        { id: 'stone-tip', label: '뾰족한 끝', x: 0.75, y: 0.52, feedback: '끝부분을 뾰족하게 다듬어 다양한 작업에 사용할 수 있습니다.' }
+      ],
+      'paleo-hunt': [
+        { id: 'tracks', label: '동물 발자국', x: 0.24, y: 0.52, feedback: '동물이 지나간 방향을 알려 주는 단서입니다.' },
+        { id: 'wind', label: '바람 방향', x: 0.50, y: 0.38, feedback: '바람을 거슬러 접근하면 냄새를 들키지 않을 수 있습니다.' },
+        { id: 'rock-funnel', label: '바위 길목', x: 0.76, y: 0.54, feedback: '무리가 함께 움직일 때 동물을 유도하기 좋은 지형입니다.' }
+      ],
+      'paleo-community': [
+        { id: 'food', label: '식량', x: 0.22, y: 0.48, feedback: '모두가 먹을 수 있도록 공동으로 나누어야 합니다.' },
+        { id: 'fire', label: '불씨', x: 0.50, y: 0.38, feedback: '불씨를 지키는 사람이 있어야 공동체가 안전합니다.' },
+        { id: 'tool', label: '도구', x: 0.78, y: 0.48, feedback: '필요한 사람이 함께 사용하도록 공유해야 합니다.' },
+        { id: 'hide', label: '가죽', x: 0.50, y: 0.70, feedback: '추위를 막는 재료이므로 필요한 구성원에게 배분합니다.' }
+      ],
+      'paleo-reflection': [
+        { id: 'environment', label: '환경 관찰', x: 0.22, y: 0.50, feedback: '구석기 사람들은 자연환경을 관찰해 생활 터전을 정했습니다.' },
+        { id: 'technology', label: '도구와 불', x: 0.50, y: 0.40, feedback: '도구와 불은 추위와 위험을 이겨 내는 기술이었습니다.' },
+        { id: 'cooperation', label: '공동체 협력', x: 0.78, y: 0.50, feedback: '이동 생활에서는 자원과 역할을 나누는 협력이 중요했습니다.' }
+      ]
+    }[mode] || [];
+    const radius = Math.min(canvasWidth, canvasHeight) * 0.14;
+    return base.map(hotspot => ({ ...hotspot, radius }));
+  },
+
+  getPaleoHotspotLabel(id) {
+    const labels = { 'dry-grass': '마른 풀', branches: '나뭇가지', stone: '부싯돌' };
+    return labels[id] || id;
+  },
+
+  getPaleoHotspot(mode, x, y, canvas) {
+    const w = canvas.width / window.devicePixelRatio;
+    const h = canvas.height / window.devicePixelRatio;
+    return this.getPaleoHotspots(mode, w, h).find(hotspot => {
+      const dx = x - hotspot.x * w;
+      const dy = y - hotspot.y * h;
+      return Math.sqrt(dx * dx + dy * dy) <= hotspot.radius;
+    });
+  },
+
+  processPaleoDiscovery(mode, hotspot, engine) {
+    const stateKey = mode === 'paleo-stone' ? 'paleoStoneState' : mode === 'paleo-hunt' ? 'paleoHuntState' : mode === 'paleo-community' ? 'paleoCommunityState' : 'paleoReflectionState';
+    const state = engine[stateKey];
+    if (!hotspot) {
+      this.setPaleoFeedback('화면의 표시된 단서를 눌러 활동을 계속하세요.');
+      return false;
+    }
+    if (state.found.includes(hotspot.id)) {
+      this.setPaleoFeedback(`${hotspot.label}은(는) 이미 확인했습니다. 다른 단서를 찾아보세요.`);
+      return false;
+    }
+    state.found.push(hotspot.id);
+    state.lastId = hotspot.id;
+    const progressKey = mode === 'paleo-stone' ? 'paleoStoneFacets' : mode === 'paleo-hunt' ? 'paleoHuntFound' : mode === 'paleo-community' ? 'paleoCommunityFound' : 'paleoReflectionFound';
+    engine[progressKey] = state.found.length;
+    this.setPaleoFeedback(`${hotspot.label}: ${hotspot.feedback} (${state.found.length}/${this.getPaleoHotspots(mode, 100, 100).length})`, hotspot.id);
+    if (window.sounds) window.sounds.playClick();
+    return true;
+  },
+
+  drawPaleoActivity(ctx, w, h, mode, state, progress) {
+    const colors = {
+      'paleo-fire': ['#21150e', '#9a3412'],
+      'paleo-stone': ['#27221d', '#78716c'],
+      'paleo-hunt': ['#d9e8c1', '#537044'],
+      'paleo-community': ['#eadfc9', '#9a7052'],
+      'paleo-reflection': ['#e9eef2', '#4b6475']
+    }[mode] || ['#1f2937', '#64748b'];
+    ctx.fillStyle = colors[0];
+    ctx.fillRect(0, 0, w, h);
+    if (mode === 'paleo-fire') {
+      ctx.fillStyle = '#6b4428';
+      ctx.fillRect(w * 0.38, h * 0.48, w * 0.24, h * 0.12);
+    } else if (mode === 'paleo-stone') {
+      ctx.fillStyle = '#a8a29e';
+      ctx.beginPath();
+      ctx.ellipse(w / 2, h * 0.42, w * 0.18, h * 0.18, 0, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.fillStyle = colors[1];
+      ctx.fillRect(0, h * 0.62, w, h * 0.38);
+    }
+    const hotspots = this.getPaleoHotspots(mode, w, h);
+    const found = state?.found || [];
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 11px "Pretendard", sans-serif';
+    hotspots.forEach(hotspot => {
+      const cx = hotspot.x * w;
+      const cy = hotspot.y * h;
+      const isFound = found.includes(hotspot.id);
+      ctx.fillStyle = isFound ? '#f59e0b' : 'rgba(255,255,255,0.92)';
+      ctx.strokeStyle = isFound ? '#fff7ed' : colors[1];
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(cx, cy, hotspot.radius * 0.68, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = isFound ? '#422006' : '#1f2937';
+      ctx.fillText(isFound ? `✓ ${hotspot.label}` : hotspot.label, cx, cy + 4);
+    });
+    ctx.fillStyle = mode === 'paleo-fire' || mode === 'paleo-stone' ? '#fef3c7' : '#1f2937';
+    ctx.fillText(`진행: ${progress}/${hotspots.length}`, w / 2, h - 16);
+  },
+
+  setPaleoFeedback(message, hotspotId = null) {
+    const feedback = document.getElementById('mn-canvas-feedback');
+    if (feedback) feedback.textContent = message;
+    if (hotspotId) this.drawSim();
   },
 
   // === 1단원: 고인돌 정밀 렌더러 ===
