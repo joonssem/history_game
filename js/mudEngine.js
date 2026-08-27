@@ -47,7 +47,7 @@ const MudEngine = {
   // === MUD 초기화 및 실행 진입점 ===
   async openMUD(mudId) {
     try {
-      const res = await fetch(`data/mud/${mudId}.json`);
+      const res = await fetch(`data/mud/${mudId}.json`, { cache: 'no-store' });
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       this.currentMudData = await res.json();
     } catch (e) {

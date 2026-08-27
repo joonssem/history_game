@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 // 커리큘럼 데이터 로드
 async function loadCurriculum() {
   try {
-    const res = await fetch('data/history_curriculum_48_lessons.json');
+    const res = await fetch('data/history_curriculum_48_lessons.json', { cache: 'no-store' });
     curriculumData = await res.json();
   } catch (e) {
     console.error('Failed to load history_curriculum_48_lessons.json', e);
@@ -36,7 +36,7 @@ async function loadCurriculum() {
 
 async function loadMudIndex() {
   try {
-    const res = await fetch('data/mud/_index.json');
+    const res = await fetch('data/mud/_index.json', { cache: 'no-store' });
     const data = await res.json();
     mudIndexData = Array.isArray(data.muds) ? data.muds : [];
   } catch (e) {
