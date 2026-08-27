@@ -360,5 +360,21 @@
       "artifactId": "art_12",
       "name": "조선 수군 판옥선 & 천자총통"
     }
+  ],
+  "sources": [
+    {
+      "institution": "국립특수교육원",
+      "title": "2022 개정 공통 교육과정(초등학교) 사회과 성취수준",
+      "url": "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+      "checkedAt": "2026-08-27",
+      "claimScope": "현행 성취기준에 직접 대응하지 않는 보조 역사 맥락 활동이라는 교육과정상 위치 판단"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "명량해전과 울돌목",
+      "url": "https://contents.history.go.kr/mobile/nh/view.do?levelId=nh_029_0020_0030_0030_0020",
+      "checkedAt": "2026-08-27",
+      "claimScope": "울돌목의 지형과 조류, 명량해전 전개 관련 서술"
+    }
   ]
 }

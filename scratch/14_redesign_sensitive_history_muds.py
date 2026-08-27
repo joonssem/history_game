@@ -46,6 +46,11 @@ def save(name, transform):
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def append_source_unique(data, source):
+    if not any(existing.get("url") == source["url"] for existing in data.get("sources", [])):
+        data.setdefault("sources", []).append(source)
+
+
 def redesign_independence(data):
     data["title"] = "의병 항쟁과 안중근의 동양평화론: 독립과 평화의 근거"
     data["header"] = {
@@ -167,7 +172,7 @@ def redesign_independence(data):
         "4-1": failure("독립운동 자료 종합실", "🔄 세 자료 다시 비교", "<b>하나의 사건은 전체 역사를 대신할 수 없습니다.</b><br><br>의병 기록, 단지동맹 태극기, 동양평화론이 각각 알려 주는 내용을 다시 연결해 보세요.", "🔄 세 자료의 공통점과 차이를 다시 비교한다.", "4"),
     }
     data["rewards"] = [{"artifactId": "art_24", "name": "안중근 의사 단지 태극기와 유묵(하루라도 책을 읽지 않으면)"}]
-    data["sources"].append({
+    append_source_unique(data, {
         "institution": "국사편찬위원회",
         "title": "안중근의 동양평화론",
         "url": "https://contents.history.go.kr/front/hm/view.do?levelId=hm_121_0130",
@@ -297,7 +302,7 @@ def redesign_korean_war(data):
         "4-1": failure("평화 전시 검토실", "🔄 세 자료 다시 연결", "<b>전쟁의 승패만으로는 사람들의 경험과 오늘날의 과제를 설명할 수 없습니다.</b><br><br>지도, 학생 일기, 정전 협정이 각각 알려 주는 내용을 다시 연결해 보세요.", "🔄 세 자료를 다시 비교해 전시를 고친다.", "4"),
     }
     data["rewards"] = [{"artifactId": "art_korean_war", "name": "수복 서울의 태극기와 호국 무공훈장"}]
-    data["sources"].extend([
+    for source in [
         {
             "institution": "국사편찬위원회",
             "title": "6·25 전쟁과 학도병의 일기",
@@ -312,7 +317,8 @@ def redesign_korean_war(data):
             "checkedAt": "2026-08-27",
             "claimScope": "전쟁의 피해, 피난과 이산, 정전과 평화의 과제에 대한 초등 학습 맥락",
         },
-    ])
+    ]:
+        append_source_unique(data, source)
 
 
 save("regular_independence_army.json", redesign_independence)

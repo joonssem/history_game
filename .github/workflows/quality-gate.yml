@@ -30,6 +30,8 @@ jobs:
           python scripts/04_validate_mud_contract.py
       - name: Validate MUD navigation index and README catalog
         run: python scripts/08_validate_mud_catalog.py
+      - name: Validate MUD source metadata
+        run: python scripts/09_validate_mud_sources.py
       - name: Test simulator runtime
         run: node scripts/05_test_simulator_runtime.js
       - name: Validate static assets

@@ -418,5 +418,28 @@
       "artifactId": "art_19",
       "name": "남한산성 성곽도와 효종 북벌 밀지"
     }
+  ],
+  "sources": [
+    {
+      "institution": "국립특수교육원",
+      "title": "2022 개정 공통 교육과정(초등학교) 사회과 성취수준",
+      "url": "https://www.nise.go.kr/ebook/src/viewer/download.php?host=main&no=1&site=20240819_172144",
+      "checkedAt": "2026-08-27",
+      "claimScope": "현행 성취기준에 직접 대응하지 않는 보조 역사 맥락 활동이라는 교육과정상 위치 판단"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "명분과 현실 사이의 전쟁, 정묘·병자호란",
+      "url": "https://contents.history.go.kr/data/pdf/eh/eh_r0295_0010.pdf",
+      "checkedAt": "2026-08-27",
+      "claimScope": "정묘호란과 병자호란의 배경·전개·결과에 관한 초등 역사 학습 맥락"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "남한산성 수성과 화전양론",
+      "url": "https://contents.history.go.kr/front/nh/view.do?levelId=nh_029_0030_0030_0030",
+      "checkedAt": "2026-08-27",
+      "claimScope": "남한산성 항전과 척화·주화 논의 관련 서술"
+    }
   ]
 }
