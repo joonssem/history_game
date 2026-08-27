@@ -28,6 +28,8 @@ jobs:
         run: |
           python scripts/03_validate_mud_integrity.py
           python scripts/04_validate_mud_contract.py
+      - name: Validate MUD navigation index and README catalog
+        run: python scripts/08_validate_mud_catalog.py
       - name: Test simulator runtime
         run: node scripts/05_test_simulator_runtime.js
       - name: Validate static assets

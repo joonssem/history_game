@@ -34,6 +34,45 @@
 
 > 아래 차시 번호는 현재 콘텐츠의 기존(2015 개정) 기준선입니다. 2022 개정 교육과정의 단원·차시 매핑은 교육과정 및 사용 교과서 확인 후 확정합니다. 전체 기계 인덱스는 [`data/mud/_index.json`](./data/mud/_index.json)을 기준으로 합니다.
 
+### 자동 동기화 전체 목록
+
+<!-- MUD_CATALOG:START -->
+| 구분 | 차시 | MUD 제목 | 데이터 파일 |
+|---|---|---|---|
+| Regular | 2차시 | 구석기 생존기: 전곡리의 만능 주먹도끼 | `regular_paleolithic.json` |
+| Regular | 3차시 | 신석기 생존기: 암사동의 뾰족 그릇과 정착 | `regular_neolithic.json` |
+| Regular | 4~5차시 | 청동기 고인돌 축조자: 거석 운반과 군장의 탄생 | `regular_bronze_age.json` |
+| Regular | 6차시 | 단군왕검의 고조선 개국: 8조법과 비파형 동검 | `regular_gojoseon.json` |
+| Regular | 7~8차시 | 삼국의 전성기 한강 쟁탈전: 근초고왕·광개토대왕·진흥왕 | `regular_three_kingdoms.json` |
+| Regular | 9~10차시 | 고분 벽화 탐정: 삼국 귀족의 맥적과 가야 철갑옷 | `regular_three_kingdoms_life.json` |
+| Regular | 13차시 | 고려 건국기: 태조 왕건의 후삼국 통일과 훈요 10조 | `regular_goryeo_founding.json` |
+| Regular | 14차시 | 고려 사회 탐정: 손변의 지혜로운 재판과 과거 홍패 | `regular_goryeo_society.json` |
+| Regular | 2~3차시 | 한양 도읍 설계자: 정도전의 사대문과 경복궁 | `regular_joseon_founding.json` |
+| Regular | 7차시 | 명량대첩: 13척으로 133척을 막아선 기적 | `regular_myeongnyang.json` |
+| Regular | 8차시 | 조선 후기 보부상과 모내기 대박 | `regular_joseon_economy.json` |
+| Regular | 9차시 | 실학자 탐구: 지구의와 동학의 평등 세상 | `regular_joseon_silhak.json` |
+| Regular | 8~9차시 | 8·15 광복의 환희와 대한민국 정부 수립: 최초의 5·10 총선거 | `regular_gwangbok.json` |
+| Deep-dive | 2~6차시 | 군장의 결단: 고인돌 마을에서 고조선까지 | `deep_prehistoric.json` |
+| Deep-dive | 7~12차시 | 삼국 통일의 대서사시: 화랑의 맹세와 발해의 건국 | `deep_three_kingdoms.json` |
+| Deep-dive | 2~9차시 | 조선 500년의 붓: 사관의 기록과 실학의 꿈 | `deep_joseon.json` |
+| Deep-dive | 2~13차시 | 독립과 민주의 횃불: 잃어버린 빛을 찾아서 | `deep_modern.json` |
+| Regular | 24~25차시 | 세종대왕과 과학 발전: 애민의 바른 소리 | `regular_sejong.json` |
+| Regular | 38~39차시 | 3·1 만세 운동과 대한민국 임시정부: 자주독립의 횃불 | `regular_independence.json` |
+| Regular | 44~46차시 | 6·25 전쟁의 상처와 평화: 지도와 기록으로 살피기 | `regular_korean_war.json` |
+| Regular | 15~16차시 | 서희의 외교 담판과 강감찬의 귀주대첩 | `regular_goryeo_war.json` |
+| Regular | 17~18차시 | 팔만대장경과 벽란도: 세계와 만난 고려 문화 | `regular_goryeo_culture.json` |
+| Regular | 10차시 | 조선 후기 서민 문화: 신명 나는 탈춤과 풍속화 | `regular_joseon_folk.json` |
+| Regular | 11~12차시 | 강화도 조약과 근대 문물의 도입: 전차 달리는 한양 | `regular_modern_open.json` |
+| Regular | 2차시 | 의병 항쟁과 안중근의 동양평화론: 독립과 평화의 근거 | `regular_independence_army.json` |
+| Regular | 11차시 | 통일신라의 번영과 불국사의 과학: 신문왕과 김대성 | `regular_silla.json` |
+| Regular | 12차시 | 해동성국 발해: 대조영의 건국과 고구려 계승 | `regular_balhae.json` |
+| Regular | 6차시 | 조선의 신분제: 양반, 중인, 상민, 노비의 삶 | `regular_joseon_status.json` |
+| Regular | 7차시 | 조선의 외교와 병자호란: 관계·전쟁·회복의 선택 | `regular_joseon_diplomacy.json` |
+| Regular | 3차시 | 1910년대 무단 통치: 헌병 경찰과 토지 조사 사업의 수탈 | `regular_japanese_rule_1.json` |
+| Regular | 6~7차시 | 민족 말살 통치와 강제 동원: 한글을 지킨 조선어학회 | `regular_japanese_rule_2.json` |
+| Regular | 12차시 | 6·25 전쟁 이후 달라진 사회: 피난민의 삶과 재건의 희망 | `regular_post_war.json` |
+<!-- MUD_CATALOG:END -->
+
 ### 🏛️ 1단원. 옛 사람들의 삶과 문화
 
 | 차시 | MUD 제목 | 시뮬레이터 |
