@@ -12,6 +12,7 @@ INDEX = MUD_DIR / "_index.json"
 MAPPING = ROOT / "data" / "curriculum_mapping.json"
 CONTRACT = ROOT / "simulator_contract.json"
 STANDARDS = ROOT / "data" / "curriculum_standards_2022.json"
+VERIFIED_MAPPING_STATUS = "achievement-standards-verified-publisher-pending"
 
 
 def main() -> int:
@@ -25,10 +26,12 @@ def main() -> int:
         errors.append("_index.json must identify its current content curriculum")
     if index.get("targetCurriculumVersion") != "2022-revised":
         errors.append("_index.json must identify the target curriculum")
-    if index.get("mappingStatus") != "pending-content-review":
-        errors.append("_index.json must keep 2022 mapping pending until reviewed")
-    if mapping.get("status") != "pending-content-review":
-        errors.append("curriculum_mapping.json must remain pending-content-review")
+    if index.get("mappingStatus") != VERIFIED_MAPPING_STATUS:
+        errors.append("_index.json must identify verified standards with publisher mapping pending")
+    if mapping.get("status") != VERIFIED_MAPPING_STATUS:
+        errors.append("curriculum_mapping.json must identify verified standards with publisher mapping pending")
+    if mapping.get("textbookStatus") != "publisher-and-edition-required-for-lesson-mapping":
+        errors.append("curriculum_mapping.json must keep textbook lesson mapping publisher-dependent")
 
     entries = {item.get("mudId"): item for item in index.get("muds", [])}
     mapped_ids = {item.get("mudId") for item in mapping.get("mappings", [])}
