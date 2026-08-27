@@ -473,14 +473,25 @@ const MudSimulators = {
   },
 
   drawPaleoActivity(ctx, w, h, mode, state, progress) {
+    const scene = window.MudEngine?.currentSimulator?.scene;
     const colors = {
       'paleo-fire': ['#21150e', '#9a3412'],
       'paleo-stone': ['#27221d', '#78716c'],
       'paleo-hunt': ['#d9e8c1', '#537044'],
       'paleo-community': ['#eadfc9', '#9a7052'],
-      'paleo-reflection': ['#e9eef2', '#4b6475']
-    }[mode] || ['#1f2937', '#64748b'];
-    this.drawPaleoSceneBackground(ctx, w, h, mode, colors);
+      'paleo-reflection': ['#e9eef2', '#4b6475'],
+      'neolithic-village': ['#d8e8e5', '#5f806a'],
+      'neolithic-pottery': ['#e7c79e', '#9b5d35'],
+      'neolithic-weaving': ['#ead5b9', '#866145'],
+      'neolithic-summary': ['#c7ddd0', '#57745f'],
+      'gojoseon-map': ['#d7d4bc', '#617a52'],
+      'gojoseon-law': ['#d8c4a1', '#7f5338'],
+      'gojoseon-artifacts': ['#d8c5a4', '#7c5a2e'],
+      'gojoseon-summary': ['#d8d0a8', '#796038']
+    }[scene || mode] || ['#1f2937', '#64748b'];
+    if (!this.drawConfiguredSceneBackground(ctx, w, h, scene)) {
+      this.drawPaleoSceneBackground(ctx, w, h, mode, colors);
+    }
     const hotspots = this.getPaleoHotspots(mode, w, h);
     const found = state?.found || [];
     ctx.textAlign = 'center';
@@ -501,6 +512,74 @@ const MudSimulators = {
     });
     ctx.fillStyle = mode === 'paleo-fire' || mode === 'paleo-stone' ? '#fef3c7' : '#1f2937';
     ctx.fillText(`진행: ${progress}/${hotspots.length}`, w / 2, h - 16);
+  },
+
+  // MUD JSON의 scene 키가 시대별 그림을 선택한다. 핫스팟·완료 로직은 공통으로 유지한다.
+  drawConfiguredSceneBackground(ctx, w, h, scene) {
+    if (!scene) return false;
+    const groundY = h * 0.68;
+    const fillSky = (top, bottom, ground) => {
+      const sky = ctx.createLinearGradient(0, 0, 0, h);
+      sky.addColorStop(0, top); sky.addColorStop(0.64, bottom); sky.addColorStop(0.65, ground); sky.addColorStop(1, ground);
+      ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
+    };
+    if (scene === 'neolithic-village') {
+      fillSky('#b7dbe0', '#e5e2b7', '#77965b');
+      ctx.fillStyle = '#539ab4'; ctx.beginPath(); ctx.moveTo(0, h * 0.44); ctx.bezierCurveTo(w * 0.2, h * 0.5, w * 0.13, h * 0.78, 0, h); ctx.lineTo(w * 0.2, h); ctx.bezierCurveTo(w * 0.3, h * 0.7, w * 0.32, h * 0.55, w * 0.18, h * 0.42); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#755640'; ctx.beginPath(); ctx.ellipse(w * 0.78, groundY, w * 0.16, h * 0.12, 0, Math.PI, 0); ctx.fill(); ctx.fillStyle = '#47362a'; ctx.beginPath(); ctx.arc(w * 0.78, groundY, w * 0.05, Math.PI, 0); ctx.fill();
+      ctx.strokeStyle = '#c8a84f'; ctx.lineWidth = 3; [0.42, 0.47, 0.52, 0.57].forEach(x => { ctx.beginPath(); ctx.moveTo(w * x, h * 0.72); ctx.lineTo(w * x + 10, h * 0.92); ctx.stroke(); });
+      return true;
+    }
+    if (scene === 'neolithic-pottery') {
+      fillSky('#f0c77e', '#e5a45d', '#a35f3b');
+      ctx.fillStyle = '#7e442b'; ctx.fillRect(0, groundY, w, h - groundY);
+      ctx.fillStyle = '#bc7040'; ctx.beginPath(); ctx.moveTo(w * 0.38, h * 0.7); ctx.quadraticCurveTo(w * 0.4, h * 0.35, w * 0.5, h * 0.3); ctx.quadraticCurveTo(w * 0.6, h * 0.35, w * 0.62, h * 0.7); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#633821'; ctx.lineWidth = 2; for (let y = 0.4; y < 0.64; y += 0.06) { ctx.beginPath(); ctx.moveTo(w * 0.43, h * y); ctx.lineTo(w * 0.57, h * (y + 0.05)); ctx.stroke(); }
+      ctx.fillStyle = '#7b4c2d'; ctx.beginPath(); ctx.ellipse(w * 0.2, h * 0.75, w * 0.11, h * 0.045, 0, 0, Math.PI * 2); ctx.fill();
+      return true;
+    }
+    if (scene === 'neolithic-weaving') {
+      fillSky('#e8d3ae', '#f6e7ca', '#9c7652');
+      ctx.fillStyle = '#704c37'; ctx.fillRect(0, groundY, w, h - groundY);
+      ctx.strokeStyle = '#79543b'; ctx.lineWidth = 7; ctx.strokeRect(w * 0.36, h * 0.25, w * 0.28, h * 0.42);
+      ctx.strokeStyle = '#e9d8ad'; ctx.lineWidth = 2; for (let x = 0.4; x < 0.62; x += 0.045) { ctx.beginPath(); ctx.moveTo(w * x, h * 0.27); ctx.lineTo(w * x, h * 0.65); ctx.stroke(); }
+      ctx.fillStyle = '#ded7c6'; ctx.beginPath(); ctx.arc(w * 0.18, h * 0.56, w * 0.06, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#4b3528'; ctx.beginPath(); ctx.arc(w * 0.18, h * 0.56, w * 0.018, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#e7d8bd'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(w * 0.76, h * 0.4); ctx.lineTo(w * 0.88, h * 0.63); ctx.stroke();
+      return true;
+    }
+    if (scene === 'neolithic-summary') {
+      fillSky('#a8d0c2', '#f1d59c', '#67865d');
+      ctx.fillStyle = '#715441'; ctx.beginPath(); ctx.moveTo(w * 0.16, groundY); ctx.lineTo(w * 0.3, h * 0.4); ctx.lineTo(w * 0.44, groundY); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#ba7444'; ctx.beginPath(); ctx.moveTo(w * 0.67, h * 0.66); ctx.quadraticCurveTo(w * 0.69, h * 0.39, w * 0.78, h * 0.38); ctx.quadraticCurveTo(w * 0.87, h * 0.4, w * 0.89, h * 0.66); ctx.closePath(); ctx.fill();
+      return true;
+    }
+    if (scene === 'gojoseon-map') {
+      fillSky('#d8dec0', '#eee0b2', '#88a35e');
+      ctx.fillStyle = '#8fa15c'; ctx.beginPath(); ctx.moveTo(w * 0.12, h * 0.33); ctx.lineTo(w * 0.42, h * 0.25); ctx.lineTo(w * 0.66, h * 0.43); ctx.lineTo(w * 0.86, h * 0.35); ctx.lineTo(w * 0.84, h * 0.77); ctx.lineTo(w * 0.55, h * 0.83); ctx.lineTo(w * 0.28, h * 0.67); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#607342'; ctx.lineWidth = 3; ctx.setLineDash([7, 5]); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#4f90b0'; ctx.beginPath(); ctx.moveTo(w * 0.67, 0); ctx.bezierCurveTo(w * 0.55, h * 0.3, w * 0.83, h * 0.55, w * 0.7, h); ctx.lineTo(w * 0.88, h); ctx.bezierCurveTo(w * 0.98, h * 0.5, w * 0.72, h * 0.28, w * 0.84, 0); ctx.closePath(); ctx.fill();
+      return true;
+    }
+    if (scene === 'gojoseon-law') {
+      fillSky('#6f4b36', '#bc8a55', '#5d422f');
+      ctx.fillStyle = '#8b5f3e'; ctx.fillRect(w * 0.12, h * 0.18, w * 0.76, h * 0.54);
+      ctx.fillStyle = '#e6c991'; ctx.fillRect(w * 0.34, h * 0.26, w * 0.32, h * 0.34); ctx.strokeStyle = '#734526'; ctx.lineWidth = 3; ctx.strokeRect(w * 0.34, h * 0.26, w * 0.32, h * 0.34);
+      ctx.strokeStyle = '#885731'; ctx.lineWidth = 2; [0.35, 0.43, 0.51].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.39, h * y); ctx.lineTo(w * 0.61, h * y); ctx.stroke(); });
+      return true;
+    }
+    if (scene === 'gojoseon-artifacts') {
+      fillSky('#d7c39e', '#ebd99f', '#86633a');
+      ctx.fillStyle = '#7f6248'; ctx.beginPath(); ctx.moveTo(w * 0.35, groundY); ctx.lineTo(w * 0.42, h * 0.38); ctx.lineTo(w * 0.61, h * 0.38); ctx.lineTo(w * 0.68, groundY); ctx.closePath(); ctx.fill(); ctx.fillStyle = '#bfa77c'; ctx.fillRect(w * 0.3, h * 0.35, w * 0.42, h * 0.09);
+      ctx.fillStyle = '#9a6a27'; ctx.beginPath(); ctx.moveTo(w * 0.18, h * 0.7); ctx.quadraticCurveTo(w * 0.12, h * 0.46, w * 0.2, h * 0.34); ctx.quadraticCurveTo(w * 0.29, h * 0.46, w * 0.23, h * 0.7); ctx.closePath(); ctx.fill(); ctx.fillRect(w * 0.195, h * 0.68, w * 0.012, h * 0.16);
+      return true;
+    }
+    if (scene === 'gojoseon-summary') {
+      fillSky('#d7c882', '#efdda3', '#7c9255');
+      ctx.fillStyle = '#795238'; ctx.beginPath(); ctx.moveTo(w * 0.12, groundY); ctx.lineTo(w * 0.28, h * 0.35); ctx.lineTo(w * 0.44, groundY); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#e4c46a'; ctx.beginPath(); ctx.arc(w * 0.72, h * 0.34, w * 0.12, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#7e5a28'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(w * 0.72, h * 0.46); ctx.lineTo(w * 0.72, h * 0.73); ctx.stroke();
+      return true;
+    }
+    return false;
   },
 
   // 구석기 단서가 배경 맥락 없이 떠 보이지 않도록, 활동별 장면을 캔버스로 직접 그린다.

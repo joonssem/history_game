@@ -112,6 +112,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "neolithic-village",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -236,6 +237,7 @@
       ],
       "simulator": {
         "mode": "neolithic-pottery",
+        "scene": "neolithic-pottery",
         "interaction": "ordered-hotspot",
         "type": "gauge",
         "sequence": [
@@ -370,6 +372,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "neolithic-weaving",
         "interaction": "resource-allocation",
         "type": "info",
         "hotspots": [
@@ -476,6 +479,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "neolithic-summary",
         "interaction": "reflection",
         "type": "info",
         "hotspots": [

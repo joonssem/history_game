@@ -123,6 +123,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "gojoseon-map",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -223,6 +224,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "gojoseon-law",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -323,6 +325,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "gojoseon-artifacts",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -405,6 +408,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "gojoseon-summary",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
