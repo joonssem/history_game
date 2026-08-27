@@ -4,8 +4,8 @@
 > 추정치는 읽기량·선택 판단·시뮬레이터 조작 수에 기반한 설계 지표이며 실제 학생 시간 측정을 대신하지 않습니다.
 
 - Regular MUD: 28종
-- 보완 우선 대상: 14종
-- 기준 충족 추정: 14종
+- 보완 우선 대상: 12종
+- 기준 충족 추정: 16종
 
 ## 전수 결과
 
@@ -15,8 +15,6 @@
 | `regular_independence_army` | 5-10min | 3 | 3 | 3 | 2 | 5.8분 | 핵심 단계 4개 미만 |
 | `regular_joseon_folk` | 5-10min | 3 | 3 | 3 | 3 | 5.8분 | 핵심 단계 4개 미만 |
 | `regular_joseon_status` | 5-10min | 3 | 3 | 2 | 3 | 5.8분 | 핵심 단계 4개 미만 |
-| `regular_goryeo_culture` | 5-10min | 3 | 3 | 2 | 3 | 6.0분 | 핵심 단계 4개 미만 |
-| `regular_goryeo_war` | 5-10min | 3 | 3 | 2 | 3 | 6.0분 | 핵심 단계 4개 미만 |
 | `regular_modern_open` | 5-10min | 3 | 3 | 2 | 3 | 6.0분 | 핵심 단계 4개 미만 |
 | `regular_post_war` | 5-10min | 3 | 3 | 2 | 3 | 6.0분 | 핵심 단계 4개 미만 |
 | `regular_joseon_diplomacy` | 5-10min | 3 | 3 | 1 | 3 | 6.1분 | 핵심 단계 4개 미만, 능동 활동 2개 미만 |
@@ -32,6 +30,8 @@
 | `regular_joseon_economy` | 5-10min | 4 | 4 | 4 | 4 | 7.0분 | 기준 충족 추정 |
 | `regular_neolithic` | 5-10min | 4 | 4 | 4 | 4 | 7.1분 | 기준 충족 추정 |
 | `regular_three_kingdoms` | 5-10min | 4 | 4 | 4 | 4 | 7.1분 | 기준 충족 추정 |
+| `regular_goryeo_culture` | 5-10min | 4 | 4 | 3 | 4 | 7.4분 | 기준 충족 추정 |
+| `regular_goryeo_war` | 5-10min | 4 | 4 | 3 | 4 | 7.4분 | 기준 충족 추정 |
 | `regular_balhae` | 5-10min | 4 | 4 | 3 | 4 | 7.5분 | 기준 충족 추정 |
 | `regular_gwangbok` | 5-10min | 4 | 4 | 4 | 2 | 7.5분 | 기준 충족 추정 |
 | `regular_independence` | 5-10min | 4 | 4 | 2 | 4 | 7.5분 | 기준 충족 추정 |
