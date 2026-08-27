@@ -1,0 +1,30 @@
+"""Add evidence-synthesis fourth stages to three Joseon Regular MUDs."""
+from __future__ import annotations
+import json
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]; D=ROOT/'data'/'mud'
+def save(n,d): (D/n).write_text(json.dumps(d,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+def add(d, label, retry_label, title, narrative, terms, hot, choice, wrong, source):
+ d['roadmap']=[x for x in d['roadmap'] if x['id'] not in {'4','4-1'}]+[{'id':'4','label':label},{'id':'4-1','label':retry_label}]
+ d['stages']['3']['choices'][0]['next']='4'
+ d['stages']['4']={'location':'조선 자료 연구실','badge':'🔎 제4관문: 자료를 연결해 설명하기','character':{'name':'어린이 역사 연구원','role':'자료 종합 담당','emoji':'🔎'},'narrative':narrative,'glossary':terms,'choices':[{'text':choice,'correct':True,'feedback':'서로 다른 자료를 함께 보면 한 사람이나 한 유물만으로는 알 수 없는 시대의 모습을 더 균형 있게 설명할 수 있습니다.','next':'end'},{'text':wrong,'correct':False,'feedback':'한 자료는 과거의 한 측면을 보여 줍니다. 다른 성격의 자료와 비교해 보세요.','next':'4-1'}],'simulator':{'mode':'culture-touch','interaction':'hotspot-discovery','type':'info','hotspots':hot,'required':True,'completion':{'target':3,'increment':1,'minActions':3,'progressKey':'simulatorProgress','successText':'🔎 세 자료를 모두 확인했습니다. 이제 근거를 종합하세요.'},'infoText':'자료마다 알려 주는 범위가 다르므로 함께 비교해야 합니다.','instruction':'🔎 <b>조선 시대의 세 자료를 비교하세요</b>','feedback':'한 자료만으로 시대 전체를 단정하지 마세요.'}}
+ d['stages']['4-1']={'location':'조선 자료 연구실','badge':'↩️ 근거 보완: 자료 비교','character':{'name':'시간 안내원 타미','role':'역사 해설자','emoji':'🤖'},'narrative':'<b>한 자료만으로는 시대 전체를 설명하기 어렵습니다.</b><br><br>각 자료가 알려 주는 내용과 한계를 구분해 다시 종합해 보세요.','choices':[{'text':'🔄 세 자료를 비교해 다시 설명한다.','next':'4','correct':True}]}
+ d['sources']=[x for x in d['sources'] if x.get('url')!=source[1]]; d['sources'].append({'institution':'국사편찬위원회','title':source[0],'url':source[1],'checkedAt':'2026-08-27','claimScope':source[2]})
+def folk():
+ d=json.loads((D/'regular_joseon_folk.json').read_text(encoding='utf-8'))
+ d['stages']['1']['narrative']='<b>조선 후기에는 농업·상업의 변화와 서당 교육의 확산 속에서 풍속화, 판소리, 탈춤, 한글 소설 등 다양한 문화가 발달했습니다.</b><br><br>김홍도의 풍속화는 당시 생활을 알려 주는 중요한 자료이지만, 모든 사람의 생활을 그대로 보여 주는 것은 아닙니다. 그림 속 무엇을 관찰하겠습니까?'
+ d['stages']['2']['narrative']='<b>판소리는 소리꾼·고수·관객이 함께 만드는 공연이었고, 지역과 시대에 따라 내용과 연행 방식도 달랐습니다.</b><br><br>공연에는 웃음과 풍자뿐 아니라 당시 사람들이 중요하게 여긴 가치도 담겼습니다. 어떤 관점으로 살펴보겠습니까?'
+ d['stages']['3']['narrative']='<b>탈춤은 지역마다 다른 모습으로 이어졌고, 양반의 위선이나 사회 모순을 풍자하는 내용이 나타나기도 했습니다.</b><br><br>공연을 단순한 반항이나 모두의 화해로 단정하지 말고, 관객·장소·내용을 함께 살펴봅시다.'
+ add(d,'4. 그림·공연·문학 자료 종합','4-F. 한 작품으로 단정','', '<b>풍속화, 판소리, 탈춤은 조선 후기 사람들이 보고 즐기며 생각을 표현한 서로 다른 자료입니다.</b><br><br>경제 변화와 교육 확산, 공연과 그림에 나타난 생활 모습을 연결해 서민 문화의 의미를 설명해 봅시다.', [{'term':'풍자','definition':'웃음이나 비꼼으로 사회의 문제를 드러내는 표현 방식'},{'term':'풍속화','definition':'당시 사람들의 생활 모습과 놀이를 그린 그림'}], [{'id':'painting','label':'김홍도 풍속화','x':.22,'y':.48,'feedback':'서당·씨름 등 당시 생활을 관찰할 수 있는 그림 자료입니다.'},{'id':'music','label':'판소리','x':.5,'y':.65,'feedback':'소리꾼·고수·관객이 함께 만든 공연 문화입니다.'},{'id':'mask','label':'탈춤','x':.78,'y':.48,'feedback':'사회 모습과 풍자가 나타나는 지역 공연 자료입니다.'}], '🔎 "그림·판소리·탈춤을 함께 근거로 들어 조선 후기 서민 문화의 확대와 비판 의식을 설명한다."','🎭 "탈춤 한 장면만 보고 조선 후기 모든 사람의 생각과 생활을 알 수 있다고 말한다."',('조선 후기에 발달한 서민 문화','https://contents.history.go.kr/mobile/eh/view.do?code=&levelId=eh_r0314_0010','풍속화·판소리·탈춤과 서민 문화의 배경 관련 1~4단계 서술')); save('regular_joseon_folk.json',d)
+def status():
+ d=json.loads((D/'regular_joseon_status.json').read_text(encoding='utf-8'))
+ d['stages']['1']['narrative']='<b>조선의 신분은 법제적으로 양인과 천인으로 구분되었고, 실제 생활에서는 양반·중인·상민·노비 등 더 복합적인 계층으로 나타났습니다.</b><br><br>신분은 대체로 세습되었지만 시기와 지역에 따라 이동과 변화도 있었습니다. 호패와 호적 자료가 무엇을 알려 주는지 살펴봅시다.'
+ d['stages']['3']['narrative']='<b>상민과 노비의 삶은 조세·군역·소속 관계 등에서 큰 제약을 받았습니다.</b><br><br>그러나 지역·시기·직업에 따라 생활은 달랐고, 조선 후기로 갈수록 신분 질서도 변화했습니다. 한 문장으로 단순화하지 말고 자료를 비교해 봅시다.'
+ add(d,'4. 법제·직업·호적 자료 종합','4-F. 신분을 고정 관념으로 판단','', '<b>호패·호적, 중인의 전문 직업, 상민·노비 생활 기록은 조선 신분제의 서로 다른 모습을 보여 줍니다.</b><br><br>법적 구분과 실제 사회 계층, 시기별 변화를 구분해 설명해 봅시다.', [{'term':'양천제','definition':'법제상 양인과 천인으로 크게 나눈 신분 구분'},{'term':'호적','definition':'가구 구성과 신분·직역 등을 기록한 문서'}], [{'id':'law','label':'양천제','x':.22,'y':.48,'feedback':'법적으로 양인과 천인을 구분한 제도입니다.'},{'id':'job','label':'중인의 직역','x':.5,'y':.65,'feedback':'의관·역관 등 전문 기술과 행정 실무를 맡은 계층을 보여 줍니다.'},{'id':'record','label':'호적 기록','x':.78,'y':.48,'feedback':'지역과 시기에 따라 다른 신분 구성과 생활을 살필 수 있습니다.'}], '🔎 "양천제와 실제 계층, 호적 자료의 지역·시기 차이를 구분해 조선 신분제를 설명한다."','📜 "양반·중인·상민·노비 네 이름만으로 모든 시대와 지역의 신분 생활이 완전히 같았다고 말한다."',('조선 시대의 사회 신분','https://contents.history.go.kr/mobile/ta/view.do?levelId=ta_h51_0060_0030_0010','양천제와 양반·중인·상민·천인의 법제·사회적 구분 관련 1~4단계 서술')); save('regular_joseon_status.json',d)
+def sejong():
+ d=json.loads((D/'regular_sejong.json').read_text(encoding='utf-8'))
+ d['stages']['1']['narrative']='<b>세종 때 훈민정음이 창제되었고, 글자의 원리와 쓰임을 설명한 자료가 남아 있습니다.</b><br><br>창제에는 왕의 정책과 학자·장인의 활동, 당시 사회의 문자 생활을 함께 살펴볼 필요가 있습니다. 어떤 원리를 확인하겠습니까?'
+ d['stages']['2']['narrative']='<b>칠정산은 조선의 관측 환경을 반영해 만든 역법서입니다.</b><br><br>천문 관측과 계산은 농사·행정에 필요한 정보를 얻으려는 시도였지만, 과학 기술을 한 사람의 능력만으로 설명할 수는 없습니다. 어떤 자료를 살피겠습니까?'
+ d['stages']['3']['narrative']='<b>앙부일구·자격루·측우기 같은 기구는 시간과 날씨를 관찰하려는 조선의 과학 기술을 보여 줍니다.</b><br><br>기구의 제작자, 사용 장소, 이용한 사람의 범위를 구분해 살펴봅시다.'
+ add(d,'4. 문자·관측·기구 자료 종합','4-F. 한 인물의 업적으로 단정','', '<b>훈민정음 해례, 칠정산, 앙부일구는 문자·천문 관측·생활 과학이라는 다른 측면을 보여 줍니다.</b><br><br>세종 시기 정책과 여러 학자·기술자의 활동, 자료가 알려 주는 범위를 연결해 설명해 봅시다.', [{'term':'해례','definition':'훈민정음의 글자 원리와 사용법을 풀이한 설명'},{'term':'역법','definition':'천체의 움직임을 계산해 달력과 절기를 정하는 방법'}], [{'id':'letters','label':'훈민정음 해례','x':.22,'y':.48,'feedback':'글자의 원리와 쓰임을 설명하는 문자 자료입니다.'},{'id':'calendar','label':'칠정산','x':.5,'y':.65,'feedback':'조선의 관측 환경을 반영한 천문 역법 자료입니다.'},{'id':'clock','label':'앙부일구','x':.78,'y':.48,'feedback':'시간을 관찰하고 알리기 위한 과학 기구입니다.'}], '🔎 "문자·관측·기구 자료와 여러 사람의 활동을 연결해 세종 시기 과학 문화의 특징을 설명한다."','👑 "세종 한 사람만의 재능으로 문자·천문·기구가 모두 저절로 만들어졌다고 말한다."',('조선의 과학과 기술','https://contents.history.go.kr/front/ta/view.do?levelId=ta_h21_0050_0010','훈민정음·칠정산·앙부일구 관련 1~4단계 서술')); save('regular_sejong.json',d)
+if __name__=='__main__': folk(); status(); sejong(); print('Expanded three Joseon pilot MUDs.')
