@@ -83,7 +83,7 @@
         }
       ],
       "simulator": {
-        "mode": "text-reading",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "조선은 유교 이념에 따라 4대문(흥인지문, 돈의문, 숭례문, 숙정문)과 경복궁을 설계했습니다.",
         "instruction": "🏛️ <b>한양 도성과 4대문 유교 덕목 배치</b>",
@@ -163,7 +163,7 @@
         }
       ],
       "simulator": {
-        "mode": "text-reading",
+        "mode": "culture-touch",
         "type": "info",
         "infoText": "흥인지문, 돈의문, 숭례문, 숙정문은 인의예지의 유교 덕목을 담고 있습니다.",
         "instruction": "🏛️ <b>4대문 이름과 유교 덕목 확인</b>",
@@ -297,19 +297,43 @@
         }
       ],
       "simulator": {
-        "mode": "text-reading",
+        "mode": "culture-touch",
+        "interaction": "hotspot-discovery",
         "type": "info",
-        "infoText": "한양은 자연과 인간, 유교 이념이 조화를 이룬 계획도시였습니다.",
-        "instruction": "🏆 <b>한양 도읍 설계 미션 대성공!</b>",
-        "feedback": "국보 도감에서 근정전 박석을 확인하세요!",
+        "hotspots": [
+          {
+            "id": "location",
+            "label": "한강과 산",
+            "x": 0.2,
+            "y": 0.46,
+            "feedback": "한양은 한강 수운과 산으로 둘러싸인 지형을 함께 고려해 선택되었습니다."
+          },
+          {
+            "id": "city",
+            "label": "도성과 궁궐",
+            "x": 0.5,
+            "y": 0.67,
+            "feedback": "도성과 경복궁은 새 왕조의 통치 중심을 보여 줍니다."
+          },
+          {
+            "id": "education",
+            "label": "성균관",
+            "x": 0.8,
+            "y": 0.46,
+            "feedback": "성균관은 유교 교육과 관료 양성의 중심 기관이었습니다."
+          }
+        ],
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
-        }
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 한양의 입지·통치 공간·유교 교육 단서를 모두 연결했습니다."
+        },
+        "infoText": "한양은 자연환경, 교통, 통치 이념이 함께 반영된 계획도시였습니다.",
+        "instruction": "🏆 <b>한양의 입지·도성·궁궐·성균관 단서를 연결하세요</b>",
+        "feedback": "✅ 한양의 입지·통치 공간·유교 교육 단서를 모두 연결했습니다."
       }
     }
   },
