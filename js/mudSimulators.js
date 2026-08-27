@@ -480,20 +480,7 @@ const MudSimulators = {
       'paleo-community': ['#eadfc9', '#9a7052'],
       'paleo-reflection': ['#e9eef2', '#4b6475']
     }[mode] || ['#1f2937', '#64748b'];
-    ctx.fillStyle = colors[0];
-    ctx.fillRect(0, 0, w, h);
-    if (mode === 'paleo-fire') {
-      ctx.fillStyle = '#6b4428';
-      ctx.fillRect(w * 0.38, h * 0.48, w * 0.24, h * 0.12);
-    } else if (mode === 'paleo-stone') {
-      ctx.fillStyle = '#a8a29e';
-      ctx.beginPath();
-      ctx.ellipse(w / 2, h * 0.42, w * 0.18, h * 0.18, 0, 0, Math.PI * 2);
-      ctx.fill();
-    } else {
-      ctx.fillStyle = colors[1];
-      ctx.fillRect(0, h * 0.62, w, h * 0.38);
-    }
+    this.drawPaleoSceneBackground(ctx, w, h, mode, colors);
     const hotspots = this.getPaleoHotspots(mode, w, h);
     const found = state?.found || [];
     ctx.textAlign = 'center';
@@ -514,6 +501,58 @@ const MudSimulators = {
     });
     ctx.fillStyle = mode === 'paleo-fire' || mode === 'paleo-stone' ? '#fef3c7' : '#1f2937';
     ctx.fillText(`진행: ${progress}/${hotspots.length}`, w / 2, h - 16);
+  },
+
+  // 구석기 단서가 배경 맥락 없이 떠 보이지 않도록, 활동별 장면을 캔버스로 직접 그린다.
+  // 외부 이미지 요청을 피하므로 GitHub Pages 배포·iPad 오프라인 캐시에서도 같은 화면을 유지한다.
+  drawPaleoSceneBackground(ctx, w, h, mode, colors) {
+    const groundY = h * 0.68;
+    const sky = ctx.createLinearGradient(0, 0, 0, h);
+
+    if (mode === 'paleo-fire') {
+      sky.addColorStop(0, '#120c09');
+      sky.addColorStop(1, '#4b2e1d');
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#2b1d16';
+      ctx.beginPath();
+      ctx.moveTo(0, h); ctx.lineTo(0, h * 0.2); ctx.quadraticCurveTo(w * 0.2, h * 0.02, w * 0.42, h * 0.28);
+      ctx.quadraticCurveTo(w * 0.72, h * 0.04, w, h * 0.3); ctx.lineTo(w, h); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#6b4428';
+      ctx.fillRect(w * 0.27, groundY, w * 0.46, h * 0.32);
+      ctx.strokeStyle = '#3b2416'; ctx.lineWidth = 7;
+      ctx.beginPath(); ctx.moveTo(w * 0.42, h * 0.66); ctx.lineTo(w * 0.58, h * 0.77); ctx.moveTo(w * 0.58, h * 0.66); ctx.lineTo(w * 0.42, h * 0.77); ctx.stroke();
+      ctx.fillStyle = '#f97316'; ctx.beginPath(); ctx.arc(w * 0.5, h * 0.63, Math.min(w, h) * 0.09, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#fde68a'; ctx.beginPath(); ctx.arc(w * 0.5, h * 0.62, Math.min(w, h) * 0.045, 0, Math.PI * 2); ctx.fill();
+    } else if (mode === 'paleo-stone') {
+      sky.addColorStop(0, '#c8d8dc'); sky.addColorStop(0.6, '#e8e0cd'); sky.addColorStop(0.61, '#9b8e79'); sky.addColorStop(1, '#6c6258');
+      ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#6598af'; ctx.beginPath(); ctx.moveTo(w * 0.68, 0); ctx.bezierCurveTo(w * 0.5, h * 0.36, w * 0.9, h * 0.55, w * 0.74, h); ctx.lineTo(w, h); ctx.lineTo(w, 0); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#9f9587';
+      [[0.12, 0.78, 0.06], [0.27, 0.86, 0.045], [0.7, 0.8, 0.07], [0.86, 0.7, 0.04]].forEach(([x, y, r]) => { ctx.beginPath(); ctx.ellipse(w * x, h * y, w * r, h * r * 0.65, 0, 0, Math.PI * 2); ctx.fill(); });
+      ctx.fillStyle = '#b6afa6'; ctx.beginPath(); ctx.ellipse(w / 2, h * 0.46, w * 0.2, h * 0.2, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#776f66'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(w * 0.42, h * 0.43); ctx.lineTo(w * 0.59, h * 0.5); ctx.moveTo(w * 0.5, h * 0.31); ctx.lineTo(w * 0.48, h * 0.59); ctx.stroke();
+    } else if (mode === 'paleo-hunt') {
+      sky.addColorStop(0, '#b9d7d5'); sky.addColorStop(0.62, '#dce5c4'); sky.addColorStop(0.63, '#789357'); sky.addColorStop(1, '#506b3d');
+      ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#617e50'; ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(w * 0.26, h * 0.37); ctx.lineTo(w * 0.42, groundY); ctx.lineTo(w, h * 0.46); ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.75)'; ctx.lineWidth = 2; ctx.setLineDash([5, 4]); ctx.beginPath(); ctx.moveTo(w * 0.16, h * 0.57); ctx.bezierCurveTo(w * 0.32, h * 0.44, w * 0.52, h * 0.58, w * 0.7, h * 0.47); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#6d4c38'; ctx.beginPath(); ctx.ellipse(w * 0.79, h * 0.35, w * 0.055, h * 0.035, 0, 0, Math.PI * 2); ctx.fill(); ctx.fillRect(w * 0.75, h * 0.37, w * 0.008, h * 0.12); ctx.fillRect(w * 0.81, h * 0.37, w * 0.008, h * 0.12);
+    } else if (mode === 'paleo-community') {
+      sky.addColorStop(0, '#efd5a5'); sky.addColorStop(0.62, '#f4b878'); sky.addColorStop(0.63, '#967151'); sky.addColorStop(1, '#6e523d');
+      ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#a07452'; ctx.fillRect(0, groundY, w, h - groundY);
+      ctx.fillStyle = '#6b4428'; ctx.beginPath(); ctx.moveTo(w * 0.12, groundY); ctx.lineTo(w * 0.27, h * 0.37); ctx.lineTo(w * 0.42, groundY); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#d9c09a'; ctx.beginPath(); ctx.moveTo(w * 0.16, groundY); ctx.lineTo(w * 0.27, h * 0.47); ctx.lineTo(w * 0.37, groundY); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#f97316'; ctx.beginPath(); ctx.arc(w * 0.58, h * 0.67, Math.min(w, h) * 0.055, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#4a3425'; [0.48, 0.69, 0.82].forEach((x) => { ctx.beginPath(); ctx.arc(w * x, h * 0.54, w * 0.025, 0, Math.PI * 2); ctx.fill(); ctx.fillRect(w * x - 3, h * 0.57, 6, h * 0.12); });
+    } else {
+      sky.addColorStop(0, '#9bb6c5'); sky.addColorStop(0.58, '#f2d2a1'); sky.addColorStop(0.59, '#778d61'); sky.addColorStop(1, '#4f6949');
+      ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#fff3c4'; ctx.beginPath(); ctx.arc(w * 0.75, h * 0.22, Math.min(w, h) * 0.1, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#4e6144'; ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(w * 0.18, h * 0.45); ctx.lineTo(w * 0.36, groundY); ctx.lineTo(w, h * 0.52); ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#6b4428'; ctx.beginPath(); ctx.moveTo(w * 0.39, h * 0.72); ctx.lineTo(w * 0.5, h * 0.48); ctx.lineTo(w * 0.61, h * 0.72); ctx.closePath(); ctx.fill();
+    }
   },
 
   setPaleoFeedback(message, hotspotId = null) {
