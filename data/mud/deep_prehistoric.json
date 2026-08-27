@@ -212,7 +212,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-stone",
+        "mode": "culture-touch",
         "type": "gauge",
         "gaugeLabel": "비파형 동검 완성도:",
         "instruction": "🗡️ <b>거푸집을 두드려 완벽한 비파형 동검을 주조하세요!</b>",

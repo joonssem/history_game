@@ -89,6 +89,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "goryeo-civil-exam",
         "type": "info",
         "infoText": "광종은 노비안검법과 과거제를 통해 호족 세력을 누르고 왕권을 강화했습니다.",
         "instruction": "📜 <b>고려 과거 시험과 홍패 확인</b>",
@@ -159,6 +160,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "goryeo-inheritance-trial",
         "type": "info",
         "infoText": "고려 시대는 아들과 딸이 재산을 똑같이 나누어 상속받았으며, 여성의 지위가 높았습니다.",
         "instruction": "⚖️ <b>손변 명판관의 지혜로운 재판</b>",
@@ -235,6 +237,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "goryeo-buseoksa",
         "type": "info",
         "infoText": "부석사 무량수전의 배흘림기둥과 주심포 양식은 고려 목조 건축의 극치를 보여줍니다.",
         "instruction": "🏛️ <b>부석사 무량수전 배흘림기둥 탐구</b>",
@@ -293,6 +296,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "goryeo-society-summary",
         "type": "info",
         "infoText": "고려의 문화와 사회 제도는 높은 문화적 자부심을 보여줍니다.",
         "instruction": "🏆 <b>고려 사회 탐정 미션 대성공!</b>",

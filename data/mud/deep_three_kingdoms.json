@@ -135,7 +135,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-fire",
+        "mode": "battle-gauge",
         "type": "gauge",
         "gaugeLabel": "신라군 사기 게이지:",
         "instruction": "🔥 <b>화랑의 불꽃같은 용기로 군대의 사기를 100%로 끌어올리세요!</b>",
@@ -503,7 +503,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-stone",
+        "mode": "battle-gauge",
         "type": "gauge",
         "gaugeLabel": "천문령 복병 공격도:",
         "instruction": "🏹 <b>화면을 터치하여 협곡의 당나라 추격군에 화살과 바위를 쏟아부으세요!</b>",

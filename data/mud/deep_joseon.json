@@ -199,7 +199,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-fire",
+        "mode": "culture-touch",
         "type": "gauge",
         "gaugeLabel": "훈민정음 창제 완성도:",
         "instruction": "📖 <b>자음과 모음의 과학적 원리를 터치하여 훈민정음 해례본을 완성하세요!</b>",
@@ -529,7 +529,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-stone",
+        "mode": "culture-touch",
         "type": "gauge",
         "gaugeLabel": "수원 화성 축조 진행도:",
         "instruction": "🏗️ <b>화면을 연속 터치하여 거중기 도르래로 거대한 성돌을 들어 올리세요!</b>",

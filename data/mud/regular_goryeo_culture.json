@@ -88,6 +88,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "goryeo-tripitaka-carving",
         "type": "gauge",
         "gaugeLabel": "경판 완성도:",
         "instruction": "🪵 <b>화면을 터치하여 팔만대장경의 글자를 한 획 한 획 정성껏 새기세요!</b>",
@@ -154,6 +155,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "goryeo-metal-type",
         "type": "info",
         "infoText": "고려는 금속활자를 활용한 인쇄 기술을 발전시켰고, 현존하는 가장 오래된 금속활자 인쇄본으로 알려진 직지심체요절을 남겼습니다.",
         "instruction": "✨ <b>금속활자를 조판하여 직지를 인쇄하세요</b>",
@@ -220,6 +222,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "goryeo-byeokrando",
         "type": "info",
         "infoText": "벽란도는 동서양의 문물이 오가던 고려의 창문이자 글로벌 무역 허브였습니다.",
         "instruction": "⛵ <b>벽란도에서 세계와 교류하세요</b>",
@@ -286,6 +289,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "goryeo-culture-evidence",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

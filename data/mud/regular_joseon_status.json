@@ -285,6 +285,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "joseon-status-evidence",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

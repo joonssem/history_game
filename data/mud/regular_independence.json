@@ -292,6 +292,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "independence-evidence",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

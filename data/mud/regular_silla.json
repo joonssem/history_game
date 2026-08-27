@@ -87,6 +87,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "unified-silla-government",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -177,6 +178,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "unified-silla-bulguksa",
         "interaction": "hotspot-discovery",
         "type": "gauge",
         "hotspots": [
@@ -267,6 +269,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "unified-silla-seokguram",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -357,6 +360,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "unified-silla-summary",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

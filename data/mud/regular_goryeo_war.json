@@ -94,6 +94,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "goryeo-seohui-negotiation",
         "type": "info",
         "infoText": "서희는 고구려의 계승자라는 역사적 정통성을 내세워 압록강 유역 강동 6주를 차지했습니다.",
         "instruction": "📜 <b>당당한 외교 논리로 강동 6주를 쟁취하세요</b>",
@@ -160,6 +161,7 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "scene": "goryeo-heunghwajin",
         "type": "gauge",
         "gaugeLabel": "삼교천 수공 수위:",
         "instruction": "🌊 <b>화면을 터치하여 물살을 채우고 거란군을 향해 일제히 터뜨리세요!</b>",
@@ -226,6 +228,7 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "scene": "goryeo-gwiju",
         "type": "info",
         "infoText": "귀주대첩 이후 거란은 다시는 고려를 넘보지 못했고, 동아시아의 평화가 200년간 유지되었습니다.",
         "instruction": "🏆 <b>귀주 벌판에서 조국의 평화를 완성하세요</b>",
@@ -292,6 +295,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "goryeo-war-evidence",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

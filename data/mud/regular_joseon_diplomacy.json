@@ -87,6 +87,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "joseon-border",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -177,6 +178,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "joseon-namhansanseong",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -267,6 +269,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "joseon-postwar",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -357,6 +360,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "joseon-diplomacy-exhibit",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

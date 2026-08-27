@@ -87,6 +87,7 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "scene": "balhae-dongmosan",
         "type": "gauge",
         "gaugeLabel": "천문령 결전 게이지:",
         "instruction": "🦅 <b>화면을 터치하여 당나라 추격군을 격파하고 동모산에 깃발을 꽂으세요!</b>",
@@ -153,6 +154,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "balhae-document",
         "type": "info",
         "infoText": "발해는 선왕 대에 이르러 5경 15부 62주의 거대한 지방 행정망을 완성하며 전성기를 누렸습니다.",
         "instruction": "🌊 <b>해동성국의 위풍당당한 국서를 확인하세요</b>",
@@ -219,6 +221,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "balhae-heritage",
         "type": "info",
         "infoText": "온돌·기와·무덤과 외교 문서는 고구려 계승을 보여 주지만, 발해 문화 전체는 여러 요소가 어우러져 형성되었습니다.",
         "instruction": "🏛️ <b>고구려를 계승한 발해의 온돌과 석등을 확인하세요</b>",
@@ -285,6 +288,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "balhae-evidence",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

@@ -308,6 +308,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "sejong-evidence",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

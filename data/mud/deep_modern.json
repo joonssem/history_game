@@ -127,7 +127,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-fire",
+        "mode": "culture-touch",
         "type": "gauge",
         "gaugeLabel": "만세 운동 확산도:",
         "instruction": "🇰🇷 <b>화면을 터치하여 전국 방방곡곡에 만세의 함성을 울려 퍼지게 하세요!</b>",
@@ -259,7 +259,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-stone",
+        "mode": "battle-gauge",
         "type": "gauge",
         "gaugeLabel": "낙동강 방어선 사수도:",
         "instruction": "🪖 <b>화면을 터치하여 다부동 고지와 낙동강 방어선을 결사 사수하세요!</b>",
@@ -391,7 +391,7 @@
         }
       ],
       "simulator": {
-        "mode": "paleo-fire",
+        "mode": "culture-touch",
         "type": "gauge",
         "gaugeLabel": "6월 항쟁 평화 물결:",
         "instruction": "🕊️ <b>화면을 연속 터치하여 서울 광장에 민주주의의 촛불과 함성을 가득 채우세요!</b>",

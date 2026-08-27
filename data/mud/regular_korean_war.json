@@ -89,6 +89,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "korean-war-outbreak",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -179,6 +180,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "korean-war-front",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -269,6 +271,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "korean-war-armistice",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -359,6 +362,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "korean-war-exhibit",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

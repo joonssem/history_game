@@ -90,6 +90,7 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "scene": "three-kingdoms-baekje",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -184,6 +185,7 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "scene": "three-kingdoms-goguryeo",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -284,6 +286,7 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "scene": "three-kingdoms-silla",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -367,6 +370,7 @@
       "simulator": {
         "mode": "battle-gauge",
         "type": "info",
+        "scene": "three-kingdoms-summary",
         "infoText": "한강은 비옥한 토지, 풍부한 수운, 서해 교역로를 갖춘 전략적 요충지였습니다.",
         "instruction": "🏆 <b>삼국 전성기 탐험 대성공!</b>",
         "feedback": "국보 도감에서 유물을 확인하세요!",

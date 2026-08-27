@@ -286,6 +286,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "colonial-1930s-evidence",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

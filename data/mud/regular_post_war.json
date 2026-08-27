@@ -285,6 +285,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "post-war-evidence",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

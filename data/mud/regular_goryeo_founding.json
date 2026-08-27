@@ -89,6 +89,7 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "scene": "goryeo-unification-map",
         "type": "info",
         "infoText": "왕건은 호족 세력을 포용하고 고구려 계승 의식을 분명히 하여 고려를 건국했습니다.",
         "instruction": "🗺️ <b>후삼국 분열과 고려 건국 지도 확인</b>",
@@ -159,6 +160,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "goryeo-balhae-refuge",
         "type": "info",
         "infoText": "발해 유민 포용을 통해 고려는 진정한 의미의 민족 재통일을 완성했습니다.",
         "instruction": "🤝 <b>발해 유민 포용과 북진 정책 확인</b>",
@@ -235,6 +237,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "goryeo-hunyo",
         "type": "info",
         "infoText": "훈요 10조는 고려 500년 역사의 든든한 나침반 역할을 하였습니다.",
         "instruction": "📜 <b>태조 왕건의 훈요 10조 조항 확인</b>",
@@ -293,6 +296,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "goryeo-founding-summary",
         "type": "info",
         "infoText": "고려는 신라의 삼국 통일보다 한층 발전된 진정한 민족 재통일을 이루었습니다.",
         "instruction": "🏆 <b>고려 건국 미션 대성공!</b>",
