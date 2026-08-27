@@ -31,9 +31,9 @@
 | `regular_independence` | 5-10min | 4 | 4 | 2 | 4 | 7.5분 | 기준 충족 추정 |
 | `regular_joseon_silhak` | 5-10min | 4 | 4 | 3 | 4 | 7.5분 | 기준 충족 추정 |
 | `regular_japanese_rule_1` | 5-10min | 4 | 4 | 2 | 4 | 7.6분 | 기준 충족 추정 |
+| `regular_myeongnyang` | 5-10min | 4 | 4 | 4 | 4 | 7.6분 | 기준 충족 추정 |
 | `regular_sejong` | 5-10min | 4 | 4 | 2 | 4 | 7.6분 | 기준 충족 추정 |
 | `regular_gojoseon` | 5-10min | 4 | 4 | 4 | 4 | 7.7분 | 기준 충족 추정 |
-| `regular_myeongnyang` | 5-10min | 4 | 4 | 4 | 4 | 7.7분 | 기준 충족 추정 |
 | `regular_korean_war` | 5-10min | 4 | 4 | 4 | 4 | 7.8분 | 기준 충족 추정 |
 | `regular_independence_army` | 5-10min | 4 | 4 | 4 | 4 | 7.9분 | 기준 충족 추정 |
 | `regular_silla` | 5-10min | 4 | 4 | 3 | 4 | 7.9분 | 기준 충족 추정 |
