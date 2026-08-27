@@ -48,7 +48,7 @@
 | Regular | 13차시 | 고려 건국기: 태조 왕건의 후삼국 통일과 훈요 10조 | `regular_goryeo_founding.json` |
 | Regular | 14차시 | 고려 사회 탐정: 손변의 지혜로운 재판과 과거 홍패 | `regular_goryeo_society.json` |
 | Regular | 2~3차시 | 한양 도읍 설계자: 정도전의 사대문과 경복궁 | `regular_joseon_founding.json` |
-| Regular | 7차시 | 명량대첩: 13척으로 133척을 막아선 기적 | `regular_myeongnyang.json` |
+| Regular | 7차시 | 명량해전: 13척과 울돌목의 물길 | `regular_myeongnyang.json` |
 | Regular | 8차시 | 조선 후기 보부상과 모내기 대박 | `regular_joseon_economy.json` |
 | Regular | 9차시 | 실학자 탐구: 지구의와 동학의 평등 세상 | `regular_joseon_silhak.json` |
 | Regular | 8~9차시 | 8·15 광복의 환희와 대한민국 정부 수립: 최초의 5·10 총선거 | `regular_gwangbok.json` |

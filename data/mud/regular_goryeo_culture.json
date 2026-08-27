@@ -135,7 +135,7 @@
         },
         {
           "term": "상정고금예문",
-          "definition": "1234년 인쇄된 기록상 세계 최초의 금속활자본 (기록만 전해짐)"
+          "definition": "1230년대 금속 활자로 인쇄했다는 기록이 남은 책으로, 실물은 전하지 않음"
         }
       ],
       "choices": [
@@ -376,6 +376,13 @@
       "url": "https://contents.history.go.kr/mobile/ta/view.do?levelId=ta_m21_0040_0020_0030",
       "checkedAt": "2026-08-27",
       "claimScope": "고려의 금속활자·벽란도·대외 교류 관련 2~4단계 서술"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "세계에서 가장 오래된 금속 활자 인쇄본, 직지",
+      "url": "https://contents.history.go.kr/mobile/eh/view.do?levelId=eh_r0160_0010",
+      "checkedAt": "2026-08-27",
+      "claimScope": "상정고금예문의 기록상 금속활자 인쇄 사례와 직지의 현존 최고 구분"
     }
   ]
 }

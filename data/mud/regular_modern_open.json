@@ -197,7 +197,7 @@
       "glossary": [
         {
           "term": "한양 전차",
-          "definition": "1899년 서대문과 청량리 사이에 개통된 아시아 최초의 전차 중 하나 (도쿄보다 먼저 개통)"
+          "definition": "1899년 서대문과 청량리 사이에서 운행을 시작한 우리나라 최초의 전차"
         },
         {
           "term": "경인선",
@@ -376,6 +376,13 @@
       "url": "https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_i400800",
       "checkedAt": "2026-08-27",
       "claimScope": "강화도 조약의 체결 배경과 조항 관련 1·4단계 서술"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "우리나라 최초의 전차와 근대 교통",
+      "url": "https://contents.history.go.kr/mobile/km/view.do?levelId=km_004_0060_0010_0010",
+      "checkedAt": "2026-08-27",
+      "claimScope": "1899년 서대문~청량리 구간 전차 운행과 우리나라 최초라는 범위"
     }
   ]
 }
