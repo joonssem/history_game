@@ -56,8 +56,6 @@ def audit(path: Path) -> dict:
     estimated = estimate_seconds(data)
     flags = []
     if data.get("tier") == "regular":
-        if estimated < 300:
-            flags.append("5분 미만 추정")
         if estimated > 600:
             flags.append("10분 초과 추정")
         if len(main_stages) < 4:
@@ -66,6 +64,16 @@ def audit(path: Path) -> dict:
             flags.append("필수 조작 없음")
         if len(active) < 2:
             flags.append("능동 활동 2개 미만")
+        rapid_tap = any(
+            sim.get("required")
+            and not sim.get("hotspots")
+            and not (sim.get("type") == "buttons" and sim.get("actions"))
+            and not (sim.get("completion") or {}).get("uniqueActions")
+            and (sim.get("completion") or {}).get("minActions", 99) <= 4
+            for sim in simulators
+        )
+        if rapid_tap:
+            flags.append("반복 탭 조기 종료 위험")
     return {
         "mudId": data["mudId"],
         "tier": data.get("tier", "regular"),
@@ -93,7 +101,7 @@ def main() -> int:
     lines = [
         "# MUD 활동 시간·상호작용 전수 감사",
         "",
-        "> 대상: 학생 개인 iPad 10세대, 수업 마무리 활동, Regular MUD 목표 5~10분",
+        "> 대상: 학생 개인 iPad 10세대, 수업 마무리 활동, Regular MUD 10분 이내·설계 목표 약 9분",
         "> 추정치는 읽기량·선택 판단·시뮬레이터 조작 수에 기반한 설계 지표이며 실제 학생 시간 측정을 대신하지 않습니다.",
         "",
         f"- Regular MUD: {len(regular)}종",
@@ -118,7 +126,7 @@ def main() -> int:
         "1. `필수 조작 없음`은 선택지만 빠르게 눌러 통과할 수 있으므로 가장 먼저 보완합니다.",
         "2. `능동 활동 2개 미만`은 정보 화면을 조작 활동으로 교체하거나 관찰·배열·분류 과제를 추가합니다.",
         "3. `핵심 단계 4개 미만`은 학습 목표와 직접 연결되는 판단·성찰 단계를 추가합니다.",
-        "4. 자동 추정 통과 후에도 초등학생 3명 이상으로 실제 5~10분 소요 시간을 측정합니다.",
+        "4. 자동 추정 통과 후에도 초등학생 3명 이상으로 실제 10분 이내 소요 시간을 측정합니다.",
         "",
         "## 필수 조작 미적용 시뮬레이터 모드",
         "",
