@@ -57,9 +57,9 @@
 | Deep-dive | 7~12차시 | 삼국 통일의 대서사시: 화랑의 맹세와 발해의 건국 | `deep_three_kingdoms.json` |
 | Deep-dive | 2~9차시 | 조선 500년의 붓: 사관의 기록과 실학의 꿈 | `deep_joseon.json` |
 | Deep-dive | 2~13차시 | 독립과 민주의 횃불: 잃어버린 빛을 찾아서 | `deep_modern.json` |
-| Regular | 24~25차시 | 세종대왕과 과학 발전: 애민의 바른 소리 | `regular_sejong.json` |
-| Regular | 38~39차시 | 3·1 만세 운동과 대한민국 임시정부: 자주독립의 횃불 | `regular_independence.json` |
-| Regular | 44~46차시 | 6·25 전쟁의 상처와 평화: 지도와 기록으로 살피기 | `regular_korean_war.json` |
+| Regular | 4~5차시 | 세종대왕과 과학 발전: 애민의 바른 소리 | `regular_sejong.json` |
+| Regular | 4~5차시 | 3·1 만세 운동과 대한민국 임시정부: 자주독립의 횃불 | `regular_independence.json` |
+| Regular | 10~12차시 | 6·25 전쟁의 상처와 평화: 지도와 기록으로 살피기 | `regular_korean_war.json` |
 | Regular | 15~16차시 | 서희의 외교 담판과 강감찬의 귀주대첩 | `regular_goryeo_war.json` |
 | Regular | 17~18차시 | 팔만대장경과 벽란도: 세계와 만난 고려 문화 | `regular_goryeo_culture.json` |
 | Regular | 10차시 | 조선 후기 서민 문화: 신명 나는 탈춤과 풍속화 | `regular_joseon_folk.json` |
