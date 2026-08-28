@@ -72,6 +72,7 @@ history_game/
 ├── PRD.md                              # 제품 목표·범위·수용 기준
 ├── BACKLOG.md                          # 미완료 기획·검토 항목
 ├── DECISIONS.md                        # 장기 설계 결정 기록
+├── if_stage_audit.md                   # Regular 재시도(IF) 단계 구조 감사
 ├── walkthrough.md                      # 완료 작업 누적 기록
 └── project_context.md                  # 이 파일
 ```
@@ -234,7 +235,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 ### 미완성 기능
 
-- **MUD 콘텐츠 품질 확장**: 일부 자동 생성 IF 스테이지와 유물 설명은 추가 교육적 검수가 필요함
+- **MUD 콘텐츠 품질 확장**: 일부 자동 생성 IF 스테이지와 유물 설명은 추가 교육적 검수가 필요함. IF 구조 선별 결과는 `if_stage_audit.md`에서 확인함
 
 ### 임시 구현
 

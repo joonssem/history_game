@@ -1,5 +1,12 @@
 # Walkthrough
 
+## 2026-08-28 — P1 Regular 시간·IF 구조 감사
+
+- Regular MUD 28종의 활동 시간 구조를 다시 생성해, 10분 이내·설계 목표 약 9분 기준과 반복 탭 조기 종료 위험을 분리해 확인했다.
+- 반복 탭 구조 감사는 65개 후보를 확인했으며, 장면이 있는 단계는 Claude 소유 범위이므로 좌표·핫스팟·상호작용·완료조건을 변경하지 않았다.
+- Regular 재시도(IF) 단계 94개를 `if_stage_audit.md`로 선별했다. 설명 길이, 자료·비교 단서, 원 단계 복귀 선택지를 기준으로 검토 신호를 기록했으며, 문장 보강은 교사 검토 후 진행할 미완료 항목으로 남겼다.
+- 검증: `scripts/07_audit_activity_duration.py`, `scripts/09_audit_tap_resistance.py`, `scripts/10_audit_if_stages.py` 실행 완료. 이번 단계에서는 JSON 장면 필드를 수정하지 않았다.
+
 ## 2026-08-28 — 문서 기반 운영 체계 정비
 
 - `PRD.md`, `BACKLOG.md`, `DECISIONS.md`를 최소 범위로 추가해 요구사항·미완료 검토·장기 설계 결정을 분리했다.

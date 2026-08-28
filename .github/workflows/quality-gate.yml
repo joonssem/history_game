@@ -40,6 +40,10 @@ jobs:
         run: |
           python scripts/07_audit_activity_duration.py
           git diff --exit-code -- activity_duration_audit.md
+      - name: Audit Regular retry stages
+        run: |
+          python scripts/10_audit_if_stages.py
+          git diff --exit-code -- if_stage_audit.md
       - name: Check JavaScript syntax
         run: for file in js/*.js; do node --check "$file"; done
       - name: Check whitespace
