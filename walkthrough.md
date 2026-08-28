@@ -7,11 +7,11 @@
 - Regular 재시도(IF) 단계 94개를 `if_stage_audit.md`로 선별했다. 설명 길이, 자료·비교 단서, 원 단계 복귀 선택지를 기준으로 검토 신호를 기록했으며, 문장 보강은 교사 검토 후 진행할 미완료 항목으로 남겼다.
 - 검증: `scripts/07_audit_activity_duration.py`, `scripts/09_audit_tap_resistance.py`, `scripts/10_audit_if_stages.py` 실행 완료. 이번 단계에서는 JSON 장면 필드를 수정하지 않았다.
 
-## 2026-08-28 — P2 MUD 등록 차시 기준 정합화
+## 2026-08-28 — P2 MUD 등록 차시 기준 점검 및 보류
 
-- `_index.json`의 세 Regular 항목이 단원별 차시와 전역 누적 차시를 혼용하던 문제를 확인하고 `regular_sejong`, `regular_independence`, `regular_korean_war`의 등록 차시를 현재 앱 기준으로 정렬했다.
-- `app.js`의 인덱스 우선 조회와 비등록 차시용 fallback은 유지했다. 이를 통해 등록 경로를 안정화하면서 기존 비게임 차시의 회귀 위험을 줄였다.
-- 장기 기준을 `DECISIONS.md`의 D-008에 기록했다. Claude 담당 시뮬레이터 장면 필드는 변경하지 않았다.
+- `_index.json`과 MUD JSON의 전역 차시 번호를 단원별 번호로 단순 치환하면 `regular_sejong`이 실제 단원 4~5차시의 다른 주제에 연결되는 회귀를 확인했다.
+- 잘못된 정렬 시도는 되돌렸고, `_index.json`·MUD JSON·README는 기존 기준으로 복원했다. `app.js` fallback도 유지한다.
+- 전역·단원별 차시의 기준 통일과 단일 등록원 전환은 회귀 설계가 필요한 미완료 P2 항목으로 남겼다.
 
 ## 2026-08-28 — P2 유물·보상 설명 1차 사실 범위 검수
 
