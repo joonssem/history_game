@@ -112,3 +112,10 @@ Codex가 본 보고를 검토하고 다음과 같이 확인·회신했습니다.
 - `ipad_ux_regression_report.md`와 활동 시간 감사(`activity_duration_audit.md`) 반영은 Codex 담당으로 계속 진행.
 - Codex 쪽에서 `scripts/09_audit_tap_resistance.py`(무작위 탭 조기 종료 위험 자동 선별)를 보정했고, 기존 무결성·계약·카탈로그·런타임 검증도 재통과 확인.
 - Phase 37 커밋은 로컬 `main`에만 있고 `origin/main`에는 아직 push되지 않은 상태임을 서로 확인 — 사용자 확인 전까지 양측 모두 push하지 않기로 함.
+
+## 12. push 완료 및 후속 확인 (2026-08-28)
+
+- 사용자 확인 후 `1658b5d`, `9cf0cc9`(본 문서)를 `origin/main`에 push 완료(`0dfd4a7..9cf0cc9`, fast-forward, 충돌 없음).
+- push 이후 Codex가 §11에서 예고한 대로 `regular_joseon_silhak.json` 3단계·3-1단계의 `narrative`를 동학/최제우/인내천 서술로 직접 수정함을 확인했습니다(§7에서 지적한 서술 불일치 항목의 실제 해소). 변경 범위는 `narrative` 두 곳뿐이며, `scene`(`donghak-yongdamjeong`)·`infoText`·`location`·`choices`·`completion`은 그대로입니다.
+- 해당 수정 이후 JSON 유효성, 표준 검증 스크립트 9종, `node -c` 문법 검사를 재실행해 전부 PASS 확인 — Codex의 narrative 수정이 이번 Phase의 장면·검증 결과에 영향을 주지 않았습니다.
+- §7의 "실학 3단계 서술 불일치" 항목은 이것으로 종결 처리합니다.
