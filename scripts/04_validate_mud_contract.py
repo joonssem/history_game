@@ -112,6 +112,8 @@ def main() -> int:
                 for field in contract["requiredSimulatorCompletion"]:
                     if field not in completion or not completion[field]:
                         errors.append(f"{path.name}:{stage_id}: missing completion.{field}")
+                if completion.get("uniqueActions") is not None and not isinstance(completion.get("uniqueActions"), bool):
+                    errors.append(f"{path.name}:{stage_id}: completion.uniqueActions must be boolean")
                 progress_key = completion.get("progressKey", "gaugeProgress")
                 if progress_key not in supported_progress_keys:
                     errors.append(

@@ -17,6 +17,7 @@ function prepare(simulator) {
   engine.simMode = simulator.mode;
   engine.simulatorState = { found: [], step: 0, lastId: null };
   engine.simActionCount = 0;
+  engine.simActionIds = new Set();
   engine.simulatorComplete = false;
   engine.simulatorProgress = 0;
   engine[simulator.completion.progressKey] = 0;
@@ -135,5 +136,29 @@ assert.equal(engine.simulatorComplete, false, 'slider below target must keep cho
 engine.updateSlider(80, true);
 assert.equal(engine.simulatorProgress, 80);
 assert.equal(engine.simulatorComplete, true, 'user slider input at target must unlock choices');
+
+const uniqueActions = {
+  mode: 'dolmen-step2',
+  type: 'buttons',
+  required: true,
+  completion: {
+    target: 100,
+    minActions: 3,
+    uniqueActions: true,
+    progressKey: 'gaugeProgress',
+    successText: '완료'
+  }
+};
+
+prepare(uniqueActions);
+engine.setSimulatorProgress(100);
+engine.registerSimulatorAction();
+engine.updateSimulatorCompletion();
+assert.equal(engine.simulatorComplete, false, 'progress alone must not satisfy unique-action completion');
+for (const [id, value] of [['slope', 35], ['roller', 70], ['labor', 100]]) {
+  engine.runSimulatorAction({ type: 'slider-set', id, value });
+}
+assert.equal(engine.simActionIds.size, 3, 'unique action IDs must be tracked separately');
+assert.equal(engine.simulatorComplete, true, 'three distinct evidence actions must unlock choices');
 
 console.log('PASS: simulator runtime state, valid-action counting, and legacy progress adapters');

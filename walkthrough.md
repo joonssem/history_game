@@ -1,5 +1,48 @@
 # Walkthrough
 
+## 2026-08-28 — 문서 기반 운영 체계 정비
+
+- `PRD.md`, `BACKLOG.md`, `DECISIONS.md`를 최소 범위로 추가해 요구사항·미완료 검토·장기 설계 결정을 분리했다.
+- `agents.md`, `README.md`, `project_context.md`에 문서별 역할과 링크를 연결하고, Regular MUD(5~10분 복습)와 Deep-dive MUD(확장 탐구)의 교육 목적을 명시했다.
+- 이미 완료된 JSON 기반 MUD, Vanilla JS, GitHub Pages 구조와 교육과정 정합성 검토는 BACKLOG가 아니라 `DECISIONS.md`에 기록했다.
+- `AI_Architecture_Reflection.md`는 저장소에 존재하지 않아 실행 지시로 해석하거나 내용을 보충하지 않았다. 실제 파일명은 `project_context.md`(소문자)이며 링크도 이 이름으로 유지했다.
+- 검증: 핵심 문서 존재·링크 대상·작업 트리 상태를 확인하고, 문서 간 역할 및 완료/미완료 항목의 중복을 점검했다.
+
+## 2026-08-28 — Regular MUD 시간 기준 보정
+
+- 학생이 탭 가능한 요소를 의미 없이 빠르게 눌러 기존 5분 안팎의 활동을 1~2분 안에 끝내는 관찰을 반영했다.
+- Regular MUD의 운영 기준을 10분 이내, 설계 목표 약 9분으로 수정하고, 자료 읽기·단서 확인·해석 없이 완료되는 경로를 별도 검증 대상으로 등록했다.
+- Deep-dive MUD는 기존처럼 Regular의 대체가 아닌 확장 탐구 활동으로 유지하며 시간 기준을 혼합하지 않았다.
+
+## 2026-08-28 — Claude/Codex 분업 후 P1 기준선 감사
+
+- Claude 장면 영역과 충돌하지 않도록 28종 Regular MUD의 단계·시뮬레이터·완료 조건을 전수 확인했다.
+- 기존 무결성·계약·카탈로그·시뮬레이터 런타임 검증은 모두 통과했다. 다만 다중 선택지 단계의 정답 위치가 1번에 치우쳤다는 기존 경고가 유지된다.
+- 여러 게이지형 단계가 `target: 100`과 2~4회의 동일 탭으로 완료되므로, `required: true`만으로는 무작위 탭에 의한 1~2분 종료를 막지 못한다는 구조적 후보를 확인했다.
+- 장면이 있는 단계의 `scene`, `hotspots`, `interaction`, `completion.target`, 단계 구조는 변경하지 않았다. 후속 수정은 장면이 없는 단계부터 우선 검토한다.
+
+## 2026-08-28 — 무작위 탭 위험 자동 선별기 추가
+
+- `scripts/09_audit_tap_resistance.py`를 추가해 Regular의 필수·비핫스팟 시뮬레이터 중 4회 이하의 반복 동작으로 완료되는 구조를 선별한다.
+- 이 선별기는 실제 학생 소요 시간을 단정하지 않으며, 장면이 있는 단계에는 좌표 검토 필요 표시만 하고 JSON을 수정하지 않는다.
+- 버튼형 시뮬레이터의 고유 `actions`는 반복 캔버스 탭과 구분해 선별 대상에서 제외한다.
+
+## 2026-08-28 — 장면 비보유 Regular 메타데이터 기준 갱신
+
+- `regular_joseon_economy.json`과 `regular_joseon_silhak.json`의 `playTime`을 기존 `5-10min`에서 현재 운영 기준인 `10min`으로 갱신했다.
+- 두 파일 모두 `simulator.scene`, `hotspots`, `interaction`, `completion.target`, 단계 구조는 변경하지 않았다.
+
+## 2026-08-28 — 실학 MUD 3단계 서사 정합성 보정
+
+- `regular_joseon_silhak.json` 3단계와 3-1 실패 분기의 narrative가 동학·인내천 장면 및 infoText와 어긋나던 문제를 동학의 평등·사람의 존엄을 설명하는 내용으로 보정했다.
+- `scene`, `hotspots`, `interaction`, `completion`, 단계 구조는 변경하지 않았다. 해당 JSON은 Claude의 Phase 37 장면 작업 파일이므로 narrative 변경 사실을 공유해야 한다.
+
+## 2026-08-28 — Bronze 반복 탭 완료 조건 보강
+
+- `mudEngine.js`에 선택형 시뮬레이터 액션의 고유 ID 집계와 `completion.uniqueActions` 판정을 추가했다.
+- `regular_bronze_age.json` 2단계는 거석 운반의 경사로·굴림대·공동 노동 단서 3개를 각각 확인해야 선택지를 해제하도록 보강했다.
+- 대상 단계에는 `scene`·`hotspots`가 없으며, Claude 담당 렌더러와 장면 계약은 변경하지 않았다.
+
 ## 2026-08-26 — 구석기 자연환경 탐색 개선
 
 - 구석기 1단계에 `paleo-environment` 전용 시뮬레이터를 추가했다.

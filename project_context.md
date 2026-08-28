@@ -69,6 +69,10 @@ history_game/
 ├── simulator_contract.json              # 시뮬레이터 기계 계약
 ├── README.md                           # 프로젝트 소개
 ├── agents.md                           # AI 에이전트 협업 체계 및 작업 원칙
+├── PRD.md                              # 제품 목표·범위·수용 기준
+├── BACKLOG.md                          # 미완료 기획·검토 항목
+├── DECISIONS.md                        # 장기 설계 결정 기록
+├── walkthrough.md                      # 완료 작업 누적 기록
 └── project_context.md                  # 이 파일
 ```
 
@@ -84,6 +88,7 @@ history_game/
 | `js/quizGame.js` | `window.quizGame`. `data/quizzes.json` 로드 후 랜덤 셔플·타이머(15초)·채점 |
 | `js/soundEffects.js` | `window.sounds`. Web Audio API로 생성한 비트 신스 효과음 |
 | `data/mud/_index.json` | 32개 MUD의 메타 정보와 현재·목표 교육과정 상태. `app.js`가 Regular MUD 버튼 매핑에 우선 사용하고, 누락 시 레거시 조건문으로 보완함 |
+| `PRD.md` / `BACKLOG.md` / `DECISIONS.md` | 각각 제품 요구사항, 미완료 검토 항목, 장기 설계 결정 |
 
 ### 중요한 의존 관계
 
@@ -99,8 +104,8 @@ history_game/
 
 ### 완료된 기능
 
-- **Regular MUD 28종**: 48개 차시 본문 학습 차시 100% 커버
-- **Deep-dive MUD 4종**: 선사/삼국/조선/근현대 각 대단원 통사 롤플레이, 3대 멀티엔딩(ending_true / ending_normal / ending_bad)
+- **Regular MUD 28종**: 10분 이내, 설계 목표 약 9분의 복습 활동으로 48개 차시 본문 학습 차시 100% 커버
+- **Deep-dive MUD 4종**: Regular의 대체가 아닌 확장 탐구 활동. 선사/삼국/조선/근현대 각 대단원 통사 롤플레이와 3대 멀티엔딩(ending_true / ending_normal / ending_bad)
 - **캔버스 인터랙티브 시뮬레이터**: 20종 모드 (고인돌 물리, 명량해전 포격, 태극기 컬러링, 사료 두루마리, 호국 게이지, 문화 파티클 등)
 - **유물 도감 수집 시스템**: 국보·보물 36종, MUD·스토리 ID 연동, localStorage 영구 저장, 탐험가 레벨
 - **골든벨 퀴즈**: `data/quizzes.json` 기반 단원별 랜덤 퀴즈, 15초 타이머, 점수 기록

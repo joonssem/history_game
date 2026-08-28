@@ -208,8 +208,9 @@ def main() -> int:
     if correct_positions and len(set(correct_positions)) == 1:
         warn(
             warnings,
-            "All multi-choice stages currently place the correct choice at "
-            f"position {correct_positions[0]}; runtime shuffling is required.",
+            "Source data places the correct choice at "
+            f"position {correct_positions[0]} in all multi-choice stages; "
+            "runtime display shuffling must remain enabled.",
         )
 
     if errors:

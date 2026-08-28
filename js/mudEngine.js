@@ -112,6 +112,7 @@ const MudEngine = {
     this.voteState = { stamped: false, voteInserted: false, animY: 0 };
     this.currentSimulator = null;
     this.simActionCount = 0;
+    this.simActionIds = new Set();
     this.simulatorComplete = true;
     this.simulatorProgress = 0;
     this.simulatorState = { found: [], step: 0, lastId: null };
@@ -263,6 +264,11 @@ const MudEngine = {
     this.simActionCount += 1;
   },
 
+  registerUniqueSimulatorAction(actionId) {
+    if (!actionId) return;
+    this.simActionIds.add(String(actionId));
+  },
+
   getSimulatorState(mode = this.simMode) {
     if (Array.isArray(this.currentSimulator?.hotspots)) return this.simulatorState;
     const legacyStateKey = {
@@ -304,7 +310,10 @@ const MudEngine = {
     const progress = this.getSimulatorProgress();
     const target = Number(completion.target || 0);
     const minActions = Number(completion.minActions || 0);
-    const actionReady = this.simActionCount >= minActions;
+    const actionCount = completion.uniqueActions
+      ? this.simActionIds.size
+      : this.simActionCount;
+    const actionReady = actionCount >= minActions;
     const progressReady = !target || progress >= target;
 
     if (actionReady && progressReady && !this.simulatorComplete) {
@@ -339,6 +348,9 @@ const MudEngine = {
     } else if (action.type === 'observe') {
       this.recordObservation(action.value);
     }
+    if (action.id) this.registerUniqueSimulatorAction(action.id);
+    else if (action.type === 'observe') this.registerUniqueSimulatorAction(action.value);
+    this.updateSimulatorCompletion();
   },
 
   recordObservation(value) {

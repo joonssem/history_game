@@ -13,7 +13,8 @@
 - **현재 콘텐츠 기준**: 2015 개정 초등 5학년 2학기 사회 (총 3개 단원, 48개 차시)
 - **목표 교육과정**: 2022 개정 교육과정 교과서에 맞춘 재매핑 진행 중 (`data/curriculum_mapping.json`)
 - **성취기준 매핑**: 30개 MUD를 `[6사04-01]`~`[6사07-02]`의 2022 개정 성취기준과 대조 검증했습니다. 명량대첩·병자호란 MUD 2종은 직접 과제로 단정하지 않고 보조 역사 맥락으로 분리했으며, 출판사·교과서 판본별 차시 번호는 확인 대기입니다. 자세한 판단은 [`curriculum_alignment_report_2022.md`](./curriculum_alignment_report_2022.md)에 기록합니다.
-- **활동 시간 감사**: Regular MUD의 학생 개인 활동 목표는 5~10분이며, 자동 설계 지표 결과는 [`activity_duration_audit.md`](./activity_duration_audit.md)에서 관리합니다.
+- **활동 시간 감사**: Regular MUD는 10분 이내, 설계 목표 약 9분의 개인 복습 활동입니다. 자동 설계 지표 결과는 [`activity_duration_audit.md`](./activity_duration_audit.md)에서 관리합니다.
+- **활동 계층**: Regular MUD는 10분 이내(약 9분 목표)의 복습용이고, Deep-dive MUD는 여러 차시를 잇는 확장 탐구 활동입니다. 두 계층은 같은 시간·성공 기준으로 평가하지 않습니다.
 - **핵심 목표**: 단순 암기를 넘어 역사적 순간 속 '결단의 순간'을 체험하며 역사적 사고력과 문제 해결력 신장
 
 ---
@@ -165,8 +166,12 @@
 
 ## 📂 관련 문서
 
-* 📋 [gents.md](./agents.md) — AI 에이전트 협업 체계 및 Phase별 개발 기록
+* 📋 [agents.md](./agents.md) — AI 에이전트 협업 체계 및 Phase별 개발 기록
 * 📖 [project_context.md](./project_context.md) — 전체 MUD 목록, 시뮬레이터 명세, 미해결 이슈
+* 🧭 [PRD.md](./PRD.md) — 제품 목표, 사용자, 범위, 수용 기준
+* 📝 [BACKLOG.md](./BACKLOG.md) — 미완료 기획·검토 항목
+* ⚖️ [DECISIONS.md](./DECISIONS.md) — 장기 설계 결정과 근거
+* 🧾 [walkthrough.md](./walkthrough.md) — 완료 작업의 누적 기록
 
 ---
 

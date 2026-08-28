@@ -198,17 +198,23 @@
       ],
       "simulator": {
         "mode": "dolmen-step2",
-        "type": "gauge",
+        "type": "buttons",
         "required": true,
         "completion": {
           "target": 100,
           "increment": 25,
-          "minActions": 4,
+          "minActions": 3,
+          "uniqueActions": true,
           "progressKey": "simulatorProgress",
           "successText": "⛰️ 받침돌 주위에 흙 경사로를 완성했습니다."
         },
         "gaugeLabel": "흙 경사로 쌓기:",
-        "instruction": "⛰️ <b>화면을 터치하여 받침돌 주위에 흙 경사로를 쌓으세요!</b>",
+        "actions": [
+          { "type": "slider-set", "id": "slope", "value": 35, "label": "⛰️ 완만한 흙 경사로 확인" },
+          { "type": "slider-set", "id": "roller", "value": 70, "label": "🪵 통나무 굴림대 확인" },
+          { "type": "slider-set", "id": "labor", "value": 100, "label": "👥 공동 노동 확인" }
+        ],
+        "instruction": "⛰️ <b>거석 운반의 단서 3가지를 확인하세요.</b>",
         "feedback": "흙을 완만하게 쌓아 올려 비탈길을 만드세요!"
       }
     },

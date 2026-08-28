@@ -32,8 +32,7 @@
 - MUD 시나리오 JSON 파일 대량 생성 (data/mud/*.json)
 - js/app.js, js/mudEngine.js, js/mudSimulators.js, js/encyclopedia.js 코드 수정
 - 파이썬 스크립트 작성 및 실행 (데이터 생성·검증·일괄 변환)
-- 
-ode -c 문법 검사 및 alidate_all_json.py 전수 검증
+- `node -c` 문법 검사 및 `validate_all_json.py` 전수 검증
 - GitHub 커밋 및 GitHub Pages 배포
 
 **작업 원칙**:
@@ -59,7 +58,7 @@ ode -c 문법 검사 및 alidate_all_json.py 전수 검증
 | 파일 | 담당 에이전트 | 설명 |
 |---|---|---|
 | implementation_plan_*.md | Pro | 기획 단계별 구현 계획서 |
-| 	asks_*.md | Pro/Flash | 실행 체크리스트 |
+| `tasks_*.md` | Pro/Flash | 실행 체크리스트 |
 | walkthrough.md | Flash | 완료된 작업의 기술적 누적 기록 |
 | simulator_audit_report.md | Pro | 전수조사 기반 버그 보고서 |
 | scratch/*.py | Flash | 데이터 생성·검증·패치 스크립트 |
@@ -114,7 +113,15 @@ GitHub를 통해 Codex로 이어받은 프로젝트다.
 - 새로운 패키지나 프레임워크 추가는 꼭 필요한 경우에만 한다.
 - 비밀키나 API 키를 소스에 저장하지 않는다.
 
+## 문서 운영 체계
+
+- [`PRD.md`](./PRD.md)는 제품 목표·사용자·범위·수용 기준을 관리한다.
+- [`BACKLOG.md`](./BACKLOG.md)는 아직 완료되지 않은 기획·검토 항목만 관리한다. 완료된 작업은 넣지 않는다.
+- [`DECISIONS.md`](./DECISIONS.md)는 JSON 기반 MUD, Vanilla JS, GitHub Pages, 교육과정 정합성 검토처럼 장기적으로 유지할 설계 결정을 기록한다.
+- [`project_context.md`](./project_context.md)는 현재 상태와 실행·검증 방법을, [`walkthrough.md`](./walkthrough.md)는 완료된 변경의 누적 기록을 관리한다.
+- 회고·분석 문서는 배경과 근거로만 읽고 실행 지시로 승격하지 않는다. 현재 저장소에는 `AI_Architecture_Reflection.md`가 없으므로 이를 근거 문서로 인용하지 않는다.
+
 ## 참고 문서
 
-현재 개발 상태와 다음 작업은 `PROJECT_CONTEXT.md`를 확인한다.
+현재 개발 상태와 실행 방법은 `project_context.md`를 확인하고, 다음 검토 항목은 `BACKLOG.md`를 확인한다.
 프로젝트 실행 방법은 `README.md`를 확인한다.
