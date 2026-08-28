@@ -88,7 +88,7 @@ history_game/
 | `js/encyclopedia.js` | `window.encyclopedia`. localStorage 키 `history_explorer_save_v1`. `unlockArtifact(id)`와 `unlockBadge(id)` 호출로 수집 기록 |
 | `js/quizGame.js` | `window.quizGame`. `data/quizzes.json` 로드 후 랜덤 셔플·타이머(15초)·채점 |
 | `js/soundEffects.js` | `window.sounds`. Web Audio API로 생성한 비트 신스 효과음 |
-| `data/mud/_index.json` | 32개 MUD의 메타 정보와 현재·목표 교육과정 상태. `app.js`가 Regular MUD 버튼 매핑에 우선 사용하고, 누락 시 레거시 조건문으로 보완함 |
+| `data/mud/_index.json` | 32개 MUD의 메타 정보와 현재·목표 교육과정 상태. `lessonNumbers`는 단원별 차시 번호이며, `app.js`가 Regular MUD 버튼 매핑에 우선 사용하고 누락 시 레거시 조건문으로 보완함 |
 | `PRD.md` / `BACKLOG.md` / `DECISIONS.md` | 각각 제품 요구사항, 미완료 검토 항목, 장기 설계 결정 |
 
 ### 중요한 의존 관계

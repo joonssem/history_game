@@ -7,6 +7,12 @@
 - Regular 재시도(IF) 단계 94개를 `if_stage_audit.md`로 선별했다. 설명 길이, 자료·비교 단서, 원 단계 복귀 선택지를 기준으로 검토 신호를 기록했으며, 문장 보강은 교사 검토 후 진행할 미완료 항목으로 남겼다.
 - 검증: `scripts/07_audit_activity_duration.py`, `scripts/09_audit_tap_resistance.py`, `scripts/10_audit_if_stages.py` 실행 완료. 이번 단계에서는 JSON 장면 필드를 수정하지 않았다.
 
+## 2026-08-28 — P2 MUD 등록 차시 기준 정합화
+
+- `_index.json`의 세 Regular 항목이 단원별 차시와 전역 누적 차시를 혼용하던 문제를 확인하고 `regular_sejong`, `regular_independence`, `regular_korean_war`의 등록 차시를 현재 앱 기준으로 정렬했다.
+- `app.js`의 인덱스 우선 조회와 비등록 차시용 fallback은 유지했다. 이를 통해 등록 경로를 안정화하면서 기존 비게임 차시의 회귀 위험을 줄였다.
+- 장기 기준을 `DECISIONS.md`의 D-008에 기록했다. Claude 담당 시뮬레이터 장면 필드는 변경하지 않았다.
+
 ## 2026-08-28 — 문서 기반 운영 체계 정비
 
 - `PRD.md`, `BACKLOG.md`, `DECISIONS.md`를 최소 범위로 추가해 요구사항·미완료 검토·장기 설계 결정을 분리했다.
