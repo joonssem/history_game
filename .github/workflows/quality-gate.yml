@@ -44,6 +44,10 @@ jobs:
         run: |
           python scripts/10_audit_if_stages.py
           git diff --exit-code -- if_stage_audit.md
+      - name: Audit artifact cards
+        run: |
+          python scripts/11_audit_artifacts.py
+          git diff --exit-code -- artifact_audit.md
       - name: Check JavaScript syntax
         run: for file in js/*.js; do node --check "$file"; done
       - name: Check whitespace

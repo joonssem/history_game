@@ -73,6 +73,7 @@ history_game/
 ├── BACKLOG.md                          # 미완료 기획·검토 항목
 ├── DECISIONS.md                        # 장기 설계 결정 기록
 ├── if_stage_audit.md                   # Regular 재시도(IF) 단계 구조 감사
+├── artifact_audit.md                   # 유물·보상 카드 교육 품질 감사
 ├── walkthrough.md                      # 완료 작업 누적 기록
 └── project_context.md                  # 이 파일
 ```
