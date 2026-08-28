@@ -87,6 +87,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "hopae-registration",
         "type": "info",
         "infoText": "양반은 갓과 도포를 입고 학문과 정치를 담당한 조선 유교 사회의 엘리트였습니다.",
         "instruction": "🪪 <b>경국대전의 호패 규정과 신분을 확인하세요</b>",
@@ -153,6 +154,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "jungin-medicine",
         "type": "info",
         "infoText": "중인들은 높은 교양과 실무 능력으로 조선 후기 새로운 문화와 개화 사상의 선구자가 되었습니다.",
         "instruction": "💊 <b>동의보감의 처방전과 침통을 정비하세요</b>",
@@ -219,6 +221,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "commoner-harvest",
         "type": "gauge",
         "gaugeLabel": "풍년 농사 땀방울:",
         "instruction": "🌾 <b>화면을 터치하여 벼를 수확하고 백성들의 삶을 응원하세요!</b>",

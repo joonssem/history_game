@@ -84,6 +84,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "hanyang-site-selection",
         "type": "info",
         "infoText": "조선은 유교 이념에 따라 4대문(흥인지문, 돈의문, 숭례문, 숙정문)과 경복궁을 설계했습니다.",
         "instruction": "🏛️ <b>한양 도성과 4대문 유교 덕목 배치</b>",
@@ -164,6 +165,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "gyeongbokgung-naming",
         "type": "info",
         "infoText": "흥인지문, 돈의문, 숭례문, 숙정문은 인의예지의 유교 덕목을 담고 있습니다.",
         "instruction": "🏛️ <b>4대문 이름과 유교 덕목 확인</b>",
@@ -240,6 +242,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "hanyang-gates-pavement",
         "type": "info",
         "infoText": "근정전 박석은 거친 질감으로 눈부심과 미끄러짐을 방지하는 조상의 지혜입니다.",
         "instruction": "🪨 <b>근정전 앞마당 박석 깔기</b>",

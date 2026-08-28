@@ -1068,6 +1068,184 @@ const MudSimulators = {
       ctx.beginPath(); ctx.moveTo(w * 0.57, h * 0.5); ctx.lineTo(w * 0.69, h * 0.5); ctx.lineTo(w * 0.63, h * 0.34); ctx.closePath(); ctx.fill();
       return true;
     }
+    // Phase 37: 조선 6종(건국·서민문화·실학·신분제·세종·경제) 20개 게이지형 활동. hotspots가 없으므로 card() 없이 화면 전체 단일 구도로 그린다.
+    if (scene === 'hanyang-site-selection') {
+      fillSky('#cfe0d4', '#eef0e0', '#7f9468');
+      ctx.fillStyle = '#6f8a5c'; ctx.beginPath(); ctx.moveTo(w * 0.08, groundY); ctx.lineTo(w * 0.2, h * 0.42); ctx.lineTo(w * 0.34, groundY); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#5f7a4f'; ctx.beginPath(); ctx.moveTo(w * 0.62, groundY); ctx.lineTo(w * 0.76, h * 0.46); ctx.lineTo(w * 0.9, groundY); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#4f90b0'; ctx.lineWidth = 8; ctx.beginPath(); ctx.moveTo(0, h * 0.82); ctx.quadraticCurveTo(w * 0.5, h * 0.7, w, h * 0.86); ctx.stroke();
+      ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 1.5; [[w * 0.5, h * 0.4], [w * 0.5, h * 0.76], [w * 0.28, h * 0.58], [w * 0.72, h * 0.58]].forEach(([x2, y2]) => { ctx.beginPath(); ctx.moveTo(w * 0.5, h * 0.58); ctx.lineTo(x2, y2); ctx.stroke(); });
+      ctx.fillStyle = '#e4c46a'; ctx.beginPath(); ctx.arc(w * 0.5, h * 0.58, w * 0.025, 0, Math.PI * 2); ctx.fill();
+      return true;
+    }
+    if (scene === 'gyeongbokgung-naming') {
+      fillSky('#dfe6d8', '#eef1e6', '#8a9678');
+      ctx.fillStyle = '#6f7d5e'; ctx.beginPath(); ctx.moveTo(w * 0.2, groundY); ctx.lineTo(w * 0.5, h * 0.28); ctx.lineTo(w * 0.82, groundY); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 3; ctx.strokeRect(w * 0.28, h * 0.58, w * 0.44, h * 0.14);
+      ctx.fillStyle = '#c9b98c'; ctx.strokeStyle = '#734526'; ctx.lineWidth = 2; ctx.fillRect(w * 0.42, h * 0.4, w * 0.16, h * 0.08); ctx.strokeRect(w * 0.42, h * 0.4, w * 0.16, h * 0.08);
+      ctx.strokeStyle = '#5c4a34'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(w * 0.38, h * 0.72); ctx.lineTo(w * 0.62, h * 0.72); ctx.moveTo(w * 0.4, h * 0.76); ctx.lineTo(w * 0.6, h * 0.76); ctx.stroke();
+      return true;
+    }
+    if (scene === 'hanyang-gates-pavement') {
+      fillSky('#e6e2d0', '#f2ecd9', '#c9b98c');
+      ctx.fillStyle = '#8a5a35'; ctx.fillRect(0, h * 0.24, w, h * 0.05);
+      const tiles = [[.08, .58, .24, .52, .32, .66, .14, .72], [.26, .54, .42, .5, .46, .64, .28, .68], [.44, .52, .58, .56, .56, .7, .42, .68], [.6, .58, .74, .52, .78, .66, .62, .72], [.12, .72, .3, .7, .32, .86, .14, .88], [.32, .7, .48, .7, .5, .86, .34, .88], [.5, .72, .66, .68, .68, .84, .52, .88], [.68, .68, .82, .64, .86, .8, .7, .84]];
+      const tones = ['#d8c49c', '#cbb589']; ctx.strokeStyle = '#a08256'; ctx.lineWidth = 1.5;
+      tiles.forEach((pts, i) => { ctx.fillStyle = tones[i % 2]; ctx.beginPath(); for (let k = 0; k < pts.length; k += 2) { const x = w * pts[k], y = h * pts[k + 1]; k === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); } ctx.closePath(); ctx.fill(); ctx.stroke(); });
+      ctx.fillStyle = '#734526'; [[.06, .2], [.94, .2], [.06, .92], [.94, .92]].forEach(([x, y]) => { ctx.fillRect(w * x - 7, h * y - 7, 14, 14); });
+      return true;
+    }
+    if (scene === 'kim-hongdo-studio') {
+      fillSky('#e6ded0', '#f3ecdd', '#c9b98c');
+      ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(w * 0.3, h * 0.78); ctx.lineTo(w * 0.5, h * 0.28); ctx.lineTo(w * 0.7, h * 0.78); ctx.stroke();
+      ctx.fillStyle = '#f7f1de'; ctx.strokeStyle = '#c9b98c'; ctx.lineWidth = 2; ctx.fillRect(w * 0.34, h * 0.34, w * 0.32, h * 0.4); ctx.strokeRect(w * 0.34, h * 0.34, w * 0.32, h * 0.4);
+      // 씨름 자세: 얼굴처럼 보이지 않도록 머리를 벌리고 몸통이 가운데서 교차한 뒤 다리가 다시 벌어지게 그린다.
+      ctx.strokeStyle = '#4a4438'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(w * 0.44, h * 0.5, w * 0.016, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(w * 0.44, h * 0.516); ctx.lineTo(w * 0.48, h * 0.58); ctx.lineTo(w * 0.46, h * 0.68); ctx.stroke();
+      ctx.beginPath(); ctx.arc(w * 0.56, h * 0.5, w * 0.016, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(w * 0.56, h * 0.516); ctx.lineTo(w * 0.52, h * 0.58); ctx.lineTo(w * 0.54, h * 0.68); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(w * 0.48, h * 0.58); ctx.lineTo(w * 0.52, h * 0.58); ctx.stroke();
+      ctx.fillStyle = '#8a5a35'; ctx.fillRect(w * 0.72, h * 0.62, w * 0.03, h * 0.14);
+      ctx.fillStyle = '#4f90b0'; ctx.beginPath(); ctx.arc(w * 0.78, h * 0.78, w * 0.03, 0, Math.PI * 2); ctx.fill();
+      return true;
+    }
+    if (scene === 'pansori-performance') {
+      fillSky('#efe6d2', '#f8f1de', '#c9b98c');
+      ctx.fillStyle = '#8a5a35'; ctx.beginPath(); ctx.arc(w * 0.42, h * 0.5, w * 0.03, 0, Math.PI * 2); ctx.fill(); ctx.fillRect(w * 0.4, h * 0.53, w * 0.04, h * 0.14);
+      ctx.strokeStyle = '#734526'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(w * 0.44, h * 0.55); ctx.lineTo(w * 0.54, h * 0.46); ctx.stroke();
+      ctx.fillStyle = '#b34d3d'; ctx.beginPath(); ctx.moveTo(w * 0.5, h * 0.42); ctx.lineTo(w * 0.58, h * 0.46); ctx.lineTo(w * 0.5, h * 0.5); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#8a5a35'; ctx.beginPath(); ctx.arc(w * 0.62, h * 0.52, w * 0.03, 0, Math.PI * 2); ctx.fill(); ctx.fillRect(w * 0.6, h * 0.55, w * 0.04, h * 0.12);
+      ctx.fillStyle = '#5c4a34'; ctx.beginPath(); ctx.ellipse(w * 0.66, h * 0.63, w * 0.045, h * 0.03, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#8a7355'; [[.14, .72], [.26, .78], [.78, .78], [.9, .72]].forEach(([x, y]) => { ctx.beginPath(); ctx.arc(w * x, h * (y - 0.08), w * 0.022, 0, Math.PI * 2); ctx.fill(); ctx.fillRect(w * x - w * 0.015, h * y - h * 0.01, w * 0.03, h * 0.09); });
+      return true;
+    }
+    if (scene === 'talchum-dance') {
+      fillSky('#efe6d2', '#f8f1de', '#b9ab86');
+      ctx.fillStyle = '#8a7355'; [[.5, .26], [.74, .38], [.74, .64], [.5, .78], [.26, .64], [.26, .38]].forEach(([x, y]) => { ctx.beginPath(); ctx.arc(w * x, h * (y - 0.05), w * 0.02, 0, Math.PI * 2); ctx.fill(); ctx.fillRect(w * x - w * 0.014, h * y - h * 0.01, w * 0.028, h * 0.08); });
+      ctx.fillStyle = '#b34d3d'; ctx.beginPath(); ctx.arc(w * 0.5, h * 0.55, w * 0.035, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#2d2924'; ctx.beginPath(); ctx.arc(w * 0.492, h * 0.548, w * 0.006, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.arc(w * 0.508, h * 0.548, w * 0.006, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#8a5a35'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(w * 0.5, h * 0.58); ctx.lineTo(w * 0.38, h * 0.5); ctx.moveTo(w * 0.5, h * 0.58); ctx.lineTo(w * 0.62, h * 0.5); ctx.stroke();
+      return true;
+    }
+    if (scene === 'hongdaeyong-globe') {
+      fillSky('#2a2f3d', '#3c4356', '#232733');
+      ctx.fillStyle = '#e4c46a'; [[.16, .22], [.28, .2]].forEach(([x, y]) => { ctx.beginPath(); ctx.arc(w * x, h * y, w * 0.008, 0, Math.PI * 2); ctx.fill(); });
+      ctx.fillStyle = '#8a5a35'; ctx.fillRect(w * 0.2, h * 0.62, w * 0.6, h * 0.06);
+      ctx.fillStyle = '#4f90b0'; ctx.beginPath(); ctx.arc(w * 0.5, h * 0.5, w * 0.13, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#dfe6ec'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(w * 0.5, h * 0.5, w * 0.13, h * 0.05, 0, 0, Math.PI * 2); ctx.stroke(); ctx.beginPath(); ctx.ellipse(w * 0.5, h * 0.5, w * 0.06, h * 0.13, 0, 0, Math.PI * 2); ctx.stroke();
+      ctx.fillStyle = '#7c6440'; [.28, .34].forEach((x, i) => { ctx.fillRect(w * x, h * (0.56 - i * 0.005), w * 0.06, h * 0.08); });
+      return true;
+    }
+    if (scene === 'hwaseong-geojunggi') {
+      fillSky('#e3ded0', '#efeadc', '#b9ab86');
+      ctx.fillStyle = '#8a7355'; ctx.fillRect(w * 0.66, h * 0.72, w * 0.28, h * 0.14); ctx.strokeStyle = '#5c4a34'; ctx.lineWidth = 1.5; [.76, .8, .84].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.66, h * y); ctx.lineTo(w * 0.94, h * y); ctx.stroke(); });
+      ctx.strokeStyle = '#5c4a34'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(w * 0.3, h * 0.78); ctx.lineTo(w * 0.3, h * 0.24); ctx.lineTo(w * 0.48, h * 0.24); ctx.lineTo(w * 0.48, h * 0.78); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(w * 0.22, h * 0.3); ctx.lineTo(w * 0.56, h * 0.3); ctx.stroke();
+      ctx.strokeStyle = '#8a5a35'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(w * 0.3, h * 0.3, w * 0.045, 0, Math.PI * 2); ctx.stroke(); ctx.beginPath(); ctx.arc(w * 0.48, h * 0.3, w * 0.045, 0, Math.PI * 2); ctx.stroke();
+      ctx.strokeStyle = '#3a3630'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(w * 0.3, h * 0.34); ctx.lineTo(w * 0.3, h * 0.56); ctx.stroke();
+      ctx.fillStyle = '#8a8478'; ctx.fillRect(w * 0.24, h * 0.56, w * 0.12, h * 0.12);
+      return true;
+    }
+    if (scene === 'donghak-yongdamjeong') {
+      // infoText·feedback·location(경주 용담정)이 가리키는 동학·인내천을 따른다. narrative 본문(홍대용 혼천의)은 원본 데이터 불일치로 보고 무시한다.
+      fillSky('#dfe6d8', '#eef1e6', '#8a9678');
+      ctx.fillStyle = '#a9895c'; ctx.beginPath(); ctx.moveTo(w * 0.36, h * 0.42); ctx.lineTo(w * 0.5, h * 0.26); ctx.lineTo(w * 0.64, h * 0.42); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#8a7355'; ctx.fillRect(w * 0.4, h * 0.42, w * 0.03, h * 0.22); ctx.fillRect(w * 0.57, h * 0.42, w * 0.03, h * 0.22);
+      ctx.fillStyle = '#6b5a42'; [[.24, .72], [.36, .8], [.5, .84], [.64, .8], [.76, .72]].forEach(([x, y]) => { ctx.beginPath(); ctx.arc(w * x, h * (y - 0.06), w * 0.02, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.ellipse(w * x, h * y, w * 0.03, h * 0.02, 0, 0, Math.PI * 2); ctx.fill(); });
+      return true;
+    }
+    if (scene === 'silhak-summary') {
+      fillSky('#e6ded0', '#f2ecdd', '#c9b98c');
+      ctx.fillStyle = '#8a7355'; ctx.fillRect(w * 0.1, h * 0.66, w * 0.8, h * 0.05);
+      ctx.fillStyle = '#4f90b0'; ctx.beginPath(); ctx.arc(w * 0.24, h * 0.5, w * 0.07, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#dfe6ec'; ctx.beginPath(); ctx.ellipse(w * 0.24, h * 0.5, w * 0.07, h * 0.025, 0, 0, Math.PI * 2); ctx.stroke();
+      ctx.strokeStyle = '#5c4a34'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(w * 0.5, h * 0.46, w * 0.06, 0, Math.PI * 2); ctx.stroke(); ctx.beginPath(); ctx.moveTo(w * 0.5, h * 0.52); ctx.lineTo(w * 0.5, h * 0.66); ctx.stroke();
+      ctx.fillStyle = '#a9895c'; ctx.beginPath(); ctx.moveTo(w * 0.68, h * 0.58); ctx.lineTo(w * 0.76, h * 0.44); ctx.lineTo(w * 0.84, h * 0.58); ctx.closePath(); ctx.fill();
+      return true;
+    }
+    if (scene === 'hopae-registration') {
+      fillSky('#e6ded0', '#f2ecdd', '#b9ab86');
+      ctx.fillStyle = '#8a5a35'; ctx.fillRect(0, h * 0.22, w, h * 0.06);
+      ctx.strokeStyle = '#5c4a34'; ctx.lineWidth = 1.5; ctx.fillStyle = '#c9b98c'; [.18, .32, .46, .6, .74].forEach(x => { ctx.beginPath(); ctx.moveTo(w * x, h * 0.28); ctx.lineTo(w * x, h * 0.34); ctx.stroke(); ctx.fillRect(w * x - w * 0.02, h * 0.34, w * 0.04, h * 0.1); ctx.strokeRect(w * x - w * 0.02, h * 0.34, w * 0.04, h * 0.1); });
+      ctx.fillStyle = '#f2ecdd'; ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 2; ctx.fillRect(w * 0.24, h * 0.62, w * 0.52, h * 0.2); ctx.strokeRect(w * 0.24, h * 0.62, w * 0.52, h * 0.2);
+      ctx.strokeStyle = '#a08256'; ctx.lineWidth = 1.5; [.68, .74, .8].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.3, h * y); ctx.lineTo(w * 0.72, h * y); ctx.stroke(); });
+      return true;
+    }
+    if (scene === 'jungin-medicine') {
+      fillSky('#e6ded0', '#f2ecdd', '#b9ab86');
+      ctx.strokeStyle = '#5c4a34'; ctx.lineWidth = 1.5; ctx.fillStyle = '#a9895c'; ctx.fillRect(w * 0.1, h * 0.32, w * 0.36, h * 0.4);
+      for (let r = 0; r < 4; r++) { for (let c = 0; c < 2; c++) { ctx.strokeRect(w * (0.13 + c * 0.16), h * (0.36 + r * 0.09), w * 0.13, h * 0.07); } }
+      ctx.fillStyle = '#8a7355'; ctx.fillRect(w * 0.56, h * 0.5, w * 0.05, h * 0.2);
+      ctx.strokeStyle = '#3a3630'; ctx.lineWidth = 1.5; [.54, .6, .66].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.56, h * y); ctx.lineTo(w * 0.61, h * y); ctx.stroke(); });
+      ctx.fillStyle = '#f2ecdd'; ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 2; ctx.fillRect(w * 0.7, h * 0.56, w * 0.22, h * 0.16); ctx.strokeRect(w * 0.7, h * 0.56, w * 0.22, h * 0.16);
+      ctx.strokeStyle = '#a08256'; [.62, .68].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.73, h * y); ctx.lineTo(w * 0.89, h * y); ctx.stroke(); });
+      return true;
+    }
+    if (scene === 'commoner-harvest') {
+      fillSky('#d8dec0', '#eee0b2', '#8a9052');
+      ctx.strokeStyle = '#4a3d18'; ctx.lineWidth = 2.5; for (let row = 0; row < 3; row++) { for (let x = 0.08; x < 0.92; x += 0.06) { const y = h * (0.72 + row * 0.06); ctx.beginPath(); ctx.moveTo(w * x, y); ctx.lineTo(w * x + 8, y - 14); ctx.stroke(); } }
+      ctx.strokeStyle = '#5c4a34'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(w * 0.68, h * 0.58); ctx.quadraticCurveTo(w * 0.78, h * 0.5, w * 0.74, h * 0.42); ctx.stroke(); ctx.beginPath(); ctx.moveTo(w * 0.68, h * 0.58); ctx.lineTo(w * 0.6, h * 0.66); ctx.stroke();
+      ctx.fillStyle = '#a9895c'; ctx.beginPath(); ctx.moveTo(w * 0.14, h * 0.6); ctx.quadraticCurveTo(w * 0.16, h * 0.46, w * 0.24, h * 0.44); ctx.quadraticCurveTo(w * 0.32, h * 0.46, w * 0.34, h * 0.6); ctx.closePath(); ctx.fill();
+      return true;
+    }
+    if (scene === 'hunminjeongeum-lab') {
+      fillSky('#e6ded0', '#f2ecdd', '#c9b98c');
+      ctx.fillStyle = '#8a7355'; ctx.fillRect(w * 0.16, h * 0.6, w * 0.68, h * 0.06);
+      ctx.fillStyle = '#f7f1de'; ctx.strokeStyle = '#c9b98c'; ctx.lineWidth = 1.5; ctx.fillRect(w * 0.24, h * 0.5, w * 0.2, h * 0.1); ctx.strokeRect(w * 0.24, h * 0.5, w * 0.2, h * 0.1);
+      ctx.strokeStyle = '#3a3630'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(w * 0.48, h * 0.56); ctx.lineTo(w * 0.56, h * 0.4); ctx.stroke();
+      // 발음 기관을 본뜬 추상 도형(반원+세로선)만 그리고, 실제 자음자는 그리지 않는다.
+      ctx.strokeStyle = '#5c4a34'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(w * 0.7, h * 0.34, w * 0.05, Math.PI, 0); ctx.stroke(); ctx.beginPath(); ctx.moveTo(w * 0.66, h * 0.34); ctx.lineTo(w * 0.66, h * 0.44); ctx.stroke(); ctx.beginPath(); ctx.moveTo(w * 0.74, h * 0.34); ctx.lineTo(w * 0.74, h * 0.44); ctx.stroke();
+      ctx.fillStyle = '#7c6440'; [.78, .84].forEach((x, i) => { ctx.fillRect(w * x, h * (0.6 - i * 0.02), w * 0.06, h * 0.08); });
+      return true;
+    }
+    if (scene === 'chiljeongsan-observatory') {
+      fillSky('#232733', '#3c4356', '#4a5266');
+      ctx.fillStyle = 'rgba(255,255,255,.8)'; [[.14, .22], [.26, .2], [.82, .24], [.88, .28]].forEach(([x, y]) => { ctx.beginPath(); ctx.arc(w * x, h * y, w * 0.006, 0, Math.PI * 2); ctx.fill(); });
+      ctx.strokeStyle = 'rgba(230,225,200,.85)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(w * 0.72, h * 0.24, w * 0.05, Math.PI * 0.2, Math.PI * 1.6); ctx.stroke();
+      ctx.fillStyle = '#5f6b78'; ctx.fillRect(w * 0.46, h * 0.68, w * 0.08, h * 0.16);
+      ctx.strokeStyle = '#c9b98c'; ctx.lineWidth = 2; [0.16, 0.12, 0.08].forEach(r => { ctx.beginPath(); ctx.arc(w * 0.5, h * 0.5, w * r + w * 0.02, 0, Math.PI * 2); ctx.stroke(); });
+      ctx.strokeStyle = '#e4c46a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(w * 0.5, h * 0.5); ctx.lineTo(w * 0.58, h * 0.4); ctx.stroke();
+      return true;
+    }
+    if (scene === 'angbuilgu-street') {
+      fillSky('#cfe0d4', '#eef0e0', '#8a9678');
+      ctx.fillStyle = '#8a7355'; ctx.fillRect(0, h * 0.6, w * 0.26, h * 0.05); ctx.fillRect(w * 0.74, h * 0.58, w * 0.26, h * 0.06);
+      ctx.fillStyle = '#5c6b78'; ctx.beginPath(); ctx.arc(w * 0.5, h * 0.62, w * 0.17, Math.PI, 0); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#dfe6ec'; ctx.lineWidth = 1.5; [Math.PI * 0.15, Math.PI * 0.38, Math.PI * 0.5, Math.PI * 0.62, Math.PI * 0.85].forEach(a => { ctx.beginPath(); ctx.moveTo(w * 0.5, h * 0.62); ctx.lineTo(w * 0.5 - Math.cos(a) * w * 0.17, h * 0.62 - Math.sin(a) * w * 0.17); ctx.stroke(); });
+      ctx.strokeStyle = '#3a3630'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(w * 0.5, h * 0.62); ctx.lineTo(w * 0.45, h * 0.5); ctx.stroke();
+      ctx.fillStyle = '#4a4438'; [[.2, .86], [.78, .84], [.9, .88]].forEach(([x, y]) => { ctx.beginPath(); ctx.arc(w * x, h * (y - 0.08), w * 0.018, 0, Math.PI * 2); ctx.fill(); ctx.fillRect(w * x - w * 0.012, h * y - h * 0.09, w * 0.024, h * 0.08); });
+      return true;
+    }
+    if (scene === 'ianbeop-farming') {
+      fillSky('#cfe0d4', '#eef0e0', '#4f90b0');
+      ctx.fillStyle = '#4f90b0'; ctx.fillRect(0, h * 0.5, w, h * 0.5);
+      ctx.strokeStyle = 'rgba(63,111,66,.4)'; ctx.lineWidth = 2; [.52, .55].forEach(y => { ctx.beginPath(); ctx.moveTo(0, h * y); ctx.lineTo(w, h * y); ctx.stroke(); });
+      ctx.strokeStyle = '#3f6f8f'; [.62, .72, .82].forEach(y => { ctx.beginPath(); ctx.moveTo(0, h * y); ctx.lineTo(w, h * y); ctx.stroke(); });
+      ctx.strokeStyle = '#3f6f42'; ctx.lineWidth = 2; for (let r = 0; r < 3; r++) { for (let c = 0; c < 5; c++) { const x = w * (0.12 + c * 0.18), y = h * (0.56 + r * 0.13); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y - 10); ctx.stroke(); } }
+      return true;
+    }
+    if (scene === 'sangpum-crops') {
+      fillSky('#e6ded0', '#f2ecdd', '#c9a15a');
+      ctx.fillStyle = '#8a6a35'; [.56, .66, .76, .86].forEach(y => { ctx.fillRect(0, h * y, w, h * 0.05); });
+      ctx.fillStyle = '#4f7a3f'; [.2, .3, .4].forEach(x => { ctx.beginPath(); ctx.moveTo(w * x, h * 0.56); ctx.lineTo(w * x - 8, h * 0.44); ctx.lineTo(w * x, h * 0.5); ctx.lineTo(w * x + 8, h * 0.44); ctx.closePath(); ctx.fill(); });
+      ctx.fillStyle = '#3f6f42'; [.62, .76].forEach(x => { ctx.beginPath(); ctx.ellipse(w * x, h * 0.6, w * 0.06, h * 0.035, 0.3, 0, Math.PI * 2); ctx.fill(); });
+      return true;
+    }
+    if (scene === 'sangpyeongtongbo-market') {
+      fillSky('#e6ded0', '#f2ecdd', '#b9ab86');
+      ctx.fillStyle = '#8a7355'; [.14, .42, .68].forEach(x => { ctx.fillRect(w * x, h * 0.62, w * 0.2, h * 0.04); });
+      [[.2, .56], [.24, .53], [.28, .56], [.48, .56], [.52, .53], [.76, .56]].forEach(([x, y]) => { ctx.fillStyle = '#e4c46a'; ctx.strokeStyle = '#7e5a28'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(w * x, h * y, w * 0.018, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); ctx.fillStyle = '#7e5a28'; ctx.fillRect(w * x - 2, h * y - 2, 4, 4); });
+      ctx.fillStyle = '#5c4a34'; [[.35, .86], [.6, .88]].forEach(([x, y]) => { ctx.beginPath(); ctx.arc(w * x, h * (y - 0.08), w * 0.018, 0, Math.PI * 2); ctx.fill(); ctx.fillRect(w * x - w * 0.012, h * y - h * 0.09, w * 0.024, h * 0.08); });
+      return true;
+    }
+    if (scene === 'hanyang-commerce-summary') {
+      fillSky('#e6ded0', '#f2ecdd', '#c9a15a');
+      ctx.fillStyle = '#8a5a35'; [.06, .24, .42, .6, .78].forEach(x => { ctx.beginPath(); ctx.moveTo(w * x, h * 0.42); ctx.lineTo(w * (x + 0.09), h * 0.32); ctx.lineTo(w * (x + 0.18), h * 0.42); ctx.closePath(); ctx.fill(); ctx.fillRect(w * x + w * 0.02, h * 0.42, w * 0.14, h * 0.16); });
+      ctx.fillStyle = '#c9b98c'; [.09, .27, .45, .63, .81].forEach(x => { ctx.fillRect(w * x, h * 0.34, w * 0.03, h * 0.05); });
+      ctx.fillStyle = '#5c4a34'; ctx.fillRect(w * 0.4, h * 0.66, w * 0.2, h * 0.1);
+      ctx.strokeStyle = '#3a3630'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(w * 0.44, h * 0.78, w * 0.025, 0, Math.PI * 2); ctx.stroke(); ctx.beginPath(); ctx.arc(w * 0.56, h * 0.78, w * 0.025, 0, Math.PI * 2); ctx.stroke();
+      return true;
+    }
     return false;
   },
 

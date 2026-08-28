@@ -87,6 +87,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "kim-hongdo-studio",
         "type": "info",
         "infoText": "김홍도는 씨름, 서당, 벼타작, 대장간 등 서민들의 활력 넘치는 삶을 생생한 붓터치로 남겼습니다.",
         "instruction": "🎨 <b>백성들의 웃음과 땀방울을 화폭에 담으세요</b>",
@@ -153,6 +154,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "pansori-performance",
         "type": "gauge",
         "gaugeLabel": "판소리 흥취 지수:",
         "instruction": "🪘 <b>화면을 터치하여 '얼쑤! 좋다!' 추임새를 넣고 장터의 흥을 최고조로 올리세요!</b>",
@@ -219,6 +221,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "talchum-dance",
         "type": "info",
         "infoText": "탈춤과 한글 소설은 신분제의 굴레를 깨고 평등한 세상을 꿈꾼 서민들의 생명력이었습니다.",
         "instruction": "🎭 <b>탈춤판에서 대동의 춤을 완성하세요</b>",

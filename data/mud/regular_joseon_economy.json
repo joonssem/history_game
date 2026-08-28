@@ -89,6 +89,7 @@
       ],
       "simulator": {
         "mode": "economy-farm",
+        "scene": "ianbeop-farming",
         "type": "info",
         "infoText": "모내기법의 전국적 보급으로 한 사람이 넓은 논을 농사짓는 '광작(廣作)'이 가능해졌습니다.",
         "instruction": "🌾 <b>모내기법(이앙법)과 광작의 원리 확인</b>",
@@ -165,6 +166,7 @@
       ],
       "simulator": {
         "mode": "economy-farm",
+        "scene": "sangpum-crops",
         "type": "info",
         "infoText": "상품 작물의 활성화로 농촌과 도시 간의 상업 교류가 폭발적으로 증가했습니다.",
         "instruction": "🌿 <b>상품 작물 재배와 화폐 유통 확인</b>",
@@ -241,6 +243,7 @@
       ],
       "simulator": {
         "mode": "economy-market",
+        "scene": "sangpyeongtongbo-market",
         "type": "gauge",
         "gaugeLabel": "상평통보 유통량:",
         "instruction": "🪙 <b>화면을 터치하여 장시에서 상평통보를 유통하세요!</b>",
@@ -299,6 +302,7 @@
       ],
       "simulator": {
         "mode": "economy-market",
+        "scene": "hanyang-commerce-summary",
         "type": "info",
         "infoText": "조선 후기 상업 발전은 서민 문화(판소리, 탈춤, 풍속화) 발전의 토대가 되었습니다.",
         "instruction": "🏆 <b>조선 후기 경제 미션 대성공!</b>",
