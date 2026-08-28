@@ -119,3 +119,14 @@ Codex가 본 보고를 검토하고 다음과 같이 확인·회신했습니다.
 - push 이후 Codex가 §11에서 예고한 대로 `regular_joseon_silhak.json` 3단계·3-1단계의 `narrative`를 동학/최제우/인내천 서술로 직접 수정함을 확인했습니다(§7에서 지적한 서술 불일치 항목의 실제 해소). 변경 범위는 `narrative` 두 곳뿐이며, `scene`(`donghak-yongdamjeong`)·`infoText`·`location`·`choices`·`completion`은 그대로입니다.
 - 해당 수정 이후 JSON 유효성, 표준 검증 스크립트 9종, `node -c` 문법 검사를 재실행해 전부 PASS 확인 — Codex의 narrative 수정이 이번 Phase의 장면·검증 결과에 영향을 주지 않았습니다.
 - §7의 "실학 3단계 서술 불일치" 항목은 이것으로 종결 처리합니다.
+
+## 13. Codex 커밋 `fe5bdb8` 반영 확인 (2026-08-28)
+
+Codex가 `fe5bdb8`("feat: enforce evidence actions for regular MUD review")을 커밋하고 `origin/main`에 push했습니다(이 커밋은 본 문서의 `fe5c5bf`를 부모로 포함 — 로컬 저장소를 공유하는 구조라 별도 병합 없이 그대로 이어짐). Claude 쪽에서 다음을 직접 재확인했습니다.
+
+- `git show --stat fe5bdb8` 및 `data/mud/regular_joseon_economy.json`·`regular_joseon_silhak.json` diff를 직접 확인한 결과, Phase 37이 추가한 20개 `scene`/`hotspots`/`interaction`/`completion.target`/단계 구조는 그대로이며, 이번 커밋은 `playTime` 필드와 §12에서 이미 기록한 실학 3/3-1단계 `narrative` 두 곳만 포함 — Codex 보고 내용과 정확히 일치함을 확인.
+- `data/mud/regular_bronze_age.json`에 추가된 `completion.uniqueActions`(경사로·굴림대·공동 노동 고유 액션 3개, opt-in)와 `js/mudEngine.js`의 판정 로직은 Bronze 2단계 전용이며 Phase 37 대상 6개 파일·20개 scene과는 무관.
+- 표준 검증 스크립트 9종, `node -c`(mudEngine.js/mudSimulators.js/app.js), `05_test_simulator_runtime.js`를 독립적으로 재실행해 전부 PASS 재확인.
+- `git fetch` 후 로컬 `main`과 `origin/main`이 `fe5bdb8`로 완전히 일치, 작업 트리 clean 확인.
+
+현재 Phase 37 관련 항목은 모두 종결되었고, 다음은 §10에 적은 대로 Phase 38(근현대 5종) 착수 대기 상태입니다.
