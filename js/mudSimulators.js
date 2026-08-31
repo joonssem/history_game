@@ -43,8 +43,9 @@ const MudSimulators = {
     const simMode = engine.simMode;
     const interaction = engine.currentSimulator?.interaction || simMode;
     let actionAccepted = false;
+    let hotspotInteracted = null;
 
-    if (simMode.startsWith('dolmen')) {
+    if (simMode.startsWith('dolmen') && !['hotspot-discovery', 'ordered-hotspot', 'resource-allocation', 'reflection'].includes(interaction)) {
       if (simMode === 'dolmen-step1') {
         if (!engine.dolmenState.baseSet) {
           engine.dolmenState.baseSet = true;
@@ -87,9 +88,11 @@ const MudSimulators = {
         if (window.sounds) window.sounds.playFanfare();
       }
     } else if (interaction === 'ordered-hotspot') {
-      actionAccepted = this.dispatchHotspotInteraction(simMode, this.getPaleoHotspot(simMode, x, y, canvas), engine);
+      hotspotInteracted = this.getPaleoHotspot(simMode, x, y, canvas);
+      actionAccepted = this.dispatchHotspotInteraction(simMode, hotspotInteracted, engine);
     } else if (interaction === 'hotspot-discovery' || interaction === 'resource-allocation' || interaction === 'reflection') {
-      actionAccepted = this.dispatchHotspotInteraction(simMode, this.getPaleoHotspot(simMode, x, y, canvas), engine);
+      hotspotInteracted = this.getPaleoHotspot(simMode, x, y, canvas);
+      actionAccepted = this.dispatchHotspotInteraction(simMode, hotspotInteracted, engine);
     } else if (simMode === 'neolithic-pottery' || simMode.startsWith('economy') || simMode.startsWith('battle-gauge') || simMode.startsWith('culture-touch') || simMode.startsWith('text-reading')) {
       engine.gaugeProgress = Math.min(100, (engine.gaugeProgress || 0) + engine.simulatorIncrement());
       actionAccepted = true;
@@ -120,7 +123,10 @@ const MudSimulators = {
       if (window.sounds) window.sounds.playClick();
     }
 
-    if (actionAccepted) engine.registerSimulatorAction();
+    if (actionAccepted) {
+      engine.registerSimulatorAction();
+      if (hotspotInteracted) engine.registerUniqueSimulatorAction(hotspotInteracted.id);
+    }
     engine.updateSimulatorCompletion();
     this.renderAlternativeControls();
   },
@@ -576,6 +582,34 @@ const MudSimulators = {
       ctx.fillStyle = '#539ab4'; ctx.beginPath(); ctx.moveTo(0, h * 0.44); ctx.bezierCurveTo(w * 0.2, h * 0.5, w * 0.13, h * 0.78, 0, h); ctx.lineTo(w * 0.2, h); ctx.bezierCurveTo(w * 0.3, h * 0.7, w * 0.32, h * 0.55, w * 0.18, h * 0.42); ctx.closePath(); ctx.fill();
       ctx.fillStyle = '#755640'; ctx.beginPath(); ctx.ellipse(w * 0.78, groundY, w * 0.16, h * 0.12, 0, Math.PI, 0); ctx.fill(); ctx.fillStyle = '#47362a'; ctx.beginPath(); ctx.arc(w * 0.78, groundY, w * 0.05, Math.PI, 0); ctx.fill();
       ctx.strokeStyle = '#c8a84f'; ctx.lineWidth = 3; [0.42, 0.47, 0.52, 0.57].forEach(x => { ctx.beginPath(); ctx.moveTo(w * x, h * 0.72); ctx.lineTo(w * x + 10, h * 0.92); ctx.stroke(); });
+      return true;
+    }
+    if (scene === 'bronze-dolmen-transport') {
+      fillSky('#c9d9df', '#e9dfc2', '#9b825d');
+      ctx.fillStyle = '#7b6447';
+      ctx.beginPath();
+      ctx.moveTo(w * 0.08, h * 0.72);
+      ctx.lineTo(w * 0.92, h * 0.72);
+      ctx.lineTo(w * 0.78, h * 0.51);
+      ctx.lineTo(w * 0.22, h * 0.51);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = '#8d9a86';
+      ctx.fillRect(w * 0.36, h * 0.36, w * 0.28, h * 0.09);
+      ctx.fillStyle = '#6f7b70';
+      ctx.fillRect(w * 0.4, h * 0.46, w * 0.06, h * 0.23);
+      ctx.fillRect(w * 0.54, h * 0.46, w * 0.06, h * 0.23);
+      ctx.strokeStyle = '#72553a';
+      ctx.lineWidth = 5;
+      for (let x = 0.31; x <= 0.69; x += 0.09) {
+        ctx.beginPath();
+        ctx.moveTo(w * x, h * 0.63);
+        ctx.lineTo(w * (x + 0.04), h * 0.69);
+        ctx.stroke();
+      }
+      ctx.fillStyle = '#4d6b55';
+      ctx.fillRect(w * 0.08, h * 0.24, w * 0.12, h * 0.04);
+      ctx.fillRect(w * 0.8, h * 0.28, w * 0.1, h * 0.04);
       return true;
     }
     if (scene === 'neolithic-pottery') {
@@ -1361,7 +1395,10 @@ const MudSimulators = {
 
     let actionAccepted = false;
     actionAccepted = this.dispatchHotspotInteraction(engine.simMode, hotspot, engine);
-    if (actionAccepted) engine.registerSimulatorAction();
+    if (actionAccepted) {
+      engine.registerSimulatorAction();
+      engine.registerUniqueSimulatorAction(hotspot.id);
+    }
     engine.updateSimulatorCompletion();
     this.renderAlternativeControls();
     this.drawSim();

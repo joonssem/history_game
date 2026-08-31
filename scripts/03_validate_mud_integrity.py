@@ -69,6 +69,27 @@ def main() -> int:
         fail(errors, "artifacts.json contains duplicate IDs")
 
     index_data = json.loads(INDEX.read_text(encoding="utf-8"))
+    index_items = index_data.get("muds", [])
+    index_ids: set[str] = set()
+    primary_slots: dict[tuple[int, int], str] = {}
+    for item in index_items:
+        mud_id = item.get("mudId")
+        if not isinstance(mud_id, str) or not mud_id:
+            fail(errors, "_index.json contains an item without a valid mudId")
+            continue
+        if mud_id in index_ids:
+            fail(errors, f"_index.json contains duplicate mudId: {mud_id}")
+        index_ids.add(mud_id)
+        placement = item.get("placement", "primary")
+        if placement not in {"primary", "supplementary"}:
+            fail(errors, f"{mud_id}: invalid placement {placement!r}")
+        if item.get("tier") == "regular" and placement == "primary":
+            for lesson_number in item.get("lessonNumbers", []):
+                slot = (item.get("unitId"), lesson_number)
+                previous = primary_slots.get(slot)
+                if previous and previous != mud_id:
+                    fail(errors, f"_index.json has duplicate primary MUD for unit/lesson {slot}: {previous}, {mud_id}")
+                primary_slots[slot] = mud_id
     index_files = {item["file"] for item in index_data["muds"]}
     actual_files = {path.name for path in MUD_DIR.glob("*.json") if path.name != "_index.json"}
     for missing in sorted(index_files - actual_files):

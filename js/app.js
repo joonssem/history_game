@@ -49,6 +49,7 @@ function findIndexedMud(unitId, lesson) {
   const lessonNumbers = display.match(/\d+/g)?.map(Number) || [];
   return mudIndexData.find(mud =>
     mud.tier === 'regular' &&
+    mud.placement !== 'supplementary' &&
     mud.unitId === unitId &&
     mud.lessonNumbers.some(number => lessonNumbers.includes(number))
   );
@@ -103,7 +104,8 @@ function renderCurriculum(unitId) {
       if (indexedMud) {
         btnHtml = `<button onclick="MudEngine.openMUD('${indexedMud.mudId}')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> ${indexedMud.title}</button>`;
       // 레거시 조건 매핑: 인덱스에 없는 차시의 예비 경로
-      } else if (num === 2 || title.includes('구석기')) {
+      } else if (!mudIndexData.length) {
+        if (num === 2 || title.includes('구석기')) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_paleolithic')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🪨 구석기 생존 MUD</button>`;
       } else if (num === 3 || title.includes('신석기')) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_neolithic')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🏺 신석기 빗살무늬 MUD</button>`;
@@ -163,6 +165,7 @@ function renderCurriculum(unitId) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_korean_war')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-play"></i> 🪖 6·25 전쟁과 조국 수호 MUD</button>`;
       } else if (unitId === 3 && (num === 12 || num === 46 || title.includes('전쟁 이후') || title.includes('피난민') || display.includes('12차시'))) {
         btnHtml = `<button onclick="MudEngine.openMUD('regular_post_war')" class="btn" style="background-color: ${lesson.color.hex};"><i class="fas fa-hand-holding-heart"></i> 🕊️ 전후 피난민과 재건 MUD</button>`;
+      }
       }
       // 골든벨 퀴즈
       else if (num === 20 || num === 34 || num === 48 || title.includes('정리') || title.includes('골든벨')) {

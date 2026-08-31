@@ -475,7 +475,7 @@
       "simulator": {
         "mode": "paleo-reflection",
         "interaction": "reflection",
-        "required": false,
+        "required": true,
         "completion": {
           "target": 3,
           "increment": 1,

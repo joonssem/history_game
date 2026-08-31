@@ -14,6 +14,19 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MUD_DIR = ROOT / "data" / "mud"
 
+# These legacy renderers already reject duplicate targets or enforce an
+# ordered/distinct interaction in their runtime state, even though the
+# contract is not represented by JSON hotspots.
+KNOWN_DISTINCT_INTERACTION_MODES = {
+    "paleo-environment",
+    "paleo-fire",
+    "paleo-stone",
+    "paleo-hunt",
+    "paleo-community",
+    "paleo-reflection",
+    "mn-combat-active",
+}
+
 
 def main() -> None:
     candidates = []
@@ -31,6 +44,8 @@ def main() -> None:
             actions = simulator.get("actions")
             if simulator.get("type") == "buttons" and isinstance(actions, list) and actions:
                 # Distinct configured actions are not the repeated canvas-tap path.
+                continue
+            if simulator.get("mode") in KNOWN_DISTINCT_INTERACTION_MODES:
                 continue
             if hotspots or not isinstance(min_actions, (int, float)):
                 continue

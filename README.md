@@ -168,10 +168,14 @@
 
 * 📋 [agents.md](./agents.md) — AI 에이전트 협업 체계 및 Phase별 개발 기록
 * 📖 [project_context.md](./project_context.md) — 전체 MUD 목록, 시뮬레이터 명세, 미해결 이슈
+* 🧪 [BROWSER_REGRESSION_CHECKLIST.md](./BROWSER_REGRESSION_CHECKLIST.md) — 브라우저·태블릿 수동 회귀 점검 기준
 * 🧭 [PRD.md](./PRD.md) — 제품 목표, 사용자, 범위, 수용 기준
 * 📝 [BACKLOG.md](./BACKLOG.md) — 미완료 기획·검토 항목
 * ⚖️ [DECISIONS.md](./DECISIONS.md) — 장기 설계 결정과 근거
 * 🧾 [walkthrough.md](./walkthrough.md) — 완료 작업의 누적 기록
+* 🧱 [TECH_STACK.md](./TECH_STACK.md) — 기술 선택과 시스템 경계
+* 🔀 [USER_FLOWS.md](./USER_FLOWS.md) — 학생·기능별 사용자 흐름과 플로우차트
+* 🖼️ [WIREFRAMES.md](./WIREFRAMES.md) — 핵심 화면 저충실도 와이어프레임
 
 ---
 

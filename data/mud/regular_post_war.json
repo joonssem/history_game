@@ -87,16 +87,23 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "post-war-evidence",
+        "interaction": "hotspot-discovery",
         "type": "gauge",
+        "hotspots": [
+          { "id": "war-damage", "label": "전쟁 피해", "x": 0.22, "y": 0.48, "feedback": "전쟁은 집과 일터를 무너뜨리고 많은 사람을 피난길에 오르게 했습니다." },
+          { "id": "refugee-help", "label": "서로 돕기", "x": 0.5, "y": 0.65, "feedback": "피난민과 지역 주민은 어려운 환경에서 식량과 거처를 나누며 생활을 이어 갔습니다." },
+          { "id": "reconstruction-conditions", "label": "재건 조건", "x": 0.78, "y": 0.48, "feedback": "전후 재건에는 시민의 노력뿐 아니라 교육·정책·국제 원조 등 여러 조건이 작용했습니다." }
+        ],
         "gaugeLabel": "피난민 재건 에너지:",
-        "instruction": "🏚️ <b>화면을 터치하여 무너진 판잣집을 세우고 따뜻한 밥 한 그릇을 나누세요!</b>",
+        "instruction": "🏚️ <b>전쟁 피해와 서로 돕기, 재건의 조건을 모두 확인하세요.</b>",
         "feedback": "따뜻한 연대와 함께 재건의 불씨가 살아났습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }
@@ -153,16 +160,23 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "post-war-evidence",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "tent-classroom", "label": "천막 교실", "x": 0.22, "y": 0.48, "feedback": "학교가 무너진 뒤에도 천막 교실 같은 임시 공간에서 수업이 이어졌습니다." },
+          { "id": "learning-continuity", "label": "배움 이어가기", "x": 0.5, "y": 0.65, "feedback": "어려운 환경에서도 학생과 교사는 배움을 이어 가려 노력했습니다." },
+          { "id": "regional-difference", "label": "지역별 조건", "x": 0.78, "y": 0.48, "feedback": "전후 교육의 조건은 지역과 가정 형편에 따라 달랐다는 점도 함께 살펴야 합니다." }
+        ],
         "infoText": "유네스코(UNESCO)와 전 세계는 전쟁 중에도 아이들의 손에서 연필을 놓지 않게 한 한국의 교육열에 깊이 감동했습니다.",
-        "instruction": "📖 <b>사과 궤짝 책상과 몽당연필의 배움 열정을 확인하세요</b>",
+        "instruction": "📖 <b>천막 교실과 배움의 지속, 지역별 조건을 모두 확인하세요.</b>",
         "feedback": "천막 교실에서 대한민국의 밝은 미래가 자라났습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }
@@ -219,16 +233,23 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "post-war-evidence",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "separated-families", "label": "이산가족 기록", "x": 0.22, "y": 0.48, "feedback": "이산가족 기록은 분단이 개인과 가족에게 남긴 긴 시간의 상처를 보여 줍니다." },
+          { "id": "dmz", "label": "DMZ", "x": 0.5, "y": 0.65, "feedback": "비무장지대는 정전 뒤에도 분단이 이어지고 있음을 보여 주는 공간입니다." },
+          { "id": "peace-exchange", "label": "대화·교류", "x": 0.78, "y": 0.48, "feedback": "평화를 위해서는 대화·교류·안전·인권을 위한 여러 노력이 필요합니다." }
+        ],
         "infoText": "전쟁의 상흔을 치유하고 평화로운 미래를 여는 것은 오늘의 우리에게 맡겨진 가장 소중한 역사적 사명입니다.",
-        "instruction": "🕊️ <b>철조망을 녹이고 평화 통일의 비둘기를 날리세요</b>",
+        "instruction": "🕊️ <b>분단의 상처와 평화를 위한 노력을 모두 확인하세요.</b>",
         "feedback": "평화와 화해의 따뜻한 빛이 온 강토에 비추었습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }

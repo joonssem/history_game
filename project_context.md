@@ -72,6 +72,9 @@ history_game/
 ├── PRD.md                              # 제품 목표·범위·수용 기준
 ├── BACKLOG.md                          # 미완료 기획·검토 항목
 ├── DECISIONS.md                        # 장기 설계 결정 기록
+├── TECH_STACK.md                        # 기술 선택과 시스템 경계
+├── USER_FLOWS.md                        # 사용자 흐름과 플로우차트
+├── WIREFRAMES.md                         # 핵심 화면 와이어프레임
 ├── if_stage_audit.md                   # Regular 재시도(IF) 단계 구조 감사
 ├── artifact_audit.md                   # 유물·보상 카드 교육 품질 감사
 ├── walkthrough.md                      # 완료 작업 누적 기록
@@ -118,7 +121,8 @@ history_game/
 
 ### 부분적으로 구현된 기능
 
-- **_index.json 활용**: Regular MUD는 인덱스 기반 매핑을 우선 사용하며, 기존 조건문은 호환성을 위한 fallback으로 남아 있음
+- **_index.json 활용**: Regular MUD는 인덱스 기반 매핑을 우선 사용하며, 기존 조건문은 호환성을 위한 fallback으로 남아 있음. 현재 2단원 7차시와 3단원 12차시는 인덱스 중복 매칭이 있어 단일 등록원 전환 전에 주·보조 MUD 계약을 확정해야 함
+- **브라우저 회귀 점검**: 실제 화면·터치·접근성 확인 순서는 [`BROWSER_REGRESSION_CHECKLIST.md`](./BROWSER_REGRESSION_CHECKLIST.md)에 기록함
 
 ---
 
@@ -244,7 +248,8 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 ### 기술 부채
 
-- `app.js`의 `renderCurriculum()` 내 MUD 버튼 조건문이 140줄 이상의 if-else 체인으로 구성됨. 새 MUD 추가 시 이 체인에 계속 붙여야 하므로 유지보수 어려움
+- `app.js`의 `renderCurriculum()` 내 MUD 버튼 조건문이 140줄 이상의 if-else 체인으로 구성됨. 새 MUD 추가 시 이 체인에 계속 붙여야 하므로 유지보수 어려움. 등록 단일화 계획은 [`implementation_plan_registration_single_source.md`](./implementation_plan_registration_single_source.md)에서 관리함
+- `_index.json` 차시 중복 감사: 2단원 7차시는 `regular_myeongnyang`/`regular_joseon_diplomacy`, 3단원 12차시는 `regular_korean_war`/`regular_post_war`가 동시에 일치하여 배열 순서 의존성이 있음
 - `mudSimulators.js`의 `drawSim()`도 유사하게 simMode 분기가 많아 300줄 이상
 
 ---

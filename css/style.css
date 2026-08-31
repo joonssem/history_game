@@ -237,6 +237,36 @@
       background-color: var(--card-sub);
     }
 
+    .choice-marker {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: var(--card-sub);
+      border: 1px solid currentColor;
+    }
+
+    .choice-marker-0 {
+      color: #2D6A4F;
+      border-radius: 50%;
+    }
+
+    .choice-marker-1 {
+      color: #8A3B29;
+      border-radius: 6px;
+    }
+
+    .choice-marker-2 {
+      color: #1D4ED8;
+      border-radius: 50% 6px 50% 6px;
+    }
+
     .btn.disabled {
       background-color: #E2DCD0 !important;
       color: #8C847B !important;

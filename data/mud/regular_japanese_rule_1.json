@@ -87,16 +87,23 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "colonial-1910s-evidence",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "military-police", "label": "헌병 경찰", "x": 0.22, "y": 0.48, "feedback": "헌병 경찰은 행정·사법·치안을 장악해 조선인의 일상과 자유를 제한했습니다." },
+          { "id": "summary-punishment", "label": "즉결 처벌", "x": 0.5, "y": 0.65, "feedback": "재판 절차를 충분히 거치지 않은 처벌 권한은 식민 통치의 폭압성을 보여 줍니다." },
+          { "id": "daily-control", "label": "일상 통제", "x": 0.78, "y": 0.48, "feedback": "통치 제도는 경찰서 밖의 학교·거리·마을 생활에도 영향을 미쳤습니다." }
+        ],
         "infoText": "일제는 헌병 경찰에게 재판 없이 즉결 처벌할 수 있는 즉결심판권까지 주며 폭압을 일삼았습니다.",
-        "instruction": "✊ <b>조선태형령과 헌병 경찰 통치의 부당함을 고발하세요</b>",
+        "instruction": "✊ <b>헌병 경찰 통치가 사람들의 삶을 제한한 단서를 확인하세요.</b>",
         "feedback": "일제의 폭압에 맞선 저항의 불씨를 지켰습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }
@@ -153,16 +160,23 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "scene": "colonial-1910s-evidence",
+        "interaction": "hotspot-discovery",
         "type": "gauge",
+        "hotspots": [
+          { "id": "land-registration", "label": "토지 신고", "x": 0.22, "y": 0.48, "feedback": "토지 조사 사업은 신고 절차와 소유권 확인을 통해 토지 제도를 바꾸었습니다." },
+          { "id": "ownership-change", "label": "소유권 변화", "x": 0.5, "y": 0.65, "feedback": "토지 소유를 증명하기 어려웠던 농민에게 소유권 변화와 부담이 나타났습니다." },
+          { "id": "tenant-burden", "label": "농민 부담", "x": 0.78, "y": 0.48, "feedback": "토지 제도의 변화는 농민의 생활과 소작 관계에도 영향을 주었습니다." }
+        ],
         "gaugeLabel": "토지 수탈 저항 의지:",
-        "instruction": "📜 <b>화면을 터치하여 동양척식주식회사의 부당한 토지 약탈을 막아서세요!</b>",
+        "instruction": "📜 <b>토지 조사와 소유권 변화가 농민 생활에 준 영향을 확인하세요.</b>",
         "feedback": "농민들의 땅과 뼈아픈 역사의 기록을 지켜냈습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }
@@ -219,16 +233,23 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "colonial-1910s-evidence",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "secret-society", "label": "비밀 결사", "x": 0.22, "y": 0.48, "feedback": "비밀 결사는 감시와 탄압 속에서도 독립을 준비한 다양한 저항 활동을 보여 줍니다." },
+          { "id": "secret-oath", "label": "비밀 서약", "x": 0.5, "y": 0.65, "feedback": "서약문은 구성원들이 독립이라는 목표를 공유하고 행동을 약속했음을 보여 줍니다." },
+          { "id": "resistance-risk", "label": "저항의 위험", "x": 0.78, "y": 0.48, "feedback": "비밀 활동에는 발각과 처벌 위험이 따랐으며 참여자들의 경험을 함께 살펴야 합니다." }
+        ],
         "infoText": "비밀 결사 단원들은 발각되면 모진 고문을 당하면서도 결코 조국 독립의 비밀을 발설하지 않았습니다.",
-        "instruction": "🕊️ <b>대한광복회와 송죽회의 비밀 서약문을 확인하세요</b>",
+        "instruction": "🕊️ <b>비밀 결사의 목적·서약·활동 위험을 모두 확인하세요.</b>",
         "feedback": "암흑을 뚫고 3·1 만세 운동의 거대한 불씨가 타올랐습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }

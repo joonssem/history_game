@@ -280,21 +280,44 @@
       ],
       "simulator": {
         "mode": "dolmen-step3",
-        "type": "slider",
+        "type": "info",
         "required": true,
+        "interaction": "hotspot-discovery",
+        "scene": "bronze-dolmen-transport",
+        "hotspots": [
+          {
+            "id": "earth-ramp",
+            "label": "흙 경사로",
+            "feedback": "완만한 경사로가 덮개돌을 높이 올리는 길이 됩니다.",
+            "x": 0.24,
+            "y": 0.56
+          },
+          {
+            "id": "wooden-rollers",
+            "label": "통나무 굴림대",
+            "feedback": "통나무 굴림대가 돌과 땅 사이의 마찰을 줄입니다.",
+            "x": 0.52,
+            "y": 0.48
+          },
+          {
+            "id": "shared-labor",
+            "label": "공동 노동",
+            "feedback": "여러 사람이 힘을 모아 무거운 덮개돌을 움직입니다.",
+            "x": 0.78,
+            "y": 0.58
+          }
+        ],
         "completion": {
-          "target": 100,
-          "increment": 35,
+          "target": 3,
+          "increment": 1,
           "minActions": 3,
           "progressKey": "simulatorProgress",
+          "uniqueActions": true,
           "successText": "🪵 부족민의 힘으로 덮개돌을 받침돌 위에 올렸습니다."
         },
-        "sliderLabel": "동원 부족민 수:",
-        "sliderMin": 20,
-        "sliderMax": 100,
-        "sliderDefault": 50,
-        "instruction": "🪵 <b>통나무 굴림대 화면을 터치하여 거대한 덮개돌을 끌어올리세요!</b>",
-        "feedback": "부족민을 늘리고 화면을 탭하여 덮개돌을 전진시키세요!"
+        "infoText": "<b>🪵 거석 운반의 단서 3가지를 확인하세요.</b><br>흙 경사로·통나무 굴림대·공동 노동이 어떻게 덮개돌을 움직였는지 살펴보세요.",
+        "instruction": "🪵 <b>화면이나 아래 버튼으로 거석 운반의 단서 3가지를 확인하세요.</b>",
+        "feedback": "흙 경사로·통나무 굴림대·공동 노동을 차례로 살펴보세요."
       }
     },
     "3-1": {

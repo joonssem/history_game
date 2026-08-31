@@ -94,16 +94,41 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "independence-evidence",
+        "interaction": "hotspot-discovery",
         "type": "gauge",
+        "hotspots": [
+          {
+            "id": "declaration-purpose",
+            "label": "독립 의지",
+            "x": 0.24,
+            "y": 0.43,
+            "feedback": "독립선언서는 민족의 독립 의지를 세계에 알리려는 자료입니다."
+          },
+          {
+            "id": "many-participants",
+            "label": "여러 계층",
+            "x": 0.5,
+            "y": 0.62,
+            "feedback": "학생과 시민 등 다양한 계층이 3·1 운동에 참여했습니다."
+          },
+          {
+            "id": "peaceful-method",
+            "label": "비폭력 시위",
+            "x": 0.76,
+            "y": 0.43,
+            "feedback": "많은 시위가 무기를 들지 않고 평화적으로 독립을 외쳤습니다."
+          }
+        ],
         "gaugeLabel": "만세 함성 확산도:",
-        "instruction": "🇰🇷 <b>화면을 연속 터치하여 독립 만세의 함성을 드높이세요!</b>",
+        "instruction": "🇰🇷 <b>독립선언서와 시위 방법의 단서를 모두 확인하세요.</b>",
         "feedback": "대한 독립 만세의 함성이 전국으로 울려 퍼졌습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }
@@ -160,16 +185,41 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "scene": "independence-evidence",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          {
+            "id": "student-participation",
+            "label": "학생 참여",
+            "x": 0.24,
+            "y": 0.43,
+            "feedback": "학생들은 학교와 거리에서 독립을 외치며 운동에 참여했습니다."
+          },
+          {
+            "id": "local-residents",
+            "label": "지역 주민",
+            "x": 0.5,
+            "y": 0.62,
+            "feedback": "아우내 장터에서는 학생과 지역 주민이 함께 만세 시위에 참여했습니다."
+          },
+          {
+            "id": "taegeukgi-rally",
+            "label": "태극기·만세",
+            "x": 0.76,
+            "y": 0.43,
+            "feedback": "태극기를 들고 만세를 외치는 행동은 독립 의지를 널리 알렸습니다."
+          }
+        ],
         "infoText": "유관순 열사의 아우내 장터 만세 운동은 3·1 운동의 대표적인 상징입니다.",
-        "instruction": "🇰🇷 <b>아우내 장터에 태극기를 드높이세요</b>",
+        "instruction": "🇰🇷 <b>학생·주민의 참여와 시위 방법을 차례로 확인하세요.</b>",
         "feedback": "아우내 장터에 3천 명의 함성이 가득 찼습니다.",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }
@@ -226,16 +276,41 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "independence-evidence",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          {
+            "id": "temporary-charter",
+            "label": "임시헌장",
+            "x": 0.24,
+            "y": 0.43,
+            "feedback": "대한민국 임시헌장은 새로운 국가의 원칙을 글로 정리한 자료입니다."
+          },
+          {
+            "id": "people-sovereignty",
+            "label": "국민 주권",
+            "x": 0.5,
+            "y": 0.62,
+            "feedback": "임시정부는 왕이 아닌 국민이 나라의 주인이라는 원칙을 내세웠습니다."
+          },
+          {
+            "id": "republic-comparison",
+            "label": "민주공화제",
+            "x": 0.76,
+            "y": 0.43,
+            "feedback": "민주공화제는 국민의 대표와 법에 따라 나라를 운영하는 정치 체제입니다."
+          }
+        ],
         "infoText": "대한민국 임시정부는 삼권분립과 민주공화제를 표방하며 독립운동을 이끈 정부였습니다.",
-        "instruction": "🏛️ <b>민주공화국 대한민국의 헌장을 선포하세요</b>",
+        "instruction": "🏛️ <b>임시헌장과 민주공화제의 단서를 모두 확인하세요.</b>",
         "feedback": "대한민국 임시헌장 제1조 '대한민국은 민주공화제로 함'이 제정되었습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }

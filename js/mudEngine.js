@@ -233,13 +233,15 @@ const MudEngine = {
       btn.style.justifyContent = 'space-between';
       btn.setAttribute('aria-label', `선택지 ${index + 1}: ${ch.text}`);
       btn.disabled = Boolean(this.currentSimulator?.required && !this.simulatorComplete);
+      btn.setAttribute('aria-disabled', String(btn.disabled));
       if (btn.disabled) {
         btn.style.opacity = '0.45';
         btn.style.cursor = 'not-allowed';
       }
+      const choiceMarker = ['A', 'B', 'C', 'D'][index] || String(index + 1);
       btn.innerHTML = `
         <span>${ch.text}</span>
-        <span style="font-size: 0.75rem; background: var(--card-sub); padding: 2px 6px; border-radius: 4px; white-space: nowrap;">선택 ${index + 1} →</span>
+        <span class="choice-marker choice-marker-${index % 3}" aria-hidden="true">${choiceMarker}</span>
       `;
       btn.onclick = () => {
         if (ch.sound && window.sounds) {
@@ -323,7 +325,8 @@ const MudEngine = {
       const grid = document.getElementById('mn-choices-grid');
       if (grid) {
         grid.querySelectorAll('button').forEach(btn => {
-          btn.disabled = false;
+        btn.disabled = false;
+        btn.setAttribute('aria-disabled', 'false');
           btn.style.opacity = '';
           btn.style.cursor = '';
         });

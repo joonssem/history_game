@@ -137,6 +137,7 @@
     {
       "mudId": "regular_myeongnyang",
       "tier": "regular",
+      "placement": "supplementary",
       "unitId": 2,
       "lessonNumbers": [
         7
@@ -301,6 +302,7 @@
     {
       "mudId": "regular_korean_war",
       "tier": "regular",
+      "placement": "supplementary",
       "unitId": 3,
       "lessonNumbers": [
         10,

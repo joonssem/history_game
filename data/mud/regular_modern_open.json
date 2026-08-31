@@ -88,16 +88,41 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "modern-open-evidence",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          {
+            "id": "treaty-pressure",
+            "label": "무력 위협",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "강화도 조약은 일본의 무력 위협 속에서 체결된 조약입니다."
+          },
+          {
+            "id": "extraterritoriality",
+            "label": "치외법권",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "치외법권은 일본인이 조선 법률이 아닌 일본 영사의 재판을 받게 한 조항입니다."
+          },
+          {
+            "id": "coastal-survey",
+            "label": "해안 측량권",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "해안 측량권은 조선의 바다와 해안에 대한 주권을 제한한 조항입니다."
+          }
+        ],
         "infoText": "강화도 조약으로 부산, 원산, 인천 3개 항구가 차례로 열리며 조선은 세계 무대로 내던져졌습니다.",
-        "instruction": "📜 <b>불평등 조약의 실체를 파악하세요</b>",
+        "instruction": "📜 <b>조약의 체결 배경과 불평등 조항을 모두 확인하세요.</b>",
         "feedback": "개항과 함께 자주적 근대화의 무거운 과제가 주어졌습니다.",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }
@@ -154,16 +179,41 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "modern-open-evidence",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          {
+            "id": "jejungwon",
+            "label": "제중원",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "제중원은 서양 의학을 받아들인 근대식 병원으로 사람들의 치료 기회를 넓혔습니다."
+          },
+          {
+            "id": "ujeongchongguk",
+            "label": "우정총국",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "우정총국은 근대적 우편 제도를 시작해 사람과 소식의 이동을 바꾸었습니다."
+          },
+          {
+            "id": "unequal-access",
+            "label": "이용의 한계",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "새 시설이 생겨도 모든 사람이 같은 조건으로 이용할 수 있었던 것은 아닙니다."
+          }
+        ],
         "infoText": "제중원은 신분 차별 없이 가난한 백성까지 평등하게 치료한 사랑과 의술의 공간이었습니다.",
-        "instruction": "🏥 <b>근대식 의술과 통신을 보급하세요</b>",
+        "instruction": "🏥 <b>근대 시설의 변화와 이용의 한계를 함께 확인하세요.</b>",
         "feedback": "근대 병원과 우편망이 전국으로 뻗어나갔습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }
@@ -220,16 +270,41 @@
       ],
       "simulator": {
         "mode": "culture-touch",
+        "scene": "modern-open-evidence",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          {
+            "id": "tram-route",
+            "label": "전차 노선",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "1899년 전차는 서대문과 청량리 사이를 오가며 도시 이동을 바꾸었습니다."
+          },
+          {
+            "id": "electric-light",
+            "label": "전등",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "전등은 도시의 밤과 사람들의 생활 시간을 바꾼 새로운 시설이었습니다."
+          },
+          {
+            "id": "urban-change",
+            "label": "도시 생활 변화",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "전차와 전등은 도시 생활을 바꾸었지만 사회 전체의 변화는 여러 조건이 함께 작용한 결과입니다."
+          }
+        ],
         "infoText": "전차는 신분 차별 없이 누구나 나란히 앉아 타던 평등한 근대 대중교통이었습니다.",
-        "instruction": "🚋 <b>한양 전차에 올라타 근대의 거리를 달려보세요</b>",
+        "instruction": "🚋 <b>전차·전등이 도시 생활에 준 변화를 모두 확인하세요.</b>",
         "feedback": "전차가 '땡땡' 소리를 내며 종로 거리를 시원하게 달립니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }

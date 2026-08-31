@@ -143,14 +143,14 @@
           </div>
 
           <div style="position: relative; height: 210px; background: #0c1222; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color);">
-            <canvas id="mn-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%;"></canvas>
-            <div id="mn-canvas-instr" style="position: absolute; top: 8px; left: 8px; right: 8px; background: rgba(249, 246, 240, 0.95); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 8px; font-size: 0.75rem; text-align: center; color: var(--text-main);"></div>
+            <canvas id="mn-canvas" role="img" aria-describedby="mn-canvas-instr mn-canvas-feedback" aria-label="현재 역사 시뮬레이터. 화면 아래의 대체 조작 버튼도 사용할 수 있습니다." style="position: absolute; inset: 0; width: 100%; height: 100%;"></canvas>
+            <div id="mn-canvas-instr" role="note" style="position: absolute; top: 8px; left: 8px; right: 8px; background: rgba(249, 246, 240, 0.95); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 8px; font-size: 0.75rem; text-align: center; color: var(--text-main);"></div>
           </div>
 
           <div id="mn-canvas-feedback" role="status" aria-live="polite" style="margin-top: 8px; background: var(--card-sub); color: var(--text-main); border-radius: 6px; padding: 7px 8px; font-size: 0.85rem; text-align: center;">
             화면을 터치하여 체험을 진행하세요!
           </div>
-          <div id="mn-hotspot-actions" aria-label="시뮬레이터 대체 조작" style="display: none; margin-top: 8px; gap: 6px; flex-wrap: wrap;"></div>
+          <div id="mn-hotspot-actions" role="group" aria-label="시뮬레이터 대체 조작" style="display: none; margin-top: 8px; gap: 6px; flex-wrap: wrap;"></div>
 
           <div id="mn-controls" style="margin-top: 12px;">
             <div id="widget-info" style="font-size: 0.85rem; background: var(--card-sub); padding: 10px; border-radius: 8px; color: #554D46;">
@@ -159,7 +159,7 @@
             <div id="widget-gauge" style="display: none; background: var(--card-sub); padding: 10px; border-radius: 8px;">
               <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
                 <span id="gauge-label">진행도:</span>
-                <strong id="gauge-progress" style="color: var(--accent-red);">0%</strong>
+                <strong id="gauge-progress" role="status" aria-live="polite" style="color: var(--accent-red);">0%</strong>
               </div>
               <div style="width: 100%; background: #DDD4C7; height: 8px; border-radius: 4px; overflow: hidden;">
                 <div id="gauge-bar" style="width: 0%; height: 100%; background: var(--accent-red); transition: width 0.3s ease;"></div>
@@ -189,9 +189,9 @@
   <!-- ============================================ -->
   <!-- 3. [골든벨 퀴즈 모달] -->
   <!-- ============================================ -->
-  <div id="view-quiz-modal" style="display: none; position: fixed; inset: 0; z-index: 100; background: rgba(44, 39, 36, 0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 16px;">
+  <div id="view-quiz-modal" role="dialog" aria-modal="true" aria-labelledby="quiz-modal-title" style="display: none; position: fixed; inset: 0; z-index: 100; background: rgba(44, 39, 36, 0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 16px;">
     <div style="background: var(--card-bg); max-width: 620px; width: 100%; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); position: relative;">
-      <button onclick="closeQuizModal()" style="position: absolute; top: 16px; right: 16px; background: var(--card-sub); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 10px; cursor: pointer; font-weight: 700;">✕ 닫기</button>
+      <button type="button" aria-label="골든벨 퀴즈 닫기" onclick="closeQuizModal()" style="position: absolute; top: 16px; right: 16px; background: var(--card-sub); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 10px; cursor: pointer; font-weight: 700;">✕ 닫기</button>
       
       <!-- 골든벨 단원 선택 탭 -->
       <div style="display: flex; gap: 6px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);">
@@ -220,15 +220,15 @@
   <!-- ============================================ -->
   <!-- 4. [역사 도감 모달] -->
   <!-- ============================================ -->
-  <div id="view-encyclopedia-modal" style="display: none; position: fixed; inset: 0; z-index: 100; background: rgba(20, 16, 15, 0.85); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 16px;">
+  <div id="view-encyclopedia-modal" role="dialog" aria-modal="true" aria-labelledby="encyclopedia-modal-title" style="display: none; position: fixed; inset: 0; z-index: 100; background: rgba(20, 16, 15, 0.85); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 16px;">
     <div style="background: #25201D; max-width: 960px; width: 100%; max-height: 90vh; overflow-y: auto; border: 2px solid #5A4E46; border-radius: 18px; padding: 24px; box-shadow: 0 16px 40px rgba(0,0,0,0.5); position: relative; color: #FFF;">
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #443B36; padding-bottom: 12px; margin-bottom: 16px;">
-        <h2 style="font-family: 'SchoolSafetyNotification', sans-serif; font-size: 1.35rem; color: #F7E7CE; margin-bottom: 0;">
+        <h2 id="encyclopedia-modal-title" style="font-family: 'SchoolSafetyNotification', sans-serif; font-size: 1.35rem; color: #F7E7CE; margin-bottom: 0;">
           📜 나의 역사 국보 도감 & 업적 보관소
         </h2>
         <div style="display: flex; gap: 8px;">
           <button onclick="window.encyclopedia.resetProgress()" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF444466; color: #FCA5A5; border-radius: 8px; padding: 5px 12px; font-size: 0.8rem; cursor: pointer; font-weight: 600;">초기화</button>
-          <button onclick="closeEncyclopediaModal()" style="background: #3A322D; border: 1px solid #5A4E46; color: #FFF; border-radius: 8px; padding: 5px 14px; font-size: 0.9rem; cursor: pointer; font-weight: 700;">✕ 닫기</button>
+          <button type="button" aria-label="역사 도감 닫기" onclick="closeEncyclopediaModal()" style="background: #3A322D; border: 1px solid #5A4E46; color: #FFF; border-radius: 8px; padding: 5px 14px; font-size: 0.9rem; cursor: pointer; font-weight: 700;">✕ 닫기</button>
         </div>
       </div>
       <div id="encyclopedia-content"></div>
