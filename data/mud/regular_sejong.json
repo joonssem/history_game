@@ -95,16 +95,22 @@
       "simulator": {
         "mode": "text-reading",
         "scene": "hunminjeongeum-lab",
-        "type": "gauge",
-        "gaugeLabel": "훈민정음 창제도:",
-        "instruction": "📖 <b>자음과 모음의 원리를 터치하여 훈민정음을 완성하세요!</b>",
-        "feedback": "훈민정음 28자가 완성되었습니다!",
+        "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {"id":"consonants","label":"발음 기관 모양","x":0.25,"y":0.48,"feedback":"ㄱ·ㄴ·ㅁ·ㅅ·ㅇ은 발음 기관의 모양을 본뜬 자음 자료입니다."},
+          {"id":"vowels","label":"하늘·땅·사람","x":0.5,"y":0.62,"feedback":"ㆍ·ㅡ·ㅣ는 하늘·땅·사람의 원리를 담은 모음 자료입니다."},
+          {"id":"haerye","label":"해례 자료","x":0.76,"y":0.48,"feedback":"해례는 글자의 원리와 쓰임을 설명해 창제 의도를 보여 줍니다."}
+        ],
+        "instruction": "📖 <b>발음 기관·삼재·해례 자료를 각각 확인하세요.</b>",
+        "feedback": "훈민정음 창제 원리의 세 단서를 살펴보세요.",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "uniqueActions": true,
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }
@@ -169,15 +175,24 @@
         "mode": "text-reading",
         "scene": "chiljeongsan-observatory",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {"id":"hanseong","label":"한양 관측 기준","x":0.24,"y":0.5,"feedback":"한양을 기준으로 관측 환경을 반영하려 했습니다."},
+          {"id":"planets","label":"칠정산 계산","x":0.5,"y":0.62,"feedback":"해·달과 다섯 행성의 운행을 계산한 역법 자료입니다."},
+          {"id":"agriculture","label":"농사와 절기","x":0.76,"y":0.5,"feedback":"관측과 달력은 농사와 행정에 필요한 정보를 마련하려는 활동이었습니다."}
+        ],
+        "instruction": "🌌 <b>한양 기준·천체 계산·농사 활용 자료를 확인하세요.</b>",
+        "feedback": "칠정산이 어떤 환경과 필요를 반영했는지 살펴보세요.",
         "infoText": "칠정산은 조선의 관측 환경을 반영해 만든 자주적인 천문 역법서로, 당시 천문학의 수준을 보여 줍니다.",
         "instruction": "🌌 <b>한양 기준의 천문 역법을 확립하세요</b>",
         "feedback": "칠정산 내편과 외편이 완성되었습니다.",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "uniqueActions": true,
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }
@@ -246,15 +261,24 @@
         "mode": "culture-touch",
         "scene": "angbuilgu-street",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {"id":"shadow","label":"그림자 눈금","x":0.24,"y":0.5,"feedback":"앙부일구는 그림자의 위치로 시각을 읽습니다."},
+          {"id":"zodiac","label":"12지신 그림","x":0.5,"y":0.62,"feedback":"동물 그림은 글을 모르는 사람도 시간을 살피도록 도왔습니다."},
+          {"id":"street","label":"종로의 공공 시계","x":0.76,"y":0.5,"feedback":"사람들이 오가는 거리에 설치해 과학 기술을 함께 사용했습니다."}
+        ],
+        "instruction": "☀️ <b>그림자 눈금·12지신·공공 설치 자료를 확인하세요.</b>",
+        "feedback": "앙부일구가 누구를 위한 기구였는지 살펴보세요.",
         "infoText": "앙부일구는 백성들이 자유롭게 드나드는 종로 거리에 설치된 조선의 공공 시계였습니다.",
         "instruction": "☀️ <b>백성을 위한 앙부일구를 설치하세요</b>",
         "feedback": "백성들이 시간을 알고 과학의 혜택을 누리게 되었습니다.",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "uniqueActions": true,
           "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
         }
       }
