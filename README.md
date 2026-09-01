@@ -16,10 +16,11 @@
 - **활동 시간 감사**: Regular MUD는 10분 이내, 설계 목표 약 9분의 개인 복습 활동입니다. 자동 설계 지표 결과는 [`activity_duration_audit.md`](./activity_duration_audit.md)에서 관리합니다.
 - **활동 계층**: Regular MUD는 10분 이내(약 9분 목표)의 복습용이고, Deep-dive MUD는 여러 차시를 잇는 확장 탐구 활동입니다. 두 계층은 같은 시간·성공 기준으로 평가하지 않습니다.
 - **핵심 목표**: 단순 암기를 넘어 역사적 순간 속 '결단의 순간'을 체험하며 역사적 사고력과 문제 해결력 신장
+- **배포 방향**: 현재 GitHub Pages를 운영하며, 정적 구조를 유지한 Vercel 자동 배포를 향후 검토한다. Supabase는 익명 플레이 로그부터 단계적으로 검토한다.
 
 ---
 
-## 📊 현재 구축 현황 (v3.3 · 2026-08-25 기준)
+## 📊 현재 구축 현황 (v3.3 · 2026-09-01 기준)
 
 | 구분 | 수량 | 설명 |
 |---|---|---|
@@ -28,6 +29,19 @@
 | 수집형 유물 도감 | **36종** | MUD·스토리 클리어 시 자동 언락 및 탐험가 레벨 |
 | 단원별 골든벨 퀴즈 | **3개 단원** | 초성 퀴즈 & 사료 연계 문항 |
 | 인터랙티브 시뮬레이터 | **20종 모드** | 고인돌 물리, 명량해전, 태극기 컬러링 등 |
+
+## 🔁 교실 기반 개발 순환
+
+이 프로젝트는 실제 수업을 핵심 검증 환경으로 삼는다.
+
+```text
+기획 → 작은 구현 → 실제 수업 → 학생 행동·의견 관찰
+→ 진단 데이터 확인 → 가설 → 작은 수정 → 다시 수업
+```
+
+2026-09-01 수업에서는 1단원 2·3차시 활동이 연속으로 4분 이내 완료되었다. 이후에는 활동을 무조건 늘리기보다 선택지 편향·완료 조건·읽기 속도·교실 내 정보 공유를 구분해 진단한다. 상세 기준은 [`PRD.md`](./PRD.md)와 [`BACKLOG.md`](./BACKLOG.md)에 기록한다.
+
+게임성 확장은 문제 수를 단순히 늘리는 대신 탐험·발견·자료 추론·유물 활용·근거 공유를 중심으로 검토한다. 현재 백엔드와 데이터베이스는 구현되지 않았으며, 목표 아키텍처와 도입 단계는 [`TECH_STACK.md`](./TECH_STACK.md)와 [`DECISIONS.md`](./DECISIONS.md)에 기록한다.
 
 ---
 
@@ -151,7 +165,7 @@
 * **Frontend**: Pure Vanilla HTML5 / CSS3 / ES6+ JavaScript
 * **Graphics**: HTML5 Canvas 기반 커스텀 2D 인터랙티브 시뮬레이션 엔진
 * **Audio**: Web Audio API Synth 기반 효과음 (외부 의존성 없음)
-* **Data Storage**: localStorage 기반 개인별 진행상황 영구 저장
+* **Data Storage**: 현재 localStorage 기반 개인별 진행상황 영구 저장; 향후 Supabase 익명 이벤트 저장 검토
 * **Data**: JSON 기반 MUD 시나리오 (32개 파일), 커리큘럼 DB, 유물 DB, 교육과정 매핑 기준선
 
 ---
@@ -171,6 +185,10 @@
 * 🧪 [BROWSER_REGRESSION_CHECKLIST.md](./BROWSER_REGRESSION_CHECKLIST.md) — 브라우저·태블릿 수동 회귀 점검 기준
 * 🧭 [PRD.md](./PRD.md) — 제품 목표, 사용자, 범위, 수용 기준
 * 📝 [BACKLOG.md](./BACKLOG.md) — 미완료 기획·검토 항목
+* 📥 [INBOX.md](./INBOX.md) — 사용자 입력·관찰 원문
+* 🧪 [EXPERIMENTS.md](./EXPERIMENTS.md) — 수업 실험과 관찰 결과
+* 🗺️ [ROADMAP.md](./ROADMAP.md) — 단계별 개발 방향
+* 🧱 [ARCHITECTURE.md](./ARCHITECTURE.md) — 현재 구조와 목표 확장
 * ⚖️ [DECISIONS.md](./DECISIONS.md) — 장기 설계 결정과 근거
 * 🧾 [walkthrough.md](./walkthrough.md) — 완료 작업의 누적 기록
 * 🧱 [TECH_STACK.md](./TECH_STACK.md) — 기술 선택과 시스템 경계

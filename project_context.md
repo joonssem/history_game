@@ -27,6 +27,20 @@
 2. 학생이 역사 인물의 시각에서 3지선다 결단을 선택
 3. 정답 선택 → 다음 스테이지, 오답 → IF 스테이지(역사가 틀어지는 상황) → 재시도
 4. MUD 완료 시 유물 도감 자동 언락, 성찰 일기 작성 후 클립보드 복사해 제출
+5. 장기 확장: 선택 탐험으로 역사 단서를 발견하고, 유물을 다른 추론·공유 활동에 활용
+
+### 최신 개발 기준선 — 교실 기반 반복 개선
+
+이 프로젝트는 실제 수업을 핵심 테스트 환경으로 삼아 다음 순환으로 개선한다.
+
+```text
+기획 → 작은 구현 → 실제 수업 → 학생 행동·의견 관찰
+→ 진단 데이터 확인 → 설계 가설 → 작은 수정 → 재수업
+```
+
+2026-09-01에는 1단원 2·3차시 연속 활동이 4분 이내 완료되었다. 빠른 완료의 원인은 선택지 표현 편향, 시뮬레이터 완료 조건, 읽기 속도, 교실 내 정보 공유로 나누어 확인하며, 학생의 유물 활용·친구 비교·역사 타이쿤 제안은 후속 실험 후보로 관리한다.
+
+장기 플레이 루프는 `탐험 → 단서 발견 → 관찰·비교·추론 → 선택·결과 → 유물 획득 → 유물 활용·근거 공유 → 다음 탐험`으로 확장한다. 문제 수를 단순히 늘리지 않고 선택적 탐험과 역사 자료의 재사용으로 깊이를 늘리는 방향이다.
 
 ---
 
@@ -38,7 +52,9 @@
 - **HTML5 Canvas** — 인터랙티브 시뮬레이터 렌더링
 - **Web Audio API** — 브라우저 내장 효과음 (외부 파일 없음)
 - **localStorage** — 개인별 진행상황 영구 저장
-- **GitHub Pages** — 정적 파일 배포 (CI/CD 자동화)
+- **현재 배포**: GitHub Pages — 정적 파일 배포 (CI/CD 자동화)
+- **목표 배포 경로**: Vercel — GitHub push 기반 자동 배포를 검토하되 현재 운영은 변경하지 않음
+- **목표 데이터 확장**: Supabase — 초기 익명 플레이 로그부터 단계적으로 검토하며 아직 구현하지 않음
 - **FontAwesome 6.4.0** (CDN), **Pretendard / SchoolSafetyNotification / MaruBuri** (웹폰트)
 
 ### 주요 파일과 폴더
@@ -71,12 +87,18 @@ history_game/
 ├── agents.md                           # AI 에이전트 협업 체계 및 작업 원칙
 ├── PRD.md                              # 제품 목표·범위·수용 기준
 ├── BACKLOG.md                          # 미완료 기획·검토 항목
+├── INBOX.md                             # 사용자 입력·관찰 원문 단일 창구
+├── EXPERIMENTS.md                       # 수업 실험·가설·결과
+├── ROADMAP.md                           # 단계별 개발 방향
+├── ARCHITECTURE.md                      # 현재 구조와 목표 확장
 ├── DECISIONS.md                        # 장기 설계 결정 기록
 ├── TECH_STACK.md                        # 기술 선택과 시스템 경계
 ├── USER_FLOWS.md                        # 사용자 흐름과 플로우차트
 ├── WIREFRAMES.md                         # 핵심 화면 와이어프레임
 ├── if_stage_audit.md                   # Regular 재시도(IF) 단계 구조 감사
 ├── artifact_audit.md                   # 유물·보상 카드 교육 품질 감사
+├── choice_bias_audit.md                # 선택지 표현 편향 감사 결과
+├── scripts/12_audit_choice_bias.py     # 선택지 길이·위치 편향 감사 스크립트
 ├── walkthrough.md                      # 완료 작업 누적 기록
 └── project_context.md                  # 이 파일
 ```
@@ -93,7 +115,10 @@ history_game/
 | `js/quizGame.js` | `window.quizGame`. `data/quizzes.json` 로드 후 랜덤 셔플·타이머(15초)·채점 |
 | `js/soundEffects.js` | `window.sounds`. Web Audio API로 생성한 비트 신스 효과음 |
 | `data/mud/_index.json` | 32개 MUD의 메타 정보와 현재·목표 교육과정 상태. 등록용 `lessonNumbers`는 화면 표시 기준이며, `app.js`가 우선 사용하고 누락 시 레거시 조건문으로 보완함 |
+| `INBOX.md` | 사용자가 아이디어·관찰·검토 내용을 기록하는 단일 입력 창구 |
 | `PRD.md` / `BACKLOG.md` / `DECISIONS.md` | 각각 제품 요구사항, 미완료 검토 항목, 장기 설계 결정 |
+| `EXPERIMENTS.md` / `ROADMAP.md` / `ARCHITECTURE.md` | 수업 실험, 구현 순서, 시스템 연결 구조 |
+| `agents.md` | Codex CLI·Claude Code의 파일 소유권과 검토·병렬 작업 규칙 |
 
 ### 중요한 의존 관계
 
@@ -191,7 +216,7 @@ openQuizHub(unitId) → view-quiz-modal display:flex
 
 모든 뷰(`view-portal`, `view-myeongnyang`, 모달 2개)가 하나의 `index.html`에 존재한다.
 뷰 전환은 `display: none / block` 토글로 처리한다.
-라우터나 SPA 프레임워크를 쓰지 않아 GitHub Pages 정적 배포에 최적화되어 있다.
+라우터나 SPA 프레임워크를 쓰지 않아 GitHub Pages와 향후 Vercel 같은 정적 배포 환경에 모두 적용할 수 있다.
 
 ### MUD 데이터 분리 (JSON 기반)
 
@@ -237,6 +262,16 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 - MUD 보상 ID와 보상명이 `artifacts.json`의 카드 ID·이름과 일치함
 - Deep-dive와 스토리 보상도 ID 기반으로 도감에 연결함
 
+#### 1단원 3차시 신석기 MUD 문맥 불일치 (해결)
+- `regular_neolithic` 2단계의 토기 활동과 3단계의 의생활 활동에 맞게 정상·IF narrative 네 개를 정렬함
+- 선택지·시뮬레이터·단계 전환·보상 구조는 변경하지 않음
+- JSON·MUD 계약·출처·시뮬레이터 런타임 검증을 통과함
+
+#### 광복 MUD 2단계 문맥 불일치 (해결)
+- `regular_gwangbok` 2단계의 건국준비위원회 활동과 맞지 않던 총선거 narrative를 광복 직후 치안·건국 준비 문맥으로 수정함
+- 2-1 IF도 치안 공백의 자료 해석으로 정렬하고, 2단계 선택지 길이를 균형화함
+- Chrome에서 1단계 정상 진행 후 2단계 진입과 콘솔 오류·경고 0건을 확인함
+
 #### 선택지 버튼 외형이 모두 동일함 (UX 문제)
 - **증상**: 모든 choice 버튼이 동일하게 "결단 ➔" 뱃지로 표시되어 정답/오답을 구분할 수 없음
 - **현재 동작**: 의도된 것으로 추정 (역사 탐구의 비결정적 경험)
@@ -245,6 +280,8 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 ### 미완성 기능
 
 - **MUD 콘텐츠 품질 확장**: 일부 자동 생성 IF 스테이지와 유물 설명은 추가 교육적 검수가 필요함. IF 구조 선별 결과는 `if_stage_audit.md`에서 확인함
+- **실제 활동 시간 검증**: 2026-09-01 학생들이 1단원 2·3차시 Regular 활동을 연속으로 4분 이내에 완료했다. 빠른 학습자용 선택형 확장 활동과 전체 학생 표본 측정은 후속 검토 대상이다.
+- **최소 플레이 진단 로그**: 아직 구현하지 않았다. 서버·계정 없이 단계·선택·시뮬레이터·완료 시각과 재시도 정도만 기록하는 설계가 다음 P1 후보이며, 학생 식별 정보는 수집하지 않는다.
 
 ### 임시 구현
 
@@ -276,6 +313,13 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 3. **유물·보상 콘텐츠 품질 검수**: 카드 설명의 교육과정 표현과 역사적 세부 사실 추가 검수
 
 ---
+
+### 최신 단기 로드맵
+
+- **NOW**: 콘텐츠 정합성·선택지 편향 QA, 최소 플레이 진단 로그 설계
+- **NEXT**: 해금 유물 2개 기반 관찰·비교·주장·근거 추론 활동
+- **LATER**: 유물 탐구 확대, 익명 활동 결과·학급 집계, 친구 비교·협력, 필요 시 Anonymous Auth
+- **FUTURE / NOT NOW**: Realtime·학급 공동 이벤트·역사 타이쿤 장기 상태·공개 온라인 순위표
 
 ## 8. 실행 및 테스트 방법
 

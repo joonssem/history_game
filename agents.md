@@ -33,7 +33,8 @@
 - js/app.js, js/mudEngine.js, js/mudSimulators.js, js/encyclopedia.js 코드 수정
 - 파이썬 스크립트 작성 및 실행 (데이터 생성·검증·일괄 변환)
 - `node --check` 문법 검사 및 저장소의 실제 검증 스크립트 실행
-- GitHub 커밋 및 GitHub Pages 배포
+- GitHub 커밋 및 현재 GitHub Pages 배포 확인
+- 향후 Vercel·Supabase 도입 시 정적 구조, 환경변수, RLS, 개인정보 최소화 조건을 검증한 뒤 별도 작업으로 진행
 
 **작업 원칙**:
 - 다중 줄 인라인 파이썬 스크립트 금지 → 반드시 .py 파일로 저장 후 실행
@@ -146,3 +147,53 @@ idea → documented → prioritized → planned → in-progress → verified →
 
 현재 개발 상태와 실행 방법은 `project_context.md`를 확인하고, 다음 검토 항목은 `BACKLOG.md`를 확인한다.
 프로젝트 실행 방법은 `README.md`를 확인한다.
+
+## 다중 에이전트 협업 확장 규칙
+
+### 사용자 입력과 문서 승격 흐름
+
+사용자는 새 아이디어·수업 관찰·기술 검토를 [`INBOX.md`](./INBOX.md)에만 기록한다. Codex는 원문을 보존한 뒤 검토 수준에 따라 다음 흐름으로 분류한다.
+
+```text
+실제 수업 → 학생 반응 → 사용자와 아이디어 탐색 → INBOX
+→ 실험·결정·아이디어 분류 → 확정 시 PRD·ROADMAP·TECH_STACK
+→ 구현 → 실제 수업
+```
+
+| 입력 내용 | 우선 기록 문서 |
+|---|---|
+| 아직 검토되지 않은 아이디어 | `BACKLOG.md` |
+| 실제 수업에서 시험할 가설·시험 결과 | `EXPERIMENTS.md` |
+| 확정된 제품 요구사항 | `PRD.md` |
+| 확정된 기술 선택 | `TECH_STACK.md` |
+| 시스템 구조 변경 | `ARCHITECTURE.md` |
+| 구현 순서 변경 | `ROADMAP.md` |
+| 중요한 결정과 이유 | `DECISIONS.md` |
+
+- 아이디어를 임의로 확정 사항으로 승격하지 않는다.
+- 기존 문서와 충돌하면 자동으로 덮어쓰지 않고 충돌 지점과 선택지를 사용자에게 보고한다.
+- 같은 내용을 여러 문서에 복제하지 않고, 원문은 `INBOX.md`, 실행 상태는 해당 역할 문서에 둔다.
+- 판단하기 어려운 내용은 `INBOX.md`에 `inbox` 또는 `triaged` 상태로 보존한다.
+- 사용자가 별도 문서에 직접 입력하지 않는 한, 새 대화 메모를 먼저 `INBOX.md`에 기록하고 분류 결과를 보고한다.
+
+### Multi-agent working rules
+
+- Codex CLI와 Claude Code는 같은 저장소에서 작업할 수 있다.
+- 동일한 파일을 두 에이전트가 동시에 수정하지 않는다.
+- 기본적으로 한 에이전트가 구현하면 다른 에이전트는 검토 역할을 맡는다.
+- 실제 병렬 구현이 필요한 경우 별도 branch/worktree 사용을 우선한다.
+
+기존 기획·점검 에이전트와 실행·코딩 에이전트의 분담을 유지하되, 작업 단위에서는 다음 역할을 구분한다.
+
+```text
+implementation agent | 코드·데이터 구현
+content agent        | 역사 서술·선택지·교육적 문장 검토
+audit agent          | 구조·품질 검사와 문제 등록
+integration agent    | 병합·전체 회귀·배포 확인
+```
+
+- 감사 에이전트는 원칙적으로 직접 수정하지 않고 문제와 재현 정보를 BACKLOG 또는 감사 문서에 등록한다.
+- 작업 시작 전 `TASK-번호 | 대상 | 담당 역할 | 상태: DOING` 형식으로 claim한다.
+- 같은 파일을 동시에 수정하지 않으며, 작업 종료 시 `DONE`과 검증 명령을 기록한다.
+- 학생 의견은 요구사항으로 바로 승격하지 않고 `관찰 → 가설 → 작은 실험 → 결과 → 다음 결정` 형식으로 남긴다.
+- 가능하면 작업 단위별 branch/worktree를 사용하되, 현재 저장소의 문서 우선·최소 변경 원칙을 우선한다.

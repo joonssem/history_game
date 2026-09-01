@@ -15,17 +15,43 @@
 | 효과음 | Web Audio API | 브라우저 내장 효과음 생성 |
 | 콘텐츠 | JSON | 커리큘럼·MUD·퀴즈·유물 데이터 |
 | 개인 저장 | localStorage | 유물·배지·최고점 등 로컬 진행 저장 |
-| 배포 | GitHub Pages | 정적 파일 호스팅 |
+| 플레이 진단 | Vanilla JS + session/localStorage 후보 | mudId·stageId·단계 시작·선택·재시도·시뮬레이터·완료 시각의 최소 기록. 학생 식별 정보는 저장하지 않음 |
+| 현재 배포 | GitHub Pages | 현재 정적 파일 호스팅 |
+| 목표 배포 경로 | Vercel | GitHub push 기반 자동 배포를 향후 기본 경로로 검토 |
+| 백엔드·데이터베이스(계획) | Supabase | 초기에는 익명 플레이 로그, 이후 필요한 장기 활동 데이터 |
 | 자동 검증 | GitHub Actions + Python + Node.js | 데이터·계약·런타임·문법 검사 |
 
-## 의도적으로 없는 구성
+## 현재 구현과 목표 확장 구분
 
 - 백엔드 API 없음
 - 데이터베이스 없음
 - 로그인·계정 없음
 - 빌드 도구와 프런트엔드 프레임워크 없음
 
-이는 교실 기기에서 별도 설치 없이 실행하고, 정적 GitHub Pages에 배포하는 현재 제품 범위에 따른 결정이다. 서버 저장이나 교사별 학습 분석이 필요해질 때 별도 의사결정으로 검토한다.
+현재는 교실 기기에서 별도 설치 없이 실행하는 정적 GitHub Pages 배포와 localStorage 저장이 실제 운영 상태다. Vercel·Supabase는 목표 확장 경로이며, 프로젝트·테이블·코드 연동은 아직 구현하지 않았다.
+
+## Future / Not Now
+
+### 단계적 도입 경계
+
+- **NOW / EARLY**: Vercel 배포 경로 확인, Supabase `play_events` 최소 로그 설계
+- **NEXT**: 익명 활동 결과와 유물 기반 추론 데이터, 간단한 학급 단위 집계 검토
+- **LATER**: Anonymous Auth, 친구 비교·협력, 교사용 통계 검토
+- **FUTURE**: Realtime, 학급 공동 이벤트, 역사 타이쿤 장기 상태
+
+서버 연결이 끊겨도 핵심 MUD 학습 흐름은 유지한다. localStorage는 현재 플레이 상태·빠른 UI 응답·네트워크 장애 시 복원을 담당하고, Supabase는 장기 보관이 필요한 익명 이벤트와 집계 후보를 담당한다. 서버 도입 전 개인정보 최소 수집, 보안, 보관 기간, 학교 운영 조건, 교사 관리 부담을 검토한다.
+
+### 목표 실행 경계
+
+```text
+GitHub → Vercel → 학생 브라우저
+                    ├─ localStorage: 즉시 상태·복원
+                    └─ Supabase: 익명 이벤트·향후 집계
+```
+
+초기 Supabase 후보 테이블은 `play_events`이며, `session_id`, `mud_id`, `stage_id`, `event_type`, `elapsed_ms`, `is_correct`, `retry_count`, `created_at` 정도를 검토한다. 학생 이름·학번·이메일·계정·기기 고유 ID·IP 기반 개인 식별·위치는 저장하지 않는다.
+
+Supabase를 실제 도입할 경우 공개 클라이언트 키와 RLS를 전제로 한다. 클라이언트에는 secret/service-role 키를 넣지 않으며, 학생은 필요한 이벤트만 INSERT하고 조회는 별도 정책으로 제한한다. Anonymous Auth는 유물·활동 상태의 관계 유지가 필요해질 때, Realtime은 학급 공동 단서·협력 미션이 검증된 뒤 검토한다.
 
 ## 주요 실행 경계
 
@@ -46,6 +72,7 @@ MUD 완료 → encyclopedia → artifacts.json → localStorage
 python scripts/01_validate_game_data.py
 python scripts/03_validate_mud_integrity.py
 python scripts/04_validate_mud_contract.py
+python scripts/12_audit_choice_bias.py
 node scripts/05_test_simulator_runtime.js
 node --check js/app.js
 ```

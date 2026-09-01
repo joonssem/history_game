@@ -1,5 +1,10 @@
 # MUD 선택지 정답 위치 편향 개선 계획
 
+## 현재 상태
+
+- 상태: `completed` (2026-08-26 기능 구현·정적 검증·브라우저 회귀 완료)
+- 후속 항목: 선택지 길이·구체성 편향은 `implementation_plan_choice_quality_batch.md`와 `choice_bias_audit.md`에서 별도로 관리한다.
+
 ## 1. 작성 목적
 
 MUD를 시작하면 정답 선택지가 항상 첫 번째에 표시되는 문제를 개선한다.
@@ -10,7 +15,7 @@ MUD를 시작하면 정답 선택지가 항상 첫 번째에 표시되는 문제
 - 전체 MUD 선택지 중 `correct: true`인 항목은 238개이다.
 - 선택지가 2개 이상인 실질적 판단 단계는 113개이다.
 - 113개 단계 모두 정답 선택지가 배열의 첫 번째 항목이다.
-- 현재 [js/mudEngine.js](js/mudEngine.js)의 `renderStage()`는 `stage.choices` 배열을 JSON 순서 그대로 렌더링한다.
+- 당시 [js/mudEngine.js](js/mudEngine.js)의 `renderStage()`는 `stage.choices` 배열을 JSON 순서 그대로 렌더링했다.
 - 선택지의 실제 결과는 `correct` 필드가 아니라 각 선택지의 `next` 값으로 결정된다.
 - [scripts/02_fix_missing_next.py](scripts/02_fix_missing_next.py)는 누락된 `next`를 보완하는 스크립트이며, 선택지 순서는 변경하지 않는다.
 
@@ -142,7 +147,7 @@ git diff --check
 4. 선택지 콘텐츠 품질 검수 목록 작성
 5. 필요 시 콘텐츠를 단계별로 보강
 
-현재 문서는 계획서이며, 위 단계 승인 전에는 코드와 데이터 파일을 수정하지 않는다.
+이 문서의 구현 계획은 완료되었다. 이후 선택지 문장 품질과 콘텐츠 의미 정합성은 별도 계획서에서 관리하며, 이 문서의 무작위화 범위를 다시 확장하지 않는다.
 
 ## 10. 실행 결과
 
