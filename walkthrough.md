@@ -698,6 +698,12 @@
 - `scripts/09_audit_tap_resistance.py` 재실행 결과 반복 탭 구조 후보는 40개임을 확인했다.
 - 활동 시간 감사의 Regular 보완 신호 16종과 반복 탭 구조 후보 40개는 서로 다른 지표이므로 분리해 기록했다.
 
+## 2026-09-01 — 반복 탭 후보 40개 우선순위 분류
+
+- 구조 감사 후보 40개를 scene 보유 36개와 Codex가 별도 확인할 scene 없는 4개로 분리했다.
+- 우선 확인 대상은 `regular_gwangbok:3`, `regular_myeongnyang:4`, `regular_bronze_age:1/4`이며, 단일 버튼·특수 슬라이더를 일반 반복 탭 활동과 동일하게 일괄 수정하지 않도록 했다.
+- 상세 판단 기준과 다음 조치는 `codex_tap_resistance_priority.md`에 기록했다.
+
 ## 2026-09-01 — 중간 점검 문서 동기화 및 후속 대기 항목 정리
 
 - Claude의 IF 6개 최종 검토를 반영해 `regular_joseon_diplomacy:2-1`의 `척화·주화` 용어 glossary 추가 여부를 사용자 확인 대기로 남겼다.
