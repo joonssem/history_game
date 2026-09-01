@@ -675,3 +675,8 @@
 - 일본군 ‘위안부’ 정의는 사실을 유지하면서 “성적 착취를 한 중대한 인권 범죄”로 표현을 완화했다.
 - 조선어학회 사건 정의는 사실을 유지하면서 “가두고 심하게 고문해 … 목숨을 잃은 사건”으로 표현을 완화했다.
 - `instruction`·`infoText`·`feedback`·`narrative`·`completion`·`simulator`와 장면 렌더러는 변경하지 않았다.
+## 2026-09-01 — IF 스테이지 6개 1차 내용 검토
+
+- `regular_korean_war:3-1`, `regular_joseon_diplomacy:1-1/2-1/3-1`, `regular_independence_army:3-1`, `regular_goryeo_culture:1-1`의 현재 `narrative`와 재시도 선택지를 검토했다.
+- 6개 모두 자료 재확인·비교로 복귀하며, 가상 실패 결과를 역사적 사실처럼 단정하거나 폭력·감정을 정답으로 강요하는 표현은 발견하지 못했다.
+- 단계별 사용자 최종 확인 포인트는 `codex_if_stage_review.md`에 기록했다. 문구 수정은 사용자 승인 전까지 보류한다.
