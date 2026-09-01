@@ -155,6 +155,11 @@ const MudSimulators = {
     const declaredScene = engine.currentSimulator?.scene;
     if (declaredScene && this.drawConfiguredSceneBackground(ctx, w, h, declaredScene)) return;
 
+    if (engine.currentMudData?.mudId === 'deep_three_kingdoms' && simMode.startsWith('text-reading')) {
+      this.drawThreeKingdomsDocument(ctx, w, h, engine.currentStage);
+      return;
+    }
+
     if (simMode.startsWith('dolmen')) {
       this.drawPreciseDolmen(ctx, w, h, engine.dolmenState, simMode);
     } else if (simMode === 'gwangbok-vote' || simMode === 'precise-vote') {
@@ -171,7 +176,11 @@ const MudSimulators = {
         ctx.fillText("🎨 화면이나 아래 버튼을 눌러 태극기를 완성하세요!", w/2, h - 10);
       }
     } else if (simMode.startsWith('mn-')) {
-      this.drawPreciseMyeongnyang(ctx, w, h, simMode);
+      if (engine.currentMudData?.mudId === 'deep_three_kingdoms' && simMode === 'mn-combat-active') {
+        this.drawThreeKingdomsNaval(ctx, w, h);
+      } else {
+        this.drawPreciseMyeongnyang(ctx, w, h, simMode);
+      }
     } else if (simMode === 'hanyang-map' || simMode === 'hanyang-gates' || simMode === 'hanyang-bakseok') {
       ctx.fillStyle = '#1e293b';
       ctx.fillRect(0, 0, w, h);
@@ -663,6 +672,34 @@ const MudSimulators = {
       fillSky('#d7c882', '#efdda3', '#7c9255');
       ctx.fillStyle = '#795238'; ctx.beginPath(); ctx.moveTo(w * 0.12, groundY); ctx.lineTo(w * 0.28, h * 0.35); ctx.lineTo(w * 0.44, groundY); ctx.closePath(); ctx.fill();
       ctx.fillStyle = '#e4c46a'; ctx.beginPath(); ctx.arc(w * 0.72, h * 0.34, w * 0.12, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#7e5a28'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(w * 0.72, h * 0.46); ctx.lineTo(w * 0.72, h * 0.73); ctx.stroke();
+      return true;
+    }
+    if (scene === 'hwangsanbeol-battle') {
+      fillSky('#e7d4ad', '#f3e5c7', '#9a744d');
+      ctx.fillStyle = '#78624a';
+      ctx.beginPath(); ctx.moveTo(w * 0.04, h * 0.7); ctx.lineTo(w * 0.3, h * 0.35); ctx.lineTo(w * 0.5, h * 0.7); ctx.closePath(); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(w * 0.55, h * 0.7); ctx.lineTo(w * 0.76, h * 0.4); ctx.lineTo(w * 0.98, h * 0.7); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#b33b32'; ctx.fillRect(w * 0.08, h * 0.76, w * 0.18, h * 0.06);
+      ctx.fillStyle = '#315b86'; ctx.fillRect(w * 0.74, h * 0.76, w * 0.18, h * 0.06);
+      ctx.fillStyle = '#3f3125'; ctx.font = 'bold 11px "Pretendard"'; ctx.textAlign = 'center'; ctx.fillText('황산벌 · 신라군과 백제 결사대', w / 2, h - 15);
+      return true;
+    }
+    if (scene === 'maesoseong-defense') {
+      fillSky('#c9d8df', '#e7e1c5', '#6f875d');
+      ctx.fillStyle = '#596b5b'; ctx.beginPath(); ctx.moveTo(w * 0.05, h * 0.72); ctx.lineTo(w * 0.24, h * 0.28); ctx.lineTo(w * 0.42, h * 0.72); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#4b5563'; ctx.fillRect(w * 0.09, h * 0.6, w * 0.28, h * 0.07);
+      ctx.fillStyle = '#b45309'; ctx.fillRect(w * 0.63, h * 0.36, w * 0.26, h * 0.08);
+      ctx.strokeStyle = '#7c2d12'; ctx.lineWidth = 3; ctx.setLineDash([8, 5]); ctx.beginPath(); ctx.moveTo(w * 0.48, h * 0.78); ctx.lineTo(w * 0.9, h * 0.45); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#1f2937'; ctx.font = 'bold 11px "Pretendard"'; ctx.textAlign = 'center'; ctx.fillText('매소성 · 산성 방어와 당군 보급로', w / 2, h - 15);
+      return true;
+    }
+    if (scene === 'cheomunryeong-battle') {
+      fillSky('#b8d0d5', '#dbe4cf', '#526b4e');
+      ctx.fillStyle = '#405c4b'; ctx.beginPath(); ctx.moveTo(0, h * 0.82); ctx.lineTo(w * 0.28, h * 0.2); ctx.lineTo(w * 0.46, h * 0.82); ctx.closePath(); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(w, h * 0.82); ctx.lineTo(w * 0.72, h * 0.16); ctx.lineTo(w * 0.54, h * 0.82); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#9bb36b'; ctx.fillRect(w * 0.44, h * 0.6, w * 0.12, h * 0.12);
+      ctx.strokeStyle = '#d6b66a'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(w * 0.48, h * 0.74); ctx.quadraticCurveTo(w * 0.62, h * 0.58, w * 0.86, h * 0.34); ctx.stroke();
+      ctx.fillStyle = '#fef3c7'; ctx.font = 'bold 11px "Pretendard"'; ctx.textAlign = 'center'; ctx.fillText('천문령 · 협곡을 지나 동모산으로', w / 2, h - 15);
       return true;
     }
     if (scene === 'three-kingdoms-baekje') {
@@ -1690,6 +1727,63 @@ const MudSimulators = {
       ctx.textAlign = 'center';
       ctx.fillText("✨ 탁자식 고인돌 축조 완수! 👑", w/2, 28);
     }
+  },
+
+  drawThreeKingdomsDocument(ctx, w, h, stageId) {
+    const labels = {
+      '1-fail': ['황산벌 전투 기록', '관창과 반굴 · 합류 시한', '황산벌의 전투 상황을 다시 살펴봅니다'],
+      '2': ['백제 유민과 신라의 통합', '웅진도독부 · 백제 부흥 운동', '유민 포용과 나당 전쟁의 관계를 살펴봅니다'],
+      '2-fail': ['백제 유민 포용의 기록', '신라 관등 · 후방 안정', '통합 정책이 전쟁에 미친 영향을 살펴봅니다'],
+      '3': ['나당 전쟁의 기록', '안동도호부 · 보덕국', '당의 지배 시도와 신라의 대응을 살펴봅니다'],
+      '3-fail': ['당의 한반도 지배 시도', '도독부 · 고구려·백제 유민', '자료를 다시 연결해 대응을 생각합니다'],
+      '4-fail': ['매소성 전투 기록', '병력 수 · 지형 · 보급', '기록의 수치와 전투 조건을 함께 살펴봅니다'],
+      '5-fail': ['기벌포 해전 기록', '금강 하구 · 갯벌 · 조류', '신라 수군이 물길을 활용한 까닭을 살펴봅니다'],
+      '6': ['발해 건국의 기록', '고구려 유민 · 말갈 · 동모산', '여러 집단의 이동과 발해 건국을 살펴봅니다'],
+      '7-fail': ['천문령 전투 기록', '협곡 · 높은 지대 · 이동로', '전투와 발해 건국 과정을 다시 연결합니다'],
+      '8': ['남북국 시대의 기록', '신라와 발해 · 고구려 계승', '발해 건국 이후의 역사를 살펴봅니다']
+    }[stageId] || ['삼국 통일 전쟁 기록', '황산벌 · 매소성 · 기벌포', '역사 자료를 살펴봅니다'];
+
+    ctx.fillStyle = '#263b4a'; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#f5e7c8'; ctx.fillRect(w * 0.12, h * 0.12, w * 0.76, h * 0.7);
+    ctx.strokeStyle = '#b08957'; ctx.lineWidth = 3; ctx.strokeRect(w * 0.12, h * 0.12, w * 0.76, h * 0.7);
+    ctx.fillStyle = '#7c2d12'; ctx.font = 'bold 13px "Pretendard"'; ctx.textAlign = 'center'; ctx.fillText(`📜 ${labels[0]}`, w / 2, h * 0.33);
+    ctx.fillStyle = '#92400e'; ctx.font = 'bold 11px "Pretendard"'; ctx.fillText(labels[1], w / 2, h * 0.52);
+    ctx.fillStyle = '#57534e'; ctx.font = '10px "Pretendard"'; ctx.fillText(labels[2], w / 2, h * 0.68);
+  },
+
+  drawThreeKingdomsNaval(ctx, w, h) {
+    const engine = window.MudEngine;
+    const time = Date.now() * 0.003;
+    ctx.fillStyle = '#0f3551'; ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = '#5aa4c7'; ctx.lineWidth = 1.5;
+    for (let i = 0; i < 5; i++) {
+      const y = 28 + i * 34;
+      ctx.beginPath(); ctx.moveTo(w * 0.08, y);
+      for (let x = w * 0.08; x <= w * 0.92; x += 14) ctx.lineTo(x, y + Math.sin(x * 0.05 + time) * 4);
+      ctx.stroke();
+    }
+    ctx.fillStyle = '#8b7355'; ctx.fillRect(0, 0, w * 0.12, h); ctx.fillRect(w * 0.88, 0, w * 0.12, h);
+    ctx.fillStyle = '#fef3c7'; ctx.font = 'bold 10px "Pretendard"'; ctx.textAlign = 'center'; ctx.fillText('금강 하구 갯벌', w * 0.06, h * 0.18); ctx.fillText('당나라 수군', w * 0.94, h * 0.18);
+    const playerX = engine.targetCurrent >= 80 ? w * 0.45 : w * 0.28;
+    ctx.fillStyle = '#1d4ed8'; ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2; ctx.fillRect(playerX - 16, h / 2 - 12, 32, 24); ctx.strokeRect(playerX - 16, h / 2 - 12, 32, 24);
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 9px sans-serif'; ctx.fillText('신라 대장선', playerX, h / 2 + 4);
+    engine.enemyShips.forEach(ship => {
+      if (!ship.alive) return;
+      ctx.fillStyle = '#7f1d1d'; ctx.strokeStyle = '#fca5a5'; ctx.strokeRect(ship.x - 8, ship.y - 8, ship.size, ship.size);
+      ctx.fillStyle = '#fee2e2'; ctx.fillText('당군선', ship.x, ship.y + 4);
+    });
+    engine.bullets.forEach(b => {
+      if (!b.active) return;
+      b.x += b.vx; b.y += b.vy; ctx.fillStyle = '#f59e0b'; ctx.beginPath(); ctx.arc(b.x, b.y, 4, 0, Math.PI * 2); ctx.fill();
+      engine.enemyShips.forEach(ship => {
+        if (!ship.alive || Math.hypot(b.x - ship.x, b.y - ship.y) >= ship.size) return;
+        ship.alive = false; b.active = false; engine.gaugeProgress = Math.min(100, engine.gaugeProgress + 25);
+        const gp = document.getElementById('gauge-progress'); if (gp) gp.textContent = `${engine.gaugeProgress}%`;
+        const gb = document.getElementById('gauge-bar'); if (gb) gb.style.width = `${engine.gaugeProgress}%`;
+        engine.updateSimulatorCompletion();
+      });
+    });
+    ctx.fillStyle = '#bfdbfe'; ctx.font = 'bold 11px sans-serif'; ctx.fillText('🌊 금강의 조류를 읽고 당나라 수군을 맞혀 보세요', w / 2, h - 10);
   },
 
   // === 2단원: 명량대첩 정밀 렌더러 ===

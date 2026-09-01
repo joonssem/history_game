@@ -136,7 +136,7 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
-        "scene": "three-kingdoms-silla",
+        "scene": "hwangsanbeol-battle",
         "interaction": "hotspot-discovery",
         "type": "gauge",
         "hotspots": [
@@ -346,6 +346,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
+        "scene": "maesoseong-defense",
         "type": "buttons",
         "required": true,
         "completion": { "target": 100, "increment": 20, "minActions": 2, "progressKey": "gaugeProgress", "successText": "🛡️ 지형과 보급 조건을 함께 고려한 방어 계획을 세웠습니다." },
@@ -518,7 +519,7 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
-        "scene": "balhae-dongmosan",
+        "scene": "cheomunryeong-battle",
         "interaction": "hotspot-discovery",
         "type": "gauge",
         "hotspots": [
