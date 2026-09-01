@@ -239,6 +239,10 @@ const MudSimulators = {
 
     } else if (simMode.startsWith('text-reading')) {
       // 📜 역사 기록 & 사료 두루마리 모드
+      const isThreeKingdomsDeepDive = engine.currentMudData?.mudId === 'deep_three_kingdoms';
+      const readingTitle = isThreeKingdomsDeepDive ? '⚔️ 삼국 통일 전쟁 사료' : '📜 史料 & 記錄 (사료 탐구)';
+      const readingSubtitle = isThreeKingdomsDeepDive ? '나당 전쟁과 발해 건국 자료를 살펴봅니다' : '진본 역사 기록을 탐구합니다';
+      const readingArtifact = isThreeKingdomsDeepDive ? '【 황산벌 · 매소성 · 기벌포 기록 】' : '【 대한국새 / 옥새 직인 】';
       ctx.fillStyle = '#1c1917';
       ctx.fillRect(0, 0, w, h);
       ctx.fillStyle = '#FEF3C7';
@@ -249,12 +253,12 @@ const MudSimulators = {
       ctx.fillStyle = '#92400E';
       ctx.font = 'bold 12px "Pretendard"';
       ctx.textAlign = 'center';
-      ctx.fillText("📜 史料 & 記録 (사료 탐구)", w/2, h/2 - 15);
+      ctx.fillText(readingTitle, w/2, h/2 - 15);
       ctx.fillStyle = '#B45309';
       ctx.font = '10px "Pretendard"';
-      ctx.fillText("진본 역사 기록을 탐구합니다", w/2, h/2 + 8);
+      ctx.fillText(readingSubtitle, w/2, h/2 + 8);
       ctx.fillStyle = '#DC2626';
-      ctx.fillText("【 대한국새 / 옥새 직인 】", w/2, h/2 + 28);
+      ctx.fillText(readingArtifact, w/2, h/2 + 28);
     } else if (simMode.startsWith('battle-gauge')) {
       // ⚔️ 구국 결전 & 방어선 게이지 모드
       ctx.fillStyle = '#18181b';
@@ -1755,7 +1759,7 @@ const MudSimulators = {
         ctx.lineWidth = 1.5;
         ctx.strokeRect(s.x - 8, s.y - 8, s.size, s.size);
         ctx.fillStyle = '#ef4444';
-        ctx.fillText("왜선", s.x, s.y + 4);
+        ctx.fillText(engine.currentMudData?.mudId === 'deep_three_kingdoms' ? "당군선" : "왜선", s.x, s.y + 4);
       });
 
       engine.bullets.forEach(b => {
@@ -1790,12 +1794,14 @@ const MudSimulators = {
       }
       ctx.fillStyle = '#fca5a5';
       ctx.font = 'bold 9px sans-serif';
-      ctx.fillText("왜선 133척 대함대", w * 0.76, 20);
+      ctx.fillText(engine.currentMudData?.mudId === 'deep_three_kingdoms' ? "당나라 함대 4척" : "왜선 133척 대함대", w * 0.76, 20);
     }
 
     ctx.fillStyle = isCurrentReversed ? '#38bdf8' : '#ef4444';
     ctx.font = 'bold 11px sans-serif';
-    ctx.fillText(isCurrentReversed ? "🌊 썰물 역전! 왜군 쪽으로 총돌격! ➔➔" : "⬅️⬅️ 밀물 (왜군 쪽에서 밀려오는 중)", w/2, h - 8);
+    const isThreeKingdomsDeepDive = engine.currentMudData?.mudId === 'deep_three_kingdoms';
+    const enemySide = isThreeKingdomsDeepDive ? '당군' : '왜군';
+    ctx.fillText(isCurrentReversed ? `🌊 썰물 역전! ${enemySide} 쪽으로 총돌격! ➔➔` : `⬅️⬅️ 밀물 (${enemySide} 쪽에서 밀려오는 중)`, w/2, h - 8);
   },
 
   // === 3단원: 5·10 총선거 투표소 렌더러 ===
