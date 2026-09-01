@@ -680,3 +680,9 @@
 - `regular_korean_war:3-1`, `regular_joseon_diplomacy:1-1/2-1/3-1`, `regular_independence_army:3-1`, `regular_goryeo_culture:1-1`의 현재 `narrative`와 재시도 선택지를 검토했다.
 - 6개 모두 자료 재확인·비교로 복귀하며, 가상 실패 결과를 역사적 사실처럼 단정하거나 폭력·감정을 정답으로 강요하는 표현은 발견하지 못했다.
 - 단계별 사용자 최종 확인 포인트는 `codex_if_stage_review.md`에 기록했다. 문구 수정은 사용자 승인 전까지 보류한다.
+## 2026-09-01 — 유물 아이콘·보상 토스트 정합성 수정 확인
+
+- Claude가 승인된 `art_3`, `art_6`, `art_10`, `art_11`, `art_12`, `art_13`, `art_deep_2`의 아이콘을 유물명에 맞게 교체했다.
+- `js/mudEngine.js`의 MUD 완료 보상 토스트가 `artifactId` 대신 사람이 읽는 유물명을 표시하도록 수정했다.
+- 커밋 `a2ad6eb`의 변경 범위와 Codex 재검증 결과를 확인했다. 게임 데이터·MUD 무결성·계약·정적 자산·카탈로그·출처·시뮬레이터 런타임·JavaScript 문법 검증이 모두 통과했다.
+- `art_19`, `art_22` 등 정확한 한국식 성곽·궁궐 이모지가 없는 낮은 위험도 항목은 변경하지 않았다.
