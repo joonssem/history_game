@@ -430,7 +430,7 @@
         "gaugeLabel": "당나라 함대 격침 진행도:",
         "required": true,
         "completion": { "target": 100, "increment": 25, "minActions": 4, "progressKey": "gaugeProgress", "successText": "🌊 네 척의 적 함선을 맞혀 기벌포의 조류와 화공을 활용했습니다." },
-        "instruction": "🚢 <b>화면을 터치하여 당나라 군선에 함포와 불화살을 발사하세요!</b>",
+        "instruction": "🚢 <b>화면을 터치하여 당나라 군선에 불화살을 쏘세요!</b>",
         "feedback": "움직이는 적 함선 네 척을 조준해 맞혀 보세요. 얕은 물과 조류가 전투에 어떤 도움을 주는지 생각해 보세요."
       }
     },
