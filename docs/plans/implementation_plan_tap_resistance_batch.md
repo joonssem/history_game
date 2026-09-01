@@ -2,7 +2,7 @@
 
 ## 상태
 
-- 상태: in-progress (4개 MUD 반영, 대표 첫 단계 브라우저 점검 완료)
+- 상태: in-progress (5개 MUD 반영, 대표 첫 단계 브라우저 점검 완료)
 - 우선순위: P1-02
 - 대상: `regular_independence` 및 `regular_modern_open` 1~3단계
 - 근거: `scripts/09_audit_tap_resistance.py` 구조 감사에서 비장면 후보로 선별

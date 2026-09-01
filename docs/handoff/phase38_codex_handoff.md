@@ -6,7 +6,7 @@
 
 ## 1. 커밋 ID와 커밋 메시지
 
-- 커밋: `4a3c5774e745087521e9ac9af565e1575e8ec200` (`main`, 아직 push 안 함 — 사용자 승인 대기)
+- 커밋: `4a3c5774e745087521e9ac9af565e1575e8ec200` (`main`, 현재 `origin/main`의 조상으로 확인되어 push 완료)
 - 요약: `feat: replace Phase 38 common evidence scenes with unique modern-history scenes`
 - 전체 메시지는 `git show --stat 4a3c577` 참고. 변경 파일 7개, +191/-16.
 

@@ -2,7 +2,7 @@
 
 ## 1. 작업 커밋
 
-- 이동 작업은 아직 `git commit` 전 상태(작업 트리에 스테이징됨)다. 사용자 확인 후 별도 커밋으로 기록될 예정이며, 커밋되면 이 절을 커밋 해시로 갱신한다.
+- 이동 작업 커밋 `7581795`, 링크 수정 커밋 `431cada`, 후속 링크 검증 커밋 `b07a7d2`가 `origin/main`에 반영되었다.
 - 근거 계획서: [`implementation_plan_docs_reorganization.md`](../plans/implementation_plan_docs_reorganization.md)
 
 ## 2. 변경 파일과 단계
