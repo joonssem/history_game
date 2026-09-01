@@ -1280,6 +1280,181 @@ const MudSimulators = {
       ctx.strokeStyle = '#3a3630'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(w * 0.44, h * 0.78, w * 0.025, 0, Math.PI * 2); ctx.stroke(); ctx.beginPath(); ctx.arc(w * 0.56, h * 0.78, w * 0.025, 0, Math.PI * 2); ctx.stroke();
       return true;
     }
+    if (scene === 'tapgol-declaration') {
+      fillSky('#eee6d2', '#f6f0dd', '#c9b98c');
+      ctx.fillStyle = '#8a5a35'; ctx.beginPath(); ctx.moveTo(w * 0.32, h * 0.42); ctx.lineTo(w * 0.5, h * 0.26); ctx.lineTo(w * 0.68, h * 0.42); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#736355'; [0.38, 0.46, 0.54, 0.62].forEach(x => { ctx.fillRect(w * x, h * 0.42, w * 0.02, h * 0.16); });
+      ctx.fillStyle = '#f2ecdd'; ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 1.2; ctx.fillRect(w * 0.42, h * 0.6, w * 0.16, h * 0.1); ctx.strokeRect(w * 0.42, h * 0.6, w * 0.16, h * 0.1);
+      ctx.strokeStyle = '#8a7355'; [0.635, 0.665, 0.69].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.45, h * y); ctx.lineTo(w * 0.55, h * y); ctx.stroke(); });
+      ctx.strokeStyle = 'rgba(138,99,53,0.35)'; ctx.lineWidth = 2; [0.22, 0.3].forEach(r => { ctx.beginPath(); ctx.arc(w * 0.5, h * 0.5, w * r, Math.PI * 1.15, Math.PI * 1.85); ctx.stroke(); });
+      const people = [0.18, 0.3, 0.7, 0.82, 0.5];
+      ctx.fillStyle = '#8a8478'; people.forEach(x => {
+        ctx.beginPath(); ctx.arc(w * x, h * 0.78, w * 0.016, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(w * x - w * 0.018, h * 0.92); ctx.lineTo(w * x + w * 0.018, h * 0.92); ctx.lineTo(w * x + w * 0.012, h * 0.8); ctx.lineTo(w * x - w * 0.012, h * 0.8); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#a13a2e'; ctx.lineWidth = 1; ctx.fillRect(w * (x + 0.012), h * 0.7, w * 0.022, h * 0.016); ctx.strokeRect(w * (x + 0.012), h * 0.7, w * 0.022, h * 0.016);
+        ctx.beginPath(); ctx.arc(w * (x + 0.023), h * 0.708, w * 0.005, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = '#8a8478';
+      });
+      return true;
+    }
+    if (scene === 'aunae-market-rally') {
+      fillSky('#eee6d2', '#f6f0dd', '#c9b98c');
+      ctx.fillStyle = '#8a7355'; ctx.fillRect(w * 0.04, h * 0.62, w * 0.2, h * 0.05); ctx.fillRect(w * 0.76, h * 0.62, w * 0.2, h * 0.05);
+      ctx.fillStyle = '#736355'; [[.08, .86], [.9, .86]].forEach(([x, y]) => { ctx.beginPath(); ctx.moveTo(w * x, h * y); ctx.lineTo(w * (x + 0.06), h * (y - 0.16)); ctx.lineTo(w * (x + 0.12), h * y); ctx.closePath(); ctx.fill(); });
+      // narrative가 "한 사람의 영웅담으로만 좁히지 말고"를 명시하므로 실루엣을 전부 같은 크기·같은 높이로 배치한다.
+      const rally = [0.32, 0.42, 0.5, 0.58, 0.66, 0.74];
+      ctx.fillStyle = '#8a8478';
+      rally.forEach(x => {
+        ctx.beginPath(); ctx.arc(w * x, h * 0.66, w * 0.015, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(w * x - w * 0.017, h * 0.8); ctx.lineTo(w * x + w * 0.017, h * 0.8); ctx.lineTo(w * x + w * 0.011, h * 0.68); ctx.lineTo(w * x - w * 0.011, h * 0.68); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#a13a2e'; ctx.lineWidth = 1; ctx.fillRect(w * (x + 0.011), h * 0.58, w * 0.02, h * 0.014); ctx.strokeRect(w * (x + 0.011), h * 0.58, w * 0.02, h * 0.014);
+        ctx.beginPath(); ctx.arc(w * (x + 0.021), h * 0.587, w * 0.0045, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = '#8a8478';
+      });
+      return true;
+    }
+    if (scene === 'shanghai-provisional-government') {
+      fillSky('#eee6d2', '#f6f0dd', '#c9b98c');
+      ctx.fillStyle = '#c9c0a6'; ctx.fillRect(w * 0.24, h * 0.28, w * 0.52, h * 0.34);
+      ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 1.2; for (let r = 0; r < 2; r++) { for (let c = 0; c < 3; c++) { ctx.strokeRect(w * (0.3 + c * 0.15), h * (0.34 + r * 0.12), w * 0.1, h * 0.08); } }
+      ctx.fillStyle = '#8f8975'; ctx.fillRect(w * 0.3, h * 0.62, w * 0.06, h * 0.16); ctx.fillRect(w * 0.47, h * 0.62, w * 0.06, h * 0.16); ctx.fillRect(w * 0.64, h * 0.62, w * 0.06, h * 0.16);
+      ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 1.5; ctx.fillRect(w * 0.42, h * 0.24, w * 0.16, h * 0.05); ctx.strokeRect(w * 0.42, h * 0.24, w * 0.16, h * 0.05);
+      ctx.fillStyle = '#c9c0a6'; ctx.fillRect(w * 0.2, h * 0.78, w * 0.6, h * 0.03); ctx.fillRect(w * 0.24, h * 0.81, w * 0.52, h * 0.03);
+      return true;
+    }
+    if (scene === 'memorial-candlelight') {
+      // narrative가 "피해를 자극적으로 재현하지 않고 기록·증언·기억 활동"을 명시하므로 인물·탄광·이송 없이 추모 공간만 그린다.
+      fillSky('#26221d', '#3a352c', '#211d18');
+      const flames = [0.36, 0.46, 0.56, 0.66];
+      flames.forEach((x) => {
+        ctx.fillStyle = 'rgba(230,196,106,0.18)'; ctx.beginPath(); ctx.arc(w * x, h * 0.44, w * 0.05, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#4a4038'; ctx.fillRect(w * x - w * 0.014, h * 0.46, w * 0.028, h * 0.16);
+        ctx.fillStyle = '#e4c46a'; ctx.beginPath(); ctx.ellipse(w * x, h * 0.42, w * 0.014, h * 0.026, 0, 0, Math.PI * 2); ctx.fill();
+      });
+      ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#736355'; ctx.lineWidth = 1.5; ctx.fillRect(w * 0.74, h * 0.5, w * 0.16, h * 0.18); ctx.strokeRect(w * 0.74, h * 0.5, w * 0.16, h * 0.18);
+      ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 1.2; [0.56, 0.61].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.77, h * y); ctx.lineTo(w * 0.87, h * y); ctx.stroke(); });
+      ctx.strokeStyle = '#3f6f42'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(w * 0.18, h * 0.7); ctx.lineTo(w * 0.18, h * 0.56); ctx.stroke();
+      ctx.fillStyle = '#c96a6a'; [[0.16, 0.52], [0.185, 0.5], [0.21, 0.52], [0.198, 0.55]].forEach(([x, y]) => { ctx.beginPath(); ctx.arc(w * x, h * y, w * 0.014, 0, Math.PI * 2); ctx.fill(); });
+      return true;
+    }
+    if (scene === 'gendarme-rule-ordinance') {
+      // infoText가 즉결 처벌권을 명시하지만 폭력·헌병 도상은 금지되므로, 빈 교실과 법령 문서·도장으로만 억압을 은유한다.
+      fillSky('#c9c4b6', '#e2ded2', '#a9a08c');
+      ctx.fillStyle = '#8f8975'; [0.16, 0.36, 0.56].forEach(x => { ctx.fillRect(w * x, h * 0.58, w * 0.12, h * 0.05); ctx.fillRect(w * (x + 0.02), h * 0.63, w * 0.02, h * 0.1); ctx.fillRect(w * (x + 0.08), h * 0.63, w * 0.02, h * 0.1); });
+      ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#6b6255'; ctx.lineWidth = 2; ctx.fillRect(w * 0.66, h * 0.24, w * 0.22, h * 0.28); ctx.strokeRect(w * 0.66, h * 0.24, w * 0.22, h * 0.28);
+      ctx.strokeStyle = '#6b6255'; ctx.lineWidth = 1.5; [0.32, 0.38, 0.44].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.7, h * y); ctx.lineTo(w * 0.84, h * y); ctx.stroke(); });
+      ctx.strokeStyle = '#a13a2e'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(w * 0.8, h * 0.47, w * 0.03, 0, Math.PI * 2); ctx.stroke();
+      return true;
+    }
+    if (scene === 'land-survey-office') {
+      const parcels = [[0.1, 0.32, 0.16, 0.12], [0.28, 0.3, 0.1, 0.16], [0.4, 0.36, 0.14, 0.1], [0.56, 0.3, 0.12, 0.14], [0.7, 0.34, 0.16, 0.12], [0.88, -0.02, 0.1, 0.14]];
+      fillSky('#dcd6c6', '#eeeae0', '#a9a08c');
+      parcels.forEach(([x, y, pw, ph], i) => {
+        ctx.fillStyle = i % 2 === 0 ? '#b7ae94' : '#c9c0a6'; ctx.fillRect(w * x, h * (0.42 + y), w * pw, h * ph);
+        ctx.strokeStyle = '#6b6255'; ctx.lineWidth = 1; ctx.strokeRect(w * x, h * (0.42 + y), w * pw, h * ph);
+      });
+      ctx.strokeStyle = '#3a3630'; ctx.lineWidth = 2; ctx.strokeRect(w * 0.28, h * 0.72, w * 0.1, h * 0.16); ctx.strokeStyle = '#7c5a2e'; ctx.beginPath(); ctx.arc(w * 0.33, h * 0.8, w * 0.02, 0, Math.PI * 2); ctx.stroke();
+      ctx.strokeStyle = '#4a4438'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(w * 0.7, h * 0.86); ctx.lineTo(w * 0.76, h * 0.7); ctx.lineTo(w * 0.82, h * 0.86); ctx.stroke(); ctx.beginPath(); ctx.moveTo(w * 0.73, h * 0.79); ctx.lineTo(w * 0.79, h * 0.79); ctx.stroke();
+      return true;
+    }
+    if (scene === 'secret-society-oath') {
+      fillSky('#2a2620', '#3c362c', '#231f19');
+      ctx.fillStyle = 'rgba(228,196,106,0.16)'; ctx.beginPath(); ctx.arc(w * 0.5, h * 0.5, w * 0.14, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#4a4038'; ctx.fillRect(w * 0.49, h * 0.52, w * 0.02, h * 0.1); ctx.fillStyle = '#e4c46a'; ctx.beginPath(); ctx.ellipse(w * 0.5, h * 0.5, w * 0.012, h * 0.022, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 1.2; ctx.fillRect(w * 0.44, h * 0.6, w * 0.12, h * 0.09); ctx.strokeRect(w * 0.44, h * 0.6, w * 0.12, h * 0.09);
+      ctx.strokeStyle = '#8a7355'; [0.635, 0.665].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.46, h * y); ctx.lineTo(w * 0.54, h * y); ctx.stroke(); });
+      const seats = [[0.22, 0.66], [0.32, 0.78], [0.68, 0.78], [0.78, 0.66]];
+      ctx.fillStyle = '#5c554a'; seats.forEach(([x, y]) => { ctx.beginPath(); ctx.arc(w * x, h * y, w * 0.018, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.ellipse(w * x, h * (y + 0.06), w * 0.028, h * 0.022, 0, 0, Math.PI * 2); ctx.fill(); });
+      return true;
+    }
+    if (scene === 'imperial-subject-policy') {
+      fillSky('#d8d2c2', '#eeeae0', '#a9a08c');
+      ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#6b6255'; ctx.lineWidth = 1.5; ctx.fillRect(w * 0.36, h * 0.24, w * 0.28, h * 0.1); ctx.strokeRect(w * 0.36, h * 0.24, w * 0.28, h * 0.1);
+      ctx.fillRect(w * 0.4, h * 0.36, w * 0.1, h * 0.14); ctx.strokeRect(w * 0.4, h * 0.36, w * 0.1, h * 0.14);
+      ctx.fillRect(w * 0.52, h * 0.36, w * 0.1, h * 0.14); ctx.strokeRect(w * 0.52, h * 0.36, w * 0.1, h * 0.14);
+      ctx.fillStyle = '#4a4438'; ctx.fillRect(w * 0.44, h * 0.58, w * 0.12, h * 0.08);
+      const people = [0.3, 0.42, 0.54, 0.66];
+      ctx.fillStyle = '#8a8478'; people.forEach(x => { ctx.beginPath(); ctx.arc(w * x, h * 0.72, w * 0.017, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.moveTo(w * x - w * 0.02, h * 0.86); ctx.lineTo(w * x + w * 0.02, h * 0.86); ctx.lineTo(w * x + w * 0.014, h * 0.74); ctx.lineTo(w * x - w * 0.014, h * 0.74); ctx.closePath(); ctx.fill(); });
+      return true;
+    }
+    if (scene === 'korean-language-society') {
+      fillSky('#e6ded0', '#f2ecdd', '#a9a08c');
+      ctx.fillStyle = '#8f8975'; ctx.fillRect(w * 0.32, h * 0.58, w * 0.36, h * 0.06);
+      [0, 1, 2, 3].forEach(i => {
+        ctx.save(); ctx.translate(w * (0.4 + i * 0.008), h * (0.44 - i * 0.02)); ctx.rotate((i - 1.5) * 0.03);
+        ctx.fillStyle = '#f2ecdd'; ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 1; ctx.fillRect(0, 0, w * 0.18, h * 0.14); ctx.strokeRect(0, 0, w * 0.18, h * 0.14);
+        ctx.strokeStyle = '#a08256'; [0.03, 0.06, 0.09].forEach(yy => { ctx.beginPath(); ctx.moveTo(w * 0.02, h * yy); ctx.lineTo(w * 0.15, h * yy); ctx.stroke(); });
+        ctx.restore();
+      });
+      ctx.fillStyle = '#8a5a35'; ctx.strokeStyle = '#5c3d24'; ctx.lineWidth = 1.5; ctx.fillRect(w * 0.68, h * 0.52, w * 0.16, h * 0.12); ctx.strokeRect(w * 0.68, h * 0.52, w * 0.16, h * 0.12);
+      ctx.beginPath(); ctx.moveTo(w * 0.68, h * 0.52); ctx.lineTo(w * 0.76, h * 0.46); ctx.lineTo(w * 0.84, h * 0.52); ctx.stroke();
+      ctx.strokeStyle = '#736355'; ctx.lineWidth = 2; ctx.setLineDash([5, 4]); ctx.beginPath(); ctx.moveTo(w * 0.2, h * 0.78); ctx.quadraticCurveTo(w * 0.45, h * 0.9, w * 0.7, h * 0.66); ctx.stroke(); ctx.setLineDash([]);
+      return true;
+    }
+    if (scene === 'ganghwa-treaty-hall') {
+      fillSky('#dee6ec', '#eef2ea', '#8ab0c2');
+      ctx.fillStyle = '#8a5a35'; ctx.fillRect(w * 0.12, h * 0.6, w * 0.24, h * 0.1); ctx.strokeStyle = '#5c3d24'; ctx.lineWidth = 1.5; ctx.strokeRect(w * 0.12, h * 0.6, w * 0.24, h * 0.1);
+      ctx.fillStyle = '#f2ecdd'; ctx.strokeStyle = '#8a7355'; ctx.fillRect(w * 0.14, h * 0.54, w * 0.08, h * 0.06); ctx.strokeRect(w * 0.14, h * 0.54, w * 0.08, h * 0.06);
+      ctx.fillRect(w * 0.24, h * 0.54, w * 0.08, h * 0.06); ctx.strokeRect(w * 0.24, h * 0.54, w * 0.08, h * 0.06);
+      ctx.strokeStyle = '#a13a2e'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(w * 0.28, h * 0.57, w * 0.024, 0, Math.PI * 2); ctx.stroke();
+      ctx.fillStyle = '#456580'; ctx.beginPath(); ctx.moveTo(w * 0.72, h * 0.5); ctx.lineTo(w * 0.86, h * 0.5); ctx.lineTo(w * 0.8, h * 0.42); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = 'rgba(69,101,128,0.5)'; ctx.lineWidth = 1.5; [0.68, 0.72].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.6, h * y); ctx.lineTo(w * 0.94, h * y); ctx.stroke(); });
+      return true;
+    }
+    if (scene === 'jejungwon-postal') {
+      fillSky('#dee6ec', '#eef2ea', '#8ab0c2');
+      ctx.fillStyle = '#8a5a35'; ctx.beginPath(); ctx.moveTo(w * 0.1, h * 0.5); ctx.lineTo(w * 0.22, h * 0.38); ctx.lineTo(w * 0.34, h * 0.5); ctx.closePath(); ctx.fill(); ctx.fillRect(w * 0.13, h * 0.5, w * 0.18, h * 0.14);
+      ctx.fillStyle = '#456580'; ctx.fillRect(w * 0.5, h * 0.56, w * 0.05, h * 0.14); ctx.strokeStyle = '#2f4657'; ctx.lineWidth = 1; ctx.strokeRect(w * 0.502, h * 0.585, w * 0.046, h * 0.03);
+      const people = [0.68, 0.78, 0.88];
+      ctx.fillStyle = '#8a8478'; people.forEach(x => { ctx.beginPath(); ctx.arc(w * x, h * 0.58, w * 0.017, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.moveTo(w * x - w * 0.02, h * 0.72); ctx.lineTo(w * x + w * 0.02, h * 0.72); ctx.lineTo(w * x + w * 0.014, h * 0.6); ctx.lineTo(w * x - w * 0.014, h * 0.6); ctx.closePath(); ctx.fill(); });
+      return true;
+    }
+    if (scene === 'hanyang-tram-street') {
+      fillSky('#dee6ec', '#eef2ea', '#8ab0c2');
+      ctx.fillStyle = '#456580'; ctx.fillRect(w * 0.2, h * 0.46, w * 0.6, h * 0.22);
+      ctx.fillStyle = '#e6eef2'; [0.28, 0.4, 0.52, 0.64].forEach(x => { ctx.fillRect(w * x, h * 0.5, w * 0.08, h * 0.08); });
+      ctx.fillStyle = '#8a8478'; [0.28, 0.4, 0.52, 0.64].forEach(x => { ctx.beginPath(); ctx.arc(w * (x + 0.04), h * 0.54, w * 0.012, 0, Math.PI * 2); ctx.fill(); });
+      ctx.fillStyle = '#3a3630'; ctx.beginPath(); ctx.arc(w * 0.3, h * 0.7, w * 0.03, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.arc(w * 0.7, h * 0.7, w * 0.03, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#5c6b78'; ctx.fillRect(w * 0.48, h * 0.3, w * 0.014, h * 0.16);
+      ctx.strokeStyle = '#3a3630'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(0, h * 0.28); ctx.lineTo(w, h * 0.3); ctx.stroke();
+      ctx.fillStyle = '#e4c46a'; ctx.beginPath(); ctx.arc(w * 0.15, h * 0.32, w * 0.02, 0, Math.PI * 2); ctx.fill();
+      return true;
+    }
+    if (scene === 'busan-shanty-rebuild') {
+      fillSky('#e6e2d4', '#f0ece0', '#9a9284');
+      const roofs = [[0.1, 0.5, 0.16], [0.24, 0.44, 0.14], [0.38, 0.5, 0.18], [0.56, 0.46, 0.15], [0.72, 0.52, 0.16]];
+      roofs.forEach(([x, y, rw]) => { ctx.fillStyle = '#8f8975'; ctx.fillRect(w * x, h * y, w * rw, h * 0.2); ctx.fillStyle = '#736355'; ctx.beginPath(); ctx.moveTo(w * x - w * 0.01, h * y); ctx.lineTo(w * (x + rw / 2), h * (y - 0.08)); ctx.lineTo(w * (x + rw) + w * 0.01, h * y); ctx.closePath(); ctx.fill(); });
+      ctx.fillStyle = '#8a5a35'; ctx.beginPath(); ctx.arc(w * 0.5, h * 0.78, w * 0.05, Math.PI, 0); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(w * 0.46, h * 0.72); ctx.quadraticCurveTo(w * 0.44, h * 0.66, w * 0.47, h * 0.62); ctx.stroke();
+      const people2 = [0.3, 0.66];
+      ctx.fillStyle = '#8a8478'; people2.forEach(x => { ctx.beginPath(); ctx.arc(w * x, h * 0.7, w * 0.016, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.moveTo(w * x - w * 0.018, h * 0.84); ctx.lineTo(w * x + w * 0.018, h * 0.84); ctx.lineTo(w * x + w * 0.012, h * 0.72); ctx.lineTo(w * x - w * 0.012, h * 0.72); ctx.closePath(); ctx.fill(); });
+      return true;
+    }
+    if (scene === 'tent-classroom') {
+      fillSky('#e6e2d4', '#f0ece0', '#9a9284');
+      ctx.fillStyle = '#a9a08c'; ctx.beginPath(); ctx.moveTo(w * 0.2, h * 0.62); ctx.lineTo(w * 0.5, h * 0.3); ctx.lineTo(w * 0.8, h * 0.62); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#736355'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(w * 0.5, h * 0.3); ctx.lineTo(w * 0.5, h * 0.62); ctx.stroke();
+      const desks = [0.3, 0.46, 0.62];
+      desks.forEach(x => {
+        ctx.fillStyle = '#8a5a35'; ctx.fillRect(w * x, h * 0.68, w * 0.1, h * 0.06);
+        ctx.fillStyle = '#f2ecdd'; ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 1; ctx.fillRect(w * (x + 0.015), h * 0.65, w * 0.07, h * 0.03); ctx.strokeRect(w * (x + 0.015), h * 0.65, w * 0.07, h * 0.03);
+      });
+      ctx.fillStyle = '#4a4438'; ctx.fillRect(w * 0.78, h * 0.7, w * 0.02, h * 0.05); ctx.beginPath(); ctx.moveTo(w * 0.8, h * 0.7); ctx.lineTo(w * 0.815, h * 0.685); ctx.lineTo(w * 0.8, h * 0.7); ctx.fill();
+      return true;
+    }
+    if (scene === 'dmz-reunion-peace') {
+      fillSky('#e6e2d4', '#f0ece0', '#9a9284');
+      ctx.strokeStyle = '#736355'; ctx.lineWidth = 2; ctx.setLineDash([6, 5]); ctx.beginPath(); ctx.moveTo(0, h * 0.62); ctx.lineTo(w, h * 0.62); ctx.stroke(); ctx.setLineDash([]);
+      const left = [0.16, 0.28]; const right = [0.72, 0.84];
+      ctx.fillStyle = '#8a8478';
+      [...left, ...right].forEach(x => { ctx.beginPath(); ctx.arc(w * x, h * 0.72, w * 0.017, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.moveTo(w * x - w * 0.02, h * 0.86); ctx.lineTo(w * x + w * 0.02, h * 0.86); ctx.lineTo(w * x + w * 0.014, h * 0.74); ctx.lineTo(w * x - w * 0.014, h * 0.74); ctx.closePath(); ctx.fill(); });
+      ctx.fillStyle = '#efe9dc'; ctx.beginPath(); ctx.ellipse(w * 0.5, h * 0.3, w * 0.05, h * 0.03, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(w * 0.45, h * 0.3); ctx.lineTo(w * 0.4, h * 0.26); ctx.lineTo(w * 0.45, h * 0.32); ctx.closePath(); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(w * 0.55, h * 0.3); ctx.lineTo(w * 0.6, h * 0.26); ctx.lineTo(w * 0.55, h * 0.32); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#5f6f57'; ctx.beginPath(); ctx.ellipse(w * 0.1, h * 0.8, w * 0.04, h * 0.03, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(w * 0.9, h * 0.78, w * 0.04, h * 0.03, 0, 0, Math.PI * 2); ctx.fill();
+      return true;
+    }
     return false;
   },
 

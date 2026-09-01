@@ -87,7 +87,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
-        "scene": "colonial-1910s-evidence",
+        "scene": "gendarme-rule-ordinance",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -160,7 +160,7 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
-        "scene": "colonial-1910s-evidence",
+        "scene": "land-survey-office",
         "interaction": "hotspot-discovery",
         "type": "gauge",
         "hotspots": [
@@ -233,7 +233,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
-        "scene": "colonial-1910s-evidence",
+        "scene": "secret-society-oath",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

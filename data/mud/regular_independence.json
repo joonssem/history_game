@@ -94,7 +94,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
-        "scene": "independence-evidence",
+        "scene": "tapgol-declaration",
         "interaction": "hotspot-discovery",
         "type": "gauge",
         "hotspots": [
@@ -185,7 +185,7 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
-        "scene": "independence-evidence",
+        "scene": "aunae-market-rally",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -276,7 +276,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
-        "scene": "independence-evidence",
+        "scene": "shanghai-provisional-government",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

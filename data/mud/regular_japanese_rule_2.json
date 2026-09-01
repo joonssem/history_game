@@ -88,7 +88,7 @@
       ],
       "simulator": {
         "mode": "text-reading",
-        "scene": "colonial-1930s-evidence",
+        "scene": "imperial-subject-policy",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -161,7 +161,7 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
-        "scene": "colonial-1930s-evidence",
+        "scene": "memorial-candlelight",
         "interaction": "hotspot-discovery",
         "type": "gauge",
         "hotspots": [
@@ -234,7 +234,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
-        "scene": "colonial-1930s-evidence",
+        "scene": "korean-language-society",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
