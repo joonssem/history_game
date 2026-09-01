@@ -693,3 +693,9 @@
 - `regular_sejong`은 2단계와 3단계 simulator에 각각 중복 `instruction`·`feedback`이 있음을 확인했으며, 자료 중심의 앞 문구를 유지하고 뒤 문구를 삭제하는 안을 사용자 승인 대기로 남겼다.
 - `BACKLOG.md`, `project_context.md`, IF·등록 경로·Phase 38 계획서의 완료 수치와 상태를 최신 커밋 기준으로 동기화했다.
 - IF 6개 사용자 최종 승인, 세종 중복 키 결정, 실제 태블릿·보조기기·학생 활동 시간 측정은 후속 검토 항목으로 유지한다.
+
+## 2026-09-01 — IF 승인 및 세종 simulator 중복 키 정리
+
+- 사용자가 IF 6개를 현행 유지 승인했다. `regular_joseon_diplomacy:2-1`의 “척화·주화” glossary 보강은 별도 보류한다.
+- `regular_sejong` 2·3단계 simulator의 뒤쪽 중복 `instruction`·`feedback` 4줄을 삭제하고, hotspot과 직접 연결되는 자료 중심 문구를 유지했다.
+- `completion.target`, hotspots, `infoText`, 단계 구조와 선택지 흐름은 변경하지 않았다.

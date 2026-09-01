@@ -2,7 +2,7 @@
 
 ## 상태
 
-- 상태: in-progress (1차 문장·Codex/Claude 검토 완료, 사용자 최종 승인 대기)
+- 상태: completed (1차 문장·Codex/Claude 검토 완료, 사용자 최종 승인)
 - 우선순위: P1-03
 - 근거: `if_stage_audit.md`와 짧은 설명·단서 수 정적 선별
 - 코드 구현: 1차 문장 보강 완료
