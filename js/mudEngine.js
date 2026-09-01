@@ -620,10 +620,10 @@ const MudEngine = {
   renderFinalReflection(endingId = "end") {
     if (window.sounds) window.sounds.playFanfare();
 
-    // 스토리별 유물 자동 잠금 해제
+    // 스토리별 유물 자동 잠금 해제 (토스트에는 ID 대신 사람이 읽는 유물명을 표시한다)
     if (this.currentMudData && this.currentMudData.rewards && window.encyclopedia) {
       this.currentMudData.rewards.forEach(r => {
-        window.encyclopedia.unlockArtifact(r.artifactId);
+        window.encyclopedia.unlockArtifact(r.name || r.artifactId);
       });
     }
 
