@@ -56,6 +56,13 @@
 - 새 Regular MUD를 인덱스에만 추가했을 때 포털에 표시되는지 확인한다.
 - 브라우저·태블릿 육안 검증은 현재 브라우저 도구 연결 오류가 해소된 뒤 수행한다.
 
+## 브라우저 회귀 확인 (2026-09-01)
+
+- 2단원 7차시: 기본 포털에 `regular_joseon_diplomacy`만 표시되고 `regular_myeongnyang`은 표시되지 않음.
+- 3단원 12차시: 기본 포털에 `regular_post_war`만 표시되고 `regular_korean_war`는 표시되지 않음.
+- 두 primary MUD 모두 버튼 클릭 후 해당 MUD 화면으로 진입했으며 콘솔 오류 0건.
+- 별도 보조 MUD 노출 영역과 실제 태블릿 육안 검증은 아직 남아 있음.
+
 ## 완료 기준
 
 - 새 Regular MUD 등록 시 `app.js` 조건문 수정이 필요 없다.

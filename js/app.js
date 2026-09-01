@@ -292,11 +292,50 @@ function showPortalView() {
 // 골든벨 퀴즈 시스템
 // ==========================================
 let quizUnitTarget = 1;
+let modalReturnFocus = null;
+
+function getVisibleModal() {
+  return [...document.querySelectorAll('[role="dialog"][aria-modal="true"]')]
+    .find(modal => getComputedStyle(modal).display !== 'none');
+}
+
+function focusModal(modal) {
+  if (!modal) return;
+  const focusable = modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
+  if (focusable.length > 0) focusable[0].focus();
+}
+
+document.addEventListener('keydown', (event) => {
+  const modal = getVisibleModal();
+  if (!modal) return;
+
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    if (modal.id === 'view-quiz-modal') closeQuizModal();
+    if (modal.id === 'view-encyclopedia-modal') closeEncyclopediaModal();
+    return;
+  }
+
+  if (event.key !== 'Tab') return;
+  const focusable = [...modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')];
+  if (focusable.length === 0) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+});
 
 function openQuizHub(unitId = 1) {
   quizUnitTarget = unitId || currentUnitId || 1;
+  modalReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
   document.getElementById('view-quiz-modal').style.display = 'flex';
   switchQuizUnit(quizUnitTarget);
+  focusModal(document.getElementById('view-quiz-modal'));
 }
 
 function switchQuizUnit(unitId) {
@@ -345,13 +384,19 @@ function startUnitQuiz() {
 
 function closeQuizModal() {
   document.getElementById('view-quiz-modal').style.display = 'none';
+  if (modalReturnFocus) modalReturnFocus.focus();
+  modalReturnFocus = null;
 }
 
 function openEncyclopediaModal() {
+  modalReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
   document.getElementById('view-encyclopedia-modal').style.display = 'flex';
   if (window.encyclopedia) window.encyclopedia.renderEncyclopedia('encyclopedia-content');
+  focusModal(document.getElementById('view-encyclopedia-modal'));
 }
 
 function closeEncyclopediaModal() {
   document.getElementById('view-encyclopedia-modal').style.display = 'none';
+  if (modalReturnFocus) modalReturnFocus.focus();
+  modalReturnFocus = null;
 }
