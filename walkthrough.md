@@ -95,7 +95,7 @@
 
 - IF 스테이지 94개 검토 신호를 설명 길이와 자료·비교 단서 수로 재선별했다.
 - `regular_korean_war` 3-1, `regular_joseon_diplomacy` 1-1·2-1·3-1, `regular_independence_army` 3-1, `regular_goryeo_culture` 1-1을 1차 검토 대상으로 정했다.
-- 문장 보강 전 교육적 기준과 변경 범위를 [`implementation_plan_if_stage_quality_batch.md`](./implementation_plan_if_stage_quality_batch.md)에 기록했다.
+- 문장 보강 전 교육적 기준과 변경 범위를 [`implementation_plan_if_stage_quality_batch.md`](./docs/plans/implementation_plan_if_stage_quality_batch.md)에 기록했다.
 - 이번 단계에서는 코드와 콘텐츠를 수정하지 않았다.
 
 ## 2026-08-31 — IF 스테이지 품질 1차 문장 보강
@@ -132,7 +132,7 @@
 
 - Regular MUD 28종의 활동 시간 구조를 다시 생성해, 10분 이내·설계 목표 약 9분 기준과 반복 탭 조기 종료 위험을 분리해 확인했다.
 - 반복 탭 구조 감사는 65개 후보를 확인했으며, 장면이 있는 단계는 Claude 소유 범위이므로 좌표·핫스팟·상호작용·완료조건을 변경하지 않았다.
-- Regular 재시도(IF) 단계 94개를 `if_stage_audit.md`로 선별했다. 설명 길이, 자료·비교 단서, 원 단계 복귀 선택지를 기준으로 검토 신호를 기록했으며, 문장 보강은 교사 검토 후 진행할 미완료 항목으로 남겼다.
+- Regular 재시도(IF) 단계 94개를 `docs/audits/if_stage_audit.md`로 선별했다. 설명 길이, 자료·비교 단서, 원 단계 복귀 선택지를 기준으로 검토 신호를 기록했으며, 문장 보강은 교사 검토 후 진행할 미완료 항목으로 남겼다.
 - 검증: `scripts/07_audit_activity_duration.py`, `scripts/09_audit_tap_resistance.py`, `scripts/10_audit_if_stages.py` 실행 완료. 이번 단계에서는 JSON 장면 필드를 수정하지 않았다.
 
 ## 2026-08-28 — P2 MUD 등록 차시 기준 정합화
@@ -151,7 +151,7 @@
 ## 2026-08-28 — P2 유물·보상 카드 구조 감사
 
 - 유물 36종의 필수 필드, 과장·단정 표현, 설명 길이를 자동 선별하는 `scripts/11_audit_artifacts.py`를 추가했다.
-- 검토 신호는 `artifact_audit.md`에 기록하고, 보상 ID 연결 검증과 교육적 사실 검토를 분리했다.
+- 검토 신호는 `docs/audits/artifact_audit.md`에 기록하고, 보상 ID 연결 검증과 교육적 사실 검토를 분리했다.
 - 이번 단계에서는 유물명을 대량 변경하지 않았으며, 실제 역사 사실·문장 난이도 판정은 교사 검토 항목으로 유지했다.
 
 ## 2026-08-28 — 문서 기반 운영 체계 정비
@@ -573,7 +573,7 @@
 - Regular MUD 28종 중 포털 매칭 차시는 39개이며, 도입·정리 차시 등 9개는 MUD가 없다.
 - `app.js`의 레거시 Regular 조건문이 약 140줄 남아 있음을 확인했다.
 - `unitId + lessonNumbers`만으로는 2단원 7차시와 3단원 12차시가 각각 두 MUD와 중복되어 첫 배열 항목을 선택하는 문제가 있다.
-- `implementation_plan_registration_single_source.md`를 작성하고, `primary`/`supplementary` 등록 계약과 검증 선행 원칙을 기록했다.
+- `docs/plans/implementation_plan_registration_single_source.md`를 작성하고, `primary`/`supplementary` 등록 계약과 검증 선행 원칙을 기록했다.
 - 이번 묶음에서는 코드와 인덱스 데이터를 변경하지 않았다. 주·보조 MUD의 교육적 선정이 먼저 필요하다.
 
 ## 2026-08-31 — P2-03 인덱스 주·보조 계약 1차 반영
@@ -777,7 +777,7 @@
 - 4분 이내 완료 관찰을 선택지 난이도·시뮬레이터 완료 조건·읽기 속도·교실 내 정보 공유로 분리해 진단하도록 정리했다.
 - 최소 플레이 로그는 개인정보 없이 브라우저 내부에서 검토하고, 유물은 수집 보상에서 관찰·비교·주장·근거 추론 자원으로 확장하는 방향을 기록했다.
 - 친구 비교·협력과 역사 타이쿤은 서버 없는 작은 실험 이후로, 백엔드·DB·로그인·실시간 멀티플레이·공개 순위표는 `Future / Not Now`로 경계를 명시했다.
-- 선택지 편향 최신 감사 수치(124개 결정 단계, 34개·114개)를 `BACKLOG.md`와 `choice_bias_audit.md`에 동기화했다.
+- 선택지 편향 최신 감사 수치(124개 결정 단계, 34개·114개)를 `BACKLOG.md`와 `docs/audits/choice_bias_audit.md`에 동기화했다.
 - 검증: `python scripts/12_audit_choice_bias.py`, `git diff --check` 통과.
 
 ## 2026-09-01 — 게임성·Vercel·Supabase 점진 도입 기준선 갱신

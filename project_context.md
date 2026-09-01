@@ -95,9 +95,9 @@ history_game/
 ├── TECH_STACK.md                        # 기술 선택과 시스템 경계
 ├── USER_FLOWS.md                        # 사용자 흐름과 플로우차트
 ├── WIREFRAMES.md                         # 핵심 화면 와이어프레임
-├── if_stage_audit.md                   # Regular 재시도(IF) 단계 구조 감사
-├── artifact_audit.md                   # 유물·보상 카드 교육 품질 감사
-├── choice_bias_audit.md                # 선택지 표현 편향 감사 결과
+├── docs/audits/                        # 감사·점검 리포트
+├── docs/plans/                         # 구현 계획서
+├── docs/handoff/                       # 에이전트 전달·작업 지시 기록
 ├── scripts/12_audit_choice_bias.py     # 선택지 길이·위치 편향 감사 스크립트
 ├── walkthrough.md                      # 완료 작업 누적 기록
 └── project_context.md                  # 이 파일
@@ -279,7 +279,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 ### 미완성 기능
 
-- **MUD 콘텐츠 품질 확장**: 일부 자동 생성 IF 스테이지와 유물 설명은 추가 교육적 검수가 필요함. IF 구조 선별 결과는 `if_stage_audit.md`에서 확인함
+- **MUD 콘텐츠 품질 확장**: 일부 자동 생성 IF 스테이지와 유물 설명은 추가 교육적 검수가 필요함. IF 구조 선별 결과는 `docs/audits/if_stage_audit.md`에서 확인함
 - **실제 활동 시간 검증**: 2026-09-01 학생들이 1단원 2·3차시 Regular 활동을 연속으로 4분 이내에 완료했다. 빠른 학습자용 선택형 확장 활동과 전체 학생 표본 측정은 후속 검토 대상이다.
 - **최소 플레이 진단 로그**: 아직 구현하지 않았다. 서버·계정 없이 단계·선택·시뮬레이터·완료 시각과 재시도 정도만 기록하는 설계가 다음 P1 후보이며, 학생 식별 정보는 수집하지 않는다.
 
@@ -289,7 +289,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 ### 기술 부채
 
-- `app.js`의 `renderCurriculum()` 내 MUD 버튼 조건문이 140줄 이상의 if-else 체인으로 구성됨. 새 MUD 추가 시 이 체인에 계속 붙여야 하므로 유지보수 어려움. 등록 단일화 계획은 [`implementation_plan_registration_single_source.md`](./implementation_plan_registration_single_source.md)에서 관리함
+- `app.js`의 `renderCurriculum()` 내 MUD 버튼 조건문이 140줄 이상의 if-else 체인으로 구성됨. 새 MUD 추가 시 이 체인에 계속 붙여야 하므로 유지보수 어려움. 등록 단일화 계획은 [`implementation_plan_registration_single_source.md`](./docs/plans/implementation_plan_registration_single_source.md)에서 관리함
 - `_index.json` 차시 중복 감사: 2단원 7차시는 `regular_myeongnyang`/`regular_joseon_diplomacy`, 3단원 12차시는 `regular_korean_war`/`regular_post_war`가 동시에 일치하여 배열 순서 의존성이 있음
 - `mudSimulators.js`의 `drawSim()`도 유사하게 simMode 분기가 많아 300줄 이상
 

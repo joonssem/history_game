@@ -15,13 +15,13 @@ FUTURE / NOT NOW: Realtime·학급 공동 이벤트·역사 타이쿤 장기 상
 
 - 2026-09-01 수업에서 1단원 2·3차시 연속 활동이 4분 이내에 완료되었다. 원인은 선택지 난이도, 시뮬레이터 완료 조건, 읽기 속도, 교실 내 정보 공유를 분리해 확인해야 한다.
 - 학생 의견은 즉시 구현 요구가 아니라 관찰 → 가설 → 작은 실험 → 재관찰로 처리한다.
-- 상세 아이디어는 보관 문서 [`student_feedback_idea_note.md`](./student_feedback_idea_note.md)와 자문 보조 문서 [`student_ideas_strategy_consult_brief.md`](./student_ideas_strategy_consult_brief.md)를 참고하되, 실행 기준은 이 BACKLOG와 구현 계획서로 삼는다.
+- 상세 아이디어는 보관 문서 [`student_feedback_idea_note.md`](./docs/archive/student_feedback_idea_note.md)와 자문 보조 문서 [`student_ideas_strategy_consult_brief.md`](./docs/archive/student_ideas_strategy_consult_brief.md)를 참고하되, 실행 기준은 이 BACKLOG와 구현 계획서로 삼는다.
 
 ## 학생 현장 체험 피드백 (2026-09-01)
 
 학생들이 직접 체험한 뒤 다음과 같은 반응을 남겼다.
 
-상세 아이디어 정리: [`student_feedback_idea_note.md`](./student_feedback_idea_note.md)
+상세 아이디어 정리: [`student_feedback_idea_note.md`](./docs/archive/student_feedback_idea_note.md)
 
 - 긍정: 재미있다는 반응이 있었고, 활동 자체의 흥미도는 확인됨.
 - 난이도·정답 추론: 긴 문장을 고르면 정답처럼 보이며, 전반적으로 너무 쉽다는 의견이 있음. 선택지 길이와 정답 위치·표현의 단서를 점검하고, 자료를 읽고 판단해야 풀 수 있도록 난이도 개선을 검토한다.
@@ -32,7 +32,7 @@ FUTURE / NOT NOW: Realtime·학급 공동 이벤트·역사 타이쿤 장기 상
 
 ### 후속 검토 항목
 
-1. **P1 — 선택지 문장 품질 보정**: 감사·1차 보정 완료. 전체 124개 결정 단계 중 정답이 오답 평균보다 10자 이상 긴 단계 34개, 모든 오답보다 긴 단계 114개가 남아 있다. 후속 보정은 교사 검토 후 진행하며, 상세 결과는 [`choice_bias_audit.md`](./choice_bias_audit.md) 참조.
+1. **P1 — 선택지 문장 품질 보정**: 감사·1차 보정 완료. 전체 124개 결정 단계 중 정답이 오답 평균보다 10자 이상 긴 단계 34개, 모든 오답보다 긴 단계 114개가 남아 있다. 후속 보정은 교사 검토 후 진행하며, 상세 결과는 [`choice_bias_audit.md`](./docs/audits/choice_bias_audit.md) 참조.
 2. **P1 — 유물 활용 시스템 기획**: 유물 조합·전시·복원·교환 등 학습과 연결되는 사용처를 설계한다.
 3. **P2 — 유물 기반 친구 경쟁/협력 모드 기획**: 실시간 네트워크 없이 가능한 비교·협력 방식부터 검토한다.
 4. **P2 — 역사 타이쿤 확장 활동 기획**: 대상 시대, 핵심 자원, 역사적 제약, 예상 활동 시간을 정의한다.
@@ -58,31 +58,31 @@ FUTURE / NOT NOW: Realtime·학급 공동 이벤트·역사 타이쿤 장기 상
 ### 현재 선정된 첫 구현 계획
 
 - 대상: `P1-01`, `regular_paleolithic` 대표 수직 슬라이스
-- 계획서: [`implementation_plan_design_alignment_vertical_slice.md`](./implementation_plan_design_alignment_vertical_slice.md)
+- 계획서: [`implementation_plan_design_alignment_vertical_slice.md`](./docs/plans/implementation_plan_design_alignment_vertical_slice.md)
 - 상태: `completed` — 정적·브라우저 대표 흐름 검증 완료
 - 구현 시작 조건: 계획 범위와 검증 결과에 대한 사용자 확인
 
 ### P1-02 첫 구현 계획
 
 - 대상: `regular_independence` 및 `regular_modern_open` 각 1~3단계의 비장면 `text-reading`·`battle-gauge`·`culture-touch` 활동
-- 계획서: [`implementation_plan_tap_resistance_batch.md`](./implementation_plan_tap_resistance_batch.md)
+- 계획서: [`implementation_plan_tap_resistance_batch.md`](./docs/plans/implementation_plan_tap_resistance_batch.md)
 - 상태: `in-progress` — 주요 코드 반영·대표 브라우저 검증 완료, 실제 학생 시간 측정 대기
 - 원칙: 장면이 있는 단계와 기존 좌표는 이번 묶음에서 변경하지 않는다.
 
 ### P1-03 IF 스테이지 1차 구현 계획
 
 - 대상: 설명이 짧고 자료·비교 단서가 부족한 IF 단계 6개
-- 계획서: [`implementation_plan_if_stage_quality_batch.md`](./implementation_plan_if_stage_quality_batch.md)
+- 계획서: [`implementation_plan_if_stage_quality_batch.md`](./docs/plans/implementation_plan_if_stage_quality_batch.md)
 - 상태: `completed` — 문장 보강·Codex/Claude 검토·사용자 최종 승인 완료
 
 ### P2-01 접근성·상태 표현 1차 계획
 
-- 계획서: [`implementation_plan_accessibility_state.md`](./implementation_plan_accessibility_state.md)
+- 계획서: [`implementation_plan_accessibility_state.md`](./docs/plans/implementation_plan_accessibility_state.md)
 - 상태: `in-progress` — 정적 반영 완료, 실제 보조기기 확인 대기
 
 ### P2-03 MUD 등록 경로 단순화 계획
 
-- 계획서: [`implementation_plan_registration_single_source.md`](./implementation_plan_registration_single_source.md)
+- 계획서: [`implementation_plan_registration_single_source.md`](./docs/plans/implementation_plan_registration_single_source.md)
 - 상태: `in-progress` — 인덱스 단일 경로·primary/supplementary·주요 브라우저 확인 완료, 보조 노출·태블릿 확인 대기
 - 감사 결과: `_index.json` 32종 등록, 커리큘럼 48차시 중 39차시 매칭, `app.js` 레거시 Regular 조건문 약 140줄 잔존
 - 주의할 중복: 2단원 7차시(`regular_myeongnyang`/`regular_joseon_diplomacy`), 3단원 12차시(`regular_korean_war`/`regular_post_war`). 주 MUD는 각각 외교·전후 재건으로 적용
@@ -123,19 +123,19 @@ FUTURE / NOT NOW: Realtime·학급 공동 이벤트·역사 타이쿤 장기 상
 
 - 최소 재시도 화면에 실제 역사 자료와 복수의 해석 단서를 보강할 대상을 선별한다.
 - Regular의 짧은 복습 목표를 넘어서지 않도록 단계 수와 문장량을 함께 검토한다.
-- 구조 선별 결과는 [`if_stage_audit.md`](./if_stage_audit.md)를 기준으로 삼고, 실제 문장 수정은 교사 검토 후 단계별로 진행한다.
+- 구조 선별 결과는 [`if_stage_audit.md`](./docs/audits/if_stage_audit.md)를 기준으로 삼고, 실제 문장 수정은 교사 검토 후 단계별로 진행한다.
 
 ### P2 — 유물·보상 설명 교육적 검수
 
 - 유물 카드 설명의 사실 범위, 출처, 5학년 수준의 문장 난이도를 검수한다.
-- 구조·표현 신호는 [`artifact_audit.md`](./artifact_audit.md)를 기준으로 확인한다.
+- 구조·표현 신호는 [`artifact_audit.md`](./docs/audits/artifact_audit.md)를 기준으로 확인한다.
 
 ### P2 — Regular MUD 등록 경로 단순화
 
 - `app.js`의 레거시 조건문 fallback을 유지할 필요와 제거 조건을 검토한다.
 - `_index.json`의 등록 차시 기준을 화면 표시 번호로 통일한 뒤 단일 등록원 전환 여부를 결정한다.
 - 중복 매칭 차시는 `primary`와 `supplementary`를 구분한 뒤 포털 기본 버튼은 `primary` 하나만 사용한다.
-- 계획서 [`implementation_plan_registration_single_source.md`](./implementation_plan_registration_single_source.md)의 순서에 따라 인덱스 계약·검증을 먼저 확정한다.
+- 계획서 [`implementation_plan_registration_single_source.md`](./docs/plans/implementation_plan_registration_single_source.md)의 순서에 따라 인덱스 계약·검증을 먼저 확정한다.
 
 ### P3 — 미확인 브라우저·기기 회귀 점검
 

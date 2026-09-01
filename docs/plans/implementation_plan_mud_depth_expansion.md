@@ -37,7 +37,7 @@
 
 ### 2.2 인터랙티브 활동의 구조적 문제
 
-[js/mudEngine.js](js/mudEngine.js)의 현재 흐름은 다음과 같다.
+[js/mudEngine.js](../../js/mudEngine.js)의 현재 흐름은 다음과 같다.
 
 1. `renderStage()`가 스테이지의 시뮬레이터를 설정한다.
 2. 같은 함수가 즉시 선택지 버튼을 생성한다.
@@ -48,7 +48,7 @@
 
 ### 2.3 활동 난이도와 반복성 문제
 
-[js/mudSimulators.js](js/mudSimulators.js)를 기준으로 현재 활동은 다음과 같은 편중이 있다.
+[js/mudSimulators.js](../../js/mudSimulators.js)를 기준으로 현재 활동은 다음과 같은 편중이 있다.
 
 - `culture-touch`: 28개 본 단계
 - `text-reading`: 25개 본 단계

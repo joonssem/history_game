@@ -2,7 +2,7 @@
 
 > 감사일: 2026-09-01  
 > 대상: `data/mud/*.json`의 선택지가 2개 이상이고 `correct: true`가 정확히 1개인 결정 단계  
-> 실행 스크립트: [`scripts/12_audit_choice_bias.py`](./scripts/12_audit_choice_bias.py)
+> 실행 스크립트: [`scripts/12_audit_choice_bias.py`](../../scripts/12_audit_choice_bias.py)
 
 ## 1. 감사 결과
 

@@ -119,7 +119,7 @@
 - `js/miniGames.js`: `startRestorationGame()` 메서드 추가. `encyclopedia.data.unlockedArtifacts`와 `artifacts.json`을 대조해 `restoreClues`가 있고 이미 해금된 유물만 후보로 삼는다(획득하지 않은 유물의 서술을 미리 보여주지 않기 위함). 후보가 0개면 "먼저 MUD를 완료해 유물을 모아보세요" 안내만 표시한다.
 - 정렬 판정·클릭 교체 로직은 `startTimelineGame`/`renderTimelineUI`의 기존 구현을 그대로 재사용하도록 공통 헬퍼로 뽑아 중복을 줄인다.
 - 완료 시 새 배지 `badge_restoration_master`(가칭)를 `encyclopedia.js`의 `badgesList`에 추가하고 `unlockBadge`로 지급한다.
-- `index.html`의 "🎮 역사 미니게임" 카드(현재 [index.html:76-81](index.html:76)) 안에 컨테이너 `div`와 버튼 하나만 추가한다. 새 섹션·새 탭은 만들지 않는다.
+- `index.html`의 "🎮 역사 미니게임" 카드(현재 [index.html:76-81](../../index.html:76)) 안에 컨테이너 `div`와 버튼 하나만 추가한다. 새 섹션·새 탭은 만들지 않는다.
 
 ### 1-4. 검증 계획
 

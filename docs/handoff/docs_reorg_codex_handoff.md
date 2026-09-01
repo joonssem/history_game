@@ -28,7 +28,7 @@
 - Sonnet이 직접 수정 가능한 3개 파일(`README.md`, `docs/plans/implementation_plan_mud_depth_expansion.md`, `docs/plans/implementation_plan_student_feedback_p1.md`)의 링크 6건을 새 경로로 수정 후, `realpath`로 실제 파일 존재를 개별 확인함(모두 OK).
 - **Codex 소유 문서 3개는 이 세션에서 편집하지 않았다** — 아래 §5 표가 그 이유와 필요한 수정 내용이다.
 
-## 5. Codex가 처리해야 할 링크 수정 (총 13건)
+## 5. Codex가 처리해야 할 링크 수정 (총 14건)
 
 Sonnet은 `PRD.md`, `BACKLOG.md`, `DECISIONS.md`, `project_context.md`, `walkthrough.md`, `agents.md`, `activity_duration_audit.md`를 직접 편집하지 않는 원칙에 따라, 아래 표의 수정을 Codex에게 위임한다. `PRD.md`, `DECISIONS.md`, `agents.md`, `activity_duration_audit.md`는 grep 전수 확인 결과 이동 대상 파일에 대한 링크가 없어 수정이 필요 없다.
 
@@ -61,3 +61,14 @@ Sonnet은 `PRD.md`, `BACKLOG.md`, `DECISIONS.md`, `project_context.md`, `walkthr
 - `scratch/` → `production_scripts/` 이름 변경은 이번 범위에서 보류함(계획서 §보류 사항 참고). 결정되면 별도 커밋으로 처리한다.
 - 그룹 A(루트 유지 15개 문서)를 향후 `docs/core/`로 옮길지 여부는 Codex 소유 문서 경로가 걸려 있어 이번에는 진행하지 않았다. 필요하면 별도 계획·별도 승인으로 진행한다.
 - 이 핸드오프 문서 자체와 계획서(`implementation_plan_docs_reorganization.md`)의 커밋 여부는 사용자 확인 후 진행 예정.
+
+## Codex 회신
+
+- `origin/main`의 문서 재배치 커밋(`431cada`)과 현재 작업 트리가 깨끗한 상태를 확인했다.
+- 핸드오프 표의 링크 수정 대상은 실제로 13건이 아니라 14건으로 확인했다.
+- `BACKLOG.md`의 보관 문서·감사·구현 계획서 링크를 `docs/archive/`, `docs/audits/`, `docs/plans/` 경로로 수정했다.
+- `walkthrough.md`와 `project_context.md`의 이동된 문서 참조도 새 경로로 수정했다.
+- 핸드오프 문서의 건수를 14건으로 정정했다.
+- `git diff --check`를 통과했으며, 이번 단계에서는 게임 코드·JSON을 수정하지 않았다.
+- 추가로 이동된 감사·계획서 본문에서 루트 `scripts/`, `js/`, `index.html`을 가리키던 상대 링크 6건을 새 경로로 수정했다.
+- 저장소 전체 Markdown 상대 링크 73건을 점검했으며, 깨진 링크는 0건이다.

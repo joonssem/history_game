@@ -15,9 +15,9 @@ MUD를 시작하면 정답 선택지가 항상 첫 번째에 표시되는 문제
 - 전체 MUD 선택지 중 `correct: true`인 항목은 238개이다.
 - 선택지가 2개 이상인 실질적 판단 단계는 113개이다.
 - 113개 단계 모두 정답 선택지가 배열의 첫 번째 항목이다.
-- 당시 [js/mudEngine.js](js/mudEngine.js)의 `renderStage()`는 `stage.choices` 배열을 JSON 순서 그대로 렌더링했다.
+- 당시 [js/mudEngine.js](../../js/mudEngine.js)의 `renderStage()`는 `stage.choices` 배열을 JSON 순서 그대로 렌더링했다.
 - 선택지의 실제 결과는 `correct` 필드가 아니라 각 선택지의 `next` 값으로 결정된다.
-- [scripts/02_fix_missing_next.py](scripts/02_fix_missing_next.py)는 누락된 `next`를 보완하는 스크립트이며, 선택지 순서는 변경하지 않는다.
+- [scripts/02_fix_missing_next.py](../../scripts/02_fix_missing_next.py)는 누락된 `next`를 보완하는 스크립트이며, 선택지 순서는 변경하지 않는다.
 
 ## 3. 목표
 
