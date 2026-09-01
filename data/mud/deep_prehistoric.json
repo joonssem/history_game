@@ -89,6 +89,10 @@
       "label": "6. 단군왕검의 고조선 건국"
     },
     {
+      "id": "6-fail",
+      "label": "6-F. 자료 무시 실패"
+    },
+    {
       "id": "7",
       "label": "7. 생명 존중 8조법 1조"
     },
@@ -99,10 +103,6 @@
     {
       "id": "8",
       "label": "8. 사유재산 8조법 3조"
-    },
-    {
-      "id": "8-fail",
-      "label": "8-F. 법치 부재 실패"
     }
   ],
   "stages": {
@@ -146,10 +146,19 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "culture-touch-bronze-surplus",
+        "scene": "gojoseon-map",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "full-granary", "label": "가득 찬 창고", "x": 0.22, "y": 0.5, "feedback": "벼농사로 늘어난 잉여 생산물이 창고에 쌓였습니다. 이 곡식을 어떻게 쓰느냐가 부족의 미래를 바꿉니다." },
+          { "id": "wealth-gap", "label": "형편이 다른 두 집", "x": 0.5, "y": 0.72, "feedback": "땅을 많이 일군 사람과 그렇지 못한 사람 사이에 재산 차이가 생겼습니다. 빈부격차가 계급 발생의 씨앗입니다." },
+          { "id": "young-chief", "label": "새로 즉위한 군장", "x": 0.78, "y": 0.5, "feedback": "잉여 생산물을 다스릴 지도자, 군장이 새로 즉위했습니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "📜 잉여 생산물과 빈부 격차의 단서를 모두 확인했습니다. 이제 통치 전략을 결단하세요." },
         "infoText": "청동기 시대에는 벼농사의 발달로 사유재산과 빈부격차, 그리고 군장(지배자)이 탄생했습니다.",
-        "instruction": "📜 <b>부족의 첫 번째 통치 전략을 결단하세요</b>",
+        "instruction": "📜 <b>단서 3곳을 확인한 뒤 부족의 통치 전략을 결단하세요</b>",
         "feedback": "농경과 교역, 혹은 군사력의 확충이 필요합니다."
       }
     },
@@ -212,11 +221,19 @@
         }
       ],
       "simulator": {
-        "mode": "culture-touch",
-        "type": "gauge",
-        "gaugeLabel": "비파형 동검 완성도:",
-        "instruction": "🗡️ <b>거푸집을 두드려 완벽한 비파형 동검을 주조하세요!</b>",
-        "feedback": "화면을 연속 터치하여 동검의 날을 완성하세요!"
+        "mode": "culture-touch-bronze-artifact",
+        "scene": "gojoseon-artifacts",
+        "interaction": "hotspot-discovery",
+        "type": "info",
+        "hotspots": [
+          { "id": "bipa-sword", "label": "비파형 동검", "x": 0.22, "y": 0.5, "feedback": "만주와 한반도 일대에서 출토되는, 악기 비파를 닮은 청동 검입니다. 군장의 권위를 상징합니다." },
+          { "id": "bronze-mirror", "label": "청동 거울", "x": 0.5, "y": 0.32, "feedback": "햇빛을 반사하는 청동 거울은 제사를 주관하는 군장의 신성한 권위를 보여 줍니다." },
+          { "id": "mold", "label": "거푸집", "x": 0.78, "y": 0.5, "feedback": "모래나 활석으로 만든 틀에 쇳물을 부어 청동기를 만듭니다. 정교한 제작 기술의 증거입니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🗡️ 비파형 동검·청동 거울·거푸집의 의미를 모두 확인했습니다. 이제 청동기의 쓰임을 결단하세요." },
+        "instruction": "🗡️ <b>귀한 청동기 3종의 의미를 확인하세요</b>",
+        "feedback": "각 청동기가 무엇을 상징하는지 눌러서 확인하세요."
       }
     },
     "1b": {
@@ -243,10 +260,19 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "culture-touch-bronze-conflict",
+        "scene": "gojoseon-artifacts",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "weapon-trace", "label": "청동 무기 흔적", "x": 0.25, "y": 0.5, "feedback": "여러 마을에서 발견된 청동 무기는 부족 간 전쟁이 있었음을 보여 줍니다." },
+          { "id": "big-tomb", "label": "유난히 큰 무덤", "x": 0.5, "y": 0.3, "feedback": "다른 무덤보다 훨씬 크고 화려한 무덤은 지배층이 따로 있었음을 알려 줍니다." },
+          { "id": "labor-trace", "label": "강제 노동의 흔적", "x": 0.75, "y": 0.5, "feedback": "전쟁 포로가 자유를 잃고 노동을 강요받았을 것으로 해석되는 흔적입니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🔎 무기·무덤·노동의 흔적을 모두 연결했습니다." },
         "infoText": "전쟁과 생산력 증가는 청동기 사회의 계층 분화를 설명하는 단서입니다.",
-        "instruction": "🔎 <b>무기·무덤·노동 흔적을 연결하세요</b>",
+        "instruction": "🔎 <b>무기·무덤·노동 흔적을 눌러 연결하세요</b>",
         "feedback": "자료가 알려 주는 범위 안에서 사회 변화를 판단하세요."
       }
     },
@@ -293,10 +319,18 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "culture-touch-bronze-power",
+        "scene": "gojoseon-artifacts",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "huge-capstone", "label": "거대한 덮개돌", "x": 0.3, "y": 0.5, "feedback": "수십 톤에 이르는 거대한 덮개돌은 그만한 인력을 동원할 힘이 있었다는 증거입니다." },
+          { "id": "many-workers", "label": "수백 명의 노동 흔적", "x": 0.7, "y": 0.5, "feedback": "많은 사람을 한꺼번에 동원해야 고인돌 같은 거석을 만들 수 있습니다. 지배층의 힘을 보여 줍니다." }
+        ],
+        "required": true,
+        "completion": { "target": 2, "increment": 1, "minActions": 2, "progressKey": "simulatorProgress", "successText": "🏰 고인돌 자료로 권력과 공동 노동의 흔적을 확인했습니다." },
         "infoText": "신분제와 계급의 등장은 거대한 인력을 동원할 수 있는 힘을 낳았습니다.",
-        "instruction": "🏰 <b>계급 사회의 위력을 결집하세요</b>",
+        "instruction": "🏰 <b>고인돌 자료에서 권력의 증거를 찾아보세요</b>",
         "feedback": "고인돌 축조로 나아갑니다."
       }
     },
@@ -332,6 +366,8 @@
       "simulator": {
         "mode": "dolmen-step1",
         "type": "buttons",
+        "required": true,
+        "completion": { "target": 1, "increment": 1, "minActions": 2, "progressKey": "simulatorProgress", "successText": "🗿 받침돌을 세우고 흙을 치워 고인돌을 완성했습니다." },
         "actions": [
           {
             "type": "dolmen",
@@ -344,7 +380,7 @@
             "label": "2. 흙 치우고 완성"
           }
         ],
-        "instruction": "🗿 <b>아래 버튼을 눌러 고인돌 축조를 완성하세요!</b>",
+        "instruction": "🗿 <b>아래 버튼을 순서대로 눌러 고인돌 축조를 완성하세요!</b>",
         "feedback": "받침돌을 세우고 흙을 치워 고인돌을 완성하세요!"
       }
     },
@@ -413,10 +449,19 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "culture-touch-totem",
+        "scene": "gojoseon-map",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "hwanung", "label": "환웅과 하늘 부족", "x": 0.22, "y": 0.5, "feedback": "하늘에서 내려왔다는 환웅 부족은 청동기·철기 등 앞선 기술을 가진 세력을 상징합니다." },
+          { "id": "bear-tribe", "label": "곰 부족", "x": 0.5, "y": 0.72, "feedback": "인내심 있게 쑥과 마늘을 견딘 곰은 정착해 농사짓는 토착 농경 부족을 상징합니다." },
+          { "id": "tiger-tribe", "label": "호랑이 부족", "x": 0.78, "y": 0.5, "feedback": "참지 못하고 뛰쳐나간 호랑이는 정착하지 않고 힘을 앞세우는 수렵 부족을 상징합니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🐻 단군신화 속 세 세력의 상징을 모두 확인했습니다. 이제 통합할 동맹을 결단하세요." },
         "infoText": "단군신화는 하늘 부족(환웅)이 곰을 숭배하는 토착 농경 부족과 결합해 고조선을 건국한 역사적 사실을 반영합니다.",
-        "instruction": "🐻 <b>통합할 동맹 부족을 선택하세요</b>",
+        "instruction": "🐻 <b>단서를 확인하고 통합할 동맹 부족을 선택하세요</b>",
         "feedback": "농경과 인내를 중시하는 부족과의 융합이 평화를 낳습니다."
       }
     },
@@ -457,7 +502,7 @@
       "choices": [
         {
           "text": "📜 \"백성의 생명과 사유재산을 지키는 '8조법' 제정에 착수한다!\"",
-          "next": "7",
+          "next": "6",
           "correct": true,
           "sound": "victory"
         }
@@ -482,7 +527,7 @@
       "choices": [
         {
           "text": "📜 \"지금이라도 엄격한 법률을 만들어 사회 기강을 바로잡는다.\"",
-          "next": "7",
+          "next": "6",
           "correct": true,
           "sound": "drum"
         }
@@ -495,9 +540,84 @@
         "feedback": "법률 제정이 시급합니다."
       }
     },
+    "6": {
+      "location": "아사달, 신단수 아래",
+      "badge": "🏛️ 제6장: 고조선의 건국 선포",
+      "character": {
+        "name": "단군왕검 (플레이어)",
+        "subtitle": "고조선의 시조",
+        "avatar": "👑"
+      },
+      "narrative": "<b>마침내 아사달을 도읍으로 삼아 '고조선'의 건국을 선포합니다!</b><br><br>《삼국유사》는 단군왕검이 기원전 2333년에 나라를 세우고 '널리 인간을 이롭게 한다'는 <b>홍익인간</b>의 뜻을 내세웠다고 전합니다. 이 건국 이야기는 신화이지만, 청동기 문화와 고인돌 같은 실제 유물·유적과 함께 살펴보면 국가 성립의 역사적 사실을 짐작할 수 있습니다.<br><br>이 건국 이야기를 오늘의 역사 탐구자로서 어떻게 받아들이겠습니까?",
+      "glossary": [
+        {
+          "term": "홍익인간",
+          "definition": "널리 인간을 이롭게 한다는 뜻으로, 고조선 건국 이념이자 우리나라 교육 이념의 뿌리"
+        },
+        {
+          "term": "삼국유사",
+          "definition": "고려 시대 승려 일연이 지은 역사책. 단군신화 등 고대의 건국 이야기가 실려 있음"
+        }
+      ],
+      "choices": [
+        {
+          "text": "🏛️ \"건국 신화는 상징이지만, 청동기 유물과 고인돌 같은 자료와 함께 보면 실제 국가 성립을 알 수 있다.\"",
+          "next": "7",
+          "correct": true,
+          "sound": "victory"
+        },
+        {
+          "text": "❌ \"신화는 지어낸 이야기일 뿐이니 고조선이라는 나라는 실제로 없었다고 결론짓는다.\"",
+          "next": "6-fail",
+          "correct": false,
+          "sound": "fail"
+        }
+      ],
+      "simulator": {
+        "mode": "culture-touch-gojoseon-founding",
+        "scene": "gojoseon-map",
+        "interaction": "hotspot-discovery",
+        "type": "info",
+        "hotspots": [
+          { "id": "asadal", "label": "도읍 아사달", "x": 0.22, "y": 0.5, "feedback": "단군왕검이 나라를 세웠다고 전해지는 도읍입니다. 실제 위치는 학자마다 의견이 다릅니다." },
+          { "id": "hongik-ingan", "label": "홍익인간 이념", "x": 0.5, "y": 0.72, "feedback": "널리 인간을 이롭게 한다는 통치 이념으로, 오늘날에도 이어지는 건국 정신입니다." },
+          { "id": "bronze-dolmen-base", "label": "청동기·고인돌 문화", "x": 0.78, "y": 0.5, "feedback": "비파형 동검과 고인돌 같은 실제 유물은 이 시기에 국가 수준의 사회가 있었음을 뒷받침합니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🏛️ 건국 이야기와 실제 유물 자료를 함께 확인했습니다. 이제 이 이야기를 어떻게 해석할지 결단하세요." },
+        "infoText": "건국 신화는 상징적 이야기이지만, 고고학 자료와 함께 살펴보면 역사적 사실을 짐작할 수 있습니다.",
+        "instruction": "🏛️ <b>단서 3곳을 확인하고 건국 이야기를 해석하세요</b>",
+        "feedback": "신화의 상징과 실제 유물을 함께 살펴보세요."
+      }
+    },
+    "6-fail": {
+      "location": "텅 빈 역사책",
+      "badge": "❌ 역사의 IF (자료 무시)",
+      "character": {
+        "name": "시간 안내원 '타미'",
+        "subtitle": "사료 해석 오류",
+        "avatar": "🤖"
+      },
+      "narrative": "<b>❌ [역사의 IF: 신화라는 이유로 자료를 통째로 무시]</b><br>건국 신화를 지어낸 이야기라며 통째로 무시하면, 그 안에 담긴 홍익인간 이념이나 청동기·고인돌 같은 실제 유물이 알려 주는 역사적 사실까지 놓치게 됩니다.<br><br>역사학자들은 <b>신화의 상징적 의미와 고고학 유물·유적을 함께 견주어</b> 고조선이 실제로 존재했던 국가임을 밝혀 왔습니다.",
+      "choices": [
+        {
+          "text": "🔄 신화와 유물 자료를 함께 살펴 다시 판단한다.",
+          "next": "6",
+          "correct": true,
+          "sound": "restart"
+        }
+      ],
+      "simulator": {
+        "mode": "culture-touch-gojoseon-founding",
+        "type": "info",
+        "infoText": "신화만 보거나 유물만 보아서는 안 되고, 두 자료를 함께 견주어야 합니다.",
+        "instruction": "🏛️ <b>신화와 유물을 함께 살펴보세요</b>",
+        "feedback": "자료를 통째로 무시하지 않아야 합니다."
+      }
+    },
     "7": {
       "location": "고조선 조정 (법률 심의)",
-      "badge": "⚖️ 제6장: 8조법 제1조 결단",
+      "badge": "⚖️ 제7장: 8조법 제1조 결단",
       "character": {
         "name": "대신 '을파소'",
         "subtitle": "법률 고문",
@@ -525,10 +645,18 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "culture-touch-gojoseon-law1",
+        "scene": "gojoseon-law",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "labor-value", "label": "농경 사회의 노동력", "x": 0.3, "y": 0.5, "feedback": "농사를 지을 사람이 줄면 국가 전체의 생산력과 군사력이 흔들립니다. 생명은 곧 노동력입니다." },
+          { "id": "social-trust", "label": "이웃 간의 신뢰", "x": 0.7, "y": 0.5, "feedback": "살인을 엄격히 벌하지 않으면 사람들이 서로를 믿지 못해 사회 질서가 무너집니다." }
+        ],
+        "required": true,
+        "completion": { "target": 2, "increment": 1, "minActions": 2, "progressKey": "simulatorProgress", "successText": "⚖️ 생명이 중요한 이유를 확인했습니다. 이제 법 조항을 결단하세요." },
         "infoText": "8조법 제1조는 '사람을 죽인 자는 즉시 사형에 처한다'로, 생명과 노동력을 극도로 중시했습니다.",
-        "instruction": "⚖️ <b>생명 존중의 법 조항을 제정하세요</b>",
+        "instruction": "⚖️ <b>단서를 확인하고 생명 존중의 법 조항을 제정하세요</b>",
         "feedback": "엄격한 생명 보호가 국가의 근간입니다."
       }
     },
@@ -559,7 +687,7 @@
     },
     "8": {
       "location": "고조선 대궐 앞 방(榜)문",
-      "badge": "📜 제7장: 8조법 제3조와 최종 결말",
+      "badge": "📜 제8장: 8조법 제3조와 최종 결말",
       "character": {
         "name": "단군왕검 (플레이어)",
         "subtitle": "법치 군주",
@@ -587,10 +715,19 @@
         }
       ],
       "simulator": {
-        "mode": "dolmen-step1",
+        "mode": "culture-touch-gojoseon-law3",
+        "scene": "gojoseon-law",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "slave-clause", "label": "노비가 된 도둑", "x": 0.22, "y": 0.5, "feedback": "도둑질한 사람은 그 집의 남자 종(노비)이 되었습니다. 신분(계급) 차이가 있었다는 증거입니다." },
+          { "id": "redemption-clause", "label": "속전 50만 전", "x": 0.5, "y": 0.72, "feedback": "대신 50만 전을 내면 죄를 면할 수 있었습니다. 재산(사유재산)이 있었다는 증거이지만, 당시 화폐를 실제로 썼는지는 학자마다 다르게 봅니다." },
+          { "id": "no-collective-punishment", "label": "가족 연좌 여부", "x": 0.78, "y": 0.5, "feedback": "이 조항 어디에도 가족까지 함께 벌준다는 말은 없습니다. 기록에 없는 내용을 사실처럼 덧붙이면 안 됩니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🔎 절도 조항의 단서 3가지를 모두 확인했습니다. 기록이 알려 주는 만큼만 판단하세요." },
         "infoText": "절도 관련 기록은 사유재산과 신분 차이를 보여 주지만, 화폐 사용 여부 등은 자료의 성격을 따져 해석해야 합니다.",
-        "instruction": "🔎 <b>법 조항에서 확인할 수 있는 사회 모습을 고르세요</b>",
+        "instruction": "🔎 <b>단서를 확인하고 법 조항에서 알 수 있는 사회 모습을 고르세요</b>",
         "feedback": "옛 법을 오늘 실행하는 것이 아니라 자료의 의미와 한계를 해석합니다."
       }
     }
