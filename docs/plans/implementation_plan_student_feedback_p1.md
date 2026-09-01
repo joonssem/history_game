@@ -2,13 +2,13 @@
 
 > **2026-09-01 갱신**: 원래 이 문서는 P1 세 항목(A·B·C)을 모두 다뤘으나, 확인 결과 Codex가 같은 로컬 저장소에서 A·B를 이미 독립적으로 처리 중이었다.
 > - **항목 B(`regular_neolithic` 2~3단계 문맥 정합성)**: Codex가 이미 수정 완료(작업트리 uncommitted). 2단계에 있던 농기구/도구 서술과 3단계에 있던 토기 서술이 서로 뒤바뀌어 있던 것을 맞는 자리로 정렬함 — 학생 제보가 실제 버그였음을 확인. 이 문서에서는 제외한다.
-> - **항목 A(선택지 길이·표현 편향)**: Codex가 [`scripts/12_audit_choice_bias.py`](scripts/12_audit_choice_bias.py)·[`choice_bias_audit.md`](choice_bias_audit.md)로 동일 감사를 이미 수행했고, [`implementation_plan_choice_quality_batch.md`](implementation_plan_choice_quality_batch.md)에 1차 배치(3단계, 승인 대기)를 계획해 두었다. 아래 §1(항목 A 원안)은 중복이므로 실행하지 않고 기록만 남긴다. 후속 배치가 필요하면 Codex 문서를 기준으로 이어간다.
+> - **항목 A(선택지 길이·표현 편향)**: Codex가 [`scripts/12_audit_choice_bias.py`](../../scripts/12_audit_choice_bias.py)·[`choice_bias_audit.md`](../audits/choice_bias_audit.md)로 동일 감사를 이미 수행했고, [`implementation_plan_choice_quality_batch.md`](implementation_plan_choice_quality_batch.md)에 1차 배치(3단계, 승인 대기)를 계획해 두었다. 아래 §1(항목 A 원안)은 중복이므로 실행하지 않고 기록만 남긴다. 후속 배치가 필요하면 Codex 문서를 기준으로 이어간다.
 >
 > 이후 이 문서는 **항목 C(유물 활용 미니 기능)** 실행 계획으로만 사용한다.
 
 ## 0. 배경과 범위
 
-- 근거 문서: [`student_feedback_idea_note.md`](student_feedback_idea_note.md) (2026-09-01, 1단원 2·3차시 학생 현장 체험 관찰)
+- 근거 문서: [`student_feedback_idea_note.md`](../archive/student_feedback_idea_note.md) (2026-09-01, 1단원 2·3차시 학생 현장 체험 관찰)
 - `BACKLOG.md` P1-02 항목에 반영된 관찰: 1단원 2·3차시 연속 활동이 4분 이내에 끝났고, 학생이 직접 오타/문맥 문제를 제보했으며, 유물 획득 후 "다음에 뭘 하나요"라는 질문에서 확장 요구가 나왔다.
 - 이번 계획은 노트의 우선순위 표에서 **P1 세 항목만** 다룬다.
   - A. 선택지 길이·표현 편향 감사 및 수정
@@ -164,5 +164,5 @@
 
 ## 부록: 실행하지 않은 항목의 후속 확인처
 
-- 항목 A 후속 배치가 필요하면 [`implementation_plan_choice_quality_batch.md`](implementation_plan_choice_quality_batch.md)와 [`choice_bias_audit.md`](choice_bias_audit.md)를 기준으로 Codex와 조율한다.
+- 항목 A 후속 배치가 필요하면 [`implementation_plan_choice_quality_batch.md`](implementation_plan_choice_quality_batch.md)와 [`choice_bias_audit.md`](../audits/choice_bias_audit.md)를 기준으로 Codex와 조율한다.
 - 항목 B는 Codex의 수정이 커밋되면 종결로 간주한다. 학생이 지적한 정확한 문구가 그 수정과 다르다면 사용자 확인이 필요하다.
