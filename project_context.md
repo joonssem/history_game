@@ -1,6 +1,6 @@
 ﻿# PROJECT_CONTEXT.md
 
-> **작성일**: 2026-08-25 | **버전**: v3.2 | **인수자**: OpenAI Codex
+> **작성일**: 2026-09-01 | **버전**: v3.3 | **인수자**: OpenAI Codex
 > **라이브 URL**: https://joonssem.github.io/history_game/
 
 이 문서는 새 개발자가 프로젝트를 빠르게 파악하고 작업을 이어갈 수 있도록 작성한 인수인계 문서다.
@@ -101,7 +101,7 @@ history_game/
   - `mudSimulators.js`는 `window.MudEngine`을 직접 참조하므로 `mudEngine.js` 이후 로드 필수
   - `app.js`는 마지막에 로드되어 나머지 모듈이 전역에 등록된 상태를 전제함
 - **뷰 전환**: `MudEngine.openMUD()` → `view-portal` hide + `view-myeongnyang` show. `showPortalView()` → 반대
-- **유물 언락 흐름**: MUD 클리어 → `renderFinalReflection()` → `encyclopedia.unlockArtifact(r.artifactId)` 순서로 호출
+- **유물 언락 흐름**: MUD 클리어 → `renderFinalReflection()` → `encyclopedia.unlockArtifact(r.name || r.artifactId)` 순서로 호출
 
 ---
 
@@ -118,10 +118,14 @@ history_game/
 - **성찰 일기**: MUD 완료 후 textarea 작성 → 클립보드 복사 제출
 - **용어 돋보기(Glossary)**: narrative 내 핵심 용어를 tooltip으로 자동 변환
 - **시대별 컬러 테마**: MUD별 themeColor를 CSS 변수(`--current-mud-color`)로 동적 적용
+- **Phase 38 근현대 장면**: 5종 MUD의 15개 고유 scene과 전체 97개 JSON↔JS scene 연결을 완료했다.
+- **유물 아이콘·보상 토스트 정합성**: 불일치 아이콘 7종을 교체하고 MUD 완료 토스트에 유물명을 표시한다.
+- **MUD 등록 primary/supplementary 분리**: 중복 차시의 기본 버튼은 primary 하나만 표시한다.
+- **모달 키보드 접근성**: Tab 순환·Escape 닫기·원래 트리거 포커스 복귀를 지원한다.
 
 ### 부분적으로 구현된 기능
 
-- **_index.json 활용**: Regular MUD는 인덱스 기반 매핑을 우선 사용하며, 기존 조건문은 호환성을 위한 fallback으로 남아 있음. 현재 2단원 7차시와 3단원 12차시는 인덱스 중복 매칭이 있어 단일 등록원 전환 전에 주·보조 MUD 계약을 확정해야 함
+- **_index.json 활용**: Regular MUD는 인덱스 기반 매핑을 우선 사용하며, 기존 조건문은 인덱스 로드 실패 시 호환성을 위한 fallback으로 남아 있음. 2단원 7차시와 3단원 12차시는 primary/supplementary 계약으로 중복을 해결했다. 보조 MUD 별도 노출은 후속 검토 대상이다.
 - **브라우저 회귀 점검**: 실제 화면·터치·접근성 확인 순서는 [`BROWSER_REGRESSION_CHECKLIST.md`](./BROWSER_REGRESSION_CHECKLIST.md)에 기록함
 
 ---
@@ -304,6 +308,13 @@ npx serve .
 ```bash
 python scripts/01_validate_game_data.py
 python scripts/03_validate_mud_integrity.py
+python scripts/04_validate_mud_contract.py
+python scripts/06_validate_static_assets.py
+python scripts/08_validate_mud_catalog.py
+python scripts/09_validate_mud_sources.py
+python scripts/10_audit_if_stages.py
+python scripts/11_audit_artifacts.py
+node scripts/05_test_simulator_runtime.js
 ```
 
 ### JS 문법 검사
@@ -325,9 +336,9 @@ node -c js/mudSimulators.js
 `mudEngine.js`보다 먼저 로드되면 `window.MudEngine`이 undefined라 `init()` 실패.
 순서: `mudEngine.js` → `mudSimulators.js` → `app.js` 반드시 유지.
 
-**2. MUD 추가 시 app.js 조건문도 수정 필요**
-JSON 파일만 추가해서는 포털에 버튼이 생기지 않는다.
-`renderCurriculum()` 내 조건문 체인에 새 분기를 추가해야 한다.
+**2. MUD 추가 시 `_index.json`을 함께 수정**
+Regular MUD는 `_index.json`의 primary 등록을 기준으로 포털 버튼이 생성된다.
+인덱스 로드 실패 시에만 기존 `app.js` 조건문 fallback이 사용된다.
 
 **3. MUD JSON 스키마 필수 필드**
 `stages` 객체의 키는 문자열 숫자여야 한다(`"1"`, `"2"`, `"1-1"` 등).

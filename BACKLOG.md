@@ -7,13 +7,11 @@
 현재 구현 순서는 학습 흐름의 안정성, 모바일 사용성, 교육 콘텐츠 품질 순으로 정한다. 아래 순서는 문서 검토 후 정한 다음 구현 후보이며, 실제 코딩은 별도 구현 계획과 사용자 확인 후 시작한다.
 
 1. **P1-01 설계·실제 화면 정합성 대표 MUD 검증** — `regular_paleolithic`을 기준으로 포털→MUD→시뮬레이터→선택지→엔딩 흐름과 세로형 태블릿 레이아웃을 대조한다. *(완료: 820×1180 Chrome 점검 통과)*
-2. **P1-02 Regular 활동 시간·무작위 탭 내성** — 반복 탭으로 핵심 자료를 우회하는 경로를 검토하고 필요한 완료 조건을 보강한다. *(5개 MUD 15단계 코드 반영, 대표 `regular_independence` 1~3단계 로컬 Chrome 회귀 확인; 실제 학생 활동 시간 측정과 잔여 구조 후보 40개 검토는 별도)*
-3. **P1-03 IF 스테이지 교육적 품질** — 재시도 단계의 자료·해석 단서를 보강할 대상을 선별한다. *(1차 6개 반영, 감사 신호 94개 → 92개; 교사 검토 대기)*
-4. **P1-04 민감한 역사 주제 상호작용 검토** — `regular_japanese_rule_2`의 강제 동원·피해자 관련 단서를 비재현적 자료 탐색으로 설계한다.
-5. **P2-01 접근성·상태 표현** — 모달, 선택지, 시뮬레이터 진행 상태와 오류 상태를 개선한다. *(1차 정적 반영, 실제 보조기기 확인 대기)*
-6. **P2-02 유물·보상 설명 교육적 검수** — 사실성·출처·문장 난이도와 보상 이미지 정합성을 검토한다. *(설명 표현은 검토 진행, 보상 이미지 불일치 후보 확인 필요)*
-7. **P2-03 MUD 등록 경로 단순화** — `_index.json` 단일 등록원 전환 여부를 결정한다. *(정상 로드 시 인덱스 단일 경로 반영; 브라우저·보조 MUD 노출 확인 대기)*
-8. **P3-01 브라우저·기기 회귀 점검** — 지원 기기와 브라우저별 정기 점검 체계를 만든다. *(브라우저 도구 버전 불일치로 실행 보류)*
+2. **P1-02 Regular 활동 시간·무작위 탭 내성** — 실제 학생 활동 시간과 잔여 구조 후보를 검토한다. *(주요 5개 MUD 반영·대표 브라우저 회귀 완료; 현재 감사 실행 결과 14개 후보, 학생 측정 대기)*
+3. **P1-03 IF 스테이지 교육적 품질** — 6개 단계의 사용자 최종 승인을 받는다. *(문장 보강·Codex/Claude 검토 완료, 사용자 승인 대기)*
+4. **P2-01 접근성·상태 표현** — 실제 보조기기와 색상 독립 상태 표현을 확인한다. *(정적·Chrome 키보드 검증 완료, 실제 기기 확인 대기)*
+5. **P2-03 MUD 등록 경로 단순화** — 보조 MUD 노출과 태블릿 확인을 마무리한다. *(primary 경로·중복 차시 브라우저 확인 완료)*
+6. **P3-01 브라우저·기기 회귀 점검** — 지원 기기와 브라우저별 정기 점검을 수행한다.
 
 ### 현재 선정된 첫 구현 계획
 
@@ -26,36 +24,24 @@
 
 - 대상: `regular_independence` 및 `regular_modern_open` 각 1~3단계의 비장면 `text-reading`·`battle-gauge`·`culture-touch` 활동
 - 계획서: [`implementation_plan_tap_resistance_batch.md`](./implementation_plan_tap_resistance_batch.md)
-- 상태: `planned` — 기존 감사 결과 기반 계획 검토 대기
+- 상태: `in-progress` — 주요 코드 반영·대표 브라우저 검증 완료, 실제 학생 시간 측정 대기
 - 원칙: 장면이 있는 단계와 기존 좌표는 이번 묶음에서 변경하지 않는다.
-
-### P1-04 민감한 역사 주제 검토 계획
-
-- 대상: `regular_japanese_rule_2` 1~3단계
-- 계획서: [`implementation_plan_sensitive_history_interactions.md`](./implementation_plan_sensitive_history_interactions.md)
-- 상태: `planned` — 교육적 검토 후 구현
 
 ### P1-03 IF 스테이지 1차 구현 계획
 
 - 대상: 설명이 짧고 자료·비교 단서가 부족한 IF 단계 6개
 - 계획서: [`implementation_plan_if_stage_quality_batch.md`](./implementation_plan_if_stage_quality_batch.md)
-- 상태: `planned` — 문장 보강 전 교육적 검토 대기
+- 상태: `in-progress` — 문장 보강·Codex/Claude 검토 완료, 사용자 최종 승인 대기
 
 ### P2-01 접근성·상태 표현 1차 계획
 
 - 계획서: [`implementation_plan_accessibility_state.md`](./implementation_plan_accessibility_state.md)
 - 상태: `in-progress` — 정적 반영 완료, 실제 보조기기 확인 대기
 
-### P2-02 유물·보상 설명 1차 계획
-
-- 대상: 자동 감사에서 표현 검토 신호가 나온 6종
-- 계획서: [`implementation_plan_artifact_wording.md`](./implementation_plan_artifact_wording.md)
-- 상태: `planned` — 표현 범위와 출처 확인 후 수정
-
 ### P2-03 MUD 등록 경로 단순화 계획
 
 - 계획서: [`implementation_plan_registration_single_source.md`](./implementation_plan_registration_single_source.md)
-- 상태: `in-progress` — 인덱스 단일 경로와 비상 호환 경로 반영, 브라우저 확인 대기
+- 상태: `in-progress` — 인덱스 단일 경로·primary/supplementary·주요 브라우저 확인 완료, 보조 노출·태블릿 확인 대기
 - 감사 결과: `_index.json` 32종 등록, 커리큘럼 48차시 중 39차시 매칭, `app.js` 레거시 Regular 조건문 약 140줄 잔존
 - 주의할 중복: 2단원 7차시(`regular_myeongnyang`/`regular_joseon_diplomacy`), 3단원 12차시(`regular_korean_war`/`regular_post_war`). 주 MUD는 각각 외교·전후 재건으로 적용
 
