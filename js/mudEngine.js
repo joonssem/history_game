@@ -130,7 +130,22 @@ const MudEngine = {
     if (stageBadge) stageBadge.style.backgroundColor = primaryHex;
 
     const fb = document.getElementById('mn-canvas-feedback');
-    if (fb) fb.style.backgroundColor = primaryHex;
+    if (fb) {
+      fb.style.backgroundColor = primaryHex;
+      const hex = primaryHex.replace('#', '');
+      const rgb = hex.length === 6
+        ? [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
+        : [0.17, 0.15, 0.14];
+      const linear = value => value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+      const luminance = 0.2126 * linear(rgb[0]) + 0.7152 * linear(rgb[1]) + 0.0722 * linear(rgb[2]);
+      const contrast = (foreground) => {
+        const fg = foreground === '#FFFFFF' ? 1 : 0.019;
+        const lighter = Math.max(luminance, fg);
+        const darker = Math.min(luminance, fg);
+        return (lighter + 0.05) / (darker + 0.05);
+      };
+      fb.style.color = contrast('#FFFFFF') >= contrast('#2C2724') ? '#FFFFFF' : '#2C2724';
+    }
 
     const gb = document.getElementById('gauge-bar');
     if (gb) gb.style.backgroundColor = primaryHex;
