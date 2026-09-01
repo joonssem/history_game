@@ -6,6 +6,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8791"],
       "port": 8791
+    },
+    {
+      "name": "static-server-claude-worktree",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "--directory", "D:/codexwork/history_game-claude", "8792"],
+      "port": 8792
     }
   ]
 }
