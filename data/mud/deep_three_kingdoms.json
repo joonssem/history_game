@@ -136,10 +136,18 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "scene": "three-kingdoms-silla",
+        "interaction": "hotspot-discovery",
         "type": "gauge",
-        "gaugeLabel": "신라군 사기 게이지:",
-        "instruction": "🔥 <b>화랑의 불꽃같은 용기로 군대의 사기를 100%로 끌어올리세요!</b>",
-        "feedback": "화면을 연속 터치하여 군대의 사기를 진작시키세요!"
+        "hotspots": [
+          { "id": "hwangsanbeol-field", "label": "황산벌 전투", "x": 0.22, "y": 0.48, "feedback": "신라군은 황산벌에서 계백의 결사대와 네 차례 맞붙어 고전했습니다." },
+          { "id": "gwanchang-ban-gul", "label": "관창과 반굴", "x": 0.5, "y": 0.65, "feedback": "두 화랑의 돌격과 희생은 신라군의 사기를 다시 일으키는 계기가 되었습니다." },
+          { "id": "tang-alliance-time", "label": "당군 합류 약속", "x": 0.78, "y": 0.48, "feedback": "당군과의 약속 시간을 지키려면 황산벌에서 결단이 필요했습니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "📌 황산벌의 상황·화랑의 행동·합류 시한 단서를 모두 확인했습니다. 이제 결단의 근거를 선택하세요." },
+        "instruction": "🔥 <b>황산벌의 단서를 세 곳 찾아 신라군의 결단을 준비하세요.</b>",
+        "feedback": "전투 상황과 인물의 행동, 시간 조건을 차례로 살펴보세요."
       }
     },
     "1-fail": {
@@ -339,22 +347,26 @@
       "simulator": {
         "mode": "text-reading",
         "type": "buttons",
+        "required": true,
+        "completion": { "target": 100, "increment": 20, "minActions": 2, "progressKey": "gaugeProgress", "successText": "🛡️ 지형과 보급 조건을 함께 고려한 방어 계획을 세웠습니다." },
         "actions": [
           {
             "type": "slider-set",
             "value": 80,
-            "label": "1. 장창 숲 전개",
+            "label": "1. 산성 앞에 장창 방진 배치",
+            "id": "spear-wall",
             "sound": "click"
           },
           {
             "type": "slider-set",
             "value": 100,
-            "label": "2. 보급로 기습",
+            "label": "2. 보급로를 끊을 복병 배치",
+            "id": "supply-ambush",
             "sound": "fanfare"
           }
         ],
         "instruction": "🛡️ <b>장창 방진을 펼치고 적의 보급로를 차단하세요!</b>",
-        "feedback": "기록에 남은 병력·말의 수와 매소성의 지형·보급 조건을 함께 확인했습니다."
+        "feedback": "병력 수뿐 아니라 매소성의 지형과 당군의 보급 조건을 함께 고려하세요."
       }
     },
     "4-fail": {
@@ -415,8 +427,10 @@
         "mode": "mn-combat-active",
         "type": "gauge",
         "gaugeLabel": "당나라 함대 격침 진행도:",
+        "required": true,
+        "completion": { "target": 100, "increment": 25, "minActions": 4, "progressKey": "gaugeProgress", "successText": "🌊 네 척의 적 함선을 맞혀 기벌포의 조류와 화공을 활용했습니다." },
         "instruction": "🚢 <b>화면을 터치하여 당나라 군선에 함포와 불화살을 발사하세요!</b>",
-        "feedback": "적 함선 4,000여 구를 격침하고 제해권을 장악하세요!"
+        "feedback": "움직이는 적 함선 네 척을 조준해 맞혀 보세요. 얕은 물과 조류가 전투에 어떤 도움을 주는지 생각해 보세요."
       }
     },
     "5-fail": {
@@ -504,10 +518,18 @@
       ],
       "simulator": {
         "mode": "battle-gauge",
+        "scene": "balhae-dongmosan",
+        "interaction": "hotspot-discovery",
         "type": "gauge",
-        "gaugeLabel": "천문령 복병 공격도:",
-        "instruction": "🏹 <b>화면을 터치하여 협곡의 당나라 추격군에 화살과 바위를 쏟아부으세요!</b>",
-        "feedback": "당나라 이해고 군대를 전멸시켰습니다!"
+        "hotspots": [
+          { "id": "cheomunryeong-gorge", "label": "좁은 협곡", "x": 0.22, "y": 0.48, "feedback": "좁은 길에서는 많은 추격군이 한꺼번에 움직이기 어렵습니다." },
+          { "id": "high-ground", "label": "높은 지대", "x": 0.5, "y": 0.65, "feedback": "높은 곳을 차지하면 이동하는 집단을 지키며 추격을 늦출 수 있습니다." },
+          { "id": "dongmosan-route", "label": "동모산 이동로", "x": 0.78, "y": 0.48, "feedback": "추격을 막는 목적은 적을 모두 없애는 것이 아니라 동쪽으로 이동할 시간을 얻는 데 있었습니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🧭 천문령의 지형과 이동 목적을 연결했습니다. 이제 발해 건국 과정의 근거를 선택하세요." },
+        "instruction": "🏹 <b>천문령의 지형과 이동로 단서를 세 곳 찾아 대응을 판단하세요.</b>",
+        "feedback": "좁은 길, 높은 지대, 동쪽으로 이어지는 이동로를 살펴보세요."
       }
     },
     "7-fail": {
