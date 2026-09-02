@@ -486,6 +486,12 @@ const MudSimulators = {
       this.setPaleoFeedback(configured ? '화면의 재료를 안내된 순서대로 찾아보세요.' : '마른 풀·나뭇가지·부싯돌을 순서대로 찾아보세요.');
       return false;
     }
+    // sequence에 없는 단서는 순서가 이른 게 아니라 이 판단과 무관한 함정 단서다. 힌트를 다르게 준다.
+    if (!sequence.includes(hotspot.id)) {
+      this.setPaleoFeedback(hotspot.feedback || `${hotspot.label}은(는) 이 판단과 관련이 없습니다. 다른 단서를 확인하세요.`);
+      if (window.sounds) window.sounds.playWrong();
+      return false;
+    }
     if (hotspot.id !== sequence[step]) {
       this.setPaleoFeedback(`${hotspot.label}보다 먼저 ${this.getPaleoHotspotLabel(sequence[step])}을(를) 준비해야 합니다.`);
       return false;
