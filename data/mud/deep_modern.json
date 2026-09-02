@@ -120,17 +120,25 @@
           "sound": "victory"
         },
         {
-          "text": "🏃 \"일제 헌병의 총칼이 무서우니 태극기를 숨기고 방 안에 숨어있는다.\"",
+          "text": "🏃 \"일제 헌병의 총칼이 두려워 태극기를 몰래 숨기고 만세를 부르지 않은 채 방 안에 숨어 지낸다.\"",
           "next": "1-fail",
           "correct": false,
           "sound": "fail"
         }
       ],
       "simulator": {
-        "mode": "culture-touch",
-        "type": "gauge",
-        "gaugeLabel": "만세 운동 확산도:",
-        "instruction": "🇰🇷 <b>화면을 터치하여 전국 방방곡곡에 만세의 함성을 울려 퍼지게 하세요!</b>",
+        "mode": "culture-touch-samil",
+        "interaction": "hotspot-discovery",
+        "type": "info",
+        "hotspots": [
+          { "id": "declaration", "label": "독립선언서 낭독", "x": 0.22, "y": 0.5, "feedback": "민족대표 33인이 조선이 독립국이며 조선인이 자주민임을 선언했습니다." },
+          { "id": "spread", "label": "전국으로 퍼진 만세", "x": 0.5, "y": 0.32, "feedback": "탑골공원에서 시작된 만세 소리가 삽시간에 전국 방방곡곡으로 퍼져나갔습니다." },
+          { "id": "aunae", "label": "유관순과 아우내 장터", "x": 0.78, "y": 0.5, "feedback": "유관순은 고향 천안 아우내 장터로 내려와 사람들에게 태극기를 나누어 주었습니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🇰🇷 독립선언서·만세 확산·아우내 장터 단서를 모두 확인했습니다. 이제 결단을 내리세요." },
+        "infoText": "3·1 운동은 전국 각지의 학생과 시민이 함께 참여한 평화적인 만세 운동이었습니다.",
+        "instruction": "🇰🇷 <b>단서 3곳을 확인하고 만세 운동의 결단을 내리세요</b>",
         "feedback": "200만 명이 넘는 온 겨레가 독립 만세를 외쳤습니다!"
       }
     },
@@ -186,7 +194,7 @@
           "sound": "victory"
         },
         {
-          "text": "🏳️ \"고향에 갈 수 있을지 불확실하니 훈련을 거부하고 무기를 버린다.\"",
+          "text": "🏳️ \"국내 진공 작전이 언제 이뤄질지 알 수 없으니 훈련을 거부하고 무기를 버린 채 부대를 떠난다.\"",
           "next": "2-fail",
           "correct": false,
           "sound": "fail"
@@ -194,9 +202,10 @@
       ],
       "simulator": {
         "mode": "precise-taegeukgi",
-        "type": "info",
+        "required": true,
+        "completion": { "target": 6, "increment": 1, "minActions": 6, "progressKey": "simulatorProgress", "successText": "🇰🇷 태극과 4괘를 모두 채웠습니다. 이제 결의를 결단하세요." },
         "infoText": "한국광복군 서명 태극기에는 대원들의 뜨거운 조국 독립 염원이 붓글씨로 빼곡히 적혀 있습니다.",
-        "instruction": "🇰🇷 <b>태극기 위에 광복의 맹세를 새기세요</b>",
+        "instruction": "🇰🇷 <b>태극기의 태극과 4괘를 모두 채워 광복의 맹세를 새기세요</b>",
         "feedback": "광복군의 불꽃같은 결의가 태극기에 새겨졌습니다."
       }
     },
@@ -252,17 +261,25 @@
           "sound": "victory"
         },
         {
-          "text": "🏃 \"부산 앞바다에 배를 타고 해외로 도망쳐 조국을 포기한다.\"",
+          "text": "🏃 \"낙동강 방어선을 버리고 부산 앞바다에서 배를 타 해외로 도망쳐 조국을 포기한다.\"",
           "next": "3-fail",
           "correct": false,
           "sound": "fail"
         }
       ],
       "simulator": {
-        "mode": "battle-gauge",
-        "type": "gauge",
-        "gaugeLabel": "낙동강 방어선 사수도:",
-        "instruction": "🪖 <b>화면을 터치하여 다부동 고지와 낙동강 방어선을 결사 사수하세요!</b>",
+        "mode": "culture-touch-nakdonggang",
+        "interaction": "hotspot-discovery",
+        "type": "info",
+        "hotspots": [
+          { "id": "division", "label": "38도선 분단과 남침", "x": 0.22, "y": 0.5, "feedback": "광복 뒤 38도선으로 분할 점령된 한반도에서 1950년 6월 25일 북한군이 남침했습니다." },
+          { "id": "frontline-map", "label": "낙동강 방어선 지도", "x": 0.5, "y": 0.32, "feedback": "전선이 낙동강까지 밀렸다가 인천상륙작전 이후 다시 회복된 경과를 지도 기록으로 확인할 수 있습니다." },
+          { "id": "student-soldier-record", "label": "학도의용군의 기록", "x": 0.78, "y": 0.5, "feedback": "학생 신분으로 참전한 학도의용군의 일기와 증언은 전쟁이 사람들에게 준 두려움과 피해를 보여 줍니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🛡️ 분단·전선 지도·학도의용군 기록을 모두 확인했습니다. 이제 결단을 내리세요." },
+        "infoText": "낙동강 방어선과 인천상륙작전의 지도, 학도의용군의 기록은 전쟁의 전개와 사람들의 경험을 함께 보여 줍니다.",
+        "instruction": "🛡️ <b>단서 3곳을 확인하고 전선의 대응을 결단하세요</b>",
         "feedback": "낙동강 전선을 사수하고 9월 15일 인천상륙작전으로 서울을 수복했습니다!"
       }
     },
@@ -326,9 +343,10 @@
       ],
       "simulator": {
         "mode": "precise-vote",
-        "type": "info",
+        "required": true,
+        "completion": { "target": 2, "increment": 1, "minActions": 2, "progressKey": "simulatorProgress", "successText": "🗳️ 도장을 찍고 투표함에 넣었습니다. 이제 결단을 내리세요." },
         "infoText": "비밀·보통·평등·직접 선거는 피로 지켜낸 민주주의의 4대 원칙입니다.",
-        "instruction": "🗳️ <b>부정선거를 거부하고 공정한 주권자의 한 표를 행사하세요</b>",
+        "instruction": "🗳️ <b>도장을 찍고 투표함에 넣어 공정한 한 표를 행사하세요</b>",
         "feedback": "4·19 혁명으로 국민이 나라의 주인임을 전 세계에 선포했습니다!"
       }
     },
@@ -384,17 +402,25 @@
           "sound": "victory"
         },
         {
-          "text": "⛓️ \"군사 정권의 계엄령 선포에 굴복하여 집으로 흩어진다.\"",
+          "text": "⛓️ \"신군부의 계엄령 확대와 강경 진압 앞에 굴복하여 거리를 떠나 각자 집으로 흩어진다.\"",
           "next": "5-fail",
           "correct": false,
           "sound": "fail"
         }
       ],
       "simulator": {
-        "mode": "culture-touch",
-        "type": "gauge",
-        "gaugeLabel": "6월 항쟁 평화 물결:",
-        "instruction": "🕊️ <b>화면을 연속 터치하여 서울 광장에 민주주의의 촛불과 함성을 가득 채우세요!</b>",
+        "mode": "culture-touch-minju-hangjaeng",
+        "interaction": "hotspot-discovery",
+        "type": "info",
+        "hotspots": [
+          { "id": "gwangju-518", "label": "5·18 광주의 저항", "x": 0.22, "y": 0.5, "feedback": "1980년 신군부의 비상계엄 확대에 맞서 광주 시민들이 지켜낸 민주주의는 유네스코 세계기록유산으로 등재됐습니다." },
+          { "id": "sacrifice", "label": "박종철·이한열의 희생", "x": 0.5, "y": 0.32, "feedback": "박종철 열사 고문치사 사건과 이한열 열사의 희생 앞에서 시민들의 분노가 커졌습니다." },
+          { "id": "june-slogan", "label": "6월 항쟁의 구호", "x": 0.78, "y": 0.5, "feedback": "\"호헌 철폐, 독재 타도\"를 외치며 전국 수백만 시민이 거리로 나섰습니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🕊️ 5·18·희생·구호 단서를 모두 확인했습니다. 이제 결단을 내리세요." },
+        "infoText": "5·18과 6월 항쟁의 기록은 시민들이 어떻게 민주화를 이끌어냈는지 보여 줍니다.",
+        "instruction": "🕊️ <b>단서 3곳을 확인하고 민주화의 결단을 내리세요</b>",
         "feedback": "6·29 민주화 선언을 이끌어내고 대통령 직선제를 쟁취했습니다!"
       }
     },
@@ -457,10 +483,18 @@
         }
       ],
       "simulator": {
-        "mode": "text-reading",
+        "mode": "culture-touch-hangang-gijeok",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "export-growth", "label": "한강의 기적 수치", "x": 0.22, "y": 0.5, "feedback": "철강·조선·자동차·전자 산업을 일으켜 1977년 수출 100억 달러를 돌파했습니다." },
+          { "id": "labor-condition", "label": "여공과 청년 노동자의 노동 조건", "x": 0.5, "y": 0.32, "feedback": "하루 14시간 넘게 먼지 구덩이에서 일하던 여공과 청년 노동자들의 눈물이 성장 이면에 있었습니다." },
+          { "id": "jeon-taeil-voice", "label": "전태일의 외침", "x": 0.78, "y": 0.5, "feedback": "\"근로기준법을 준수하라, 우리는 기계가 아니다\"라는 전태일의 목소리가 노동 인권을 일깨웠습니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🤝 성장 수치·노동 조건·전태일의 외침을 모두 확인했습니다. 이제 결단을 내리세요." },
         "infoText": "오늘날 대한민국의 번영은 공장에서 땀 흘린 모든 산업 역군과 노동자들의 헌신 덕분입니다.",
-        "instruction": "🤝 <b>성장과 인권의 조화로운 번영을 선택하세요</b>",
+        "instruction": "🤝 <b>단서 3곳을 확인하고 성장과 인권의 방향을 결단하세요</b>",
         "feedback": "인간 존중과 경제 성장이 함께 나아갑니다."
       }
     },
@@ -530,9 +564,10 @@
       ],
       "simulator": {
         "mode": "precise-taegeukgi",
-        "type": "info",
+        "required": true,
+        "completion": { "target": 6, "increment": 1, "minActions": 6, "progressKey": "simulatorProgress", "successText": "🌟 태극과 4괘를 모두 채웠습니다. 이제 다짐을 결단하세요." },
         "infoText": "역사를 잊은 민족에게 미래는 없습니다. 당신이 바로 대한민국의 미래입니다.",
-        "instruction": "🌟 <b>대한민국의 위대한 미래를 선택하세요!</b>",
+        "instruction": "🌟 <b>태극기의 태극과 4괘를 모두 채우고 대한민국의 미래를 선택하세요</b>",
         "feedback": "당신의 다짐이 대한민국의 내일을 밝힙니다."
       }
     }

@@ -80,10 +80,12 @@ const MudSimulators = {
     } else if (simMode === 'gwangbok-vote' || simMode === 'precise-vote') {
       if (!engine.voteState.stamped) {
         engine.voteState.stamped = true;
+        engine.setSimulatorProgress(1);
         actionAccepted = true;
         if (window.sounds) window.sounds.playClick();
       } else if (!engine.voteState.voteInserted) {
         engine.voteState.voteInserted = true;
+        engine.setSimulatorProgress(2);
         actionAccepted = true;
         if (window.sounds) window.sounds.playFanfare();
       }
@@ -109,6 +111,9 @@ const MudSimulators = {
       else if (!engine.taegeukState.gon) { engine.taegeukState.gon = true; actionAccepted = true; }
       else if (!engine.taegeukState.gam) { engine.taegeukState.gam = true; actionAccepted = true; }
       else if (!engine.taegeukState.ri) { engine.taegeukState.ri = true; actionAccepted = true; }
+      if (actionAccepted) {
+        engine.setSimulatorProgress(Object.values(engine.taegeukState).filter(Boolean).length);
+      }
       if (window.sounds) window.sounds.playClick();
       engine.checkTaegeukComplete();
     } else if (simMode === 'mn-combat-active') {

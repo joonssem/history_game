@@ -1,9 +1,50 @@
 const assert = require('node:assert/strict');
 
-global.window = {};
+global.window = { devicePixelRatio: 1 };
+const fakeElements = new Map();
+const canvas = {
+  width: 200,
+  height: 100,
+  getBoundingClientRect() { return { left: 0, top: 0 }; },
+  getContext() {
+    return {
+      clearRect() {}, fillText() {}, fillRect() {}, strokeRect() {},
+      beginPath() {}, closePath() {}, fill() {}, stroke() {}, clip() {},
+      arc() {}, ellipse() {}, moveTo() {}, lineTo() {}, bezierCurveTo() {},
+      quadraticCurveTo() {}, save() {}, restore() {}, translate() {},
+      rotate() {}, setLineDash() {},
+      createLinearGradient() { return { addColorStop() {} }; }
+    };
+  }
+};
+
+function makeElement() {
+  return {
+    style: {},
+    innerHTML: '',
+    textContent: '',
+    replaceChildren() {},
+    appendChild() {},
+    addEventListener() {},
+    setAttribute() {},
+    querySelectorAll() { return []; }
+  };
+}
+
+for (const id of [
+  'widget-info', 'widget-gauge', 'widget-slider', 'mn-canvas-instr',
+  'mn-canvas-feedback', 'mn-hotspot-actions', 'mn-choices-grid',
+  'mn-interactive-card'
+]) {
+  fakeElements.set(id, makeElement());
+}
+
 global.document = {
   addEventListener() {},
-  getElementById() { return null; }
+  getElementById(id) {
+    if (id === 'mn-canvas') return canvas;
+    return fakeElements.get(id) || null;
+  }
 };
 
 require('../js/mudEngine.js');
@@ -22,6 +63,14 @@ function prepare(simulator) {
   engine.simulatorProgress = 0;
   engine[simulator.completion.progressKey] = 0;
 }
+
+engine.simActionIds = new Set(['old-stage-action']);
+engine.setupSimulator({ mode: 'text-reading', type: 'info', required: false });
+assert.equal(engine.simActionIds.size, 0, 'new simulator stage must reset unique action IDs');
+engine.setupSimulator(null);
+assert.equal(engine.currentSimulator, null, 'stages without simulators must clear the current simulator');
+assert.equal(engine.simMode, '', 'stages without simulators must clear the simulator mode');
+assert.equal(fakeElements.get('mn-interactive-card').style.display, 'none', 'stages without simulators must hide the interactive card');
 
 const fire = {
   mode: 'paleo-fire',
@@ -160,5 +209,42 @@ for (const [id, value] of [['slope', 35], ['roller', 70], ['labor', 100]]) {
 }
 assert.equal(engine.simActionIds.size, 3, 'unique action IDs must be tracked separately');
 assert.equal(engine.simulatorComplete, true, 'three distinct evidence actions must unlock choices');
+
+const flag = {
+  mode: 'gwangbok-flag',
+  required: true,
+  completion: {
+    target: 6,
+    increment: 1,
+    minActions: 6,
+    progressKey: 'simulatorProgress',
+    successText: '완료'
+  }
+};
+
+prepare(flag);
+engine.taegeukState = { yangColor: false, yinColor: false, geon: false, gon: false, gam: false, ri: false };
+for (let i = 0; i < 6; i += 1) simulators.handleCanvasTouch(100, 50);
+assert.equal(engine.simulatorProgress, 6, 'direct flag canvas input must update canonical progress');
+assert.equal(engine.simulatorComplete, true, 'direct flag canvas input must unlock choices');
+
+const vote = {
+  mode: 'gwangbok-vote',
+  required: true,
+  completion: {
+    target: 2,
+    increment: 1,
+    minActions: 2,
+    progressKey: 'simulatorProgress',
+    successText: '완료'
+  }
+};
+
+prepare(vote);
+engine.voteState = { stamped: false, voteInserted: false, animY: 0 };
+simulators.handleCanvasTouch(100, 50);
+simulators.handleCanvasTouch(100, 50);
+assert.equal(engine.simulatorProgress, 2, 'direct vote canvas input must update canonical progress');
+assert.equal(engine.simulatorComplete, true, 'direct vote canvas input must unlock choices');
 
 console.log('PASS: simulator runtime state, valid-action counting, and legacy progress adapters');

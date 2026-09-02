@@ -17,6 +17,21 @@ FUTURE / NOT NOW: Realtime·학급 공동 이벤트·역사 타이쿤 장기 상
 - 학생 의견은 즉시 구현 요구가 아니라 관찰 → 가설 → 작은 실험 → 재관찰로 처리한다.
 - 상세 아이디어는 보관 문서 [`student_feedback_idea_note.md`](./docs/archive/student_feedback_idea_note.md)와 자문 보조 문서 [`student_ideas_strategy_consult_brief.md`](./docs/archive/student_ideas_strategy_consult_brief.md)를 참고하되, 실행 기준은 이 BACKLOG와 구현 계획서로 삼는다.
 
+## 2026-09-02 Track A 런타임 안정화 묶음
+
+TASK-20260902-03 | MUD·인터랙티브 활동 런타임 안정화 | 담당: Codex | 상태: DONE
+
+학생 적용 전후의 진행 불가·잘못된 화면·완료 상태 불일치 문제를 먼저 봉쇄한다. 새 게임성이나 Deep-dive 콘텐츠 확장은 이 묶음에 포함하지 않는다.
+
+- 오답 재시도 단계에 `simulator`가 없을 때 이전 단계의 시뮬레이터·안내·상태가 남을 수 있는 문제
+- `gwangbok-flag`·`gwangbok-vote` 캔버스 직접 조작이 시각 상태만 바꾸고 `simulatorProgress`를 갱신하지 않아 선택지가 계속 잠길 수 있는 문제
+- 스테이지별 고유 simulator action 상태가 명시적으로 초기화되지 않는 문제
+- 후속 분리: 현재 코드와 감사 문서의 수치·시뮬레이터 목록 불일치는 별도 감사 문서 동기화 작업으로 남긴다.
+
+계획서: [`implementation_plan_track_a_runtime_stabilization.md`](./docs/plans/implementation_plan_track_a_runtime_stabilization.md)
+
+완료 조건: 정상·오답·재시도·엔딩 흐름의 상태 정리, 캔버스·대체 버튼 완료 상태 일치, 런타임 회귀 테스트 추가, 전체 정적 품질 게이트 통과, `walkthrough.md` 기록.
+
 ## 학생 현장 체험 피드백 (2026-09-01)
 
 학생들이 직접 체험한 뒤 다음과 같은 반응을 남겼다.

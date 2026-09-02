@@ -11,6 +11,7 @@ const MudEngine = {
   simMode: '',                // 현재 시뮬레이터 모드
   currentSimulator: null,     // 현재 스테이지 시뮬레이터 계약
   simActionCount: 0,          // 현재 활동에서 수행한 행동 수
+  simActionIds: new Set(),    // 현재 활동에서 수행한 고유 행동 ID
   simulatorComplete: true,    // 필수 활동 완료 여부
   simulatorProgress: 0,
   simulatorState: { found: [], step: 0, lastId: null },
@@ -204,10 +205,8 @@ const MudEngine = {
     badge.textContent = stage.badge;
     badge.style.backgroundColor = this.themeColor;
 
-    // 시뮬레이터 모드 설정
-    if (stage.simulator) {
-      this.setupSimulator(stage.simulator);
-    }
+    // 시뮬레이터 모드 설정. 시뮬레이터가 없는 IF 단계도 이전 상태를 남기지 않는다.
+    this.setupSimulator(stage.simulator || null);
 
     // 캐릭터 프로필 카드
     const charCard = document.getElementById('mn-character-card');
@@ -411,12 +410,29 @@ const MudEngine = {
 
   // === 시뮬레이터 위젯 및 가이드 설정 ===
   setupSimulator(sim) {
-    this.simMode = sim.mode;
-    this.currentSimulator = sim;
+    this.simMode = sim?.mode || '';
+    this.currentSimulator = sim || null;
     this.simActionCount = 0;
-    this.simulatorComplete = !sim.required;
+    this.simActionIds = new Set();
+    this.simulatorComplete = !sim?.required;
     this.simulatorProgress = 0;
     this.simulatorState = { found: [], step: 0, lastId: null };
+    const interactiveCard = document.getElementById('mn-interactive-card');
+    if (interactiveCard) interactiveCard.style.display = sim ? 'block' : 'none';
+
+    // IF 재시도 화면처럼 simulator가 없는 단계에서는 이전 캔버스·안내·대체 조작을 숨긴다.
+    if (!sim) {
+      document.getElementById('widget-info').style.display = 'none';
+      document.getElementById('widget-gauge').style.display = 'none';
+      document.getElementById('widget-slider').style.display = 'none';
+      const instr = document.getElementById('mn-canvas-instr');
+      const feedback = document.getElementById('mn-canvas-feedback');
+      if (instr) instr.textContent = '';
+      if (feedback) feedback.textContent = '';
+      if (window.MudSimulators) window.MudSimulators.renderAlternativeControls();
+      return;
+    }
+
     if (sim.mode === 'paleo-environment') {
       this.paleoEnvironmentFound = 0;
       this.paleoEnvironmentState = { found: [], lastId: null };
