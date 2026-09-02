@@ -35,3 +35,34 @@
 - Realtime, 타이쿤, 본격적인 멀티플레이는 아직 하지 않음.
 
 처리 문서: [`EXPERIMENTS.md`](./EXPERIMENTS.md), [`ROADMAP.md`](./ROADMAP.md), [`ARCHITECTURE.md`](./ARCHITECTURE.md), [`BACKLOG.md`](./BACKLOG.md), [`PRD.md`](./PRD.md), [`DECISIONS.md`](./DECISIONS.md)
+
+---
+
+## 2026-09-02 방향 재정리 요청
+
+TASK-20260902-01 | 현재 구조·멀티 트랙 방향 진단 | 담당: 기획·점검 에이전트 | 상태: DONE
+
+상태: `triaged`
+
+현재 차시별로 구분된 MUD의 버그 수정하기, 인터랙티브 활동 버그 수정하기 등
+
+Deep dive MUD 고도화
+
+여러 아이디어를 생각하여 역사 웹앱의 방향을 정하기 (현재, 유물관리, 역사타이쿤 등 아이디어가 있음)
+
+요청: 위 의견을 확인하고 웹프로그래머의 전문가적 시선에서 평가 및 제안할 것.
+
+분류 메모: 기존 정합성·런타임 안정화, Deep-dive 품질 확장, 제품 방향 결정의 세 트랙으로 검토한다. 새 기능 확정 전 문제 목록·검증 기준·작은 실험을 먼저 정한다.
+
+검토 검증: `python scripts/01_validate_game_data.py`, `python scripts/03_validate_mud_integrity.py`, `python scripts/04_validate_mud_contract.py`, `python scripts/06_validate_static_assets.py`, `python scripts/08_validate_mud_catalog.py`, `python scripts/09_validate_mud_sources.py`, `python scripts/09_audit_tap_resistance.py`, `python scripts/12_audit_choice_bias.py`, `node scripts/05_test_simulator_runtime.js`, `node --check js/*.js`
+
+## 2026-09-02 에이전트 위임
+
+- Track B — Deep-dive MUD 고도화: Claude 담당
+- Track C — 역사 웹앱 제품 방향·작은 실험 설계: Claude 담당
+- Track A — Regular MUD·인터랙티브 활동 안정화 및 최종 통합: Codex 담당
+- Claude는 공용 엔진과 Codex 소유 기준 문서를 동시에 수정하지 않고, 담당 파일과 결과 보고서 중심으로 작업한다.
+
+전달 문서: [`claude_track_b_deep_dive_instruction.md`](./docs/handoff/claude_track_b_deep_dive_instruction.md), [`claude_track_c_product_direction_instruction.md`](./docs/handoff/claude_track_c_product_direction_instruction.md)
+
+TASK-20260902-02 | Track B: deep_joseon.json 파일럿 개선 | 담당: Claude | 상태: DONE (결과: docs/handoff/claude_track_b_deep_dive_result.md)
