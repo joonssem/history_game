@@ -137,16 +137,18 @@
       "simulator": {
         "mode": "battle-gauge",
         "scene": "hwangsanbeol-battle",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
         "type": "gauge",
         "hotspots": [
           { "id": "hwangsanbeol-field", "label": "황산벌 전투", "x": 0.22, "y": 0.48, "feedback": "신라군은 황산벌에서 계백의 결사대와 네 차례 맞붙어 고전했습니다." },
           { "id": "gwanchang-ban-gul", "label": "관창과 반굴", "x": 0.5, "y": 0.65, "feedback": "두 화랑의 돌격과 희생은 신라군의 사기를 다시 일으키는 계기가 되었습니다." },
-          { "id": "tang-alliance-time", "label": "당군 합류 약속", "x": 0.78, "y": 0.48, "feedback": "당군과의 약속 시간을 지키려면 황산벌에서 결단이 필요했습니다." }
+          { "id": "tang-alliance-time", "label": "당군 합류 약속", "x": 0.78, "y": 0.48, "feedback": "당군과의 약속 시간을 지키려면 황산벌에서 결단이 필요했습니다." },
+          { "id": "decoy-myeongnyang-panokseon", "label": "임진왜란의 판옥선", "x": 0.5, "y": 0.86, "feedback": "이건 조선 시대 임진왜란 이야기입니다. 지금은 660년 삼국 통일 전쟁 상황이에요." }
         ],
+        "sequence": ["tang-alliance-time", "hwangsanbeol-field", "gwanchang-ban-gul"],
         "required": true,
-        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "📌 황산벌의 상황·화랑의 행동·합류 시한 단서를 모두 확인했습니다. 이제 결단의 근거를 선택하세요." },
-        "instruction": "🔥 <b>황산벌의 단서를 세 곳 찾아 신라군의 결단을 준비하세요.</b>",
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "📌 합류 시한·전투 상황·화랑의 행동 단서를 순서대로 확인했습니다. 이제 결단의 근거를 선택하세요." },
+        "instruction": "🔥 <b>시한→전황→결단 순서로 단서를 확인해 신라군의 결단을 준비하세요.</b>",
         "feedback": "전투 상황과 인물의 행동, 시간 조건을 차례로 살펴보세요."
       }
     },
@@ -211,17 +213,19 @@
       "simulator": {
         "mode": "culture-touch-baekje-yumin",
         "scene": "three-kingdoms-baekje",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
         "type": "info",
         "hotspots": [
           { "id": "ungjin-dodokbu", "label": "웅진도독부", "x": 0.22, "y": 0.5, "feedback": "당나라가 백제 땅에 세운 통치 기구입니다. 신라를 배제하고 직접 지배하려는 의도를 보여 줍니다." },
           { "id": "baekje-buheung", "label": "백제 부흥군", "x": 0.5, "y": 0.72, "feedback": "흑치상지·복신 등이 각지에서 일어나 신라군을 공격하고 있어, 후방이 불안정한 상태입니다." },
-          { "id": "silla-military-limit", "label": "신라 단독 전력의 한계", "x": 0.78, "y": 0.5, "feedback": "신라 혼자서는 당나라의 대군에 맞서기 어려워, 백제 유민을 아군으로 만들 필요가 있었습니다." }
+          { "id": "silla-military-limit", "label": "신라 단독 전력의 한계", "x": 0.78, "y": 0.5, "feedback": "신라 혼자서는 당나라의 대군에 맞서기 어려워, 백제 유민을 아군으로 만들 필요가 있었습니다." },
+          { "id": "decoy-haedongseongguk", "label": "발해의 해동성국", "x": 0.5, "y": 0.86, "feedback": "해동성국은 훨씬 뒤에 세워진 발해 이야기입니다. 지금은 백제가 멸망한 직후예요." }
         ],
+        "sequence": ["ungjin-dodokbu", "baekje-buheung", "silla-military-limit"],
         "required": true,
-        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🤝 당의 의도·부흥군의 저항·신라의 전력 조건을 모두 확인했습니다. 이제 백제 유민을 어떻게 대할지 결단하세요." },
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🤝 당의 의도·부흥군의 저항·신라의 전력 조건을 순서대로 확인했습니다. 이제 백제 유민을 어떻게 대할지 결단하세요." },
         "infoText": "문무왕은 백제 유민들에게 신라 관등을 수여하며 나당 전쟁의 든든한 우군으로 흡수했습니다.",
-        "instruction": "🤝 <b>단서 3곳을 확인하고 대통합의 정치를 결단하세요</b>",
+        "instruction": "🤝 <b>당의 위협→내부 저항→신라의 한계 순서로 단서를 확인하고 대통합의 정치를 결단하세요</b>",
         "feedback": "민족적 융합이 당나라를 물리칠 힘이 됩니다."
       }
     },
@@ -290,17 +294,19 @@
       "simulator": {
         "mode": "culture-touch-goguryeo-buheung",
         "scene": "three-kingdoms-goguryeo",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
         "type": "info",
         "hotspots": [
           { "id": "andong-dohobu", "label": "안동도호부", "x": 0.22, "y": 0.5, "feedback": "당나라가 평양에 세운 군사 통치 기구로, 옛 고구려 땅을 직접 지배하려 했습니다." },
           { "id": "gyerim-dodokbu", "label": "계림대도독부", "x": 0.5, "y": 0.32, "feedback": "당나라가 신라까지 명목상 복속시키려 경주에 두었던 기구입니다. 항복이 곧 예속으로 이어질 위험을 보여 줍니다." },
-          { "id": "ansung-bodeokguk", "label": "안승과 보덕국", "x": 0.78, "y": 0.5, "feedback": "훗날 문무왕은 실제로 안승을 보덕국왕으로 봉해 나당 전쟁의 선봉으로 삼았습니다." }
+          { "id": "ansung-bodeokguk", "label": "안승과 보덕국", "x": 0.78, "y": 0.5, "feedback": "훗날 문무왕은 실제로 안승을 보덕국왕으로 봉해 나당 전쟁의 선봉으로 삼았습니다." },
+          { "id": "decoy-hwangsanbeol", "label": "김유신의 황산벌 전투", "x": 0.5, "y": 0.86, "feedback": "황산벌 전투는 8년 전 백제와의 싸움입니다. 지금은 고구려가 멸망한 뒤의 상황이에요." }
         ],
+        "sequence": ["andong-dohobu", "gyerim-dodokbu", "ansung-bodeokguk"],
         "required": true,
-        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "⚔️ 당의 통치 기구와 신라의 대응 선례를 모두 확인했습니다. 이제 고구려 부흥군에 대한 대응을 결단하세요." },
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "⚔️ 당의 통치 기구와 신라의 대응 선례를 순서대로 확인했습니다. 이제 고구려 부흥군에 대한 대응을 결단하세요." },
         "infoText": "신라는 고구려 유민과 연합하여 7년간의 대규모 나당 전쟁(670~676)에 돌입했습니다.",
-        "instruction": "⚔️ <b>단서 3곳을 확인하고 대응을 결단하세요</b>",
+        "instruction": "⚔️ <b>당의 지배 시도→예속 위험→저항 선례 순서로 단서를 확인하고 대응을 결단하세요</b>",
         "feedback": "당나라의 야욕을 꺾어야 조국을 지킬 수 있습니다."
       }
     },
@@ -538,16 +544,18 @@
       "simulator": {
         "mode": "battle-gauge",
         "scene": "cheomunryeong-battle",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
         "type": "gauge",
         "hotspots": [
           { "id": "cheomunryeong-gorge", "label": "좁은 협곡", "x": 0.22, "y": 0.48, "feedback": "좁은 길에서는 많은 추격군이 한꺼번에 움직이기 어렵습니다." },
           { "id": "high-ground", "label": "높은 지대", "x": 0.5, "y": 0.65, "feedback": "높은 곳을 차지하면 이동하는 집단을 지키며 추격을 늦출 수 있습니다." },
-          { "id": "dongmosan-route", "label": "동모산 이동로", "x": 0.78, "y": 0.48, "feedback": "추격을 막는 목적은 적을 모두 없애는 것이 아니라 동쪽으로 이동할 시간을 얻는 데 있었습니다." }
+          { "id": "dongmosan-route", "label": "동모산 이동로", "x": 0.78, "y": 0.48, "feedback": "추격을 막는 목적은 적을 모두 없애는 것이 아니라 동쪽으로 이동할 시간을 얻는 데 있었습니다." },
+          { "id": "decoy-ansi-fortress", "label": "안시성 전투", "x": 0.5, "y": 0.86, "feedback": "안시성 전투는 고구려가 멸망하기 전인 645년의 일입니다. 지금은 고구려 멸망 이후 유민들의 이동이에요." }
         ],
+        "sequence": ["cheomunryeong-gorge", "high-ground", "dongmosan-route"],
         "required": true,
-        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🧭 천문령의 지형과 이동 목적을 연결했습니다. 이제 발해 건국 과정의 근거를 선택하세요." },
-        "instruction": "🏹 <b>천문령의 지형과 이동로 단서를 세 곳 찾아 대응을 판단하세요.</b>",
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🧭 협곡·고지·이동로 단서를 순서대로 연결했습니다. 이제 발해 건국 과정의 근거를 선택하세요." },
+        "instruction": "🏹 <b>협곡→고지→이동로 순서로 단서를 확인해 대응을 판단하세요.</b>",
         "feedback": "좁은 길, 높은 지대, 동쪽으로 이어지는 이동로를 살펴보세요."
       }
     },
