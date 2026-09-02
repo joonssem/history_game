@@ -55,6 +55,7 @@ def is_supported_interaction(interaction: str) -> bool:
         "resource-allocation",
         "reflection",
         "gauge",
+        "hotspot-choice",
     }
 
 
@@ -201,6 +202,12 @@ def main() -> int:
             reachable.add(stage_id)
             for choice in stages[stage_id].get("choices", []):
                 target = choice.get("next")
+                if target and target != "end" and not str(target).startswith("ending_"):
+                    queue.append(str(target))
+            # hotspot-choice 활동은 선택지 버튼 대신 hotspots[].next로 분기하므로 함께 순회한다.
+            simulator = stages[stage_id].get("simulator") or {}
+            for hotspot in simulator.get("hotspots", []):
+                target = hotspot.get("next")
                 if target and target != "end" and not str(target).startswith("ending_"):
                     queue.append(str(target))
 

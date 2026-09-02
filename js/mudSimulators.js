@@ -8,7 +8,8 @@ const MudSimulators = {
     'ordered-hotspot': 'processOrderedHotspot',
     'hotspot-discovery': 'processPaleoDiscovery',
     'resource-allocation': 'processPaleoDiscovery',
-    reflection: 'processPaleoDiscovery'
+    reflection: 'processPaleoDiscovery',
+    'hotspot-choice': 'processHotspotChoice'
   },
 
   dispatchHotspotInteraction(mode, hotspot, engine) {
@@ -45,7 +46,7 @@ const MudSimulators = {
     let actionAccepted = false;
     let hotspotInteracted = null;
 
-    if (simMode.startsWith('dolmen') && !['hotspot-discovery', 'ordered-hotspot', 'resource-allocation', 'reflection'].includes(interaction)) {
+    if (simMode.startsWith('dolmen') && !['hotspot-discovery', 'ordered-hotspot', 'resource-allocation', 'reflection', 'hotspot-choice'].includes(interaction)) {
       if (simMode === 'dolmen-step1') {
         if (!engine.dolmenState.baseSet) {
           engine.dolmenState.baseSet = true;
@@ -93,6 +94,11 @@ const MudSimulators = {
       hotspotInteracted = this.getPaleoHotspot(simMode, x, y, canvas);
       actionAccepted = this.dispatchHotspotInteraction(simMode, hotspotInteracted, engine);
     } else if (interaction === 'hotspot-discovery' || interaction === 'resource-allocation' || interaction === 'reflection') {
+      hotspotInteracted = this.getPaleoHotspot(simMode, x, y, canvas);
+      actionAccepted = this.dispatchHotspotInteraction(simMode, hotspotInteracted, engine);
+    } else if (interaction === 'hotspot-choice') {
+      // 단서가 아니라 선택 그 자체인 핫스팟이다. 결정 지점을 클릭하면 다음 단계로 즉시 전환되므로,
+      // 전환된 새 단계에 진행 기록이 잘못 남지 않도록 processHotspotChoice가 actionAccepted를 false로 반환한다.
       hotspotInteracted = this.getPaleoHotspot(simMode, x, y, canvas);
       actionAccepted = this.dispatchHotspotInteraction(simMode, hotspotInteracted, engine);
     } else if (simMode === 'neolithic-pottery' || simMode.startsWith('economy') || simMode.startsWith('battle-gauge') || simMode.startsWith('culture-touch') || simMode.startsWith('text-reading')) {
@@ -475,6 +481,38 @@ const MudSimulators = {
     this.setPaleoFeedback(`${hotspot.label}: ${hotspot.feedback} (${state.found.length}/${total})`, hotspot.id);
     if (window.sounds) window.sounds.playClick();
     return true;
+  },
+
+  // 시뮬레이터가 곧 선택지인 활동이다. hotspot.next가 있으면 클릭이 곧 결단이며, 텍스트 선택지
+  // 버튼 없이 지도 위의 지점을 고르는 것으로 분기한다. next가 없는 핫스팟은 정보용 단서로,
+  // 클릭해도 이동하지 않고 의미만 확인한다(결정 전에 참고할 배경 정보).
+  processHotspotChoice(mode, hotspot, engine) {
+    if (!hotspot) {
+      this.setPaleoFeedback('화면에 표시된 지점 중 하나를 선택해 결단하세요.');
+      return false;
+    }
+    if (!hotspot.next) {
+      const state = engine.getSimulatorState(mode);
+      if (!state.found.includes(hotspot.id)) state.found.push(hotspot.id);
+      engine.setSimulatorProgress(state.found.length);
+      this.setPaleoFeedback(`${hotspot.label}: ${hotspot.feedback}`, hotspot.id);
+      if (window.sounds) window.sounds.playClick();
+      return true;
+    }
+    if (window.sounds) {
+      if (hotspot.sound === 'fail') window.sounds.playWrong();
+      else if (hotspot.sound === 'victory' || hotspot.sound === 'fanfare') window.sounds.playFanfare();
+      else window.sounds.playClick();
+    }
+    if (typeof hotspot.next === 'string' && hotspot.next.startsWith('ending_')) {
+      if (window.encyclopedia) window.encyclopedia.unlockBadge('badge_timeline_master');
+      engine.renderFinalReflection(hotspot.next);
+    } else {
+      engine.renderStage(hotspot.next);
+    }
+    // 이미 다음 단계로 전환되었으므로, 이 클릭을 이전 단계의 진행 기록(simActionCount 등)으로
+    // 남기지 않기 위해 의도적으로 false를 반환한다.
+    return false;
   },
 
   processOrderedHotspot(mode, hotspot, engine) {
@@ -1642,7 +1680,7 @@ const MudSimulators = {
     const engine = window.MudEngine;
     if (!container || !engine) return;
 
-    const supported = ['hotspot-discovery', 'resource-allocation', 'reflection', 'ordered-hotspot'];
+    const supported = ['hotspot-discovery', 'resource-allocation', 'reflection', 'ordered-hotspot', 'hotspot-choice'];
     const interaction = engine.currentSimulator?.interaction;
     if (!engine.currentSimulator?.required || !supported.includes(interaction)) {
       container.replaceChildren();

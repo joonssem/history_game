@@ -5,7 +5,8 @@
     "ordered-hotspot",
     "resource-allocation",
     "reflection",
-    "gauge"
+    "gauge",
+    "hotspot-choice"
   ],
   "requiredSimulatorCompletion": [
     "target",
@@ -31,6 +32,7 @@
     "observe"
   ],
   "hotspotFields": ["id", "label", "feedback", "x", "y"],
+  "hotspotChoiceOptionalFields": ["next", "sound"],
   "curriculumMetadata": {
     "currentContent": "2015-revised-grade5-semester2",
     "targetContent": "2022-revised",

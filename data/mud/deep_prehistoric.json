@@ -428,40 +428,22 @@
           "definition": "단군(제사장) + 왕검(정치적 지배자)의 합성어로 제정일치 지배자를 뜻함"
         }
       ],
-      "choices": [
-        {
-          "text": "🌾 \"인내심이 강하고 농경에 능한 '곰 부족'을 주 파트너로 맞아들여 연합한다!\"",
-          "next": "5a",
-          "correct": true,
-          "sound": "victory"
-        },
-        {
-          "text": "🐯 \"용맹하지만 호전적인 '호랑이 부족'의 힘만 믿고 무력으로 통합을 밀어붙인다.\"",
-          "next": "5b",
-          "correct": true,
-          "sound": "drum"
-        },
-        {
-          "text": "🏔️ \"다른 부족과의 연합을 일절 거부하고 우리 부족만 고립되어 살아간다.\"",
-          "next": "4-fail",
-          "correct": false,
-          "sound": "fail"
-        }
-      ],
+      "choices": [],
       "simulator": {
         "mode": "culture-touch-totem",
         "scene": "gojoseon-map",
-        "interaction": "hotspot-discovery",
+        "interaction": "hotspot-choice",
         "type": "info",
-        "hotspots": [
-          { "id": "hwanung", "label": "환웅과 하늘 부족", "x": 0.22, "y": 0.5, "feedback": "하늘에서 내려왔다는 환웅 부족은 청동기·철기 등 앞선 기술을 가진 세력을 상징합니다." },
-          { "id": "bear-tribe", "label": "곰 부족", "x": 0.5, "y": 0.72, "feedback": "인내심 있게 쑥과 마늘을 견딘 곰은 정착해 농사짓는 토착 농경 부족을 상징합니다." },
-          { "id": "tiger-tribe", "label": "호랑이 부족", "x": 0.78, "y": 0.5, "feedback": "참지 못하고 뛰쳐나간 호랑이는 정착하지 않고 힘을 앞세우는 수렵 부족을 상징합니다." }
-        ],
         "required": true,
-        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🐻 단군신화 속 세 세력의 상징을 모두 확인했습니다. 이제 통합할 동맹을 결단하세요." },
+        "hotspots": [
+          { "id": "hwanung", "label": "환웅과 하늘 부족", "x": 0.5, "y": 0.28, "feedback": "하늘에서 내려왔다는 환웅 부족은 청동기·철기 등 앞선 기술을 가진 세력을 상징합니다. (참고 정보 — 눌러도 이동하지 않습니다)" },
+          { "id": "bear-tribe", "label": "🌾 곰 부족과 연합한다", "x": 0.24, "y": 0.7, "feedback": "인내심 있게 쑥과 마늘을 견딘 곰은 정착해 농사짓는 토착 농경 부족을 상징합니다.", "next": "5a", "sound": "victory" },
+          { "id": "tiger-tribe", "label": "🐯 호랑이 부족의 힘을 빌린다", "x": 0.76, "y": 0.7, "feedback": "참지 못하고 뛰쳐나간 호랑이는 정착하지 않고 힘을 앞세우는 수렵 부족을 상징합니다.", "next": "5b", "sound": "drum" },
+          { "id": "isolation", "label": "🏔️ 연합을 거부하고 고립한다", "x": 0.5, "y": 0.9, "feedback": "다른 부족과 손잡지 않으면 작은 씨족에 머물러 국가로 성장할 수 없습니다.", "next": "4-fail", "sound": "fail" }
+        ],
+        "completion": { "target": 1, "increment": 1, "minActions": 1, "progressKey": "simulatorProgress", "successText": "🐻 환웅 부족의 배경을 확인했습니다. 이제 지도 위에서 손잡을 부족을 직접 선택하세요." },
         "infoText": "단군신화는 하늘 부족(환웅)이 곰을 숭배하는 토착 농경 부족과 결합해 고조선을 건국한 역사적 사실을 반영합니다.",
-        "instruction": "🐻 <b>단서를 확인하고 통합할 동맹 부족을 선택하세요</b>",
+        "instruction": "🐻 <b>지도 위의 세 부족 중 하나를 직접 선택하면 그 결정으로 이야기가 갈라집니다 (환웅은 참고 정보입니다)</b>",
         "feedback": "농경과 인내를 중시하는 부족과의 융합이 평화를 낳습니다."
       }
     },
