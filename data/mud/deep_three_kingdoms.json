@@ -209,10 +209,19 @@
         }
       ],
       "simulator": {
-        "mode": "text-reading",
+        "mode": "culture-touch-baekje-yumin",
+        "scene": "three-kingdoms-baekje",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "ungjin-dodokbu", "label": "웅진도독부", "x": 0.22, "y": 0.5, "feedback": "당나라가 백제 땅에 세운 통치 기구입니다. 신라를 배제하고 직접 지배하려는 의도를 보여 줍니다." },
+          { "id": "baekje-buheung", "label": "백제 부흥군", "x": 0.5, "y": 0.72, "feedback": "흑치상지·복신 등이 각지에서 일어나 신라군을 공격하고 있어, 후방이 불안정한 상태입니다." },
+          { "id": "silla-military-limit", "label": "신라 단독 전력의 한계", "x": 0.78, "y": 0.5, "feedback": "신라 혼자서는 당나라의 대군에 맞서기 어려워, 백제 유민을 아군으로 만들 필요가 있었습니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🤝 당의 의도·부흥군의 저항·신라의 전력 조건을 모두 확인했습니다. 이제 백제 유민을 어떻게 대할지 결단하세요." },
         "infoText": "문무왕은 백제 유민들에게 신라 관등을 수여하며 나당 전쟁의 든든한 우군으로 흡수했습니다.",
-        "instruction": "🤝 <b>대통합의 정치를 결단하세요</b>",
+        "instruction": "🤝 <b>단서 3곳을 확인하고 대통합의 정치를 결단하세요</b>",
         "feedback": "민족적 융합이 당나라를 물리칠 힘이 됩니다."
       }
     },
@@ -279,10 +288,19 @@
         }
       ],
       "simulator": {
-        "mode": "text-reading",
+        "mode": "culture-touch-goguryeo-buheung",
+        "scene": "three-kingdoms-goguryeo",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "andong-dohobu", "label": "안동도호부", "x": 0.22, "y": 0.5, "feedback": "당나라가 평양에 세운 군사 통치 기구로, 옛 고구려 땅을 직접 지배하려 했습니다." },
+          { "id": "gyerim-dodokbu", "label": "계림대도독부", "x": 0.5, "y": 0.32, "feedback": "당나라가 신라까지 명목상 복속시키려 경주에 두었던 기구입니다. 항복이 곧 예속으로 이어질 위험을 보여 줍니다." },
+          { "id": "ansung-bodeokguk", "label": "안승과 보덕국", "x": 0.78, "y": 0.5, "feedback": "훗날 문무왕은 실제로 안승을 보덕국왕으로 봉해 나당 전쟁의 선봉으로 삼았습니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "⚔️ 당의 통치 기구와 신라의 대응 선례를 모두 확인했습니다. 이제 고구려 부흥군에 대한 대응을 결단하세요." },
         "infoText": "신라는 고구려 유민과 연합하여 7년간의 대규모 나당 전쟁(670~676)에 돌입했습니다.",
-        "instruction": "⚔️ <b>자주 수호를 위한 선전포고를 결단하세요!</b>",
+        "instruction": "⚔️ <b>단서 3곳을 확인하고 대응을 결단하세요</b>",
         "feedback": "당나라의 야욕을 꺾어야 조국을 지킬 수 있습니다."
       }
     },
@@ -598,10 +616,19 @@
         }
       ],
       "simulator": {
-        "mode": "text-reading",
+        "mode": "culture-touch-haedongseongguk",
+        "scene": "balhae-dongmosan",
+        "interaction": "hotspot-discovery",
         "type": "info",
+        "hotspots": [
+          { "id": "haedongseongguk", "label": "해동성국", "x": 0.22, "y": 0.5, "feedback": "훗날 발해가 '바다 동쪽의 번성한 나라'라는 뜻의 해동성국으로 불릴 만큼 국력이 강성해졌습니다." },
+          { "id": "goguryeo-succession", "label": "고구려 계승 의식", "x": 0.5, "y": 0.72, "feedback": "대조영은 스스로 고구려의 문화와 기상을 잇는다고 선언했습니다." },
+          { "id": "nambukguk", "label": "남북국 시대", "x": 0.78, "y": 0.5, "feedback": "훗날 유득공은 『발해고』에서 통일신라(남)와 발해(북)가 공존한 시기를 하나의 시대로 정립했습니다." }
+        ],
+        "required": true,
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "👑 발해의 성장·계승 의식·역사적 위치를 모두 확인했습니다. 이제 국가 비전을 선포하세요." },
         "infoText": "발해는 고구려 계승 의식을 바탕으로 만주와 연해주를 호령한 해동성국으로 발전했습니다.",
-        "instruction": "👑 <b>남북국 시대의 위대한 결말을 선택하세요!</b>",
+        "instruction": "👑 <b>단서 3곳을 확인하고 남북국 시대의 결말을 선택하세요!</b>",
         "feedback": "당신의 결단이 남북국의 찬란한 역사를 완성합니다."
       }
     }
