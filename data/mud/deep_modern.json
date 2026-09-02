@@ -128,6 +128,7 @@
       ],
       "simulator": {
         "mode": "culture-touch-samil",
+        "scene": "tapgol-declaration",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -269,6 +270,7 @@
       ],
       "simulator": {
         "mode": "culture-touch-nakdonggang",
+        "scene": "korean-war-front",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -410,6 +412,7 @@
       ],
       "simulator": {
         "mode": "culture-touch-minju-hangjaeng",
+        "scene": "gwangju-june-democracy",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -484,6 +487,7 @@
       ],
       "simulator": {
         "mode": "culture-touch-hangang-gijeok",
+        "scene": "hangang-miracle-factory",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

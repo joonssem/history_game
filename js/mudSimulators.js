@@ -1488,6 +1488,36 @@ const MudSimulators = {
       ctx.fillStyle = '#4a4438'; ctx.fillRect(w * 0.78, h * 0.7, w * 0.02, h * 0.05); ctx.beginPath(); ctx.moveTo(w * 0.8, h * 0.7); ctx.lineTo(w * 0.815, h * 0.685); ctx.lineTo(w * 0.8, h * 0.7); ctx.fill();
       return true;
     }
+    if (scene === 'gwangju-june-democracy') {
+      // narrative가 "한 사람의 영웅담이 아니라 시민 연대"를 강조하므로 실루엣을 전부 같은 크기·높이로 배치하고,
+      // 진압·부상 장면 없이 거리 행진과 기록 자료만 그린다.
+      fillSky('#3a3f4a', '#4a5566', '#26292f');
+      const crowd = [0.14, 0.24, 0.34, 0.66, 0.76, 0.86];
+      ctx.fillStyle = '#c9cdd4';
+      crowd.forEach(x => {
+        ctx.beginPath(); ctx.arc(w * x, h * 0.66, w * 0.015, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(w * x - w * 0.017, h * 0.82); ctx.lineTo(w * x + w * 0.017, h * 0.82); ctx.lineTo(w * x + w * 0.011, h * 0.68); ctx.lineTo(w * x - w * 0.011, h * 0.68); ctx.closePath(); ctx.fill();
+      });
+      ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#456580'; ctx.lineWidth = 1.5; ctx.fillRect(w * 0.42, h * 0.42, w * 0.16, h * 0.14); ctx.strokeRect(w * 0.42, h * 0.42, w * 0.16, h * 0.14);
+      ctx.strokeStyle = '#456580'; ctx.lineWidth = 1.2; [0.47, 0.51].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.45, h * y); ctx.lineTo(w * 0.55, h * y); ctx.stroke(); });
+      ctx.fillStyle = 'rgba(239,233,220,0.85)'; ctx.strokeStyle = '#736355'; ctx.lineWidth = 1; ctx.fillRect(w * 0.7, h * 0.5, w * 0.12, h * 0.16); ctx.strokeRect(w * 0.7, h * 0.5, w * 0.12, h * 0.16);
+      ctx.strokeStyle = '#8a7355'; [0.56, 0.6, 0.64].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.72, h * y); ctx.lineTo(w * 0.8, h * y); ctx.stroke(); });
+      return true;
+    }
+    if (scene === 'hangang-miracle-factory') {
+      // 성과와 대가를 함께 보여주려고 공장 실루엣과 노동 도구, 그리고 접힌 진정서를 나란히 그린다.
+      // 전태일의 분신은 서술문에서도 직접 재현하지 않으므로 불꽃·인물을 그리지 않는다.
+      fillSky('#c9d4dc', '#e6e2d0', '#7c8480');
+      ctx.fillStyle = '#8f8975'; ctx.fillRect(w * 0.06, h * 0.42, w * 0.26, h * 0.28); ctx.fillRect(w * 0.34, h * 0.34, w * 0.22, h * 0.36);
+      ctx.strokeStyle = '#5c554a'; ctx.lineWidth = 3; [0.12, 0.44].forEach(x => { ctx.beginPath(); ctx.moveTo(w * x, h * 0.34); ctx.lineTo(w * x, h * 0.18); ctx.stroke(); });
+      ctx.fillStyle = 'rgba(180,180,180,0.35)'; [0.12, 0.44].forEach(x => { ctx.beginPath(); ctx.ellipse(w * x, h * 0.15, w * 0.03, h * 0.02, 0, 0, Math.PI * 2); ctx.fill(); });
+      ctx.fillStyle = '#736355'; ctx.fillRect(w * 0.6, h * 0.62, w * 0.22, h * 0.05);
+      ctx.strokeStyle = '#a13a2e'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(w * 0.66, h * 0.58, w * 0.025, 0, Math.PI * 2); ctx.stroke();
+      ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(w * 0.72, h * 0.6); ctx.lineTo(w * 0.86, h * 0.6); ctx.stroke();
+      ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#736355'; ctx.lineWidth = 1.2; ctx.fillRect(w * 0.66, h * 0.72, w * 0.16, h * 0.14); ctx.strokeRect(w * 0.66, h * 0.72, w * 0.16, h * 0.14);
+      ctx.strokeStyle = '#8a7355'; [0.77, 0.81].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.69, h * y); ctx.lineTo(w * 0.79, h * y); ctx.stroke(); });
+      return true;
+    }
     if (scene === 'dmz-reunion-peace') {
       fillSky('#e6e2d4', '#f0ece0', '#9a9284');
       ctx.strokeStyle = '#736355'; ctx.lineWidth = 2; ctx.setLineDash([6, 5]); ctx.beginPath(); ctx.moveTo(0, h * 0.62); ctx.lineTo(w, h * 0.62); ctx.stroke(); ctx.setLineDash([]);
