@@ -33,6 +33,8 @@
 
 ## 4. 다음에 할 일 (제안 — 확정된 지시는 아님)
 
+> **먼저 읽을 것**: [`docs/plans/implementation_plan_deep_dive_redesign.md`](../plans/implementation_plan_deep_dive_redesign.md) (2026-09-02 작성). Deep-dive 전면 재설계 계획으로, 뿌리 문제 재정의·4종 구조 감사·해결 아이디어 5종·사고축 구획 원리·신규 Deep-dive 후보 6종·결정 대기 쟁점 4건이 정리되어 있다. 아래 목록보다 이 문서가 최신이다.
+
 1. **사용자에게 먼저 확인**: "Claude가 deep-dive 전체 담당" 결정의 구체적 범위(대상 파일, `deep_three_kingdoms.json` 인수 여부, Codex와의 역할 재조정 필요 여부).
 2. 실제 학생 기준 플레이 시간 재측정 — 지금까지는 에이전트가 클릭하는 방식으로만 검증했고, 실제 5학년 학생의 읽기·조작 속도를 반영한 실측은 아직 없음. `docs/handoff/deep_dive_competition_task.md`의 "결과 보고 형식"·"플레이 시간" 항목 참고.
 3. `deep_joseon.json`/`deep_modern.json`도 `deep_prehistoric.json`과 같은 감사(게이팅 누락 여부, 로드맵-스테이지 정합성, 5학년 어휘 난이도)가 필요할 가능성이 높음 — 아직 미착수.
