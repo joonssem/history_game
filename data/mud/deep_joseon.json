@@ -120,13 +120,13 @@
       ],
       "choices": [
         {
-          "text": "📜 \"동쪽은 흥인지문(仁), 서쪽은 돈의문(義), 남쪽은 숭례문(禮), 북쪽은 숙정문(智)이라 짓는다!\"",
+          "text": "📜 \"'큰 복을 누린다'는 경복궁의 뜻을 이어, 동쪽은 흥인지문(仁), 서쪽은 돈의문(義), 남쪽은 숭례문(禮), 북쪽은 숙정문(智)이라 짓는다!\"",
           "next": "2",
           "correct": true,
           "sound": "victory"
         },
         {
-          "text": "🏰 \"유교 덕목 대신 오직 군사적 방어만을 고려해 제1성문, 제2성문이라 단순하게 부른다.\"",
+          "text": "🏰 \"경복궁이라는 이름의 뜻은 무시한 채, 유교 덕목 대신 오직 군사적 방어만 고려해 제1성문, 제2성문이라 단순하게 부른다.\"",
           "next": "1-fail",
           "correct": false,
           "sound": "fail"
@@ -140,7 +140,8 @@
         "hotspots": [
           { "id": "heunginjimun", "label": "흥인지문(동쪽)", "x": 0.22, "y": 0.5, "feedback": "동쪽 대문에는 어질 인(仁)을 담았습니다. 백성이 매일 드나들며 도덕을 마음에 새기도록 한 것입니다." },
           { "id": "sungnyemun", "label": "숭례문(남쪽)", "x": 0.5, "y": 0.72, "feedback": "남쪽 대문에는 예절 예(禮)를 담았습니다. 유교에서 예를 특히 중시해 현판을 세로로 크게 걸었습니다." },
-          { "id": "gyeongbokgung", "label": "경복궁이라는 이름", "x": 0.78, "y": 0.5, "feedback": "'큰 복을 누린다'는 뜻으로, 왕이 유교의 덕으로 나라를 다스리길 바라는 마음을 담았습니다." }
+          { "id": "gyeongbokgung", "label": "경복궁이라는 이름", "x": 0.78, "y": 0.5, "feedback": "'큰 복을 누린다'는 뜻으로, 왕이 유교의 덕으로 나라를 다스리길 바라는 마음을 담았습니다." },
+          { "id": "decoy-goryeo-palace", "label": "고려 개경 궁궐 배치", "x": 0.5, "y": 0.86, "feedback": "이건 고려의 궁궐 배치입니다. 한양은 새 왕조의 유교 이념에 따라 새로 설계됐어요." }
         ],
         "sequence": ["gyeongbokgung", "heunginjimun", "sungnyemun"],
         "required": true,
@@ -196,7 +197,7 @@
       ],
       "choices": [
         {
-          "text": "📖 \"나라의 말싸미 중국과 달라 글을 모르는 어린 백성의 억울함을 풀기 위함이라 준엄히 꾸짖는다!\"",
+          "text": "📖 \"최만리의 상소에도 불구하고, 글을 모르는 백성의 억울함을 풀 '나라의 말싸미'를 준엄히 반포한다!\"",
           "next": "3",
           "correct": true,
           "sound": "victory"
@@ -216,7 +217,8 @@
         "hotspots": [
           { "id": "eok-ul-han-baekseong", "label": "글을 모르는 백성", "x": 0.22, "y": 0.5, "feedback": "한자를 배우지 못한 백성은 억울한 일을 당해도 관청에 글로 호소할 수 없었습니다." },
           { "id": "hunminjeongeum-principle", "label": "28자의 제자 원리", "x": 0.5, "y": 0.32, "feedback": "자음은 발음 기관의 모양을, 모음은 하늘·땅·사람을 본떠 만들어 누구나 배우기 쉽게 설계했습니다." },
-          { "id": "choemalli-sangso", "label": "최만리의 상소", "x": 0.78, "y": 0.5, "feedback": "중국 글자를 버리는 것은 사대에 어긋난다는 반대였지만, 세종은 백성을 위한 실용성을 우선했습니다." }
+          { "id": "choemalli-sangso", "label": "최만리의 상소", "x": 0.78, "y": 0.5, "feedback": "중국 글자를 버리는 것은 사대에 어긋난다는 반대였지만, 세종은 백성을 위한 실용성을 우선했습니다." },
+          { "id": "decoy-chinese-oracle-bone", "label": "중국의 갑골문자", "x": 0.5, "y": 0.86, "feedback": "이건 중국 한자의 기원 이야기입니다. 세종대왕이 만든 건 조선 고유의 소리 글자예요." }
         ],
         "sequence": ["eok-ul-han-baekseong", "hunminjeongeum-principle", "choemalli-sangso"],
         "required": true,
@@ -272,13 +274,13 @@
       ],
       "choices": [
         {
-          "text": "⚓ \"파격적으로 승진시킨 전라좌수사 '이순신'에게 남해안 제해권 수호를 전적으로 일임한다!\"",
+          "text": "⚓ \"일본군의 수륙병진 전략을 막기 위해, 판옥선을 정비해 온 '이순신'에게 남해안 제해권 수호를 전적으로 일임한다!\"",
           "next": "4",
           "correct": true,
           "sound": "victory"
         },
         {
-          "text": "🏳️ \"바다 싸움도 가망이 없으니 수군을 해체하고 육지로 올라와 합류하라 명한다.\"",
+          "text": "🏳️ \"일본군의 수륙병진 전략은 헤아리지 않고, 바다 싸움도 가망이 없으니 수군을 해체하고 육지로 올라와 합류하라 명한다.\"",
           "next": "3-fail",
           "correct": false,
           "sound": "fail"
@@ -292,7 +294,8 @@
         "hotspots": [
           { "id": "yi-sunsin-career", "label": "이순신의 경력", "x": 0.22, "y": 0.5, "feedback": "전라좌수사로 부임한 뒤 판옥선을 정비하고 거북선을 건조하며 이미 전쟁에 대비해 왔습니다." },
           { "id": "namhae-geography", "label": "남해안의 지형", "x": 0.5, "y": 0.72, "feedback": "섬과 좁은 물길이 많아 적은 수의 배로도 큰 함대를 방어하기 유리한 지형입니다." },
-          { "id": "surukbyeongjin", "label": "일본군의 수륙병진 전략", "x": 0.78, "y": 0.5, "feedback": "일본군은 육군과 수군이 동시에 진격해 보급을 확보하려 했습니다. 수군이 사라지면 이 전략이 그대로 성공합니다." }
+          { "id": "surukbyeongjin", "label": "일본군의 수륙병진 전략", "x": 0.78, "y": 0.5, "feedback": "일본군은 육군과 수군이 동시에 진격해 보급을 확보하려 했습니다. 수군이 사라지면 이 전략이 그대로 성공합니다." },
+          { "id": "decoy-enemy-general-name", "label": "적장의 이름과 계급", "x": 0.5, "y": 0.86, "feedback": "적장의 이름만으로는 수군 유지 여부를 판단할 수 없어요. 인물의 경력과 실제 상황을 봐야 합니다." }
         ],
         "sequence": ["surukbyeongjin", "namhae-geography", "yi-sunsin-career"],
         "required": true,
@@ -348,13 +351,13 @@
       ],
       "choices": [
         {
-          "text": "🦅 \"판옥선 몇 척으로 유인한 뒤, 넓은 바다에서 '학익진'을 펼쳐 천자총통으로 일제 사격한다!\"",
+          "text": "🦅 \"백병전에 능한 일본 수군을 피해, 판옥선으로 유인한 뒤 넓은 바다에서 학익진을 펼쳐 천자총통으로 일제 사격한다!\"",
           "next": "5",
           "correct": true,
           "sound": "victory"
         },
         {
-          "text": "🤺 \"거북선과 판옥선을 왜선에 바짝 붙여 조총과 칼을 주고받는 백병전으로 정면 승부한다.\"",
+          "text": "🤺 \"천자총통의 사거리는 살리지 않고, 거북선과 판옥선을 왜선에 바짝 붙여 조총과 칼을 주고받는 백병전으로 정면 승부한다.\"",
           "next": "4-fail",
           "correct": false,
           "sound": "fail"
@@ -368,7 +371,8 @@
         "hotspots": [
           { "id": "japan-baekbyeongjeon", "label": "일본 수군의 장기", "x": 0.22, "y": 0.5, "feedback": "조총으로 위협한 뒤 배를 가까이 붙여 병사가 건너가 칼로 싸우는 백병전에 능했습니다." },
           { "id": "panokseon-structure", "label": "판옥선의 구조", "x": 0.5, "y": 0.32, "feedback": "널판지로 튼튼하고 갑판이 높아 백병전에는 불리하지만, 회전이 안정적이라 대포를 쏘기에 유리합니다." },
-          { "id": "cheonjachongtong-range", "label": "천자총통의 사거리", "x": 0.78, "y": 0.5, "feedback": "먼 거리에서도 큰 화살과 철환을 쏠 수 있어, 접근하지 않고도 적선을 격침할 수 있습니다." }
+          { "id": "cheonjachongtong-range", "label": "천자총통의 사거리", "x": 0.78, "y": 0.5, "feedback": "먼 거리에서도 큰 화살과 철환을 쏠 수 있어, 접근하지 않고도 적선을 격침할 수 있습니다." },
+          { "id": "decoy-ship-count", "label": "일본 수군 73척이라는 숫자", "x": 0.5, "y": 0.86, "feedback": "숫자만으로는 전술을 결정할 수 없어요. 배의 구조와 화포의 성능을 함께 봐야 합니다." }
         ],
         "sequence": ["japan-baekbyeongjeon", "panokseon-structure", "cheonjachongtong-range"],
         "required": true,
@@ -424,13 +428,13 @@
       ],
       "choices": [
         {
-          "text": "📜 \"강홍립에게 밀지를 내려 명의 체면은 세우되, 후금과는 싸우지 않는 '중립 외교'를 편다!\"",
+          "text": "📜 \"후금의 성장과 임진왜란의 후유증을 고려해, 강홍립에게 밀지를 내려 명의 체면은 세우되 후금과는 싸우지 않는 '중립 외교'를 편다!\"",
           "next": "6",
           "correct": true,
           "sound": "victory"
         },
         {
-          "text": "⚔️ \"명나라를 향한 의리만을 위해 조선의 전 군사를 이끌고 후금과 결사 항전을 벌인다.\"",
+          "text": "⚔️ \"후금의 군사력 성장과 조선의 피폐함은 헤아리지 않고, 명나라를 향한 의리만을 위해 전 군사를 이끌고 후금과 결사 항전을 벌인다.\"",
           "next": "5-fail",
           "correct": false,
           "sound": "fail"
@@ -444,7 +448,8 @@
         "hotspots": [
           { "id": "hugeum-growth", "label": "후금의 군사력 성장", "x": 0.22, "y": 0.5, "feedback": "누르하치가 여진족을 통일하고 명나라를 위협할 만큼 급속히 강성해졌습니다." },
           { "id": "imjinwaeran-aftermath", "label": "임진왜란의 후유증", "x": 0.5, "y": 0.72, "feedback": "전쟁이 끝난 지 얼마 되지 않아 조선은 재정과 인구 모두 회복이 시급한 상태였습니다." },
-          { "id": "gangheungrip-secret", "label": "강홍립의 밀지", "x": 0.78, "y": 0.5, "feedback": "명분상 파병하되, 상황을 보아 무리하게 싸우지 말라는 이중 전략이 담겨 있었습니다." }
+          { "id": "gangheungrip-secret", "label": "강홍립의 밀지", "x": 0.78, "y": 0.5, "feedback": "명분상 파병하되, 상황을 보아 무리하게 싸우지 말라는 이중 전략이 담겨 있었습니다." },
+          { "id": "decoy-ming-emperor-name", "label": "명나라 황제의 이름", "x": 0.5, "y": 0.86, "feedback": "황제의 이름보다 중요한 건 당시 조선이 처한 상황과 후금의 실제 힘입니다." }
         ],
         "sequence": ["hugeum-growth", "imjinwaeran-aftermath", "gangheungrip-secret"],
         "required": true,
@@ -500,7 +505,7 @@
       ],
       "choices": [
         {
-          "text": "💰 \"대동법과 상평통보 유통을 전국으로 확대하고, 백성들의 자유로운 상업과 화폐 경제를 적극 지원한다!\"",
+          "text": "💰 \"모내기법으로 늘어난 곡식이 전국 장시에서 활발히 거래되도록, 대동법과 상평통보 유통을 전국으로 확대한다!\"",
           "next": "7",
           "correct": true,
           "sound": "victory"
@@ -520,7 +525,8 @@
         "hotspots": [
           { "id": "moinsaeb-yield", "label": "모내기법의 효과", "x": 0.22, "y": 0.5, "feedback": "잡초 뽑는 일손을 크게 줄이고 벼와 보리 이모작을 가능하게 해 쌀 수확량이 늘었습니다." },
           { "id": "jangsi-network", "label": "전국 장시 1,000여 곳", "x": 0.5, "y": 0.32, "feedback": "남는 쌀·담배·인삼을 사고파는 장시가 전국에 퍼지며 상업이 활발해졌습니다." },
-          { "id": "sangpyeong-tongbo", "label": "상평통보의 유통", "x": 0.78, "y": 0.5, "feedback": "엽전이 널리 쓰이며 화폐 경제가 자리 잡았고, 세금도 대동법에 따라 쌀·동전·삼베로 통일해 걷었습니다." }
+          { "id": "sangpyeong-tongbo", "label": "상평통보의 유통", "x": 0.78, "y": 0.5, "feedback": "엽전이 널리 쓰이며 화폐 경제가 자리 잡았고, 세금도 대동법에 따라 쌀·동전·삼베로 통일해 걷었습니다." },
+          { "id": "decoy-jeonsigwa", "label": "고려 시대 전시과 제도", "x": 0.5, "y": 0.86, "feedback": "전시과는 고려의 토지 제도입니다. 조선 후기 경제는 모내기법과 화폐 유통으로 달라졌어요." }
         ],
         "sequence": ["moinsaeb-yield", "jangsi-network", "sangpyeong-tongbo"],
         "required": true,
@@ -576,7 +582,7 @@
       ],
       "choices": [
         {
-          "text": "🏗️ \"거중기와 유형거를 총동원하고, 성역의궤에 모든 공사 과정을 꼼꼼히 기록하여 화성을 완공한다!\"",
+          "text": "🏗️ \"정조의 품삯 지급 방침에 따라 거중기와 유형거를 총동원하고, 성역의궤에 모든 공사 과정을 꼼꼼히 기록한다!\"",
           "next": "8",
           "correct": true,
           "sound": "victory"
@@ -596,7 +602,8 @@
         "hotspots": [
           { "id": "geojunggi-principle", "label": "거중기의 원리", "x": 0.22, "y": 0.5, "feedback": "도르래를 여러 개 조합해 적은 힘으로도 무거운 성돌을 들어 올릴 수 있게 만들었습니다." },
           { "id": "seongyeokuigwe-record", "label": "성역의궤의 기록", "x": 0.5, "y": 0.32, "feedback": "공사에 참여한 모든 석공의 이름과 지급된 품삯까지 기록한 유네스코 세계기록유산입니다." },
-          { "id": "jeongjo-wage", "label": "정조의 품삯 지급 명", "x": 0.78, "y": 0.5, "feedback": "강제 부역이 아니라 일한 만큼 품삯을 주고 인부를 고용하도록 정조가 직접 지시했습니다." }
+          { "id": "jeongjo-wage", "label": "정조의 품삯 지급 명", "x": 0.78, "y": 0.5, "feedback": "강제 부역이 아니라 일한 만큼 품삯을 주고 인부를 고용하도록 정조가 직접 지시했습니다." },
+          { "id": "decoy-great-wall", "label": "만리장성 축조 방식", "x": 0.5, "y": 0.86, "feedback": "만리장성은 다른 나라, 다른 시대의 건축물입니다. 화성은 정약용의 거중기로 지어졌어요." }
         ],
         "sequence": ["geojunggi-principle", "jeongjo-wage", "seongyeokuigwe-record"],
         "required": true,
@@ -652,19 +659,19 @@
       ],
       "choices": [
         {
-          "text": "👑 \"실학의 실용 정신과 애민 사상을 전면 수용하여 부국강병의 새 시대를 연다!\" (진 엔딩)",
+          "text": "👑 \"박제가의 북학론과 정약용의 목민심서, 김정호의 대동여지도를 두루 받아들여 부국강병의 새 시대를 연다!\" (진 엔딩)",
           "next": "ending_true",
           "correct": true,
           "sound": "victory"
         },
         {
-          "text": "⚖️ \"실학의 가치를 인정하되, 기존 성리학 질서와의 타협을 택해 안정만을 추구한다.\" (노멀 엔딩)",
+          "text": "⚖️ \"북학론과 목민심서의 가치는 인정하되, 기존 성리학 질서와의 타협을 택해 안정만을 추구한다.\" (노멀 엔딩)",
           "next": "ending_normal",
           "correct": true,
           "sound": "drum"
         },
         {
-          "text": "💀 \"새로운 주장과 근거를 검토하지 않고 모두 금지한다.\" (배드 엔딩)",
+          "text": "💀 \"북학론·목민심서·대동여지도의 근거를 검토하지 않고 실학의 새 주장을 모두 금지한다.\" (배드 엔딩)",
           "next": "ending_bad",
           "correct": false,
           "sound": "fail"
