@@ -129,17 +129,18 @@
       "simulator": {
         "mode": "culture-touch-samil",
         "scene": "tapgol-declaration",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
         "type": "info",
         "hotspots": [
           { "id": "declaration", "label": "독립선언서 낭독", "x": 0.22, "y": 0.5, "feedback": "민족대표 33인이 조선이 독립국이며 조선인이 자주민임을 선언했습니다." },
           { "id": "spread", "label": "전국으로 퍼진 만세", "x": 0.5, "y": 0.32, "feedback": "탑골공원에서 시작된 만세 소리가 삽시간에 전국 방방곡곡으로 퍼져나갔습니다." },
           { "id": "aunae", "label": "유관순과 아우내 장터", "x": 0.78, "y": 0.5, "feedback": "유관순은 고향 천안 아우내 장터로 내려와 사람들에게 태극기를 나누어 주었습니다." }
         ],
+        "sequence": ["declaration", "spread", "aunae"],
         "required": true,
-        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🇰🇷 독립선언서·만세 확산·아우내 장터 단서를 모두 확인했습니다. 이제 결단을 내리세요." },
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🇰🇷 독립선언서·만세 확산·아우내 장터 단서를 순서대로 확인했습니다. 이제 결단을 내리세요." },
         "infoText": "3·1 운동은 전국 각지의 학생과 시민이 함께 참여한 평화적인 만세 운동이었습니다.",
-        "instruction": "🇰🇷 <b>단서 3곳을 확인하고 만세 운동의 결단을 내리세요</b>",
+        "instruction": "🇰🇷 <b>선언→확산→현장 순서로 단서를 확인하고 만세 운동의 결단을 내리세요</b>",
         "feedback": "200만 명이 넘는 온 겨레가 독립 만세를 외쳤습니다!"
       }
     },
@@ -271,17 +272,18 @@
       "simulator": {
         "mode": "culture-touch-nakdonggang",
         "scene": "korean-war-front",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
         "type": "info",
         "hotspots": [
           { "id": "division", "label": "38도선 분단과 남침", "x": 0.22, "y": 0.5, "feedback": "광복 뒤 38도선으로 분할 점령된 한반도에서 1950년 6월 25일 북한군이 남침했습니다." },
           { "id": "frontline-map", "label": "낙동강 방어선 지도", "x": 0.5, "y": 0.32, "feedback": "전선이 낙동강까지 밀렸다가 인천상륙작전 이후 다시 회복된 경과를 지도 기록으로 확인할 수 있습니다." },
           { "id": "student-soldier-record", "label": "학도의용군의 기록", "x": 0.78, "y": 0.5, "feedback": "학생 신분으로 참전한 학도의용군의 일기와 증언은 전쟁이 사람들에게 준 두려움과 피해를 보여 줍니다." }
         ],
+        "sequence": ["division", "frontline-map", "student-soldier-record"],
         "required": true,
-        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🛡️ 분단·전선 지도·학도의용군 기록을 모두 확인했습니다. 이제 결단을 내리세요." },
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🛡️ 분단·전선 지도·학도의용군 기록을 순서대로 확인했습니다. 이제 결단을 내리세요." },
         "infoText": "낙동강 방어선과 인천상륙작전의 지도, 학도의용군의 기록은 전쟁의 전개와 사람들의 경험을 함께 보여 줍니다.",
-        "instruction": "🛡️ <b>단서 3곳을 확인하고 전선의 대응을 결단하세요</b>",
+        "instruction": "🛡️ <b>원인→전개→경험 순서로 단서를 확인하고 전선의 대응을 결단하세요</b>",
         "feedback": "낙동강 전선을 사수하고 9월 15일 인천상륙작전으로 서울을 수복했습니다!"
       }
     },
@@ -413,17 +415,18 @@
       "simulator": {
         "mode": "culture-touch-minju-hangjaeng",
         "scene": "gwangju-june-democracy",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
         "type": "info",
         "hotspots": [
           { "id": "gwangju-518", "label": "5·18 광주의 저항", "x": 0.22, "y": 0.5, "feedback": "1980년 신군부의 비상계엄 확대에 맞서 광주 시민들이 지켜낸 민주주의는 유네스코 세계기록유산으로 등재됐습니다." },
           { "id": "sacrifice", "label": "박종철·이한열의 희생", "x": 0.5, "y": 0.32, "feedback": "박종철 열사 고문치사 사건과 이한열 열사의 희생 앞에서 시민들의 분노가 커졌습니다." },
           { "id": "june-slogan", "label": "6월 항쟁의 구호", "x": 0.78, "y": 0.5, "feedback": "\"호헌 철폐, 독재 타도\"를 외치며 전국 수백만 시민이 거리로 나섰습니다." }
         ],
+        "sequence": ["gwangju-518", "sacrifice", "june-slogan"],
         "required": true,
-        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🕊️ 5·18·희생·구호 단서를 모두 확인했습니다. 이제 결단을 내리세요." },
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🕊️ 5·18·희생·구호 단서를 순서대로 확인했습니다. 이제 결단을 내리세요." },
         "infoText": "5·18과 6월 항쟁의 기록은 시민들이 어떻게 민주화를 이끌어냈는지 보여 줍니다.",
-        "instruction": "🕊️ <b>단서 3곳을 확인하고 민주화의 결단을 내리세요</b>",
+        "instruction": "🕊️ <b>1980년→계기→1987년 순서로 단서를 확인하고 민주화의 결단을 내리세요</b>",
         "feedback": "6·29 민주화 선언을 이끌어내고 대통령 직선제를 쟁취했습니다!"
       }
     },
@@ -488,17 +491,18 @@
       "simulator": {
         "mode": "culture-touch-hangang-gijeok",
         "scene": "hangang-miracle-factory",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
         "type": "info",
         "hotspots": [
           { "id": "export-growth", "label": "한강의 기적 수치", "x": 0.22, "y": 0.5, "feedback": "철강·조선·자동차·전자 산업을 일으켜 1977년 수출 100억 달러를 돌파했습니다." },
           { "id": "labor-condition", "label": "여공과 청년 노동자의 노동 조건", "x": 0.5, "y": 0.32, "feedback": "하루 14시간 넘게 먼지 구덩이에서 일하던 여공과 청년 노동자들의 눈물이 성장 이면에 있었습니다." },
           { "id": "jeon-taeil-voice", "label": "전태일의 외침", "x": 0.78, "y": 0.5, "feedback": "\"근로기준법을 준수하라, 우리는 기계가 아니다\"라는 전태일의 목소리가 노동 인권을 일깨웠습니다." }
         ],
+        "sequence": ["export-growth", "labor-condition", "jeon-taeil-voice"],
         "required": true,
-        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🤝 성장 수치·노동 조건·전태일의 외침을 모두 확인했습니다. 이제 결단을 내리세요." },
+        "completion": { "target": 3, "increment": 1, "minActions": 3, "progressKey": "simulatorProgress", "successText": "🤝 성장 수치·노동 조건·전태일의 외침을 순서대로 확인했습니다. 이제 결단을 내리세요." },
         "infoText": "오늘날 대한민국의 번영은 공장에서 땀 흘린 모든 산업 역군과 노동자들의 헌신 덕분입니다.",
-        "instruction": "🤝 <b>단서 3곳을 확인하고 성장과 인권의 방향을 결단하세요</b>",
+        "instruction": "🤝 <b>성과→이면→목소리 순서로 단서를 확인하고 성장과 인권의 방향을 결단하세요</b>",
         "feedback": "인간 존중과 경제 성장이 함께 나아갑니다."
       }
     },
