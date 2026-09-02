@@ -271,7 +271,7 @@
         }
       ],
       "simulator": {
-        "mode": "battle-gauge",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "가야의 철은 낙랑과 왜에 수출되어 국제 교역의 중심이 되었습니다.",
         "instruction": "⚔️ <b>철갑옷을 다시 완성하세요!</b>",

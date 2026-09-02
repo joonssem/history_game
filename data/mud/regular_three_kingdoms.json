@@ -147,7 +147,7 @@
         }
       ],
       "simulator": {
-        "mode": "battle-gauge",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "칠지도는 백제의 뛰어난 제철 기술과 활발한 대외 관계를 보여줍니다.",
         "instruction": "👑 <b>백제의 전성기를 열어가세요!</b>",
@@ -242,7 +242,7 @@
         }
       ],
       "simulator": {
-        "mode": "battle-gauge",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "고구려는 광개토대왕릉비와 충주 고구려비로 영토를 증명했습니다.",
         "instruction": "🏹 <b>고구려의 기상을 펼치세요!</b>",
@@ -343,7 +343,7 @@
         }
       ],
       "simulator": {
-        "mode": "battle-gauge",
+        "mode": "text-reading",
         "type": "info",
         "infoText": "북한산 순수비는 조선 후기 김정희가 진흥왕의 비석임을 밝혀냈습니다.",
         "instruction": "🪨 <b>순수비를 다시 건립하세요!</b>",
