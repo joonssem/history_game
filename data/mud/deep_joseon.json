@@ -284,6 +284,7 @@
       ],
       "simulator": {
         "mode": "culture-touch-suguninmul",
+        "scene": "namhae-suguninmul",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -358,6 +359,7 @@
       ],
       "simulator": {
         "mode": "culture-touch-hakikjin",
+        "scene": "hansando-hakikjin",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [
@@ -507,6 +509,7 @@
       ],
       "simulator": {
         "mode": "culture-touch-sangpyeong-tongbo",
+        "scene": "sangpyeongtongbo-market",
         "interaction": "hotspot-discovery",
         "type": "info",
         "hotspots": [

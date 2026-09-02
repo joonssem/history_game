@@ -1518,6 +1518,33 @@ const MudSimulators = {
       ctx.strokeStyle = '#8a7355'; [0.77, 0.81].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.69, h * y); ctx.lineTo(w * 0.79, h * y); ctx.stroke(); });
       return true;
     }
+    if (scene === 'namhae-suguninmul') {
+      // 이 스테이지는 전투가 아니라 지휘관 기용 판단이므로, 정박한 판옥선과 임명 문서만 그리고 교전 요소는 넣지 않는다.
+      fillSky('#c9d9df', '#e9dfc2', '#4f7a8f');
+      ctx.fillStyle = '#4f7a8f'; ctx.fillRect(0, h * 0.58, w, h * 0.42);
+      const ships = [0.18, 0.42, 0.66];
+      ctx.fillStyle = '#6f5a3f';
+      ships.forEach(x => {
+        ctx.beginPath(); ctx.moveTo(w * x - w * 0.08, h * 0.6); ctx.lineTo(w * x + w * 0.08, h * 0.6); ctx.lineTo(w * x + w * 0.05, h * 0.52); ctx.lineTo(w * x - w * 0.05, h * 0.52); ctx.closePath(); ctx.fill();
+        ctx.strokeStyle = '#4a3c29'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(w * x, h * 0.52); ctx.lineTo(w * x, h * 0.38); ctx.stroke();
+      });
+      ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#736355'; ctx.lineWidth = 1.5; ctx.fillRect(w * 0.76, h * 0.32, w * 0.16, h * 0.2); ctx.strokeRect(w * 0.76, h * 0.32, w * 0.16, h * 0.2);
+      ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 1.2; [0.4, 0.44, 0.48].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.79, h * y); ctx.lineTo(w * 0.89, h * y); ctx.stroke(); });
+      return true;
+    }
+    if (scene === 'hansando-hakikjin') {
+      // 학익진의 부채꼴 대형 자체는 교육 자료지만, 화포·화염·적선 침몰 묘사는 넣지 않고 대형 배치만 보여준다.
+      fillSky('#c9d9df', '#e9dfc2', '#4f7a8f');
+      ctx.fillStyle = '#4f7a8f'; ctx.fillRect(0, h * 0.6, w, h * 0.4);
+      const arc = [[0.18, 0.66], [0.32, 0.58], [0.5, 0.55], [0.68, 0.58], [0.82, 0.66]];
+      ctx.fillStyle = '#6f5a3f';
+      arc.forEach(([x, y]) => {
+        ctx.beginPath(); ctx.moveTo(w * x - w * 0.055, h * y + h * 0.02); ctx.lineTo(w * x + w * 0.055, h * y + h * 0.02); ctx.lineTo(w * x + w * 0.035, h * y - h * 0.04); ctx.lineTo(w * x - w * 0.035, h * y - h * 0.04); ctx.closePath(); ctx.fill();
+        ctx.strokeStyle = '#4a3c29'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(w * x, h * y - h * 0.04); ctx.lineTo(w * x, h * y - h * 0.12); ctx.stroke();
+      });
+      ctx.strokeStyle = 'rgba(74,60,41,0.35)'; ctx.lineWidth = 2; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(w * 0.14, h * 0.5); ctx.quadraticCurveTo(w * 0.5, h * 0.32, w * 0.86, h * 0.5); ctx.stroke(); ctx.setLineDash([]);
+      return true;
+    }
     if (scene === 'dmz-reunion-peace') {
       fillSky('#e6e2d4', '#f0ece0', '#9a9284');
       ctx.strokeStyle = '#736355'; ctx.lineWidth = 2; ctx.setLineDash([6, 5]); ctx.beginPath(); ctx.moveTo(0, h * 0.62); ctx.lineTo(w, h * 0.62); ctx.stroke(); ctx.setLineDash([]);
