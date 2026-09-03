@@ -157,3 +157,10 @@ TASK-20260902-03 | MUD·인터랙티브 활동 런타임 안정화 | 담당: Cod
 
 - 변경된 시뮬레이터 장면과 터치 흐름을 지원 브라우저·태블릿에서 정기적으로 육안 확인한다.
 - 실행 기준: [`BROWSER_REGRESSION_CHECKLIST.md`](./BROWSER_REGRESSION_CHECKLIST.md)
+
+### P2 — 감사 보고서 출력 경로 정합성
+
+- 문제: `scripts/10_audit_if_stages.py`와 `scripts/11_audit_artifacts.py`가 루트의 `if_stage_audit.md`·`artifact_audit.md`를 생성하지만, `BACKLOG.md`와 `project_context.md`는 `docs/audits/` 경로를 기준 문서로 가리킨다. 검증 실행 뒤 루트에 untracked 보고서가 남는다.
+- 영향: 감사 결과의 기준 경로가 불명확해지고, 문서 재배치 이후 링크와 생성 산출물이 분리된다.
+- 예상 변경 범위: 두 스크립트의 `REPORT` 경로, 기존 감사 문서의 보존·재생성 위치, 관련 링크의 실제 파일 존재 여부를 함께 점검한다.
+- 원칙: 경로를 하나로 정한 별도 계획과 사용자 확인 후 수정하며, 감사 결과의 내용·판정 기준은 이 항목에서 변경하지 않는다.

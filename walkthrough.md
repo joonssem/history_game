@@ -850,3 +850,9 @@
 - `DECISIONS.md`에 D-018을 추가해 단일 세션 시간을 강제하지 않고 교실 실측으로 갱신하는 원칙을 명문화했다.
 - 협동 MUD 파일럿은 아직 구현 승인하지 않았다. §10에 4인 역할의 물리적 분리, 실제 수업 시간 리허설, `deep_joseon` 한산도 소재 재사용 의도 확인을 승인 게이트로 추가했다.
 - 검증: `git diff --check` 통과.
+## 2026-09-03 — 최신 브랜치 정적 회귀 검증
+
+- `00a924f`를 포함한 현재 `codex-deep-three-kingdoms` 기준으로 게임 데이터·MUD 무결성·계약·정적 자산·카탈로그·출처·IF/유물 감사·시뮬레이터 런타임·JavaScript 문법 검사를 재실행해 모두 통과했다.
+- 선택지 원본의 정답 위치 편향 경고는 기존 런타임 셔플 전제 경고이며, 계약 검사 실패는 아니다.
+- 감사 스크립트 2종이 루트에 보고서를 생성하고 기준 링크는 `docs/audits/`를 가리키는 불일치를 발견해 `BACKLOG.md`의 P2 후속 항목으로 등록했다. 경로 변경은 별도 계획·승인 전까지 수행하지 않는다.
+- 검증: `python scripts/01_validate_game_data.py`, `03_validate_mud_integrity.py`, `04_validate_mud_contract.py`, `06_validate_static_assets.py`, `08_validate_mud_catalog.py`, `09_validate_mud_sources.py`, `10_audit_if_stages.py`, `11_audit_artifacts.py`; `node scripts/05_test_simulator_runtime.js`; `node --check` 3종; `git diff --check`.
