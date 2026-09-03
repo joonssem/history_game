@@ -563,3 +563,9 @@ TASK-20260902-05 | 텍스트 MUD 몰입·협동 수업 모델 확장안 점검 |
 - 학생 간 실시간 채팅보다 역할별 단서 카드·모둠 공유판·퀵 챗을 우선한다. 대시보드는 처음부터 대화 내용 감시가 아니라 진행 단계·막힘 지점·완료 여부 중심으로 제한한다.
 
 연결 검토 문서: [`PRD.md`](./PRD.md), [`ARCHITECTURE.md`](./ARCHITECTURE.md), [`EXPERIMENTS.md`](./EXPERIMENTS.md), [`ROADMAP.md`](./ROADMAP.md), [`DECISIONS.md`](./DECISIONS.md)
+
+## 2026-09-02 Codex 적용 요청 — PRD Deep-dive 시간 목표 문구 교체
+
+상태: `triaged` (Claude가 사용자 승인 받아 제안만 작성, PRD.md 반영은 Codex 담당)
+
+`docs/audits/deep_dive_playtime_estimate.md` §8에 `PRD.md`의 "Deep-dive MUD — 확장 탐구" 문단 마지막 문장 교체 문구를 제안해 두었다(30분 이상 단일 조건 → 여러 차시 연결 기준으로 정리, 실측 근거 포함). `DECISIONS.md`에 D-007과 짝을 이루는 새 결정으로 명문화할지도 함께 검토 요청.
