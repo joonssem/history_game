@@ -843,3 +843,10 @@
 - 스테이지 전환 시 `simActionIds`를 초기화하고, 해당 상태·캔버스 진행·IF 카드 숨김 회귀 테스트를 `scripts/05_test_simulator_runtime.js`에 추가했다.
 - 브라우저에서 `regular_balhae` 정상 완료 → 오답 `1-1` IF → 재시도 흐름을 확인했다. 카드가 `display: none`/`block`으로 올바르게 전환되고 재시도 시 게이지가 0%로 초기화되었으며 콘솔 오류·경고는 0건이었다.
 - 검증: `node scripts/05_test_simulator_runtime.js`, 전체 JSON·MUD 계약·자산·카탈로그·출처·탭 내성·선택지 감사, `node --check` 4종, `git diff --check` 통과.
+## 2026-09-03 — Deep-dive 시간 기준 및 협동 파일럿 승인 게이트 정리
+
+- `0ca0984`~`e74a792` 핸드오프 4개 커밋을 현재 `codex-deep-three-kingdoms` 브랜치에서 대조했다. Deep-dive 4종의 `playTime`은 구조적 추정 범위로 갱신되어 있으며, 실제 수업 관찰 전 확정값으로 취급하지 않는다.
+- `PRD.md`의 Deep-dive 정의를 여러 차시(`lessonNumbers`) 연결 중심으로 바꾸고, 특정 시간에 맞추기 위한 문제 수 증가는 하지 않도록 정리했다.
+- `DECISIONS.md`에 D-018을 추가해 단일 세션 시간을 강제하지 않고 교실 실측으로 갱신하는 원칙을 명문화했다.
+- 협동 MUD 파일럿은 아직 구현 승인하지 않았다. §10에 4인 역할의 물리적 분리, 실제 수업 시간 리허설, `deep_joseon` 한산도 소재 재사용 의도 확인을 승인 게이트로 추가했다.
+- 검증: `git diff --check` 통과.
