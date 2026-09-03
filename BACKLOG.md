@@ -32,6 +32,24 @@ TASK-20260902-03 | MUD·인터랙티브 활동 런타임 안정화 | 담당: Cod
 
 완료 조건: 정상·오답·재시도·엔딩 흐름의 상태 정리, 캔버스·대체 버튼 완료 상태 일치, 런타임 회귀 테스트 추가, 전체 정적 품질 게이트 통과, `walkthrough.md` 기록.
 
+## 2026-09-02 Track B Deep-dive 고도화 + Regular 게이팅 감사
+
+TASK-20260902-02~06 | Deep-dive 4종 파일럿 + Regular MUD 게이팅 감사 | 담당: Claude | 상태: DONE(Deep-dive) / 지시서 전달(Regular)
+
+Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_kingdoms`) 전체에 다음을 적용했다.
+
+- 판단 스테이지가 자료 확인 없이 화면을 몇 번 터치하면 통과되던 게이팅 없음 버그를 수정하고, 전부 `hotspot-discovery` 이상으로 전환했다.
+- `ordered-hotspot` 전환과 함정 단서(다른 시대·주제의 진짜 역사적 사실 1개씩)를 추가해 "아무 단서나 눌러도 통과"를 막았다. 함정 판별 로직은 `js/mudSimulators.js`(`processOrderedHotspot`)에 구현했다.
+- `deep_joseon`·`deep_modern`에 전용 배경 삽화 4곳을 새로 그렸고, 나머지는 기존 scene 팔레트를 재사용했다.
+- `deep_modern:3`(6·25 전쟁) 스테이지의 레거시 전투 그래픽(`battle-gauge`, "⚔️ 호국 결전")을 제거했다. 서술문은 이미 자료 기반 성찰을 안내하는데 시뮬레이터가 전투 게임화 그래픽을 보여주던 모순이었다.
+- 같은 레거시 그래픽 버그를 Regular MUD 9종에 전수 점검해, IF 재시도 스테이지 5곳(`regular_goryeo_founding`·`regular_three_kingdoms`·`regular_three_kingdoms_life`)에서 추가로 발견·수정했다.
+
+결과 보고서: [`claude_track_b_deep_dive_result.md`](./docs/handoff/claude_track_b_deep_dive_result.md)(`deep_joseon`), [`claude_track_b_deep_modern_result.md`](./docs/handoff/claude_track_b_deep_modern_result.md)
+
+이 감사 기준을 Regular MUD 28종에도 대조한 결과, 판단 스테이지 101개 중 41개(약 40%)는 게이팅이 전혀 없고 56개는 순서 없는 `hotspot-discovery`뿐임을 확인했다 — Deep-dive와 같은 문제가 훨씬 넓게 퍼져 있다. 사용자 방향에 따라 Regular는 짧은 활동 시간 설계를 유지하면서 오류만 고치고 인터랙티브 활동 시간을 소폭 늘리는 것으로 범위를 한정해, Codex에게 실행 지시서를 전달했다.
+
+지시서: [`codex_regular_mud_activity_gating_instruction.md`](./docs/handoff/codex_regular_mud_activity_gating_instruction.md) — 상태: `ready-for-codex`. 우선순위 1(게이팅 전무 14개 파일)·우선순위 2(순서 없음 12개 파일) 목록, 원칙, 검증 명령, 완료 조건 포함.
+
 ## 학생 현장 체험 피드백 (2026-09-01)
 
 학생들이 직접 체험한 뒤 다음과 같은 반응을 남겼다.
@@ -58,7 +76,7 @@ TASK-20260902-03 | MUD·인터랙티브 활동 런타임 안정화 | 담당: Cod
 10. **P1 — Vercel 배포 경로 검토**: 현재 GitHub Pages를 유지한 채 정적 구조가 Vercel에서 동일하게 작동하는지 확인하고, 실제 이전 여부는 별도 결정한다.
 11. **P1 — Supabase `play_events` 설계**: 익명 세션 UUID와 최소 이벤트 필드, RLS 정책, 보관 기간을 설계한다. 프로젝트·테이블·코드 구현은 설계 승인 후 진행한다.
 12. **P2 — 선택 탐험 단서 실험**: 기존 MUD 한 편에 선택 탐험 1개를 추가하는 최소 설계를 만들고, 추가 단서 발견과 근거 공유가 실제로 발생하는지 관찰한다.
-13. **P2 — 역할 기반 협동 역사 MUD 파일럿**: 한산도 시나리오를 Room 3개·역할 4개·딜레마 1개로 축소해 한 기기 역할 카드·정보 공유·모둠 투표를 시험한다. 실시간 서버와 프레임워크 전환은 범위에서 제외한다.
+13. **P2 — 역할 기반 협동 역사 MUD 파일럿**: 첫 후보는 선사 시대(구석기·신석기·청동기·고조선)이며, Room·역할 4개·딜레마를 한 기기 역할 카드·정보 공유·모둠 투표로 시험한다. 한산도는 해당 차시 학습 시점의 후속 후보로 유지한다. 실시간 서버와 프레임워크 전환은 첫 실험 범위에서 제외한다. 계획: [`implementation_plan_cooperative_prehistory_pilot.md`](./docs/plans/implementation_plan_cooperative_prehistory_pilot.md)
 
 ## 구현 우선순위
 
