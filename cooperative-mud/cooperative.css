@@ -326,6 +326,9 @@ button:disabled { cursor: not-allowed; opacity: 0.48; }
 
 .live-status { margin-top: 10px; min-height: 1.6em; color: var(--coop-teal); font-size: 0.84rem; font-weight: 700; }
 
+.nav-row { margin-top: 6px; }
+.back-nav-button { min-height: 40px; padding: 8px 14px; font-size: 0.85rem; }
+
 @media (max-width: 600px) {
   .coop-shell { width: min(100% - 24px, 820px); padding-top: 19px; }
   .coop-header { flex-direction: column; gap: 9px; }

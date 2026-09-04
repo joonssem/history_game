@@ -17,6 +17,8 @@
   };
 
   let state = loadState();
+  let currentScreenId = null;
+  let screenHistoryStack = [];
 
   function defaultState() {
     return {
@@ -67,13 +69,43 @@
     if (status) status.textContent = message || '';
   }
 
-  function setScreen(screenId) {
+  function setScreen(screenId, options) {
+    const recordHistory = !options || options.recordHistory !== false;
+    if (recordHistory && currentScreenId && currentScreenId !== screenId) {
+      screenHistoryStack.push(currentScreenId);
+    }
+    currentScreenId = screenId;
     screenIds.forEach(function (id) {
       const screen = get('screen-' + id);
       if (screen) screen.hidden = id !== screenId;
     });
     updateProgress(screenId);
+    updateBackButton();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateBackButton() {
+    const nav = get('nav-row');
+    if (nav) nav.hidden = screenHistoryStack.length === 0;
+  }
+
+  function renderScreenContent(screenId) {
+    if (screenId === 'setup') {
+      renderTeamGrid();
+      renderTeamSizeGrid();
+      renderSeatGrid();
+      renderModeButtons();
+    } else if (screenId === 'role') {
+      renderRole();
+    } else if (screenId === 'first') {
+      bindFirstChoices();
+    } else if (screenId === 'reveal') {
+      renderReveal();
+    } else if (screenId === 'law') {
+      renderLaw();
+    } else if (screenId === 'finish') {
+      renderSummary();
+    }
   }
 
   function updateProgress(screenId) {
@@ -196,10 +228,21 @@
       '<div class="interest-box"><strong>나의 이해관계:</strong> ' + role.interest + '</div>' +
       '<div class="share-quote"><strong>모둠에 꼭 말할 내용</strong><br>' + role.shareText + '</div>';
     if (shareButton) {
-      shareButton.disabled = state.shared;
-      shareButton.textContent = state.shared ? '공유 확인 완료' : '모둠에 이야기했어요';
+      shareButton.textContent = state.shared ? '다음: 최초 판단 선택하기' : '모둠에 이야기했어요';
     }
     if (shareState) shareState.textContent = state.shared ? '✓ 이제 사건 1의 최초 판단을 선택할 수 있습니다.' : '친구에게 설명한 뒤 버튼을 눌러 주세요.';
+  }
+
+  function bindFirstChoices() {
+    renderChoices('first-choice-grid', function (choice) {
+      state.firstChoice = choice.id;
+      state.revisedChoice = null;
+      state.decisionChanged = null;
+      saveState();
+      renderReveal();
+      setScreen('reveal');
+      setStatus('새로운 증거가 공개되었습니다. 처음 생각과 비교해 보세요.');
+    });
   }
 
   function renderChoices(containerId, clickHandler) {
@@ -337,15 +380,7 @@
     state.shared = true;
     saveState();
     renderRole();
-    renderChoices('first-choice-grid', function (choice) {
-      state.firstChoice = choice.id;
-      state.revisedChoice = null;
-      state.decisionChanged = null;
-      saveState();
-      renderReveal();
-      setScreen('reveal');
-      setStatus('새로운 증거가 공개되었습니다. 처음 생각과 비교해 보세요.');
-    });
+    bindFirstChoices();
     setScreen('first');
     setStatus('친구에게 설명했습니다. 이제 나의 최초 판단을 선택하세요.');
   });
@@ -404,17 +439,28 @@
     setStatus('탐구 기록을 확인했습니다.');
   });
 
+  get('back-button').addEventListener('click', function () {
+    if (!screenHistoryStack.length) return;
+    const previousScreenId = screenHistoryStack.pop();
+    renderScreenContent(previousScreenId);
+    setScreen(previousScreenId, { recordHistory: false });
+    setStatus('이전 단계로 돌아갔습니다. 필요하면 다시 선택할 수 있습니다.');
+  });
+
   get('reset-button').addEventListener('click', function () {
     window.localStorage.removeItem(storageKey);
     state = defaultState();
+    screenHistoryStack = [];
     renderTeamGrid();
     renderTeamSizeGrid();
     renderSeatGrid();
     renderModeButtons();
-    setScreen('intro');
+    setScreen('intro', { recordHistory: false });
     setStatus('이 기기의 기록을 지웠습니다.');
   });
 
   renderModeButtons();
+  currentScreenId = 'intro';
   updateProgress('intro');
+  updateBackButton();
 }());
