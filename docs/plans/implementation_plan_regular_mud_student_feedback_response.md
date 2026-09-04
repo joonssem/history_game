@@ -111,8 +111,10 @@ python scripts/12_audit_choice_bias.py   # 해법 A 회귀 확인
 node --check js/mudSimulators.js         # 해법 B가 코드 변경 없이 끝났는지 재확인
 ```
 
-## 5. 다음 단계 제안
+## 5. 실행 결과 (2026-09-04)
 
-1. §1-3 상위 10곳부터 해법 A 시범 적용(이번 세션에서 4개 파일에 쓴 방식 그대로) → 재검증 → 나머지 일괄.
-2. §2-3 표를 `docs/audits/regular_scene_declaration_audit.md`의 36곳 전체와 대조해 씬 매칭 완성.
-3. 두 작업 모두 끝나면 `INBOX.md`의 2026-09-04 학생 피드백 항목 상태를 `triaged`→`promoted`로 갱신하고 무엇을 고쳤는지 학생에게 실제로 확인해 줄 후속 관찰(EXPERIMENTS.md 가설화)을 검토.
+1. 해법 A를 Regular 대상 24곳에 적용하고 `scripts/12_audit_choice_bias.py`로 재검증했다. `>=10자` 기준 Regular 잔여는 0건이다. Deep-dive 잔여 3곳은 이 계획의 소유 범위가 아니다.
+2. 해법 B-1을 기존 씬과 의미가 맞는 28곳에 적용했다. `regular_gwangbok`·`regular_myeongnyang`의 8곳은 전용 레거시 렌더러를 덮어쓸 수 있고 정확한 기존 씬도 없어, 별도 엔진 개선 없이 씬을 추가하지 않는 예외로 확정했다.
+3. `INBOX.md`의 해당 항목을 `promoted`로 갱신하고, 예외 근거를 [`regular_scene_declaration_audit.md`](../audits/regular_scene_declaration_audit.md)와 `walkthrough.md`에 기록했다.
+
+추가로 전용 렌더러를 더 정교하게 만들거나 Deep-dive 3곳의 선택지를 보정하는 일은 각각 별도 계획과 담당 확인 후 진행한다.

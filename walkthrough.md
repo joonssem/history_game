@@ -891,5 +891,6 @@
 - 작업 claim `TASK-20260904-08 | Regular MUD 선택지 편향·씬 선언 보완 | 실행·코딩 에이전트`를 `DONE`으로 종료했다.
 - 공유 저장소에서 생성된 `b369bbd` 커밋을 현재 브랜치 기준으로 검토했다. Regular MUD JSON만 변경되었고 공용 엔진·Deep-dive 코드는 건드리지 않았다.
 - 선택지 편향 감사의 전체 27건 가운데 Regular 대상 24곳에 대해 정답과 오답이 동일한 hotspot 근거를 반대 방향으로 인용하도록 선택지 문구를 다시 썼다. 잔여 3건은 `deep_joseon` 1곳과 `deep_three_kingdoms` 2곳으로 Deep-dive 별도 담당 범위다.
-- 씬 선언 감사 목록 36곳 가운데 기존 씬 팔레트와 주제가 맞는 28곳에 `scene` 필드만 추가했다. 남은 8곳(`regular_gwangbok` 4곳·`regular_myeongnyang` 4곳)은 전용 레거시 캔버스 렌더러를 덮어쓸 수 있어 유지했다.
+- 씬 선언 감사 목록 36곳 가운데 기존 씬 팔레트와 주제가 맞는 28곳에 `scene` 필드만 추가했다. 남은 8곳(`regular_gwangbok` 4곳·`regular_myeongnyang` 4곳)은 전용 레거시 캔버스 렌더러를 덮어쓸 수 있고 정확한 기존 씬도 없어, 전용 렌더러 예외로 확정했다.
+- 실행 계획·감사 문서와 `INBOX.md`를 갱신해 Regular 범위를 `promoted`로 마감했다. 전용 렌더러 개선과 Deep-dive 잔여 3곳은 별도 계획으로 분리했다.
 - 검증: `python scripts/03_validate_mud_integrity.py`, `python scripts/04_validate_mud_contract.py`, `python scripts/09_validate_mud_sources.py`, `python scripts/12_audit_choice_bias.py`, `node scripts/05_test_simulator_runtime.js`, `node --check js/mudEngine.js`, `node --check js/mudSimulators.js` 통과. 선택지 정답 위치 1번 고정 경고는 기존 런타임 무작위 표시 전제다.
