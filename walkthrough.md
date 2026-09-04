@@ -908,3 +908,11 @@
 - 씬 선언 감사 목록 36곳 가운데 기존 씬 팔레트와 주제가 맞는 28곳에 `scene` 필드만 추가했다. 남은 8곳(`regular_gwangbok` 4곳·`regular_myeongnyang` 4곳)은 전용 레거시 캔버스 렌더러를 덮어쓸 수 있고 정확한 기존 씬도 없어, 전용 렌더러 예외로 확정했다.
 - 실행 계획·감사 문서와 `INBOX.md`를 갱신해 Regular 범위를 `promoted`로 마감했다. 전용 렌더러 개선과 Deep-dive 잔여 3곳은 별도 계획으로 분리했다.
 - 검증: `python scripts/03_validate_mud_integrity.py`, `python scripts/04_validate_mud_contract.py`, `python scripts/09_validate_mud_sources.py`, `python scripts/12_audit_choice_bias.py`, `node scripts/05_test_simulator_runtime.js`, `node --check js/mudEngine.js`, `node --check js/mudSimulators.js` 통과. 선택지 정답 위치 1번 고정 경고는 기존 런타임 무작위 표시 전제다.
+
+## 2026-09-04 — 고조선 협동 MUD 실제 수업 결과와 DB 확장 원칙
+
+- 사용자 관찰에 따라 고조선 8조법 협동 MUD의 학생 만족도와 참여도가 높았음을 `EXPERIMENTS.md` EXP-006에 기록했다. 정량 점수 없이 관찰 기반 결과로만 해석한다.
+- 향후 DB·Realtime을 도입하더라도 각 기기의 역할별 단서·개인 판단 화면과 실제 말로 하는 정보 공유를 유지하도록 `PRD.md`, `TECH_STACK.md`, `ARCHITECTURE.md`, `DECISIONS.md`에 반영했다.
+- DB형 모드에서는 세션·QR 입장·역할 배정·진행 동기화·교사 대시보드·힌트·익명 집계·이어하기·활동 변형 실험 등 필요한 기능을 폭넓게 활용하는 방향을 확정했다. 동시에 GitHub Pages 정적 링크 모드를 유지해 다른 교사도 별도 서버 설정 없이 참여할 수 있게 한다.
+- 어떤 모드에서도 개인 기기별 역할 정보·개인 판단·실제 말로 하는 정보 공유를 보존하며, 역할 단서·개인 판단·대화 원문을 자동 공개하거나 온라인 채팅으로 교실 대화를 대체하지 않는다.
+- 이번 변경은 문서 기록만 수행했으며 DB·Realtime·로그인·교사 대시보드 코드는 구현하지 않았다.

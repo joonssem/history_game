@@ -49,6 +49,8 @@
 
 핵심 흐름은 `비대칭 정보 → 개인 판단 → 정보 공유 → 추가 증거 → 판단 수정 → 공동 결정`이다. 교사가 정한 모둠과 별개로 학생이 실제 모둠 인원(3~5명)을 직접 선택하며, 인원수에 따라 추가 단서와 역할 배정이 달라진다. 첫 버전은 GitHub Pages 정적 파일과 기기별 `localStorage`만 사용하며, 로그인·실시간 채팅·투표 동기화·개인정보 수집은 하지 않는다.
 
+향후 DB형 협동 MUD으로 확장하더라도 개인 기기별 역할 정보와 실제 교실 대화를 유지한다. DB형에서는 세션·역할·진행·교사 제어·익명 집계 등 필요한 기능을 폭넓게 활용하고, GitHub Pages 정적 링크 모드도 다른 교사가 바로 사용할 수 있는 운영 경로로 남긴다.
+
 - [협동 MUD 허브](./cooperative-mud/)
 - [고조선 8조법 바로 시작](./cooperative-mud/gojoseon-law/)
 - [구현 계획](./docs/plans/implementation_plan_cooperative_mud_gojoseon_law_v01.md)

@@ -77,6 +77,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 11. **P1 — Supabase `play_events` 설계**: 익명 세션 UUID와 최소 이벤트 필드, RLS 정책, 보관 기간을 설계한다. 프로젝트·테이블·코드 구현은 설계 승인 후 진행한다.
 12. **P2 — 선택 탐험 단서 실험**: 기존 MUD 한 편에 선택 탐험 1개를 추가하는 최소 설계를 만들고, 추가 단서 발견과 근거 공유가 실제로 발생하는지 관찰한다.
 13. **P2 — 선사시대 협동 MUD 종이 리허설** *(상태: deferred, 재개 조건 미정)*: 첫 후보는 선사 시대(구석기·신석기·청동기·고조선)이며, 막 1 `강가의 흔적: 구석기` 역할 카드·정보 공유·모둠 선택을 종이로 시험할 계획이었다. 고조선 8조법 아이패드 협동 MUD에서 핵심 협동 메커니즘을 이미 실제 수업으로 검증했으므로, 중복되는 막 1 종이 리허설은 보류한다. 카드·계획서·실행표는 보존하며, 선사시대 콘텐츠를 다시 검토할 필요가 생길 때 재개 여부를 결정한다. 계획: [`implementation_plan_cooperative_prehistory_pilot.md`](./docs/plans/implementation_plan_cooperative_prehistory_pilot.md), 실행표: [`cooperative_prehistory_paper_rehearsal_execution.md`](./docs/handoff/cooperative_prehistory_paper_rehearsal_execution.md)
+14. **P2 — DB형 협동 MUD 단계적 구현 계획** *(상태: planned, 구현 전)*: 고조선 파일럿에서 확인한 개인 기기별 비대칭 정보와 실제 교실 대화를 유지하면서, DB 모드의 세션·QR 입장·역할 배정·진행 동기화·교사 대시보드·힌트·익명 집계·이어하기·활동 변형 실험을 단계적으로 설계한다. GitHub Pages 정적 링크 모드는 별도 운영 경로로 유지한다. 먼저 개인정보·RLS·운영 모드·기능 우선순위를 포함한 구현 계획을 작성하고 사용자 확인 후 코딩한다.
 ## 구현 우선순위
 
 현재 구현 순서는 학습 흐름의 안정성, 모바일 사용성, 교육 콘텐츠 품질 순으로 정한다. 아래 순서는 문서 검토 후 정한 다음 구현 후보이며, 실제 코딩은 별도 구현 계획과 사용자 확인 후 시작한다.
