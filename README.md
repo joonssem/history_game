@@ -43,6 +43,16 @@
 
 게임성 확장은 문제 수를 단순히 늘리는 대신 탐험·발견·자료 추론·유물 활용·근거 공유를 중심으로 검토한다. 현재 백엔드와 데이터베이스는 구현되지 않았으며, 목표 아키텍처와 도입 단계는 [`TECH_STACK.md`](./TECH_STACK.md)와 [`DECISIONS.md`](./DECISIONS.md)에 기록한다.
 
+## 🤝 협동 MUD 실험
+
+**고조선 8조법: 우리 마을의 첫 번째 법**은 기존 개인형 MUD와 분리된 짧은 협동 MUD 파일럿이다. 학생마다 서로 다른 역할 정보와 이해관계를 보고, 실제 말로 정보를 공유한 뒤 개인 판단을 수정하고 모둠의 법을 만든다.
+
+핵심 흐름은 `비대칭 정보 → 개인 판단 → 정보 공유 → 추가 증거 → 판단 수정 → 공동 결정`이다. 첫 버전은 GitHub Pages 정적 파일과 기기별 `localStorage`만 사용하며, 로그인·실시간 채팅·투표 동기화·개인정보 수집은 하지 않는다.
+
+- [협동 MUD 허브](./cooperative-mud/)
+- [고조선 8조법 바로 시작](./cooperative-mud/gojoseon-law/)
+- [구현 계획](./docs/plans/implementation_plan_cooperative_mud_gojoseon_law_v01.md)
+
 ---
 
 ## 🕹️ MUD 시나리오 전체 목록

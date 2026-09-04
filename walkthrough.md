@@ -867,3 +867,21 @@
 - 선택지의 `text`/`next`/`correct`/`sound`, narrative, glossary는 변경하지 않았고 신규 장면 삽화나 엔진 코드는 추가하지 않았다. 순서·ID·완료 계약 정합성 점검용 `scratch/23_audit_regular_gating.py`를 추가했다.
 - Chrome 로컬 브라우저에서 `regular_goryeo_founding`의 자료 확인 전 선택지 비활성 상태를 확인했고, `regular_gojoseon`에서 마지막 단서 선입력 거부와 올바른 3단계 순서 통과를 확인했다. 브라우저 콘솔 오류는 0건이었다.
 - 배치별로 `01_validate_game_data.py`, `03_validate_mud_integrity.py`, `04_validate_mud_contract.py`, `07_audit_activity_duration.py`, `node scripts/05_test_simulator_runtime.js`를 실행해 통과했으며, 최종 정적 게이팅 감사와 `git diff --check`도 통과했다.
+
+## 2026-09-04 — 고조선 8조법 DB 없는 협동 MUD v0.1 구현
+
+- 작업 claim `TASK-20260904-02 | cooperative-mud/ + 구현 계획 | implementation agent`를 완료했다.
+- 프로젝트명은 **고조선 8조법: 우리 마을의 첫 번째 법**으로 확정했다. 기존 개인형 `regular_gojoseon`과 분리된 `cooperative-mud/` 허브 및 `gojoseon-law/` 독립 정적 페이지를 추가했다.
+- 19명 수업을 위한 4·4·4·4·3 모둠과 좌석 선택, 네 역할의 비대칭 정보, 실제 말로 공유했음을 표시하는 로컬 버튼을 구현했다. 5모둠은 빠진 역할의 단서를 추가 증거 단계에서 공용으로 공개한다.
+- 사건 1 최초 판단 → 추가 증거 → 판단 유지/변경 → 10분형 사건 2 → 모둠 법 조합 → 실제 전해지는 범금 8조 비교 → 개인 기록 요약 흐름을 구현했다. 5분형은 사건 2를 생략한다.
+- 로그인·DB·실시간 동기화·온라인 채팅·개인정보 수집은 포함하지 않으며, 최초 판단·수정 판단·변경 여부·법 조합은 기기별 `localStorage`에만 저장한다.
+- 메인 페이지에는 협동 MUD 허브로 이동하는 작은 진입 카드만 추가하고, 상세 화면은 별도 경로로 분리했다. 터치 버튼·키보드 포커스·반응형 레이아웃을 적용했다.
+- 검증: 로컬 Chrome에서 5모둠 3번 10분형 전체 진행, 1모둠 1번 5분형 사건 2 생략, 브라우저 콘솔 오류·경고 0건 확인. `node --check` 2종, 게임 데이터·MUD 무결성·계약·정적 자산·카탈로그·출처·시뮬레이터 런타임 검사, `git diff --check` 통과.
+
+## 2026-09-04 — 고조선 협동 MUD 가변 모둠 인원·글꼴 정합성
+
+- 작업 claim `TASK-20260904-03 | cooperative-mud/gojoseon-law | implementation agent`를 완료했다.
+- 고정된 `4·4·4·4·3` 구조를 제거하고, 교사가 정한 모둠 번호와 별개로 학생이 실제 모둠 인원 `3명·4명·5명`을 선택하도록 변경했다. 선택한 인원수만큼 좌석 버튼을 생성한다.
+- 3인 모둠은 가족 사정 단서를 추가 공개하고, 5인 모둠은 다섯 번째 역할 `마을 기록자`를 배정한다.
+- 협동 MUD의 본문·제목 글꼴을 메인 페이지와 동일하게 `Pretendard`·`SchoolSafetyNotification`으로 통일했다.
+- 검증: 5인 모둠 5번 역할, 3인 모둠 추가 단서, 인원 미선택 입장 제한, 브라우저 계산 글꼴, 콘솔 오류·경고 0건 확인. `node --check` 2종과 `git diff --check` 통과.

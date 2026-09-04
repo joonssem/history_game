@@ -295,3 +295,74 @@
   padding: 7px 8px;
   font-size: 0.82rem;
 }
+
+/* 협동 MUD 파일럿 진입점 */
+.cooperative-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+  padding: 18px 20px;
+  border: 1px solid #D8C3A5;
+  border-left: 5px solid #8A3B29;
+  border-radius: 4px 12px 12px 4px;
+  background: linear-gradient(135deg, #FFF9EF, #F4E7D2);
+}
+
+.cooperative-entry-tag {
+  display: inline-block;
+  margin-bottom: 5px;
+  color: #8A3B29;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.cooperative-entry h2 {
+  margin-bottom: 5px;
+  color: #3D2921;
+  font-family: 'SchoolSafetyNotification', sans-serif;
+  font-size: 1.2rem;
+}
+
+.cooperative-entry p {
+  margin: 0;
+  color: #554D46;
+  font-size: 0.9rem;
+}
+
+.cooperative-entry-link {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: #2E5B70;
+  color: #FFFFFF;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cooperative-entry-link:hover,
+.cooperative-entry-link:focus-visible {
+  background: #23485A;
+  outline: 3px solid rgba(46, 91, 112, 0.25);
+  outline-offset: 2px;
+}
+
+@media (max-width: 620px) {
+  .cooperative-entry {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cooperative-entry-link {
+    justify-content: center;
+    width: 100%;
+  }
+}
