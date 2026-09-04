@@ -83,6 +83,9 @@ history_game/
 │       └── deep_*.json (4개)           # 대단원 Deep-dive MUD (30분+, 3대 멀티엔딩)
 ├── data/curriculum_mapping.json         # 기존 차시와 2022 개정 교육과정 매핑 기준선
 ├── simulator_contract.json              # 시뮬레이터 기계 계약
+├── cooperative-mud/                     # 기존 엔진과 분리한 협동 MUD 정적 파일럿
+│   ├── index.html                        # 협동 MUD 활동 허브
+│   └── gojoseon-law/                     # 고조선 8조법 v0.1
 ├── README.md                           # 프로젝트 소개
 ├── agents.md                           # AI 에이전트 협업 체계 및 작업 원칙
 ├── PRD.md                              # 제품 목표·범위·수용 기준
@@ -140,6 +143,7 @@ history_game/
 - **유물 도감 수집 시스템**: 국보·보물 36종, MUD·스토리 ID 연동, localStorage 영구 저장, 탐험가 레벨
 - **골든벨 퀴즈**: `data/quizzes.json` 기반 단원별 랜덤 퀴즈, 15초 타이머, 점수 기록
 - **확장 역사 활동**: 타임머신 스토리 3종, 유물 카드 게임, 역사 연표 게임
+- **고조선 8조법 협동 MUD v0.1**: DB·로그인 없이 역할별 비대칭 정보, 개인 판단·판단 수정, 모둠 법 만들기를 시험하는 독립 정적 파일럿. 화면 히스토리 스택 기반 앱 내부 뒤로가기와 탐구 완료 화면의 선택형 추가 미션을 제공한다.
 - **성찰 일기**: MUD 완료 후 textarea 작성 → 클립보드 복사 제출
 - **용어 돋보기(Glossary)**: narrative 내 핵심 용어를 tooltip으로 자동 변환
 - **시대별 컬러 테마**: MUD별 themeColor를 CSS 변수(`--current-mud-color`)로 동적 적용
@@ -321,7 +325,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 - **LATER**: 유물 탐구 확대, 익명 활동 결과·학급 집계, 친구 비교·협력, 필요 시 Anonymous Auth
 - **FUTURE / NOT NOW**: Realtime·학급 공동 이벤트·역사 타이쿤 장기 상태·공개 온라인 순위표
 - **현재 별도 파일럿**: 선사시대 협동 MUD Phase 0 막 1 종이 리허설 준비 중. 기존 앱·MUD JSON·서버·DB와 분리하며, 종이 리허설 결과가 확인되기 전에는 웹 구현으로 확장하지 않는다.
-- **현재 단기 디지털 파일럿**: `고조선 8조법: 우리 마을의 첫 번째 법`을 `cooperative-mud/gojoseon-law/` 독립 정적 페이지로 구현한다. DB 없는 비대칭 정보·판단 변경 실험이며, 모둠별 실제 인원 3·4·5명 선택과 기기별 기록을 지원한다. 기존 개인형 `regular_gojoseon`과 분리한다.
+- **현재 단기 디지털 파일럿**: `고조선 8조법: 우리 마을의 첫 번째 법`을 `cooperative-mud/gojoseon-law/` 독립 정적 페이지로 운영한다. DB 없는 비대칭 정보·판단 변경 실험이며, 모둠별 실제 인원 3·4·5명 선택과 기기별 기록을 지원한다. 화면 이동은 브라우저 History API가 아닌 앱 내부 스택으로 복원하고, 빠른 모둠용 추가 미션은 핵심 흐름을 강제하지 않는 선택형 토글로 제공한다. 기존 개인형 `regular_gojoseon`과 분리한다.
 
 ## 8. 실행 및 테스트 방법
 
