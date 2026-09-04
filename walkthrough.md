@@ -885,3 +885,11 @@
 - 3인 모둠은 가족 사정 단서를 추가 공개하고, 5인 모둠은 다섯 번째 역할 `마을 기록자`를 배정한다.
 - 협동 MUD의 본문·제목 글꼴을 메인 페이지와 동일하게 `Pretendard`·`SchoolSafetyNotification`으로 통일했다.
 - 검증: 5인 모둠 5번 역할, 3인 모둠 추가 단서, 인원 미선택 입장 제한, 브라우저 계산 글꼴, 콘솔 오류·경고 0건 확인. `node --check` 2종과 `git diff --check` 통과.
+
+## 2026-09-04 — Regular MUD 학생 피드백 대응: 선택지 근거 인용·씬 선언 확장
+
+- 작업 claim `TASK-20260904-08 | Regular MUD 선택지 편향·씬 선언 보완 | 실행·코딩 에이전트`를 `DONE`으로 종료했다.
+- 공유 저장소에서 생성된 `b369bbd` 커밋을 현재 브랜치 기준으로 검토했다. Regular MUD JSON만 변경되었고 공용 엔진·Deep-dive 코드는 건드리지 않았다.
+- 선택지 편향 감사의 전체 27건 가운데 Regular 대상 24곳에 대해 정답과 오답이 동일한 hotspot 근거를 반대 방향으로 인용하도록 선택지 문구를 다시 썼다. 잔여 3건은 `deep_joseon` 1곳과 `deep_three_kingdoms` 2곳으로 Deep-dive 별도 담당 범위다.
+- 씬 선언 감사 목록 36곳 가운데 기존 씬 팔레트와 주제가 맞는 28곳에 `scene` 필드만 추가했다. 남은 8곳(`regular_gwangbok` 4곳·`regular_myeongnyang` 4곳)은 전용 레거시 캔버스 렌더러를 덮어쓸 수 있어 유지했다.
+- 검증: `python scripts/03_validate_mud_integrity.py`, `python scripts/04_validate_mud_contract.py`, `python scripts/09_validate_mud_sources.py`, `python scripts/12_audit_choice_bias.py`, `node scripts/05_test_simulator_runtime.js`, `node --check js/mudEngine.js`, `node --check js/mudSimulators.js` 통과. 선택지 정답 위치 1번 고정 경고는 기존 런타임 무작위 표시 전제다.
