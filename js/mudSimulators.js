@@ -445,12 +445,12 @@ const MudSimulators = {
     return base.map(hotspot => ({ ...hotspot, radius }));
   },
 
-  getPaleoHotspotLabel(id) {
-    const configured = window.MudEngine?.currentSimulator?.hotspots;
-    const configuredHotspot = Array.isArray(configured) && configured.find(hotspot => hotspot.id === id);
-    if (configuredHotspot) return configuredHotspot.label;
-    const labels = { 'dry-grass': '마른 풀', branches: '나뭇가지', stone: '부싯돌' };
-    return labels[id] || id;
+  getPaleoHotspotLabel(mode, id) {
+    // getPaleoHotspots는 JSON에 선언된 hotspots와, 그게 없을 때 쓰는 시대별 레거시 하드코딩 목록을
+    // 모두 포괄하는 단일 출처다. 순서 오류 메시지가 "riverbank"처럼 원문 id를 그대로 보여주지
+    // 않도록, 별도 라벨 사전을 두지 않고 이 목록에서 그대로 찾는다.
+    const hotspot = this.getPaleoHotspots(mode, 100, 100).find(h => h.id === id);
+    return hotspot ? hotspot.label : id;
   },
 
   getPaleoHotspot(mode, x, y, canvas) {
@@ -531,7 +531,7 @@ const MudSimulators = {
       return false;
     }
     if (hotspot.id !== sequence[step]) {
-      this.setPaleoFeedback(`${hotspot.label}보다 먼저 ${this.getPaleoHotspotLabel(sequence[step])}을(를) 준비해야 합니다.`);
+      this.setPaleoFeedback(`${hotspot.label}보다 먼저 ${this.getPaleoHotspotLabel(mode, sequence[step])}을(를) 준비해야 합니다.`);
       return false;
     }
     state.found.push(hotspot.id);
