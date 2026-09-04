@@ -345,6 +345,14 @@
       '<div class="summary-item"><span>우리 모둠 법 초안</span><strong>' + buildLawSentence() + '</strong></div>';
   }
 
+  function renderExtraMissions() {
+    const list = get('extra-missions-list');
+    if (!list || !scenario.extraMissions) return;
+    list.innerHTML = scenario.extraMissions.map(function (mission) {
+      return '<div class="extra-mission-card"><h4>' + mission.icon + ' ' + mission.title + '</h4><p>' + mission.text + '</p></div>';
+    }).join('');
+  }
+
   function startActivity() {
     renderTeamGrid();
     renderTeamSizeGrid();
@@ -439,6 +447,14 @@
     setStatus('탐구 기록을 확인했습니다.');
   });
 
+  get('extra-toggle').addEventListener('click', function () {
+    const list = get('extra-missions-list');
+    const expanded = this.getAttribute('aria-expanded') === 'true';
+    if (list) list.hidden = expanded;
+    this.setAttribute('aria-expanded', String(!expanded));
+    this.textContent = expanded ? '🎁 벌써 끝났나요? 추가로 해볼 것 보기' : '추가 미션 숨기기';
+  });
+
   get('back-button').addEventListener('click', function () {
     if (!screenHistoryStack.length) return;
     const previousScreenId = screenHistoryStack.pop();
@@ -451,6 +467,13 @@
     window.localStorage.removeItem(storageKey);
     state = defaultState();
     screenHistoryStack = [];
+    const extraToggle = get('extra-toggle');
+    const extraList = get('extra-missions-list');
+    if (extraToggle) {
+      extraToggle.setAttribute('aria-expanded', 'false');
+      extraToggle.textContent = '🎁 벌써 끝났나요? 추가로 해볼 것 보기';
+    }
+    if (extraList) extraList.hidden = true;
     renderTeamGrid();
     renderTeamSizeGrid();
     renderSeatGrid();
@@ -460,6 +483,7 @@
   });
 
   renderModeButtons();
+  renderExtraMissions();
   currentScreenId = 'intro';
   updateProgress('intro');
   updateBackButton();
