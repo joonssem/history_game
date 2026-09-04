@@ -89,7 +89,8 @@
       "simulator": {
         "mode": "text-reading",
         "scene": "ganghwa-treaty-hall",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["treaty-pressure", "extraterritoriality", "coastal-survey"],
         "type": "info",
         "hotspots": [
           {
@@ -180,7 +181,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "jejungwon-postal",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["jejungwon", "ujeongchongguk", "unequal-access"],
         "type": "info",
         "hotspots": [
           {
@@ -271,7 +273,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "hanyang-tram-street",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["tram-route", "electric-light", "urban-change"],
         "type": "info",
         "hotspots": [
           {
@@ -362,7 +365,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "modern-open-evidence",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["treaty", "institution", "city"],
         "type": "info",
         "hotspots": [
           {

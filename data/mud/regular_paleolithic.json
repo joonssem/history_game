@@ -132,7 +132,8 @@
       ],
       "simulator": {
         "mode": "paleo-environment",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["rock-shelter", "riverbank", "open-plain"],
         "type": "info",
         "required": true,
         "completion": {
@@ -205,6 +206,7 @@
       "simulator": {
         "mode": "paleo-fire",
         "interaction": "ordered-hotspot",
+        "sequence": ["dry-grass", "branches", "stone"],
         "type": "gauge",
         "required": true,
         "completion": {
@@ -282,7 +284,8 @@
       ],
       "simulator": {
         "mode": "paleo-stone",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["stone-edge", "stone-face", "stone-tip"],
         "type": "gauge",
         "required": true,
         "completion": {
@@ -348,7 +351,8 @@
       ],
       "simulator": {
         "mode": "paleo-hunt",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["tracks", "wind", "rock-funnel"],
         "type": "info",
         "required": true,
         "completion": {
@@ -475,7 +479,7 @@
       "simulator": {
         "mode": "paleo-reflection",
         "interaction": "reflection",
-        "required": true,
+        "required": false,
         "completion": {
           "target": 3,
           "increment": 1,

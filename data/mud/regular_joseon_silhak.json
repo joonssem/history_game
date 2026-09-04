@@ -95,16 +95,40 @@
         "mode": "culture-touch",
         "scene": "hongdaeyong-globe",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "practical-problems",
+            "label": "현실 문제 연구",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "실학자들은 농업·상공업·토지 제도처럼 현실의 문제를 구체적으로 연구했습니다."
+          },
+          {
+            "id": "new-knowledge",
+            "label": "청과 서양의 지식",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "청의 문물과 서양 과학 지식도 사회를 개선할 방법을 찾는 자료가 되었습니다."
+          },
+          {
+            "id": "different-scholars",
+            "label": "학자마다 다른 주장",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "실학이라는 흐름 안에서도 학자마다 관심과 주장은 달랐습니다."
+          }
+        ],
         "infoText": "실학자들은 둥근 지구의와 서양 과학 기술을 통해 세계로 시야를 넓혔습니다.",
         "instruction": "🌍 <b>서양 문물과 둥근 지구의 탐구</b>",
         "feedback": "새로운 세계관을 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 현실 문제·새 지식·학자별 차이 단서를 모두 확인했습니다. 이제 자료를 선택하세요."
         }
       }
     },
@@ -172,16 +196,40 @@
         "mode": "culture-touch",
         "scene": "hwaseong-geojunggi",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "land-imbalance",
+            "label": "토지 소유의 불균형",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "일부 실학자는 토지 소유의 불균형을 사회 문제로 보았습니다."
+          },
+          {
+            "id": "farmers-hardship",
+            "label": "농민 생활의 어려움",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "토지 개혁안은 어려움을 겪는 농민의 생활을 살피려는 문제의식에서 나왔습니다."
+          },
+          {
+            "id": "reform-conditions",
+            "label": "개혁의 실행 조건",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "서로 다른 개혁안의 목적과 실행 조건을 비교해야 자료의 뜻을 이해할 수 있습니다."
+          }
+        ],
         "infoText": "거중기와 녹로, 유형거의 활용으로 수원 화성은 10년 예정 공사를 2년 9개월 만에 마쳤습니다.",
         "instruction": "🏗️ <b>정약용의 거중기와 화성 축조 기술</b>",
         "feedback": "도르래의 과학 원리를 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 토지 불균형·농민의 어려움·실행 조건 단서를 모두 확인했습니다. 이제 목적을 선택하세요."
         }
       }
     },
@@ -249,16 +297,40 @@
         "mode": "text-reading",
         "scene": "donghak-yongdamjeong",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "rural-hardship",
+            "label": "농촌의 어려움",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "실학자들이 현실 문제를 살피던 때에도 농촌의 어려움은 남아 있었습니다."
+          },
+          {
+            "id": "human-dignity",
+            "label": "사람의 존엄",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "최제우는 사람의 존엄과 평등을 강조하는 새로운 사상을 펼쳤습니다."
+          },
+          {
+            "id": "innaecheon",
+            "label": "인내천",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "‘사람이 곧 하늘’이라는 인내천의 뜻을 살펴 모든 사람을 대하는 기준을 생각합니다."
+          }
+        ],
         "infoText": "동학은 훗날 동학 농민 운동과 3·1 운동으로 이어지는 민족 평등 운동의 뿌리가 되었습니다.",
         "instruction": "🕊️ <b>동학의 인내천 평등사상 탐구</b>",
         "feedback": "인간 존엄과 평등을 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 농촌의 어려움·사람의 존엄·인내천 단서를 모두 확인했습니다. 이제 대우 방식을 선택하세요."
         }
       }
     },

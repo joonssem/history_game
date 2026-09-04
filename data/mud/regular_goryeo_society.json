@@ -91,16 +91,40 @@
         "mode": "text-reading",
         "scene": "goryeo-civil-exam",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "sibling-testimony",
+            "label": "남매의 주장",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "누나는 유서를, 남동생은 검은 옷 한 벌을 근거로 서로 다른 주장을 합니다."
+          },
+          {
+            "id": "inheritance-will",
+            "label": "아버지의 유서",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "유서의 문장과 남매가 받은 재산을 함께 살펴야 판결의 뜻을 알 수 있습니다."
+          },
+          {
+            "id": "family-law",
+            "label": "고려의 상속법",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "고려 시대의 일반적인 가족 상속법에 비추어 사건을 판단해야 합니다."
+          }
+        ],
         "infoText": "광종은 노비안검법과 과거제를 통해 호족 세력을 누르고 왕권을 강화했습니다.",
         "instruction": "📜 <b>고려 과거 시험과 홍패 확인</b>",
         "feedback": "능력 중심 사회의 기틀을 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 남매의 주장·유서·상속법 단서를 모두 확인했습니다. 이제 판결을 선택하세요."
         }
       }
     },
@@ -162,16 +186,40 @@
         "mode": "culture-touch",
         "scene": "goryeo-inheritance-trial",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "young-brother",
+            "label": "어린 남동생",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "아버지가 돌아가실 당시 남동생은 너무 어렸다는 사정을 확인합니다."
+          },
+          {
+            "id": "will-intent",
+            "label": "유서의 숨은 뜻",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "유서는 어린 동생이 다 클 때까지 누나가 재산을 지켜 달라는 뜻이었습니다."
+          },
+          {
+            "id": "equal-share",
+            "label": "남매의 공평한 몫",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "이제 동생이 자랐으므로 남매의 몫을 공평하게 살펴야 합니다."
+          }
+        ],
         "infoText": "고려 시대는 아들과 딸이 재산을 똑같이 나누어 상속받았으며, 여성의 지위가 높았습니다.",
         "instruction": "⚖️ <b>손변 명판관의 지혜로운 재판</b>",
         "feedback": "남녀 균등 상속의 지혜를 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 어린 동생·유서의 뜻·공평한 몫을 모두 확인했습니다. 이제 판결을 선택하세요."
         }
       }
     },
@@ -239,16 +287,40 @@
         "mode": "text-reading",
         "scene": "goryeo-buseoksa",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "buseoksa-pillar",
+            "label": "무량수전 기둥",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "영주 부석사 무량수전의 나무 기둥을 관찰합니다."
+          },
+          {
+            "id": "bulging-middle",
+            "label": "가운데가 불룩한 기둥",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "기둥의 가운데를 볼록하게 다듬은 모양이 배흘림기둥입니다."
+          },
+          {
+            "id": "visual-stability",
+            "label": "곧고 안정적으로 보이는 착시",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "가운데를 볼록하게 만들면 멀리서 곧고 안정적으로 보이는 착시가 생깁니다."
+          }
+        ],
         "infoText": "부석사 무량수전의 배흘림기둥과 주심포 양식은 고려 목조 건축의 극치를 보여줍니다.",
         "instruction": "🏛️ <b>부석사 무량수전 배흘림기둥 탐구</b>",
         "feedback": "기둥의 완만한 곡선을 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 기둥의 모양·배흘림·시각 효과를 모두 확인했습니다. 이제 제작 방식을 선택하세요."
         }
       }
     },

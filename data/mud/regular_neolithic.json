@@ -113,7 +113,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "neolithic-village",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["riverbank", "farmland", "pit-house"],
         "type": "info",
         "hotspots": [
           {

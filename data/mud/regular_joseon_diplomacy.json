@@ -88,7 +88,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "joseon-border",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["aprokgang", "duman", "settlers"],
         "type": "info",
         "hotspots": [
           {
@@ -179,7 +180,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "joseon-namhansanseong",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["fortress", "food", "people"],
         "type": "info",
         "hotspots": [
           {
@@ -270,7 +272,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "joseon-postwar",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["relations", "defense", "recovery"],
         "type": "info",
         "hotspots": [
           {
@@ -361,7 +364,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "joseon-diplomacy-exhibit",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["border", "war", "after"],
         "type": "info",
         "hotspots": [
           {

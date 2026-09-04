@@ -91,16 +91,40 @@
         "mode": "economy-farm",
         "scene": "ianbeop-farming",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "direct-sowing",
+            "label": "직파법",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "논에 볍씨를 직접 뿌리는 직파법은 잡초를 뽑는 데 많은 노동이 들었습니다."
+          },
+          {
+            "id": "weeding-labor",
+            "label": "김매기 노동",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "잡초를 여러 차례 제거하는 일은 농민에게 큰 부담이었습니다."
+          },
+          {
+            "id": "rice-transplanting",
+            "label": "모내기법",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "이웃 마을에서 도입한 모내기법은 잡초를 뽑는 일을 줄이고 수확량을 늘렸습니다."
+          }
+        ],
         "infoText": "모내기법의 전국적 보급으로 한 사람이 넓은 논을 농사짓는 '광작(廣作)'이 가능해졌습니다.",
         "instruction": "🌾 <b>모내기법(이앙법)과 광작의 원리 확인</b>",
         "feedback": "벼농사 생산량 증대를 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 직파법·김매기 노동·모내기법 단서를 모두 확인했습니다. 이제 농법을 선택하세요."
         }
       }
     },
@@ -168,16 +192,40 @@
         "mode": "economy-farm",
         "scene": "sangpum-crops",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "harvested-rice",
+            "label": "가을 벼 수확",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "가을에 벼를 수확한 뒤 논에 새로운 작물을 심을 여지가 생겼습니다."
+          },
+          {
+            "id": "empty-paddy",
+            "label": "비어 있는 논",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "모내기 전까지 빈 논을 활용하면 한 해에 두 번 소득을 얻을 수 있습니다."
+          },
+          {
+            "id": "commercial-crops",
+            "label": "상품 작물",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "인삼·담배·목화·고추 같은 상품 작물은 시장에 내다 팔 수 있었습니다."
+          }
+        ],
         "infoText": "상품 작물의 활성화로 농촌과 도시 간의 상업 교류가 폭발적으로 증가했습니다.",
         "instruction": "🌿 <b>상품 작물 재배와 화폐 유통 확인</b>",
         "feedback": "인삼과 담배의 시장 가치를 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 벼 수확·빈 논·상품 작물 단서를 모두 확인했습니다. 이제 작물을 선택하세요."
         }
       }
     },
@@ -244,17 +292,40 @@
       "simulator": {
         "mode": "economy-market",
         "scene": "sangpyeongtongbo-market",
-        "type": "gauge",
-        "gaugeLabel": "상평통보 유통량:",
-        "instruction": "🪙 <b>화면을 터치하여 장시에서 상평통보를 유통하세요!</b>",
-        "feedback": "화면을 터치해 장시를 활성화하세요!",
+        "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "surplus-rice",
+            "label": "쌀과 보리의 잉여",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "이모작으로 쌀과 보리가 남아 시장에 내다 팔 수 있게 되었습니다."
+          },
+          {
+            "id": "market-trade",
+            "label": "전국 장시",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "조선 후기에는 농업뿐 아니라 장시를 통한 상업도 발달했습니다."
+          },
+          {
+            "id": "sangpyeongtongbo",
+            "label": "상평통보",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "상평통보는 무거운 곡식 대신 장시에서 편리하게 사용할 수 있는 국가 공식 화폐였습니다."
+          }
+        ],
+        "instruction": "🪙 <b>잉여 생산물·장시·상평통보 자료를 확인하세요!</b>",
+        "feedback": "화폐가 필요해진 까닭을 살펴보세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 잉여 생산물·장시·상평통보 단서를 모두 확인했습니다. 이제 화폐를 선택하세요."
         }
       }
     },

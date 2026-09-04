@@ -856,3 +856,14 @@
 - 선택지 원본의 정답 위치 편향 경고는 기존 런타임 셔플 전제 경고이며, 계약 검사 실패는 아니다.
 - 감사 스크립트 2종이 루트에 보고서를 생성하고 기준 링크는 `docs/audits/`를 가리키는 불일치를 발견해 `BACKLOG.md`의 P2 후속 항목으로 등록했다. 경로 변경은 별도 계획·승인 전까지 수행하지 않는다.
 - 검증: `python scripts/01_validate_game_data.py`, `03_validate_mud_integrity.py`, `04_validate_mud_contract.py`, `06_validate_static_assets.py`, `08_validate_mud_catalog.py`, `09_validate_mud_sources.py`, `10_audit_if_stages.py`, `11_audit_artifacts.py`; `node scripts/05_test_simulator_runtime.js`; `node --check` 3종; `git diff --check`.
+
+## 2026-09-03 — Regular MUD 활동 게이팅 정합성 개선
+
+- 작업 claim `TASK-REGULAR-MUD-GATING | data/mud/regular_*.json + walkthrough.md | implementation agent`를 `DONE`으로 종료한다.
+- 실행 지시서 `docs/handoff/codex_regular_mud_activity_gating_instruction.md`에 따라 Regular MUD 28종의 판단 스테이지를 전수 대조했다.
+- 판단 스테이지 101개에서 게이팅 없음 41개를 `hotspot-discovery`로 전환하고, 기존 `hotspot-discovery` 56개에 `ordered-hotspot`과 서술상 원인→상황→결정 순서의 `sequence`를 추가했다. 최종 집계는 `hotspot-discovery 41`, `ordered-hotspot 58`(기존 2개 포함), `resource-allocation 2`, `none 0`이다.
+- 우선순위 1 단계에는 narrative에 이미 있는 자료·행동 근거를 3개 hotspot으로 분리하고 `required: true`, `target/minActions: 3`, `progressKey: "simulatorProgress"` 계약을 적용했다. 광복·명량·청동기 단계의 기존 버튼/게이지 우회 경로는 정보 확인형 hotspot으로 교체했다.
+- `regular_paleolithic:6`은 판단 선택지가 없는 최종 성찰 단계이므로 필수 조작을 선택 조작으로 낮춰 D-007 추정 시간을 10.2분에서 9.9분으로 줄였다. Regular 최대 추정 시간은 9.9분이며 10분 초과 파일은 0개다. 감사 결과의 잔여 `8/28` 경고는 10분 초과가 아닌 기존 반복 탭 내성 후속 신호다.
+- 선택지의 `text`/`next`/`correct`/`sound`, narrative, glossary는 변경하지 않았고 신규 장면 삽화나 엔진 코드는 추가하지 않았다. 순서·ID·완료 계약 정합성 점검용 `scratch/23_audit_regular_gating.py`를 추가했다.
+- Chrome 로컬 브라우저에서 `regular_goryeo_founding`의 자료 확인 전 선택지 비활성 상태를 확인했고, `regular_gojoseon`에서 마지막 단서 선입력 거부와 올바른 3단계 순서 통과를 확인했다. 브라우저 콘솔 오류는 0건이었다.
+- 배치별로 `01_validate_game_data.py`, `03_validate_mud_integrity.py`, `04_validate_mud_contract.py`, `07_audit_activity_duration.py`, `node scripts/05_test_simulator_runtime.js`를 실행해 통과했으며, 최종 정적 게이팅 감사와 `git diff --check`도 통과했다.

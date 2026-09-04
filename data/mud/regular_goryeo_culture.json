@@ -89,17 +89,41 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "goryeo-tripitaka-carving",
-        "type": "gauge",
+        "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "wood-selection",
+            "label": "목재 선택",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "대장경판 제작은 알맞은 목재를 선택하는 데서 시작합니다."
+          },
+          {
+            "id": "carving-process",
+            "label": "가공과 글자 새김",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "목재를 가공하고 글자를 새기는 제작 과정을 살펴봅니다."
+          },
+          {
+            "id": "storage-environment",
+            "label": "보관 환경",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "오늘날 보존 상태를 설명할 때는 제작 과정과 보관 환경을 구분해야 합니다."
+          }
+        ],
         "gaugeLabel": "경판 완성도:",
         "instruction": "🪵 <b>화면을 터치하여 팔만대장경의 글자를 한 획 한 획 정성껏 새기세요!</b>",
         "feedback": "8만 1,258장의 팔만대장경판이 완성되었습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 목재·제작 과정·보관 환경 단서를 모두 확인했습니다. 이제 원리를 선택하세요."
         }
       }
     },
@@ -157,16 +181,40 @@
         "mode": "culture-touch",
         "scene": "goryeo-metal-type",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "metal-type",
+            "label": "금속활자 인쇄",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "1377년 흥덕사에서 찍은 직지는 현존하는 가장 오래된 금속활자 인쇄본으로 알려져 있습니다."
+          },
+          {
+            "id": "reusable-letters",
+            "label": "다시 조합하는 글자",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "금속활자는 글자를 다시 조합할 수 있는 인쇄 기술입니다."
+          },
+          {
+            "id": "book-context",
+            "label": "책의 내용과 제작 목적",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "활자 기술만으로 책의 내용·제작 목적·전해지는 방식까지 모두 알 수는 없습니다."
+          }
+        ],
         "infoText": "고려는 금속활자를 활용한 인쇄 기술을 발전시켰고, 현존하는 가장 오래된 금속활자 인쇄본으로 알려진 직지심체요절을 남겼습니다.",
         "instruction": "✨ <b>금속활자를 조판하여 직지를 인쇄하세요</b>",
         "feedback": "현존하는 가장 오래된 금속활자 인쇄본으로 알려진 직지심체요절의 의미를 확인했습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 금속활자·재조합·자료의 범위 단서를 모두 확인했습니다. 이제 의미를 선택하세요."
         }
       }
     },
@@ -224,16 +272,40 @@
         "mode": "text-reading",
         "scene": "goryeo-byeokrando",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "byeokrando-port",
+            "label": "벽란도 무역항",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "벽란도는 고려 수도 개경 인근 예성강 하구에 있던 무역항입니다."
+          },
+          {
+            "id": "trade-network",
+            "label": "송·일본·아라비아 교류",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "교류 기록은 고려가 송·일본·아라비아 상인과 연결되어 있었음을 보여 줍니다."
+          },
+          {
+            "id": "record-limits",
+            "label": "한 항구 기록의 범위",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "한 항구의 기록만으로 고려 사회 전체가 똑같이 국제 교류를 했다고 단정할 수는 없습니다."
+          }
+        ],
         "infoText": "벽란도는 동서양의 문물이 오가던 고려의 창문이자 글로벌 무역 허브였습니다.",
         "instruction": "⛵ <b>벽란도에서 세계와 교류하세요</b>",
         "feedback": "고려의 이름 '코리아(Korea)'가 전 세계에 널리 알려졌습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 무역항·교류망·자료의 범위 단서를 모두 확인했습니다. 이제 근거를 선택하세요."
         }
       }
     },
@@ -290,7 +362,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "goryeo-culture-evidence",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["tripitaka", "jikji", "byeokrando"],
         "type": "info",
         "hotspots": [
           {

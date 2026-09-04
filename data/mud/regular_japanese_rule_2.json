@@ -89,7 +89,8 @@
       "simulator": {
         "mode": "text-reading",
         "scene": "imperial-subject-policy",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["policy-document", "name-change", "school-life"],
         "type": "info",
         "hotspots": [
           { "id": "policy-document", "label": "정책 문서", "x": 0.22, "y": 0.48, "feedback": "황국신민화 정책은 우리말·역사·이름과 생활 문화를 통제하려 했습니다." },
@@ -162,7 +163,8 @@
       "simulator": {
         "mode": "battle-gauge",
         "scene": "memorial-candlelight",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["mobilization-record", "victim-testimony", "memory-activity"],
         "type": "gauge",
         "hotspots": [
           { "id": "mobilization-record", "label": "동원 기록", "x": 0.22, "y": 0.48, "feedback": "전시 동원 기록은 많은 사람이 본인의 의사와 관계없이 노동과 군사 체제에 동원된 사실을 보여 줍니다." },
@@ -235,7 +237,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "korean-language-society",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["manuscript", "spelling", "language-life"],
         "type": "info",
         "hotspots": [
           { "id": "manuscript", "label": "사전 원고", "x": 0.22, "y": 0.48, "feedback": "조선어학회가 모은 사전 원고는 우리말을 조사하고 정리한 연구 자료입니다." },
@@ -308,7 +311,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "colonial-1930s-evidence",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["policy", "record", "language"],
         "type": "info",
         "hotspots": [
           {

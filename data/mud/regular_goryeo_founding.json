@@ -91,16 +91,40 @@
         "mode": "battle-gauge",
         "scene": "goryeo-unification-map",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "war-weary-people",
+            "label": "전쟁에 지친 백성",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "전쟁에 지친 백성의 마음을 얻는 일이 새 나라의 첫 과제입니다."
+          },
+          {
+            "id": "divided-public-mind",
+            "label": "흩어진 민심",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "후삼국의 분열을 끝내려면 흩어진 민심을 하나로 모아야 합니다."
+          },
+          {
+            "id": "inclusive-leadership",
+            "label": "포용과 통합",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "왕건은 무력만 앞세우는 대신 포용과 통합의 길을 택하려 했습니다."
+          }
+        ],
         "infoText": "왕건은 호족 세력을 포용하고 고구려 계승 의식을 분명히 하여 고려를 건국했습니다.",
         "instruction": "🗺️ <b>후삼국 분열과 고려 건국 지도 확인</b>",
         "feedback": "송악(개경)의 위치를 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 백성·민심·포용의 단서를 모두 확인했습니다. 이제 건국 정책을 선택하세요."
         }
       }
     },
@@ -162,16 +186,40 @@
         "mode": "text-reading",
         "scene": "goryeo-balhae-refuge",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "balhae-fall",
+            "label": "발해의 멸망",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "926년 발해가 거란의 침입으로 멸망하며 큰 이동이 시작되었습니다."
+          },
+          {
+            "id": "balhae-refugees",
+            "label": "발해 유민",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "태자 대광현을 비롯한 수만 명의 발해 유민이 고려 국경으로 왔습니다."
+          },
+          {
+            "id": "goguryeo-heritage",
+            "label": "고구려 계승",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "발해는 옛 고구려의 후예들이 세운 나라였다는 점을 함께 살펴야 합니다."
+          }
+        ],
         "infoText": "발해 유민 포용을 통해 고려는 진정한 의미의 민족 재통일을 완성했습니다.",
         "instruction": "🤝 <b>발해 유민 포용과 북진 정책 확인</b>",
         "feedback": "민족 재통일의 결단을 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 발해의 멸망·유민·고구려 계승 단서를 모두 확인했습니다. 이제 대응을 선택하세요."
         }
       }
     },
@@ -239,16 +287,40 @@
         "mode": "culture-touch",
         "scene": "goryeo-hunyo",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "hostile-local-clans",
+            "label": "호족의 군사와 재산",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "통일 뒤에도 지방 호족은 강력한 군사와 재산을 가지고 있었습니다."
+          },
+          {
+            "id": "rebellion-risk",
+            "label": "반란의 위험",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "호족을 다루는 방식에 따라 갓 통일한 고려의 안정이 흔들릴 수 있습니다."
+          },
+          {
+            "id": "royal-allies",
+            "label": "왕실의 든든한 편",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "호족을 통제하면서도 왕실의 편으로 만드는 정책이 필요했습니다."
+          }
+        ],
         "infoText": "훈요 10조는 고려 500년 역사의 든든한 나침반 역할을 하였습니다.",
         "instruction": "📜 <b>태조 왕건의 훈요 10조 조항 확인</b>",
         "feedback": "불교와 서경 중시 정책을 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 호족의 힘·반란 위험·왕실 동맹 단서를 모두 확인했습니다. 이제 정책을 선택하세요."
         }
       }
     },

@@ -90,7 +90,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "korean-war-outbreak",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["border", "evacuation", "busan"],
         "type": "info",
         "hotspots": [
           {
@@ -181,7 +182,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "korean-war-front",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["front", "diary", "civilians"],
         "type": "info",
         "hotspots": [
           {
@@ -272,7 +274,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "korean-war-armistice",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["incheon", "panmunjom", "line"],
         "type": "info",
         "hotspots": [
           {
@@ -363,7 +366,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "korean-war-exhibit",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["war-map", "people-record", "armistice"],
         "type": "info",
         "hotspots": [
           {

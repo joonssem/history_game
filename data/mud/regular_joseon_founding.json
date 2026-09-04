@@ -86,16 +86,40 @@
         "mode": "culture-touch",
         "scene": "hanyang-site-selection",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "gaegyeong",
+            "label": "개경에서 새 도읍으로",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "정도전은 개경을 떠나 새 왕조의 도읍을 건설하려 했습니다."
+          },
+          {
+            "id": "han-river",
+            "label": "한강의 수운",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "한강은 물자를 실어 나르기 좋은 교통 조건을 제공했습니다."
+          },
+          {
+            "id": "defensible-capital",
+            "label": "방어하기 좋은 지형",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "국토의 중심에 있고 방어하기 좋은 곳이 새 도읍의 조건이었습니다."
+          }
+        ],
         "infoText": "조선은 유교 이념에 따라 4대문(흥인지문, 돈의문, 숭례문, 숙정문)과 경복궁을 설계했습니다.",
         "instruction": "🏛️ <b>한양 도성과 4대문 유교 덕목 배치</b>",
         "feedback": "도성 건축물 위치를 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 새 도읍·한강 수운·방어 지형 단서를 모두 확인했습니다. 이제 수도를 선택하세요."
         }
       }
     },
@@ -167,16 +191,40 @@
         "mode": "culture-touch",
         "scene": "gyeongbokgung-naming",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "four-virtues",
+            "label": "인의예지",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "조선의 성문 이름에는 사람이 지켜야 할 덕목인 인의예지를 담았습니다."
+          },
+          {
+            "id": "gate-names",
+            "label": "4대문 이름",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "흥인지문·돈의문·숭례문·숙정문은 각각 뜻을 지닌 성문 이름입니다."
+          },
+          {
+            "id": "moral-reminder",
+            "label": "백성에게 전하는 도리",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "백성이 문을 오갈 때마다 바른 도리를 생각하도록 이름에 뜻을 담았습니다."
+          }
+        ],
         "infoText": "흥인지문, 돈의문, 숭례문, 숙정문은 인의예지의 유교 덕목을 담고 있습니다.",
         "instruction": "🏛️ <b>4대문 이름과 유교 덕목 확인</b>",
         "feedback": "인의예지신(仁義禮智信)을 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 인의예지·4대문 이름·도덕적 뜻을 모두 확인했습니다. 이제 이름을 선택하세요."
         }
       }
     },
@@ -244,16 +292,40 @@
         "mode": "culture-touch",
         "scene": "hanyang-gates-pavement",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "gyeongbokgung",
+            "label": "경복궁",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "경복궁이 완성된 뒤 한양을 둘러싼 도성을 쌓는 일이 이어졌습니다."
+          },
+          {
+            "id": "city-wall",
+            "label": "한양 도성",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "도성은 적의 침입을 막고 수도를 둘러싼 경계를 이루었습니다."
+          },
+          {
+            "id": "four-gates",
+            "label": "동서남북 4대문",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "사방의 큰 문에는 인의예지라는 조선의 건국 이념을 담았습니다."
+          }
+        ],
         "infoText": "근정전 박석은 거친 질감으로 눈부심과 미끄러짐을 방지하는 조상의 지혜입니다.",
         "instruction": "🪨 <b>근정전 앞마당 박석 깔기</b>",
         "feedback": "거친 화강암 박석의 과학을 확인하세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 경복궁·도성·4대문 단서를 모두 확인했습니다. 이제 박석을 선택하세요."
         }
       }
     },

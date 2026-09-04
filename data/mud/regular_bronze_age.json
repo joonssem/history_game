@@ -120,26 +120,42 @@
       ],
       "simulator": {
         "mode": "dolmen-step1",
-        "type": "buttons",
-        "required": true,
-        "completion": {
-          "target": 1,
-          "increment": 1,
-          "minActions": 1,
-          "progressKey": "simulatorProgress",
-          "successText": "🗿 두 받침돌을 안정적으로 세웠습니다."
-        },
-        "infoText": "<b>🗿 1단계: 튼튼한 받침돌(지석) 세우기</b><br>화면을 터치하거나 아래 버튼을 눌러 땅을 파고 좌우 받침돌 2개를 단단히 세우세요!",
-        "actions": [
+        "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
           {
-            "type": "dolmen",
-            "value": "base",
-            "label": "🔨 받침돌 2개 세우기",
-            "variant": "primary"
+            "id": "copper-tin",
+            "label": "구리와 주석",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "청동은 구리에 주석을 섞어 만든 새로운 금속입니다."
+          },
+          {
+            "id": "bronze-casting",
+            "label": "불과 거푸집",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "청동은 금속을 불에 녹인 뒤 거푸집에 부어 만들었습니다."
+          },
+          {
+            "id": "bronze-rarity",
+            "label": "귀한 청동",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "청동은 만들기 어렵고 귀해서 아무나 가질 수 없었습니다."
           }
         ],
-        "instruction": "🗿 <b>화면을 터치하여 고인돌 받침돌을 세우세요!</b>",
-        "feedback": "터치하여 좌우 받침돌을 똑바로 세우세요!"
+        "required": true,
+        "completion": {
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "🗿 청동의 재료·제작·희소성 단서를 모두 확인했습니다. 이제 만들 물건을 선택하세요."
+        },
+        "infoText": "<b>⚒️ 청동기 시대 청동의 재료와 쓰임 탐구</b><br>청동의 재료·제작·희소성 단서를 하나씩 확인하세요!",
+        "instruction": "⚒️ <b>청동의 재료와 특징을 확인하세요!</b>",
+        "feedback": "청동이 귀한 까닭을 살펴보세요!"
       }
     },
     "1-1": {
@@ -198,24 +214,42 @@
       ],
       "simulator": {
         "mode": "dolmen-step2",
-        "type": "buttons",
+        "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "farming-surplus",
+            "label": "벼농사의 발달",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "벼농사의 발달로 재산이 축적되고 마을의 힘이 커졌습니다."
+          },
+          {
+            "id": "wealth-gap",
+            "label": "빈부 격차",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "재산이 쌓이면서 가진 자와 못 가진 자의 차이가 생겼습니다."
+          },
+          {
+            "id": "military-leader",
+            "label": "군장 계급",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "군장이라는 강력한 지배 계급이 등장해 부족을 이끌었습니다."
+          }
+        ],
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 25,
+          "target": 3,
+          "increment": 1,
           "minActions": 3,
-          "uniqueActions": true,
           "progressKey": "simulatorProgress",
-          "successText": "⛰️ 받침돌 주위에 흙 경사로를 완성했습니다."
+          "successText": "⛰️ 농경·빈부 격차·군장 계급 단서를 모두 확인했습니다. 이제 무덤을 선택하세요."
         },
         "gaugeLabel": "흙 경사로 쌓기:",
-        "actions": [
-          { "type": "slider-set", "id": "slope", "value": 35, "label": "⛰️ 완만한 흙 경사로 확인" },
-          { "type": "slider-set", "id": "roller", "value": 70, "label": "🪵 통나무 굴림대 확인" },
-          { "type": "slider-set", "id": "labor", "value": 100, "label": "👥 공동 노동 확인" }
-        ],
-        "instruction": "⛰️ <b>거석 운반의 단서 3가지를 확인하세요.</b>",
-        "feedback": "흙을 완만하게 쌓아 올려 비탈길을 만드세요!"
+        "instruction": "⛰️ <b>청동기 사회의 변화 단서 3가지를 확인하세요.</b>",
+        "feedback": "농경과 계급의 변화를 살펴보세요!"
       }
     },
     "2-1": {
@@ -282,7 +316,8 @@
         "mode": "dolmen-step3",
         "type": "info",
         "required": true,
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["earth-ramp", "wooden-rollers", "shared-labor"],
         "scene": "bronze-dolmen-transport",
         "hotspots": [
           {

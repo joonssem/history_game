@@ -88,7 +88,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "busan-shanty-rebuild",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["war-damage", "refugee-help", "reconstruction-conditions"],
         "type": "gauge",
         "hotspots": [
           { "id": "war-damage", "label": "전쟁 피해", "x": 0.22, "y": 0.48, "feedback": "전쟁은 집과 일터를 무너뜨리고 많은 사람을 피난길에 오르게 했습니다." },
@@ -161,7 +162,8 @@
       "simulator": {
         "mode": "text-reading",
         "scene": "tent-classroom",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["tent-classroom", "learning-continuity", "regional-difference"],
         "type": "info",
         "hotspots": [
           { "id": "tent-classroom", "label": "천막 교실", "x": 0.22, "y": 0.48, "feedback": "학교가 무너진 뒤에도 천막 교실 같은 임시 공간에서 수업이 이어졌습니다." },
@@ -234,7 +236,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "dmz-reunion-peace",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["separated-families", "dmz", "peace-exchange"],
         "type": "info",
         "hotspots": [
           { "id": "separated-families", "label": "이산가족 기록", "x": 0.22, "y": 0.48, "feedback": "이산가족 기록은 분단이 개인과 가족에게 남긴 긴 시간의 상처를 보여 줍니다." },
@@ -307,7 +310,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "post-war-evidence",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["refugee", "school", "family"],
         "type": "info",
         "hotspots": [
           {

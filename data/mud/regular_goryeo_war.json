@@ -96,16 +96,40 @@
         "mode": "text-reading",
         "scene": "goryeo-seohui-negotiation",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "goguryeo-heritage",
+            "label": "고구려 계승",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "서희는 고려가 고구려를 계승한 나라라는 정통성을 내세웠습니다."
+          },
+          {
+            "id": "aprokgang-route",
+            "label": "압록강 교통로",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "압록강 일대의 교통로 문제는 거란과 조정해야 할 중요한 조건이었습니다."
+          },
+          {
+            "id": "territory-adjustment",
+            "label": "강동 6주와 국경 조정",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "협상 뒤 압록강 동쪽 지역의 영유권을 인정받고 국경을 조정했습니다."
+          }
+        ],
         "infoText": "서희는 고구려의 계승자라는 역사적 정통성을 내세워 압록강 유역 강동 6주를 차지했습니다.",
         "instruction": "📜 <b>당당한 외교 논리로 강동 6주를 쟁취하세요</b>",
         "feedback": "압록강까지 고려의 국경이 확장되었습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 계승 의식·교통로·국경 조정 단서를 모두 확인했습니다. 이제 외교 대응을 선택하세요."
         }
       }
     },
@@ -162,17 +186,40 @@
       "simulator": {
         "mode": "battle-gauge",
         "scene": "goryeo-heunghwajin",
-        "type": "gauge",
-        "gaugeLabel": "삼교천 수공 수위:",
+        "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "defense-fortress",
+            "label": "흥화진 방어 거점",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "흥화진 같은 북방 방어 거점이 고려군의 대응 기반이 되었습니다."
+          },
+          {
+            "id": "river-terrain",
+            "label": "삼교천 지형",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "강과 주변 지형을 살피면 적의 이동을 늦출 조건을 찾을 수 있습니다."
+          },
+          {
+            "id": "troop-operation",
+            "label": "병력 운영",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "병력 수와 전술의 기록이 다르더라도 병력 운영의 역할을 살펴야 합니다."
+          }
+        ],
         "instruction": "🌊 <b>화면을 터치하여 물살을 채우고 거란군을 향해 일제히 터뜨리세요!</b>",
         "feedback": "거센 강물이 쏟아져 거란 선봉대를 휩쓸었습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 방어 거점·지형·병력 운영 단서를 모두 확인했습니다. 이제 대응을 선택하세요."
         }
       }
     },
@@ -230,16 +277,40 @@
         "mode": "battle-gauge",
         "scene": "goryeo-gwiju",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "gwiju-victory",
+            "label": "귀주 전투의 승리",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "귀주 전투에서 고려군은 거란군을 크게 물리쳤습니다."
+          },
+          {
+            "id": "northern-defense",
+            "label": "북방 방어",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "전투의 승리 뒤에도 국경을 지키는 방어 과제가 남았습니다."
+          },
+          {
+            "id": "postwar-relations",
+            "label": "전쟁 뒤 관계 조정",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "전쟁 피해와 이후 외교 관계까지 함께 살펴야 전쟁의 결론을 설명할 수 있습니다."
+          }
+        ],
         "infoText": "귀주대첩 이후 거란은 다시는 고려를 넘보지 못했고, 동아시아의 평화가 200년간 유지되었습니다.",
         "instruction": "🏆 <b>귀주 벌판에서 조국의 평화를 완성하세요</b>",
         "feedback": "귀주대첩의 위대한 승전보가 온 나라에 울려 퍼졌습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 전투 승리·국경 방어·관계 조정 단서를 모두 확인했습니다. 이제 결론을 선택하세요."
         }
       }
     },
@@ -296,7 +367,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "goryeo-war-evidence",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["diplomacy", "defense", "rebuild"],
         "type": "info",
         "hotspots": [
           {

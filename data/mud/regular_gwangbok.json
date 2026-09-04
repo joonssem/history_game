@@ -90,50 +90,42 @@
       ],
       "simulator": {
         "mode": "gwangbok-flag",
-        "type": "buttons",
-        "required": true,
-        "completion": {
-          "target": 6,
-          "increment": 1,
-          "minActions": 6,
-          "progressKey": "simulatorProgress",
-          "successText": "🇰🇷 태극기의 태극 문양과 건·곤·감·리를 모두 완성했습니다."
-        },
-        "infoText": "<b>🇰🇷 태극기 색칠 & 사괘(건곤감리) 완성 시뮬레이터</b><br>태극 문양과 건·곤·감·리의 여섯 부분을 하나씩 완성하세요!",
-        "actions": [
+        "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
           {
-            "type": "taegeuk-part",
-            "value": "yangColor",
-            "label": "🔴 양(빨강)"
+            "id": "august-15",
+            "label": "1945년 8월 15일",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "1945년 8월 15일 일본의 항복으로 35년간의 일제 강점기가 끝났습니다."
           },
           {
-            "type": "taegeuk-part",
-            "value": "yinColor",
-            "label": "🔵 음(파랑)"
+            "id": "allied-surrender",
+            "label": "일본의 무조건 항복",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "일본이 연합국에 무조건 항복한 것이 광복의 직접적인 계기였습니다."
           },
           {
-            "type": "taegeuk-part",
-            "value": "geon",
-            "label": "☰ 건(하늘)"
-          },
-          {
-            "type": "taegeuk-part",
-            "value": "gon",
-            "label": "☷ 곤(땅)"
-          },
-          {
-            "type": "taegeuk-part",
-            "value": "gam",
-            "label": "☵ 감(달·물)"
-          },
-          {
-            "type": "taegeuk-part",
-            "value": "ri",
-            "label": "☲ 리(해·불)"
+            "id": "taegeukgi-symbol",
+            "label": "태극기",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "독립운동가와 시민이 함께 맞은 광복의 뜻을 나타낼 상징을 확인합니다."
           }
         ],
-        "instruction": "🇰🇷 <b>광복의 태극기 색칠하기 & 건·곤·감·리 4괘 완성</b>",
-        "feedback": "버튼이나 화면을 터치하여 태극기를 색칠하세요!"
+        "required": true,
+        "completion": {
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "🇰🇷 광복의 날짜·계기·상징 단서를 모두 확인했습니다. 이제 태극기를 선택하세요."
+        },
+        "infoText": "<b>🇰🇷 광복의 의미를 보여 주는 자료 탐색</b><br>광복의 날짜·계기·상징을 하나씩 확인하세요!",
+        "instruction": "🇰🇷 <b>광복의 날짜·계기·상징 자료를 차례로 확인하세요!</b>",
+        "feedback": "광복의 날짜와 계기, 상징 자료를 확인하세요!"
       }
     },
     "1-1": {
@@ -199,9 +191,41 @@
       "simulator": {
         "mode": "gwangbok-flag",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "security",
+            "label": "치안 유지",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "광복 직후 통치가 무너진 마을과 도시의 질서를 지키는 일이 필요했습니다."
+          },
+          {
+            "id": "food-supply",
+            "label": "식량 확보",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "건국준비위원회는 혼란을 줄이기 위해 식량을 확보하려 했습니다."
+          },
+          {
+            "id": "nation-building",
+            "label": "새 나라 준비",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "치안과 식량을 마련하며 자주적인 새 나라를 준비했습니다."
+          }
+        ],
         "infoText": "건국준비위원회는 전국에 지부를 두고 평화적으로 치안을 유지했습니다.",
         "instruction": "🤝 <b>조선건국준비위원회의 자치 활동 확인</b>",
-        "feedback": "질서 있는 건국 준비를 확인하세요!"
+        "feedback": "질서 있는 건국 준비를 확인하세요!",
+        "required": true,
+        "completion": {
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 치안·식량·건국 준비 단서를 모두 확인했습니다. 이제 활동을 선택하세요."
+        }
       }
     },
     "2-1": {
@@ -265,32 +289,43 @@
         }
       ],
       "simulator": {
-        "mode": "gwangbok-vote",
-        "type": "buttons",
-        "required": true,
-        "completion": {
-          "target": 2,
-          "increment": 1,
-          "minActions": 2,
-          "progressKey": "simulatorProgress",
-          "successText": "🗳️ 기표와 투표함 투입을 모두 마쳐 비밀투표를 완료했습니다."
-        },
-        "infoText": "<b>🗳️ 1948년 5·10 최초 민주 총선거 비밀 투표소</b><br>투표용지의 후보자 칸에 도장을 찍고 투표함에 넣어보세요!",
-        "actions": [
+        "mode": "culture-touch",
+        "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
           {
-            "type": "vote",
-            "value": "stamp",
-            "label": "🔴 기표 도장(卜) 찍기"
+            "id": "ballot-paper",
+            "label": "투표용지",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "선거 관리인이 투표용지를 건네주며 한 표를 행사할 준비를 합니다."
           },
           {
-            "type": "vote",
-            "value": "insert",
-            "label": "📥 투표함에 넣기",
-            "variant": "primary"
+            "id": "candidate-number",
+            "label": "후보자 번호",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "당시에는 글을 읽지 못하는 사람도 후보자 번호를 작대기 개수로 확인할 수 있었습니다."
+          },
+          {
+            "id": "democratic-principle",
+            "label": "민주 선거의 원칙",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "투표 방법을 정할 때 민주 선거의 원칙을 지켜야 합니다."
           }
         ],
-        "instruction": "🗳️ <b>투표용지를 터치하여 도장을 찍고 투표함에 넣으세요!</b>",
-        "feedback": "우리 역사 최초의 보통·평등·직접·비밀 선거를 체험하세요!"
+        "required": true,
+        "completion": {
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "🗳️ 투표용지·후보자 번호·민주 선거 원칙을 모두 확인했습니다. 이제 투표 방법을 선택하세요."
+        },
+        "infoText": "<b>🗳️ 1948년 5·10 총선거 자료 탐색</b><br>투표용지와 후보자 번호, 민주 선거 원칙을 확인하세요!",
+        "instruction": "🗳️ <b>투표용지·후보자 번호·민주 선거 원칙을 차례로 확인하세요!</b>",
+        "feedback": "투표 방법을 정하기 전에 자료를 확인하세요!"
       }
     },
     "3-1": {

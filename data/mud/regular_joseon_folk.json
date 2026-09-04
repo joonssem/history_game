@@ -89,16 +89,40 @@
         "mode": "culture-touch",
         "scene": "kim-hongdo-studio",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "genre-painting",
+            "label": "김홍도의 풍속화",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "김홍도의 풍속화는 조선 후기 사람들의 생활을 알려 주는 자료입니다."
+          },
+          {
+            "id": "daily-life",
+            "label": "그림 속 생활 모습",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "그림 속 인물과 행동을 관찰해 당시 생활의 한 모습을 살펴봅니다."
+          },
+          {
+            "id": "picture-limits",
+            "label": "자료가 보여 주는 범위",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "한 그림이 모든 사람의 생활을 그대로 보여 주는 것은 아니므로 자료의 범위를 구분해야 합니다."
+          }
+        ],
         "infoText": "김홍도는 씨름, 서당, 벼타작, 대장간 등 서민들의 활력 넘치는 삶을 생생한 붓터치로 남겼습니다.",
         "instruction": "🎨 <b>백성들의 웃음과 땀방울을 화폭에 담으세요</b>",
         "feedback": "조선 서민들의 진솔한 풍속화첩이 완성되었습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 풍속화·생활 모습·자료 범위 단서를 모두 확인했습니다. 이제 관찰 내용을 선택하세요."
         }
       }
     },
@@ -155,17 +179,41 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "pansori-performance",
-        "type": "gauge",
+        "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "singer",
+            "label": "소리꾼",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "판소리는 소리꾼의 노래와 이야기를 중심으로 진행된 공연입니다."
+          },
+          {
+            "id": "gosu",
+            "label": "고수",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "고수의 북 장단은 소리꾼의 공연을 함께 만들어 갑니다."
+          },
+          {
+            "id": "audience",
+            "label": "관객",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "관객도 함께하는 판소리 공연의 중요한 구성원입니다."
+          }
+        ],
         "gaugeLabel": "판소리 흥취 지수:",
         "instruction": "🪘 <b>화면을 터치하여 '얼쑤! 좋다!' 추임새를 넣고 장터의 흥을 최고조로 올리세요!</b>",
         "feedback": "장터 가득 관객들의 환호와 박수가 터져 나왔습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 소리꾼·고수·관객 단서를 모두 확인했습니다. 이제 공연의 관점을 선택하세요."
         }
       }
     },
@@ -223,16 +271,40 @@
         "mode": "culture-touch",
         "scene": "talchum-dance",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "regional-performance",
+            "label": "지역마다 다른 탈춤",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "탈춤은 지역마다 다른 모습으로 이어졌습니다."
+          },
+          {
+            "id": "satire",
+            "label": "양반의 위선 풍자",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "탈춤에는 양반의 위선이나 사회 모순을 풍자하는 내용이 나타나기도 했습니다."
+          },
+          {
+            "id": "audience-place-content",
+            "label": "관객·장소·내용",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "공연의 의미는 관객·장소·내용을 함께 살펴야 단정하지 않고 이해할 수 있습니다."
+          }
+        ],
         "infoText": "탈춤과 한글 소설은 신분제의 굴레를 깨고 평등한 세상을 꿈꾼 서민들의 생명력이었습니다.",
         "instruction": "🎭 <b>탈춤판에서 대동의 춤을 완성하세요</b>",
         "feedback": "온 마을 사람들이 모여 신명 나는 춤판을 벌였습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 지역 차이·풍자·공연 맥락 단서를 모두 확인했습니다. 이제 해석을 선택하세요."
         }
       }
     },
@@ -289,7 +361,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "joseon-folk-evidence",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["painting", "music", "mask"],
         "type": "info",
         "hotspots": [
           {

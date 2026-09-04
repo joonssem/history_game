@@ -124,7 +124,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "gojoseon-map",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["north-korea", "manchuria", "asadal"],
         "type": "info",
         "hotspots": [
           {
@@ -225,7 +226,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "gojoseon-law",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["murder-law", "injury-law", "theft-law"],
         "type": "info",
         "hotspots": [
           {
@@ -326,7 +328,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "gojoseon-artifacts",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["bronze-culture", "lute-sword", "dolmen-culture"],
         "type": "info",
         "hotspots": [
           {

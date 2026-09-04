@@ -88,7 +88,8 @@
       "simulator": {
         "mode": "text-reading",
         "scene": "gendarme-rule-ordinance",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["military-police", "summary-punishment", "daily-control"],
         "type": "info",
         "hotspots": [
           { "id": "military-police", "label": "헌병 경찰", "x": 0.22, "y": 0.48, "feedback": "헌병 경찰은 행정·사법·치안을 장악해 조선인의 일상과 자유를 제한했습니다." },
@@ -161,7 +162,8 @@
       "simulator": {
         "mode": "battle-gauge",
         "scene": "land-survey-office",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["land-registration", "ownership-change", "tenant-burden"],
         "type": "gauge",
         "hotspots": [
           { "id": "land-registration", "label": "토지 신고", "x": 0.22, "y": 0.48, "feedback": "토지 조사 사업은 신고 절차와 소유권 확인을 통해 토지 제도를 바꾸었습니다." },
@@ -234,7 +236,8 @@
       "simulator": {
         "mode": "text-reading",
         "scene": "secret-society-oath",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["secret-society", "secret-oath", "resistance-risk"],
         "type": "info",
         "hotspots": [
           { "id": "secret-society", "label": "비밀 결사", "x": 0.22, "y": 0.48, "feedback": "비밀 결사는 감시와 탄압 속에서도 독립을 준비한 다양한 저항 활동을 보여 줍니다." },
@@ -307,7 +310,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "colonial-1910s-evidence",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["police", "land", "resistance"],
         "type": "info",
         "hotspots": [
           {

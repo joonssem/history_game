@@ -96,7 +96,8 @@
         "mode": "text-reading",
         "scene": "hunminjeongeum-lab",
         "type": "info",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["consonants", "vowels", "haerye"],
         "hotspots": [
           {"id":"consonants","label":"발음 기관 모양","x":0.25,"y":0.48,"feedback":"ㄱ·ㄴ·ㅁ·ㅅ·ㅇ은 발음 기관의 모양을 본뜬 자음 자료입니다."},
           {"id":"vowels","label":"하늘·땅·사람","x":0.5,"y":0.62,"feedback":"ㆍ·ㅡ·ㅣ는 하늘·땅·사람의 원리를 담은 모음 자료입니다."},
@@ -175,7 +176,8 @@
         "mode": "text-reading",
         "scene": "chiljeongsan-observatory",
         "type": "info",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["hanseong", "planets", "agriculture"],
         "hotspots": [
           {"id":"hanseong","label":"한양 관측 기준","x":0.24,"y":0.5,"feedback":"한양을 기준으로 관측 환경을 반영하려 했습니다."},
           {"id":"planets","label":"칠정산 계산","x":0.5,"y":0.62,"feedback":"해·달과 다섯 행성의 운행을 계산한 역법 자료입니다."},
@@ -259,7 +261,8 @@
         "mode": "culture-touch",
         "scene": "angbuilgu-street",
         "type": "info",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["shadow", "zodiac", "street"],
         "hotspots": [
           {"id":"shadow","label":"그림자 눈금","x":0.24,"y":0.5,"feedback":"앙부일구는 그림자의 위치로 시각을 읽습니다."},
           {"id":"zodiac","label":"12지신 그림","x":0.5,"y":0.62,"feedback":"동물 그림은 글을 모르는 사람도 시간을 살피도록 도왔습니다."},
@@ -332,7 +335,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "sejong-evidence",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["letters", "calendar", "clock"],
         "type": "info",
         "hotspots": [
           {

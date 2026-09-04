@@ -89,28 +89,35 @@
       ],
       "simulator": {
         "mode": "mn-map-idle",
-        "type": "buttons",
+        "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "joseon-fleet",
+            "label": "판옥선 13척",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "이순신이 다시 지휘할 때 조선 수군의 배는 13척이었습니다."
+          },
+          {
+            "id": "japanese-fleet",
+            "label": "일본 수군 대함대",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "일본 수군 전체는 약 200~300척으로 추정되며 약 133척이 명량에 투입되었습니다."
+          },
+          {
+            "id": "narrow-channel",
+            "label": "울돌목 협로",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "좁고 물살이 빠른 울돌목은 적은 배로 큰 함대를 상대할 조건이었습니다."
+          }
+        ],
         "infoText": "13척의 판옥선, 울돌목의 좁은 수로, 일본 수군의 이동 규모를 함께 확인하세요.",
         "instruction": "🗺️ <b>울돌목 협로 유인 전술 시뮬레이션</b>",
         "feedback": "협로 위치를 확인하세요!",
         "required": true,
-        "actions": [
-          {
-            "type": "observe",
-            "label": "판옥선 13척",
-            "value": "joseon-fleet"
-          },
-          {
-            "type": "observe",
-            "label": "왜선 대함대",
-            "value": "japanese-fleet"
-          },
-          {
-            "type": "observe",
-            "label": "울돌목 협로",
-            "value": "narrow-channel"
-          }
-        ],
         "completion": {
           "target": 3,
           "increment": 1,
@@ -182,28 +189,35 @@
       ],
       "simulator": {
         "mode": "mn-map-choose",
-        "type": "buttons",
+        "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "channel-width",
+            "label": "좁은 물길",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "울돌목은 폭이 좁아 큰 함대가 한꺼번에 들어오기 어려웠습니다."
+          },
+          {
+            "id": "fast-current",
+            "label": "빠른 조류",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "빠른 물살은 울돌목의 전투 지형을 이루는 중요한 조건이었습니다."
+          },
+          {
+            "id": "fleet-bottleneck",
+            "label": "함대 진입 제한",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "좁은 물길 때문에 왜선은 한 척씩 진입할 수밖에 없었습니다."
+          }
+        ],
         "infoText": "울돌목의 좁은 폭 때문에 왜선은 한꺼번에 진입하지 못하고 일렬로 들어와야 했습니다.",
         "instruction": "🌊 <b>울돌목 지형의 이점을 확인하세요</b>",
         "feedback": "좁은 협로로 왜선을 유인하세요!",
         "required": true,
-        "actions": [
-          {
-            "type": "observe",
-            "label": "좁은 물길",
-            "value": "channel-width"
-          },
-          {
-            "type": "observe",
-            "label": "빠른 조류",
-            "value": "fast-current"
-          },
-          {
-            "type": "observe",
-            "label": "대형 함대 진입 제한",
-            "value": "fleet-bottleneck"
-          }
-        ],
         "completion": {
           "target": 3,
           "increment": 1,
@@ -279,17 +293,40 @@
       ],
       "simulator": {
         "mode": "mn-combat-active",
-        "type": "gauge",
-        "gaugeLabel": "천자총통 위력:",
-        "instruction": "🎯 <b>화면의 왜선을 직접 터치하여 화포 격발!</b>",
-        "feedback": "화면의 왜선을 향해 터치하세요!",
+        "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "japanese-boarding",
+            "label": "왜선의 백병전 전술",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "일본 수군은 배를 가까이 붙여 병사가 건너가 싸우려 했습니다."
+          },
+          {
+            "id": "panokseon",
+            "label": "튼튼한 판옥선",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "조선의 판옥선은 상대적으로 크고 튼튼한 군함이었습니다."
+          },
+          {
+            "id": "naval-cannon",
+            "label": "화포",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "판옥선과 화포를 이용하면 적선과 거리를 두고 공격할 수 있었습니다."
+          }
+        ],
+        "instruction": "🎯 <b>왜선의 전술·판옥선·화포 자료를 확인하세요!</b>",
+        "feedback": "선박 구조와 좁은 물길을 함께 살펴보세요!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 25,
-          "minActions": 4,
-          "progressKey": "gaugeProgress",
-          "successText": "🎯 왜선 네 척을 원거리 포격으로 격파했습니다. 판옥선과 화포의 장점을 확인했습니다."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "🎯 왜선 전술·판옥선·화포 단서를 모두 확인했습니다. 이제 전술을 선택하세요."
         }
       }
     },

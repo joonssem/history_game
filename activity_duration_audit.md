@@ -3,53 +3,41 @@
 > 대상: 학생 개인 iPad 10세대, 수업 마무리 활동, Regular MUD 10분 이내·설계 목표 약 9분
 > 추정치는 읽기량·선택 판단·시뮬레이터 조작 수에 기반한 설계 지표이며 실제 학생 시간 측정을 대신하지 않습니다.
 
-## 실제 학생 관찰 — 2026-09-01
-
-- 수업 종료 10분 전, 1단원 2차시 `regular_paleolithic`과 3차시 `regular_neolithic`을 연속 활동으로 제시했다.
-- 학생들은 두 활동을 모두 4분 이내에 완료했다.
-- 이번 결과는 기존의 MUD별 추정 시간과 다른 실제 관찰값이며, 빠른 학습자에게는 두 Regular 활동을 합쳐도 10분을 채우지 못할 수 있음을 보여준다.
-- 학생들은 빠른 완료 과정에서 오타 또는 문맥 문제를 발견해 교사에게 제시했다. 이는 활동이 짧고 선택지·문구의 표면 단서가 크게 보일 수 있음을 함께 시사한다.
-- 표본 수, 학생별 개별 시간, 읽기·선택·시뮬레이터별 소요 시간은 기록되지 않았으므로 정량적 일반화는 보류한다.
-
-### 해석
-
-Regular MUD를 일괄적으로 길게 늘리기보다, 기본 차시 활동을 10분 이내로 유지하면서 빠르게 완료한 학생에게 선택형 보너스 활동을 제공하는 방안을 검토한다. 보너스 활동은 유물 복원·전시처럼 본 학습 목표를 확장해야 하며, 단순 반복 클릭으로 시간을 늘리지 않는다.
-
 - Regular MUD: 28종
-- 보완 우선 대상: 16종
-- 기준 충족 추정: 12종
+- 보완 우선 대상: 8종
+- 기준 충족 추정: 20종
 
 ## 전수 결과
 
 | MUD | 선언 시간 | 핵심 단계 | 시뮬레이터 | 능동 활동 | 필수 활동 | 추정 시간 | 보완 신호 |
 |---|---:|---:|---:|---:|---:|---:|---|
-| `regular_goryeo_founding` | 5-10min | 4 | 4 | 2 | 4 | 6.5분 | 반복 탭 조기 종료 위험 |
-| `regular_three_kingdoms_life` | 5-10min | 4 | 4 | 4 | 4 | 6.5분 | 반복 탭 조기 종료 위험 |
-| `regular_goryeo_society` | 5-10min | 4 | 4 | 2 | 4 | 6.7분 | 반복 탭 조기 종료 위험 |
-| `regular_bronze_age` | 5-10min | 4 | 4 | 4 | 4 | 6.8분 | 반복 탭 조기 종료 위험 |
-| `regular_joseon_economy` | 10min | 4 | 4 | 4 | 4 | 7.0분 | 반복 탭 조기 종료 위험 |
-| `regular_joseon_founding` | 5-10min | 4 | 4 | 4 | 4 | 7.0분 | 반복 탭 조기 종료 위험 |
-| `regular_joseon_silhak` | 10min | 4 | 4 | 3 | 4 | 7.0분 | 반복 탭 조기 종료 위험 |
+| `regular_goryeo_founding` | 5-10min | 4 | 4 | 2 | 4 | 6.9분 | 반복 탭 조기 종료 위험 |
+| `regular_three_kingdoms_life` | 5-10min | 4 | 4 | 4 | 4 | 6.9분 | 반복 탭 조기 종료 위험 |
 | `regular_three_kingdoms` | 5-10min | 4 | 4 | 4 | 4 | 7.1분 | 반복 탭 조기 종료 위험 |
-| `regular_joseon_folk` | 5-10min | 4 | 4 | 4 | 4 | 7.2분 | 반복 탭 조기 종료 위험 |
-| `regular_joseon_status` | 5-10min | 4 | 4 | 3 | 4 | 7.3분 | 반복 탭 조기 종료 위험 |
-| `regular_goryeo_war` | 5-10min | 4 | 4 | 3 | 4 | 7.4분 | 반복 탭 조기 종료 위험 |
+| `regular_goryeo_society` | 5-10min | 4 | 4 | 2 | 4 | 7.3분 | 반복 탭 조기 종료 위험 |
+| `regular_joseon_silhak` | 10min | 4 | 4 | 3 | 4 | 7.4분 | 반복 탭 조기 종료 위험 |
 | `regular_myeongnyang` | 5-10min | 4 | 4 | 4 | 4 | 7.4분 | 반복 탭 조기 종료 위험 |
-| `regular_balhae` | 5-10min | 4 | 4 | 3 | 4 | 7.5분 | 반복 탭 조기 종료 위험 |
-| `regular_goryeo_culture` | 5-10min | 4 | 4 | 3 | 4 | 7.5분 | 반복 탭 조기 종료 위험 |
-| `regular_sejong` | 5-10min | 4 | 4 | 2 | 4 | 7.6분 | 반복 탭 조기 종료 위험 |
-| `regular_paleolithic` | 5-10min | 6 | 6 | 6 | 6 | 10.2분 | 10분 초과 추정, 반복 탭 조기 종료 위험 |
+| `regular_joseon_economy` | 10min | 4 | 4 | 4 | 4 | 7.5분 | 반복 탭 조기 종료 위험 |
+| `regular_paleolithic` | 5-10min | 6 | 6 | 6 | 5 | 9.9분 | 반복 탭 조기 종료 위험 |
+| `regular_bronze_age` | 5-10min | 4 | 4 | 4 | 4 | 7.0분 | 기준 충족 추정 |
 | `regular_neolithic` | 5-10min | 4 | 4 | 4 | 4 | 7.1분 | 기준 충족 추정 |
 | `regular_modern_open` | 5-10min | 4 | 4 | 3 | 4 | 7.2분 | 기준 충족 추정 |
+| `regular_gwangbok` | 5-10min | 4 | 4 | 4 | 3 | 7.4분 | 기준 충족 추정 |
+| `regular_joseon_founding` | 5-10min | 4 | 4 | 4 | 4 | 7.4분 | 기준 충족 추정 |
 | `regular_post_war` | 5-10min | 4 | 4 | 3 | 4 | 7.4분 | 기준 충족 추정 |
-| `regular_gwangbok` | 5-10min | 4 | 4 | 4 | 2 | 7.5분 | 기준 충족 추정 |
 | `regular_japanese_rule_2` | 5-10min | 4 | 4 | 3 | 4 | 7.5분 | 기준 충족 추정 |
+| `regular_joseon_folk` | 5-10min | 4 | 4 | 4 | 4 | 7.6분 | 기준 충족 추정 |
 | `regular_gojoseon` | 5-10min | 4 | 4 | 4 | 4 | 7.7분 | 기준 충족 추정 |
+| `regular_joseon_status` | 5-10min | 4 | 4 | 3 | 4 | 7.7분 | 기준 충족 추정 |
+| `regular_goryeo_culture` | 5-10min | 4 | 4 | 3 | 4 | 7.8분 | 기준 충족 추정 |
+| `regular_goryeo_war` | 5-10min | 4 | 4 | 3 | 4 | 7.8분 | 기준 충족 추정 |
 | `regular_korean_war` | 5-10min | 4 | 4 | 4 | 4 | 7.8분 | 기준 충족 추정 |
+| `regular_balhae` | 5-10min | 4 | 4 | 3 | 4 | 7.9분 | 기준 충족 추정 |
 | `regular_independence_army` | 5-10min | 4 | 4 | 4 | 4 | 7.9분 | 기준 충족 추정 |
 | `regular_silla` | 5-10min | 4 | 4 | 3 | 4 | 7.9분 | 기준 충족 추정 |
 | `regular_independence` | 5-10min | 4 | 4 | 2 | 4 | 8.0분 | 기준 충족 추정 |
 | `regular_japanese_rule_1` | 5-10min | 4 | 4 | 2 | 4 | 8.0분 | 기준 충족 추정 |
+| `regular_sejong` | 5-10min | 4 | 4 | 2 | 4 | 8.0분 | 기준 충족 추정 |
 | `regular_joseon_diplomacy` | 5-10min | 4 | 4 | 4 | 4 | 8.1분 | 기준 충족 추정 |
 
 ## 해석과 적용 순서

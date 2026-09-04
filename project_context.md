@@ -320,6 +320,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 - **NEXT**: 해금 유물 2개 기반 관찰·비교·주장·근거 추론 활동
 - **LATER**: 유물 탐구 확대, 익명 활동 결과·학급 집계, 친구 비교·협력, 필요 시 Anonymous Auth
 - **FUTURE / NOT NOW**: Realtime·학급 공동 이벤트·역사 타이쿤 장기 상태·공개 온라인 순위표
+- **현재 별도 파일럿**: 선사시대 협동 MUD Phase 0 막 1 종이 리허설 준비 중. 기존 앱·MUD JSON·서버·DB와 분리하며, 종이 리허설 결과가 확인되기 전에는 웹 구현으로 확장하지 않는다.
 
 ## 8. 실행 및 테스트 방법
 

@@ -88,7 +88,8 @@
       "simulator": {
         "mode": "text-reading",
         "scene": "unified-silla-government",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["nine-provinces", "five-capitals", "royal-power"],
         "type": "info",
         "hotspots": [
           {
@@ -179,7 +180,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "unified-silla-bulguksa",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["seokgatap", "dabotap", "bridge"],
         "type": "gauge",
         "hotspots": [
           {
@@ -270,7 +272,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "unified-silla-seokguram",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["dome-keystone", "sculpture-layout", "main-buddha"],
         "type": "info",
         "hotspots": [
           {
@@ -361,7 +364,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "unified-silla-summary",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["government", "culture", "exchange"],
         "type": "info",
         "hotspots": [
           {

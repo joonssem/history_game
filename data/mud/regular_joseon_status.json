@@ -89,16 +89,40 @@
         "mode": "text-reading",
         "scene": "hopae-registration",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "legal-status",
+            "label": "양인과 천인",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "조선의 신분은 법제적으로 양인과 천인으로 구분되었습니다."
+          },
+          {
+            "id": "social-classes",
+            "label": "양반·중인·상민·노비",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "실제 생활에서는 양반·중인·상민·노비처럼 더 복합적인 계층이 나타났습니다."
+          },
+          {
+            "id": "hopae-household-register",
+            "label": "호패와 호적",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "호패와 호적 자료를 통해 법적 구분과 실제 생활의 모습을 살펴봅니다."
+          }
+        ],
         "infoText": "양반은 갓과 도포를 입고 학문과 정치를 담당한 조선 유교 사회의 엘리트였습니다.",
         "instruction": "🪪 <b>경국대전의 호패 규정과 신분을 확인하세요</b>",
         "feedback": "호패 확인과 함께 과거 시험장에 입장했습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 법적 구분·사회 계층·호패와 호적 단서를 모두 확인했습니다. 이제 설명을 선택하세요."
         }
       }
     },
@@ -156,16 +180,40 @@
         "mode": "culture-touch",
         "scene": "jungin-medicine",
         "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "medical-role",
+            "label": "의관과 의학",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "중인은 의학과 같은 전문 기술로 백성을 치료하는 역할을 맡았습니다."
+          },
+          {
+            "id": "interpreter",
+            "label": "역관의 교류",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "역관은 사신단을 따라 청나라와 일본을 오가며 통역과 무역을 담당했습니다."
+          },
+          {
+            "id": "donguibogam",
+            "label": "동의보감",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "허준 같은 의관은 조선의 의학서 동의보감을 저술했습니다."
+          }
+        ],
         "infoText": "중인들은 높은 교양과 실무 능력으로 조선 후기 새로운 문화와 개화 사상의 선구자가 되었습니다.",
         "instruction": "💊 <b>동의보감의 처방전과 침통을 정비하세요</b>",
         "feedback": "백성을 구하는 훌륭한 의술이 펼쳐졌습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 의관·역관·동의보감 단서를 모두 확인했습니다. 이제 중인의 역할을 선택하세요."
         }
       }
     },
@@ -222,17 +270,41 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "commoner-harvest",
-        "type": "gauge",
+        "type": "info",
+        "interaction": "hotspot-discovery",
+        "hotspots": [
+          {
+            "id": "tax-burden",
+            "label": "조세 부담",
+            "x": 0.22,
+            "y": 0.48,
+            "feedback": "상민과 노비의 삶은 조세 부담과 관련된 제약을 받았습니다."
+          },
+          {
+            "id": "military-service",
+            "label": "군역과 소속",
+            "x": 0.5,
+            "y": 0.65,
+            "feedback": "군역과 소속 관계도 사람들의 생활을 제약한 조건이었습니다."
+          },
+          {
+            "id": "regional-period-change",
+            "label": "지역·시기별 변화",
+            "x": 0.78,
+            "y": 0.48,
+            "feedback": "지역·시기·직업에 따라 삶은 달랐고 조선 후기로 갈수록 신분 질서도 변했습니다."
+          }
+        ],
         "gaugeLabel": "풍년 농사 땀방울:",
         "instruction": "🌾 <b>화면을 터치하여 벼를 수확하고 백성들의 삶을 응원하세요!</b>",
         "feedback": "정직한 땀방울로 황금 들판의 벼를 수확했습니다!",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "target": 3,
+          "increment": 1,
+          "minActions": 3,
+          "progressKey": "simulatorProgress",
+          "successText": "✅ 조세·군역·시기와 지역의 변화 단서를 모두 확인했습니다. 이제 비교 결과를 선택하세요."
         }
       }
     },
@@ -289,7 +361,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "joseon-status-evidence",
-        "interaction": "hotspot-discovery",
+        "interaction": "ordered-hotspot",
+        "sequence": ["law", "job", "record"],
         "type": "info",
         "hotspots": [
           {
