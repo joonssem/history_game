@@ -125,7 +125,11 @@
         "mode": "culture-touch",
         "scene": "gojoseon-map",
         "interaction": "ordered-hotspot",
-        "sequence": ["north-korea", "manchuria", "asadal"],
+        "sequence": [
+          "north-korea",
+          "manchuria",
+          "asadal"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -185,7 +189,8 @@
         "type": "info",
         "infoText": "홍익인간은 오늘날 대한민국의 교육 이념이기도 합니다.",
         "instruction": "👑 <b>건국 이념을 바로잡으세요!</b>",
-        "feedback": "최초의 국가를 세우세요!"
+        "feedback": "최초의 국가를 세우세요!",
+        "scene": "gojoseon-law"
       }
     },
     "2": {
@@ -227,7 +232,11 @@
         "mode": "culture-touch",
         "scene": "gojoseon-law",
         "interaction": "ordered-hotspot",
-        "sequence": ["murder-law", "injury-law", "theft-law"],
+        "sequence": [
+          "murder-law",
+          "injury-law",
+          "theft-law"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -287,7 +296,8 @@
         "type": "info",
         "infoText": "8조법은 백성의 안전과 재산을 지키는 방패였습니다.",
         "instruction": "⚖️ <b>다시 엄정하게 판결하세요!</b>",
-        "feedback": "질서를 회복하세요!"
+        "feedback": "질서를 회복하세요!",
+        "scene": "gojoseon-law"
       }
     },
     "3": {
@@ -307,19 +317,19 @@
       ],
       "choices": [
         {
-          "text": "🗡️ \"허리가 잘록하고 날이 곡선을 이루는 독창적인 '비파형 동검'을 주조한다!\"",
+          "text": "🗡️ \"비파형 동검과 고인돌을 살펴 청동기 문화권의 지배층과 사유 재산의 단서를 확인한다!\"",
           "next": "4",
           "correct": true,
           "sound": "cannon"
         },
         {
-          "text": "🥢 \"가느다란 나무 젓가락을 깎아 무기로 쓴다.\"",
+          "text": "🥢 \"비파형 동검과 고인돌을 무시하고 청동기 문화권의 지배층과 재산 차이를 부정한다.\"",
           "next": "3-1",
           "correct": false,
           "sound": "fail"
         },
         {
-          "text": "🧊 \"쉽게 녹아내리는 얼음 칼을 만들어 지급한다.\"",
+          "text": "🧊 \"비파형 동검과 고인돌을 엉뚱하게 해석해 청동기 문화권에 사유 재산이 없었다고 단정한다.\"",
           "next": "3-1",
           "correct": false,
           "sound": "fail"
@@ -329,7 +339,11 @@
         "mode": "culture-touch",
         "scene": "gojoseon-artifacts",
         "interaction": "ordered-hotspot",
-        "sequence": ["bronze-culture", "lute-sword", "dolmen-culture"],
+        "sequence": [
+          "bronze-culture",
+          "lute-sword",
+          "dolmen-culture"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -389,7 +403,8 @@
         "type": "info",
         "infoText": "비파형 동검은 고조선 청동기 기술의 정수입니다.",
         "instruction": "🗡️ <b>동검을 다시 제작하세요!</b>",
-        "feedback": "강력한 국방력을 갖추세요!"
+        "feedback": "강력한 국방력을 갖추세요!",
+        "scene": "gojoseon-law"
       }
     },
     "4": {

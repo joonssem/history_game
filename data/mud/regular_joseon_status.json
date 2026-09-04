@@ -73,13 +73,13 @@
       ],
       "choices": [
         {
-          "text": "🪪 \"자신의 신분과 거주지가 새겨진 나무/뿔 '호패'를 차고 과거에 응시한다!\"",
+          "text": "🪪 \"양인과 천인, 양반·중인·상민·노비의 차이를 살피고 호패와 호적 자료로 신분을 확인한다.\"",
           "correct": true,
           "feedback": "정답입니다! 호패는 인구를 파악하고 세금과 군역을 부과하기 위한 필수 신분증이었습니다.",
           "next": "2"
         },
         {
-          "text": "🚫 \"신분증 같은 건 귀찮으니 던져버리고 법을 어긴다.\"",
+          "text": "🚫 \"양인과 천인, 양반·중인·상민·노비의 차이를 무시하고 호패와 호적 자료를 버린다.\"",
           "correct": false,
           "feedback": "호패를 차지 않으면 처벌을 받거나 도망자로 간주되었습니다.",
           "next": "1-1"
@@ -362,7 +362,11 @@
         "mode": "culture-touch",
         "scene": "joseon-status-evidence",
         "interaction": "ordered-hotspot",
-        "sequence": ["law", "job", "record"],
+        "sequence": [
+          "law",
+          "job",
+          "record"
+        ],
         "type": "info",
         "hotspots": [
           {

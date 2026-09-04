@@ -150,7 +150,8 @@
         "type": "info",
         "infoText": "모내기법 덕분에 부농이 등장하고 상품 작물 재배가 늘었습니다.",
         "instruction": "🌱 <b>모내기법을 다시 선택하세요!</b>",
-        "feedback": "농업 혁신을 이루세요!"
+        "feedback": "농업 혁신을 이루세요!",
+        "scene": "ianbeop-farming"
       }
     },
     "2": {
@@ -251,7 +252,8 @@
         "type": "info",
         "infoText": "상품 작물은 조선 후기 시장 경제 발전을 이끌었습니다.",
         "instruction": "🌿 <b>상품 작물을 다시 선택하세요!</b>",
-        "feedback": "상업 농업을 시작하세요!"
+        "feedback": "상업 농업을 시작하세요!",
+        "scene": "sangpum-crops"
       }
     },
     "3": {
@@ -351,7 +353,8 @@
         "type": "gauge",
         "gaugeLabel": "상평통보 유통량:",
         "instruction": "🪙 <b>다시 상평통보를 유통해 보세요!</b>",
-        "feedback": "화폐 경제를 꽃피우세요!"
+        "feedback": "화폐 경제를 꽃피우세요!",
+        "scene": "sangpyeongtongbo-market"
       }
     },
     "4": {

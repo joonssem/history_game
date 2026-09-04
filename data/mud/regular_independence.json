@@ -96,7 +96,11 @@
         "mode": "text-reading",
         "scene": "tapgol-declaration",
         "interaction": "ordered-hotspot",
-        "sequence": ["declaration-purpose", "many-participants", "peaceful-method"],
+        "sequence": [
+          "declaration-purpose",
+          "many-participants",
+          "peaceful-method"
+        ],
         "type": "gauge",
         "hotspots": [
           {
@@ -172,13 +176,13 @@
       ],
       "choices": [
         {
-          "text": "📢 \"'나라를 잃은 고통이 크거든 만세를 부르자!' 외치며 대열의 선두에서 당당히 태극기를 흔든다!\"",
+          "text": "📢 \"학생 참여와 지역 주민의 힘을 모아 태극기·만세 시위에 함께 참여한다.\"",
           "correct": true,
           "feedback": "아우내 장터 시위는 유관순을 비롯한 학생과 지역 주민이 함께 참여한 만세 운동이었습니다.",
           "next": "3"
         },
         {
-          "text": "🏳️ \"총칼이 두려우니 태극기를 버리고 일제 헌병에게 무릎을 꿇고 빈다.\"",
+          "text": "🏳️ \"학생 참여와 지역 주민을 외면하고 태극기·만세 시위의 대열에서 물러난다.\"",
           "correct": false,
           "feedback": "유관순 열사는 감옥 안에서도 끝까지 만세를 외치며 일제에 굴복하지 않았습니다.",
           "next": "2-1"
@@ -188,7 +192,11 @@
         "mode": "battle-gauge",
         "scene": "aunae-market-rally",
         "interaction": "ordered-hotspot",
-        "sequence": ["student-participation", "local-residents", "taegeukgi-rally"],
+        "sequence": [
+          "student-participation",
+          "local-residents",
+          "taegeukgi-rally"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -280,7 +288,11 @@
         "mode": "text-reading",
         "scene": "shanghai-provisional-government",
         "interaction": "ordered-hotspot",
-        "sequence": ["temporary-charter", "people-sovereignty", "republic-comparison"],
+        "sequence": [
+          "temporary-charter",
+          "people-sovereignty",
+          "republic-comparison"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -372,7 +384,11 @@
         "mode": "culture-touch",
         "scene": "independence-evidence",
         "interaction": "ordered-hotspot",
-        "sequence": ["declaration", "protest", "charter"],
+        "sequence": [
+          "declaration",
+          "protest",
+          "charter"
+        ],
         "type": "info",
         "hotspots": [
           {

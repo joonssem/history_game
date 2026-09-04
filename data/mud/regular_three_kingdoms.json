@@ -92,7 +92,11 @@
         "mode": "battle-gauge",
         "scene": "three-kingdoms-baekje",
         "interaction": "ordered-hotspot",
-        "sequence": ["han-river", "west-sea-route", "baekje-territory"],
+        "sequence": [
+          "han-river",
+          "west-sea-route",
+          "baekje-territory"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -152,7 +156,8 @@
         "type": "info",
         "infoText": "칠지도는 백제의 뛰어난 제철 기술과 활발한 대외 관계를 보여줍니다.",
         "instruction": "👑 <b>백제의 전성기를 열어가세요!</b>",
-        "feedback": "해상 강국의 기틀을 세우세요!"
+        "feedback": "해상 강국의 기틀을 세우세요!",
+        "scene": "three-kingdoms-baekje"
       }
     },
     "2": {
@@ -188,7 +193,11 @@
         "mode": "battle-gauge",
         "scene": "three-kingdoms-goguryeo",
         "interaction": "ordered-hotspot",
-        "sequence": ["guknae", "pyeongyang", "han-river"],
+        "sequence": [
+          "guknae",
+          "pyeongyang",
+          "han-river"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -248,7 +257,8 @@
         "type": "info",
         "infoText": "고구려는 광개토대왕릉비와 충주 고구려비로 영토를 증명했습니다.",
         "instruction": "🏹 <b>고구려의 기상을 펼치세요!</b>",
-        "feedback": "대제국의 영토를 넓히세요!"
+        "feedback": "대제국의 영토를 넓히세요!",
+        "scene": "three-kingdoms-goguryeo"
       }
     },
     "3": {
@@ -268,19 +278,19 @@
       ],
       "choices": [
         {
-          "text": "🪨 \"북한산 꼭대기에 직접 돌아본 것을 기념하는 '북한산 순수비'를 건립한다!\"",
+          "text": "🪨 \"한강 유역과 당항성을 확보한 뒤, 북한산 순수비를 세워 영토 지배를 알린다.\"",
           "next": "4",
           "correct": true,
           "sound": "cannon"
         },
         {
-          "text": "💧 \"비석 대신 모래성을 쌓고 파도에 씻겨가게 한다.\"",
+          "text": "💧 \"한강 유역과 당항성을 포기하고, 북한산 순수비 대신 쉽게 사라질 모래 표시를 남긴다.\"",
           "next": "3-1",
           "correct": false,
           "sound": "fail"
         },
         {
-          "text": "🪵 \"이름 없는 나무판자를 꽂아두고 잊어버린다.\"",
+          "text": "🪵 \"한강 유역과 당항성의 의미를 외면하고, 북한산 순수비 대신 이름 없는 나무판자를 세운다.\"",
           "next": "3-1",
           "correct": false,
           "sound": "fail"
@@ -290,7 +300,11 @@
         "mode": "battle-gauge",
         "scene": "three-kingdoms-silla",
         "interaction": "ordered-hotspot",
-        "sequence": ["han-river", "danghangseong", "bukhansan-monument"],
+        "sequence": [
+          "han-river",
+          "danghangseong",
+          "bukhansan-monument"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -350,7 +364,8 @@
         "type": "info",
         "infoText": "북한산 순수비는 조선 후기 김정희가 진흥왕의 비석임을 밝혀냈습니다.",
         "instruction": "🪨 <b>순수비를 다시 건립하세요!</b>",
-        "feedback": "삼국 통일의 발판을 마련하세요!"
+        "feedback": "삼국 통일의 발판을 마련하세요!",
+        "scene": "three-kingdoms-silla"
       }
     },
     "4": {

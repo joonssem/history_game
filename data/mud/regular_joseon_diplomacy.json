@@ -89,7 +89,11 @@
         "mode": "culture-touch",
         "scene": "joseon-border",
         "interaction": "ordered-hotspot",
-        "sequence": ["aprokgang", "duman", "settlers"],
+        "sequence": [
+          "aprokgang",
+          "duman",
+          "settlers"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -181,7 +185,11 @@
         "mode": "culture-touch",
         "scene": "joseon-namhansanseong",
         "interaction": "ordered-hotspot",
-        "sequence": ["fortress", "food", "people"],
+        "sequence": [
+          "fortress",
+          "food",
+          "people"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -257,13 +265,13 @@
       ],
       "choices": [
         {
-          "text": "📜 \"전란 뒤 조선은 청과의 관계를 받아들이는 한편 군비를 정비했고, 북벌론에는 목표와 한계가 있었다.\"",
+          "text": "📜 \"대청 관계와 군비 정비를 함께 살피고, 피해 회복까지 고려해 북벌론의 목표와 한계를 설명한다.\"",
           "correct": true,
           "feedback": "맞습니다. 전란 뒤 정책은 외교 관계, 군비 정비, 백성 피해 회복을 함께 보아야 합니다.",
           "next": "4"
         },
         {
-          "text": "🛡️ \"북벌론 하나만으로 전란 뒤 모든 외교·사회 문제를 즉시 해결했다고 본다.\"",
+          "text": "🛡️ \"대청 관계와 군비 정비만으로 피해 회복까지 끝났다고 보고, 북벌론의 한계를 지운다.\"",
           "correct": false,
           "feedback": "북벌론은 중요한 정책 방향이었지만 당시 국제 관계와 국내 사정 때문에 실현되지 못했고 피해 회복 과제도 남았습니다.",
           "next": "3-1"
@@ -273,7 +281,11 @@
         "mode": "culture-touch",
         "scene": "joseon-postwar",
         "interaction": "ordered-hotspot",
-        "sequence": ["relations", "defense", "recovery"],
+        "sequence": [
+          "relations",
+          "defense",
+          "recovery"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -365,7 +377,11 @@
         "mode": "culture-touch",
         "scene": "joseon-diplomacy-exhibit",
         "interaction": "ordered-hotspot",
-        "sequence": ["border", "war", "after"],
+        "sequence": [
+          "border",
+          "war",
+          "after"
+        ],
         "type": "info",
         "hotspots": [
           {

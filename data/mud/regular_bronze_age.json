@@ -100,19 +100,19 @@
       ],
       "choices": [
         {
-          "text": "🗿 \"수십 톤의 거대한 바위를 끌어와 웅장한 '탁자식 고인돌'을 세운다!\"",
+          "text": "🗿 \"구리와 주석을 불과 거푸집으로 녹여도 귀한 청동은 권위의 상징에 알맞게 사용한다.\"",
           "next": "2",
           "correct": true,
           "sound": "drum"
         },
         {
-          "text": "🌾 \"모든 잉여 곡식을 버리고 아무것도 남기지 않는다.\"",
+          "text": "🌾 \"구리와 주석, 불과 거푸집을 무시하고 귀한 청동을 아무 데나 대량으로 사용한다.\"",
           "next": "1-1",
           "correct": false,
           "sound": "fail"
         },
         {
-          "text": "🏕️ \"혼자서 산속으로 숨어버린다.\"",
+          "text": "🏕️ \"구리와 주석을 섞는 불과 거푸집의 과정을 생략하고, 귀한 청동을 버린다.\"",
           "next": "1-1",
           "correct": false,
           "sound": "fail"
@@ -180,7 +180,8 @@
         "type": "info",
         "infoText": "고인돌의 크기는 군장의 권력 크기를 나타냅니다.",
         "instruction": "🗿 <b>고인돌 축조를 결단하세요!</b>",
-        "feedback": "거석 문명을 시작하세요!"
+        "feedback": "거석 문명을 시작하세요!",
+        "scene": "bronze-dolmen-transport"
       }
     },
     "2": {
@@ -194,19 +195,19 @@
       "narrative": "<b>비파형 동검을 치켜들자 주변 부족들이 당신을 강력한 군장(지배자)으로 모시기 시작했습니다!</b><br><br>벼농사의 발달로 재산이 축적되면서 가진 자와 못 가진 자의 차이(빈부 격차)가 생기고, 군장이라는 강력한 지배 계급이 등장했습니다. 어느 날, 당신이 가장 존경하는 선대 군장이 세상을 떠났습니다. 그의 권위와 위엄을 주변 부족에게 과시하기 위해 어떤 무덤을 만들어야 할까요?",
       "choices": [
         {
-          "text": "🪨 \"땅을 깊게 파고 좌우에 직사각형 판석을 단단하게 수직으로 묻는다!\"",
+          "text": "🪨 \"벼농사의 발달로 생긴 빈부 격차와 군장 계급의 권위를 보여 줄 고인돌 받침돌을 세운다.\"",
           "next": "3",
           "correct": true,
           "sound": "victory"
         },
         {
-          "text": "흙 \"물렁물렁한 진흙 덩어리를 대충 뭉쳐서 세운다.\"",
+          "text": "흙 \"벼농사의 발달과 빈부 격차를 무시하고, 군장 계급의 권위를 보여 주지 못하는 진흙 받침돌을 세운다.\"",
           "next": "2-1",
           "correct": false,
           "sound": "fail"
         },
         {
-          "text": "🪵 \"가느다란 수수깡 막대기를 꽂아둔다.\"",
+          "text": "🪵 \"벼농사의 발달과 빈부 격차, 군장 계급의 의미를 외면하고 가느다란 막대기를 세운다.\"",
           "next": "2-1",
           "correct": false,
           "sound": "fail"
@@ -274,7 +275,8 @@
         "type": "info",
         "infoText": "단단한 판석을 세워야 덮개돌을 지탱할 수 있습니다.",
         "instruction": "🔨 <b>다시 받침돌을 세우세요!</b>",
-        "feedback": "튼튼한 받침돌을 묻으세요!"
+        "feedback": "튼튼한 받침돌을 묻으세요!",
+        "scene": "bronze-dolmen-transport"
       }
     },
     "3": {
@@ -317,7 +319,11 @@
         "type": "info",
         "required": true,
         "interaction": "ordered-hotspot",
-        "sequence": ["earth-ramp", "wooden-rollers", "shared-labor"],
+        "sequence": [
+          "earth-ramp",
+          "wooden-rollers",
+          "shared-labor"
+        ],
         "scene": "bronze-dolmen-transport",
         "hotspots": [
           {
@@ -380,7 +386,8 @@
         "sliderMax": 100,
         "sliderDefault": 50,
         "instruction": "🪵 <b>슬라이더로 인원을 늘려보세요!</b>",
-        "feedback": "통나무 굴림대를 활용하세요!"
+        "feedback": "통나무 굴림대를 활용하세요!",
+        "scene": "bronze-dolmen-transport"
       }
     },
     "4": {
@@ -421,7 +428,8 @@
           }
         ],
         "instruction": "🏆 <b>탁자식 고인돌 축조 대성공!</b>",
-        "feedback": "청동기 거석 문명의 위엄을 확인하세요!"
+        "feedback": "청동기 거석 문명의 위엄을 확인하세요!",
+        "scene": "bronze-dolmen-transport"
       }
     }
   },

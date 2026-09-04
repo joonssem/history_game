@@ -97,11 +97,33 @@
         "scene": "hunminjeongeum-lab",
         "type": "info",
         "interaction": "ordered-hotspot",
-        "sequence": ["consonants", "vowels", "haerye"],
+        "sequence": [
+          "consonants",
+          "vowels",
+          "haerye"
+        ],
         "hotspots": [
-          {"id":"consonants","label":"발음 기관 모양","x":0.25,"y":0.48,"feedback":"ㄱ·ㄴ·ㅁ·ㅅ·ㅇ은 발음 기관의 모양을 본뜬 자음 자료입니다."},
-          {"id":"vowels","label":"하늘·땅·사람","x":0.5,"y":0.62,"feedback":"ㆍ·ㅡ·ㅣ는 하늘·땅·사람의 원리를 담은 모음 자료입니다."},
-          {"id":"haerye","label":"해례 자료","x":0.76,"y":0.48,"feedback":"해례는 글자의 원리와 쓰임을 설명해 창제 의도를 보여 줍니다."}
+          {
+            "id": "consonants",
+            "label": "발음 기관 모양",
+            "x": 0.25,
+            "y": 0.48,
+            "feedback": "ㄱ·ㄴ·ㅁ·ㅅ·ㅇ은 발음 기관의 모양을 본뜬 자음 자료입니다."
+          },
+          {
+            "id": "vowels",
+            "label": "하늘·땅·사람",
+            "x": 0.5,
+            "y": 0.62,
+            "feedback": "ㆍ·ㅡ·ㅣ는 하늘·땅·사람의 원리를 담은 모음 자료입니다."
+          },
+          {
+            "id": "haerye",
+            "label": "해례 자료",
+            "x": 0.76,
+            "y": 0.48,
+            "feedback": "해례는 글자의 원리와 쓰임을 설명해 창제 의도를 보여 줍니다."
+          }
         ],
         "instruction": "📖 <b>발음 기관·삼재·해례 자료를 각각 확인하세요.</b>",
         "feedback": "훈민정음 창제 원리의 세 단서를 살펴보세요.",
@@ -177,11 +199,33 @@
         "scene": "chiljeongsan-observatory",
         "type": "info",
         "interaction": "ordered-hotspot",
-        "sequence": ["hanseong", "planets", "agriculture"],
+        "sequence": [
+          "hanseong",
+          "planets",
+          "agriculture"
+        ],
         "hotspots": [
-          {"id":"hanseong","label":"한양 관측 기준","x":0.24,"y":0.5,"feedback":"한양을 기준으로 관측 환경을 반영하려 했습니다."},
-          {"id":"planets","label":"칠정산 계산","x":0.5,"y":0.62,"feedback":"해·달과 다섯 행성의 운행을 계산한 역법 자료입니다."},
-          {"id":"agriculture","label":"농사와 절기","x":0.76,"y":0.5,"feedback":"관측과 달력은 농사와 행정에 필요한 정보를 마련하려는 활동이었습니다."}
+          {
+            "id": "hanseong",
+            "label": "한양 관측 기준",
+            "x": 0.24,
+            "y": 0.5,
+            "feedback": "한양을 기준으로 관측 환경을 반영하려 했습니다."
+          },
+          {
+            "id": "planets",
+            "label": "칠정산 계산",
+            "x": 0.5,
+            "y": 0.62,
+            "feedback": "해·달과 다섯 행성의 운행을 계산한 역법 자료입니다."
+          },
+          {
+            "id": "agriculture",
+            "label": "농사와 절기",
+            "x": 0.76,
+            "y": 0.5,
+            "feedback": "관측과 달력은 농사와 행정에 필요한 정보를 마련하려는 활동이었습니다."
+          }
         ],
         "instruction": "🌌 <b>한양 기준·천체 계산·농사 활용 자료를 확인하세요.</b>",
         "feedback": "칠정산이 어떤 환경과 필요를 반영했는지 살펴보세요.",
@@ -239,19 +283,19 @@
       ],
       "choices": [
         {
-          "text": "☀️ \"시각 눈금 옆에 12지신(쥐, 소, 호랑이 등 동물) 그림을 그려 넣어 글을 모르는 백성도 시간을 알게 한다!\"",
+          "text": "☀️ \"그림자 눈금과 12지신 그림을 넣은 종로의 공공 시계로 백성도 시간을 알게 한다.\"",
           "correct": true,
           "feedback": "정답입니다! 앙부일구는 그림자를 이용해 시간을 알 수 있어 사람들이 쉽게 시각을 확인하도록 도운 해시계였습니다.",
           "next": "4"
         },
         {
-          "text": "🔒 \"왕실의 비밀 기구이므로 백성들이 보지 못하게 궁궐 창고에 자물쇠로 잠가둔다.\"",
+          "text": "🔒 \"그림자 눈금과 12지신 그림을 숨기고 종로의 공공 시계를 왕실 창고에 가둔다.\"",
           "correct": false,
           "feedback": "과학 기술의 혜택을 온 백성과 나누고자 했던 세종대왕의 공공 과학 복지 정신에 반합니다.",
           "next": "3-1"
         },
         {
-          "text": "📜 \"어려운 한자로만 시간을 빽빽하게 적어 일반 백성은 접근하지 못하게 한다.\"",
+          "text": "📜 \"그림자 눈금과 12지신 그림은 빼고 종로의 공공 시계를 어려운 글자만으로 만든다.\"",
           "correct": false,
           "feedback": "문자를 모르는 일반 평민들도 쉽게 시간을 확인할 수 있도록 동물 그림을 새겨 넣었습니다.",
           "next": "3-1"
@@ -262,11 +306,33 @@
         "scene": "angbuilgu-street",
         "type": "info",
         "interaction": "ordered-hotspot",
-        "sequence": ["shadow", "zodiac", "street"],
+        "sequence": [
+          "shadow",
+          "zodiac",
+          "street"
+        ],
         "hotspots": [
-          {"id":"shadow","label":"그림자 눈금","x":0.24,"y":0.5,"feedback":"앙부일구는 그림자의 위치로 시각을 읽습니다."},
-          {"id":"zodiac","label":"12지신 그림","x":0.5,"y":0.62,"feedback":"동물 그림은 글을 모르는 사람도 시간을 살피도록 도왔습니다."},
-          {"id":"street","label":"종로의 공공 시계","x":0.76,"y":0.5,"feedback":"사람들이 오가는 거리에 설치해 과학 기술을 함께 사용했습니다."}
+          {
+            "id": "shadow",
+            "label": "그림자 눈금",
+            "x": 0.24,
+            "y": 0.5,
+            "feedback": "앙부일구는 그림자의 위치로 시각을 읽습니다."
+          },
+          {
+            "id": "zodiac",
+            "label": "12지신 그림",
+            "x": 0.5,
+            "y": 0.62,
+            "feedback": "동물 그림은 글을 모르는 사람도 시간을 살피도록 도왔습니다."
+          },
+          {
+            "id": "street",
+            "label": "종로의 공공 시계",
+            "x": 0.76,
+            "y": 0.5,
+            "feedback": "사람들이 오가는 거리에 설치해 과학 기술을 함께 사용했습니다."
+          }
         ],
         "instruction": "☀️ <b>그림자 눈금·12지신·공공 설치 자료를 확인하세요.</b>",
         "feedback": "앙부일구가 누구를 위한 기구였는지 살펴보세요.",
@@ -336,7 +402,11 @@
         "mode": "culture-touch",
         "scene": "sejong-evidence",
         "interaction": "ordered-hotspot",
-        "sequence": ["letters", "calendar", "clock"],
+        "sequence": [
+          "letters",
+          "calendar",
+          "clock"
+        ],
         "type": "info",
         "hotspots": [
           {

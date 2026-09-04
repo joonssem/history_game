@@ -69,19 +69,19 @@
       ],
       "choices": [
         {
-          "text": "📜 \"고구려를 계승하는 '고려(高麗)'를 세우고 백성을 편안하게 한다!\"",
+          "text": "📜 \"전쟁에 지친 백성을 살피고 흩어진 민심을 모으는 포용과 통합 정책을 펼친다.\"",
           "next": "2",
           "correct": true,
           "sound": "drum"
         },
         {
-          "text": "👹 \"궁예처럼 관심법을 쓰며 신하들을 계속 처형한다.\"",
+          "text": "👹 \"전쟁에 지친 백성을 외면하고 흩어진 민심을 갈라, 포용과 통합을 포기한다.\"",
           "next": "1-1",
           "correct": false,
           "sound": "fail"
         },
         {
-          "text": "🏕️ \"나라 이름을 짓지 않고 군벌로만 남는다.\"",
+          "text": "🏕️ \"전쟁에 지친 백성과 흩어진 민심을 돌보지 않고, 포용과 통합 대신 군벌로 남는다.\"",
           "next": "1-1",
           "correct": false,
           "sound": "fail"
@@ -150,7 +150,8 @@
         "type": "info",
         "infoText": "왕건은 신라와 후백제 백성들의 마음을 모두 얻었습니다.",
         "instruction": "👑 <b>건국 명분을 바로 세우세요!</b>",
-        "feedback": "새로운 시대를 여세요!"
+        "feedback": "새로운 시대를 여세요!",
+        "scene": "goryeo-unification-map"
       }
     },
     "2": {
@@ -245,7 +246,8 @@
         "type": "info",
         "infoText": "발해 유민의 수용은 고려의 북진 정책에 큰 힘이 되었습니다.",
         "instruction": "🤝 <b>발해 유민을 따뜻하게 맞이하세요!</b>",
-        "feedback": "민족 통합을 이루세요!"
+        "feedback": "민족 통합을 이루세요!",
+        "scene": "goryeo-balhae-refuge"
       }
     },
     "3": {
@@ -346,7 +348,8 @@
         "type": "info",
         "infoText": "훈요 10조는 고려의 독자적인 정체성을 확립했습니다.",
         "instruction": "📜 <b>훈요 10조를 완성하세요!</b>",
-        "feedback": "500년 왕조의 길을 여세요!"
+        "feedback": "500년 왕조의 길을 여세요!",
+        "scene": "goryeo-hunyo"
       }
     },
     "4": {

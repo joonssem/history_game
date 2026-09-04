@@ -73,13 +73,13 @@
       ],
       "choices": [
         {
-          "text": "🎨 \"글을 못 외워 우는 아이와 웃는 친구들의 생생한 표정을 익살스럽게 포착한 '서당도'를 완성한다!\"",
+          "text": "🎨 \"김홍도의 풍속화에서 그림 속 생활 모습을 관찰하되, 자료가 보여 주는 범위를 구분한다.\"",
           "correct": true,
           "feedback": "정답입니다! 김홍도의 풍속화는 백성들의 진솔한 희로애락을 따뜻하고 해학적으로 담아냈습니다.",
           "next": "2"
         },
         {
-          "text": "🖼️ \"백성들의 삶은 천박하니 중국의 웅장한 신선 산수화만 베껴 그린다.\"",
+          "text": "🖼️ \"김홍도의 풍속화 한 장만 보고 그림 속 생활 모습이 모든 사람을 대표한다고 단정한다.\"",
           "correct": false,
           "feedback": "조선 후기 서민 문화의 핵심인 '조선 사람의 주체적 삶'을 담아내지 못합니다.",
           "next": "1-1"
@@ -141,7 +141,10 @@
           "next": "1",
           "correct": true
         }
-      ]
+      ],
+      "simulator": {
+        "scene": "kim-hongdo-studio"
+      }
     },
     "2": {
       "location": "삼남대로 장터 판소리 판 (18세기)",
@@ -164,13 +167,13 @@
       ],
       "choices": [
         {
-          "text": "🪘 \"고수의 북장단에 맞춰 '얼씨구! 절씨구!' 추임새를 넣으며 탐관오리를 혼내주는 춘향가를 부른다!\"",
+          "text": "🪘 \"소리꾼이 부르고 고수가 북장단을 치면 관객도 추임새로 참여하는 판소리를 연다.\"",
           "correct": true,
           "feedback": "판소리는 여러 계층의 관객이 즐겼고, 긴 이야기와 노래에 당시 사람들의 바람과 풍자를 담았습니다.",
           "next": "3"
         },
         {
-          "text": "🤐 \"장터에서 소리를 하면 시끄러우니 판을 걷어치우고 조용히 사라진다.\"",
+          "text": "🤐 \"소리꾼과 고수만 남기고 관객의 추임새 참여를 막아 판소리의 공동 공연을 없앤다.\"",
           "correct": false,
           "feedback": "판소리는 서민들의 억눌린 감정을 시원하게 풀어주던 소중한 해방구였습니다.",
           "next": "2-1"
@@ -232,7 +235,10 @@
           "next": "2",
           "correct": true
         }
-      ]
+      ],
+      "simulator": {
+        "scene": "pansori-performance"
+      }
     },
     "3": {
       "location": "마을 공터 탈춤 놀이판 (황해도 봉산)",
@@ -323,7 +329,10 @@
           "next": "3",
           "correct": true
         }
-      ]
+      ],
+      "simulator": {
+        "scene": "talchum-dance"
+      }
     },
     "4": {
       "location": "조선 자료 연구실",
@@ -362,7 +371,11 @@
         "mode": "culture-touch",
         "scene": "joseon-folk-evidence",
         "interaction": "ordered-hotspot",
-        "sequence": ["painting", "music", "mask"],
+        "sequence": [
+          "painting",
+          "music",
+          "mask"
+        ],
         "type": "info",
         "hotspots": [
           {

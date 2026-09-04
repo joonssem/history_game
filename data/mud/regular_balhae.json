@@ -346,13 +346,13 @@
       ],
       "choices": [
         {
-          "text": "🔎 \"발해는 고구려 계승 의식을 지녔고 고구려 유민과 말갈 집단 등이 함께했으며, 여러 문화 요소가 어우러졌다고 설명한다.\"",
+          "text": "🔎 \"온돌·무덤, 일본에 보낸 국서, 주민 구성 기록을 함께 살펴 발해의 여러 문화를 설명한다.\"",
           "correct": true,
           "feedback": "여러 자료가 보여 주는 계승성과 다양성을 함께 담은 균형 있는 설명입니다.",
           "next": "end"
         },
         {
-          "text": "🧱 \"온돌이 발견되었으므로 발해의 모든 주민과 문화는 고구려와 완전히 같았다고 설명한다.\"",
+          "text": "🧱 \"온돌·무덤만 보고 일본에 보낸 국서와 주민 구성 기록도 모두 같았다고 단정한다.\"",
           "correct": false,
           "feedback": "온돌은 계승을 보여 주는 중요한 자료지만 주민 구성과 문화 전체를 단독으로 증명하지는 못합니다.",
           "next": "4-1"
@@ -362,7 +362,11 @@
         "mode": "culture-touch",
         "scene": "balhae-evidence",
         "interaction": "ordered-hotspot",
-        "sequence": ["artifact", "document", "people"],
+        "sequence": [
+          "artifact",
+          "document",
+          "people"
+        ],
         "type": "info",
         "hotspots": [
           {

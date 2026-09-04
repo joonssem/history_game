@@ -89,7 +89,11 @@
         "mode": "culture-touch",
         "scene": "righteous-army-background",
         "interaction": "ordered-hotspot",
-        "sequence": ["treaty", "people", "region"],
+        "sequence": [
+          "treaty",
+          "people",
+          "region"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -181,7 +185,11 @@
         "mode": "culture-touch",
         "scene": "righteous-army-flag",
         "interaction": "ordered-hotspot",
-        "sequence": ["writing", "names", "artifact"],
+        "sequence": [
+          "writing",
+          "names",
+          "artifact"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -257,13 +265,13 @@
       ],
       "choices": [
         {
-          "text": "⚖️ \"총격은 사건의 사실이고, 대한의군·침략 비판·동양 평화는 재판과 저술에 나타난 주장이다.\"",
+          "text": "⚖️ \"대한의군의 활동 사실과 침략 비판, 동양 평화에 관한 재판·저술 주장을 구분한다.\"",
           "correct": true,
           "feedback": "맞습니다. 사건을 재현하지 않고 사실과 주장을 구분하여 역사 자료를 읽었습니다.",
           "next": "4"
         },
         {
-          "text": "🎯 \"역사를 이해하려면 총격 장면을 직접 조준 활동으로 재현해야 한다.\"",
+          "text": "🎯 \"대한의군의 활동, 침략 비판, 동양 평화를 구분하지 않고 총격 장면만 직접 재현한다.\"",
           "correct": false,
           "feedback": "폭력 장면을 재현하지 않아도 재판 기록과 저술을 비교하여 사건의 의미를 탐구할 수 있습니다.",
           "next": "3-1"
@@ -273,7 +281,11 @@
         "mode": "culture-touch",
         "scene": "righteous-army-trial",
         "interaction": "ordered-hotspot",
-        "sequence": ["army", "invasion", "peace"],
+        "sequence": [
+          "army",
+          "invasion",
+          "peace"
+        ],
         "type": "info",
         "hotspots": [
           {
@@ -365,7 +377,11 @@
         "mode": "culture-touch",
         "scene": "righteous-army-exhibit",
         "interaction": "ordered-hotspot",
-        "sequence": ["righteous-army", "flag", "peace-theory"],
+        "sequence": [
+          "righteous-army",
+          "flag",
+          "peace-theory"
+        ],
         "type": "info",
         "hotspots": [
           {
