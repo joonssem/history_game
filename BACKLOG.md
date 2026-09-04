@@ -76,7 +76,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 10. **P1 — Vercel 배포 경로 검토**: 현재 GitHub Pages를 유지한 채 정적 구조가 Vercel에서 동일하게 작동하는지 확인하고, 실제 이전 여부는 별도 결정한다.
 11. **P1 — Supabase `play_events` 설계**: 익명 세션 UUID와 최소 이벤트 필드, RLS 정책, 보관 기간을 설계한다. 프로젝트·테이블·코드 구현은 설계 승인 후 진행한다.
 12. **P2 — 선택 탐험 단서 실험**: 기존 MUD 한 편에 선택 탐험 1개를 추가하는 최소 설계를 만들고, 추가 단서 발견과 근거 공유가 실제로 발생하는지 관찰한다.
-13. **P2 — 선사시대 협동 MUD 종이 리허설** *(상태: in-progress, 막 1 준비)*: 첫 후보는 선사 시대(구석기·신석기·청동기·고조선)이며, 1차는 막 1 구석기 역할 카드·정보 공유·모둠 선택을 종이로 시험한다. 한산도는 해당 차시 학습 시점의 후속 후보로 유지한다. 고조선 8조법 디지털 파일럿과 그 UX 후속 2건은 별도 구현·검증을 완료했으므로 이 미완료 항목의 범위에 포함하지 않는다. 실시간 서버와 프레임워크 전환은 첫 실험 범위에서 제외한다. 계획: [`implementation_plan_cooperative_prehistory_pilot.md`](./docs/plans/implementation_plan_cooperative_prehistory_pilot.md), 실행표: [`cooperative_prehistory_paper_rehearsal_execution.md`](./docs/handoff/cooperative_prehistory_paper_rehearsal_execution.md)
+13. **P2 — 선사시대 협동 MUD 종이 리허설** *(상태: deferred, 재개 조건 미정)*: 첫 후보는 선사 시대(구석기·신석기·청동기·고조선)이며, 막 1 `강가의 흔적: 구석기` 역할 카드·정보 공유·모둠 선택을 종이로 시험할 계획이었다. 고조선 8조법 아이패드 협동 MUD에서 핵심 협동 메커니즘을 이미 실제 수업으로 검증했으므로, 중복되는 막 1 종이 리허설은 보류한다. 카드·계획서·실행표는 보존하며, 선사시대 콘텐츠를 다시 검토할 필요가 생길 때 재개 여부를 결정한다. 계획: [`implementation_plan_cooperative_prehistory_pilot.md`](./docs/plans/implementation_plan_cooperative_prehistory_pilot.md), 실행표: [`cooperative_prehistory_paper_rehearsal_execution.md`](./docs/handoff/cooperative_prehistory_paper_rehearsal_execution.md)
 ## 구현 우선순위
 
 현재 구현 순서는 학습 흐름의 안정성, 모바일 사용성, 교육 콘텐츠 품질 순으로 정한다. 아래 순서는 문서 검토 후 정한 다음 구현 후보이며, 실제 코딩은 별도 구현 계획과 사용자 확인 후 시작한다.
