@@ -1,24 +1,49 @@
+/*
+ * 협동 MUD 공용 에피소드 엔진
+ *
+ * 화면 흐름이 같은 에피소드들이 이 파일 하나를 함께 쓴다.
+ *   활동 소개 → 모둠·번호 → 내 자료 → 최초 판단 → 나누기
+ *   → 새 자료·재판단 → (10분형: 다시 보기) → 모둠의 문장 → 역사 비교 → 완료
+ *
+ * 최초 판단이 나누기보다 **앞**에 온다. 친구 설명을 듣기 전의 판단을 남겨야
+ * 판단 변경을 볼 수 있기 때문이다.
+ *
+ * 에피소드가 바꾸는 것은 전부 scenario.js에 있다. 이 파일에는 특정 시나리오의
+ * 문안이나 역사 내용을 넣지 않는다.
+ */
 (function () {
   'use strict';
 
-  const scenario = window.FoundingMythsScenario;
-  const storageKey = 'history_cooperative_founding_myths_v01';
+  const scenario = window.CoopScenario;
+  if (!scenario) return;
+
+  const storageKey = scenario.storageKey;
   const screenIds = ['intro', 'setup', 'role', 'first', 'share', 'reveal', 'second', 'statement', 'history', 'finish'];
   const totalSteps = 8;
   const progressInfo = {
     intro: { label: '활동 소개', step: 1 },
     setup: { label: '모둠·번호 선택', step: 2 },
-    role: { label: '내 이야기', step: 3 },
+    role: { label: scenario.labels.roleStep, step: 3 },
     first: { label: '최초 판단', step: 4 },
-    share: { label: '이야기 나누기', step: 5 },
+    share: { label: scenario.labels.shareStep, step: 5 },
     reveal: { label: '새로운 자료', step: 6 },
-    second: { label: '공통점 다시 보기', step: 6 },
+    second: { label: scenario.labels.secondStep, step: 6 },
     statement: { label: '모둠의 문장', step: 7 },
     history: { label: '역사 자료 비교', step: 8 },
     finish: { label: '탐구 완료', step: 8 }
   };
 
+  const fieldIds = scenario.statement.fields.map(function (field) { return 'statement-' + field.key; });
+
   let state = loadState();
+
+  function defaultStatement() {
+    const value = {};
+    scenario.statement.fields.forEach(function (field) {
+      value[field.key] = field.options[0].value;
+    });
+    return value;
+  }
 
   function defaultState() {
     return {
@@ -34,11 +59,7 @@
       revisedChoice: null,
       decisionChanged: null,
       secondSeen: false,
-      statement: {
-        subject: 'founder',
-        manner: 'sky',
-        reason: 'authority'
-      },
+      statement: defaultStatement(),
       completed: false
     };
   }
@@ -100,9 +121,8 @@
     return scenario.firstChoices.find(function (choice) { return choice.id === choiceId; }) || null;
   }
 
-  function getStatementOption(type, value) {
-    const list = scenario.statementOptions[type];
-    return list.find(function (option) { return option.value === value; }) || list[0];
+  function getFieldOption(field, value) {
+    return field.options.find(function (option) { return option.value === value; }) || field.options[0];
   }
 
   function renderTeamGrid() {
@@ -201,9 +221,9 @@
     card.innerHTML = '<div class="role-head"><div class="role-icon" aria-hidden="true">' + role.icon + '</div><div>' +
       '<span class="role-badge">' + state.team + '모둠 · ' + state.seat + '번</span>' +
       '<h2>' + role.name + '</h2></div></div>' +
-      '<p class="private-label">나만 알고 있는 이야기 · ' + role.figure + '</p>' +
+      '<p class="private-label">' + scenario.labels.privateLabel + ' · ' + role.figure + '</p>' +
       '<p class="private-info">' + role.privateInfo + '</p>' +
-      '<div class="interest-box"><strong>이 이야기의 특징:</strong> ' + role.interest + '</div>';
+      '<div class="interest-box"><strong>' + scenario.labels.interestLabel + '</strong> ' + role.interest + '</div>';
   }
 
   function renderShare() {
@@ -219,7 +239,7 @@
     }
     if (shareState) {
       shareState.textContent = state.shared
-        ? '✓ 네 이야기가 모두 모였다면 다음으로 넘어갑니다.'
+        ? '✓ 모둠의 자료가 모두 모였다면 다음으로 넘어갑니다.'
         : '친구에게 설명한 뒤 버튼을 눌러 주세요.';
     }
   }
@@ -260,11 +280,25 @@
     if (state.durationMode === '5') {
       renderStatement();
       setScreen('statement');
-      setStatus('5분형입니다. 공통점 다시 보기를 생략하고 모둠의 문장을 만들어 보세요.');
+      setStatus('5분형입니다. ' + scenario.labels.secondStep + '을 생략하고 모둠의 문장을 만들어 보세요.');
       return;
     }
     setScreen('second');
-    setStatus('네 이야기의 공통점을 다시 살펴보고 모둠에서 토론하세요.');
+    setStatus(scenario.labels.secondStatus);
+  }
+
+  function renderStatementBuilder() {
+    const builder = get('statement-builder');
+    if (!builder || builder.dataset.ready === 'true') return;
+    builder.innerHTML = scenario.statement.fields.map(function (field) {
+      return '<div class="law-field"><label for="statement-' + field.key + '">' + field.label + '</label>' +
+        '<select id="statement-' + field.key + '"></select></div>';
+    }).join('');
+    builder.dataset.ready = 'true';
+    fieldIds.forEach(function (id) {
+      const select = get(id);
+      if (select) select.addEventListener('change', updateStatementPreview);
+    });
   }
 
   function populateSelect(select, options, selectedValue) {
@@ -279,30 +313,26 @@
   }
 
   function renderStatement() {
-    const subject = get('statement-subject');
-    const manner = get('statement-manner');
-    const reason = get('statement-reason');
-    if (!subject || !manner || !reason) return;
-    populateSelect(subject, scenario.statementOptions.subject, state.statement.subject);
-    populateSelect(manner, scenario.statementOptions.manner, state.statement.manner);
-    populateSelect(reason, scenario.statementOptions.reason, state.statement.reason);
+    renderStatementBuilder();
+    scenario.statement.fields.forEach(function (field) {
+      const select = get('statement-' + field.key);
+      if (select) populateSelect(select, field.options, state.statement[field.key]);
+    });
+    const copy = scenario.statement.headings[state.durationMode] || scenario.statement.headings['10'];
     const heading = get('statement-heading');
     const description = get('statement-description');
-    if (state.durationMode === '5') {
-      if (heading) heading.textContent = '네 이야기를 바탕으로 설명 문장 만들기';
-      if (description) description.textContent = '친구들에게 들은 이야기와 새 자료를 반영해, 옛사람들이 왜 그렇게 이야기했는지 한 문장으로 모둠에서 합의합니다.';
-    } else {
-      if (heading) heading.textContent = '공통점과 차이점을 모두 넣어 설명 문장 만들기';
-      if (description) description.textContent = '백제 온조 이야기까지 함께 설명할 수 있는 문장으로, 옛사람들이 왜 그렇게 이야기했는지 모둠에서 합의합니다.';
-    }
+    if (heading) heading.textContent = copy.heading;
+    if (description) description.textContent = copy.description;
     updateStatementPreview();
   }
 
   function buildStatementSentence() {
-    const subject = getStatementOption('subject', get('statement-subject').value);
-    const manner = getStatementOption('manner', get('statement-manner').value);
-    const reason = getStatementOption('reason', get('statement-reason').value);
-    return '옛사람들은 ' + subject.sentence + ' ' + manner.sentence + ' 이야기했다. ' + reason.sentence + '.';
+    const parts = scenario.statement.fields.map(function (field) {
+      const select = get('statement-' + field.key);
+      const value = select ? select.value : state.statement[field.key];
+      return getFieldOption(field, value).sentence;
+    });
+    return scenario.statement.compose(parts);
   }
 
   function updateStatementPreview() {
@@ -324,17 +354,15 @@
       }).join('');
     }
     const compare = get('compare-text');
-    if (compare) {
-      const finalChoice = getChoice(state.revisedChoice || state.firstChoice);
-      const answer = finalChoice ? finalChoice.text : '아직 고르지 않았습니다';
-      if (!finalChoice) {
-        compare.textContent = '내가 고른 생각과 학자들의 관점을 나란히 놓고, 어디가 같고 어디가 다른지 이야기해 봅시다.';
-      } else if (finalChoice.id === 'true-event') {
-        compare.textContent = '네 생각은 “' + answer + '”였구나. 그렇게 볼 수도 있지만, 지금 남아 있는 자료만으로는 그 일이 실제로 있었는지 확인하기 어렵습니다. 그래도 이 이야기가 왜 여러 나라에서 비슷하게 전해졌는지는 자료로 살펴볼 수 있습니다.';
-      } else {
-        compare.textContent = '네 생각은 “' + answer + '”였구나. 학자들이 보는 방향과 가깝습니다. 그런데 까닭이 하나뿐일까요? 네 이야기 중 어떤 자료가 그 생각을 뒷받침하는지 모둠에서 두 가지만 말해 봅시다.';
-      }
+    if (!compare) return;
+    const finalChoice = getChoice(state.revisedChoice || state.firstChoice);
+    const rules = scenario.compare;
+    if (!finalChoice) {
+      compare.textContent = rules.none;
+      return;
     }
+    const template = finalChoice.id === rules.unverifiableChoiceId ? rules.unverifiable : rules.aligned;
+    compare.textContent = template.replace('{answer}', finalChoice.text);
   }
 
   function renderSummary() {
@@ -343,12 +371,12 @@
     const role = getRole();
     const firstChoice = getChoice(state.firstChoice);
     const finalChoice = getChoice(state.revisedChoice || state.firstChoice);
-    const changedText = state.decisionChanged ? '생각을 바꿈' : '처음 생각을 유지';
-    grid.innerHTML = '<div class="summary-item"><span>내가 맡은 이야기</span><strong>' + (role ? role.name + ' · ' + role.figure : '-') + '</strong></div>' +
+    const labels = scenario.labels.summary;
+    grid.innerHTML = '<div class="summary-item"><span>' + labels.role + '</span><strong>' + (role ? role.name + ' · ' + role.figure : '-') + '</strong></div>' +
       '<div class="summary-item"><span>공유 전 최초 판단</span><strong>' + (firstChoice ? firstChoice.text : '-') + '</strong></div>' +
-      '<div class="summary-item"><span>친구 이야기와 새 자료 뒤</span><strong>' + changedText + '</strong></div>' +
+      '<div class="summary-item"><span>' + labels.afterEvidence + '</span><strong>' + (state.decisionChanged ? '생각을 바꿈' : '처음 생각을 유지') + '</strong></div>' +
       '<div class="summary-item"><span>마지막으로 고른 생각</span><strong>' + (finalChoice ? finalChoice.text : '-') + '</strong></div>' +
-      '<div class="summary-item"><span>우리 모둠 설명 문장</span><strong>' + buildStatementSentence() + '</strong></div>';
+      '<div class="summary-item"><span>' + labels.statement + '</span><strong>' + buildStatementSentence() + '</strong></div>';
   }
 
   function startActivity() {
@@ -381,7 +409,7 @@
     if (window.CoopPacing) window.CoopPacing.start(state.durationMode);
     renderRole();
     setScreen('role');
-    setStatus('내 이야기를 혼자 읽어 보세요. 아직 친구에게 설명하지 않습니다.');
+    setStatus(scenario.labels.roleStatus);
   });
 
   get('role-continue-button').addEventListener('click', function () {
@@ -394,7 +422,7 @@
       saveState();
       renderShare();
       setScreen('share');
-      setStatus('내 생각을 기록했습니다. 이제 모둠에서 이야기를 나누세요.');
+      setStatus('내 생각을 기록했습니다. 이제 모둠에서 자료를 나누세요.');
     });
     setScreen('first');
     setStatus('친구와 이야기하기 전에 내 생각을 먼저 고르세요.');
@@ -430,10 +458,6 @@
     setStatus('모둠에서 합의한 문장을 아래 블록으로 기록하세요.');
   });
 
-  ['statement-subject', 'statement-manner', 'statement-reason'].forEach(function (id) {
-    get(id).addEventListener('change', updateStatementPreview);
-  });
-
   document.querySelectorAll('.mode-button').forEach(function (button) {
     button.addEventListener('click', function () {
       state.durationMode = this.dataset.mode;
@@ -444,11 +468,12 @@
   });
 
   get('statement-save-button').addEventListener('click', function () {
-    state.statement = {
-      subject: get('statement-subject').value,
-      manner: get('statement-manner').value,
-      reason: get('statement-reason').value
-    };
+    const next = {};
+    scenario.statement.fields.forEach(function (field) {
+      const select = get('statement-' + field.key);
+      if (select) next[field.key] = select.value;
+    });
+    state.statement = next;
     saveState();
     renderHistory();
     setScreen('history');
@@ -475,7 +500,6 @@
     setStatus('이 기기의 기록을 지웠습니다.');
   });
 
-
   if (window.CoopPacing && scenario.pacing) {
     window.CoopPacing.init({
       rootId: 'pacing-note',
@@ -483,7 +507,8 @@
       textId: 'pacing-text',
       order: scenario.pacing.order,
       budgets: scenario.pacing.budgets,
-      prompts: scenario.pacing.prompts
+      prompts: scenario.pacing.prompts,
+      tuning: scenario.pacing.tuning
     });
   }
 

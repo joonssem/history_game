@@ -97,22 +97,70 @@ window.FoundingMythsScenario = {
     title: '3인 모둠 공통 자료 — 백제 온조 이야기',
     text: '온조는 주몽의 아들입니다. 북쪽에서 형 유리가 찾아와 태자가 되자, 온조는 형 비류와 함께 남쪽으로 내려가 한강 가 위례성에 백제를 세웠다고 전합니다. 이 이야기에는 알이 나오지 않습니다.'
   },
-  statementOptions: {
-    subject: [
-      { value: 'founder', text: '나라를 처음 세운 사람을', sentence: '나라를 처음 세운 사람을' },
-      { value: 'king', text: '나라를 다스린 임금을', sentence: '나라를 다스린 임금을' }
+  storageKey: 'history_cooperative_founding_myths_v01',
+  labels: {
+    roleStep: '내 이야기',
+    shareStep: '이야기 나누기',
+    secondStep: '공통점 다시 보기',
+    privateLabel: '나만 알고 있는 이야기',
+    interestLabel: '이 이야기의 특징:',
+    roleStatus: '내 이야기를 혼자 읽어 보세요. 아직 친구에게 설명하지 않습니다.',
+    secondStatus: '네 이야기의 공통점을 다시 살펴보고 모둠에서 토론하세요.',
+    summary: {
+      role: '내가 맡은 이야기',
+      afterEvidence: '친구 이야기와 새 자료 뒤',
+      statement: '우리 모둠 설명 문장'
+    }
+  },
+  statement: {
+    headings: {
+      '5': {
+        heading: '네 이야기를 바탕으로 설명 문장 만들기',
+        description: '친구들에게 들은 이야기와 새 자료를 반영해, 옛사람들이 왜 그렇게 이야기했는지 한 문장으로 모둠에서 합의합니다.'
+      },
+      '10': {
+        heading: '공통점과 차이점을 모두 넣어 설명 문장 만들기',
+        description: '백제 온조 이야기까지 함께 설명할 수 있는 문장으로, 옛사람들이 왜 그렇게 이야기했는지 모둠에서 합의합니다.'
+      }
+    },
+    fields: [
+      {
+        key: 'subject',
+        label: '누구를',
+        options: [
+          { value: 'founder', text: '나라를 처음 세운 사람을', sentence: '나라를 처음 세운 사람을' },
+          { value: 'king', text: '나라를 다스린 임금을', sentence: '나라를 다스린 임금을' }
+        ]
+      },
+      {
+        key: 'manner',
+        label: '어떻게 이야기했는지',
+        options: [
+          { value: 'sky', text: '하늘과 이어진 사람으로', sentence: '하늘과 이어진 사람으로' },
+          { value: 'birth', text: '보통 사람과 다르게 태어난 사람으로', sentence: '보통 사람과 다르게 태어난 사람으로' },
+          { value: 'sign', text: '남다른 표시를 지닌 사람으로', sentence: '남다른 표시를 지닌 사람으로' }
+        ]
+      },
+      {
+        key: 'reason',
+        label: '왜 그랬을지',
+        options: [
+          { value: 'authority', text: '다스릴 자격이 있다고 믿게 하려고', sentence: '나라를 다스릴 자격이 있다고 믿게 하려는 뜻으로 보인다' },
+          { value: 'identity', text: '우리 나라만의 시작을 남기려고', sentence: '우리 나라만의 시작을 남기려는 뜻으로 보인다' },
+          { value: 'follow', text: '백성이 임금을 따르게 하려고', sentence: '백성이 임금을 따르게 하려는 뜻으로 보인다' },
+          { value: 'uncertain', text: '자료만으로는 하나로 단정하기 어렵다', sentence: '다만 그 까닭은 지금 남은 자료만으로 하나로 단정하기 어렵다' }
+        ]
+      }
     ],
-    manner: [
-      { value: 'sky', text: '하늘과 이어진 사람으로', sentence: '하늘과 이어진 사람으로' },
-      { value: 'birth', text: '보통 사람과 다르게 태어난 사람으로', sentence: '보통 사람과 다르게 태어난 사람으로' },
-      { value: 'sign', text: '남다른 표시를 지닌 사람으로', sentence: '남다른 표시를 지닌 사람으로' }
-    ],
-    reason: [
-      { value: 'authority', text: '다스릴 자격이 있다고 믿게 하려고', sentence: '나라를 다스릴 자격이 있다고 믿게 하려는 뜻으로 보인다' },
-      { value: 'identity', text: '우리 나라만의 시작을 남기려고', sentence: '우리 나라만의 시작을 남기려는 뜻으로 보인다' },
-      { value: 'follow', text: '백성이 임금을 따르게 하려고', sentence: '백성이 임금을 따르게 하려는 뜻으로 보인다' },
-      { value: 'uncertain', text: '자료만으로는 하나로 단정하기 어렵다', sentence: '다만 그 까닭은 지금 남은 자료만으로 하나로 단정하기 어렵다' }
-    ]
+    compose: function (parts) {
+      return '옛사람들은 ' + parts[0] + ' ' + parts[1] + ' 이야기했다. ' + parts[2] + '.';
+    }
+  },
+  compare: {
+    unverifiableChoiceId: 'true-event',
+    none: '내가 고른 생각과 학자들의 관점을 나란히 놓고, 어디가 같고 어디가 다른지 이야기해 봅시다.',
+    unverifiable: '네 생각은 “{answer}”였구나. 그렇게 볼 수도 있지만, 지금 남아 있는 자료만으로는 그 일이 실제로 있었는지 확인하기 어렵습니다. 그래도 이 이야기가 왜 여러 나라에서 비슷하게 전해졌는지는 자료로 살펴볼 수 있습니다.',
+    aligned: '네 생각은 “{answer}”였구나. 학자들이 보는 방향과 가깝습니다. 그런데 까닭이 하나뿐일까요? 네 이야기 중 어떤 자료가 그 생각을 뒷받침하는지 모둠에서 두 가지만 말해 봅시다.'
   },
   sources: [
     {
@@ -126,3 +174,5 @@ window.FoundingMythsScenario = {
     { name: '광개토대왕릉비', note: '414년에 세움. 고구려 왕실이 스스로 남긴 당대의 기록입니다.' }
   ]
 };
+
+window.CoopScenario = window.FoundingMythsScenario;

@@ -54,6 +54,7 @@
 - [협동 MUD 허브](./cooperative-mud/)
 - [고조선 8조법 바로 시작](./cooperative-mud/gojoseon-law/) — 1단원 6차시
 - [삼국·가야 시조 설화 바로 시작](./cooperative-mud/founding-myths/) — 1단원 7차시. 네 나라의 시조 이야기를 하나씩 나눠 읽고 말로 모은 뒤, 옛사람들이 왜 그렇게 이야기했는지 모둠의 설명 문장을 만든다. 친구 이야기를 듣기 **전에** 각자 판단을 먼저 기록하는 순서로 만들었다
+- [한강 유역 쟁탈 바로 시작](./cooperative-mud/han-river/) — 1단원 8차시. 들·물길·바닷길·연표를 나눠 조사하고, 세 나라가 왜 모두 이 땅을 원했는지 근거로 설명한다. 전투 장면 없이 지리와 교역로로 다룬다
 - **[수업 구조도](https://claude.ai/code/artifact/97e312bf-7cf9-4b4c-be07-6d0a4fd2c9a2)** — 기존 7단계 화면 위에 QR 입장·학생 호(號)·타이머 페이싱·교사 대시보드·데이터 경계를 얹은 전체 구조 *(비공개 링크 · 저장소 소유자 계정에서 열림)*
 - [구현 계획](./docs/plans/implementation_plan_cooperative_mud_gojoseon_law_v01.md)
 - [실시간 확장 설계](./docs/plans/COLLABORATIVE_MUD_PLAN.md) · [아키텍처](./docs/plans/COLLABORATIVE_MUD_ARCHITECTURE.md) · [MVP](./docs/plans/COLLABORATIVE_MUD_MVP.md)
