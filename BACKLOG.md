@@ -21,7 +21,13 @@
 ### 관련 후속 항목
 
 - **P2-COLLAB-02 — v0.1 화면 순서 수정 (미착수)**: `cooperative-mud/gojoseon-law/app.js`의 공유 확인 게이트가 최초 판단보다 앞서, 기록된 "최초 판단"이 이미 공유 후 값이다. `역할 확인 → 최초 판단 → 공유 → 추가 증거`로 바꾸면 판단 변경 가설을 서버 없이 측정할 수 있다. 실시간 앱과 독립적으로 진행 가능하며 작업량이 작다.
-- **P2-COLLAB-03 — 협동 시나리오 확장 (미착수)**: 고조선 형식이 통했으므로 다른 시대로 넓힌다. 후보 풀은 [`scenario_candidates_artifact_comparison_and_cooperative_mud.md`](./docs/plans/scenario_candidates_artifact_comparison_and_cooperative_mud.md). 폭력·아동 희생 요소가 있는 후보(살수대첩·계백과 관창)는 착수 전 별도 확인이 필요하다.
+- **P2-COLLAB-03 — 협동 시나리오 확장 (진행 중, 3편 제작 완료 · 수업 검증 대기)**: 고조선 형식이 통했으므로 다른 시대로 넓힌다. 소재는 진도 순서를 기준으로 고른다.
+  - 1단원 6차시 `cooperative-mud/gojoseon-law/` 고조선 8조법 — 제작·**수업 운영 완료**([`EXP-006`](./EXPERIMENTS.md))
+  - 1단원 7차시 `cooperative-mud/founding-myths/` 삼국·가야 시조 설화 — 제작 완료, 수업 미운영
+  - 1단원 8차시 `cooperative-mud/han-river/` 한강 유역 쟁탈 — 제작 완료, 수업 미운영
+  - 다음 후보는 [`scenario_candidates_artifact_comparison_and_cooperative_mud.md`](./docs/plans/scenario_candidates_artifact_comparison_and_cooperative_mud.md)에서 진도에 맞춰 고른다. 폭력·아동 희생 요소가 있는 후보(살수대첩·계백과 관창)는 착수 전 별도 확인이 필요하다.
+  - 세 편의 성격이 겹치지 않도록 관리한다: 고조선=이해관계로 판단, 시조 설화=예외를 만나 일반화 교정, 한강=여러 근거를 견주어 설명.
+- **P2-COLLAB-07 — 타이머 예산 실측 (미착수)**: 화면별 목표 시간은 설계 추정치다. 첫 수업에서 힌트·심화 배지가 얼마나 뜨는지 관찰해 `scenario.pacing.budgets`를 조정한다. 감도는 `pacing.tuning`으로 시나리오별로 덮어쓸 수 있다.
 - **P2-COLLAB-04 — 역사 비교 화면의 "정답 맞췄다" 대응 (미착수)**: 범금 8조의 절도 조항(노비·50만전)과 학생의 가혹한 처벌안이 겹칠 때 "우리가 맞췄다"로 끝나지 않도록, 누구에게 유리·불리한지 되묻는 문구를 비교 화면의 수용 기준으로 명시한다.
 - **P2-COLLAB-05 — 학교·교육청 개인정보 지침 확인 (착수 전 필수, 사용자만 가능)** 🔴: 실시간 앱 구현 전에 반드시 확인한다. 결과에 따라 백엔드 결정([D-019](./DECISIONS.md))이 다시 열릴 수 있다. 설계 대응은 [D-021](./DECISIONS.md)에 이미 반영했다.
   - 질문 1: 학생 이름·학번·계정을 수집하지 않고 수업 중에만 모둠 번호와 제출 여부만 서버에 두었다가 수업 종료 시 즉시 삭제하는 경우에도 사전 신고나 보호자 동의가 필요한가?

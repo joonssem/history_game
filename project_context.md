@@ -320,8 +320,13 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 - **NEXT**: 해금 유물 2개 기반 관찰·비교·주장·근거 추론 활동
 - **LATER**: 유물 탐구 확대, 익명 활동 결과·학급 집계, 친구 비교·협력, 필요 시 Anonymous Auth
 - **FUTURE / NOT NOW**: Realtime·학급 공동 이벤트·역사 타이쿤 장기 상태·공개 온라인 순위표
-- **현재 별도 파일럿**: 선사시대 협동 MUD를 정적 웹으로 제작 예정(막 1 구석기부터). 종이 리허설 단계는 2026-09-06에 폐기했다 — 1인 1기기 화면이 곧 역할 카드다. 기존 앱·MUD JSON과 분리한다.
-- **현재 단기 디지털 파일럿**: `고조선 8조법: 우리 마을의 첫 번째 법`을 `cooperative-mud/gojoseon-law/` 독립 정적 페이지로 구현한다. DB 없는 비대칭 정보·판단 변경 실험이며, 모둠별 실제 인원 3·4·5명 선택과 기기별 기록을 지원한다. 기존 개인형 `regular_gojoseon`과 분리한다.
+- **협동 MUD (정적) 3편 운영 중**: `cooperative-mud/` 아래 독립 정적 페이지다. 1인 1기기로 학생마다 다른 자료를 보여 주고, 실제 말로 공유하게 한 뒤 모둠의 결론을 만든다. DB·로그인·실시간 동기화 없이 기기별 `localStorage`만 쓴다.
+  - 6차시 `gojoseon-law/` 고조선 8조법 — 2026-09-04 실제 수업 운영([`EXP-006`](./EXPERIMENTS.md))
+  - 7차시 `founding-myths/` 삼국·가야 시조 설화 — 수업 미운영
+  - 8차시 `han-river/` 한강 유역 쟁탈 — 수업 미운영
+  - 공통 파일: `cooperative-mud/episode.js`(화면 흐름 엔진), `pacing.js`(타이머 페이싱), `cooperative.css`. 시나리오는 각 폴더의 `scenario.js`가 소유하고 엔진에는 역사 내용을 넣지 않는다. 고조선만 화면 순서가 달라 자체 `app.js`를 쓴다.
+  - 선사시대 협동 MUD는 종이 리허설 단계를 2026-09-06에 폐기하고 정적 웹 제작 대상으로 전환했다 — 1인 1기기 화면이 곧 역할 카드다.
+  - 실시간 확장(Vercel + Convex)은 설계만 되어 있고 미구현이다. `docs/plans/COLLABORATIVE_MUD_*.md` 참조.
 
 ## 8. 실행 및 테스트 방법
 

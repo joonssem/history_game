@@ -30,6 +30,7 @@
 | [`COLLABORATIVE_MUD_ARCHITECTURE.md`](./COLLABORATIVE_MUD_ARCHITECTURE.md) | `검토안` | Convex 스키마·권한·상태 전이. 백엔드는 [D-019](../../DECISIONS.md)로 확정 |
 | [`COLLABORATIVE_MUD_MVP.md`](./COLLABORATIVE_MUD_MVP.md) | `검토안` | §8 첫 수직 슬라이스가 다음 구현 단위 |
 | [`implementation_plan_cooperative_mud_gojoseon_law_v01.md`](./implementation_plan_cooperative_mud_gojoseon_law_v01.md) | `완료` · **실제 수업 운영됨** | 결과는 [`EXP-006`](../../EXPERIMENTS.md). 화면 순서 수정(P2-COLLAB-02)이 남음 |
+| 정적 협동 MUD 3편 (코드) | `제작 완료` · 6차시 운영됨, 7·8차시 미운영 | `cooperative-mud/`의 `gojoseon-law`·`founding-myths`·`han-river`. 별도 계획서 없이 이 표와 `walkthrough.md`로 관리한다 |
 | [`cooperative_prehistory_content_draft.md`](./cooperative_prehistory_content_draft.md) | `콘텐츠 원본` | 선사 3막 문안. 정적 협동 MUD의 원본으로 재사용. 막2·3 역사 사실 재대조 필요 |
 | [`implementation_plan_cooperative_prehistory_pilot.md`](./implementation_plan_cooperative_prehistory_pilot.md) | `콘텐츠 원본` | 종이 단계 폐기. 막1부터 정적 협동 MUD로 제작 |
 | [`implementation_plan_cooperative_mud_pilot.md`](./implementation_plan_cooperative_mud_pilot.md) | `보류` (2026-09-03) | 한산도. 11월 진도와 불일치로 중단. 후속 후보로만 보존 |
