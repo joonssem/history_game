@@ -30,6 +30,8 @@
 
 현재는 교실 기기에서 별도 설치 없이 실행하는 정적 GitHub Pages 배포와 localStorage 저장이 실제 운영 상태다. Vercel·Supabase는 목표 확장 경로이며, 프로젝트·테이블·코드 연동은 아직 구현하지 않았다.
 
+> **2026-09-06 갱신 — 이 문서의 Supabase 서술은 `보류`다.** 신규 실시간 협동 MUD의 백엔드를 Convex로 확정했고([D-019](./DECISIONS.md)), 백엔드를 하나만 운영하기 위해 Supabase `play_events` 계획을 보류했다([D-020](./DECISIONS.md)). 아래 Supabase 관련 서술은 "보류된 후보"로 읽는다. 개인정보·키 관리 원칙은 백엔드와 무관하게 유효하다. 실시간 협동 앱의 기술 경계는 [`docs/plans/COLLABORATIVE_MUD_ARCHITECTURE.md`](./docs/plans/COLLABORATIVE_MUD_ARCHITECTURE.md)에서 별도로 관리한다.
+
 ## Future / Not Now
 
 ### 단계적 도입 경계

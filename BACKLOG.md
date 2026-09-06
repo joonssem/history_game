@@ -2,7 +2,30 @@
 
 > 완료된 기능은 이 목록에 넣지 않는다. 완료 이력은 [`walkthrough.md`](./walkthrough.md), 현재 상태는 [`project_context.md`](./project_context.md)에서 확인한다.
 
-## 2026-09-01 기획 기준선
+## 2026-09-06 실시간 협동 MUD 검토 — P2-COLLAB-01
+
+- 상태: `planned` — 설계 검토 완료, 실시간 앱 구현 미착수. 백엔드는 Convex로 확정([D-019](./DECISIONS.md)).
+- 문제·목적: 기존 고조선 협동 v0.1은 기기별 정적 활동이며, 최초 판단 전에 공유하고 모둠 수는 5개로 고정한다. 21명·40분·활동별 무작위 편성 및 가변 학급에 맞는 실시간 협동 구조를 별도로 설계한다.
+- **실측 근거 (2026-09-04 수업, [`EXP-006`](./EXPERIMENTS.md))**: 비대칭 정보로 대면 대화가 실제로 발생했고 모둠 결과도 갈렸다. 그러나 교사가 꼽은 최대 제약은 **"모둠 진행 상황을 볼 수 없음"** 이었고, 빠른 모둠에 추가 상황을·느린 모둠에 힌트를 주는 개입이 불가능했다. 이 항목이 실시간 앱의 1순위 요구사항이다.
+- 교육·사용자 영향: 개인 최초 판단의 독립성, 3/4/5인 모두의 정보·발언 기회, 교사의 수업 진행·접속 복구를 확보한다.
+- 예상 범위: 신규 독립 Next.js/Convex 앱과 Vercel 배포 경계, 기존 허브의 후속 연결 링크. 기존 개인 MUD와 정적 협동 버전은 유지한다.
+- 관련 파일: `cooperative-mud/gojoseon-law/{app,scenario}.js`, `cooperative-mud/index.html`, `PRD.md`, `TECH_STACK.md`, `ARCHITECTURE.md`, `ROADMAP.md`.
+- 원문·인터뷰: [INBOX](./INBOX.md)의 2026-09-06 항목. 설계: [전체 계획](./docs/plans/COLLABORATIVE_MUD_PLAN.md), [아키텍처](./docs/plans/COLLABORATIVE_MUD_ARCHITECTURE.md), [MVP](./docs/plans/COLLABORATIVE_MUD_MVP.md).
+- 다음 판단: [MVP](./docs/plans/COLLABORATIVE_MUD_MVP.md) §8 첫 수직 슬라이스의 구현 범위 확정. 40분 예산의 여유 확보 방식을 착수 전에 결정한다. Supabase 계획은 [D-020](./DECISIONS.md)으로 보류했으므로 두 백엔드를 혼합하지 않는다.
+- 2026-09-06 입장·표시 이름 결정: 학생 입장은 **QR 우선**(일회 코드 배부 폐지)이고 학생 인증 주체를 만들지 않는다 → Convex Auth beta가 임계 경로에서 빠짐. 표시 이름은 **학생이 대기 중 고르는 호(號)** 이며 시대 무관 공용 24개를 재사용한다. 미선택자는 교사 시작 시 서버가 무작위 배정한다. 설계는 [아키텍처](./docs/plans/COLLABORATIVE_MUD_ARCHITECTURE.md) §2-1·§2-2. 학교 Wi-Fi는 기존 활동에서 문제 없었음이 확인됐으나 21대 동시 접속·실시간 구독은 미실측이다.
+- 40분 예산: 호 선택은 QR 입장 대기 시간에 흡수되므로 추가 비용이 아니다. 남은 여유 확보 과제는 법 만들기 단계이며 `합의 미완`을 정상 경로로 둘지 결정한다.
+- 후속 관찰 후보: 기존 v0.1의 공유→최초 판단 순서는 이번 의도와 다르다. 기존 정적 앱 수정은 별도 범위이며 이번에는 신규 흐름의 수용 기준으로 기록한다.
+- 2026-09-06 후속 검토: Vercel로 두 앱의 화면 호스팅을 통일하는 것은 가능하다. 새 맥락에서는 같은 저장소·두 Vercel 프로젝트를 우선 검토하며, 별도 저장소는 필수가 아니다. 계획 §10~11 참조. 실제 이전 승인·설정 변경은 아직 없음.
+- 후속 UX 후보: 학생 첫 화면에서 오늘의 복습과 모둠 수업 진입을 구별하고 교사는 전체 차시를 탐색하도록 한다. 실제 포털의 긴 단원 탭·MUD/허브/파일럿 용어를 검토한다. `index.html`, `js/app.js`, `css/style.css`의 최소 변경으로 별도 계획화한다.
+
+### 관련 후속 항목
+
+- **P2-COLLAB-02 — v0.1 화면 순서 수정 (미착수)**: `cooperative-mud/gojoseon-law/app.js`의 공유 확인 게이트가 최초 판단보다 앞서, 기록된 "최초 판단"이 이미 공유 후 값이다. `역할 확인 → 최초 판단 → 공유 → 추가 증거`로 바꾸면 판단 변경 가설을 서버 없이 측정할 수 있다. 실시간 앱과 독립적으로 진행 가능하며 작업량이 작다.
+- **P2-COLLAB-03 — 협동 시나리오 확장 (미착수)**: 고조선 형식이 통했으므로 다른 시대로 넓힌다. 후보 풀은 [`scenario_candidates_artifact_comparison_and_cooperative_mud.md`](./docs/plans/scenario_candidates_artifact_comparison_and_cooperative_mud.md). 폭력·아동 희생 요소가 있는 후보(살수대첩·계백과 관창)는 착수 전 별도 확인이 필요하다.
+- **P2-COLLAB-04 — 역사 비교 화면의 "정답 맞췄다" 대응 (미착수)**: 범금 8조의 절도 조항(노비·50만전)과 학생의 가혹한 처벌안이 겹칠 때 "우리가 맞췄다"로 끝나지 않도록, 누구에게 유리·불리한지 되묻는 문구를 비교 화면의 수용 기준으로 명시한다.
+- **미확보 입력**: 사용자가 Claude와 별도로 만들던 "다른 활동 아이디어" 문서가 이 저장소·발행 아티팩트에 없다. 원문 확보 후 INBOX로 분류한다.
+
+## 2026-09-01 기획 기준선 (기존 기록)
 
 학생 실제 수업 결과를 반영해 우선순위를 다음처럼 재정렬한다.
 
@@ -76,7 +99,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 10. **P1 — Vercel 배포 경로 검토**: 현재 GitHub Pages를 유지한 채 정적 구조가 Vercel에서 동일하게 작동하는지 확인하고, 실제 이전 여부는 별도 결정한다.
 11. **P1 — Supabase `play_events` 설계**: 익명 세션 UUID와 최소 이벤트 필드, RLS 정책, 보관 기간을 설계한다. 프로젝트·테이블·코드 구현은 설계 승인 후 진행한다.
 12. **P2 — 선택 탐험 단서 실험**: 기존 MUD 한 편에 선택 탐험 1개를 추가하는 최소 설계를 만들고, 추가 단서 발견과 근거 공유가 실제로 발생하는지 관찰한다.
-13. **P2 — 역할 기반 협동 역사 MUD 파일럿·종이 리허설** *(상태: in-progress, 막 1 준비)*: 첫 후보는 선사 시대(구석기·신석기·청동기·고조선)이며, 1차는 막 1 구석기 역할 카드·정보 공유·모둠 선택을 종이로 시험한다. 한산도는 해당 차시 학습 시점의 후속 후보로 유지한다. 실시간 서버와 프레임워크 전환은 첫 실험 범위에서 제외한다. 계획: [`implementation_plan_cooperative_prehistory_pilot.md`](./docs/plans/implementation_plan_cooperative_prehistory_pilot.md), 실행표: [`cooperative_prehistory_paper_rehearsal_execution.md`](./docs/handoff/cooperative_prehistory_paper_rehearsal_execution.md)
+13. **P2 — 선사 시대 협동 MUD 정적 제작** *(상태: 콘텐츠 원본 확보, 제작 전)*: 종이 리허설 단계는 2026-09-06에 폐기했다(기기 화면이 곧 역할 카드). 막 1 구석기부터 정적 협동 MUD로 만든다. 한산도는 해당 차시 학습 시점의 후속 후보로 유지한다. 계획: [`implementation_plan_cooperative_prehistory_pilot.md`](./docs/plans/implementation_plan_cooperative_prehistory_pilot.md), 콘텐츠 원본: [`cooperative_prehistory_content_draft.md`](./docs/plans/cooperative_prehistory_content_draft.md)
 ## 구현 우선순위
 
 현재 구현 순서는 학습 흐름의 안정성, 모바일 사용성, 교육 콘텐츠 품질 순으로 정한다. 아래 순서는 문서 검토 후 정한 다음 구현 후보이며, 실제 코딩은 별도 구현 계획과 사용자 확인 후 시작한다.

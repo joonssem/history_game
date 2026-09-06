@@ -7,7 +7,8 @@
 - 콘텐츠 정합성·선택지 표현 편향 QA
 - 최소 플레이 로그 설계와 수업 실험
 - Vercel 정적 배포 가능성 검토
-- Supabase `play_events`의 익명 필드·RLS·보관 기간 설계
+- ~~Supabase `play_events`의 익명 필드·RLS·보관 기간 설계~~ → `보류` ([D-020](./DECISIONS.md))
+- 실시간 협동 MUD(고조선) 첫 수직 슬라이스 범위 확정 — 별도 Next.js + Convex 앱, `BACKLOG.md` P2-COLLAB-01
 
 ## NEXT
 
@@ -25,9 +26,8 @@
 
 ## FUTURE / NOT NOW
 
-- Supabase Realtime
 - 학급 공동 이벤트
-- 본격적인 실시간 멀티플레이
+- 기존 개인형 앱의 실시간 멀티플레이 — 협동 MUD는 별도 앱으로 분리했으므로 이 항목은 기존 포털·Regular MUD에만 적용된다
 - 역사 타이쿤 장기 상태 저장
 - 공개 온라인 순위표
 

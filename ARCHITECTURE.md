@@ -27,6 +27,8 @@ GitHub → Vercel → 학생 브라우저
 
 Vercel은 정적 프런트엔드의 목표 배포 경로이며, 현재 GitHub Pages를 즉시 대체하지 않는다. Supabase는 첫 단계에서 `play_events` 로그만 검토한다.
 
+> **2026-09-06 갱신**: Supabase `play_events`는 `보류`다([D-020](./DECISIONS.md)). 신규 실시간 협동 MUD는 이 다이어그램 밖의 **별도 Next.js + Convex 앱**으로 만들며([D-019](./DECISIONS.md)), 기존 Vanilla JS 엔진을 네트워크 상태 저장소로 교체하지 않는다. 해당 구조는 [`docs/plans/COLLABORATIVE_MUD_ARCHITECTURE.md`](./docs/plans/COLLABORATIVE_MUD_ARCHITECTURE.md)에 있다.
+
 ## 데이터 흐름 원칙
 
 1. 플레이 상태와 보상은 우선 localStorage에 반영한다.
