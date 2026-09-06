@@ -27,6 +27,12 @@
 
     <div id="live-status" class="live-status" role="status" aria-live="polite"></div>
 
+    <div id="pacing-note" class="pacing-note" hidden>
+      <button id="pacing-badge" class="pacing-badge" type="button" aria-expanded="false" aria-controls="pacing-text"></button>
+      <p id="pacing-text" class="pacing-text" hidden></p>
+    </div>
+
+
     <section id="screen-intro" class="screen">
       <div class="panel">
         <h2 class="screen-title">시간 탐사단, 네 나라의 시작을 모아 주세요</h2>
@@ -193,6 +199,7 @@
       </div>
     </section>
   </main>
+  <script src="../pacing.js"></script>
   <script src="scenario.js"></script>
   <script src="app.js"></script>
 </body>

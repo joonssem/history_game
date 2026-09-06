@@ -50,6 +50,43 @@ window.FoundingMythsScenario = {
       shareText: '나는 네 이야기를 견주어 볼게. 모둠이 문장을 정하기 전에, 서로 다른 이야기에서 나온 근거를 두 가지 이상 말해 줘.'
     }
   ],
+  pacing: {
+    order: ['role', 'first', 'share', 'reveal', 'second', 'statement', 'history'],
+    budgets: {
+      '5':  { role: 35, first: 25, share: 95,  reveal: 50, statement: 65,  history: 40 },
+      '10': { role: 50, first: 40, share: 160, reveal: 80, second: 80, statement: 110, history: 80 }
+    },
+    prompts: {
+      role: {
+        slow: '이야기에서 가장 눈에 띄는 장면 하나만 골라 볼까요? 그 한 장면만 친구에게 말해도 충분합니다.',
+        fast: '이 이야기에서 이상하거나 궁금한 점은 없었나요? 그것도 함께 말해 보세요.'
+      },
+      first: {
+        slow: '정답을 찾는 것이 아닙니다. 내 이야기 하나만 보고 든 생각을 골라도 괜찮아요.',
+        fast: '왜 그렇게 골랐는지 한 문장으로 말할 수 있나요? 뒤에서 다시 물어봅니다.'
+      },
+      share: {
+        slow: '아직 말하지 않은 친구가 있나요? 그 친구 이야기부터 들어 볼까요?',
+        fast: '네 이야기에 똑같이 나오는 것이 있었나요? 서로 다른 점도 하나 찾아보세요.'
+      },
+      reveal: {
+        slow: '왕이 직접 돌에 새긴 기록이라는 점은 내 생각과 어떻게 이어지나요?',
+        fast: '생각을 바꾸지 않았다면, 그 까닭을 친구에게 설명해 볼까요?'
+      },
+      second: {
+        slow: '백제 온조 이야기에는 무엇이 나왔는지 다시 떠올려 볼까요?',
+        fast: '“알” 말고 네 이야기를 모두 묶을 수 있는 말은 무엇일까요?'
+      },
+      statement: {
+        slow: '친구들이 말한 이야기 중 두 가지만 다시 떠올려 볼까요?',
+        fast: '우리가 고른 문장이 백제 이야기까지 설명하나요?'
+      },
+      history: {
+        slow: '내가 고른 생각과 학자들이 보는 방향은 어디가 같고 어디가 다른가요?',
+        fast: '이 이야기들이 나라가 세워지고 한참 뒤에 적혔다는 점은 무엇을 뜻할까요?'
+      }
+    }
+  },
   firstChoices: [
     { id: 'true-event', label: 'A', text: '정말 그런 일이 있었기 때문에' },
     { id: 'special', label: 'B', text: '나라를 세운 사람을 특별하게 보이게 하려고' },

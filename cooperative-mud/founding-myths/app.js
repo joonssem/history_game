@@ -77,6 +77,7 @@
       if (screen) screen.hidden = id !== screenId;
     });
     updateProgress(screenId);
+    if (window.CoopPacing) window.CoopPacing.enter(screenId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -377,6 +378,7 @@
     state.secondSeen = false;
     state.completed = false;
     saveState();
+    if (window.CoopPacing) window.CoopPacing.start(state.durationMode);
     renderRole();
     setScreen('role');
     setStatus('내 이야기를 혼자 읽어 보세요. 아직 친구에게 설명하지 않습니다.');
@@ -436,6 +438,7 @@
     button.addEventListener('click', function () {
       state.durationMode = this.dataset.mode;
       saveState();
+      if (window.CoopPacing) window.CoopPacing.setMode(state.durationMode);
       renderModeButtons();
     });
   });
@@ -462,6 +465,7 @@
 
   get('reset-button').addEventListener('click', function () {
     window.localStorage.removeItem(storageKey);
+    if (window.CoopPacing) window.CoopPacing.stop();
     state = defaultState();
     renderTeamGrid();
     renderTeamSizeGrid();
@@ -470,6 +474,18 @@
     setScreen('intro');
     setStatus('이 기기의 기록을 지웠습니다.');
   });
+
+
+  if (window.CoopPacing && scenario.pacing) {
+    window.CoopPacing.init({
+      rootId: 'pacing-note',
+      badgeId: 'pacing-badge',
+      textId: 'pacing-text',
+      order: scenario.pacing.order,
+      budgets: scenario.pacing.budgets,
+      prompts: scenario.pacing.prompts
+    });
+  }
 
   renderModeButtons();
   updateProgress('intro');

@@ -45,6 +45,39 @@ window.GojoseonLawScenario = {
       shareText: '내 정보에는 규칙을 다르게 기억해서 다툼이 반복된 적이 있다고 나와 있어. 누구나 이해할 수 있는 법을 남겨야 해.'
     }
   ],
+  pacing: {
+    order: ['role', 'first', 'reveal', 'second', 'law', 'history'],
+    budgets: {
+      '5':  { role: 80,  first: 30, reveal: 55, law: 75,  history: 70 },
+      '10': { role: 140, first: 45, reveal: 90, second: 85, law: 130, history: 110 }
+    },
+    prompts: {
+      role: {
+        slow: '내 정보에서 모둠에 꼭 말해야 할 것은 무엇인가요? 한 가지만 정해도 됩니다.',
+        fast: '내 이해관계와 반대되는 입장은 누구일까요? 그 친구 이야기를 먼저 들어 보세요.'
+      },
+      first: {
+        slow: '정답은 없습니다. 내가 가진 정보로 보면 어떤 쪽이 나아 보이나요?',
+        fast: '왜 그렇게 골랐는지 한 문장으로 말할 수 있나요?'
+      },
+      reveal: {
+        slow: '새 증거를 알기 전과 알고 난 뒤, 무엇이 달라졌나요?',
+        fast: '생각을 유지했다면 그 까닭을 친구에게 설명해 볼까요?'
+      },
+      second: {
+        slow: '처음 정한 법을 이 사람에게도 그대로 쓸 수 있을까요?',
+        fast: '한 번과 여러 번을 나눈다면 그 기준은 무엇일까요?'
+      },
+      law: {
+        slow: '친구들이 말한 사정 중 두 가지만 다시 떠올려 볼까요?',
+        fast: '우리가 만든 법은 누구에게 불리한가요?'
+      },
+      history: {
+        slow: '우리 법과 전해지는 조항은 어디가 다른가요?',
+        fast: '당시 사람들은 왜 그런 벌을 정했을까요? 오늘날과 견주어 보세요.'
+      }
+    }
+  },
   firstChoices: [
     { id: 'return', label: 'A', text: '훔친 곡식만 돌려준다' },
     { id: 'repay-more', label: 'B', text: '훔친 것보다 더 많이 갚게 한다' },
