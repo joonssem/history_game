@@ -1,6 +1,6 @@
 ﻿# PROJECT_CONTEXT.md
 
-> **작성일**: 2026-09-01 | **버전**: v3.3 | **인수자**: OpenAI Codex
+> **작성일**: 2026-09-01 | **최종 갱신**: 2026-09-06 | **버전**: v3.5 | **인수자**: OpenAI Codex
 > **라이브 URL**: https://joonssem.github.io/history_game/
 
 이 문서는 새 개발자가 프로젝트를 빠르게 파악하고 작업을 이어갈 수 있도록 작성한 인수인계 문서다.
@@ -73,6 +73,14 @@ history_game/
 │   ├── storyEngine.js                  # 타임머신 스토리 엔진
 │   ├── miniGames.js                    # 유물 카드·역사 연표 미니게임
 │   └── soundEffects.js                 # Web Audio API 효과음 (playClick/playFanfare/playWrong)
+├── cooperative-mud/                    # 협동 MUD (개인형 앱과 분리된 정적 페이지)
+│   ├── index.html                      # 허브. 차시별 에피소드 목록
+│   ├── cooperative.css                 # 협동 MUD 전용 스타일
+│   ├── episode.js                      # 공통 화면 흐름 엔진 (역사 내용 없음)
+│   ├── pacing.js                       # 공통 타이머 페이싱 (힌트·심화 배지)
+│   ├── gojoseon-law/                   # 6차시. 자체 app.js (화면 순서가 다름)
+│   ├── founding-myths/                 # 7차시. scenario.js + index.html
+│   └── han-river/                      # 8차시. scenario.js + index.html
 ├── data/
 │   ├── history_curriculum_48_lessons.json  # 48차시 커리큘럼 DB (단원·차시·색상·키개념)
 │   ├── artifacts.json                  # 유물 도감 36종 DB (id, name, tier, desc 등)
@@ -147,6 +155,8 @@ history_game/
 - **유물 아이콘·보상 토스트 정합성**: 불일치 아이콘 7종을 교체하고 MUD 완료 토스트에 유물명을 표시한다.
 - **MUD 등록 primary/supplementary 분리**: 중복 차시의 기본 버튼은 primary 하나만 표시한다.
 - **모달 키보드 접근성**: Tab 순환·Escape 닫기·원래 트리거 포커스 복귀를 지원한다.
+- **협동 MUD 3편**: 1인 1기기로 학생마다 다른 자료를 주고 말로 공유하게 하는 모둠 활동. 6차시(고조선 8조법)·7차시(시조 설화)·8차시(한강 유역). 서버 없이 기기별 `localStorage`만 사용한다. 상세는 §7 로드맵.
+- **협동 MUD 타이머 페이싱**: 활동 길이 선택이 곧 시간 예산이 되어, 느린 모둠에는 질문형 힌트를, 빠른 모둠에는 심화 질문을 작은 배지로 띄운다. 화면을 덮지 않고 학생이 눌러야 펼쳐진다.
 
 ### 부분적으로 구현된 기능
 
@@ -297,20 +307,24 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 ## 7. 다음 작업 후보
 
-### 우선순위 높음 (기능 정상화)
+### 지금 대기 중인 것 (2026-09-06 기준)
 
-1. **선택지 버튼 차별화 (UX 개선)**
-   - 사용자 요청: "오른쪽 화살표의 내용과 모양이 같은 것이 너무 많음"
-   - 아이콘, 색상 또는 힌트 텍스트로 선택지 유형 구분 방안 검토
+교실에서 해야 확인되는 항목이 앞에 있다. 코드로 더 만들기 전에 이 둘이 먼저다.
 
-### 우선순위 보통
+1. **7·8차시 협동 MUD 실제 수업 운영** — 두 편 다 제작·브라우저 검증은 끝났고 학생과 해 본 적이 없다. 볼 것: 네 자료가 모두 발화되는가, 공유 전 최초 판단이 서로 다른가, 타이머 배지가 너무 자주/드물게 뜨지 않는가. 관찰은 `EXPERIMENTS.md`에 `EXP-006` 형식으로 남긴다.
+2. **학교·교육청 개인정보 지침 확인** 🔴 — 실시간 확장 착수의 선행 조건이다. 질문 3개는 `BACKLOG.md` P2-COLLAB-05에 그대로 쓸 수 있게 적어 두었다. "국외 서버 불가" 답이 나오면 백엔드 결정([D-019](./DECISIONS.md))을 다시 연다.
 
-2. **IF 스테이지 콘텐츠 보강**
-   - 자동 생성된 최소 구현 IF 스테이지에 실제 역사적 설명 추가
+### 그다음 (코드)
 
-### 우선순위 낮음 (추후 확장)
+3. **타이머 예산 조정** — 화면별 목표 시간은 추정치다. 1번 관찰 뒤 `scenario.pacing.budgets`를 고친다. 감도는 `pacing.tuning`으로 시나리오별로 덮어쓸 수 있다.
+4. **네 번째 협동 시나리오** — 진도에 맞춰 후보 풀에서 고른다. 새 편은 `scenario.js`와 `index.html` 둘만 만들면 된다.
+5. **실시간 확장 첫 수직 슬라이스** — 2번 통과 후. `docs/plans/COLLABORATIVE_MUD_MVP.md` §8.
 
-3. **유물·보상 콘텐츠 품질 검수**: 카드 설명의 교육과정 표현과 역사적 세부 사실 추가 검수
+### 개인형 앱 잔여 (우선순위 낮음)
+
+6. **선택지 버튼 차별화**: 모든 choice 버튼이 같은 "결단 ➔" 뱃지로 보인다는 사용자 지적. 아이콘·색상·힌트 텍스트로 구분하는 방안 검토.
+7. **IF 스테이지 콘텐츠 보강**: 자동 생성된 최소 구현 IF 스테이지에 실제 역사적 설명 추가.
+8. **유물·보상 콘텐츠 품질 검수**: 카드 설명의 교육과정 표현과 역사적 세부 사실 추가 검수.
 
 ---
 
@@ -326,6 +340,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
   - 8차시 `han-river/` 한강 유역 쟁탈 — 수업 미운영
   - 공통 파일: `cooperative-mud/episode.js`(화면 흐름 엔진), `pacing.js`(타이머 페이싱), `cooperative.css`. 시나리오는 각 폴더의 `scenario.js`가 소유하고 엔진에는 역사 내용을 넣지 않는다. 고조선만 화면 순서가 달라 자체 `app.js`를 쓴다.
   - 선사시대 협동 MUD는 종이 리허설 단계를 2026-09-06에 폐기하고 정적 웹 제작 대상으로 전환했다 — 1인 1기기 화면이 곧 역할 카드다.
+  - 수업 운영 방법은 [`cooperative-mud/TEACHING.md`](./cooperative-mud/TEACHING.md)에 있다. 교실에서 바로 보는 문서다.
   - 실시간 확장(Vercel + Convex)은 설계만 되어 있고 미구현이다. `docs/plans/COLLABORATIVE_MUD_*.md` 참조.
 
 ## 8. 실행 및 테스트 방법
@@ -366,6 +381,17 @@ python scripts/09_validate_mud_sources.py
 python scripts/10_audit_if_stages.py
 python scripts/11_audit_artifacts.py
 node scripts/05_test_simulator_runtime.js
+```
+
+### 협동 MUD 문법 검사
+
+```bash
+node --check cooperative-mud/episode.js
+node --check cooperative-mud/pacing.js
+node --check cooperative-mud/gojoseon-law/app.js
+node --check cooperative-mud/gojoseon-law/scenario.js
+node --check cooperative-mud/founding-myths/scenario.js
+node --check cooperative-mud/han-river/scenario.js
 ```
 
 ### JS 문법 검사
