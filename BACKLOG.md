@@ -204,6 +204,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - 최소 재시도 화면에 실제 역사 자료와 복수의 해석 단서를 보강할 대상을 선별한다.
 - Regular의 짧은 복습 목표를 넘어서지 않도록 단계 수와 문장량을 함께 검토한다.
 - 구조 선별 결과는 [`if_stage_audit.md`](./docs/audits/if_stage_audit.md)를 기준으로 삼고, 실제 문장 수정은 교사 검토 후 단계별로 진행한다.
+- **2026-09-07 1차 실행(Claude)**: 90개 신호 중 주제와 무관한 완전 동일 범용 문구(7개 파일의 `4-1` 스테이지)만 우선 수정, 83개로 축소. 자동 재작성이 오히려 위험할 수 있는 나머지는 교사 검토 대기 — 상세는 [`if_stage_audit.md`](./docs/audits/if_stage_audit.md) §실행 결과 참조.
 
 ### P2 — 유물·보상 설명 교육적 검수
 
