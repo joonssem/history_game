@@ -2,6 +2,10 @@
 
 > 완료된 기능은 이 목록에 넣지 않는다. 완료 이력은 [`walkthrough.md`](./walkthrough.md), 현재 상태는 [`project_context.md`](./project_context.md)에서 확인한다.
 
+## 진행 중 작업
+
+- `TASK-20260908-01 | feat/cooperative-live-vertical-slice → main 통합·검증·인수인계 | integration agent | 상태: DOING`
+
 ## P1-COLLAB-PRIVACY — Convex 개인정보·국외 처리 착수 게이트
 
 - 상태: `blocked-by-school-confirmation` — 법령·공급자 1차 감사 완료, 학교·교육청 확인과 계약 검토 대기.
