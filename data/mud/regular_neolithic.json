@@ -173,6 +173,7 @@
         "mode": "culture-touch",
         "interaction": "hotspot-discovery",
         "type": "info",
+        "scene": "neolithic-village",
         "hotspots": [
           {
             "id": "riverbank",
@@ -307,6 +308,7 @@
           "pointed-base",
           "comb-pattern"
         ],
+        "scene": "neolithic-pottery",
         "hotspots": [
           {
             "id": "clay",
@@ -433,6 +435,7 @@
         "mode": "culture-touch",
         "interaction": "resource-allocation",
         "type": "info",
+        "scene": "neolithic-weaving",
         "hotspots": [
           {
             "id": "spindle-whorl",
