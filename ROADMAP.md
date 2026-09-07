@@ -9,6 +9,7 @@
 - Vercel 정적 배포 가능성 검토
 - ~~Supabase `play_events`의 익명 필드·RLS·보관 기간 설계~~ → `보류` ([D-020](./DECISIONS.md))
 - 실시간 협동 MUD(고조선) 첫 수직 슬라이스 범위 확정 — 별도 Next.js + Convex 앱, `BACKLOG.md` P2-COLLAB-01
+- Vercel·Convex 수직 슬라이스 계획 승인 후 `apps/cooperative-live` 구현 — `BACKLOG.md` P1-COLLAB-VERTICAL. 가상 학생 데이터까지 먼저 진행하고 운영 리전·실제 학생 적용은 P1 개인정보 게이트 통과 후 진행
 
 ## NEXT
 

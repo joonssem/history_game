@@ -2,7 +2,7 @@
 
 이 폴더의 계획서가 각각 어떤 상태이고 다음 행동이 무엇인지 한눈에 보기 위한 색인이다. 개별 문서의 내용은 복제하지 않는다.
 
-- 갱신: 2026-09-06
+- 갱신: 2026-09-08
 - 완료 이력은 [`walkthrough.md`](../../walkthrough.md), 현재 상태는 [`project_context.md`](../../project_context.md), 미완료 항목은 [`BACKLOG.md`](../../BACKLOG.md)에서 확인한다.
 - 계획서의 상태를 바꾸면 이 표도 같이 갱신한다.
 
@@ -29,6 +29,7 @@
 | [`COLLABORATIVE_MUD_PLAN.md`](./COLLABORATIVE_MUD_PLAN.md) | `검토안` | 전체 계획·모둠 구성·배치 방식. 첫 수직 슬라이스 착수 승인 대기 |
 | [`COLLABORATIVE_MUD_ARCHITECTURE.md`](./COLLABORATIVE_MUD_ARCHITECTURE.md) | `검토안` | Convex 스키마·권한·상태 전이. 백엔드는 [D-019](../../DECISIONS.md)로 확정 |
 | [`COLLABORATIVE_MUD_MVP.md`](./COLLABORATIVE_MUD_MVP.md) | `검토안` | §8 첫 수직 슬라이스가 다음 구현 단위 |
+| [`implementation_plan_vercel_convex_vertical_slice.md`](./implementation_plan_vercel_convex_vertical_slice.md) | `로컬 구현 완료` | `apps/cooperative-live` 가상 흐름·복구·3~24명 편성 검증 완료. Convex/Auth0/Vercel 연결은 개인정보 게이트 뒤 진행 |
 | [`implementation_plan_cooperative_mud_gojoseon_law_v01.md`](./implementation_plan_cooperative_mud_gojoseon_law_v01.md) | `완료` · **실제 수업 운영됨** | 결과는 [`EXP-006`](../../EXPERIMENTS.md). 화면 순서 수정(P2-COLLAB-02)이 남음 |
 | 정적 협동 MUD 3편 (코드) | `제작 완료` · 6차시 운영됨, 7·8차시 미운영 | `cooperative-mud/`의 `gojoseon-law`·`founding-myths`·`han-river`. 별도 계획서 없이 이 표와 `walkthrough.md`로 관리한다 |
 | [`cooperative_prehistory_content_draft.md`](./cooperative_prehistory_content_draft.md) | `콘텐츠 원본` | 선사 3막 문안. 정적 협동 MUD의 원본으로 재사용. 막2·3 역사 사실 재대조 필요 |

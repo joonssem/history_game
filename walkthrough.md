@@ -1159,7 +1159,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 
 ## 2026-09-08 — 이 PC 세션 마무리
 
-`main`은 `5b79690`이고 원격과 동기화돼 있다. 미커밋 변경 없음.
+이 PC 세션을 닫은 당시 `main`은 `5b79690`이고 원격과 동기화돼 있었으며 미커밋 변경이 없었다.
 
 ### 이 PC에서 한 일 (2026-09-07~08)
 
@@ -1174,14 +1174,33 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 
 1. **7·8차시 협동 MUD 실제 수업 운영** — 제작·검증 완료, 학생과 해 본 적 없음. 진행은 [`cooperative-mud/TEACHING.md`](./cooperative-mud/TEACHING.md), 관찰은 `EXPERIMENTS.md`에 `EXP-006` 형식으로.
 2. **학교·교육청 개인정보 지침 확인** 🔴 — 실시간 확장 착수 게이트. 질문 3개는 `BACKLOG.md` `P1-COLLAB-PRIVACY`에 있다.
-3. 타이머 예산 조정 → 네 번째 시나리오 → 실시간 첫 슬라이스 순.
+3. 타이머 예산 조정 → 네 번째 시나리오 순. 실시간 첫 슬라이스는 로컬 구현됐으며 개인정보 게이트 뒤 외부 서비스 연결 검증을 진행한다.
 
 상세는 [`project_context.md`](./project_context.md) §7.
 
 ### 인계 시 알아 둘 것
 
-- **실시간 앱(`apps/cooperative-live/`)은 `main`에 없다.** Codex 담당이며 `feat/cooperative-live-vertical-slice` 브랜치에 있다. `main`에 남은 `apps/` 폴더는 `node_modules` 등 빌드 산출물뿐이고 `.gitignore` 처리했다.
-- **`BACKLOG.md`의 `convex_elementary_school_privacy_audit.md` 링크는 `main`에서 깨져 있다.** 학교 세션이 BACKLOG 항목은 `main`에, 감사 문서는 feature 브랜치에 두면서 생겼다. 그 브랜치가 병합되면 해소된다. 이번 세션에서 만든 것이 아니라 고치지 않았다.
+- 실시간 앱(`apps/cooperative-live/`)과 개인정보 감사 문서는 `TASK-20260908-02`에서 `main`에 통합해, 이전의 브랜치 전용 상태와 끊어진 BACKLOG 링크를 해소했다.
 - **감사 보고서를 손으로 고칠 때는 마커 바깥에 쓴다.** 안에 쓰면 다음 스크립트 실행에서 사라진다.
 - **작업 폴더를 Codex와 공유하는 한 브랜치 전환 사고가 재발한다.** 규칙은 `agents.md`의 Multi-agent working rules에 구체화해 두었다. 병렬 작업 시 `git worktree`로 폴더를 나눈다.
 - 백업 stash(`stash@{0}`)가 남아 있다. `main`에서 재작업했으므로 필요 없으며 `git stash drop`으로 지워도 된다.
+### 같은 날 — 작업 브랜치 이어받기와 복구·편성 보강
+
+- GitHub의 `feat/cooperative-live-vertical-slice`를 새 PC에 받아 중단 지점에서 재개했다. `main`은 바꾸지 않고 해당 기능 브랜치에서 작업했다.
+- 교사가 화면을 새로고침해도 서버의 현재 소유 세션을 다시 찾고, 활동 만들기를 반복해도 유효한 기존 세션을 재사용하도록 했다.
+- 같은 학생 탭에서 QR이나 수업 코드를 다시 열면 저장된 세션으로 돌아가 중복 참여자가 생기지 않도록 했다. 세션 종료를 확인하면 이 복구 연결도 함께 지운다.
+- 학생 수를 4명씩 자르던 편성을 고쳐 3~24명 어디서든 각 모둠이 3~5명이 되도록 균형 편성한다. 24명 초과 입장은 서버에서 거부한다.
+- 6자리 수업 코드 충돌을 끝까지 피하지 못한 경우 중복 저장 대신 오류를 반환하고, 교사용 세션 응답에는 Auth0 `sub`를 포함하지 않는다.
+- 개인정보 감사 기준과 실제 QR 구현을 대조해, QR도 수동 입력과 같은 6자리 코드만 사용하고 반복 시도 제한이 없는 공백을 찾았다. 실제 학생 접속 전 QR 전용 장기 난수 입장키와 수동 코드 제한을 설계하도록 `P1-COLLAB-PRIVACY`에 남겼다.
+- 검증: `npm ci`, `npm run check` 통과(lint·TypeScript·단위 테스트 5건·Next.js production build). 개발 서버의 `/`, `/teacher`, `/join`은 모두 HTTP 200을 반환했다. 실제 Convex/Auth0/Vercel 연결과 실제 학생 접속은 기존 개인정보 게이트에 따라 진행하지 않았다.
+- 기록 확정(2026-09-08): 위 보강 작업을 `8f27604`(`fix: harden cooperative live session recovery`)로 커밋해 GitHub의 `origin/feat/cooperative-live-vertical-slice`에 푸시했다. 로컬과 원격 브랜치가 같은 커밋을 가리키고 작업 트리가 깨끗한 것을 확인했으며, `main`에는 병합하지 않았다.
+
+## 2026-09-08 — 실시간 협동 앱 `main` 통합과 다음 PC 인수인계
+
+`TASK-20260908-02 | feat/cooperative-live-vertical-slice → main 통합·검증·인수인계 | integration agent | 상태: DONE`
+
+- 기능 브랜치의 세 커밋(`036d855`, `8f27604`, `4218c0e`)을 Claude가 마무리한 최신 `main` 위에 병합했다. 충돌한 `INBOX.md`와 `walkthrough.md`는 양쪽 기록을 모두 보존했다.
+- `apps/cooperative-live/` 소스와 개인정보 감사 문서가 `main`에 들어와 BACKLOG의 끊어진 링크를 해소했다. 루트 `.gitignore` 설명도 `main`에 실제 앱 소스가 존재하는 현재 상태에 맞췄다.
+- `P2-COLLAB-01`의 옛 "미구현" 상태와 네트워크 실측 순서를 현재 기준으로 고쳤다. 로컬 구현은 완료됐고 외부 서비스 연결·실제 학생 적용은 개인정보 게이트 뒤 진행한다.
+- 다른 PC의 시작 절차와 남은 일은 [`codex_cooperative_live_main_handoff_20260908.md`](./docs/handoff/codex_cooperative_live_main_handoff_20260908.md)에 고정했다.
+- 검증: 앱 `npm run check` 통과(lint·TypeScript·단위 테스트 5건·Next.js production build). 저장소의 데이터·MUD 계약·카탈로그·출처·시뮬레이터 런타임·정적 자산·JavaScript 문법 검사와 생성 감사 3종(활동 시간 7개 후보, IF 78개 신호, 유물 36종/문구 신호 0개)을 다시 실행해 모두 통과했다. `git diff --check`와 병합 충돌 마커 0건도 확인했다.

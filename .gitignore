@@ -1,9 +1,8 @@
 __pycache__/
 *.pyc
 
-# Codex 소유 feature 브랜치(apps/cooperative-live)의 빌드 산출물.
-# main에는 소스가 없어 추적되지 않으므로, git status와 git add -A에 25,000개가
-# 걸려 들어오는 것을 막는다.
+# 독립 앱의 로컬 의존성·빌드 산출물은 소스와 분리한다.
+# git status와 git add -A에 대량 생성 파일이 들어오는 것을 막는다.
 apps/*/node_modules/
 apps/*/.next/
 apps/*/tsconfig.tsbuildinfo
