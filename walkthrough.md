@@ -1132,3 +1132,4 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 6자리 수업 코드 충돌을 끝까지 피하지 못한 경우 중복 저장 대신 오류를 반환하고, 교사용 세션 응답에는 Auth0 `sub`를 포함하지 않는다.
 - 개인정보 감사 기준과 실제 QR 구현을 대조해, QR도 수동 입력과 같은 6자리 코드만 사용하고 반복 시도 제한이 없는 공백을 찾았다. 실제 학생 접속 전 QR 전용 장기 난수 입장키와 수동 코드 제한을 설계하도록 `P1-COLLAB-PRIVACY`에 남겼다.
 - 검증: `npm ci`, `npm run check` 통과(lint·TypeScript·단위 테스트 5건·Next.js production build). 개발 서버의 `/`, `/teacher`, `/join`은 모두 HTTP 200을 반환했다. 실제 Convex/Auth0/Vercel 연결과 실제 학생 접속은 기존 개인정보 게이트에 따라 진행하지 않았다.
+- 기록 확정(2026-09-08): 위 보강 작업을 `8f27604`(`fix: harden cooperative live session recovery`)로 커밋해 GitHub의 `origin/feat/cooperative-live-vertical-slice`에 푸시했다. 로컬과 원격 브랜치가 같은 커밋을 가리키고 작업 트리가 깨끗한 것을 확인했으며, `main`에는 병합하지 않았다.
