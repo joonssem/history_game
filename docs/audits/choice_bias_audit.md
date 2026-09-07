@@ -13,6 +13,15 @@
 
 > 1차 선택지 보정 전에는 각각 40개·115개였다. 현재 수치는 보정 후 재실행 결과다.
 
+## 2. 실행 결과 (2026-09-07, Claude)
+
+Regular MUD 24개 스테이지에 [`docs/handoff/claude_track_b_deep_dive_result.md`](../handoff/claude_track_b_deep_dive_result.md) §9에서 검증한 "선택지 단서 인용형 재작성" 기법을 적용했다 — 정답은 핫스팟 단서 2~3개를 직접 인용하고, 오답은 같은 단서를 반대 결론으로 인용해 길이를 맞췄다.
+
+- 정답이 오답 평균보다 10자 이상 긴 단계: **34개 → 0개(Regular 기준)**. 프로젝트 전체로는 27개 → 3개이며, 남은 3개(`deep_joseon:1`, `deep_three_kingdoms:1/5`)는 Deep-dive 소관이라 이 작업(Regular MUD 채팅창) 범위 밖이다.
+- 작업 중 선택지만의 문제가 아니라 **narrative·hotspots와 badge·scene·선택지의 주제 자체가 어긋난 콘텐츠 버그 3건**을 추가로 발견해 함께 고쳤다(`regular_gojoseon:3`, `regular_joseon_silhak:2`, `regular_three_kingdoms_life:2` — 상세는 커밋 `6afc4a3` 메시지 참고).
+- 검증: JSON 유효성, `scripts/03/04/09_validate_*`, `scripts/12_audit_choice_bias.py` 재실행, 브라우저에서 콘텐츠 버그 3건 실제 플레이 확인.
+- 남은 "정답이 모든 오답보다 긴 단계" 114개는 이번 작업 범위가 아니다(10자 미만 차이는 자연스러운 문장 길이 편차로 간주).
+
 정답 위치 편향은 `js/mudEngine.js`의 표시 시 무작위화로 실행 중에는 완화된다. 그러나 데이터 원본의 정답 위치가 모두 1번이므로 무작위화가 제거되거나 다른 화면에서 원본 순서를 사용하는 경우 다시 문제가 생길 수 있다.
 
 문장 길이 편향은 런타임 셔플만으로 해결되지 않는다. 학생이 자료를 읽지 않고도 가장 길고 구체적인 선택지를 고를 수 있으므로, 학생의 “긴 문장만 고르면 정답”이라는 반응을 뒷받침하는 정량 신호로 판단한다.
