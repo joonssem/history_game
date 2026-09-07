@@ -590,3 +590,112 @@
 - 97개 scene 중 실제 화면에 한글 캡션 텍스트가 뜨는 것은 3개(`hwangsanbeol-battle`/`maesoseong-defense`/`cheomunryeong-battle`, 모두 통일신라~발해 전환기 3파전 계열)뿐이고, 나머지 94개는 순수 도형·색상 구도로만 시대를 표현한다.
 - 근현대사 민감 주제(6·25, 의병, 독립운동, 광주 등) scene에는 코드 주석으로 남은 명시적 설계 원칙이 반복된다 — 군인·무기·폭력 묘사 금지, 남북/양측 동일 색상, 특정 인물 영웅화 대신 동일 크기 실루오 군중 배치, 신체 훼손 연상 회피. 표1에 이 원칙이 반영된 설명을 그대로 남겼다.
 - `hasHotspots` 스테이지(주로 자료 해석·판단형)는 전용 배경 그림이 없고 핫스팟 좌표에 라벨 텍스트만 얹힌 상태다 — 표1의 화려한 전용 삽화와 달리 시각적으로 단순하다. 학생 피드백("그림이 너무 단순하다")이 지목한 지점과 겹칠 가능성이 있다(검증은 이 조사 범위 밖).
+
+## 4. hasHotspots 스테이지 목록 (전용 삽화 없이 핫스팟 라벨만 뜨는 화면)
+
+표2에서 "(공용 핫스팟 렌더러 — ... 라벨만 표시)"로 표기된 스테이지 전체 목록이다. 총 215개 스테이지 중 **102개(47%)**가 여기 해당한다 — scene 배경 그림 없이 회색 카드에 단서 라벨만 얹힌 화면이라, 학생 피드백("그림이 단순하다")이 지목했을 가능성이 있는 지점이다.
+
+| 파일 | 스테이지 | 핫스팟 수 | interaction | narrative(발췌) |
+|---|---|---|---|---|
+| regular_balhae.json | 1 | 3 | hotspot-discovery | <b>고구려 멸망 뒤 당의 영주에 옮겨졌던 고구려 유민과 말갈 집단이 동쪽으로 이동합니다.</b><br><b |
+| regular_balhae.json | 2 | 3 | hotspot-discovery | <b>발해는 무왕 때 당과 대립하기도 했고, 문왕 때에는 당의 제도를 받아들이며 신라·일본과 교류했습니다.< |
+| regular_balhae.json | 3 | 3 | hotspot-discovery | <b>발해 유적과 외교 문서를 조사하니 서로 다른 문화 요소가 나타납니다.</b><br><br>상경성의 온돌 |
+| regular_balhae.json | 4 | 3 | ordered-hotspot | <b>발해를 설명하는 자료는 한 종류가 아닙니다.</b><br><br>온돌과 무덤 같은 유적, 일본에 보낸 |
+| regular_bronze_age.json | 1 | 3 | hotspot-discovery | <b>농경이 더욱 발달하면서 마을 사이에 잉여 식량과 좋은 농경지를 차지하기 위한 다툼이 잦아졌습니다!</b |
+| regular_bronze_age.json | 2 | 3 | hotspot-discovery | <b>비파형 동검을 치켜들자 주변 부족들이 당신을 강력한 군장(지배자)으로 모시기 시작했습니다!</b><br |
+| regular_bronze_age.json | 3 | 3 | ordered-hotspot | <b>고인돌을 세우기로 결정했습니다. 그런데 무게가 수십 톤에 달하는 거대한 덮개돌을 어떻게 받침돌 위로 끌 |
+| regular_gojoseon.json | 1 | 3 | ordered-hotspot | <b>청동기 문화가 발전하고 지배자가 등장하면서 고조선이 성장했습니다.</b><br><br>《삼국유사》에는 |
+| regular_gojoseon.json | 2 | 3 | ordered-hotspot | <b>'8조법'을 만들어 반포하기로 했습니다. 법의 첫 번째 조항을 정할 차례입니다.</b><br><br>청 |
+| regular_gojoseon.json | 3 | 3 | ordered-hotspot | <b>마지막으로 재산권 보호 조항을 정할 차례입니다!</b><br><br>벼농사와 청동 무기의 독점으로 인해 |
+| regular_gojoseon.json | 4 | 3 | hotspot-discovery | <b>"8조법 반포 이후 고조선의 기강이 바로 서고 백성들이 풍요롭게 살게 되었다!"</b><br><br>여 |
+| regular_goryeo_culture.json | 1 | 3 | hotspot-discovery | <b>몽골 침입기 고려에서는 대장경판을 새기는 일이 이루어졌습니다.</b><br><br>경판 제작에는 목재 |
+| regular_goryeo_culture.json | 2 | 3 | hotspot-discovery | <b>1377년 청주 흥덕사에서 찍은 『직지』는 현존하는 가장 오래된 금속활자 인쇄본으로 알려져 있습니다.< |
+| regular_goryeo_culture.json | 3 | 3 | hotspot-discovery | <b>벽란도는 고려 수도 개경 인근의 예성강 하구에 있던 무역항입니다.</b><br><br>송·일본·아라비아 |
+| regular_goryeo_culture.json | 4 | 3 | ordered-hotspot | <b>팔만대장경판, 『직지』, 벽란도 교역 기록은 각각 제작 기술, 인쇄 기술, 국제 교류를 보여 줍니다.< |
+| regular_goryeo_founding.json | 1 | 3 | hotspot-discovery | <b>918년, 궁예를 몰아내고 고려를 세운 왕건! 하지만 후삼국(후고구려, 후백제, 신라)의 분열은 여전합 |
+| regular_goryeo_founding.json | 2 | 3 | hotspot-discovery | <b>북쪽에서 큰일이 벌어졌습니다! 926년, 발해가 거란의 침입으로 멸망했습니다.</b><br><br>발해 |
+| regular_goryeo_founding.json | 3 | 3 | hotspot-discovery | <b>936년, 마침내 신라의 항복을 받아내고 후백제를 물리치며 후삼국을 통일했습니다!</b><br><br> |
+| regular_goryeo_society.json | 1 | 3 | hotspot-discovery | <b>여러분은 고려 시대의 공정한 재판관, 판관 '손변'입니다!</b><br><br>한 남매가 상속 문제로 |
+| regular_goryeo_society.json | 2 | 3 | hotspot-discovery | <b>아버지의 숨겨진 뜻을 찾아냈습니다!</b><br><br>아버지가 돌아가실 당시 남동생은 너무 어렸습니다 |
+| regular_goryeo_society.json | 3 | 3 | hotspot-discovery | <b>재판을 마친 뒤 고려의 문화유산을 살펴보러 영주 부석사에 도착했습니다.</b><br><br>무량수전의 |
+| regular_goryeo_war.json | 1 | 3 | hotspot-discovery | <b>993년 거란의 침입 때 고려는 항전과 협상을 함께 고민했습니다.</b><br><br>서희는 고려의 고 |
+| regular_goryeo_war.json | 2 | 3 | hotspot-discovery | <b>1018년 거란의 세 번째 침입 때 고려는 흥화진 등 북방 방어 거점을 활용해 맞섰습니다.</b><br |
+| regular_goryeo_war.json | 3 | 3 | hotspot-discovery | <b>귀주 전투에서 고려군은 거란군을 크게 물리쳤고, 이후 거란의 대규모 침입은 이어지지 않았습니다.</b> |
+| regular_goryeo_war.json | 4 | 3 | ordered-hotspot | <b>서희의 담판 기록, 강동 6주 지도, 귀주 전투와 천리장성 자료는 서로 다른 시기의 대응을 보여 줍니다 |
+| regular_gwangbok.json | 1 | 3 | hotspot-discovery | <b>1945년 8월 15일, 35년간의 길고 끔찍했던 일제 강점기가 끝났습니다! 만세!</b><br><br |
+| regular_gwangbok.json | 2 | 3 | hotspot-discovery | <b>광복 직후 일본의 통치가 무너지자, 우리 힘으로 마을과 도시의 질서를 지켜야 했습니다.</b><br>< |
+| regular_gwangbok.json | 3 | 3 | hotspot-discovery | <b>당신은 소중한 1표를 행사하기 위해 투표소(5·10 총선거 기표소)에 도착했습니다!</b><br><br |
+| regular_independence.json | 1 | 3 | ordered-hotspot | <b>1919년 3월 1일, 독립선언서가 발표된 뒤 학생과 시민은 여러 곳에서 만세 시위에 참여했습니다.</ |
+| regular_independence.json | 2 | 3 | ordered-hotspot | <b>아우내 장터에서도 주민들이 만세 시위에 참여했고, 유관순은 그 과정에서 활동한 인물 가운데 한 명입니다 |
+| regular_independence.json | 3 | 3 | ordered-hotspot | <b>3·1 운동의 정신을 이어받아 1919년 4월 중국 상하이에서 '대한민국 임시정부'가 수립되었습니다!< |
+| regular_independence.json | 4 | 3 | ordered-hotspot | <b>독립선언서, 지역 만세 시위 기록, 대한민국 임시 헌장은 서로 다른 방식으로 독립운동을 보여 줍니다.< |
+| regular_independence_army.json | 1 | 3 | ordered-hotspot | <b>1905년 일제는 을사늑약을 강요하여 대한제국의 외교권을 빼앗았습니다.</b><br><br>이에 유학자 |
+| regular_independence_army.json | 2 | 3 | ordered-hotspot | <b>안중근과 동지들은 1909년 독립 의지를 다지는 단지동맹을 맺었습니다.</b><br><br>손가락을 다 |
+| regular_independence_army.json | 3 | 3 | ordered-hotspot | <b>1909년 10월 26일 안중근은 하얼빈역에서 이토 히로부미를 총으로 쏘았고 현장에서 체포되었습니다.< |
+| regular_independence_army.json | 4 | 3 | ordered-hotspot | <b>이제 의병 기록, 단지동맹 태극기, 재판 진술과 미완성 저술 『동양평화론』을 함께 전시해야 합니다.</ |
+| regular_japanese_rule_1.json | 1 | 3 | ordered-hotspot | <b>1910년대 조선 총독부는 헌병 경찰 제도를 통해 행정·사법·치안 업무에 넓은 권한을 행사했습니다.</ |
+| regular_japanese_rule_1.json | 2 | 3 | ordered-hotspot | <b>토지 조사 사업은 토지 소유와 세금을 파악하는 방식으로 진행되었고, 신고 과정과 국·공유지 처리 방식은 |
+| regular_japanese_rule_1.json | 3 | 3 | ordered-hotspot | <b>1910년대에는 강한 감시와 탄압 때문에 여러 형태의 민족 운동이 비밀리에 이루어졌습니다.</b><br |
+| regular_japanese_rule_1.json | 4 | 3 | ordered-hotspot | <b>헌병 경찰 제도, 토지 조사 사업, 비밀 결사 기록은 1910년대의 서로 다른 모습을 보여 줍니다.</ |
+| regular_japanese_rule_2.json | 1 | 3 | ordered-hotspot | <b>1930년대 후반 이후 일제는 황국신민화 정책으로 우리말·역사 교육과 이름, 신앙 생활을 통제하려 했습 |
+| regular_japanese_rule_2.json | 2 | 3 | ordered-hotspot | <b>전시 동원 체제 아래 많은 사람이 노동과 군사 동원, 성폭력 등 심각한 인권 침해를 겪었습니다.</b> |
+| regular_japanese_rule_2.json | 3 | 3 | ordered-hotspot | <b>조선어학회는 맞춤법 통일과 사전 편찬을 추진했고, 1942년 탄압을 받았습니다.</b><br><br>학 |
+| regular_japanese_rule_2.json | 4 | 3 | ordered-hotspot | <b>황국신민화 정책 자료, 강제 동원 관련 기록과 증언, 조선어학회 자료는 일제 말기 사람들의 삶과 대응을 |
+| regular_joseon_diplomacy.json | 1 | 3 | ordered-hotspot | <b>조선은 명과의 관계, 여진 및 일본과의 관계를 상황에 따라 다르게 조절했습니다.</b><br><br>세 |
+| regular_joseon_diplomacy.json | 2 | 3 | ordered-hotspot | <b>1636년 청의 침입으로 병자호란이 일어나자 인조와 조정은 남한산성에 머물렀습니다.</b><br><br |
+| regular_joseon_diplomacy.json | 3 | 3 | ordered-hotspot | <b>병자호란 뒤 조선은 청과 군신 관계를 맺고 많은 사람이 끌려가는 피해를 겪었습니다.</b><br><br |
+| regular_joseon_diplomacy.json | 4 | 3 | ordered-hotspot | <b>이제 4군 6진 지도, 남한산성 전란 기록, 전란 뒤 정책 자료를 하나의 전시로 연결합니다.</b><b |
+| regular_joseon_economy.json | 1 | 3 | hotspot-discovery | <b>임진왜란과 병자호란의 큰 상처를 딛고, 조선 후기 농촌에 새로운 변화의 바람이 불기 시작했습니다!</b |
+| regular_joseon_economy.json | 2 | 3 | hotspot-discovery | <b>모내기법 덕분에 잡초 뽑는 시간이 크게 줄어 일손이 남게 되었습니다! 게다가 가을에 벼를 수확한 논이 |
+| regular_joseon_economy.json | 3 | 3 | hotspot-discovery | <b>이모작으로 쌀과 보리가 창고에 쌓였습니다! 쌀이 남다 보니, 시장에 내다 팔아 돈을 벌고 싶어졌습니다. |
+| regular_joseon_folk.json | 1 | 3 | hotspot-discovery | <b>조선 후기에는 농업·상업의 변화와 서당 교육의 확산 속에서 풍속화, 판소리, 탈춤, 한글 소설 등 다양 |
+| regular_joseon_folk.json | 2 | 3 | hotspot-discovery | <b>판소리는 소리꾼·고수·관객이 함께 만드는 공연이었고, 지역과 시대에 따라 내용과 연행 방식도 달랐습니다 |
+| regular_joseon_folk.json | 3 | 3 | hotspot-discovery | <b>탈춤은 지역마다 다른 모습으로 이어졌고, 양반의 위선이나 사회 모순을 풍자하는 내용이 나타나기도 했습니 |
+| regular_joseon_folk.json | 4 | 3 | ordered-hotspot | <b>풍속화, 판소리, 탈춤은 조선 후기 사람들이 보고 즐기며 생각을 표현한 서로 다른 자료입니다.</b>< |
+| regular_joseon_founding.json | 1 | 3 | hotspot-discovery | <b>1392년, 이성계와 정도전 등 신진 사대부들이 부패한 고려를 무너뜨리고 새로운 나라 '조선'을 세웠습 |
+| regular_joseon_founding.json | 2 | 3 | hotspot-discovery | <b>한양의 도성 설계가 시작되었습니다. 성문 이름에도 조선의 건국 이념을 담아야 합니다.</b><br><b |
+| regular_joseon_founding.json | 3 | 3 | hotspot-discovery | <b>경복궁이 완성되고, 적의 침입을 막기 위해 한양을 둘러싼 거대한 성곽(도성)을 쌓았습니다!</b><br |
+| regular_joseon_founding.json | 4 | 3 | hotspot-discovery | <b>"한양은 단순한 수도가 아니라, 인의예지가 살아 숨 쉬는 조선 그 자체이다!"</b><br><br>수백 |
+| regular_joseon_silhak.json | 1 | 3 | hotspot-discovery | <b>조선 후기 일부 학자들은 성리학을 공부하면서도 농업·상공업·토지 제도처럼 현실의 문제를 더 구체적으로 |
+| regular_joseon_silhak.json | 2 | 3 | hotspot-discovery | <b>일부 실학자는 토지 소유의 불균형과 농민 생활의 어려움에 주목했습니다.</b><br><br>정약용을 비 |
+| regular_joseon_silhak.json | 3 | 3 | hotspot-discovery | <b>실학자들이 농업·과학·상업의 현실 문제를 살펴보던 때, 농촌의 어려움과 신분 차별도 여전히 남아 있었습 |
+| regular_joseon_status.json | 1 | 3 | hotspot-discovery | <b>조선의 신분은 법제적으로 양인과 천인으로 구분되었고, 실제 생활에서는 양반·중인·상민·노비 등 더 복합 |
+| regular_joseon_status.json | 2 | 3 | hotspot-discovery | <b>양반과 상민 사이에 위치한 '중인'들은 의학, 통역(역관), 법률(율관), 회계(산관) 등 실무 전문 |
+| regular_joseon_status.json | 3 | 3 | hotspot-discovery | <b>상민과 노비의 삶은 조세·군역·소속 관계 등에서 큰 제약을 받았습니다.</b><br><br>그러나 지역 |
+| regular_joseon_status.json | 4 | 3 | ordered-hotspot | <b>호패·호적, 중인의 전문 직업, 상민·노비 생활 기록은 조선 신분제의 서로 다른 모습을 보여 줍니다.< |
+| regular_korean_war.json | 1 | 3 | ordered-hotspot | <b>1950년 6월 25일 북한군의 남침으로 6·25 전쟁이 시작되었습니다.</b><br><br>서울이 점 |
+| regular_korean_war.json | 2 | 3 | ordered-hotspot | <b>1950년 여름 전선은 낙동강 일대까지 내려왔고 군인과 학생 신분의 학도의용군도 전쟁에 참여했습니다.< |
+| regular_korean_war.json | 3 | 3 | ordered-hotspot | <b>인천상륙작전 뒤 전선은 다시 북쪽으로 이동했지만 중국군의 참전 이후 전쟁은 장기화되었습니다.</b><b |
+| regular_korean_war.json | 4 | 3 | ordered-hotspot | <b>전쟁 발발 지도, 학생 일기, 정전 협정 자료로 평화 전시를 완성할 차례입니다.</b><br><br>전 |
+| regular_modern_open.json | 1 | 3 | ordered-hotspot | <b>강화도 조약은 일본의 무력 위협 속에 체결되었고, 조선의 자주국을 내세우면서도 해안 측량권·치외법권 등 |
+| regular_modern_open.json | 2 | 3 | ordered-hotspot | <b>개항 뒤 병원·우편·교통 같은 새로운 시설이 등장했지만, 도입 과정과 이용 기회는 사람마다 달랐습니다. |
+| regular_modern_open.json | 3 | 3 | ordered-hotspot | <b>전차와 전등은 도시 생활을 바꾼 근대 시설이었습니다.</b><br><br>하지만 시설 하나가 곧 모든 |
+| regular_modern_open.json | 4 | 3 | ordered-hotspot | <b>강화도 조약문, 제중원·우정총국 기록, 전차·전등 자료는 개항기 변화의 서로 다른 측면을 보여 줍니다. |
+| regular_myeongnyang.json | 1 | 3 | hotspot-discovery | <b>1597년 정유재란, 조선 수군은 칠천량 해전에서 큰 피해를 입었습니다.</b><br><br><b>이순 |
+| regular_myeongnyang.json | 2 | 3 | hotspot-discovery | <b>바다를 지키기로 결심했습니다. 적은 수의 배로 큰 함대를 상대하려면 지형과 물길을 세심하게 살펴야 합니 |
+| regular_myeongnyang.json | 3 | 3 | hotspot-discovery | <b>명량해협에는 일본 수군 약 133척이 차례로 진입했습니다.</b><br><br>일본 수군은 배를 가까이 |
+| regular_neolithic.json | 1 | 3 | ordered-hotspot | <b>빙하기가 끝나고 날씨가 따뜻해지면서 생활 환경이 달라졌습니다!</b><br><br>신석기 사람들은 간석 |
+| regular_neolithic.json | 2 | 3 | ordered-hotspot | <b>농사를 짓고 도토리를 채집하다 보니 잉여 식량이 생겼습니다!</b><br><br>수확한 곡식과 열매를 |
+| regular_neolithic.json | 3 | 3 | resource-allocation | <b>계절이 바뀌고 바람이 차가워졌습니다. 이제 몸을 보호할 옷감과 옷을 만드는 도구가 필요합니다!</b>< |
+| regular_neolithic.json | 4 | 3 | reflection | <b>"훌륭한 지혜입니다! 간석기로 농사를 짓고 빗살무늬 토기로 식량을 보관하니 우리 마을이 나날이 번창합니 |
+| regular_neolithic.json | 1-1 | 3 | hotspot-discovery | <b>❌ [자료 해석: 정착 생활의 필수 조건 부족]</b><br>깊은 산속이나 메마른 사막은 식수를 구하기 |
+| regular_neolithic.json | 2-1 | 3 | ordered-hotspot | <b>❌ [자료 해석: 모래밭에 어울리지 않는 디자인]</b><br>바닥이 평평한 그릇은 푹신한 모래사장이나 |
+| regular_neolithic.json | 3-1 | 3 | resource-allocation | <b>❌ [자료 해석: 몸을 보호할 재료와 도구 부족]</b><br>나뭇잎을 몸에 대충 붙이거나 고드름으로 |
+| regular_post_war.json | 1 | 3 | ordered-hotspot | <b>정전 협정 뒤에도 전쟁 피해, 피난 생활, 이산가족 문제는 오래 이어졌습니다.</b><br><br>판자 |
+| regular_post_war.json | 2 | 3 | ordered-hotspot | <b>전후 교육은 천막 교실 같은 임시 환경에서도 이어졌지만, 지역과 가정의 형편에 따라 배움의 조건은 달랐 |
+| regular_post_war.json | 3 | 3 | ordered-hotspot | <b>이산가족 기록과 비무장지대 자료는 분단이 개인과 가족에게 남긴 상처를 보여 줍니다.</b><br><br |
+| regular_post_war.json | 4 | 3 | ordered-hotspot | <b>피난 생활 사진, 천막 교실 기록, 이산가족과 분단 자료는 전후 사회의 서로 다른 과제를 보여 줍니다. |
+| regular_sejong.json | 1 | 3 | ordered-hotspot | <b>세종 때 훈민정음이 창제되었고, 글자의 원리와 쓰임을 설명한 자료가 남아 있습니다.</b><br><br |
+| regular_sejong.json | 2 | 3 | ordered-hotspot | <b>칠정산은 조선의 관측 환경을 반영해 만든 역법서입니다.</b><br><br>천문 관측과 계산은 농사·행 |
+| regular_sejong.json | 3 | 3 | ordered-hotspot | <b>앙부일구·자격루·측우기 같은 기구는 시간과 날씨를 관찰하려는 조선의 과학 기술을 보여 줍니다.</b>< |
+| regular_sejong.json | 4 | 3 | ordered-hotspot | <b>훈민정음 해례, 칠정산, 앙부일구는 문자·천문 관측·생활 과학이라는 다른 측면을 보여 줍니다.</b>< |
+| regular_silla.json | 1 | 3 | ordered-hotspot | <b>삼국통일 이후 신라는 넓어진 영토와 백성을 다스리기 위한 거대한 국가 개혁이 필요했습니다!</b><br |
+| regular_silla.json | 2 | 3 | ordered-hotspot | <b>경덕왕 대의 재상 김대성이 현세의 부모를 위해 토함산 기슭에 아름다운 '불국사'를 짓고자 합니다!</b |
+| regular_silla.json | 3 | 3 | ordered-hotspot | <b>토함산에 화강암을 다듬어 인공 석굴 사원을 만들고 본존불을 모시려 합니다!</b><br><br>석굴암은 |
+| regular_silla.json | 4 | 3 | ordered-hotspot | <b>신문왕의 제도, 불국사와 석굴암, 주변 나라와의 교류 자료를 함께 살펴보았습니다.</b><br><br> |
+| regular_three_kingdoms.json | 1 | 3 | ordered-hotspot | <b>4세기, 백제의 13대 근초고왕은 영토 확장의 야망을 품고 있습니다!</b><br><br>백제는 삼국 |
+| regular_three_kingdoms.json | 2 | 3 | ordered-hotspot | <b>5세기, 고구려의 20대 장수왕이 아버지 광개토대왕의 뒤를 이어 왕위에 올랐습니다!</b><br><br |
+| regular_three_kingdoms.json | 3 | 3 | ordered-hotspot | <b>6세기, 신라의 24대 진흥왕은 마침내 신라의 전성기를 열 기회를 잡았습니다!</b><br><br>신라 |
+| regular_three_kingdoms_life.json | 1 | 3 | hotspot-discovery | <b>여러분은 삼국 시대 사람들의 일상을 복원하는 '고분 벽화 탐정'입니다!</b><br><br>고구려 무용 |
+| regular_three_kingdoms_life.json | 2 | 3 | hotspot-discovery | <b>다음은 수산리 고분 벽화입니다!</b><br><br>벽화에는 신분이 높은 귀족 부부와 그들의 시중을 드 |
+| regular_three_kingdoms_life.json | 3 | 3 | hotspot-discovery | <b>이번엔 삼국과 함께 발전했던 '철의 나라' 가야로 향합니다!</b><br><br>가야의 무덤에서는 뛰어 |
