@@ -62,26 +62,30 @@ Claude가 15곳 전부 브라우저에서 실제 렌더링 확인. 13곳은 "~�
 
 검증: JSON.parse, `scripts/03/04_validate_*` PASS, `scripts/10_audit_if_stages.py` 신호 80→78, 재작성 2곳 브라우저 렌더링 확인, 콘솔 에러 0건.
 
-## 3순위 — 한쪽만 미달 + 민감 주제 (16곳)
+## 3순위 — 한쪽만 미달 + 민감 주제 (16곳) — ✅ 2026-09-07 전수 검토 완료, 전부 유지
 
-| 파일 | 스테이지 | 표지 | 글자 수 | 단서 | 신호 |
+Claude가 16곳 전부 브라우저에서 실제 렌더링 확인. **16곳 모두 이미 구체적이라 재작성하지 않았다.** "한쪽만 미달"(단서 2개는 이미 충족하거나 글자 수는 이미 충분)이라는 분류 자체가 상대적으로 양호함을 시사했는데, 실제로도 전부 사료·개념을 이미 구체적으로 언급하고 있었다 — 예: `regular_joseon_diplomacy:1-1`(4군 6진·명과의 관계·여진과의 관계·국경 지도), `regular_myeongnyang:2-1`("필사즉생 필생즉사" 등 실제 사료 인용 포함 180자 상세 서술), `regular_gwangbok:3-1`(비밀 선거·직접 선거 원칙을 구체적으로 설명).
+
+| 파일 | 스테이지 | 표지 | 글자 수 | 단서 | 처리 |
 |---|---:|---|---:|---|---|
-| `regular_korean_war.json` | 1-1 | 🔄 피난민 관점 다시 보기 | 57 | 자료, 기록, 살펴 | 한쪽만 미달 |
-| `regular_japanese_rule_1.json` | 2-1 | ❌ 자료 해석 (수탈 방조) | 58 | 자료, 살펴 | 한쪽만 미달 |
-| `regular_independence_army.json` | 1-1 | 🔄 자료 범위 다시 보기 | 61 | 기록, 단서 | 한쪽만 미달 |
-| `regular_goryeo_war.json` | 2-1 | ❌ 자료 해석 (선봉 기습 실패) | 62 | 자료, 살펴 | 한쪽만 미달 |
-| `regular_goryeo_war.json` | 3-1 | ❌ 자료 해석 (적의 재침략) | 62 | 자료, 살펴 | 한쪽만 미달 |
-| `regular_japanese_rule_1.json` | 3-1 | ❌ 자료 해석 (독립운동 분쇄) | 62 | 자료, 살펴 | 한쪽만 미달 |
-| `regular_independence.json` | 2-1 | ❌ 자료 해석 (굴복과 체념) | 70 | 자료, 살펴 | 한쪽만 미달 |
-| `regular_independence.json` | 1-1 | ❌ 자료 해석 (독립 선포 포기) | 71 | 자료, 비교 | 한쪽만 미달 |
-| `regular_post_war.json` | 1-1 | ❌ 자료 해석 (재건 포기) | 106 | 자료, 살펴 | 한쪽만 미달 |
-| `regular_joseon_diplomacy.json` | 1-1 | 🔄 자료를 다시 비교해 보세요 | 116 | 자료, 살펴, 단서 | 한쪽만 미달 |
-| `regular_joseon_diplomacy.json` | 2-1 | 🔄 자료를 다시 비교해 보세요 | 117 | 자료, 기록, 비교, 살펴 | 한쪽만 미달 |
-| `regular_myeongnyang.json` | 3-1 | ❌ 자료 해석 (실패) | 117 | 자료, 비교 | 한쪽만 미달 |
-| `regular_myeongnyang.json` | 1-1 | ❌ 자료 해석 (실패) | 132 | 살펴 | 한쪽만 미달 |
-| `regular_gwangbok.json` | 2-1 | ❌ 자료 해석 (실패) | 148 | 자료 | 한쪽만 미달 |
-| `regular_gwangbok.json` | 3-1 | ❌ 자료 해석 (실패) | 165 | 자료 | 한쪽만 미달 |
-| `regular_myeongnyang.json` | 2-1 | ❌ 자료 해석 (실패) | 180 | 자료 | 한쪽만 미달 |
+| `regular_korean_war.json` | 1-1 | 🔄 피난민 관점 다시 보기 | 57 | 자료, 기록, 살펴 | ✅ 유지 |
+| `regular_japanese_rule_1.json` | 2-1 | ❌ 자료 해석 (수탈 방조) | 58 | 자료, 살펴 | ✅ 유지 |
+| `regular_independence_army.json` | 1-1 | 🔄 자료 범위 다시 보기 | 61 | 기록, 단서 | ✅ 유지 |
+| `regular_goryeo_war.json` | 2-1 | ❌ 자료 해석 (선봉 기습 실패) | 62 | 자료, 살펴 | ✅ 유지 |
+| `regular_goryeo_war.json` | 3-1 | ❌ 자료 해석 (적의 재침략) | 62 | 자료, 살펴 | ✅ 유지 |
+| `regular_japanese_rule_1.json` | 3-1 | ❌ 자료 해석 (독립운동 분쇄) | 62 | 자료, 살펴 | ✅ 유지 |
+| `regular_independence.json` | 2-1 | ❌ 자료 해석 (굴복과 체념) | 70 | 자료, 살펴 | ✅ 유지 |
+| `regular_independence.json` | 1-1 | ❌ 자료 해석 (독립 선포 포기) | 71 | 자료, 비교 | ✅ 유지 |
+| `regular_post_war.json` | 1-1 | ❌ 자료 해석 (재건 포기) | 106 | 자료, 살펴 | ✅ 유지 — 정부 정책·기업과 노동자·국제 원조를 이미 구체적으로 언급 |
+| `regular_joseon_diplomacy.json` | 1-1 | 🔄 자료를 다시 비교해 보세요 | 116 | 자료, 살펴, 단서 | ✅ 유지 — 4군 6진·명·여진 관계를 이미 구체적으로 언급 |
+| `regular_joseon_diplomacy.json` | 2-1 | 🔄 자료를 다시 비교해 보세요 | 117 | 자료, 기록, 비교, 살펴 | ✅ 유지 — 성 안 식량·성 밖 백성·척화주화 논쟁을 이미 구체적으로 언급 |
+| `regular_myeongnyang.json` | 3-1 | ❌ 자료 해석 (실패) | 117 | 자료, 비교 | ✅ 유지 — 선박 구조·화포·물길을 이미 구체적으로 언급 |
+| `regular_myeongnyang.json` | 1-1 | ❌ 자료 해석 (실패) | 132 | 살펴 | ✅ 유지 — 해상 보급로·전라도 방어를 이미 구체적으로 언급 |
+| `regular_gwangbok.json` | 2-1 | ❌ 자료 해석 (실패) | 148 | 자료 | ✅ 유지 — 건국준비위원회·치안·식량을 이미 구체적으로 언급 |
+| `regular_gwangbok.json` | 3-1 | ❌ 자료 해석 (실패) | 165 | 자료 | ✅ 유지 — 비밀 선거·직접 선거 원칙을 이미 구체적으로 언급 |
+| `regular_myeongnyang.json` | 2-1 | ❌ 자료 해석 (실패) | 180 | 자료 | ✅ 유지 — 이순신의 실제 발언을 인용한 상세 서술, 이미 충분 |
+
+검증: 브라우저에서 16곳 전부 `MudEngine.openMUD`+`renderStage`로 렌더링 확인, 콘솔 에러 0건. 문장 수정 없음.
 
 ## 4순위 — 한쪽만 미달 + 비민감 주제 (38곳, 표본 확인 권장)
 
