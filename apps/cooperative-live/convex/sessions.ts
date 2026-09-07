@@ -1,5 +1,6 @@
 import { makeFunctionReference, mutationGeneric, queryGeneric } from "convex/server";
 import { v } from "convex/values";
+import type { GenericId } from "convex/values";
 
 import {
   ALIASES,
@@ -16,21 +17,57 @@ function makeCode() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+function publicSession(session: {
+  _id: GenericId<"sessions">;
+  code: string;
+  status: "lobby" | "active";
+  createdAt: number;
+  startedAt?: number;
+  deleteAfter: number;
+}) {
+  return {
+    _id: session._id,
+    code: session.code,
+    status: session.status,
+    createdAt: session.createdAt,
+    startedAt: session.startedAt,
+    deleteAfter: session.deleteAfter,
+  };
+}
+
 export const create = mutationGeneric({
   args: {},
   handler: async (ctx) => {
     const ownerSub = await requireTeacher(ctx);
-    let code = makeCode();
-    for (let attempt = 0; attempt < 5; attempt += 1) {
-      const existing = await ctx.db
-        .query("sessions")
-        .withIndex("by_code", (query) => query.eq("code", code))
-        .unique();
-      if (!existing) break;
-      code = makeCode();
+    const now = Date.now();
+    const currentSession = await ctx.db
+      .query("sessions")
+      .withIndex("by_owner", (query) => query.eq("ownerSub", ownerSub))
+      .order("desc")
+      .filter((query) => query.gt(query.field("deleteAfter"), now))
+      .first();
+    if (currentSession) {
+      return {
+        sessionId: currentSession._id,
+        code: currentSession.code,
+        deleteAfter: currentSession.deleteAfter,
+      };
     }
 
-    const now = Date.now();
+    let code: string | null = null;
+    for (let attempt = 0; attempt < 5; attempt += 1) {
+      const candidate = makeCode();
+      const existing = await ctx.db
+        .query("sessions")
+        .withIndex("by_code", (query) => query.eq("code", candidate))
+        .unique();
+      if (!existing) {
+        code = candidate;
+        break;
+      }
+    }
+    if (!code) throw new Error("수업 코드를 만들지 못했습니다. 다시 시도해 주세요.");
+
     const deleteAfter = now + EXPIRES_AFTER_MS;
     const sessionId = await ctx.db.insert("sessions", {
       scenarioId: SCENARIO_ID,
@@ -48,6 +85,20 @@ export const create = mutationGeneric({
     );
 
     return { sessionId, code, deleteAfter };
+  },
+});
+
+export const current = queryGeneric({
+  args: {},
+  handler: async (ctx) => {
+    const ownerSub = await requireTeacher(ctx);
+    const session = await ctx.db
+      .query("sessions")
+      .withIndex("by_owner", (query) => query.eq("ownerSub", ownerSub))
+      .order("desc")
+      .filter((query) => query.gt(query.field("deleteAfter"), Date.now()))
+      .first();
+    return session ? publicSession(session) : null;
   },
 });
 
@@ -160,7 +211,7 @@ export const dashboard = queryGeneric({
     ]);
 
     return {
-      session,
+      session: publicSession(session),
       players: players.map((player) => ({
         id: player._id,
         alias: player.alias ?? "호 미선택",

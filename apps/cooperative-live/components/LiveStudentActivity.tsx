@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 
 import type { GenericId as Id } from "convex/values";
 
 import { convexApi } from "@/lib/convex-api";
-import { studentStorageKey } from "@/lib/runtime";
+import { studentJoinStorageKey, studentStorageKey } from "@/lib/runtime";
 import {
   STAGE_LABELS,
   STUDENT_STAGE_ORDER,
@@ -29,7 +29,7 @@ const STAGE_GUIDE: Record<Stage, { title: string; body: string }> = {
   finished: { title: "활동을 마쳤어요", body: "교사가 활동을 종료하면 이 기기의 세션 기록도 삭제됩니다." },
 };
 
-type StoredSession = { token: string; aliasCandidates: string[] };
+type StoredSession = { token: string; aliasCandidates: string[]; code?: string };
 
 function useSessionValue(key: string) {
   const subscribe = useCallback((notify: () => void) => {
@@ -79,8 +79,11 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
       sessionStorage.removeItem(storageKey);
       sessionStorage.removeItem(`${storageKey}:choice`);
       sessionStorage.removeItem(`${storageKey}:reason`);
+      if (stored?.code) {
+        sessionStorage.removeItem(studentJoinStorageKey(stored.code));
+      }
     }
-  }, [storageKey, view]);
+  }, [storageKey, stored?.code, view]);
 
   const progress = useMemo(() => {
     if (!view) return 0;

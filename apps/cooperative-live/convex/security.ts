@@ -10,6 +10,8 @@ type SessionRecord = {
   ownerSub: string;
   status: "lobby" | "active";
   code: string;
+  createdAt: number;
+  startedAt?: number;
   deleteAfter: number;
 };
 

@@ -116,6 +116,34 @@ export type Assignment = {
   roleId: (typeof ROLES)[number]["id"];
 };
 
+export function planGroupSizes(
+  participantCount: number,
+  preferredGroupSize = 4,
+): number[] {
+  if (participantCount === 0) return [];
+  if (participantCount < 3) {
+    throw new Error("모둠 활동에는 학생이 3명 이상 필요합니다.");
+  }
+  if (preferredGroupSize < 3 || preferredGroupSize > 5) {
+    throw new Error("모둠 크기는 3명에서 5명 사이여야 합니다.");
+  }
+
+  const minimumGroupCount = Math.ceil(participantCount / 5);
+  const maximumGroupCount = Math.floor(participantCount / 3);
+  const preferredGroupCount = Math.round(participantCount / preferredGroupSize);
+  const groupCount = Math.min(
+    maximumGroupCount,
+    Math.max(minimumGroupCount, preferredGroupCount),
+  );
+  const baseSize = Math.floor(participantCount / groupCount);
+  const largerGroups = participantCount % groupCount;
+
+  return Array.from(
+    { length: groupCount },
+    (_, index) => baseSize + (index < largerGroups ? 1 : 0),
+  );
+}
+
 export function seededRandom(seed: number): () => number {
   let state = seed >>> 0;
   return () => {
@@ -139,15 +167,22 @@ export function assignGroups(
   random = Math.random,
 ): Assignment[] {
   if (participantKeys.length === 0) return [];
-  if (groupSize < 3 || groupSize > 5) {
-    throw new Error("모둠 크기는 3명에서 5명 사이여야 합니다.");
-  }
+  const shuffledParticipants = shuffle(participantKeys, random);
+  const sizes = planGroupSizes(participantKeys.length, groupSize);
+  const assignments: Assignment[] = [];
+  let participantIndex = 0;
 
-  return shuffle(participantKeys, random).map((participantKey, index) => ({
-    participantKey,
-    groupNumber: Math.floor(index / groupSize) + 1,
-    roleId: ROLES[index % groupSize % ROLES.length].id,
-  }));
+  sizes.forEach((size, groupIndex) => {
+    for (let roleIndex = 0; roleIndex < size; roleIndex += 1) {
+      assignments.push({
+        participantKey: shuffledParticipants[participantIndex++],
+        groupNumber: groupIndex + 1,
+        roleId: ROLES[roleIndex].id,
+      });
+    }
+  });
+
+  return assignments;
 }
 
 export function pickUniqueAliases(

@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { convexApi } from "@/lib/convex-api";
-import { studentStorageKey } from "@/lib/runtime";
+import { studentJoinStorageKey, studentStorageKey } from "@/lib/runtime";
 
 export function LiveJoinForm() {
   const searchParams = useSearchParams();
@@ -20,10 +20,31 @@ export function LiveJoinForm() {
     setError("");
     setBusy(true);
     try {
-      const result = await join({ code });
+      const normalizedCode = code.trim();
+      const rememberedSessionId = sessionStorage.getItem(
+        studentJoinStorageKey(normalizedCode),
+      );
+      if (
+        rememberedSessionId &&
+        sessionStorage.getItem(studentStorageKey(rememberedSessionId))
+      ) {
+        router.push(`/play/${rememberedSessionId}`);
+        return;
+      }
+      sessionStorage.removeItem(studentJoinStorageKey(normalizedCode));
+
+      const result = await join({ code: normalizedCode });
       sessionStorage.setItem(
         studentStorageKey(result.sessionId),
-        JSON.stringify({ token: result.token, aliasCandidates: result.aliasCandidates }),
+        JSON.stringify({
+          token: result.token,
+          aliasCandidates: result.aliasCandidates,
+          code: normalizedCode,
+        }),
+      );
+      sessionStorage.setItem(
+        studentJoinStorageKey(normalizedCode),
+        result.sessionId,
       );
       router.push(`/play/${result.sessionId}`);
     } catch (caught) {

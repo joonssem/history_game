@@ -116,6 +116,16 @@ apps/cooperative-live/
 - lint, TypeScript, 단위 테스트 3건, Next.js production build, 데스크톱·375px 모바일 대표 흐름과 콘솔 오류 0건을 확인했다.
 - Convex 익명 로컬 배포는 개발 PC가 백엔드 바이너리를 내려받을 때 `self-signed certificate in certificate chain`을 반환해 실행하지 못했다. 인증서 검증을 끄는 우회는 사용하지 않았으며, 실제 함수 통합 검증은 신뢰할 수 있는 CA 설정 또는 Convex 개발 배포 연결 뒤 진행한다.
 
+### 2026-09-07 이어받기 보강 결과
+
+- 다른 PC에서 푸시한 `feat/cooperative-live-vertical-slice`를 다시 받아 동일 브랜치에서 작업을 재개했다.
+- 교사 대시보드가 새로고침 뒤 현재 소유 세션을 서버에서 다시 찾도록 했고, 활동 생성 연타도 기존 세션을 재사용하게 했다.
+- 학생이 같은 탭에서 같은 QR·수업 코드로 다시 입장하면 기존 슬롯으로 돌아가게 해 중복 참여자 생성을 막았다.
+- 4명씩 단순 분할해 마지막 모둠이 1~2명이 될 수 있던 편성 로직을 3~24명 전체에서 3~5명 균형 모둠으로 바꿨다. 24명을 넘으면 입장을 거부한다.
+- 6자리 수업 코드가 5회 연속 충돌하면 중복 코드를 저장하지 않고 명시적으로 실패하며, 대시보드·현재 세션 응답에서 교사 Auth0 `sub`를 제외한다.
+- 이 PC에서 `npm ci` 후 `npm run check`를 재실행해 lint, TypeScript, 단위 테스트 5건, Next.js production build를 통과했다. 개발 서버의 `/`, `/teacher`, `/join` 응답도 모두 HTTP 200으로 확인했다.
+- 개인정보 감사 기준과 대조하면서 QR URL도 수동 입력과 같은 6자리 코드만 사용하고 반복 시도 제한이 없음을 발견했다. 실제 학생 접속 전에 QR 전용 장기 난수 입장키와 수동 코드 제한을 별도 설계·권한 테스트해야 하므로 `P1-COLLAB-PRIVACY`에 기록했다.
+
 ## 7. 검증
 
 - 정적 검사: lint, TypeScript typecheck, Next.js production build, Convex 함수 테스트

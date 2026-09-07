@@ -4,7 +4,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useConvexAuth, useMutation, useQuery } from "convex/react";
 import { QRCodeSVG } from "qrcode.react";
 import { useMemo, useState, useSyncExternalStore } from "react";
-import type { GenericId as Id } from "convex/values";
 
 import { convexApi } from "@/lib/convex-api";
 import { roleById, STAGE_LABELS, type InterventionKind } from "@/shared/scenario";
@@ -12,7 +11,6 @@ import { roleById, STAGE_LABELS, type InterventionKind } from "@/shared/scenario
 export function LiveTeacherConsole() {
   const { loginWithRedirect, logout } = useAuth0();
   const { isLoading, isAuthenticated } = useConvexAuth();
-  const [sessionId, setSessionId] = useState<Id<"sessions"> | null>(null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const createSession = useMutation(convexApi.sessions.create);
@@ -20,6 +18,11 @@ export function LiveTeacherConsole() {
   const startSession = useMutation(convexApi.sessions.start);
   const endSession = useMutation(convexApi.sessions.end);
   const sendIntervention = useMutation(convexApi.interventions.send);
+  const currentSession = useQuery(
+    convexApi.sessions.current,
+    isAuthenticated ? {} : "skip",
+  );
+  const sessionId = currentSession?._id ?? null;
   const dashboard = useQuery(
     convexApi.sessions.dashboard,
     sessionId ? { sessionId } : "skip",
@@ -65,6 +68,10 @@ export function LiveTeacherConsole() {
     );
   }
 
+  if (currentSession === undefined) {
+    return <div className="notice">진행 중인 활동을 확인하고 있습니다.</div>;
+  }
+
   if (!sessionId) {
     return (
       <section className="panel">
@@ -75,8 +82,7 @@ export function LiveTeacherConsole() {
             className="button primary"
             onClick={() => run(async () => {
               const created = await createSession({});
-              setSessionId(created.sessionId);
-              setMessage("활동을 만들었습니다. 가상 학생을 입장시켜 주세요.");
+              setMessage(`활동 ${created.code}을 열었습니다. 가상 학생을 입장시켜 주세요.`);
             })}
           >
             활동 만들기
@@ -85,6 +91,7 @@ export function LiveTeacherConsole() {
             로그아웃
           </button>
         </div>
+        {message && <p className="notice">{message}</p>}
         {error && <p className="notice error">{error}</p>}
       </section>
     );
@@ -131,7 +138,6 @@ export function LiveTeacherConsole() {
             className="button danger"
             onClick={() => run(async () => {
               const result = await endSession({ sessionId });
-              setSessionId(null);
               setMessage(`세션 데이터 ${result.deleted}건을 삭제했습니다.`);
             })}
           >활동 종료·삭제</button>

@@ -1122,3 +1122,13 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - Production·실제 학생 접속은 `P1-COLLAB-PRIVACY` 해제 전까지 금지했다. 환경변수 예시와 Vercel Root Directory, Auth0/Convex 설정 절차는 앱 README에 기록했다.
 - 검증: `npm run lint`, `npm run typecheck`, 단위 테스트 3건, `npm run build` 통과. Chrome에서 전체 가상 흐름과 종료 시 13개 레코드 삭제 표시를 확인했고, 375×812 모바일에서 가로 스크롤 없음·터치 버튼 48px·새 탭 콘솔 오류/경고 0건을 확인했다.
 - 제한: Convex 익명 로컬 배포는 개발 PC에서 백엔드 바이너리 다운로드 중 `self-signed certificate in certificate chain` 오류가 발생해 실행하지 못했다. TLS 검증 비활성화는 하지 않았고, 실제 함수 통합·Auth0·Vercel Preview 검증은 신뢰할 수 있는 CA 설정 및 계정 연결 후 진행한다.
+
+### 같은 날 — 작업 브랜치 이어받기와 복구·편성 보강
+
+- GitHub의 `feat/cooperative-live-vertical-slice`를 새 PC에 받아 중단 지점에서 재개했다. `main`은 바꾸지 않고 해당 기능 브랜치에서 작업했다.
+- 교사가 화면을 새로고침해도 서버의 현재 소유 세션을 다시 찾고, 활동 만들기를 반복해도 유효한 기존 세션을 재사용하도록 했다.
+- 같은 학생 탭에서 QR이나 수업 코드를 다시 열면 저장된 세션으로 돌아가 중복 참여자가 생기지 않도록 했다. 세션 종료를 확인하면 이 복구 연결도 함께 지운다.
+- 학생 수를 4명씩 자르던 편성을 고쳐 3~24명 어디서든 각 모둠이 3~5명이 되도록 균형 편성한다. 24명 초과 입장은 서버에서 거부한다.
+- 6자리 수업 코드 충돌을 끝까지 피하지 못한 경우 중복 저장 대신 오류를 반환하고, 교사용 세션 응답에는 Auth0 `sub`를 포함하지 않는다.
+- 개인정보 감사 기준과 실제 QR 구현을 대조해, QR도 수동 입력과 같은 6자리 코드만 사용하고 반복 시도 제한이 없는 공백을 찾았다. 실제 학생 접속 전 QR 전용 장기 난수 입장키와 수동 코드 제한을 설계하도록 `P1-COLLAB-PRIVACY`에 남겼다.
+- 검증: `npm ci`, `npm run check` 통과(lint·TypeScript·단위 테스트 5건·Next.js production build). 개발 서버의 `/`, `/teacher`, `/join`은 모두 HTTP 200을 반환했다. 실제 Convex/Auth0/Vercel 연결과 실제 학생 접속은 기존 개인정보 게이트에 따라 진행하지 않았다.

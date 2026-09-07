@@ -22,6 +22,14 @@ export const join = mutationGeneric({
       throw new Error("입장할 수 있는 활동을 찾지 못했습니다.");
     }
 
+    const currentPlayers = await ctx.db
+      .query("players")
+      .withIndex("by_session", (query) => query.eq("sessionId", session._id))
+      .collect();
+    if (currentPlayers.length >= ALIASES.length) {
+      throw new Error("이 활동의 입장 인원이 모두 찼습니다.");
+    }
+
     const token = `${crypto.randomUUID()}${crypto.randomUUID()}`;
     const tokenHash = await hashStudentToken(token);
     const now = Date.now();
@@ -34,10 +42,7 @@ export const join = mutationGeneric({
       isSynthetic: false,
     });
 
-    const players = await ctx.db
-      .query("players")
-      .withIndex("by_session", (query) => query.eq("sessionId", session._id))
-      .collect();
+    const players = [...currentPlayers, { alias: undefined }];
     const used = new Set(players.map((player) => player.alias).filter(Boolean));
     const aliasCandidates = shuffle(ALIASES.filter((alias) => !used.has(alias))).slice(0, 4);
 

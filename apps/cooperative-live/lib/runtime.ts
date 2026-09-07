@@ -11,6 +11,10 @@ export function studentStorageKey(sessionId: string) {
   return `cooperative-live:${sessionId}`;
 }
 
+export function studentJoinStorageKey(code: string) {
+  return `cooperative-live:join:${code}`;
+}
+
 export function clearCooperativeSessionStorage() {
   for (let index = sessionStorage.length - 1; index >= 0; index -= 1) {
     const key = sessionStorage.key(index);

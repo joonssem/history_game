@@ -58,6 +58,11 @@ export const convexApi = {
       Record<string, never>,
       { sessionId: Id<"sessions">; code: string; deleteAfter: number }
     >("sessions:create"),
+    current: makeFunctionReference<
+      "query",
+      Record<string, never>,
+      Dashboard["session"] | null
+    >("sessions:current"),
     seedSyntheticStudents: makeFunctionReference<
       "mutation",
       { sessionId: Id<"sessions">; count?: number },

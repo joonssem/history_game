@@ -13,10 +13,11 @@
   2. Convex·Vercel의 처리위탁, 국외 처리 근거·고지, 리전, 하위처리자, 로그·백업 보유기간을 문서화한다.
   3. 최소수집·권리행사·수업 종료 삭제·접근통제·사고대응 테스트를 통과한다.
 - 미통과 시: 실제 학생 접속을 금지한다. 국외 처리 또는 외국산 SaaS가 불가하면 [D-019](./DECISIONS.md)을 다시 열어 국내 리전/기관 승인 서비스 또는 로컬 방식을 검토한다.
+- 2026-09-07 이어받기 감사: 현재 교사 QR은 수동 입력과 같은 6자리 `code`를 URL에 넣는다. 감사 문서 §5의 "충분히 긴 무작위 세션 토큰" 기준과 맞지 않으며, 6자리 코드 반복 시도 제한도 없다. 실제 학생 접속 전에 QR 전용 장기 난수 입장키와 수동 코드의 시도 제한·만료 방식을 계획하고 권한 테스트에 포함한다.
 
 ## P1-COLLAB-VERTICAL — Vercel·Convex 첫 수직 슬라이스
 
-- 상태: `implemented-local` — `feat/cooperative-live-vertical-slice`에서 가상 학생 흐름·실제 연결용 Convex 함수·Auth0 권한 경계를 구현하고 정적/브라우저 검증 완료. Convex 런타임 통합·Vercel Preview는 계정 설정 및 로컬 CA 문제 해결 뒤 검증한다.
+- 상태: `implemented-local` — `TASK-20260907-02 | apps/cooperative-live | implementation agent | 상태: DONE`. 기존 가상 학생 흐름·실제 연결용 Convex 함수·Auth0 권한 경계 구현을 인수해 로컬 회귀와 코드 보강을 완료했다. 교사 세션 복구, 같은 탭의 중복 입장 방지, 3~24명 균형 편성, 입장 정원 제한과 수업 코드 충돌 처리를 추가했다. Convex 런타임 통합·Vercel Preview와 QR 입장키 보안 보강은 P1 개인정보 게이트 및 계정 설정 뒤 검증한다.
 - 계획서: [`implementation_plan_vercel_convex_vertical_slice.md`](./docs/plans/implementation_plan_vercel_convex_vertical_slice.md)
 - 앱 위치: 같은 저장소 `apps/cooperative-live/`, 기존 정적 앱과 GitHub Pages는 유지.
 - 첫 범위: 고조선 8조법, 교사 1명과 가상 학생 8명, 새 무작위 호·4인 모둠 2개 무작위 편성·진행 대시보드·힌트/심화·종료 삭제까지.

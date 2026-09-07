@@ -318,7 +318,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 3. **타이머 예산 조정** — 화면별 목표 시간은 추정치다. 2번 관찰 뒤 `scenario.pacing.budgets`를 고친다. 감도는 `pacing.tuning`으로 시나리오별로 덮어쓸 수 있다.
 4. **네 번째 협동 시나리오** — 진도에 맞춰 후보 풀에서 고른다. 새 편은 `scenario.js`와 `index.html` 둘만 만들면 된다.
-5. **실시간 확장 첫 수직 슬라이스 후속 검증** — `apps/cooperative-live`에 고조선 가상 학생 8명 흐름과 실제 연결용 Convex/Auth0 경계를 구현했다. [`implementation_plan_vercel_convex_vertical_slice.md`](./docs/plans/implementation_plan_vercel_convex_vertical_slice.md)의 구현 결과와 앱 README를 기준으로 Convex 런타임 통합·Vercel Preview를 확인한다. 1번 통과 전에는 Production·실제 학생 접속을 하지 않는다.
+5. **실시간 확장 첫 수직 슬라이스 후속 검증** — `apps/cooperative-live`에 고조선 가상 학생 8명 흐름과 실제 연결용 Convex/Auth0 경계를 구현했다. 2026-09-07 이어받기 보강으로 교사 세션 복구·학생 중복 입장 방지·3~24명 균형 편성까지 로컬 검증했다. [`implementation_plan_vercel_convex_vertical_slice.md`](./docs/plans/implementation_plan_vercel_convex_vertical_slice.md)의 구현 결과와 앱 README를 기준으로 Convex 런타임 통합·Vercel Preview를 확인한다. 1번 통과 전에는 Production·실제 학생 접속을 하지 않는다.
 
 ### 개인형 앱 잔여 (우선순위 낮음)
 
@@ -341,7 +341,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
   - 공통 파일: `cooperative-mud/episode.js`(화면 흐름 엔진), `pacing.js`(타이머 페이싱), `cooperative.css`. 시나리오는 각 폴더의 `scenario.js`가 소유하고 엔진에는 역사 내용을 넣지 않는다. 고조선만 화면 순서가 달라 자체 `app.js`를 쓴다.
   - 선사시대 협동 MUD는 종이 리허설 단계를 2026-09-06에 폐기하고 정적 웹 제작 대상으로 전환했다 — 1인 1기기 화면이 곧 역할 카드다.
   - 수업 운영 방법은 [`cooperative-mud/TEACHING.md`](./cooperative-mud/TEACHING.md)에 있다. 교실에서 바로 보는 문서다.
-  - 실시간 확장(Vercel + Convex)의 첫 수직 슬라이스는 `apps/cooperative-live/`에 구현됐다. 현재는 가상 데이터 브라우저 검증까지 완료했으며 실제 Convex/Auth0/Vercel 연결과 학생 적용은 남아 있다. `apps/cooperative-live/README.md`와 `docs/plans/implementation_plan_vercel_convex_vertical_slice.md` 참조.
+  - 실시간 확장(Vercel + Convex)의 첫 수직 슬라이스는 `apps/cooperative-live/`에 구현됐다. 현재는 가상 데이터 브라우저 검증과 교사 세션 복구·학생 중복 입장 방지·3~24명 균형 편성 검증까지 완료했으며 실제 Convex/Auth0/Vercel 연결과 학생 적용은 남아 있다. `apps/cooperative-live/README.md`와 `docs/plans/implementation_plan_vercel_convex_vertical_slice.md` 참조.
 
 ## 8. 실행 및 테스트 방법
 
