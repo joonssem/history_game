@@ -132,7 +132,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 2. **P1-02 Regular 활동 시간·무작위 탭 내성** — 실제 학생 활동 시간과 잔여 구조 후보를 검토한다. *(2026-09-07 재감사: 판단 스테이지 반복 탭 후보 0건(엔딩 스테이지 7곳만 남음, 재설계 불필요로 판정 — [`implementation_plan_tap_resistance_batch.md`](./docs/plans/implementation_plan_tap_resistance_batch.md) 참조). 구조 감사로 할 수 있는 부분은 완료. 남은 것은 실제 학생 3명 이상 교실 실측뿐(2026-09-01 1단원 2·3차시 연속 활동 4분 이내 완료 관찰 이후 추가 실측 없음) — 사용자만 가능.)*
 3. **P1-03 IF 스테이지 교육적 품질** — 6개 단계의 교육적 문장을 검토한다. *(문장 보강·Codex/Claude 검토·사용자 최종 승인 완료; 후속 품질 검토는 별도 backlog로 관리)*
 4. **P2-01 접근성·상태 표현** — 실제 보조기기와 색상 독립 상태 표현을 확인한다. *(정적·Chrome 키보드 검증 완료, 실제 기기 확인 대기)*
-5. **P2-03 MUD 등록 경로 단순화** — 보조 MUD 노출과 태블릿 확인을 마무리한다. *(primary 경로·중복 차시 브라우저 확인 완료)*
+5. **P2-03 MUD 등록 경로 단순화** — *(2026-09-07 완료: 보조 MUD 노출 구현·데스크톱/태블릿 브라우저 확인 완료. `regular_myeongnyang`·`regular_korean_war`가 포털에서 전혀 도달 불가능했던 것을 발견·해결. 남은 건 실제 물리 기기 확인뿐)*
 6. **P3-01 브라우저·기기 회귀 점검** — 지원 기기와 브라우저별 정기 점검을 수행한다.
 
 ### 현재 선정된 첫 구현 계획
@@ -163,9 +163,9 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 ### P2-03 MUD 등록 경로 단순화 계획
 
 - 계획서: [`implementation_plan_registration_single_source.md`](./docs/plans/implementation_plan_registration_single_source.md)
-- 상태: `in-progress` — 인덱스 단일 경로·primary/supplementary·주요 브라우저 확인 완료, 보조 노출·태블릿 확인 대기
-- 감사 결과: `_index.json` 32종 등록, 커리큘럼 48차시 중 39차시 매칭, `app.js` 레거시 Regular 조건문 약 140줄 잔존
-- 주의할 중복: 2단원 7차시(`regular_myeongnyang`/`regular_joseon_diplomacy`), 3단원 12차시(`regular_korean_war`/`regular_post_war`). 주 MUD는 각각 외교·전후 재건으로 적용
+- 상태: `browser-verified` — 인덱스 단일 경로·primary/supplementary·보조 노출·데스크톱/태블릿 브라우저 확인 완료(2026-09-07). 실제 물리 기기 확인만 남음(사용자 전담).
+- 감사 결과: `_index.json` 32종 등록, 커리큘럼 48차시 중 39차시 매칭. `app.js`의 레거시 Regular 조건문(~140줄)은 인덱스 로드 실패 시에만 도는 안전망으로 확인, 의도적으로 유지.
+- 주의할 중복: 2단원 7차시(`regular_myeongnyang`/`regular_joseon_diplomacy`), 3단원 10~12차시(`regular_korean_war`/`regular_post_war`). 주 MUD는 각각 외교·전후 재건으로 적용하고, 보조 MUD는 2026-09-07부터 카드 하단 "+확장 활동" 버튼으로 노출한다.
 
 ## 다음 기획·검토 항목
 

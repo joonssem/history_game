@@ -6,7 +6,7 @@ let curriculumData = null;
 let mudIndexData = [];
 let currentUnitId = 1;
 let currentActiveStoryId = 'story_paleolithic';
-const APP_VERSION = '2026.08.26-p6';
+const APP_VERSION = '2026.09.07-p7';
 
 // 초기화
 document.addEventListener('DOMContentLoaded', async () => {
@@ -55,6 +55,19 @@ function findIndexedMud(unitId, lesson) {
   );
 }
 
+// primary와 같은 차시에 등록된 보조(supplementary) Regular MUD를 찾는다.
+// 현재는 카드 하단의 보조 버튼 노출에만 쓰인다 — 포털 기본 버튼은 primary만 사용한다.
+function findSupplementaryMud(unitId, lesson) {
+  const display = (lesson.lessonDisplay || '').split('(')[0];
+  const lessonNumbers = display.match(/\d+/g)?.map(Number) || [];
+  return mudIndexData.find(mud =>
+    mud.tier === 'regular' &&
+    mud.placement === 'supplementary' &&
+    mud.unitId === unitId &&
+    mud.lessonNumbers.some(number => lessonNumbers.includes(number))
+  );
+}
+
 // 단원 탭 전환
 function switchUnitTab(unitId) {
   currentUnitId = unitId;
@@ -98,6 +111,7 @@ function renderCurriculum(unitId) {
       const display = lesson.lessonDisplay || '';
       const title = lesson.title || '';
       const indexedMud = findIndexedMud(unitId, lesson);
+      const supplementaryMud = findSupplementaryMud(unitId, lesson);
       let btnHtml = '';
 
       // _index.json 기반 Regular MUD 매핑
@@ -192,6 +206,7 @@ function renderCurriculum(unitId) {
           </div>
           <div style="margin-top: 10px;">
             ${btnHtml}
+            ${supplementaryMud ? `<button onclick="MudEngine.openMUD('${supplementaryMud.mudId}')" class="btn secondary" style="margin-top: 8px;"><i class="fas fa-star"></i> +확장 활동: ${supplementaryMud.title}</button>` : ''}
           </div>
         </article>
       `;

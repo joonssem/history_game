@@ -2,7 +2,15 @@
 
 ## 상태
 
-`in-progress` — 인덱스 주·보조 구분과 포털 단일 경로·주요 브라우저 회귀 완료, 보조 노출·태블릿 검증 대기
+`in-progress` — 인덱스 주·보조 구분과 포털 단일 경로·주요 브라우저 회귀 완료. **보조 노출은 2026-09-07 구현·검증 완료**(아래 §실행 결과). 남은 보류 항목은 `lessonKeys` 도입 여부와 실제 물리 기기 확인뿐.
+
+## 실행 결과 (2026-09-07, Claude)
+
+- **`app.js` 레거시 조건문 fallback**: `!mudIndexData.length`(인덱스 로드 실패) 안에만 갇혀 있는 것을 코드로 재확인했다. 정상 운영 중에는 절대 실행되지 않는 죽은 경로이지만, `_index.json` fetch가 실패하는 극단적 상황(배포 오류 등)에서 포털 전체가 빈 화면이 되는 것을 막아주는 유일한 안전망이다. **제거하지 않고 유지하기로 판단**했다 — 위험 대비 비용이 0에 가깝고(런타임에 전혀 실행 안 됨), 제거 시 잃는 것(전체 포털 마비 방지)이 더 크다.
+- **보조(supplementary) MUD 노출**: 감사 결과 `regular_myeongnyang`(2단원 7차시)·`regular_korean_war`(3단원 10~12차시)가 `placement: "supplementary"`로만 등록돼 있고 **포털 어디에도 노출 경로가 없어 완전히 도달 불가능한 상태**였다(3단원 44·45번 차시 카드는 primary MUD도 없어 이전엔 아예 빈 카드였다). `findSupplementaryMud()`를 추가하고, primary 버튼 아래 `.btn.secondary` 스타일의 "+확장 활동" 보조 버튼을 렌더링하도록 `js/app.js`를 수정했다.
+  - `regular_korean_war`는 `lessonNumbers: [10, 11, 12]`라서 관련 카드 3장(44·45·46번 차시) 모두에 버튼이 뜬다 — 같은 활동이 3번 노출되는 건 다소 중복이지만, 이전에는 그중 2장(44·45)이 아예 빈 카드였던 것에 비하면 개선이다. 완전한 중복 제거는 이번 범위 밖으로 남긴다.
+  - 검증: `node --check js/app.js`, `scripts/08_validate_mud_catalog.py` PASS. 브라우저에서 데스크톱·태블릿(768×1024) 두 뷰포트로 1·2·3단원 전체 카드를 확인, 보조 버튼 클릭 시 `regular_myeongnyang`이 정상 오픈되는 것을 `MudEngine.currentMudData.mudId`로 확인, 콘솔 에러 0건.
+  - 캐시 이슈: `index.html`의 `js/app.js?v=...` 캐시 버스터를 갱신하지 않으면 브라우저가 이전 `app.js`를 계속 쓴다는 것을 이번에 다시 확인했다(버전 문자열을 `20260907-supplementary1`로 갱신, `APP_VERSION`도 `2026.09.07-p7`로 동기화). 앞으로 `js/app.js`를 수정할 때마다 이 버전 문자열도 함께 올려야 한다.
 
 ## 목표
 
