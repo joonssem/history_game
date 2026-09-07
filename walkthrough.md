@@ -1156,3 +1156,32 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 검증: 세 보고서 모두 재실행 멱등성 확인, 사람이 쓴 절 보존 확인, 마커 제거 시 종료코드 1로 실패하는 것 확인, CI 검사 대상 3개가 모두 추적 파일임을 확인. 정적·감사 스크립트 11종과 `05_test_simulator_runtime.js` 통과.
 
 **작업 환경 사고**: 이 작업 도중 공유 폴더의 브랜치가 Codex 세션에 의해 `main` → `feat/cooperative-live-vertical-slice`로 두 번 바뀌었다. 두 번째에는 feature 브랜치 파일 위에 편집이 들어가 앞선 `f78a8df` 작업이 빠진 상태로 작업할 뻔했다. 미커밋 변경을 stash·패치로 보존하고 `main`에서 처음부터 다시 작업했다. 한 폴더를 두 세션이 공유하는 한 재발하므로, 별도 worktree 분리를 권한다.
+
+## 2026-09-08 — 이 PC 세션 마무리
+
+`main`은 `5b79690`이고 원격과 동기화돼 있다. 미커밋 변경 없음.
+
+### 이 PC에서 한 일 (2026-09-07~08)
+
+| 커밋 | 내용 |
+|---|---|
+| `f78a8df` | 반복 탭 감사 판정을 `_tap_resistance_rule.py`로 통일 (07·09번) |
+| `5b79690` | 감사 보고서 경로 수정 + 마커 방식 도입 + **무력화돼 있던 CI 드리프트 검사 복구** |
+
+그 앞선 세션(같은 PC)에서 정적 협동 MUD 3편·타이머 페이싱·공용 엔진·구조도·`TEACHING.md`를 만들었고, 학교 세션의 Regular MUD 작업이 `main`에 이미 들어와 있다.
+
+### 다음 세션이 이어갈 것
+
+1. **7·8차시 협동 MUD 실제 수업 운영** — 제작·검증 완료, 학생과 해 본 적 없음. 진행은 [`cooperative-mud/TEACHING.md`](./cooperative-mud/TEACHING.md), 관찰은 `EXPERIMENTS.md`에 `EXP-006` 형식으로.
+2. **학교·교육청 개인정보 지침 확인** 🔴 — 실시간 확장 착수 게이트. 질문 3개는 `BACKLOG.md` `P1-COLLAB-PRIVACY`에 있다.
+3. 타이머 예산 조정 → 네 번째 시나리오 → 실시간 첫 슬라이스 순.
+
+상세는 [`project_context.md`](./project_context.md) §7.
+
+### 인계 시 알아 둘 것
+
+- **실시간 앱(`apps/cooperative-live/`)은 `main`에 없다.** Codex 담당이며 `feat/cooperative-live-vertical-slice` 브랜치에 있다. `main`에 남은 `apps/` 폴더는 `node_modules` 등 빌드 산출물뿐이고 `.gitignore` 처리했다.
+- **`BACKLOG.md`의 `convex_elementary_school_privacy_audit.md` 링크는 `main`에서 깨져 있다.** 학교 세션이 BACKLOG 항목은 `main`에, 감사 문서는 feature 브랜치에 두면서 생겼다. 그 브랜치가 병합되면 해소된다. 이번 세션에서 만든 것이 아니라 고치지 않았다.
+- **감사 보고서를 손으로 고칠 때는 마커 바깥에 쓴다.** 안에 쓰면 다음 스크립트 실행에서 사라진다.
+- **작업 폴더를 Codex와 공유하는 한 브랜치 전환 사고가 재발한다.** 규칙은 `agents.md`의 Multi-agent working rules에 구체화해 두었다. 병렬 작업 시 `git worktree`로 폴더를 나눈다.
+- 백업 stash(`stash@{0}`)가 남아 있다. `main`에서 재작업했으므로 필요 없으며 `git stash drop`으로 지워도 된다.

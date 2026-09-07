@@ -317,10 +317,15 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 ### 그다음 (코드)
 
 3. **타이머 예산 조정** — 화면별 목표 시간은 추정치다. 1번 관찰 뒤 `scenario.pacing.budgets`를 고친다. 감도는 `pacing.tuning`으로 시나리오별로 덮어쓸 수 있다.
-   - *(2026-09-07 완료: 반복 탭 감사 스크립트 07·09번 판정 기준 통일 — `scripts/_tap_resistance_rule.py`)*
-   - **미착수 별건**: `10_audit_if_stages.py`·`11_audit_artifacts.py`가 보고서를 저장소 루트에 쓰는데 추적 파일은 `docs/audits/`에 있다. `if_stage_audit.md`에는 손으로 쓴 절이 있어 덮어쓰면 사라진다.
 4. **네 번째 협동 시나리오** — 진도에 맞춰 후보 풀에서 고른다. 새 편은 `scenario.js`와 `index.html` 둘만 만들면 된다.
 5. **실시간 확장 첫 수직 슬라이스** — 2번 통과 후. `docs/plans/COLLABORATIVE_MUD_MVP.md` §8.
+
+### 감사 스크립트 (2026-09-07~08 완료)
+
+- 반복 탭 판정을 `scripts/_tap_resistance_rule.py`로 통일했다. 07·09번이 각자 규칙을 들고 있어 네 군데 갈렸던 것을 한 곳으로 모았다.
+- 생성 보고서 3종이 `scripts/_managed_block.py`의 마커 방식을 쓴다. 표는 항상 최신이고 사람이 쓴 절은 남으며, 마커가 없으면 덮어쓰지 않고 실패한다.
+- 10·11번이 루트에 쓰던 보고서를 `docs/audits/`로 옮기고, 그 때문에 **항상 통과하던 CI 드리프트 검사**를 실제로 작동하게 고쳤다.
+- 감사 보고서를 손으로 고칠 때는 마커 **바깥**에 쓴다. 안에 쓰면 다음 실행에서 사라진다.
 
 ### 개인형 앱 잔여 (우선순위 낮음)
 

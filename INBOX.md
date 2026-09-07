@@ -1698,3 +1698,34 @@ TASK-20260906-08 | 정적 협동 MUD 2편 추가와 타이머 페이싱 구현 |
 - **코드 구조 변경**: 세 번째 에피소드에서 앱 코드가 3벌이 되므로 `cooperative-mud/episode.js` 공통 엔진을 뽑았다. 새 시나리오는 `scenario.js`와 `index.html`만 만들면 된다.
 - 미확인: 세 편 모두 타이머 목표 시간이 실제 수업에 맞는지 측정하지 않았다. 7·8차시 활동은 아직 학생과 운영하지 않았다.
 - 처리 결과: `walkthrough.md` 2026-09-06 항목 4건, `BACKLOG.md` P2-COLLAB-03·07, `project_context.md`, `docs/plans/README.md`, `README.md`, `cooperative-mud/index.html`.
+
+## 2026-09-07~08 감사 스크립트 정리 세션 (집 PC)
+
+TASK-20260908-01 | 감사 스크립트 기준 통일·보고서 경로 수정 | 담당: 실행·코딩 에이전트 | 상태: DONE
+
+상태: `promoted`
+
+### 사용자 요청 원문
+
+> 감사 스크립트 기준 통일 진행해줘
+
+> 보고서 경로 문제도 고쳐줘
+
+> 오늘 지금 이 pc로 하는 작업은 마무리야. 문서로 기록하고 마무리
+
+### 처리 결과
+
+- `f78a8df` 반복 탭 판정 통일. 문서에는 제외 목록 한 군데만 어긋난 것으로 적혀 있었으나 실제로는 네 군데가 갈려 있었다. 출력 차이는 `regular_paleolithic` 하나였지만 나머지 셋은 우연히 일치했을 뿐이었다.
+- `5b79690` 보고서 경로 수정. 조사 중 **CI 드리프트 검사가 무력화돼 있던 것**을 발견했다(추적되지 않는 루트 경로를 `git diff`로 검사해 항상 통과). 경로만 바꾸면 사람이 쓴 절이 사라지므로 마커 방식으로 함께 해결했다.
+
+### 운영상 확인된 것
+
+- **작업 폴더를 두 세션이 공유하는 구조가 실제로 사고를 냈다.** 작업 중 브랜치가 `main` → `feat/cooperative-live-vertical-slice`로 두 번 바뀌었고, 두 번째에는 앞선 커밋이 빠진 베이스 위에 편집이 올라갔다. 알아채고 멈춘 뒤 stash·패치로 보존하고 `main`에서 재작업했다. 규칙을 `agents.md`에 구체화했다.
+- 사용자 판단: Codex가 작업 중일 때는 브랜치를 건드리지 않고 멈춘다.
+
+### 다음 세션이 볼 곳
+
+- 현재 상태와 다음 작업 후보: [`project_context.md`](./project_context.md) §7
+- 협동 MUD 수업 운영: [`cooperative-mud/TEACHING.md`](./cooperative-mud/TEACHING.md)
+- 착수 게이트: [`BACKLOG.md`](./BACKLOG.md) `P1-COLLAB-PRIVACY`
+- 실시간 앱은 Codex 담당이며 `feat/cooperative-live-vertical-slice` 브랜치에 있다. `main`에는 없다.
