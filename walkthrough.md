@@ -1052,3 +1052,73 @@
 - 허브·README·`project_context.md`에서 진행 안내로 연결했다.
 
 검증: `scripts/06_validate_static_assets.py` 통과, 기준·계획 문서 전체 상대 링크 0건 깨짐. 코드는 변경하지 않았다.
+
+## 2026-09-07 — Regular MUD 시뮬레이터 이미지 전수조사 및 11곳 배경 누락 수정
+
+`data/mud/regular_*.json` 28종 전체를 대상으로 [`docs/audits/regular_simulator_image_inventory.md`](./docs/audits/regular_simulator_image_inventory.md)를 작성했다 — 씬 97종·레거시 모드 22종의 설명(표1)과 215개 스테이지의 대화·선택지↔이미지 연결(표2).
+
+- `hasHotspots` 102곳 중 실제로 배경 그림이 없는 곳은 11곳뿐임을 재확인(91곳은 `scene`이 함께 선언돼 정상 렌더링).
+- 우선순위 1(8곳): `regular_myeongnyang`·`regular_bronze_age`는 기존 scene 팔레트 재사용, `regular_gwangbok` 3곳은 `js/mudSimulators.js`에 신규 scene 3개(`gwangbok-radio-announcement`/`gwangbok-committee-office`/`gwangbok-ballot-booth`) 작성.
+- 우선순위 2(3곳): `regular_neolithic` 재시도 스테이지가 이미 존재하는 primary 스테이지의 scene을 그대로 재사용하도록 수정.
+- `regular_gwangbok.json` 1→2→3→엔딩 전체 완주로 신규 scene 검증.
+
+검증: `node --check`, JSON 유효성, `scripts/03/04_validate_*` 통과. 브라우저에서 11곳 전부 렌더링 확인, 콘솔 오류 0건. 커밋 `5d80d36`·`61a0758`·`b4457c1`.
+
+## 2026-09-07 — 선택지 길이 편향 24곳 수정, 콘텐츠 불일치 3건 발견·수정
+
+`scripts/12_audit_choice_bias.py` 기준 Regular MUD 24개 스테이지(정답이 오답 평균보다 10자 이상 긴 곳)를 "단서 인용형 재작성"(정답·오답 모두 핫스팟 단서를 구체적으로 인용)으로 고쳤다.
+
+- 수정 과정에서 **서사·핫스팟과 선택지 주제 자체가 어긋난 콘텐츠 버그 3건**을 발견했다 — `regular_gojoseon:3`(서사만 "절도 처벌법", 나머지 전부 "비파형 동검=고조선 문화권 증거"), `regular_joseon_silhak:2`(서사·핫스팟만 "토지 개혁", 나머지 전부 "거중기"), `regular_three_kingdoms_life:2`(서사·핫스팟만 "벽화 인물 크기=신분 표현", badge·scene·선택지는 "불교 수용"). 다수 필드가 가리키는 쪽으로 소수 필드를 맞춰 재작성했다.
+- Regular MUD 기준 편향 24→0. 프로젝트 전체 잔여 3건은 Deep-dive 소관(범위 밖).
+
+검증: JSON 유효성, `scripts/03/04/09_validate_*` 통과, `12_audit_choice_bias.py` 재실행 확인. 콘텐츠 버그 3건 브라우저 실제 플레이로 재확인, 콘솔 오류 0건. 커밋 `6afc4a3`.
+
+## 2026-09-07 — Regular 활동 시간·탭 내성 구조 재감사
+
+`scripts/09_audit_tap_resistance.py`·`07_audit_activity_duration.py`를 다시 실행해 BACKLOG의 옛 "40개 후보" 수치를 갱신했다.
+
+- 판단 스테이지(분기 있는 결정 지점) 반복 탭 위험은 **0건**. 남은 후보 7곳은 전부 각 MUD의 단일 선택지 엔딩 스테이지(`next: "end"`)라 재설계 불필요로 판정.
+- `07_audit_activity_duration.py`가 `regular_paleolithic`을 오탐으로 계속 잡는 원인(09번 스크립트의 `KNOWN_DISTINCT_INTERACTION_MODES` 제외 목록을 07번이 반영 안 함)을 확인, 낮은 우선순위 정리 과제로 기록.
+- 구조 감사로 확인 가능한 부분은 완료. 남은 건 실제 학생 3명 이상 교실 실측뿐(사용자 전담).
+
+커밋 `9663c77`.
+
+## 2026-09-07 — MUD 등록 경로: 도달 불가능했던 보조 MUD 2종 노출
+
+BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeongnyang`(2단원 7차시)·`regular_korean_war`(3단원 10~12차시)가 포털 어디에도 노출 경로가 없어 **완전히 도달 불가능한 상태**였음을 발견했다(3단원 44·45번 차시 카드는 primary MUD도 없어 빈 카드였음).
+
+- `js/app.js`에 `findSupplementaryMud()`를 추가해 primary 버튼 아래 `.btn.secondary` 스타일 "+확장 활동" 버튼을 렌더링하도록 수정.
+- `app.js`의 레거시 Regular 조건문(~140줄)은 인덱스 로드 실패 시에만 도는 안전망임을 코드로 재확인, 제거하지 않고 유지 결정.
+- 작업 중 `index.html`의 `js/app.js?v=...` 캐시 버스터를 갱신하지 않으면 브라우저가 옛 스크립트를 계속 쓴다는 것을 재확인(버전 문자열 `20260907-supplementary1`로 갱신).
+
+검증: `node --check`, `scripts/08_validate_mud_catalog.py` 통과. 데스크톱·태블릿(768×1024) 뷰포트에서 1~3단원 전체 카드 확인, 보조 버튼 클릭 시 `regular_myeongnyang` 정상 오픈 확인, 콘솔 오류 0건. 커밋 `0d820aa`.
+
+## 2026-09-07 — IF 재시도 스테이지 83곳 교사 검토 우선순위화 및 전수 검토
+
+`if_stage_audit.md`의 잔여 90개 신호를 [`docs/audits/if_stage_teacher_review_priority.md`](./docs/audits/if_stage_teacher_review_priority.md)로 4단계 우선순위화했다(둘 다 미달/한쪽만 미달 × 민감 주제 여부). 이어서 83곳 전부를 `MudEngine.openMUD`+`renderStage`로 브라우저에서 직접 열어 검토했다.
+
+- 1순위 14곳 중 3곳, 2순위 15곳 중 2곳만 실제로 주제와 무관한 범용 문구였다(예: 7개 파일에 걸쳐 완전히 동일한 "한 자료는 과거의 한 측면을 보여 줍니다..." 문구가 일제강점기·세종대왕·전후재건 등 서로 다른 주제에 그대로 복사돼 있었음) — 이 5곳만 "단서 인용형 재작성"으로 고쳤다.
+- 3순위 16곳·4순위 38곳은 전수 확인 결과 재작성 없이 유지 — 감사 스크립트의 기계적 기준(120자·단서 2개)이 짧아도 이미 구체적인 서술(예: 손변의 재판 일화, 근초고왕의 평양성 공격, 이순신의 실제 발언 인용)을 걸러내지 못했을 뿐, 내용 자체는 문제가 없었다.
+- 83개 신호 전부 검토 완료: 재작성 5곳(+이전 세션의 범용 문구 7곳 = 총 12곳), 나머지 76곳은 이미 적절함을 확인.
+
+검증: 재작성한 각 스테이지 JSON 유효성, `scripts/03/04_validate_*`, `10_audit_if_stages.py` 재실행(90→78) 확인. 83곳 전부 브라우저 렌더링 확인, 콘솔 오류 0건. 커밋 `2033322`·`3204538`·`a93b91e` 등.
+
+## 2026-09-07 — 유물 카드 아이콘 7종 수정 및 캐시 버그 발견
+
+`docs/audits/artifact_audit.md` 기준 36종 유물 카드의 콘텐츠(과장 표현 등)는 이미 문제가 없었으나(0건), 감사 스크립트가 검사하지 않는 **아이콘-내용 불일치**를 수동 검토로 7건 찾아 수정했다 — 예: 백제 칠지도(외교 선물인데 전투 쌍검 이모지 ⚔️→단검 🗡️), 6·25 무공훈장(전투 헬멧 🪖→훈장 🎖️), 남한산성·경복궁(일본식 성 이모지 🏯→각각 🏰·🏛️).
+
+- `js/encyclopedia.js`의 `artifacts.json` fetch에 `{cache: 'no-store'}`가 빠져 있어 브라우저가 예전 유물 데이터를 계속 보여주는 버그를 발견·수정(다른 fetch에는 이미 있던 패턴).
+- 작업 중 공유 작업 폴더가 다른 세션에 의해 `main`이 아닌 로컬 전용 브랜치(`feat/cooperative-live-vertical-slice`)로 체크아웃돼 있던 것을 발견 — 커밋이 그 브랜치에 잘못 들어갔던 것을 cherry-pick으로 `main`에 복구·push했다.
+
+검증: JSON 유효성, `scripts/03/08/11_validate_*`(11번은 0건 확인) 통과. 실제 도감 UI에서 7개 카드 전부 아이콘 렌더링 확인, 콘솔 오류 0건. 커밋 `c91c2c3`(main).
+
+## 2026-09-07 — Vercel·Convex 실시간 협동 MUD 첫 수직 슬라이스
+
+기존 GitHub Pages 앱을 건드리지 않고 `apps/cooperative-live/`에 Next.js 독립 앱을 만들었다. 첫 범위는 고조선 8조법, 교사 1명, 가상 학생 8명, 4인 모둠 2개다.
+
+- 가상 데이터 모드에서 세션 생성, 학생 8명 입장, 중복 없는 호(號), 모둠·역할 무작위 배정, 학생 단계 진행, 모둠별 힌트/심화, 종료 삭제를 한 흐름으로 확인할 수 있다.
+- 실제 연결을 위해 Convex `sessions`, `players`, `rooms`, `interventions` 스키마와 교사/학생 함수, 2시간 만료 정리 함수를 작성했다. 교사는 Auth0 `sub` 허용목록으로 제한하고 학생은 계정 없이 세션 한정 난수 토큰을 받으며 서버에는 SHA-256 해시만 저장한다.
+- 학생의 개인 선택·이유는 서버로 보내지 않고 `sessionStorage`에만 둔다. 종료할 때 다른 앱 데이터를 건드리지 않고 `cooperative-live:` 키만 제거한다. 대시보드에는 호·모둠·역할·진행 단계·제출 시각만 표시한다.
+- Production·실제 학생 접속은 `P1-COLLAB-PRIVACY` 해제 전까지 금지했다. 환경변수 예시와 Vercel Root Directory, Auth0/Convex 설정 절차는 앱 README에 기록했다.
+- 검증: `npm run lint`, `npm run typecheck`, 단위 테스트 3건, `npm run build` 통과. Chrome에서 전체 가상 흐름과 종료 시 13개 레코드 삭제 표시를 확인했고, 375×812 모바일에서 가로 스크롤 없음·터치 버튼 48px·새 탭 콘솔 오류/경고 0건을 확인했다.
+- 제한: Convex 익명 로컬 배포는 개발 PC에서 백엔드 바이너리 다운로드 중 `self-signed certificate in certificate chain` 오류가 발생해 실행하지 못했다. TLS 검증 비활성화는 하지 않았고, 실제 함수 통합·Auth0·Vercel Preview 검증은 신뢰할 수 있는 CA 설정 및 계정 연결 후 진행한다.
