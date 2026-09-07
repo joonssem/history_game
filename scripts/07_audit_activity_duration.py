@@ -2,14 +2,20 @@
 
 This is a deterministic design heuristic, not a substitute for classroom timing.
 It highlights scenarios that need student usability testing first.
+
+반복 탭 판정은 `_tap_resistance_rule.py`를 쓴다. 09번 감사와 같은 규칙이다.
 """
 
 from __future__ import annotations
 
 import json
 import re
+import sys
 from collections import Counter
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _tap_resistance_rule import find_rapid_tap_stages  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -64,15 +70,9 @@ def audit(path: Path) -> dict:
             flags.append("필수 조작 없음")
         if len(active) < 2:
             flags.append("능동 활동 2개 미만")
-        rapid_tap = any(
-            sim.get("required")
-            and not sim.get("hotspots")
-            and not (sim.get("type") == "buttons" and sim.get("actions"))
-            and not (sim.get("completion") or {}).get("uniqueActions")
-            and (sim.get("completion") or {}).get("minActions", 99) <= 4
-            for sim in simulators
-        )
-        if rapid_tap:
+        # 판정은 `_tap_resistance_rule.py`가 소유한다. 09번 감사와 같은 기준·같은
+        # 범위(IF 재시도 포함 전체 스테이지)를 쓰므로 두 결과가 어긋나지 않는다.
+        if find_rapid_tap_stages(data.get("stages", {})):
             flags.append("반복 탭 조기 종료 위험")
     return {
         "mudId": data["mudId"],

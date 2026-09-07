@@ -1122,3 +1122,22 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - Production·실제 학생 접속은 `P1-COLLAB-PRIVACY` 해제 전까지 금지했다. 환경변수 예시와 Vercel Root Directory, Auth0/Convex 설정 절차는 앱 README에 기록했다.
 - 검증: `npm run lint`, `npm run typecheck`, 단위 테스트 3건, `npm run build` 통과. Chrome에서 전체 가상 흐름과 종료 시 13개 레코드 삭제 표시를 확인했고, 375×812 모바일에서 가로 스크롤 없음·터치 버튼 48px·새 탭 콘솔 오류/경고 0건을 확인했다.
 - 제한: Convex 익명 로컬 배포는 개발 PC에서 백엔드 바이너리 다운로드 중 `self-signed certificate in certificate chain` 오류가 발생해 실행하지 못했다. TLS 검증 비활성화는 하지 않았고, 실제 함수 통합·Auth0·Vercel Preview 검증은 신뢰할 수 있는 CA 설정 및 계정 연결 후 진행한다.
+
+## 2026-09-07 — 반복 탭 감사 스크립트 판정 기준 통일
+
+`07_audit_activity_duration.py`가 `regular_paleolithic`을 계속 오탐하던 문제를 근본에서 고쳤다.
+
+- **불일치는 문서에 적힌 한 군데가 아니라 네 군데였다.** 두 스크립트가 각자 판정 로직을 들고 있었다.
+  - 레거시 중복거부 모드 제외: 09번만 있음 ← 오탐의 직접 원인
+  - `completion.uniqueActions` 제외: 07번만 있음
+  - `minActions` 기본값: 09번 `completion.target` / 07번 `99`(사실상 판정 안 함)
+  - 검사 대상: 09번 전체 스테이지 / 07번 본 스테이지만
+  - 출력 차이는 `regular_paleolithic` 하나뿐이었지만, 나머지 세 가지는 우연히 결과가 같았을 뿐이라 언제든 다시 어긋날 수 있었다.
+- **판정을 `scripts/_tap_resistance_rule.py`로 분리했다.** 두 스크립트가 `find_rapid_tap_stages()`를 함께 쓴다. 규칙이 한 곳에만 있으므로 구조적으로 다시 갈릴 수 없다.
+- 통일 기준은 **제외 조건의 합집합**이다. 다섯 조건(JSON 핫스팟 / 버튼형 개별 action / `uniqueActions` / 레거시 중복거부 모드 / 조작 수 5 이상)은 각각 "같은 곳을 반복해도 통과되지 않는다"는 서로 다른 근거이므로, 하나라도 해당하면 후보가 아니다. 왜 갈렸는지와 각 조건의 근거는 모듈 docstring에 남겼다.
+- 결과: 07번 8종 → **7종**(`regular_paleolithic`이 `기준 충족 추정`으로), 09번 7종 유지, 두 스크립트 판정 **완전 일치**.
+- `__pycache__`가 생기므로 `.gitignore`를 새로 만들었다(기존에 없었다).
+
+검증: 두 스크립트 재실행 후 대상 MUD 집합이 정확히 일치함을 프로그램으로 대조 확인. `activity_duration_audit.md` 변경은 `regular_paleolithic` 행과 집계 수 3줄뿐. 정적 검증 9종과 `05_test_simulator_runtime.js` 통과. 07번 재실행 멱등성 확인.
+
+**작업 중 발견한 별건**: `scripts/10_audit_if_stages.py`와 `11_audit_artifacts.py`가 보고서를 저장소 **루트**에 쓰는데, 실제 추적 중인 파일은 `docs/audits/` 아래에 있다(문서 재배치 때 스크립트가 갱신되지 않음). 특히 `docs/audits/if_stage_audit.md`에는 손으로 쓴 실행 결과 절이 붙어 있어, 생성물로 덮어쓰면 사라진다. 이번 범위에 포함하지 않고 기록만 남긴다.
