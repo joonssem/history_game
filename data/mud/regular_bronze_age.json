@@ -122,6 +122,7 @@
         "mode": "dolmen-step1",
         "type": "info",
         "interaction": "hotspot-discovery",
+        "scene": "gojoseon-artifacts",
         "hotspots": [
           {
             "id": "copper-tin",
@@ -216,6 +217,7 @@
         "mode": "dolmen-step2",
         "type": "info",
         "interaction": "hotspot-discovery",
+        "scene": "neolithic-village",
         "hotspots": [
           {
             "id": "farming-surplus",

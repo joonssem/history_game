@@ -91,6 +91,7 @@
         "mode": "mn-map-idle",
         "type": "info",
         "interaction": "hotspot-discovery",
+        "scene": "namhae-suguninmul",
         "hotspots": [
           {
             "id": "joseon-fleet",
@@ -191,6 +192,7 @@
         "mode": "mn-map-choose",
         "type": "info",
         "interaction": "hotspot-discovery",
+        "scene": "namhae-suguninmul",
         "hotspots": [
           {
             "id": "channel-width",
@@ -295,6 +297,7 @@
         "mode": "mn-combat-active",
         "type": "info",
         "interaction": "hotspot-discovery",
+        "scene": "hansando-hakikjin",
         "hotspots": [
           {
             "id": "japanese-boarding",
