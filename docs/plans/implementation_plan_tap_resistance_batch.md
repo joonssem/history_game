@@ -2,11 +2,22 @@
 
 ## 상태
 
-- 상태: in-progress (5개 MUD 반영, 대표 첫 단계 브라우저 점검 완료)
+- 상태: **구조 감사 기준으로는 사실상 완료** — 판단 스테이지(분기 있는 결정 지점) 반복 탭 위험은 2026-09-07 재감사 결과 0건. 남은 후보 전부 엔딩 스테이지(단일 선택지, `next: "end"`)라 학습 판단을 우회할 위험이 없다.
 - 우선순위: P1-02
-- 대상: `regular_independence` 및 `regular_modern_open` 1~3단계
-- 근거: `scripts/09_audit_tap_resistance.py` 구조 감사에서 비장면 후보로 선별
-- 코드 구현: 1차 대상 반영 완료
+- 근거: `scripts/09_audit_tap_resistance.py` 재실행(2026-09-07). 이번 세션의 선택지 편향 재작성·게이팅 정리 작업과 겹쳐 후보가 자연히 줄었다.
+- 코드 구현: 1~5차 대상 반영 완료(이전 기록), 이후 신규 판단 스테이지 후보 없음.
+
+### 2026-09-07 재감사 결과 (Claude)
+
+`scripts/09_audit_tap_resistance.py`를 다시 실행한 결과 후보 **7개**, 전부 각 MUD의 마지막 "MISSION ACCOMPLISHED" 엔딩 스테이지(예: `regular_goryeo_founding:4`)였다:
+
+- `regular_goryeo_founding:4`, `regular_goryeo_society:4`, `regular_joseon_economy:4`, `regular_joseon_silhak:4`, `regular_myeongnyang:4`, `regular_three_kingdoms:4`, `regular_three_kingdoms_life:4`
+
+이 7곳은 모두 분기 없는 단일 선택지(`도감에 등록하고 완료합니다!` → `next: "end"`)만 있는 엔딩 화면이다. 게이지를 2~4회 아무렇게나 채워도 건너뛰는 것은 "완료 축하 문구를 읽는 시간"뿐, 실제 역사적 판단이나 자료 비교 지점이 아니므로 **재설계가 필요하지 않다고 판단**한다.
+
+루트 `activity_duration_audit.md`(`scripts/07_audit_activity_duration.py`)가 여전히 8종(위 7종 + `regular_paleolithic`)을 "반복 탭 조기 종료 위험"으로 표시하는데, `regular_paleolithic`는 `09_audit_tap_resistance.py`가 이미 안전하다고 판정한 `paleo-*` 전용 렌더러(중복 입력을 자체적으로 거부함, `KNOWN_DISTINCT_INTERACTION_MODES`)를 07번 스크립트가 반영하지 않아 생긴 **07번 스크립트 쪽의 오탐**이다. 두 스크립트의 판정 기준을 맞추는 작업은 별도 정리 대상으로 남긴다(우선순위 낮음).
+
+**결론**: 구조 감사로 확인 가능한 부분(순서 확인 없이 연속 탭으로 판단 스테이지를 건너뛰는 경로)은 더 이상 없다. 남은 것은 BACKLOG가 이미 명시한 대로 **실제 학생 3명 이상의 교실 실측**뿐이며, 이는 코드 작업으로 대체할 수 없다.
 
 ## 5차 적용 결과 — `regular_bronze_age` 3단계
 

@@ -129,7 +129,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 현재 구현 순서는 학습 흐름의 안정성, 모바일 사용성, 교육 콘텐츠 품질 순으로 정한다. 아래 순서는 문서 검토 후 정한 다음 구현 후보이며, 실제 코딩은 별도 구현 계획과 사용자 확인 후 시작한다.
 
 1. **P1-01 설계·실제 화면 정합성 대표 MUD 검증** — `regular_paleolithic`을 기준으로 포털→MUD→시뮬레이터→선택지→엔딩 흐름과 세로형 태블릿 레이아웃을 대조한다. *(완료: 820×1180 Chrome 점검 통과)*
-2. **P1-02 Regular 활동 시간·무작위 탭 내성** — 실제 학생 활동 시간과 잔여 구조 후보를 검토한다. *(주요 5개 MUD 반영·대표 브라우저 회귀 완료; 반복 탭 구조 감사 40개 후보, 활동 시간 감사 보완 신호 16종은 별도 지표; 2026-09-01 1단원 2·3차시 연속 활동은 4분 이내 완료 관찰, 전체 학생 측정은 계속 필요)*
+2. **P1-02 Regular 활동 시간·무작위 탭 내성** — 실제 학생 활동 시간과 잔여 구조 후보를 검토한다. *(2026-09-07 재감사: 판단 스테이지 반복 탭 후보 0건(엔딩 스테이지 7곳만 남음, 재설계 불필요로 판정 — [`implementation_plan_tap_resistance_batch.md`](./docs/plans/implementation_plan_tap_resistance_batch.md) 참조). 구조 감사로 할 수 있는 부분은 완료. 남은 것은 실제 학생 3명 이상 교실 실측뿐(2026-09-01 1단원 2·3차시 연속 활동 4분 이내 완료 관찰 이후 추가 실측 없음) — 사용자만 가능.)*
 3. **P1-03 IF 스테이지 교육적 품질** — 6개 단계의 교육적 문장을 검토한다. *(문장 보강·Codex/Claude 검토·사용자 최종 승인 완료; 후속 품질 검토는 별도 backlog로 관리)*
 4. **P2-01 접근성·상태 표현** — 실제 보조기기와 색상 독립 상태 표현을 확인한다. *(정적·Chrome 키보드 검증 완료, 실제 기기 확인 대기)*
 5. **P2-03 MUD 등록 경로 단순화** — 보조 MUD 노출과 태블릿 확인을 마무리한다. *(primary 경로·중복 차시 브라우저 확인 완료)*
@@ -146,7 +146,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 - 대상: `regular_independence` 및 `regular_modern_open` 각 1~3단계의 비장면 `text-reading`·`battle-gauge`·`culture-touch` 활동
 - 계획서: [`implementation_plan_tap_resistance_batch.md`](./docs/plans/implementation_plan_tap_resistance_batch.md)
-- 상태: `in-progress` — 주요 코드 반영·대표 브라우저 검증 완료, 실제 학생 시간 측정 대기
+- 상태: `structural-audit-complete` — 판단 스테이지 반복 탭 후보 0건 확인(2026-09-07). 실제 학생 시간 측정만 남음(사용자 전담).
 - 원칙: 장면이 있는 단계와 기존 좌표는 이번 묶음에서 변경하지 않는다.
 
 ### P1-03 IF 스테이지 1차 구현 계획
