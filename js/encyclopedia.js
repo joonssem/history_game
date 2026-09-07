@@ -47,7 +47,7 @@ class EncyclopediaManager {
 
   async initArtifacts() {
     try {
-      const res = await fetch('data/artifacts.json');
+      const res = await fetch('data/artifacts.json', { cache: 'no-store' });
       this.artifactsList = await res.json();
     } catch (e) {
       console.error('Failed to load artifacts.json', e);
