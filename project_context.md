@@ -307,18 +307,18 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 ## 7. 다음 작업 후보
 
-### 지금 대기 중인 것 (2026-09-06 기준)
+### 지금 대기 중인 것 (2026-09-07 기준)
 
-교실에서 해야 확인되는 항목이 앞에 있다. 코드로 더 만들기 전에 이 둘이 먼저다.
+실시간 확장에는 개인정보·국외 처리 절차가 차단 게이트다. 이 프로젝트는 교사 제작 교육용 저작물로 분류하므로 학습지원 소프트웨어 선정·학교운영위원회 심의 게이트는 적용하지 않는다. 현재 정적 협동 MUD의 수업 검증은 개인정보 게이트와 별도로 진행할 수 있다.
 
-1. **7·8차시 협동 MUD 실제 수업 운영** — 두 편 다 제작·브라우저 검증은 끝났고 학생과 해 본 적이 없다. 볼 것: 네 자료가 모두 발화되는가, 공유 전 최초 판단이 서로 다른가, 타이머 배지가 너무 자주/드물게 뜨지 않는가. 관찰은 `EXPERIMENTS.md`에 `EXP-006` 형식으로 남긴다.
-2. **학교·교육청 개인정보 지침 확인** 🔴 — 실시간 확장 착수의 선행 조건이다. 질문 3개는 `BACKLOG.md` P2-COLLAB-05에 그대로 쓸 수 있게 적어 두었다. "국외 서버 불가" 답이 나오면 백엔드 결정([D-019](./DECISIONS.md))을 다시 연다.
+1. **Convex 개인정보·국외 처리 절차 확인** 🔴 — 실시간 확장의 P1 차단 게이트다. 개인정보 처리 근거 확인과 Convex·Vercel 위탁/국외 처리 문서가 필요하다. [BACKLOG P1-COLLAB-PRIVACY](./BACKLOG.md), [감사 문서](./docs/audits/convex_elementary_school_privacy_audit.md) 참조. 통과 전에는 가상 데이터 개발만 허용한다.
+2. **7·8차시 정적 협동 MUD 실제 수업 운영** — 두 편 다 제작·브라우저 검증은 끝났고 학생과 해 본 적이 없다. 볼 것: 네 자료가 모두 발화되는가, 공유 전 최초 판단이 서로 다른가, 타이머 배지가 너무 자주/드물게 뜨지 않는가. 관찰은 `EXPERIMENTS.md`에 `EXP-006` 형식으로 남긴다.
 
 ### 그다음 (코드)
 
-3. **타이머 예산 조정** — 화면별 목표 시간은 추정치다. 1번 관찰 뒤 `scenario.pacing.budgets`를 고친다. 감도는 `pacing.tuning`으로 시나리오별로 덮어쓸 수 있다.
+3. **타이머 예산 조정** — 화면별 목표 시간은 추정치다. 2번 관찰 뒤 `scenario.pacing.budgets`를 고친다. 감도는 `pacing.tuning`으로 시나리오별로 덮어쓸 수 있다.
 4. **네 번째 협동 시나리오** — 진도에 맞춰 후보 풀에서 고른다. 새 편은 `scenario.js`와 `index.html` 둘만 만들면 된다.
-5. **실시간 확장 첫 수직 슬라이스** — 2번 통과 후. `docs/plans/COLLABORATIVE_MUD_MVP.md` §8.
+5. **실시간 확장 첫 수직 슬라이스 후속 검증** — `apps/cooperative-live`에 고조선 가상 학생 8명 흐름과 실제 연결용 Convex/Auth0 경계를 구현했다. [`implementation_plan_vercel_convex_vertical_slice.md`](./docs/plans/implementation_plan_vercel_convex_vertical_slice.md)의 구현 결과와 앱 README를 기준으로 Convex 런타임 통합·Vercel Preview를 확인한다. 1번 통과 전에는 Production·실제 학생 접속을 하지 않는다.
 
 ### 개인형 앱 잔여 (우선순위 낮음)
 
@@ -341,7 +341,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
   - 공통 파일: `cooperative-mud/episode.js`(화면 흐름 엔진), `pacing.js`(타이머 페이싱), `cooperative.css`. 시나리오는 각 폴더의 `scenario.js`가 소유하고 엔진에는 역사 내용을 넣지 않는다. 고조선만 화면 순서가 달라 자체 `app.js`를 쓴다.
   - 선사시대 협동 MUD는 종이 리허설 단계를 2026-09-06에 폐기하고 정적 웹 제작 대상으로 전환했다 — 1인 1기기 화면이 곧 역할 카드다.
   - 수업 운영 방법은 [`cooperative-mud/TEACHING.md`](./cooperative-mud/TEACHING.md)에 있다. 교실에서 바로 보는 문서다.
-  - 실시간 확장(Vercel + Convex)은 설계만 되어 있고 미구현이다. `docs/plans/COLLABORATIVE_MUD_*.md` 참조.
+  - 실시간 확장(Vercel + Convex)의 첫 수직 슬라이스는 `apps/cooperative-live/`에 구현됐다. 현재는 가상 데이터 브라우저 검증까지 완료했으며 실제 Convex/Auth0/Vercel 연결과 학생 적용은 남아 있다. `apps/cooperative-live/README.md`와 `docs/plans/implementation_plan_vercel_convex_vertical_slice.md` 참조.
 
 ## 8. 실행 및 테스트 방법
 
