@@ -92,6 +92,7 @@
         "mode": "gwangbok-flag",
         "type": "info",
         "interaction": "hotspot-discovery",
+        "scene": "gwangbok-radio-announcement",
         "hotspots": [
           {
             "id": "august-15",
@@ -192,6 +193,7 @@
         "mode": "gwangbok-flag",
         "type": "info",
         "interaction": "hotspot-discovery",
+        "scene": "gwangbok-committee-office",
         "hotspots": [
           {
             "id": "security",
@@ -292,6 +294,7 @@
         "mode": "culture-touch",
         "type": "info",
         "interaction": "hotspot-discovery",
+        "scene": "gwangbok-ballot-booth",
         "hotspots": [
           {
             "id": "ballot-paper",

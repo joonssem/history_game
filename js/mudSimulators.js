@@ -1403,6 +1403,41 @@ const MudSimulators = {
       });
       return true;
     }
+    if (scene === 'gwangbok-radio-announcement') {
+      // 1945.8.15 광복 소식을 알리는 라디오 방송탑. 군중·환호 장면 없이 방송탑과 태극기만으로 표현한다.
+      fillSky('#eee6d2', '#f6f0dd', '#c9b98c');
+      ctx.fillStyle = '#5c6b78'; ctx.fillRect(w * 0.46, h * 0.32, w * 0.08, h * 0.42);
+      ctx.strokeStyle = '#3a4148'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(w * 0.4, h * 0.74); ctx.lineTo(w * 0.46, h * 0.32); ctx.moveTo(w * 0.6, h * 0.74); ctx.lineTo(w * 0.54, h * 0.32); ctx.stroke();
+      ctx.strokeStyle = 'rgba(90,90,90,0.5)'; ctx.lineWidth = 1.5; [0.1, 0.16, 0.22].forEach(r => { ctx.beginPath(); ctx.arc(w * 0.5, h * 0.3, w * r, Math.PI * 1.2, Math.PI * 1.8); ctx.stroke(); });
+      ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#a13a2e'; ctx.lineWidth = 1.5; ctx.fillRect(w * 0.72, h * 0.36, w * 0.1, h * 0.07); ctx.strokeRect(w * 0.72, h * 0.36, w * 0.1, h * 0.07);
+      ctx.strokeStyle = '#a13a2e'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(w * 0.77, h * 0.395, w * 0.02, 0, Math.PI * 2); ctx.stroke();
+      ctx.fillStyle = '#8a7355'; ctx.fillRect(w * 0.765, h * 0.43, w * 0.01, h * 0.3);
+      return true;
+    }
+    if (scene === 'gwangbok-committee-office') {
+      // 조선건국준비위원회 사무소. 인물 얼굴·완장 착용 장면 없이 책상·완장·공고문으로 치안 유지 활동을 표현한다.
+      fillSky('#e6ded0', '#f2ecdd', '#b9ab86');
+      ctx.fillStyle = '#8a7355'; ctx.fillRect(w * 0.14, h * 0.56, w * 0.32, h * 0.1);
+      ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 1.5; ctx.fillRect(w * 0.18, h * 0.46, w * 0.12, h * 0.09); ctx.strokeRect(w * 0.18, h * 0.46, w * 0.12, h * 0.09);
+      ctx.strokeStyle = '#a08256'; ctx.lineWidth = 1; [0.5, 0.53].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.2, h * y); ctx.lineTo(w * 0.28, h * y); ctx.stroke(); });
+      ctx.fillStyle = '#4f90b0'; ctx.fillRect(w * 0.56, h * 0.42, w * 0.05, h * 0.16);
+      ctx.fillStyle = '#b5342a'; ctx.beginPath(); ctx.arc(w * 0.585, h * 0.5, w * 0.018, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#5c554a'; ctx.lineWidth = 1.5; ctx.fillRect(w * 0.72, h * 0.4, w * 0.16, h * 0.22); ctx.strokeRect(w * 0.72, h * 0.4, w * 0.16, h * 0.22);
+      ctx.strokeStyle = '#5c554a'; ctx.lineWidth = 1; [0.46, 0.5, 0.54, 0.58].forEach(y => { ctx.beginPath(); ctx.moveTo(w * 0.745, h * y); ctx.lineTo(w * 0.855, h * y); ctx.stroke(); });
+      return true;
+    }
+    if (scene === 'gwangbok-ballot-booth') {
+      // 5·10 총선거 투표소. 문맹 유권자를 위한 기호(도형) 투표용지를 강조하고, 특정 후보·정당 상징은 그리지 않는다.
+      fillSky('#e6ded0', '#f2ecdd', '#b9ab86');
+      ctx.fillStyle = '#8a7355'; ctx.fillRect(w * 0.36, h * 0.28, w * 0.28, h * 0.4); ctx.strokeStyle = '#5c4a34'; ctx.lineWidth = 2; ctx.strokeRect(w * 0.36, h * 0.28, w * 0.28, h * 0.4);
+      ctx.fillStyle = '#efe9dc'; ctx.fillRect(w * 0.4, h * 0.34, w * 0.2, h * 0.14); ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 1; ctx.strokeRect(w * 0.4, h * 0.34, w * 0.2, h * 0.14);
+      ctx.fillStyle = '#5c4a34'; [0.44, 0.5, 0.56].forEach(x => { ctx.beginPath(); ctx.arc(w * x, h * 0.41, w * 0.014, 0, Math.PI * 2); ctx.fill(); });
+      ctx.fillStyle = '#3a3630'; ctx.fillRect(w * 0.14, h * 0.6, w * 0.16, h * 0.2); ctx.beginPath(); ctx.ellipse(w * 0.22, h * 0.6, w * 0.08, h * 0.02, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#efe9dc'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(w * 0.19, h * 0.6); ctx.lineTo(w * 0.25, h * 0.6); ctx.stroke();
+      ctx.fillStyle = '#efe9dc'; ctx.strokeStyle = '#8a7355'; ctx.lineWidth = 1.2; ctx.fillRect(w * 0.68, h * 0.58, w * 0.16, h * 0.1); ctx.strokeRect(w * 0.68, h * 0.58, w * 0.16, h * 0.1);
+      ctx.strokeStyle = '#b5342a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(w * 0.76, h * 0.63, w * 0.02, 0, Math.PI * 2); ctx.stroke();
+      return true;
+    }
     if (scene === 'shanghai-provisional-government') {
       fillSky('#eee6d2', '#f6f0dd', '#c9b98c');
       ctx.fillStyle = '#c9c0a6'; ctx.fillRect(w * 0.24, h * 0.28, w * 0.52, h * 0.34);
