@@ -1,14 +1,23 @@
-"""Screen artifact cards for completeness and educational wording risks."""
+"""Screen artifact cards for completeness and educational wording risks.
+
+보고서의 마커 구간만 갱신한다. 적용 원칙 등 사람이 쓴 절은 건드리지 않는다.
+"""
 
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _managed_block import write_managed_block  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = ROOT / "data" / "artifacts.json"
-REPORT = ROOT / "artifact_audit.md"
+REPORT = ROOT / "docs" / "audits" / "artifact_audit.md"
+START = "<!-- ARTIFACT_SIGNALS:START -->"
+END = "<!-- ARTIFACT_SIGNALS:END -->"
 REQUIRED = ("id", "name", "era", "tier", "tierName", "icon", "desc", "category", "hint")
 RISK_TERMS = ("세계 최초", "최초", "증명", "위대한", "목숨을 걸고", "강력한", "모든")
 
@@ -39,35 +48,17 @@ def main() -> int:
             )
 
     lines = [
-        "# 유물·보상 카드 교육 품질 감사",
-        "",
-        "> 구조·표현 검토 신호를 모으는 보조 자료입니다. 역사 사실 확인과 교사 검토를 대신하지 않습니다.",
-        "> 보상 ID 연결은 `scripts/03_validate_mud_integrity.py`에서 별도로 검사합니다.",
-        "",
         f"- 감사 대상: {len(artifacts)}종",
         f"- 검토 신호: {len(rows)}종",
         "- 기준: 필수 필드 완비, 단정·과장 표현 검토, 초등학생이 읽을 수 있는 설명 길이",
-        "",
-        "## 검토 신호",
         "",
         "| ID | 유물명 | 시대 | 신호 |",
         "|---|---|---|---|",
     ]
     for row in rows:
         lines.append(f"| `{row['id']}` | {row['name']} | {row['era']} | {row['flags']} |")
-    lines.extend(
-        [
-            "",
-            "## 적용 원칙",
-            "",
-            "1. `최초`·`증명`처럼 범위를 넓히는 표현은 현존 자료인지, 해석인지 구분해 쓴다.",
-            "2. 유물 카드가 수업의 대표 자료인지 실제 국보 지정 여부인지 혼동되지 않도록 명칭과 등급을 함께 검토한다.",
-            "3. Regular 복습을 방해하지 않도록 카드를 장문 해설로 확장하지 않는다.",
-            "4. 수정 시 MUD 보상 ID·이름 연결과 카탈로그 검증을 다시 실행한다.",
-            "",
-        ]
-    )
-    REPORT.write_text("\n".join(lines), encoding="utf-8")
+    if write_managed_block(REPORT, START, END, "\n".join(lines)) != 0:
+        return 1
     print(f"Audited {len(artifacts)} artifact cards; {len(rows)} need wording review.")
     return 0
 

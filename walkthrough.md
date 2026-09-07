@@ -1141,3 +1141,18 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 검증: 두 스크립트 재실행 후 대상 MUD 집합이 정확히 일치함을 프로그램으로 대조 확인. `activity_duration_audit.md` 변경은 `regular_paleolithic` 행과 집계 수 3줄뿐. 정적 검증 9종과 `05_test_simulator_runtime.js` 통과. 07번 재실행 멱등성 확인.
 
 **작업 중 발견한 별건**: `scripts/10_audit_if_stages.py`와 `11_audit_artifacts.py`가 보고서를 저장소 **루트**에 쓰는데, 실제 추적 중인 파일은 `docs/audits/` 아래에 있다(문서 재배치 때 스크립트가 갱신되지 않음). 특히 `docs/audits/if_stage_audit.md`에는 손으로 쓴 실행 결과 절이 붙어 있어, 생성물로 덮어쓰면 사라진다. 이번 범위에 포함하지 않고 기록만 남긴다.
+
+## 2026-09-08 — 감사 보고서 출력 경로 수정과 CI 무력화 발견
+
+`10_audit_if_stages.py`·`11_audit_artifacts.py`가 보고서를 저장소 루트에 쓰는데 추적 파일은 `docs/audits/`에 있던 문제를 고쳤다. 조사 중 더 큰 문제를 찾았다.
+
+- **CI 드리프트 검사가 무력화돼 있었다.** `quality-gate.yml`이 `git diff --exit-code -- if_stage_audit.md`로 검사했는데 루트의 그 파일은 **추적 대상이 아니다.** 추적되지 않는 경로를 `git diff`로 비교하면 항상 통과하므로, 10·11번 감사의 드리프트 검사는 무의미했다. 07번만 정상 작동했다(루트 파일이 추적됨).
+- **경로만 바꿀 수 없었다.** `docs/audits/if_stage_audit.md`에는 사람이 쓴 `## 실행 결과 (2026-09-07, Claude)` 절이 있고, 그래서 "표는 최초 감사 시점 스냅숏이며 갱신하지 않음"이라는 우회 문구가 붙어 있었다. 스크립트가 파일 전체를 덮어쓰는 구조라 재생성을 포기한 것이다.
+- **마커 방식으로 두 문제를 함께 풀었다.** `scripts/_managed_block.py`를 만들어 START/END 사이만 교체한다. 표는 항상 최신이고 사람이 쓴 절은 남는다. `08_validate_mud_catalog.py`가 README에 이미 쓰던 방식과 같다. 마커가 없으면 조용히 덮어쓰지 않고 **실패**한다.
+- **07번에도 같은 보호를 적용했다.** 지금은 사람이 쓴 절이 없지만 같은 함정이 그대로 남아 있었다. 이제 생성 감사 보고서 3종이 모두 같은 규칙을 따른다.
+- 결과: `if_stage_audit.md`의 얼려 있던 92행 스냅숏이 현재값 78행으로 살아났고, 수기 절은 그대로다. `artifact_audit.md`는 36종·신호 0종. 루트에 잘못된 파일이 더는 생기지 않는다.
+- CI 경로를 `docs/audits/`로 바꿔 드리프트 검사가 실제로 작동하게 했다.
+
+검증: 세 보고서 모두 재실행 멱등성 확인, 사람이 쓴 절 보존 확인, 마커 제거 시 종료코드 1로 실패하는 것 확인, CI 검사 대상 3개가 모두 추적 파일임을 확인. 정적·감사 스크립트 11종과 `05_test_simulator_runtime.js` 통과.
+
+**작업 환경 사고**: 이 작업 도중 공유 폴더의 브랜치가 Codex 세션에 의해 `main` → `feat/cooperative-live-vertical-slice`로 두 번 바뀌었다. 두 번째에는 feature 브랜치 파일 위에 편집이 들어가 앞선 `f78a8df` 작업이 빠진 상태로 작업할 뻔했다. 미커밋 변경을 stash·패치로 보존하고 `main`에서 처음부터 다시 작업했다. 한 폴더를 두 세션이 공유하는 한 재발하므로, 별도 worktree 분리를 권한다.

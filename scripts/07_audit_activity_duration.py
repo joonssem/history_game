@@ -4,6 +4,7 @@ This is a deterministic design heuristic, not a substitute for classroom timing.
 It highlights scenarios that need student usability testing first.
 
 반복 탭 판정은 `_tap_resistance_rule.py`를 쓴다. 09번 감사와 같은 규칙이다.
+보고서의 마커 구간만 갱신하므로 사람이 쓴 절은 건드리지 않는다.
 """
 
 from __future__ import annotations
@@ -15,12 +16,17 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _managed_block import write_managed_block  # noqa: E402
 from _tap_resistance_rule import find_rapid_tap_stages  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
 MUD_DIR = ROOT / "data" / "mud"
 REPORT = ROOT / "activity_duration_audit.md"
+SUMMARY_START = "<!-- DURATION_SUMMARY:START -->"
+SUMMARY_END = "<!-- DURATION_SUMMARY:END -->"
+MODES_START = "<!-- UNGATED_MODES:START -->"
+MODES_END = "<!-- UNGATED_MODES:END -->"
 
 PASSIVE_MODES = {"text-reading", "info", None}
 
@@ -99,16 +105,9 @@ def main() -> int:
         for mode in row["simModes"]
     )
     lines = [
-        "# MUD 활동 시간·상호작용 전수 감사",
-        "",
-        "> 대상: 학생 개인 iPad 10세대, 수업 마무리 활동, Regular MUD 10분 이내·설계 목표 약 9분",
-        "> 추정치는 읽기량·선택 판단·시뮬레이터 조작 수에 기반한 설계 지표이며 실제 학생 시간 측정을 대신하지 않습니다.",
-        "",
         f"- Regular MUD: {len(regular)}종",
         f"- 보완 우선 대상: {len(flagged)}종",
         f"- 기준 충족 추정: {len(regular) - len(flagged)}종",
-        "",
-        "## 전수 결과",
         "",
         "| MUD | 선언 시간 | 핵심 단계 | 시뮬레이터 | 능동 활동 | 필수 활동 | 추정 시간 | 보완 신호 |",
         "|---|---:|---:|---:|---:|---:|---:|---|",
@@ -119,24 +118,17 @@ def main() -> int:
             f"| `{row['mudId']}` | {row['declared']} | {row['stages']} | {row['simulators']} | "
             f"{row['active']} | {row['required']} | {row['estimatedMinutes']}분 | {flags} |"
         )
-    lines.extend([
-        "",
-        "## 해석과 적용 순서",
-        "",
-        "1. `필수 조작 없음`은 선택지만 빠르게 눌러 통과할 수 있으므로 가장 먼저 보완합니다.",
-        "2. `능동 활동 2개 미만`은 정보 화면을 조작 활동으로 교체하거나 관찰·배열·분류 과제를 추가합니다.",
-        "3. `핵심 단계 4개 미만`은 학습 목표와 직접 연결되는 판단·성찰 단계를 추가합니다.",
-        "4. 자동 추정 통과 후에도 초등학생 3명 이상으로 실제 10분 이내 소요 시간을 측정합니다.",
-        "",
-        "## 필수 조작 미적용 시뮬레이터 모드",
-        "",
+    mode_lines = [
         "| 모드 | Regular MUD 단계 수 |",
         "|---|---:|",
-    ])
+    ]
     for mode, count in sorted(ungated_modes.items(), key=lambda item: (-item[1], item[0])):
-        lines.append(f"| `{mode}` | {count} |")
-    lines.append("")
-    REPORT.write_text("\n".join(lines), encoding="utf-8")
+        mode_lines.append(f"| `{mode}` | {count} |")
+
+    if write_managed_block(REPORT, SUMMARY_START, SUMMARY_END, "\n".join(lines)) != 0:
+        return 1
+    if write_managed_block(REPORT, MODES_START, MODES_END, "\n".join(mode_lines)) != 0:
+        return 1
     print(f"Audited {len(rows)} MUDs; {len(flagged)}/{len(regular)} regular MUDs need review.")
     return 0
 

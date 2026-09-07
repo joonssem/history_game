@@ -2,18 +2,26 @@
 
 This is a review aid, not an automatic content approval. It does not modify
 MUD JSON and deliberately ignores simulator scene ownership.
+
+보고서의 마커 구간만 갱신한다. 실행 결과·적용 원칙 등 사람이 쓴 절은 건드리지 않는다.
 """
 
 from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _managed_block import write_managed_block  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
 MUD_DIR = ROOT / "data" / "mud"
-REPORT = ROOT / "if_stage_audit.md"
+REPORT = ROOT / "docs" / "audits" / "if_stage_audit.md"
+START = "<!-- IF_STAGE_SIGNALS:START -->"
+END = "<!-- IF_STAGE_SIGNALS:END -->"
 EVIDENCE_CUES = ("자료", "기록", "비교", "근거", "살펴", "단서")
 
 
@@ -51,16 +59,9 @@ def main() -> int:
                 )
 
     lines = [
-        "# Regular 재시도(IF) 단계 교육 품질 감사",
-        "",
-        "> 구조 감사 보조 자료입니다. 실제 수업 관찰이나 교육과정 검토를 대신하지 않습니다.",
-        "> 장면(`simulator.scene`), 핫스팟, 상호작용, 완료조건은 이 감사에서 변경하지 않습니다.",
-        "",
         f"- 감사 대상: Regular 재시도 단계 전체",
         f"- 보완 검토 신호: {len(rows)}개",
         "- 최소 기준: 근거 설명 120자 이상, 자료·비교 단서 2개 이상, 원 단계 복귀 선택지 1개",
-        "",
-        "## 보완 검토 신호",
         "",
         "| 파일 | 단계 | 표지 | 설명 글자 수 | 단서 | 신호 |",
         "|---|---:|---|---:|---|---|",
@@ -70,19 +71,8 @@ def main() -> int:
             f"| `{row['file']}` | {row['stage']} | {row['label']} | {row['chars']} | "
             f"{row['cues']} | {row['flags']} |"
         )
-    lines.extend(
-        [
-            "",
-            "## 적용 원칙",
-            "",
-            "1. Regular은 10분 이내 복습이므로 실패 화면을 별도 탐구 단계로 확장하지 않습니다.",
-            "2. 보완 시 역사적 결과를 단정하기보다 원 단계의 자료·기록·비교 단서를 한두 문장으로 연결합니다.",
-            "3. 장면 단계의 좌표·핫스팟·완료조건 변경이 필요하면 Claude에 MUD·단계별 변경을 먼저 전달합니다.",
-            "4. 최종 승인 전 교사 검토와 학생 재시도 관찰을 별도로 수행합니다.",
-            "",
-        ]
-    )
-    REPORT.write_text("\n".join(lines), encoding="utf-8")
+    if write_managed_block(REPORT, START, END, "\n".join(lines)) != 0:
+        return 1
     print(f"Audited {len(rows)} Regular retry stages needing review signals.")
     return 0
 

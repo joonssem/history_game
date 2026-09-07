@@ -3,11 +3,15 @@
 > 대상: 학생 개인 iPad 10세대, 수업 마무리 활동, Regular MUD 10분 이내·설계 목표 약 9분
 > 추정치는 읽기량·선택 판단·시뮬레이터 조작 수에 기반한 설계 지표이며 실제 학생 시간 측정을 대신하지 않습니다.
 
+> **문서 구성**: 마커 구간은 `python scripts/07_audit_activity_duration.py`가 갱신합니다.
+> 그 밖의 절은 사람이 쓰며 스크립트가 건드리지 않습니다.
+
+## 전수 결과
+
+<!-- DURATION_SUMMARY:START -->
 - Regular MUD: 28종
 - 보완 우선 대상: 7종
 - 기준 충족 추정: 21종
-
-## 전수 결과
 
 | MUD | 선언 시간 | 핵심 단계 | 시뮬레이터 | 능동 활동 | 필수 활동 | 추정 시간 | 보완 신호 |
 |---|---:|---:|---:|---:|---:|---:|---|
@@ -39,6 +43,7 @@
 | `regular_japanese_rule_1` | 5-10min | 4 | 4 | 2 | 4 | 8.0분 | 기준 충족 추정 |
 | `regular_joseon_diplomacy` | 5-10min | 4 | 4 | 4 | 4 | 8.1분 | 기준 충족 추정 |
 | `regular_paleolithic` | 5-10min | 6 | 6 | 6 | 5 | 9.9분 | 기준 충족 추정 |
+<!-- DURATION_SUMMARY:END -->
 
 ## 해석과 적용 순서
 
@@ -49,5 +54,7 @@
 
 ## 필수 조작 미적용 시뮬레이터 모드
 
+<!-- UNGATED_MODES:START -->
 | 모드 | Regular MUD 단계 수 |
 |---|---:|
+<!-- UNGATED_MODES:END -->
