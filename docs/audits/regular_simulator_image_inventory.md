@@ -623,3 +623,15 @@
 정답 경로에서는 아예 보이지 않고 오답을 골랐을 때만 잠깐 뜨는 화면이라, 학생 체감 영향은 위 8곳보다 훨씬 작다.
 
 **결론**: 102곳을 다 손볼 필요는 없다. 실질적으로 우선순위가 높은 건 **`regular_gwangbok.json`(3곳)·`regular_myeongnyang.json`(3곳)·`regular_bronze_age.json`(2곳)** 총 8곳이며, 이미 만들어 둔 정밀 그래픽이 최근 게이팅 작업으로 가려진 회귀일 가능성이 커서 다른 91곳(정상 렌더링)이나 나머지 3곳(저빈도 재시도 화면)보다 먼저 볼 가치가 있다.
+
+### 실행 결과 (2026-09-07)
+
+§4에서 지목한 11곳 전부 처리 완료.
+
+| 구분 | 파일·스테이지 | 방법 | 커밋 |
+|---|---|---|---|
+| 우선순위 1 (5곳) | `regular_myeongnyang.json` 1,2,3 · `regular_bronze_age.json` 1,2 | 기존 팔레트 scene 재사용(`namhae-suguninmul`/`hansando-hakikjin`/`gojoseon-artifacts`/`neolithic-village`) | `5d80d36` |
+| 우선순위 1 (3곳) | `regular_gwangbok.json` 1,2,3 | `js/mudSimulators.js`에 신규 scene 3개 작성(`gwangbok-radio-announcement`/`gwangbok-committee-office`/`gwangbok-ballot-booth`) | `61a0758` |
+| 우선순위 2 (3곳) | `regular_neolithic.json` 1-1,2-1,3-1 | 같은 파일의 primary 스테이지(1/2/3)가 이미 쓰는 scene을 그대로 재사용 | `b4457c1` |
+
+전부 `node --check`(js 수정분)·JSON 유효성·`scripts/03/04_validate_*` 통과 확인 후, 브라우저에서 실제 게임 흐름(선택지 게이팅 → 핫스팟 3개 클릭 → 정답 선택 → 다음 스테이지)으로 플레이해 배경이 정상 렌더링되는 것과 콘솔 에러 0건을 직접 확인했다. `regular_gwangbok.json` 신규 3개 scene은 스테이지 1→2→3→엔딩까지 전체 완주로 검증했고, `regular_neolithic.json` 3곳은 `MudEngine.renderStage()`로 각 재시도 화면을 직접 띄워 확인했다.
