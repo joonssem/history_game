@@ -72,6 +72,18 @@ describe("고조선 첫 수직 슬라이스 편성", () => {
     assert.throws(() => assignGroups(["one", "two"]));
   });
 
+  it("재섞기마다 다른 무작위 배정안을 만들 수 있다", () => {
+    const participants = Array.from({ length: 8 }, (_, index) => `student-${index + 1}`);
+    const signatures = [7, 17, 27, 37].map((seed) =>
+      assignGroups(participants, 4, seededRandom(seed))
+        .map((item) => `${item.participantKey}:${item.groupNumber}:${item.roleId}`)
+        .sort()
+        .join("|"),
+    );
+
+    assert.equal(new Set(signatures).size, signatures.length);
+  });
+
   it("학생 단계는 정해진 순서로만 앞으로 간다", () => {
     assert.equal(nextStudentStage("role"), "first");
     assert.equal(nextStudentStage("history"), "finished");

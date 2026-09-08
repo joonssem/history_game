@@ -15,7 +15,10 @@ export function LiveTeacherConsole() {
   const [error, setError] = useState("");
   const createSession = useMutation(convexApi.sessions.create);
   const seedStudents = useMutation(convexApi.sessions.seedSyntheticStudents);
-  const startSession = useMutation(convexApi.sessions.start);
+  const previewGroups = useMutation(convexApi.sessions.previewGroups);
+  const reshuffleGroups = useMutation(convexApi.sessions.reshuffleGroups);
+  const confirmStart = useMutation(convexApi.sessions.confirmStart);
+  const cancelPreview = useMutation(convexApi.sessions.cancelPreview);
   const endSession = useMutation(convexApi.sessions.end);
   const sendIntervention = useMutation(convexApi.interventions.send);
   const currentSession = useQuery(
@@ -104,7 +107,13 @@ export function LiveTeacherConsole() {
       <section className="panel">
         <div className="session-head">
           <div>
-            <span className="badge">{dashboard.session.status === "lobby" ? "입장 대기" : "진행 중"}</span>
+            <span className="badge">
+              {dashboard.session.status === "lobby"
+                ? "입장 대기"
+                : dashboard.session.status === "preview"
+                  ? "모둠 확인 중"
+                  : "진행 중"}
+            </span>
             <h2>수업 코드</h2>
             <div className="code">{dashboard.session.code}</div>
             <p>{dashboard.players.length}명 접속</p>
@@ -128,10 +137,35 @@ export function LiveTeacherConsole() {
                 className="button primary"
                 disabled={dashboard.players.length < 3}
                 onClick={() => run(async () => {
-                  await startSession({ sessionId });
-                  setMessage("무작위 편성과 역할 배정을 마쳤습니다.");
+                  await previewGroups({ sessionId });
+                  setMessage("모둠 배정안을 만들었습니다. 확인한 뒤 시작해 주세요.");
                 })}
-              >무작위 편성 후 시작</button>
+              >모둠 미리보기</button>
+            </>
+          )}
+          {dashboard.session.status === "preview" && (
+            <>
+              <button
+                className="button secondary"
+                onClick={() => run(async () => {
+                  await reshuffleGroups({ sessionId });
+                  setMessage("모둠을 다시 섞었습니다.");
+                })}
+              >다시 섞기</button>
+              <button
+                className="button primary"
+                onClick={() => run(async () => {
+                  await confirmStart({ sessionId });
+                  setMessage("이 배정으로 활동을 시작했습니다.");
+                })}
+              >이 배정으로 시작</button>
+              <button
+                className="button ghost"
+                onClick={() => run(async () => {
+                  await cancelPreview({ sessionId });
+                  setMessage("모둠 미리보기를 취소하고 입장 대기로 돌아갔습니다.");
+                })}
+              >취소하고 대기로 돌아가기</button>
             </>
           )}
           <button
@@ -155,23 +189,29 @@ export function LiveTeacherConsole() {
                   return (
                     <li className="player-row" key={player.id}>
                       <strong>{player.alias}</strong>
-                      <small>{role?.icon} {role?.name} · {STAGE_LABELS[player.stage]}</small>
+                      {dashboard.session.status === "preview" ? (
+                        <small>학생 화면에는 아직 모둠·역할이 공개되지 않습니다.</small>
+                      ) : (
+                        <small>{role?.icon} {role?.name} · {STAGE_LABELS[player.stage]}</small>
+                      )}
                     </li>
                   );
                 })}
               </ul>
-              <div className="actions">
-                {(["hint", "deepen"] as InterventionKind[]).map((kind) => (
-                  <button
-                    key={kind}
-                    className={kind === "hint" ? "button secondary" : "button ghost"}
-                    onClick={() => run(async () => {
-                      await sendIntervention({ sessionId, groupNumber, kind });
-                      setMessage(`${groupNumber}모둠에 ${kind === "hint" ? "힌트" : "심화 상황"}을 보냈습니다.`);
-                    })}
-                  >{kind === "hint" ? "힌트" : "심화 상황"}</button>
-                ))}
-              </div>
+              {dashboard.session.status === "active" && (
+                <div className="actions">
+                  {(["hint", "deepen"] as InterventionKind[]).map((kind) => (
+                    <button
+                      key={kind}
+                      className={kind === "hint" ? "button secondary" : "button ghost"}
+                      onClick={() => run(async () => {
+                        await sendIntervention({ sessionId, groupNumber, kind });
+                        setMessage(`${groupNumber}모둠에 ${kind === "hint" ? "힌트" : "심화 상황"}을 보냈습니다.`);
+                      })}
+                    >{kind === "hint" ? "힌트" : "심화 상황"}</button>
+                  ))}
+                </div>
+              )}
             </article>
           ))}
         </section>

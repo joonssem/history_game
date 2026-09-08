@@ -126,6 +126,16 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
     }
   }
 
+  if (view.sessionStatus === "preview") {
+    return (
+      <section className="student-panel">
+        <span className="badge">모둠 확인 중</span>
+        <h1>{view.alias ?? "잠시만 기다려 주세요"}</h1>
+        <p>선생님이 모둠을 확인하고 있습니다. 확정되면 모둠과 역할이 함께 나타납니다.</p>
+      </section>
+    );
+  }
+
   if (!view.alias) {
     return (
       <section className="student-panel">

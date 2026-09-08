@@ -20,7 +20,7 @@ function makeCode() {
 function publicSession(session: {
   _id: GenericId<"sessions">;
   code: string;
-  status: "lobby" | "active";
+  status: "lobby" | "preview" | "active";
   createdAt: number;
   startedAt?: number;
   deleteAfter: number;
@@ -136,12 +136,14 @@ export const seedSyntheticStudents = mutationGeneric({
   },
 });
 
-export const start = mutationGeneric({
+export const previewGroups = mutationGeneric({
   args: { sessionId: v.id("sessions") },
   handler: async (ctx, args) => {
     const teacherSub = await requireTeacher(ctx);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
-    if (session.status !== "lobby") throw new Error("이미 시작한 활동입니다.");
+    if (session.status !== "lobby") {
+      throw new Error("입장 대기 중인 활동만 미리 볼 수 있습니다.");
+    }
 
     const players = await ctx.db
       .query("players")
@@ -170,12 +172,81 @@ export const start = mutationGeneric({
         alias: player.alias ?? remainingAliases[aliasIndex++],
         groupNumber: assignment.groupNumber,
         roleId: assignment.roleId,
-        stage: "role",
         updatedAt: now,
       });
     }
 
     const groupNumbers = [...new Set(assignments.map((item) => item.groupNumber))];
+    await ctx.db.patch(args.sessionId, { status: "preview" });
+    return { groups: groupNumbers.length, players: players.length };
+  },
+});
+
+export const reshuffleGroups = mutationGeneric({
+  args: { sessionId: v.id("sessions") },
+  handler: async (ctx, args) => {
+    const teacherSub = await requireTeacher(ctx);
+    const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
+    if (session.status !== "preview") {
+      throw new Error("모둠 미리보기 중에만 다시 섞을 수 있습니다.");
+    }
+
+    const players = await ctx.db
+      .query("players")
+      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+      .collect();
+    const assignments = assignGroups(
+      players.map((player) => player._id.toString()),
+      4,
+    );
+    const byPlayer = new Map(
+      assignments.map((assignment) => [assignment.participantKey, assignment]),
+    );
+    const now = Date.now();
+
+    for (const player of players) {
+      const assignment = byPlayer.get(player._id.toString());
+      if (!assignment) throw new Error("모둠 재배정에 실패했습니다.");
+      await ctx.db.patch(player._id, {
+        groupNumber: assignment.groupNumber,
+        roleId: assignment.roleId,
+        updatedAt: now,
+      });
+    }
+
+    return {
+      groups: new Set(assignments.map((item) => item.groupNumber)).size,
+      players: players.length,
+    };
+  },
+});
+
+export const confirmStart = mutationGeneric({
+  args: { sessionId: v.id("sessions") },
+  handler: async (ctx, args) => {
+    const teacherSub = await requireTeacher(ctx);
+    const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
+    if (session.status !== "preview") {
+      throw new Error("모둠 미리보기를 먼저 확인해 주세요.");
+    }
+
+    const players = await ctx.db
+      .query("players")
+      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+      .collect();
+    if (
+      players.length < 3 ||
+      players.some((player) => !player.groupNumber || !player.roleId)
+    ) {
+      throw new Error("모둠 배정 정보가 완전하지 않습니다. 다시 미리 봐 주세요.");
+    }
+    const groupNumbers = [...new Set(players.map((player) => player.groupNumber!))];
+    const now = Date.now();
+
+    for (const player of players) {
+      await ctx.db.patch(player._id, { stage: "role", updatedAt: now });
+    }
+
     for (const groupNumber of groupNumbers) {
       await ctx.db.insert("rooms", {
         sessionId: args.sessionId,
@@ -187,6 +258,32 @@ export const start = mutationGeneric({
 
     await ctx.db.patch(args.sessionId, { status: "active", startedAt: now });
     return { groups: groupNumbers.length, players: players.length };
+  },
+});
+
+export const cancelPreview = mutationGeneric({
+  args: { sessionId: v.id("sessions") },
+  handler: async (ctx, args) => {
+    const teacherSub = await requireTeacher(ctx);
+    const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
+    if (session.status !== "preview") {
+      throw new Error("모둠 미리보기 중에만 대기로 돌아갈 수 있습니다.");
+    }
+
+    const players = await ctx.db
+      .query("players")
+      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+      .collect();
+    const now = Date.now();
+    for (const player of players) {
+      await ctx.db.patch(player._id, {
+        groupNumber: undefined,
+        roleId: undefined,
+        updatedAt: now,
+      });
+    }
+    await ctx.db.patch(args.sessionId, { status: "lobby" });
+    return null;
   },
 });
 

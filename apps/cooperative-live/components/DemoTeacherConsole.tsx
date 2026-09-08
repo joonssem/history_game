@@ -25,7 +25,7 @@ type DemoStudent = {
   stage: Stage;
 };
 
-type DemoStatus = "empty" | "lobby" | "active" | "ended";
+type DemoStatus = "empty" | "lobby" | "preview" | "active" | "ended";
 
 export function DemoTeacherConsole() {
   const [status, setStatus] = useState<DemoStatus>("empty");
@@ -72,7 +72,7 @@ export function DemoTeacherConsole() {
     );
   }
 
-  function startSession() {
+  function previewGroups() {
     const assignments = assignGroups(
       students.map((student) => student.key),
       4,
@@ -87,11 +87,32 @@ export function DemoTeacherConsole() {
           ...student,
           groupNumber: assignment?.groupNumber,
           roleId: assignment?.roleId,
-          stage: "role",
         };
       }),
     );
+    setStatus("preview");
+  }
+
+  function reshuffleGroups() {
+    previewGroups();
+  }
+
+  function confirmStart() {
+    setStudents((current) =>
+      current.map((student) => ({ ...student, stage: "role" })),
+    );
     setStatus("active");
+  }
+
+  function cancelPreview() {
+    setStudents((current) =>
+      current.map((student) => ({
+        key: student.key,
+        alias: student.alias,
+        stage: student.stage,
+      })),
+    );
+    setStatus("lobby");
   }
 
   function advanceStudent(key: string) {
@@ -149,8 +170,8 @@ export function DemoTeacherConsole() {
             <button className="button secondary" onClick={seedStudents} disabled={students.length > 0}>
               가상 학생 8명 입장
             </button>
-            <button className="button primary" onClick={startSession} disabled={students.length !== 8}>
-              무작위 편성 후 시작
+            <button className="button primary" onClick={previewGroups} disabled={students.length !== 8}>
+              모둠 미리보기
             </button>
           </div>
           {students.length > 0 && (
@@ -159,6 +180,43 @@ export function DemoTeacherConsole() {
             </ul>
           )}
         </section>
+      )}
+
+      {status === "preview" && (
+        <>
+          <section className="panel">
+            <div className="topbar">
+              <div>
+                <span className="badge">모둠 확인 중</span>
+                <h2>배정 결과를 확인해 주세요</h2>
+                <p>학생 화면에는 확정 전까지 모둠과 역할이 보이지 않습니다.</p>
+              </div>
+            </div>
+            <div className="actions">
+              <button className="button secondary" onClick={reshuffleGroups}>다시 섞기</button>
+              <button className="button primary" onClick={confirmStart}>이 배정으로 시작</button>
+              <button className="button ghost" onClick={cancelPreview}>취소하고 대기로 돌아가기</button>
+            </div>
+          </section>
+          <section className="rooms" aria-label="모둠 배정 미리보기">
+            {rooms.map(([groupNumber, groupStudents]) => (
+              <article className="room-card" key={groupNumber}>
+                <header>
+                  <h2>{groupNumber}모둠</h2>
+                  <span className="badge">{groupStudents.length}명</span>
+                </header>
+                <ul className="player-list">
+                  {groupStudents.map((student) => (
+                    <li className="player-row" key={student.key}>
+                      <strong>{student.alias}</strong>
+                      <small>학생에게는 아직 비공개</small>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </section>
+        </>
       )}
 
       {status === "active" && (

@@ -1,5 +1,16 @@
 # Walkthrough
 
+## 2026-09-08 — 실시간 협동 MUD 모둠 미리보기·재섞기
+
+`TASK-20260908-03 | apps/cooperative-live 모둠 미리보기·재섞기 | implementation agent | DONE`
+
+- 수업 시작을 `lobby → preview → active`로 분리해 교사가 학생에게 공개하기 전에 모둠 구성을 확인하고 무제한으로 다시 섞을 수 있게 했다.
+- 미리보기 취소 시 모둠·역할 배정을 지우고 입장 대기로 돌아가며, 확정할 때만 학생 단계를 역할 확인으로 바꾸고 모둠 방을 생성한다.
+- 미리보기 중 새 입장과 호 변경을 막고, 학생 화면에는 모둠 번호와 역할 대신 대기 안내만 표시한다. 새 영구 식별자나 제외 규칙은 추가하지 않았다.
+- 데모 브라우저에서 활동 생성, 가상 학생 8명 입장, 미리보기, 재섞기, 취소, 재미리보기, 확정을 확인했다.
+- Convex 개발 배포에서도 합성 학생 8명으로 미리보기 시 `lobby` 단계 유지·방 0개, 재섞기 결과 변경, 취소 후 재시작, 확정 후 2개 방 생성을 확인했다. 종료 뒤 `sessions`, `players`, `rooms`, `interventions`는 모두 0건이다.
+- 검증: `npm run lint`, `npm run typecheck`, `npm test`(6건), `npm run build`, Convex 함수 배포 및 합성 데이터 통합 점검 통과.
+
 ## 2026-09-08 - Cooperative live cloud preview integration
 
 `TASK-20260908-01 | privacy record, join security plan, preview integration | integration agent | DONE`

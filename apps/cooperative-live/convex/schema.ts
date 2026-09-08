@@ -6,7 +6,11 @@ export default defineSchema({
     scenarioId: v.string(),
     ownerSub: v.string(),
     code: v.string(),
-    status: v.union(v.literal("lobby"), v.literal("active")),
+    status: v.union(
+      v.literal("lobby"),
+      v.literal("preview"),
+      v.literal("active"),
+    ),
     createdAt: v.number(),
     startedAt: v.optional(v.number()),
     deleteAfter: v.number(),

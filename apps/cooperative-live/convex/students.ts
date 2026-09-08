@@ -18,8 +18,14 @@ export const join = mutationGeneric({
       .query("sessions")
       .withIndex("by_code", (query) => query.eq("code", args.code.trim()))
       .unique();
-    if (!session || session.status !== "lobby" || session.deleteAfter <= Date.now()) {
+    if (!session || session.deleteAfter <= Date.now()) {
       throw new Error("입장할 수 있는 활동을 찾지 못했습니다.");
+    }
+    if (session.status === "preview") {
+      throw new Error("선생님이 모둠을 확인하고 있습니다. 잠시만 기다려 주세요.");
+    }
+    if (session.status !== "lobby") {
+      throw new Error("이미 시작한 활동입니다.");
     }
 
     const currentPlayers = await ctx.db
@@ -61,7 +67,11 @@ export const selectAlias = mutationGeneric({
       throw new Error("선택할 수 없는 호입니다.");
     }
     const session = await ctx.db.get(args.sessionId);
-    if (!session || session.status !== "lobby") throw new Error("호 선택 시간이 끝났습니다.");
+    if (!session) throw new Error("활동을 찾을 수 없습니다.");
+    if (session.status === "preview") {
+      throw new Error("선생님이 모둠을 확인하고 있습니다. 잠시만 기다려 주세요.");
+    }
+    if (session.status !== "lobby") throw new Error("호 선택 시간이 끝났습니다.");
     const player = await requireStudent(ctx, args.sessionId, args.token);
     const duplicate = await ctx.db
       .query("players")

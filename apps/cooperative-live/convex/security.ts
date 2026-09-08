@@ -8,7 +8,7 @@ import type { GenericId } from "convex/values";
 type SessionRecord = {
   _id: GenericId<"sessions">;
   ownerSub: string;
-  status: "lobby" | "active";
+  status: "lobby" | "preview" | "active";
   code: string;
   createdAt: number;
   startedAt?: number;

@@ -7,7 +7,7 @@ export type Dashboard = {
   session: {
     _id: Id<"sessions">;
     code: string;
-    status: "lobby" | "active";
+    status: "lobby" | "preview" | "active";
     createdAt: number;
     startedAt?: number;
     deleteAfter: number;
@@ -37,7 +37,7 @@ export type Dashboard = {
 };
 
 export type StudentView = {
-  sessionStatus: "lobby" | "active";
+  sessionStatus: "lobby" | "preview" | "active";
   alias?: string;
   groupNumber?: number;
   stage: Stage;
@@ -68,11 +68,26 @@ export const convexApi = {
       { sessionId: Id<"sessions">; count?: number },
       number
     >("sessions:seedSyntheticStudents"),
-    start: makeFunctionReference<
+    previewGroups: makeFunctionReference<
       "mutation",
       { sessionId: Id<"sessions"> },
       { groups: number; players: number }
-    >("sessions:start"),
+    >("sessions:previewGroups"),
+    reshuffleGroups: makeFunctionReference<
+      "mutation",
+      { sessionId: Id<"sessions"> },
+      { groups: number; players: number }
+    >("sessions:reshuffleGroups"),
+    confirmStart: makeFunctionReference<
+      "mutation",
+      { sessionId: Id<"sessions"> },
+      { groups: number; players: number }
+    >("sessions:confirmStart"),
+    cancelPreview: makeFunctionReference<
+      "mutation",
+      { sessionId: Id<"sessions"> },
+      null
+    >("sessions:cancelPreview"),
     dashboard: makeFunctionReference<
       "query",
       { sessionId: Id<"sessions"> },
