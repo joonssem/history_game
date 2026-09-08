@@ -26,7 +26,7 @@ npm run dev
 ## Convex·Auth0 개발 연결
 
 1. Auth0에서 교사용 Single Page Application을 만들고 Google 연결만 활성화한다.
-2. Callback URL, Logout URL, Allowed Web Origins에 `http://localhost:3000`과 Vercel Preview 주소를 등록한다.
+2. Callback URL에는 `http://localhost:3000/teacher`와 `https://<vercel-domain>/teacher`, Logout URL과 Allowed Web Origins에는 각각의 기본 origin을 등록한다.
 3. `.env.local`에 `NEXT_PUBLIC_AUTH0_DOMAIN`, `NEXT_PUBLIC_AUTH0_CLIENT_ID`를 설정한다.
 4. `npx convex dev`로 개발 배포를 만들고 `NEXT_PUBLIC_CONVEX_URL`을 받는다.
 5. Convex 개발 배포 환경변수에 `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `TEACHER_AUTH0_SUBS`를 설정한다.
@@ -34,10 +34,20 @@ npm run dev
 
 학생 토큰은 URL이나 로컬 영구 저장소에 넣지 않는다. Auth0·Convex·Vercel 비밀값과 실제 교사 `sub`도 저장소에 커밋하지 않는다.
 
+## 가상 데이터 기술 Preview
+
+- Vercel 프로젝트: `history-game`
+- Root Directory: `apps/cooperative-live`
+- 고정 주소: <https://history-game-kappa-gilt.vercel.app>
+- Vercel에는 `NEXT_PUBLIC_CONVEX_URL`, `NEXT_PUBLIC_AUTH0_DOMAIN`, `NEXT_PUBLIC_AUTH0_CLIENT_ID`, `NEXT_PUBLIC_DEMO_MODE=false`만 등록한다.
+- 교사 `sub` 허용목록은 Convex 배포 환경변수에만 두며 Vercel이나 Git 저장소에 복제하지 않는다.
+
+Vercel이 고정 production alias를 발급했지만 현재 운영 판정은 **가상 데이터 기술 Preview**다. 실제 학생 접속 허가와는 별개다.
+
 ## 검증
 
 ```powershell
 npm run check
 ```
 
-실제 학생 접속과 Production 배포는 저장소의 `BACKLOG.md`에 있는 `P1-COLLAB-PRIVACY` 해제 뒤에만 진행한다.
+실제 학생 접속과 수업 운영 전환은 저장소의 `BACKLOG.md`에 있는 `P1-COLLAB-PRIVACY` 해제 뒤에만 진행한다.

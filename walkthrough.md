@@ -1,5 +1,17 @@
 # Walkthrough
 
+## 2026-09-08 - Cooperative live cloud preview integration
+
+`TASK-20260908-01 | privacy record, join security plan, preview integration | integration agent | DONE`
+
+- Limited the Vercel GitHub App to `joonssem/history_game`. Deployed `main` commit `d9ee325` as a Next.js project rooted at `apps/cooperative-live`.
+- Added only four public client variables to Vercel. Kept the teacher Auth0 `sub` allowlist only in the Convex deployment environment.
+- Kept Auth0 Google-only and allowed the localhost and stable Vercel callback, logout, and web-origin URLs. The non-verifiable callback confirmation safeguard remains enabled.
+- Verified the authenticated teacher dashboard, eight synthetic students, two groups of four, unique role assignment, and session start against the US-East Convex development deployment.
+- After cleanup, confirmed that the Convex `sessions`, `players`, `rooms`, and `interventions` tables were empty.
+- Validation passed: lint, TypeScript, five unit tests, production build, Convex function deployment, and Vercel deployment. The Convex TypeScript blocker was fixed with `allowImportingTsExtensions`.
+- The stable Vercel alias is a synthetic-data technical preview, not approval for real-student use. QR token hardening is planned but not implemented, and the privacy and foreign-processing gate remains open.
+
 ## 2026-08-31 — 반복 탭 감사 도구 오탐 정리
 
 - 고유 단서·순서 진행을 이미 강제하는 구석기 6단계와 적 함선 표적을 요구하는 명량 포격 단계를 단순 반복 탭 후보에서 제외했다.
