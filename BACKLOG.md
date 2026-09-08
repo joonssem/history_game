@@ -12,7 +12,9 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 - 구현 범위: `js/mudEngine.js`의 `renderFinalReflection()` 직후 해금 유물이 2개 이상이고 아직 보지 않은 비교 콘텐츠가 있으면 선택형 제안 카드를 띄운다. 시작하면 관찰→근거 카드(무근거 선택지 포함)→빈칸 주장 완성→결과 비교 4단계를 거치며, 결과 화면은 "정답/오답" 표현 없이 학생 생각을 먼저 요약하고 학계 관점을 병치하되 근접도에 따라 칭찬형/안내형으로만 톤을 바꾼다. 완료·건너뛰기 모두 `encyclopedia`의 `seenArtifactComparisons`에 기록해 같은 콘텐츠를 반복 제안하지 않는다.
 - 신규/변경 파일: [`data/artifactComparisons.json`](./data/artifactComparisons.json)(1번째 페어: 빗살무늬 토기 vs 민무늬 토기 항아리), [`js/artifactComparison.js`](./js/artifactComparison.js)(신규 엔진), `js/encyclopedia.js`(seen 상태 저장), `js/mudEngine.js`(제안 카드 삽입), `js/app.js`·`index.html`(로드·캐시 버스터 갱신), `scripts/01_validate_game_data.py`(신규 JSON 검증 대상 추가).
 - 검증: `python scripts/01_validate_game_data.py`, `python scripts/06_validate_static_assets.py` 통과. 로컬 정적 서버에서 두 톤 분기(근접/차이)와 건너뛰기 시 재노출 안 됨을 브라우저 콘솔로 직접 실행해 확인했다(자동화 테스트는 아직 없음).
-- 남은 질문: 실제 교실에서의 피로도·완주율은 미검증(설계 가설). 2번째 페어(청자 매병 vs 달항아리) 이후 후속은 별도 작업으로 남긴다.
+- 교사용 수업 진행 안내: [`TEACHING_artifact_comparison.md`](./TEACHING_artifact_comparison.md) (README.md에서도 링크).
+- **2026-09-08 확장**: 교사가 직접 시험해 보고 긍정적 반응(도전 활동 같은 느낌, 시대를 넘나드는 비교의 재미)을 확인한 뒤, 2번째 페어(청자 상감 구름·학무늬 매병[고려, 덕수2182] vs 백자 달항아리[조선, 접수702])를 추가했다. museum.go.kr 재확인 결과 둘 다 공공누리 제1유형(출처표시)만 적용되고 변경금지 조건은 없다. `unlockThreshold`가 같아 첫 페어를 완료·건너뛴 뒤 다음 MUD 클리어 시 자동으로 이어서 등장한다. 검증은 위와 동일한 방식(브라우저 콘솔)으로 두 톤 분기를 재확인했다.
+- 남은 질문: 실제 교실에서의 피로도·완주율은 미검증(설계 가설). 3번째 페어(삼국 불상 비교 등) 이후 후속은 학생 피드백을 받은 뒤 별도 작업으로 진행한다.
 
 ## P1-COLLAB-PRIVACY — Convex 개인정보·국외 처리 착수 게이트
 

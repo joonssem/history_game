@@ -61,5 +61,68 @@
       ]
     },
     "scholarPerspective": "학자들은 무늬가 있는 빗살무늬 토기가 먼저(신석기 시대) 만들어졌고, 이후 청동기 시대로 오면서 토기를 더 단단하고 실용적으로 굽는 기술이 발달해 무늬 없는 민무늬 토기가 널리 쓰였다고 봐. 무늬가 사라진 건 기술이 나빠져서가 아니라, 생활에 쓰기 좋은 토기를 더 빠르고 튼튼하게 많이 만드는 쪽으로 바뀌었기 때문이라고 해석해."
+  },
+  {
+    "id": "cmp_ceramics_1",
+    "title": "두 도자기 이야기",
+    "unlockThreshold": 2,
+    "sourceNote": "국립중앙박물관 소장품 정보 기준(2026-09-08 재확인). 이미지는 저작권 표시 부담을 줄이기 위해 이 활동에서는 싣지 않으며, 실물은 아래 링크에서 볼 수 있다.",
+    "artifactA": {
+      "name": "청자 상감 구름·학무늬 매병",
+      "era": "고려 시대(12~13세기)",
+      "location": "정확한 출토지는 알려지지 않은 전세품",
+      "icon": "🏺",
+      "museumId": "덕수2182",
+      "museumUrl": "https://www.museum.go.kr/site/main/relic/search/view?relicId=1126",
+      "license": "공공누리 제1유형(출처표시), 국립중앙박물관",
+      "traits": {
+        "pattern": "구름과 학 무늬를 파낸 자리에 흰 흙·검은 흙을 채워 넣은 상감 기법",
+        "material": "옥빛이 도는 푸른 유약(청자 비색)을 입혀 높은 온도로 구움",
+        "shape": "어깨가 넓고 허리가 잘록한 매병(술이나 기름을 담던 병) 모양",
+        "location": "대대로 전해 내려온 유물로, 정확한 출토지는 알려져 있지 않음"
+      }
+    },
+    "artifactB": {
+      "name": "백자 달항아리",
+      "era": "조선 시대(18세기 초)",
+      "location": "정확한 제작지는 알려지지 않은 전세품",
+      "icon": "🏺",
+      "museumId": "접수702",
+      "museumUrl": "https://www.museum.go.kr/site/main/relic/search/view?relicId=941",
+      "license": "공공누리 제1유형(출처표시), 국립중앙박물관",
+      "traits": {
+        "pattern": "무늬 없이 매끈하고 하얀 표면",
+        "material": "푸른 기가 거의 없는 맑은 흰색 유약, 몸통을 위아래로 이어 붙여 구움",
+        "shape": "보름달처럼 둥글고 넉넉한 항아리 모양",
+        "location": "대대로 전해 내려온 유물로, 정확한 제작지는 알려져 있지 않음"
+      }
+    },
+    "observation": {
+      "prompt": "두 도자기를 나란히 놓고 보니, 너는 뭐가 가장 먼저 눈에 띄어?",
+      "options": [
+        { "id": "obs_color", "text": "색깔과 화려함이 다르다" },
+        { "id": "obs_pattern", "text": "무늬가 있고 없고가 다르다" },
+        { "id": "obs_shape", "text": "몸통 모양이 다르다" }
+      ]
+    },
+    "evidencePrompt": "네 관찰을 뒷받침할 근거로 쓸 만한 카드를 골라 봐. (여러 개 고를 수 있어)",
+    "evidenceCards": [
+      { "id": "ev_pattern", "text": "무늬를 새겨 넣었는지(상감) 아닌지", "valid": true },
+      { "id": "ev_material", "text": "유약 색깔과 굽는 온도", "valid": true },
+      { "id": "ev_shape", "text": "병 모양인지 항아리 모양인지", "valid": true },
+      { "id": "ev_technique", "text": "무늬를 만드는 기법(상감 vs 몸통 이어 붙이기)", "valid": true },
+      { "id": "ev_price_today", "text": "오늘날 경매에서 얼마에 팔릴지", "valid": false },
+      { "id": "ev_museum_room", "text": "박물관 몇 층 전시실에 있는지", "valid": false }
+    ],
+    "claim": {
+      "prefix": "청자 상감 구름·학무늬 매병은",
+      "middle": "시대에, 백자 달항아리는",
+      "suffix": "시대에 만들어졌고, 화려한 장식보다 소박한 여백을 좋아하는 쪽으로 도자기의 아름다움 기준이 바뀌었다고 생각한다.",
+      "blanks": [
+        { "id": "blank1", "options": ["고려", "조선", "삼국"], "answer": "고려" },
+        { "id": "blank2", "options": ["고려", "조선", "삼국"], "answer": "조선" }
+      ]
+    },
+    "scholarPerspective": "학자들은 고려 사람들이 옥처럼 은은한 청자 색과 세밀한 상감 무늬를 귀하게 여겼고, 조선 사람들은 꾸미지 않은 순백색과 넉넉한 형태에서 아름다움을 찾았다고 봐. 무늬가 사라진 건 기술이 부족해져서가 아니라, 검소함과 절제를 중요하게 여긴 조선의 가치관이 도자기에도 반영됐기 때문이라고 해석해."
   }
 ]
