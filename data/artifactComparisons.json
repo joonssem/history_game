@@ -124,5 +124,68 @@
       ]
     },
     "scholarPerspective": "학자들은 고려 사람들이 옥처럼 은은한 청자 색과 세밀한 상감 무늬를 귀하게 여겼고, 조선 사람들은 꾸미지 않은 순백색과 넉넉한 형태에서 아름다움을 찾았다고 봐. 무늬가 사라진 건 기술이 부족해져서가 아니라, 검소함과 절제를 중요하게 여긴 조선의 가치관이 도자기에도 반영됐기 때문이라고 해석해."
+  },
+  {
+    "id": "cmp_ceramics_2",
+    "title": "같은 매병, 다른 시대",
+    "unlockThreshold": 2,
+    "sourceNote": "국립중앙박물관 소장품 정보 기준(2026-09-08 재확인). 이미지는 저작권 표시 부담을 줄이기 위해 이 활동에서는 싣지 않으며, 실물은 아래 링크에서 볼 수 있다.",
+    "artifactA": {
+      "name": "청자 상감 구름·학무늬 매병",
+      "era": "고려 시대(12~13세기)",
+      "location": "정확한 출토지는 알려지지 않은 전세품",
+      "icon": "🏺",
+      "museumId": "덕수2182",
+      "museumUrl": "https://www.museum.go.kr/site/main/relic/search/view?relicId=1126",
+      "license": "공공누리 제1유형(출처표시), 국립중앙박물관",
+      "traits": {
+        "pattern": "구름과 학 무늬를 정교하게 상감으로 새겨 넣음",
+        "material": "옥빛이 도는 푸른 유약(청자 비색)",
+        "shape": "어깨가 넓고 허리가 잘록한 매병(술이나 기름을 담던 병) 모양",
+        "location": "고려 왕실·귀족이 쓰던 고급 도자기로 짐작됨"
+      }
+    },
+    "artifactB": {
+      "name": "분청사기 상감 물고기무늬 매병",
+      "era": "조선 시대 초기",
+      "location": "정확한 출토지는 알려지지 않은 전세품",
+      "icon": "🏺",
+      "museumId": "덕수253",
+      "museumUrl": "https://www.museum.go.kr/site/main/relic/search/view?relicId=967",
+      "license": "공공누리 제1유형(출처표시), 국립중앙박물관",
+      "traits": {
+        "pattern": "물고기 무늬를 자유롭고 활달한 붓질로 상감",
+        "material": "회청색이 도는 유약, 청자보다 거친 태토",
+        "shape": "청자 매병과 같은 매병 모양이지만 선이 더 투박함",
+        "location": "고려 말~조선 초, 나라가 바뀌는 시기에 만들어짐"
+      }
+    },
+    "observation": {
+      "prompt": "두 매병을 나란히 놓고 보니, 너는 뭐가 가장 먼저 눈에 띄어?",
+      "options": [
+        { "id": "obs_color", "text": "색깔이 다르다(푸른빛 vs 회청색)" },
+        { "id": "obs_pattern_style", "text": "무늬를 표현한 솜씨가 다르다(단정함 vs 자유분방함)" },
+        { "id": "obs_shape", "text": "모양은 비슷한데 느낌이 다르다" }
+      ]
+    },
+    "evidencePrompt": "네 관찰을 뒷받침할 근거로 쓸 만한 카드를 골라 봐. (여러 개 고를 수 있어)",
+    "evidenceCards": [
+      { "id": "ev_glaze_color", "text": "유약 색깔(옥빛 청자색 vs 회청색)", "valid": true },
+      { "id": "ev_pattern_precision", "text": "무늬를 새긴 솜씨의 정교함 정도", "valid": true },
+      { "id": "ev_period_background", "text": "만들어진 시기의 나라 사정(안정된 고려 vs 막 시작된 조선)", "valid": true },
+      { "id": "ev_shape_similarity", "text": "둘 다 매병이라는 같은 종류의 그릇이라는 점", "valid": true },
+      { "id": "ev_weight", "text": "실제로 들었을 때 무게가 얼마나 나갈지", "valid": false },
+      { "id": "ev_now_price", "text": "지금 골동품 시장에서 가격이 얼마일지", "valid": false }
+    ],
+    "claim": {
+      "prefix": "청자 상감 구름·학무늬 매병은",
+      "middle": "시대에, 분청사기 상감 물고기무늬 매병은",
+      "suffix": "시대(초기)에 만들어졌고, 나라가 바뀌는 어수선한 시기에는 정교하던 솜씨도 자유분방하고 소박한 쪽으로 잠시 달라졌다고 생각한다.",
+      "blanks": [
+        { "id": "blank1", "options": ["고려", "조선", "삼국"], "answer": "고려" },
+        { "id": "blank2", "options": ["고려", "조선", "삼국"], "answer": "조선" }
+      ]
+    },
+    "scholarPerspective": "학자들은 두 매병이 같은 '상감 기법'을 물려받았다고 봐. 다만 분청사기는 고려가 무너지고 조선이 막 시작되던 어수선한 시기에 만들어져서, 나라의 도자기 공방 체계가 흔들리며 예전만큼 정교하게 다듬을 여유가 줄었다고 해석해. 그 대신 자유롭고 활달한 무늬가 새로 유행했지. 무늬가 거칠어진 건 솜씨가 나빠져서가 아니라, 시대 상황이 크게 바뀌었기 때문이라고 봐."
   }
 ]
