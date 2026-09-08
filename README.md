@@ -200,6 +200,7 @@
 * 📋 [agents.md](./agents.md) — AI 에이전트 협업 체계 및 Phase별 개발 기록
 * 📖 [project_context.md](./project_context.md) — 전체 MUD 목록, 시뮬레이터 명세, 미해결 이슈
 * 🧪 [BROWSER_REGRESSION_CHECKLIST.md](./BROWSER_REGRESSION_CHECKLIST.md) — 브라우저·태블릿 수동 회귀 점검 기준
+* 🏺 [TEACHING_artifact_comparison.md](./TEACHING_artifact_comparison.md) — 유물 2개 비교·추론 활동 수업 진행 안내 (프로토타입)
 * 🧭 [PRD.md](./PRD.md) — 제품 목표, 사용자, 범위, 수용 기준
 * 📝 [BACKLOG.md](./BACKLOG.md) — 미완료 기획·검토 항목
 * 📥 [INBOX.md](./INBOX.md) — 사용자 입력·관찰 원문
