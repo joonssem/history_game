@@ -712,6 +712,10 @@ const MudEngine = {
           <button onclick="showPortalView()" class="btn secondary" style="width: 100%; font-size: 0.9rem; padding: 10px;">
             <i class="fas fa-arrow-left"></i> 전체 탐구 진도표로 돌아가기
           </button>
+          ${window.FEEDBACK_FORM_URL ? `
+          <a href="${window.FEEDBACK_FORM_URL}" target="_blank" rel="noopener" class="btn secondary" style="display:block; width: 100%; box-sizing: border-box; font-size: 0.85rem; padding: 8px; margin-top: 8px; text-align:center; text-decoration:none;">
+            📮 오늘 활동 피드백 남기기 <i class="fas fa-external-link-alt" style="font-size:0.75em;"></i>
+          </a>` : ''}
           <div id="artifact-comparison-offer">${window.ArtifactComparisonEngine ? window.ArtifactComparisonEngine.getOfferHtml() : ''}</div>
         </div>
       `;

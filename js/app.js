@@ -6,7 +6,11 @@ let curriculumData = null;
 let mudIndexData = [];
 let currentUnitId = 1;
 let currentActiveStoryId = 'story_paleolithic';
-const APP_VERSION = '2026.09.07-p7';
+const APP_VERSION = '2026.09.08-p8';
+
+// 학생 활동 피드백 구글 설문지(2026-09-08, 이름·이메일 미수집으로 설정됨).
+// 링크만 새 탭으로 열며, 이 앱은 응답 데이터를 저장·수집하지 않는다.
+window.FEEDBACK_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSduzYuQ4aXRxPMJ8pibiigPeDlH-sBhxC7lRg-h0mj05nY6rg/viewform';
 
 // 초기화
 document.addEventListener('DOMContentLoaded', async () => {
