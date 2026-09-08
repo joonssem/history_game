@@ -74,7 +74,7 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 - **P2-COLLAB-02 — v0.1 화면 순서 수정 (미착수)**: `cooperative-mud/gojoseon-law/app.js`의 공유 확인 게이트가 최초 판단보다 앞서, 기록된 "최초 판단"이 이미 공유 후 값이다. `역할 확인 → 최초 판단 → 공유 → 추가 증거`로 바꾸면 판단 변경 가설을 서버 없이 측정할 수 있다. 실시간 앱과 독립적으로 진행 가능하며 작업량이 작다.
 - **P2-COLLAB-03 — 협동 시나리오 확장 (진행 중, 3편 제작 완료 · 수업 검증 대기)**: 고조선 형식이 통했으므로 다른 시대로 넓힌다. 소재는 진도 순서를 기준으로 고른다.
   - 1단원 6차시 `cooperative-mud/gojoseon-law/` 고조선 8조법 — 제작·**수업 운영 완료**([`EXP-006`](./EXPERIMENTS.md))
-  - 1단원 7차시 `cooperative-mud/founding-myths/` 삼국·가야 시조 설화 — 제작 완료, **2026-09-08 수업 운영 추정**([`EXP-007`](./EXPERIMENTS.md), 정확한 차시 미확인)
+  - 1단원 7차시 `cooperative-mud/founding-myths/` 삼국·가야 시조 설화 — 제작·**수업 운영 완료**([`EXP-007`](./EXPERIMENTS.md), 2026-09-08)
   - 1단원 8차시 `cooperative-mud/han-river/` 한강 유역 쟁탈 — 제작 완료, 수업 미운영
   - 다음 후보는 [`scenario_candidates_artifact_comparison_and_cooperative_mud.md`](./docs/plans/scenario_candidates_artifact_comparison_and_cooperative_mud.md)에서 진도에 맞춰 고른다. 폭력·아동 희생 요소가 있는 후보(살수대첩·계백과 관창)는 착수 전 별도 확인이 필요하다.
   - 세 편의 성격이 겹치지 않도록 관리한다: 고조선=이해관계로 판단, 시조 설화=예외를 만나 일반화 교정, 한강=여러 근거를 견주어 설명.
