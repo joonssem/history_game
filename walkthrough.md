@@ -1291,3 +1291,17 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 기존 "성찰 일기 복사하기" 버튼은 제거 요청이 없어 그대로 두었다.
 - 검증: `01_validate_game_data.py`·`06_validate_static_assets.py` 통과, 4개 JS 파일 문법 검사 통과. 로컬 정적 서버에서 MUD 완료 화면과 유물 비교 결과 화면 양쪽에 피드백 버튼의 `href`가 정확한 구글 설문지 URL로 렌더링되는 것을 브라우저 콘솔로 확인했다.
 - 문서: `BACKLOG.md`에 기록 추가, `TEACHING_artifact_comparison.md`에 "학생 피드백은 구글 설문지로 받는다" 안내 추가.
+
+## 2026-09-08 — 유물 비교 활동 시대 순서 버그 수정
+
+`TASK-20260908-CMP7 | 유물 비교 페어 등장 순서 버그 수정 | Claude Sonnet 5 | 상태: DONE`
+
+- 사용자가 "청자·분청사기 매병 페어(고려·조선)가 '삼국의 전성기 한강 쟁탈전' MUD(삼국시대) 클리어 직후에 등장한다"고 보고했다.
+- 원인 확인: `data/artifactComparisons.json`의 모든 페어가 `unlockThreshold: 2`로 동일했다. `js/artifactComparison.js`의 `getEligibleComparison()`은 해금 유물 개수만 보고 배열 순서상 다음 미확인 페어를 그냥 띄우므로, 시대를 전혀 고려하지 않았다. 특히 한강 쟁탈전 MUD는 칠지도(art_5)·순수비(art_6) 2개를 한 번에 줘서 카운트가 급증해, 아직 이르지도 않은 고려·조선 페어가 조건을 만족해버렸다.
+- 수정: 페어별 `unlockThreshold`를 시대 구간에 맞게 분리했다.
+  - `cmp_pottery_1`(신석기 vs 청동기): 2 → 3 (청동기 MUD 직후)
+  - `cmp_crown_1`·`cmp_crown_2`(삼국시대 신라·가야·백제): 2 → 6 (한강 쟁탈전 직후 정확히 도달하도록)
+  - `cmp_ceramics_1`·`cmp_ceramics_2`(고려·조선 도자기): 2 → 8 (고려 문화 MUD 이후)
+- `js/artifactComparison.js`는 변경하지 않았다 — `unlockThreshold`를 실제로 비교에 쓰고 있었으므로 데이터만 고치면 됐다.
+- 검증: 브라우저 콘솔에서 `encyclopedia.data.unlockedArtifacts` 개수를 2/3/4/6/6(이전 페어 확인 후)/8로 바꿔가며 `ArtifactComparisonEngine.getEligibleComparison()`을 직접 호출해, 각 구간에서 같은 시대의 페어만 반환되는지 확인했다(2 → null, 3 → 토기, 6 → 신라·가야 왕관, 8 → 도자기). `01_validate_game_data.py`·`06_validate_static_assets.py` 통과.
+- 문서: `BACKLOG.md`에 버그·수정 기록 추가, `TEACHING_artifact_comparison.md`에 시대 구간별 등장 순서 안내 추가.
