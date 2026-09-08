@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (versionEl) versionEl.textContent = `• 버전 ${APP_VERSION}`;
   await Promise.all([
     window.encyclopedia ? window.encyclopedia.initArtifacts() : Promise.resolve(),
+    window.ArtifactComparisonEngine ? window.ArtifactComparisonEngine.loadData() : Promise.resolve(),
     window.storyEngine ? window.storyEngine.loadStories() : Promise.resolve(),
     window.quizGame ? window.quizGame.loadQuizzes() : Promise.resolve(),
     window.miniGames ? window.miniGames.init() : Promise.resolve(),

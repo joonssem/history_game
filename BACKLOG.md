@@ -2,9 +2,22 @@
 
 > 완료된 기능은 이 목록에 넣지 않는다. 완료 이력은 [`walkthrough.md`](./walkthrough.md), 현재 상태는 [`project_context.md`](./project_context.md)에서 확인한다.
 
+## 2026-09-08 유물 2개 비교·추론 프로토타입
+
+TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 | 담당: Claude Sonnet 5 | 상태: DONE
+
+- 배경: `EXP-002`, `BACKLOG.md` P2 항목, [`scenario_candidates_artifact_comparison_and_cooperative_mud.md`](./docs/plans/scenario_candidates_artifact_comparison_and_cooperative_mud.md) §1의 브레인스토밍을 구현으로 이어받았다.
+- 구현 전 재확인(2026-09-08, museum.go.kr 실제 조회): 빗살무늬 토기(신수22891, relicId=4328)·민무늬 토기 항아리(신수10470, relicId=2179) 모두 공공누리 **제1유형(출처표시)**만 적용되며 "변경금지" 조건은 없었다(기존 브레인스토밍 문서의 "빗살무늬=변경금지" 가정은 오류였음). 두 유물 모두 원본 이미지 다운로드 링크가 존재함을 확인했다.
+- 사용자 확인 결과, 이번 프로토타입은 (1) 실제 박물관 사진 대신 기존 앱과 동일한 이모지+텍스트 스타일 유지, (2) 스킵 불가 대신 "건너뛰기" 버튼 제공으로 결정했다.
+- 구현 범위: `js/mudEngine.js`의 `renderFinalReflection()` 직후 해금 유물이 2개 이상이고 아직 보지 않은 비교 콘텐츠가 있으면 선택형 제안 카드를 띄운다. 시작하면 관찰→근거 카드(무근거 선택지 포함)→빈칸 주장 완성→결과 비교 4단계를 거치며, 결과 화면은 "정답/오답" 표현 없이 학생 생각을 먼저 요약하고 학계 관점을 병치하되 근접도에 따라 칭찬형/안내형으로만 톤을 바꾼다. 완료·건너뛰기 모두 `encyclopedia`의 `seenArtifactComparisons`에 기록해 같은 콘텐츠를 반복 제안하지 않는다.
+- 신규/변경 파일: [`data/artifactComparisons.json`](./data/artifactComparisons.json)(1번째 페어: 빗살무늬 토기 vs 민무늬 토기 항아리), [`js/artifactComparison.js`](./js/artifactComparison.js)(신규 엔진), `js/encyclopedia.js`(seen 상태 저장), `js/mudEngine.js`(제안 카드 삽입), `js/app.js`·`index.html`(로드·캐시 버스터 갱신), `scripts/01_validate_game_data.py`(신규 JSON 검증 대상 추가).
+- 검증: `python scripts/01_validate_game_data.py`, `python scripts/06_validate_static_assets.py` 통과. 로컬 정적 서버에서 두 톤 분기(근접/차이)와 건너뛰기 시 재노출 안 됨을 브라우저 콘솔로 직접 실행해 확인했다(자동화 테스트는 아직 없음).
+- 남은 질문: 실제 교실에서의 피로도·완주율은 미검증(설계 가설). 2번째 페어(청자 매병 vs 달항아리) 이후 후속은 별도 작업으로 남긴다.
+
 ## P1-COLLAB-PRIVACY — Convex 개인정보·국외 처리 착수 게이트
 
-- 상태: `blocked-by-privacy-confirmation` — 법령·공급자 1차 감사 완료, 개인정보·국외 처리 확인과 계약 검토 대기.
+- 작업 claim: `TASK-20260908-01 | 개인정보 처리 기록·QR 입장 보안·Preview 연결 | integration agent | 상태: DOING`
+- 상태: `in-progress-provider-documented` — 교육자료 분류와 공급자 공개 문서 재검토 완료. 학교 개인정보 처리 근거·국외 처리 허용 확인, 공급자 비공개 보존기간·계약 조건 확인, 기술 통합 시험은 대기.
 - 우선순위: **P1로 상향**. 기존 `P2-COLLAB-05`를 승격한 항목이며, 실시간 협동 MUD의 학생 적용과 운영 배포를 차단한다. 현재 정적 협동 MUD 수업 검증과 가상 데이터 개발은 별도 진행할 수 있다.
 - 근거: 이 프로젝트는 사용자 확인에 따라 **교사 제작 교육용 저작물**로 분류하므로 학습지원 소프트웨어 선정·학교운영위원회 심의 게이트는 적용하지 않는다. 다만 이름을 받지 않아도 모둠·역할·호·제출시각이 교사의 모둠표와 결합되면 개인정보가 될 수 있다. Convex Cloud는 미국 동부·아일랜드 리전만 제공하므로 국외 처리 검토가 필요하고, Convex DPA상 하위처리자·백업 사본의 잔존 범위도 확인해야 한다.
 - 감사 문서: [`convex_elementary_school_privacy_audit.md`](./docs/audits/convex_elementary_school_privacy_audit.md)
@@ -14,6 +27,9 @@
   3. 최소수집·권리행사·수업 종료 삭제·접근통제·사고대응 테스트를 통과한다.
 - 미통과 시: 실제 학생 접속을 금지한다. 국외 처리 또는 외국산 SaaS가 불가하면 [D-019](./DECISIONS.md)을 다시 열어 국내 리전/기관 승인 서비스 또는 로컬 방식을 검토한다.
 - 2026-09-07 이어받기 감사: 현재 교사 QR은 수동 입력과 같은 6자리 `code`를 URL에 넣는다. 감사 문서 §5의 "충분히 긴 무작위 세션 토큰" 기준과 맞지 않으며, 6자리 코드 반복 시도 제한도 없다. 실제 학생 접속 전에 QR 전용 장기 난수 입장키와 수동 코드의 시도 제한·만료 방식을 계획하고 권한 테스트에 포함한다.
+- 2026-09-08 사용자 확정: 이 프로젝트는 학교 교육과정 운영 지원을 목적으로 외부에서 개발·보급된 소프트웨어가 아니므로 학습지원 소프트웨어 선정·학교운영위원회 심의는 적용하지 않는다([D-022](./DECISIONS.md)). 이 판단은 개인정보 처리위탁·국외 처리 확인을 면제하지 않는다.
+- 2026-09-08 공급자 재검토: Convex·Vercel의 공개 DPA, 리전, 하위처리자 관리, 로그 보존 범위를 [감사 문서](./docs/audits/convex_elementary_school_privacy_audit.md)에 기록했다. Vercel DPA는 공개 문구상 Pro·Enterprise 대상이고, Hobby 런타임 로그는 1시간이지만 빌드 로그는 배포별 무기한 보관된다. Convex의 공급자 로그·백업 삭제기간과 무료/Starter 계약 적용 범위는 공개 문서만으로 수치 확정이 되지 않아 실제 학생 적용 차단 항목으로 유지한다.
+- QR·수동 코드 보안 계획: [`implementation_plan_cooperative_join_security.md`](./docs/plans/implementation_plan_cooperative_join_security.md) — 상태 `approved-planned`. QR 토큰은 URL fragment로 전달하고 서버에는 SHA-256 해시만 저장하며, 수동 코드는 요청 본문·시도 제한·만료·감사 테스트를 적용한다.
 
 ## P1-COLLAB-VERTICAL — Vercel·Convex 첫 수직 슬라이스
 
@@ -126,7 +142,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 3. **P2 — 유물 기반 친구 경쟁/협력 모드 기획**: 실시간 네트워크 없이 가능한 비교·협력 방식부터 검토한다.
 4. **P2 — 역사 타이쿤 확장 활동 기획**: 대상 시대, 핵심 자원, 역사적 제약, 예상 활동 시간을 정의한다.
 6. **P1 — 최소 플레이 진단 로그 설계**: 서버·계정 없이 `mudId`, `stageId`, 단계·시뮬레이터·선택·완료 시각, 정답 여부, 재시도 횟수만 기록하는 방안을 설계한다. 개인정보·장기 추적은 금지한다.
-7. **P2 — 유물 2개 기반 역사적 추론 프로토타입**: 해금 유물 2개를 관찰·비교·주장·근거로 연결하는 3~5분 활동을 설계하고, 기존 도감·미니게임 재사용 범위를 확인한다.
+7. **P2 — 유물 2개 기반 역사적 추론 프로토타입**: 해금 유물 2개를 관찰·비교·주장·근거로 연결하는 3~5분 활동을 설계하고, 기존 도감·미니게임 재사용 범위를 확인한다. **2026-09-08 최소 프로토타입 구현 완료** — 상세는 아래 "2026-09-08 유물 2개 비교·추론 프로토타입" 항목 참조.
 8. **P2 — 콘텐츠 정합성 lint 설계**: 구조 오류는 Node/Python 검사로, narrative·choices·evidence·simulator·reward의 의미 정합성은 AI·사람 검토로 분리한다.
 9. **P2 — 에이전트 작업 claim 규칙**: TASK ID·담당 역할·상태(DOING/DONE)를 작업 시작 전에 기록하고, 같은 파일 동시 수정과 중복 구현을 방지한다.
 10. **P1 — Vercel 배포 경로 검토**: 현재 GitHub Pages를 유지한 채 정적 구조가 Vercel에서 동일하게 작동하는지 확인하고, 실제 이전 여부는 별도 결정한다.

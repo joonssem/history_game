@@ -1,0 +1,65 @@
+[
+  {
+    "id": "cmp_pottery_1",
+    "title": "두 토기 이야기",
+    "unlockThreshold": 2,
+    "sourceNote": "국립중앙박물관 소장품 정보 기준(2026-09-08 재확인). 이미지는 저작권 표시 부담을 줄이기 위해 이 활동에서는 싣지 않으며, 실물은 아래 링크에서 볼 수 있다.",
+    "artifactA": {
+      "name": "빗살무늬 토기",
+      "era": "신석기 시대",
+      "location": "서울 암사동",
+      "icon": "🏺",
+      "museumId": "신수22891",
+      "museumUrl": "https://www.museum.go.kr/site/main/relic/search/view?relicId=4328",
+      "license": "공공누리 제1유형(출처표시), 국립중앙박물관",
+      "traits": {
+        "pattern": "겉면 전체에 점·선으로 이루어진 빗살무늬",
+        "material": "강가의 고운 진흙, 비교적 낮은 온도로 구움",
+        "shape": "바닥이 뾰족하거나 둥근 V자형",
+        "location": "큰 강가(한강 유역) 마을 유적"
+      }
+    },
+    "artifactB": {
+      "name": "민무늬 토기 항아리",
+      "era": "청동기 시대",
+      "location": "충남 부여 송국리",
+      "icon": "🏺",
+      "museumId": "신수10470",
+      "museumUrl": "https://www.museum.go.kr/site/main/relic/search/view?relicId=2179",
+      "license": "공공누리 제1유형(출처표시), 국립중앙박물관",
+      "traits": {
+        "pattern": "무늬 없이 매끈한 겉면",
+        "material": "굵은 모래를 섞은 거친 진흙, 더 단단하게 구움",
+        "shape": "배가 불룩하고 아가리가 넓게 벌어진 항아리형, 바닥이 평평함",
+        "location": "내륙 농경 마을 유적"
+      }
+    },
+    "observation": {
+      "prompt": "두 토기를 나란히 놓고 보니, 너는 뭐가 가장 먼저 눈에 띄어?",
+      "options": [
+        { "id": "obs_pattern", "text": "겉면에 무늬가 있고 없고가 다르다" },
+        { "id": "obs_shape", "text": "바닥·아가리 모양이 다르다" },
+        { "id": "obs_color", "text": "색깔이 다르다" }
+      ]
+    },
+    "evidencePrompt": "네 관찰을 뒷받침할 근거로 쓸 만한 카드를 골라 봐. (여러 개 고를 수 있어)",
+    "evidenceCards": [
+      { "id": "ev_pattern", "text": "겉면 무늬가 있는지 없는지", "valid": true },
+      { "id": "ev_material", "text": "흙을 반죽한 방식과 굽는 온도", "valid": true },
+      { "id": "ev_shape", "text": "바닥·아가리의 모양", "valid": true },
+      { "id": "ev_location", "text": "발견된 장소(강가 마을 vs 내륙 농경 마을)", "valid": true },
+      { "id": "ev_owner_name", "text": "오늘날 사람이 붙인 이름의 길이", "valid": false },
+      { "id": "ev_museum_display", "text": "박물관 전시실 조명 색깔", "valid": false }
+    ],
+    "claim": {
+      "prefix": "빗살무늬 토기는",
+      "middle": "시대에, 민무늬 토기 항아리는",
+      "suffix": "시대에 만들어졌고, 그 사이 토기 만드는 기술과 생활 모습이 달라졌다고 생각한다.",
+      "blanks": [
+        { "id": "blank1", "options": ["신석기", "청동기", "구석기"], "answer": "신석기" },
+        { "id": "blank2", "options": ["신석기", "청동기", "구석기"], "answer": "청동기" }
+      ]
+    },
+    "scholarPerspective": "학자들은 무늬가 있는 빗살무늬 토기가 먼저(신석기 시대) 만들어졌고, 이후 청동기 시대로 오면서 토기를 더 단단하고 실용적으로 굽는 기술이 발달해 무늬 없는 민무늬 토기가 널리 쓰였다고 봐. 무늬가 사라진 건 기술이 나빠져서가 아니라, 생활에 쓰기 좋은 토기를 더 빠르고 튼튼하게 많이 만드는 쪽으로 바뀌었기 때문이라고 해석해."
+  }
+]

@@ -22,6 +22,7 @@ def main():
         os.path.join(base_dir, 'data', 'stories.json'),
         os.path.join(base_dir, 'data', 'quizzes.json'),
         os.path.join(base_dir, 'data', 'artifacts.json'),
+        os.path.join(base_dir, 'data', 'artifactComparisons.json'),
         os.path.join(base_dir, 'data', 'timeline.json'),
     ]
 

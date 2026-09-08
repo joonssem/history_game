@@ -1204,3 +1204,14 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - `P2-COLLAB-01`의 옛 "미구현" 상태와 네트워크 실측 순서를 현재 기준으로 고쳤다. 로컬 구현은 완료됐고 외부 서비스 연결·실제 학생 적용은 개인정보 게이트 뒤 진행한다.
 - 다른 PC의 시작 절차와 남은 일은 [`codex_cooperative_live_main_handoff_20260908.md`](./docs/handoff/codex_cooperative_live_main_handoff_20260908.md)에 고정했다.
 - 검증: 앱 `npm run check` 통과(lint·TypeScript·단위 테스트 5건·Next.js production build). 저장소의 데이터·MUD 계약·카탈로그·출처·시뮬레이터 런타임·정적 자산·JavaScript 문법 검사와 생성 감사 3종(활동 시간 7개 후보, IF 78개 신호, 유물 36종/문구 신호 0개)을 다시 실행해 모두 통과했다. `git diff --check`와 병합 충돌 마커 0건도 확인했다.
+
+## 2026-09-08 — 유물 2개 비교·추론 프로토타입 구현
+
+`TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 | Claude Sonnet 5 | 상태: DONE`
+
+- `BACKLOG.md` P2 항목과 `EXPERIMENTS.md` EXP-002를 이어받아, MUD 클리어 직후(`js/mudEngine.js`의 `renderFinalReflection()`) 해금 유물이 2개 이상이면 관찰→근거 카드→빈칸 주장 완성→결과 비교 4단계의 선택형 보너스 스테이지를 제안하도록 구현했다.
+- 구현 전 museum.go.kr을 다시 조회해 빗살무늬 토기(신수22891)·민무늬 토기 항아리(신수10470) 모두 공공누리 제1유형(출처표시)만 적용됨을 확인했다(브레인스토밍 문서의 "빗살무늬=변경금지" 가정은 오류로 정정). 다만 실제 사진은 이번 프로토타입에 넣지 않고 기존 앱과 동일하게 이모지+텍스트로 표시하기로 사용자와 확인했고, 스킵은 불가가 아니라 버튼으로 제공하기로 했다.
+- 결과 화면은 "정답/오답" 표현 없이 학생의 관찰·근거·주장을 먼저 요약한 뒤 학계 관점을 병치하고, 근접도에 따라 칭찬형/안내형으로만 톤을 바꾼다. 완료·건너뛰기 모두 `localStorage`(`encyclopedia.data.seenArtifactComparisons`)에 기록해 같은 콘텐츠가 반복 노출되지 않는다.
+- 신규 파일: `data/artifactComparisons.json`, `js/artifactComparison.js`. 변경: `js/encyclopedia.js`, `js/mudEngine.js`, `js/app.js`, `index.html`(캐시 버스터 갱신), `scripts/01_validate_game_data.py`.
+- 검증: `python scripts/01_validate_game_data.py`·`06_validate_static_assets.py` 통과. 로컬 정적 서버(`static-server`, 8791)에서 브라우저 콘솔로 두 톤 분기와 건너뛰기 후 재노출 안 됨을 직접 실행해 확인했다. 자동화 테스트는 아직 없다.
+- 남은 것: 실제 교실 완주율·피로도 관찰(EXP-002 후속), 문서에 남아 있던 2·3번째 유물 페어(청자 매병/달항아리, 삼국 불상)는 이번 범위 밖으로 남긴다.

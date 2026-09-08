@@ -21,7 +21,10 @@ class EncyclopediaManager {
     try {
       const saved = localStorage.getItem(this.storageKey);
       if (saved) {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        // 이전 버전 저장 데이터 호환: 새 필드가 없으면 기본값 채움
+        if (!Array.isArray(parsed.seenArtifactComparisons)) parsed.seenArtifactComparisons = [];
+        return parsed;
       }
     } catch (e) {
       console.warn('LocalStorage access error, using memory fallback:', e);
@@ -33,7 +36,8 @@ class EncyclopediaManager {
       unlockedBadges: [],
       quizHighScore: 0,
       cardGameBestMoves: null,
-      timelineClearedStages: []
+      timelineClearedStages: [],
+      seenArtifactComparisons: []
     };
   }
 
@@ -60,6 +64,17 @@ class EncyclopediaManager {
       this.saveData();
       if (window.sounds) window.sounds.playFanfare();
       this.showToast(`🎉 새로운 유물 [${artNameOrId}] 획득! 도감에 등록되었습니다.`);
+    }
+  }
+
+  hasSeenArtifactComparison(comparisonId) {
+    return this.data.seenArtifactComparisons.includes(comparisonId);
+  }
+
+  markArtifactComparisonSeen(comparisonId) {
+    if (!this.data.seenArtifactComparisons.includes(comparisonId)) {
+      this.data.seenArtifactComparisons.push(comparisonId);
+      this.saveData();
     }
   }
 

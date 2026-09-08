@@ -712,6 +712,7 @@ const MudEngine = {
           <button onclick="showPortalView()" class="btn secondary" style="width: 100%; font-size: 0.9rem; padding: 10px;">
             <i class="fas fa-arrow-left"></i> 전체 탐구 진도표로 돌아가기
           </button>
+          <div id="artifact-comparison-offer">${window.ArtifactComparisonEngine ? window.ArtifactComparisonEngine.getOfferHtml() : ''}</div>
         </div>
       `;
     }
