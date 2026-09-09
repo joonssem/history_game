@@ -64,52 +64,52 @@ class QuizGame {
     const totalQ = this.currentList.length;
 
     playView.innerHTML = `
-      <div class="max-w-2xl mx-auto bg-stone-900/90 border border-amber-500/40 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur relative">
+      <div>
         <!-- 상단 진행도 및 타이머 -->
-        <div class="flex items-center justify-between mb-4">
-          <span class="px-3 py-1 bg-amber-400/20 text-amber-300 font-bold text-xs rounded-full border border-amber-400/30">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;">
+          <span style="font-size: 0.78rem; font-weight: 700; background: var(--card-sub); color: var(--accent-teal); padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border-color);">
             ${q.unit}
           </span>
-          <span class="text-xs font-bold text-stone-300">
-            문제 <strong class="text-amber-400 text-sm">${this.currentIndex + 1}</strong> / ${totalQ}
+          <span style="font-size: 0.8rem; font-weight: 700; color: #554D46;">
+            문제 <strong style="color: var(--accent-red); font-size: 0.95rem;">${this.currentIndex + 1}</strong> / ${totalQ}
           </span>
-          <span class="text-xs font-bold text-amber-300 bg-stone-800 px-3 py-1 rounded-full border border-stone-700">
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--accent-red); background: var(--card-sub); padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border-color);">
             현재 점수: <span id="current-score-display">${this.score}</span>점
           </span>
         </div>
 
         <!-- 타이머 게이지 -->
-        <div class="w-full bg-stone-800 h-2.5 rounded-full overflow-hidden mb-6 border border-stone-700">
-          <div id="quiz-timer-bar" class="bg-gradient-to-r from-amber-400 to-red-500 h-full rounded-full transition-all duration-1000 ease-linear" style="width: 100%"></div>
+        <div style="width: 100%; background: var(--card-sub); height: 8px; border-radius: 999px; overflow: hidden; margin-bottom: 18px; border: 1px solid var(--border-color);">
+          <div id="quiz-timer-bar" style="background: var(--accent-red); height: 100%; border-radius: 999px; transition: width 1s linear; width: 100%;"></div>
         </div>
 
         <!-- 문제 내용 -->
-        <div class="min-h-[110px] flex items-center justify-center p-4 bg-stone-800/60 rounded-2xl border border-stone-700/60 mb-6 text-center">
-          <h3 class="text-lg md:text-xl font-bold text-stone-100 leading-relaxed">${q.question}</h3>
+        <div style="min-height: 100px; display: flex; align-items: center; justify-content: center; padding: 16px; background: var(--card-sub); border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 18px; text-align: center;">
+          <h3 style="font-size: 1.08rem; font-weight: 800; color: var(--text-main); line-height: 1.6;">${q.question}</h3>
         </div>
 
         <!-- 선택지 영역 -->
-        <div id="quiz-options" class="space-y-3">
+        <div id="quiz-options" style="display: flex; flex-direction: column; gap: 10px;">
           ${
             q.type === 'ox'
               ? `
-            <div class="grid grid-cols-2 gap-4">
-              <button onclick="window.quizGame.handleAnswer(true)" class="py-6 rounded-2xl bg-emerald-950/60 hover:bg-emerald-800/60 border-2 border-emerald-500/50 hover:border-emerald-400 text-emerald-300 font-black text-4xl transition transform active:scale-95 flex flex-col items-center justify-center gap-1 shadow-lg">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+              <button onclick="window.quizGame.handleAnswer(true)" class="btn" style="background-color: #2D6A4F; flex-direction: column; gap: 4px; padding: 22px 10px; font-size: 2rem;">
                 <span>⭕</span>
-                <span class="text-sm font-bold">그렇다 (O)</span>
+                <span style="font-size: 0.82rem; font-weight: 700;">그렇다 (O)</span>
               </button>
-              <button onclick="window.quizGame.handleAnswer(false)" class="py-6 rounded-2xl bg-rose-950/60 hover:bg-rose-800/60 border-2 border-rose-500/50 hover:border-rose-400 text-rose-300 font-black text-4xl transition transform active:scale-95 flex flex-col items-center justify-center gap-1 shadow-lg">
+              <button onclick="window.quizGame.handleAnswer(false)" class="btn" style="background-color: var(--accent-red); flex-direction: column; gap: 4px; padding: 22px 10px; font-size: 2rem;">
                 <span>❌</span>
-                <span class="text-sm font-bold">아니다 (X)</span>
+                <span style="font-size: 0.82rem; font-weight: 700;">아니다 (X)</span>
               </button>
             </div>
           `
               : q.options
                   .map(
                     (opt, i) => `
-            <button onclick="window.quizGame.handleAnswer(${i})" class="w-full text-left p-4 rounded-xl bg-stone-800 hover:bg-amber-950/40 border border-stone-700 hover:border-amber-400 text-stone-100 hover:text-amber-200 font-semibold transition flex items-center gap-3 group active:scale-[0.99]">
-              <span class="w-7 h-7 rounded-full bg-stone-700 group-hover:bg-amber-500 group-hover:text-stone-950 text-stone-300 flex items-center justify-center text-xs font-bold">${i + 1}</span>
-              <span class="text-sm md:text-base">${opt}</span>
+            <button onclick="window.quizGame.handleAnswer(${i})" class="btn secondary" style="justify-content: flex-start; text-align: left;">
+              <span class="choice-marker choice-marker-${i % 3}" aria-hidden="true">${i + 1}</span>
+              <span style="font-size: 0.92rem;">${opt}</span>
             </button>
           `
                   )
@@ -118,7 +118,7 @@ class QuizGame {
         </div>
 
         <!-- 실시간 피드백 모달/오버레이 -->
-        <div id="quiz-feedback-box" class="hidden mt-6 p-4 rounded-2xl border transition-all"></div>
+        <div id="quiz-feedback-box" style="display: none; margin-top: 20px; padding: 14px; border-radius: 12px; border: 1px solid;"></div>
       </div>
     `;
 
@@ -169,24 +169,25 @@ class QuizGame {
     // 피드백 표시
     const optBox = document.getElementById('quiz-options');
     const fBox = document.getElementById('quiz-feedback-box');
-    if (optBox) optBox.classList.add('pointer-events-none', 'opacity-50');
+    if (optBox) {
+      optBox.style.pointerEvents = 'none';
+      optBox.style.opacity = '0.5';
+    }
 
     if (fBox) {
-      fBox.classList.remove('hidden');
-      fBox.className = `mt-6 p-4 rounded-2xl border ${
-        isCorrect
-          ? 'bg-emerald-950/80 border-emerald-500 text-emerald-200'
-          : 'bg-rose-950/80 border-rose-500 text-rose-200'
-      }`;
+      fBox.style.display = 'block';
+      fBox.style.background = isCorrect ? 'rgba(45, 106, 79, 0.12)' : 'rgba(138, 59, 41, 0.1)';
+      fBox.style.borderColor = isCorrect ? '#2D6A4F' : 'var(--accent-red)';
+      fBox.style.color = 'var(--text-main)';
       fBox.innerHTML = `
-        <div class="flex items-start gap-3">
-          <span class="text-2xl">${isCorrect ? '🎉' : '💡'}</span>
+        <div style="display: flex; align-items: flex-start; gap: 10px;">
+          <span style="font-size: 1.4rem;">${isCorrect ? '🎉' : '💡'}</span>
           <div>
-            <h4 class="font-bold text-base mb-1">${isCorrect ? '정답입니다!' : isTimeout ? '시간 초과!' : '아쉽네요! 오답입니다.'}</h4>
-            <p class="text-xs md:text-sm leading-relaxed">${q.explanation}</p>
+            <h4 style="font-weight: 800; font-size: 0.98rem; margin-bottom: 4px;">${isCorrect ? '정답입니다!' : isTimeout ? '시간 초과!' : '아쉽네요! 오답입니다.'}</h4>
+            <p style="font-size: 0.85rem; line-height: 1.6; color: #554D46;">${q.explanation}</p>
           </div>
         </div>
-        <button onclick="window.quizGame.nextQuestion()" class="mt-4 w-full py-2.5 bg-stone-100 hover:bg-white text-stone-950 font-bold rounded-xl shadow text-sm transition">
+        <button onclick="window.quizGame.nextQuestion()" class="btn" style="margin-top: 14px; background-color: var(--accent-teal);">
           다음 문제로 ➔
         </button>
       `;
@@ -217,33 +218,33 @@ class QuizGame {
     else if (scoreRate >= 50) rankText = '성장하는 역사 학자 📜';
 
     resultView.innerHTML = `
-      <div class="max-w-2xl mx-auto bg-stone-900/90 border border-amber-500/40 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur text-center">
-        <div class="w-20 h-20 rounded-full mx-auto mb-4 bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center text-4xl shadow-lg shadow-amber-500/30">
+      <div style="text-align: center;">
+        <div style="width: 76px; height: 76px; border-radius: 50%; margin: 0 auto 14px; background: var(--accent-red); display: flex; align-items: center; justify-content: center; font-size: 2.1rem;">
           🏆
         </div>
-        <h3 class="text-2xl font-black text-amber-300 mb-1">스피드 역사 골든벨 완료!</h3>
-        <p class="text-stone-300 text-sm mb-6">초등 5학년 역사 마무리를 멋지게 완수했습니다.</p>
+        <h3 style="font-size: 1.35rem; font-weight: 900; color: var(--accent-red); margin-bottom: 4px;">스피드 역사 골든벨 완료!</h3>
+        <p style="color: #554D46; font-size: 0.88rem; margin-bottom: 20px;">초등 5학년 역사 마무리를 멋지게 완수했습니다.</p>
 
-        <div class="grid grid-cols-3 gap-3 bg-stone-800/80 p-4 rounded-2xl border border-stone-700 mb-6">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: var(--card-sub); padding: 16px; border-radius: 14px; border: 1px solid var(--border-color); margin-bottom: 20px;">
           <div>
-            <span class="text-xs text-stone-400 block">최종 점수</span>
-            <strong class="text-2xl font-black text-amber-400">${scoreRate}점</strong>
+            <span style="font-size: 0.72rem; color: #8C847B; display: block;">최종 점수</span>
+            <strong style="font-size: 1.3rem; font-weight: 900; color: var(--accent-red);">${scoreRate}점</strong>
           </div>
           <div>
-            <span class="text-xs text-stone-400 block">맞힌 문제</span>
-            <strong class="text-2xl font-black text-emerald-400">${correctCount} / ${totalQ}</strong>
+            <span style="font-size: 0.72rem; color: #8C847B; display: block;">맞힌 문제</span>
+            <strong style="font-size: 1.3rem; font-weight: 900; color: #2D6A4F;">${correctCount} / ${totalQ}</strong>
           </div>
           <div>
-            <span class="text-xs text-stone-400 block">부여 칭호</span>
-            <strong class="text-xs md:text-sm font-bold text-yellow-300 block mt-1">${rankText}</strong>
+            <span style="font-size: 0.72rem; color: #8C847B; display: block;">부여 칭호</span>
+            <strong style="font-size: 0.78rem; font-weight: 800; color: var(--accent-teal); display: block; margin-top: 4px;">${rankText}</strong>
           </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row gap-3 justify-center">
-          <button onclick="window.quizGame.startQuizGame(${this.unitId || 'null'})" class="py-3 px-6 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-stone-950 font-bold rounded-xl shadow transition transform active:scale-95">
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <button onclick="window.quizGame.startQuizGame(${this.unitId || 'null'})" class="btn" style="width: auto; padding: 10px 22px; background-color: var(--accent-red);">
             🔄 다시 도전하기
           </button>
-          <button onclick="window.quizGame.exitQuiz()" class="py-3 px-6 bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold rounded-xl border border-stone-600 transition">
+          <button onclick="window.quizGame.exitQuiz()" class="btn secondary" style="width: auto; padding: 10px 22px;">
             🏠 퀴즈 홈으로
           </button>
         </div>

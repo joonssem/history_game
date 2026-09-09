@@ -60,22 +60,22 @@ class MiniGameEngine {
     this.updateCardGameStats();
 
     container.innerHTML = `
-      <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 md:gap-4 max-w-xl mx-auto">
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 10px; max-width: 520px; margin: 0 auto;">
         ${this.cardDeck
           .map(
             (card, i) => `
-          <div class="card-item relative h-24 md:h-32 cursor-pointer perspective" onclick="window.miniGames.flipCard(${i})">
-            <div id="card-inner-${i}" class="card-inner w-full h-full rounded-2xl transition-transform duration-500 transform-style-3d shadow-md relative">
+          <div class="card-flip-wrap" style="position: relative; height: 96px; cursor: pointer;" onclick="window.miniGames.flipCard(${i})">
+            <div id="card-inner-${i}" class="card-flip-inner">
               <!-- 카드 뒷면 (가려진 상태) -->
-              <div class="card-back absolute inset-0 bg-stone-800 hover:bg-stone-750 border-2 border-amber-500/40 rounded-2xl flex flex-col items-center justify-center backface-hidden">
-                <span class="text-2xl md:text-3xl">🧭</span>
-                <span class="text-[10px] text-amber-300 font-bold mt-1">유물 발굴</span>
+              <div class="card-flip-face card-flip-back">
+                <span style="font-size: 1.6rem;">🧭</span>
+                <span style="font-size: 0.62rem; color: #F0C987; font-weight: 700; margin-top: 2px;">유물 발굴</span>
               </div>
               <!-- 카드 앞면 (공개된 상태) -->
-              <div class="card-front absolute inset-0 bg-gradient-to-br from-stone-800 to-stone-900 border-2 border-amber-400 rounded-2xl flex flex-col items-center justify-center p-2 rotate-y-180 backface-hidden">
-                <span class="text-3xl md:text-4xl mb-1">${card.icon}</span>
-                <span class="text-xs font-bold text-amber-200 text-center leading-tight">${card.name}</span>
-                <span class="text-[10px] text-stone-400 mt-0.5">${card.era}</span>
+              <div class="card-flip-face card-flip-front">
+                <span style="font-size: 1.8rem; margin-bottom: 2px;">${card.icon}</span>
+                <span style="font-size: 0.68rem; font-weight: 700; color: #F0C987; line-height: 1.2;">${card.name}</span>
+                <span style="font-size: 0.6rem; color: #9B9088; margin-top: 2px;">${card.era}</span>
               </div>
             </div>
           </div>
@@ -110,8 +110,8 @@ class MiniGameEngine {
       // 매칭 성공
       if (window.sounds) window.sounds.playCorrect();
       setTimeout(() => {
-        document.getElementById(`card-inner-${c1.index}`).classList.add('matched', 'border-emerald-400', 'bg-emerald-950/40');
-        document.getElementById(`card-inner-${c2.index}`).classList.add('matched', 'border-emerald-400', 'bg-emerald-950/40');
+        document.getElementById(`card-inner-${c1.index}`).classList.add('matched');
+        document.getElementById(`card-inner-${c2.index}`).classList.add('matched');
         this.matchedPairs++;
         this.flippedCards = [];
         this.isCardLocked = false;
@@ -139,9 +139,9 @@ class MiniGameEngine {
     const statsEl = document.getElementById('card-game-stats');
     if (statsEl) {
       statsEl.innerHTML = `
-        <div class="flex items-center justify-between text-sm text-stone-300 bg-stone-800/80 px-4 py-2 rounded-xl border border-stone-700 max-w-xl mx-auto mb-4">
-          <span>발굴한 유물: <strong class="text-amber-400 font-bold">${this.matchedPairs} / ${this.cardDeck.length / 2}</strong></span>
-          <span>시도 횟수: <strong class="text-amber-300 font-bold">${this.cardMoves}</strong>회</span>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 0.85rem; color: #C5BCB3; background: #1F1B19; padding: 8px 16px; border-radius: 10px; border: 1px solid #5A4E46; max-width: 520px; margin: 0 auto 14px;">
+          <span>발굴한 유물: <strong style="color: #F0C987;">${this.matchedPairs} / ${this.cardDeck.length / 2}</strong></span>
+          <span>시도 횟수: <strong style="color: #F0C987;">${this.cardMoves}</strong>회</span>
         </div>
       `;
     }
@@ -153,10 +153,10 @@ class MiniGameEngine {
     const container = document.getElementById('card-game-container');
     if (container) {
       container.innerHTML += `
-        <div class="mt-6 p-6 rounded-2xl bg-gradient-to-r from-amber-500/20 via-emerald-500/20 to-yellow-500/20 border-2 border-emerald-400 text-center animate-bounce-slow max-w-xl mx-auto">
-          <h4 class="text-xl font-black text-emerald-300 mb-1">🎉 모든 유물 발굴 완료!</h4>
-          <p class="text-stone-200 text-sm mb-4">총 ${this.cardMoves}번의 시도로 모든 유물을 찾았습니다. [유물 발굴 전문가] 배지를 획득했습니다!</p>
-          <button onclick="window.miniGames.startCardGame()" class="py-2.5 px-6 bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-bold rounded-xl transition">
+        <div style="margin-top: 20px; padding: 20px; border-radius: 14px; background: linear-gradient(135deg, rgba(183, 121, 31, 0.2), rgba(45, 106, 79, 0.2)); border: 2px solid #2D6A4F; text-align: center; max-width: 520px; margin-left: auto; margin-right: auto;">
+          <h4 style="font-size: 1.05rem; font-weight: 900; color: #7FE0B0; margin-bottom: 6px;">🎉 모든 유물 발굴 완료!</h4>
+          <p style="color: #E4DCD3; font-size: 0.82rem; margin-bottom: 12px;">총 ${this.cardMoves}번의 시도로 모든 유물을 찾았습니다. [유물 발굴 전문가] 배지를 획득했습니다!</p>
+          <button onclick="window.miniGames.startCardGame()" class="btn" style="width: auto; padding: 8px 20px; background-color: #2D6A4F;">
             🔄 한 번 더 하기
           </button>
         </div>
@@ -184,50 +184,49 @@ class MiniGameEngine {
     if (!container) return;
 
     container.innerHTML = `
-      <div class="max-w-2xl mx-auto bg-stone-900/90 border border-amber-500/40 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur">
-        <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-700">
+      <div style="max-width: 640px; margin: 0 auto; background: #1F1B19; border: 1px solid #5A4E46; border-radius: 16px; padding: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #3D352E;">
           <div>
-            <span class="text-xs font-bold px-3 py-1 bg-amber-400/20 text-amber-300 rounded-full">스테이지 ${stage.stage}</span>
-            <h3 class="text-lg md:text-xl font-bold text-stone-100 mt-1">${stage.title}</h3>
+            <span style="font-size: 0.72rem; font-weight: 700; padding: 3px 10px; background: rgba(183, 121, 31, 0.2); color: #F0C987; border-radius: 999px;">스테이지 ${stage.stage}</span>
+            <h4 style="font-size: 1.05rem; font-weight: 800; color: #F7E7CE; margin-top: 6px;">${stage.title}</h4>
           </div>
-          <span class="text-xs text-stone-400">카드를 눌러 위치를 교환하세요!</span>
+          <span style="font-size: 0.72rem; color: #9B9088;">카드를 눌러 위치를 교환하세요!</span>
         </div>
 
-        <p class="text-stone-300 text-xs md:text-sm mb-6">${stage.description}</p>
+        <p style="color: #C5BCB3; font-size: 0.8rem; margin-bottom: 16px;">${stage.description}</p>
 
         <!-- 정렬 리스트 -->
-        <div id="timeline-list" class="space-y-3 mb-6">
+        <div id="timeline-list" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
           ${this.currentTimelineEvents
             .map(
-              (evt, idx) => `
-            <div id="timeline-item-${idx}" onclick="window.miniGames.handleTimelineClick(${idx})" class="timeline-item p-3.5 rounded-xl bg-stone-800/90 border border-stone-700 hover:border-amber-400 cursor-pointer flex items-center justify-between transition-all group ${
-                this.selectedTimelineItem === idx ? 'ring-2 ring-amber-400 bg-amber-950/40' : ''
-              }">
-              <div class="flex items-center gap-3">
-                <span class="w-7 h-7 rounded-full bg-stone-700 group-hover:bg-amber-500 group-hover:text-stone-950 text-stone-300 flex items-center justify-center text-xs font-bold">${idx + 1}</span>
+              (evt, idx) => {
+                const selected = this.selectedTimelineItem === idx;
+                return `
+            <div id="timeline-item-${idx}" onclick="window.miniGames.handleTimelineClick(${idx})" style="padding: 12px 14px; border-radius: 10px; background: ${selected ? 'rgba(183, 121, 31, 0.25)' : '#14110F'}; border: 1px solid ${selected ? '#B7791F' : '#3D352E'}; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="width: 26px; height: 26px; border-radius: 50%; background: #33302B; color: #C5BCB3; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; flex-shrink: 0;">${idx + 1}</span>
                 <div>
-                  <h4 class="text-sm md:text-base font-bold text-stone-100 group-hover:text-amber-200">${evt.title}</h4>
-                  <span class="text-xs text-stone-400 font-mono">${evt.hint}</span>
+                  <h5 style="font-size: 0.88rem; font-weight: 700; color: #F0EAE1;">${evt.title}</h5>
+                  <span style="font-size: 0.7rem; color: #9B9088;">${evt.hint}</span>
                 </div>
               </div>
-              <div class="text-xs text-stone-500 font-bold px-2 py-1 bg-stone-900 rounded-lg">
+              <div style="font-size: 0.68rem; font-weight: 700; color: #9B9088; background: #0F0D0B; padding: 3px 8px; border-radius: 8px; flex-shrink: 0;">
                 위치 변경 ⇅
               </div>
             </div>
-          `
+          `;
+              }
             )
             .join('')}
         </div>
 
         <!-- 확인 버튼 -->
-        <div class="flex items-center justify-between gap-4">
-          <button onclick="window.miniGames.checkTimelineOrder()" class="flex-1 py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-stone-950 font-black rounded-xl shadow-lg transition active:scale-95 text-base">
-            ✅ 순서 정답 확인하기
-          </button>
-        </div>
+        <button onclick="window.miniGames.checkTimelineOrder()" class="btn" style="background-color: #B7791F;">
+          ✅ 순서 정답 확인하기
+        </button>
 
         <!-- 피드백 결과 -->
-        <div id="timeline-feedback" class="mt-4 hidden"></div>
+        <div id="timeline-feedback" style="display: none; margin-top: 12px;"></div>
       </div>
     `;
   }
@@ -258,7 +257,7 @@ class MiniGameEngine {
     const fbEl = document.getElementById('timeline-feedback');
     if (!fbEl) return;
 
-    fbEl.classList.remove('hidden');
+    fbEl.style.display = 'block';
 
     if (isAllCorrect) {
       if (window.sounds) window.sounds.playFanfare();
@@ -267,26 +266,26 @@ class MiniGameEngine {
       let nextButton = '';
       if (this.currentStageIdx + 1 < this.timelineStages.length) {
         nextButton = `
-          <button onclick="window.miniGames.startTimelineGame(${this.currentStageIdx + 1})" class="mt-3 py-2 px-5 bg-stone-900 hover:bg-black text-amber-300 font-bold rounded-xl text-sm transition">
+          <button onclick="window.miniGames.startTimelineGame(${this.currentStageIdx + 1})" style="margin-top: 10px; padding: 8px 18px; background: #0F0D0B; color: #F0C987; border-radius: 10px; border: 1px solid #3D352E; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
             다음 스테이지로 ➔
           </button>
         `;
       }
 
-      fbEl.className = 'mt-4 p-4 rounded-2xl bg-emerald-950/80 border border-emerald-500 text-emerald-200 text-center';
+      fbEl.style.cssText = 'display: block; margin-top: 16px; padding: 14px; border-radius: 12px; background: rgba(45, 106, 79, 0.25); border: 1px solid #2D6A4F; color: #B7E8CB; text-align: center;';
       fbEl.innerHTML = `
-        <h4 class="font-bold text-base mb-1">🎉 완벽합니다! 올바른 연대순입니다!</h4>
-        <p class="text-xs text-stone-300">
+        <h4 style="font-weight: 800; font-size: 0.95rem; margin-bottom: 4px;">🎉 완벽합니다! 올바른 연대순입니다!</h4>
+        <p style="font-size: 0.76rem; color: #C5BCB3;">
           ${stage.events.map(e => `[${e.year}] ${e.title}`).join(' ➔ ')}
         </p>
         ${nextButton}
       `;
     } else {
       if (window.sounds) window.sounds.playWrong();
-      fbEl.className = 'mt-4 p-4 rounded-2xl bg-rose-950/80 border border-rose-500 text-rose-200 text-center';
+      fbEl.style.cssText = 'display: block; margin-top: 16px; padding: 14px; border-radius: 12px; background: rgba(138, 59, 41, 0.2); border: 1px solid #8A3B29; color: #F1B9A8; text-align: center;';
       fbEl.innerHTML = `
-        <h4 class="font-bold text-base mb-1">💡 아직 순서가 맞지 않은 곳이 있어요!</h4>
-        <p class="text-xs text-stone-300">힌트를 다시 확인하고 카드를 눌러 순서를 교환해 보세요.</p>
+        <h4 style="font-weight: 800; font-size: 0.95rem; margin-bottom: 4px;">💡 아직 순서가 맞지 않은 곳이 있어요!</h4>
+        <p style="font-size: 0.76rem; color: #C5BCB3;">힌트를 다시 확인하고 카드를 눌러 순서를 교환해 보세요.</p>
       `;
     }
   }
