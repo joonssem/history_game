@@ -8,6 +8,12 @@ import {
   assignGroups,
   pickUniqueAliases,
 } from "../shared/scenario";
+import {
+  ENTRY_CREDENTIAL_TTL_MS,
+  createOpaqueToken,
+  expiresAt,
+  sha256Hex,
+} from "../shared/join-security";
 import { deleteSessionData } from "./data";
 import { hashStudentToken, requireOwnedSession, requireTeacher } from "./security";
 
@@ -17,10 +23,40 @@ function makeCode() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+async function createEntryCredential(now: number, deleteAfter: number) {
+  const entryKey = createOpaqueToken();
+  return {
+    entryKey,
+    entryKeyHash: await sha256Hex(entryKey),
+    entryKeyExpiresAt: expiresAt(now, deleteAfter, ENTRY_CREDENTIAL_TTL_MS),
+  };
+}
+
+async function scheduleEntryCredentialExpiry(
+  scheduler: {
+    runAt: (
+      timestamp: number,
+      reference: ReturnType<typeof makeFunctionReference<"mutation">>,
+      args: { sessionId: GenericId<"sessions">; expectedEntryKeyExpiresAt: number },
+    ) => Promise<unknown>;
+  },
+  sessionId: GenericId<"sessions">,
+  entryKeyExpiresAt: number,
+) {
+  await scheduler.runAt(
+    entryKeyExpiresAt,
+    makeFunctionReference<"mutation">("cleanup:expireEntryCredentials"),
+    { sessionId, expectedEntryKeyExpiresAt: entryKeyExpiresAt },
+  );
+}
+
 function publicSession(session: {
   _id: GenericId<"sessions">;
   code: string;
   status: "lobby" | "preview" | "active";
+  codeExpiresAt?: number;
+  entryKeyHash?: string;
+  entryKeyExpiresAt?: number;
   createdAt: number;
   startedAt?: number;
   deleteAfter: number;
@@ -29,6 +65,9 @@ function publicSession(session: {
     _id: session._id,
     code: session.code,
     status: session.status,
+    codeExpiresAt: session.codeExpiresAt,
+    entryKeyExpiresAt: session.entryKeyExpiresAt,
+    hasEntryKey: Boolean(session.entryKeyHash),
     createdAt: session.createdAt,
     startedAt: session.startedAt,
     deleteAfter: session.deleteAfter,
@@ -51,6 +90,8 @@ export const create = mutationGeneric({
         sessionId: currentSession._id,
         code: currentSession.code,
         deleteAfter: currentSession.deleteAfter,
+        codeExpiresAt: currentSession.codeExpiresAt,
+        entryKeyExpiresAt: currentSession.entryKeyExpiresAt,
       };
     }
 
@@ -69,11 +110,16 @@ export const create = mutationGeneric({
     if (!code) throw new Error("수업 코드를 만들지 못했습니다. 다시 시도해 주세요.");
 
     const deleteAfter = now + EXPIRES_AFTER_MS;
+    const codeExpiresAt = expiresAt(now, deleteAfter, ENTRY_CREDENTIAL_TTL_MS);
+    const entryCredential = await createEntryCredential(now, deleteAfter);
     const sessionId = await ctx.db.insert("sessions", {
       scenarioId: SCENARIO_ID,
       ownerSub,
       code,
       status: "lobby",
+      codeExpiresAt,
+      entryKeyHash: entryCredential.entryKeyHash,
+      entryKeyExpiresAt: entryCredential.entryKeyExpiresAt,
       createdAt: now,
       deleteAfter,
     });
@@ -83,8 +129,49 @@ export const create = mutationGeneric({
       makeFunctionReference<"mutation">("cleanup:deleteExpired"),
       { sessionId },
     );
+    await scheduleEntryCredentialExpiry(
+      ctx.scheduler,
+      sessionId,
+      entryCredential.entryKeyExpiresAt,
+    );
 
-    return { sessionId, code, deleteAfter };
+    return {
+      sessionId,
+      code,
+      deleteAfter,
+      codeExpiresAt,
+      entryKey: entryCredential.entryKey,
+      entryKeyExpiresAt: entryCredential.entryKeyExpiresAt,
+    };
+  },
+});
+
+export const rotateEntryKey = mutationGeneric({
+  args: { sessionId: v.id("sessions") },
+  handler: async (ctx, args) => {
+    const teacherSub = await requireTeacher(ctx);
+    const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
+    if (session.status !== "lobby") {
+      throw new Error("입장 대기 중인 활동에서만 QR을 새로 만들 수 있습니다.");
+    }
+    const now = Date.now();
+    const credential = await createEntryCredential(now, session.deleteAfter);
+    const codeExpiresAt = expiresAt(now, session.deleteAfter, ENTRY_CREDENTIAL_TTL_MS);
+    await ctx.db.patch(args.sessionId, {
+      codeExpiresAt,
+      entryKeyHash: credential.entryKeyHash,
+      entryKeyExpiresAt: credential.entryKeyExpiresAt,
+    });
+    await scheduleEntryCredentialExpiry(
+      ctx.scheduler,
+      args.sessionId,
+      credential.entryKeyExpiresAt,
+    );
+    return {
+      entryKey: credential.entryKey,
+      entryKeyExpiresAt: credential.entryKeyExpiresAt,
+      codeExpiresAt,
+    };
   },
 });
 
@@ -177,7 +264,12 @@ export const previewGroups = mutationGeneric({
     }
 
     const groupNumbers = [...new Set(assignments.map((item) => item.groupNumber))];
-    await ctx.db.patch(args.sessionId, { status: "preview" });
+    await ctx.db.patch(args.sessionId, {
+      status: "preview",
+      codeExpiresAt: now,
+      entryKeyHash: undefined,
+      entryKeyExpiresAt: undefined,
+    });
     return { groups: groupNumbers.length, players: players.length };
   },
 });
@@ -256,7 +348,13 @@ export const confirmStart = mutationGeneric({
       });
     }
 
-    await ctx.db.patch(args.sessionId, { status: "active", startedAt: now });
+    await ctx.db.patch(args.sessionId, {
+      status: "active",
+      startedAt: now,
+      codeExpiresAt: now,
+      entryKeyHash: undefined,
+      entryKeyExpiresAt: undefined,
+    });
     return { groups: groupNumbers.length, players: players.length };
   },
 });
@@ -282,8 +380,24 @@ export const cancelPreview = mutationGeneric({
         updatedAt: now,
       });
     }
-    await ctx.db.patch(args.sessionId, { status: "lobby" });
-    return null;
+    const credential = await createEntryCredential(now, session.deleteAfter);
+    const codeExpiresAt = expiresAt(now, session.deleteAfter, ENTRY_CREDENTIAL_TTL_MS);
+    await ctx.db.patch(args.sessionId, {
+      status: "lobby",
+      codeExpiresAt,
+      entryKeyHash: credential.entryKeyHash,
+      entryKeyExpiresAt: credential.entryKeyExpiresAt,
+    });
+    await scheduleEntryCredentialExpiry(
+      ctx.scheduler,
+      args.sessionId,
+      credential.entryKeyExpiresAt,
+    );
+    return {
+      entryKey: credential.entryKey,
+      entryKeyExpiresAt: credential.entryKeyExpiresAt,
+      codeExpiresAt,
+    };
   },
 });
 

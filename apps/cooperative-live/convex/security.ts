@@ -5,11 +5,16 @@ import type {
 } from "convex/server";
 import type { GenericId } from "convex/values";
 
+import { STUDENT_TOKEN_TTL_MS, sha256Hex } from "../shared/join-security";
+
 type SessionRecord = {
   _id: GenericId<"sessions">;
   ownerSub: string;
   status: "lobby" | "preview" | "active";
   code: string;
+  codeExpiresAt?: number;
+  entryKeyHash?: string;
+  entryKeyExpiresAt?: number;
   createdAt: number;
   startedAt?: number;
   deleteAfter: number;
@@ -19,6 +24,7 @@ export type StudentRecord = {
   _id: GenericId<"players">;
   sessionId: GenericId<"sessions">;
   tokenHash: string;
+  tokenExpiresAt?: number;
   alias?: string;
   groupNumber?: number;
   roleId?: string;
@@ -31,13 +37,7 @@ type ReadCtx =
   | GenericQueryCtx<GenericDataModel>
   | GenericMutationCtx<GenericDataModel>;
 
-export async function hashStudentToken(token: string): Promise<string> {
-  const bytes = new TextEncoder().encode(token);
-  const digest = await crypto.subtle.digest("SHA-256", bytes);
-  return Array.from(new Uint8Array(digest), (byte) =>
-    byte.toString(16).padStart(2, "0"),
-  ).join("");
-}
+export const hashStudentToken = sha256Hex;
 
 export async function requireTeacher(ctx: ReadCtx): Promise<string> {
   const identity = await ctx.auth.getUserIdentity();
@@ -66,12 +66,12 @@ export async function requireOwnedSession(
   return session as SessionRecord;
 }
 
-export async function requireStudent(
+export async function findStudent(
   ctx: ReadCtx,
   sessionId: GenericId<"sessions">,
   token: string,
 ) {
-  if (token.length < 32) throw new Error("학생 접속 정보가 올바르지 않습니다.");
+  if (token.length < 32) return null;
   const tokenHash = await hashStudentToken(token);
   const player = await ctx.db
     .query("players")
@@ -82,6 +82,19 @@ export async function requireStudent(
       ),
     )
     .unique();
+  if (!player) return null;
+  const typedPlayer = player as StudentRecord & { joinedAt?: number };
+  const tokenExpiresAt = typedPlayer.tokenExpiresAt
+    ?? (typedPlayer.joinedAt ?? 0) + STUDENT_TOKEN_TTL_MS;
+  return tokenExpiresAt > Date.now() ? typedPlayer : null;
+}
+
+export async function requireStudent(
+  ctx: ReadCtx,
+  sessionId: GenericId<"sessions">,
+  token: string,
+) {
+  const player = await findStudent(ctx, sessionId, token);
   if (!player) throw new Error("학생 접속 정보가 만료되었습니다.");
-  return player as StudentRecord;
+  return player;
 }

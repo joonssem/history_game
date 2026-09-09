@@ -11,15 +11,20 @@ export default defineSchema({
       v.literal("preview"),
       v.literal("active"),
     ),
+    codeExpiresAt: v.optional(v.number()),
+    entryKeyHash: v.optional(v.string()),
+    entryKeyExpiresAt: v.optional(v.number()),
     createdAt: v.number(),
     startedAt: v.optional(v.number()),
     deleteAfter: v.number(),
   })
     .index("by_code", ["code"])
+    .index("by_entry_key_hash", ["entryKeyHash"])
     .index("by_owner", ["ownerSub"]),
   players: defineTable({
     sessionId: v.id("sessions"),
     tokenHash: v.string(),
+    tokenExpiresAt: v.optional(v.number()),
     alias: v.optional(v.string()),
     groupNumber: v.optional(v.number()),
     roleId: v.optional(v.string()),
@@ -47,4 +52,15 @@ export default defineSchema({
   })
     .index("by_session", ["sessionId"])
     .index("by_session_group", ["sessionId", "groupNumber"]),
+  joinAttempts: defineTable({
+    bucketHash: v.string(),
+    sessionId: v.optional(v.id("sessions")),
+    failedAttempts: v.number(),
+    windowStartedAt: v.number(),
+    blockedUntil: v.optional(v.number()),
+    deleteAfter: v.number(),
+  })
+    .index("by_bucket_hash", ["bucketHash"])
+    .index("by_session", ["sessionId"])
+    .index("by_delete_after", ["deleteAfter"]),
 });

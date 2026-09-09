@@ -5,7 +5,7 @@ export async function deleteSessionData(
   ctx: GenericMutationCtx<GenericDataModel>,
   sessionId: GenericId<"sessions">,
 ) {
-  const tables = ["interventions", "rooms", "players"] as const;
+  const tables = ["interventions", "rooms", "players", "joinAttempts"] as const;
   let deleted = 0;
 
   for (const table of tables) {

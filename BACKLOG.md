@@ -2,6 +2,8 @@
 
 > 완료된 기능은 이 목록에 넣지 않는다. 완료 이력은 [`walkthrough.md`](./walkthrough.md), 현재 상태는 [`project_context.md`](./project_context.md)에서 확인한다.
 
+TASK-20260909-02 | QR·수동 코드 입장 보안 구현 | 담당: implementation agent | 상태: DOING(Convex 개발 검증 완료·Vercel Preview 대기)
+
 ## 2026-09-08 유물 2개 비교·추론 프로토타입
 
 TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 | 담당: Claude Sonnet 5 | 상태: DONE
@@ -43,7 +45,7 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 - 2026-09-07 이어받기 감사: 현재 교사 QR은 수동 입력과 같은 6자리 `code`를 URL에 넣는다. 감사 문서 §5의 "충분히 긴 무작위 세션 토큰" 기준과 맞지 않으며, 6자리 코드 반복 시도 제한도 없다. 실제 학생 접속 전에 QR 전용 장기 난수 입장키와 수동 코드의 시도 제한·만료 방식을 계획하고 권한 테스트에 포함한다.
 - 2026-09-08 사용자 확정: 이 프로젝트는 학교 교육과정 운영 지원을 목적으로 외부에서 개발·보급된 소프트웨어가 아니므로 학습지원 소프트웨어 선정·학교운영위원회 심의는 적용하지 않는다([D-022](./DECISIONS.md)). 이 판단은 개인정보 처리위탁·국외 처리 확인을 면제하지 않는다.
 - 2026-09-08 공급자 재검토: Convex·Vercel의 공개 DPA, 리전, 하위처리자 관리, 로그 보존 범위를 [감사 문서](./docs/audits/convex_elementary_school_privacy_audit.md)에 기록했다. Vercel DPA는 공개 문구상 Pro·Enterprise 대상이고, Hobby 런타임 로그는 1시간이지만 빌드 로그는 배포별 무기한 보관된다. Convex의 공급자 로그·백업 삭제기간과 무료/Starter 계약 적용 범위는 공개 문서만으로 수치 확정이 되지 않아 실제 학생 적용 차단 항목으로 유지한다.
-- QR·수동 코드 보안 계획: [`implementation_plan_cooperative_join_security.md`](./docs/plans/implementation_plan_cooperative_join_security.md) — 상태 `approved-planned`. QR 토큰은 URL fragment로 전달하고 서버에는 SHA-256 해시만 저장하며, 수동 코드는 요청 본문·시도 제한·만료·감사 테스트를 적용한다.
+- QR·수동 코드 보안 계획: [`implementation_plan_cooperative_join_security.md`](./docs/plans/implementation_plan_cooperative_join_security.md) — 상태 `implemented-dev-verified`. QR 토큰은 URL fragment로 전달하고 서버에는 SHA-256 해시만 저장하며, 수동 코드는 요청 본문·HMAC 시도 버킷·만료를 적용했다. Convex 개발 배포에서 동일 가상 브라우저 5회 실패 후 10분 차단과 원문 비저장을 확인했으며 Vercel Preview 로그 검증은 대기 중이다.
 - 2026-09-08 기술 통합 검증: Auth0 Google 전용 SPA와 Convex 미국 동부 개발 배포를 연결하고, Vercel `history-game` 프로젝트를 `apps/cooperative-live` 루트로 배포했다. 가상 학생 8명 입장→4인 모둠 2개 편성→종료 흐름을 확인했고, 정리 후 Convex의 `sessions`·`players`·`rooms`·`interventions` 테이블이 모두 비어 있음을 확인했다. Vercel 고정 주소는 기술 Preview 용도이며 실제 학생 접속 허가를 뜻하지 않는다.
 
 ## P1-COLLAB-VERTICAL — Vercel·Convex 첫 수직 슬라이스

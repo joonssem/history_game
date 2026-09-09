@@ -8,6 +8,9 @@ export type Dashboard = {
     _id: Id<"sessions">;
     code: string;
     status: "lobby" | "preview" | "active";
+    codeExpiresAt?: number;
+    entryKeyExpiresAt?: number;
+    hasEntryKey: boolean;
     createdAt: number;
     startedAt?: number;
     deleteAfter: number;
@@ -56,7 +59,14 @@ export const convexApi = {
     create: makeFunctionReference<
       "mutation",
       Record<string, never>,
-      { sessionId: Id<"sessions">; code: string; deleteAfter: number }
+      {
+        sessionId: Id<"sessions">;
+        code: string;
+        deleteAfter: number;
+        codeExpiresAt?: number;
+        entryKey?: string;
+        entryKeyExpiresAt?: number;
+      }
     >("sessions:create"),
     current: makeFunctionReference<
       "query",
@@ -68,6 +78,11 @@ export const convexApi = {
       { sessionId: Id<"sessions">; count?: number },
       number
     >("sessions:seedSyntheticStudents"),
+    rotateEntryKey: makeFunctionReference<
+      "mutation",
+      { sessionId: Id<"sessions"> },
+      { entryKey: string; entryKeyExpiresAt: number; codeExpiresAt: number }
+    >("sessions:rotateEntryKey"),
     previewGroups: makeFunctionReference<
       "mutation",
       { sessionId: Id<"sessions"> },
@@ -86,7 +101,7 @@ export const convexApi = {
     cancelPreview: makeFunctionReference<
       "mutation",
       { sessionId: Id<"sessions"> },
-      null
+      { entryKey: string; entryKeyExpiresAt: number; codeExpiresAt: number }
     >("sessions:cancelPreview"),
     dashboard: makeFunctionReference<
       "query",
@@ -100,11 +115,22 @@ export const convexApi = {
     >("sessions:end"),
   },
   students: {
-    join: makeFunctionReference<
+    joinWithEntryKey: makeFunctionReference<
       "mutation",
-      { code: string },
+      { entryKey: string },
       { sessionId: Id<"sessions">; token: string; aliasCandidates: string[] }
-    >("students:join"),
+    >("students:joinWithEntryKey"),
+    joinWithCode: makeFunctionReference<
+      "mutation",
+      { code: string; attemptId: string },
+      | { ok: false; error: string }
+      | {
+          ok: true;
+          sessionId: Id<"sessions">;
+          token: string;
+          aliasCandidates: string[];
+        }
+    >("students:joinWithCode"),
     selectAlias: makeFunctionReference<
       "mutation",
       { sessionId: Id<"sessions">; token: string; alias: string },

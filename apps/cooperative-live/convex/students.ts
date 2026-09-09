@@ -1,5 +1,12 @@
-import { mutationGeneric, queryGeneric } from "convex/server";
+import {
+  makeFunctionReference,
+  mutationGeneric,
+  queryGeneric,
+  type GenericDataModel,
+  type GenericMutationCtx,
+} from "convex/server";
 import { v } from "convex/values";
+import type { GenericId } from "convex/values";
 
 import {
   ALIASES,
@@ -9,50 +16,183 @@ import {
   shuffle,
   type Stage,
 } from "../shared/scenario";
-import { hashStudentToken, requireStudent } from "./security";
+import {
+  BROWSER_ATTEMPT_POLICY,
+  CODE_ATTEMPT_POLICY,
+  ENTRY_CREDENTIAL_TTL_MS,
+  STUDENT_TOKEN_TTL_MS,
+  createOpaqueToken,
+  expiresAt,
+  hmacSha256Hex,
+  isAttemptBlocked,
+  isCredentialActive,
+  nextFailureState,
+  sha256Hex,
+  type AttemptPolicy,
+  type AttemptState,
+} from "../shared/join-security";
+import {
+  findStudent,
+  hashStudentToken,
+  requireStudent,
+} from "./security";
 
-export const join = mutationGeneric({
-  args: { code: v.string() },
+const JOIN_ERROR = "입장 정보를 확인할 수 없습니다. QR을 다시 찍거나 수업 코드를 확인해 주세요.";
+
+type MutationCtx = GenericMutationCtx<GenericDataModel>;
+type JoinSession = {
+  _id: GenericId<"sessions">;
+  status: "lobby" | "preview" | "active";
+  createdAt: number;
+  deleteAfter: number;
+  codeExpiresAt?: number;
+  entryKeyExpiresAt?: number;
+};
+
+type JoinAttempt = AttemptState & {
+  _id: GenericId<"joinAttempts">;
+  bucketHash: string;
+  sessionId?: GenericId<"sessions">;
+};
+
+function joinAttemptSecret() {
+  const secret = process.env.JOIN_ATTEMPT_HMAC_SECRET ?? "";
+  if (secret.length < 32) {
+    throw new Error("입장 보안 환경변수가 준비되지 않았습니다.");
+  }
+  return secret;
+}
+
+async function findAttempt(ctx: MutationCtx, bucketHash: string) {
+  return await ctx.db
+    .query("joinAttempts")
+    .withIndex("by_bucket_hash", (query) => query.eq("bucketHash", bucketHash))
+    .unique() as JoinAttempt | null;
+}
+
+async function recordFailure(
+  ctx: MutationCtx,
+  bucketHash: string,
+  policy: AttemptPolicy,
+  now: number,
+  sessionId?: GenericId<"sessions">,
+) {
+  const current = await findAttempt(ctx, bucketHash);
+  const next = nextFailureState(current, now, policy);
+  const values = {
+    sessionId: sessionId ?? current?.sessionId,
+    failedAttempts: next.failedAttempts,
+    windowStartedAt: next.windowStartedAt,
+    blockedUntil: next.blockedUntil,
+    deleteAfter: next.deleteAfter,
+  };
+  const attemptId = current?._id ?? await ctx.db.insert("joinAttempts", {
+    bucketHash,
+    ...(values.sessionId ? { sessionId: values.sessionId } : {}),
+    failedAttempts: values.failedAttempts,
+    windowStartedAt: values.windowStartedAt,
+    ...(values.blockedUntil ? { blockedUntil: values.blockedUntil } : {}),
+    deleteAfter: values.deleteAfter,
+  });
+  if (current) await ctx.db.patch(current._id, values);
+  await ctx.scheduler.runAt(
+    next.deleteAfter,
+    makeFunctionReference<"mutation">("cleanup:deleteJoinAttempt"),
+    { attemptId, expectedDeleteAfter: next.deleteAfter },
+  );
+}
+
+async function admitStudent(ctx: MutationCtx, session: JoinSession) {
+  const currentPlayers = await ctx.db
+    .query("players")
+    .withIndex("by_session", (query) => query.eq("sessionId", session._id))
+    .collect();
+  if (currentPlayers.length >= ALIASES.length) throw new Error(JOIN_ERROR);
+
+  const token = createOpaqueToken();
+  const tokenHash = await hashStudentToken(token);
+  const now = Date.now();
+  await ctx.db.insert("players", {
+    sessionId: session._id,
+    tokenHash,
+    tokenExpiresAt: expiresAt(now, session.deleteAfter, STUDENT_TOKEN_TTL_MS),
+    stage: "lobby",
+    joinedAt: now,
+    updatedAt: now,
+    isSynthetic: false,
+  });
+
+  const used = new Set(currentPlayers.map((player) => player.alias).filter(Boolean));
+  const aliasCandidates = shuffle(ALIASES.filter((alias) => !used.has(alias))).slice(0, 4);
+  return { sessionId: session._id, token, aliasCandidates };
+}
+
+export const joinWithEntryKey = mutationGeneric({
+  args: { entryKey: v.string() },
   handler: async (ctx, args) => {
+    if (!/^[0-9a-f]{64}$/.test(args.entryKey)) throw new Error(JOIN_ERROR);
+    const entryKeyHash = await sha256Hex(args.entryKey);
     const session = await ctx.db
       .query("sessions")
-      .withIndex("by_code", (query) => query.eq("code", args.code.trim()))
+      .withIndex("by_entry_key_hash", (query) => query.eq("entryKeyHash", entryKeyHash))
       .unique();
-    if (!session || session.deleteAfter <= Date.now()) {
-      throw new Error("입장할 수 있는 활동을 찾지 못했습니다.");
-    }
-    if (session.status === "preview") {
-      throw new Error("선생님이 모둠을 확인하고 있습니다. 잠시만 기다려 주세요.");
-    }
-    if (session.status !== "lobby") {
-      throw new Error("이미 시작한 활동입니다.");
-    }
-
-    const currentPlayers = await ctx.db
-      .query("players")
-      .withIndex("by_session", (query) => query.eq("sessionId", session._id))
-      .collect();
-    if (currentPlayers.length >= ALIASES.length) {
-      throw new Error("이 활동의 입장 인원이 모두 찼습니다.");
-    }
-
-    const token = `${crypto.randomUUID()}${crypto.randomUUID()}`;
-    const tokenHash = await hashStudentToken(token);
     const now = Date.now();
-    await ctx.db.insert("players", {
-      sessionId: session._id,
-      tokenHash,
-      stage: "lobby",
-      joinedAt: now,
-      updatedAt: now,
-      isSynthetic: false,
-    });
+    if (
+      !session
+      || session.deleteAfter <= now
+      || session.status !== "lobby"
+      || !isCredentialActive(session.entryKeyExpiresAt, now)
+    ) {
+      throw new Error(JOIN_ERROR);
+    }
+    return await admitStudent(ctx, session as JoinSession);
+  },
+});
 
-    const players = [...currentPlayers, { alias: undefined }];
-    const used = new Set(players.map((player) => player.alias).filter(Boolean));
-    const aliasCandidates = shuffle(ALIASES.filter((alias) => !used.has(alias))).slice(0, 4);
+export const joinWithCode = mutationGeneric({
+  args: { code: v.string(), attemptId: v.string() },
+  handler: async (ctx, args) => {
+    const now = Date.now();
+    const code = args.code.trim();
+    const hasValidCodeShape = /^[0-9]{6}$/.test(code);
+    const hasValidAttemptShape = /^[0-9a-f]{64}$/.test(args.attemptId);
+    const secret = joinAttemptSecret();
+    const [browserBucketHash, codeBucketHash] = await Promise.all([
+      hmacSha256Hex(secret, "browser", hasValidAttemptShape ? args.attemptId : "invalid"),
+      hmacSha256Hex(secret, "code", hasValidCodeShape ? code : "invalid"),
+    ]);
+    const [browserAttempt, codeAttempt] = await Promise.all([
+      findAttempt(ctx, browserBucketHash),
+      findAttempt(ctx, codeBucketHash),
+    ]);
+    if (
+      isAttemptBlocked(browserAttempt, now)
+      || isAttemptBlocked(codeAttempt, now)
+    ) {
+      return { ok: false as const, error: JOIN_ERROR };
+    }
 
-    return { sessionId: session._id, token, aliasCandidates };
+    const session = hasValidCodeShape && hasValidAttemptShape
+      ? await ctx.db
+          .query("sessions")
+          .withIndex("by_code", (query) => query.eq("code", code))
+          .unique()
+      : null;
+    const codeExpiresAt = session?.codeExpiresAt
+      ?? (session ? Math.min(session.createdAt + ENTRY_CREDENTIAL_TTL_MS, session.deleteAfter) : undefined);
+    if (
+      !session
+      || session.deleteAfter <= now
+      || session.status !== "lobby"
+      || !isCredentialActive(codeExpiresAt, now)
+    ) {
+      await recordFailure(ctx, browserBucketHash, BROWSER_ATTEMPT_POLICY, now, session?._id);
+      await recordFailure(ctx, codeBucketHash, CODE_ATTEMPT_POLICY, now, session?._id);
+      return { ok: false as const, error: JOIN_ERROR };
+    }
+
+    if (browserAttempt) await ctx.db.delete(browserAttempt._id);
+    return { ok: true as const, ...(await admitStudent(ctx, session as JoinSession)) };
   },
 });
 
@@ -67,7 +207,9 @@ export const selectAlias = mutationGeneric({
       throw new Error("선택할 수 없는 호입니다.");
     }
     const session = await ctx.db.get(args.sessionId);
-    if (!session) throw new Error("활동을 찾을 수 없습니다.");
+    if (!session || session.deleteAfter <= Date.now()) {
+      throw new Error("활동을 찾을 수 없습니다.");
+    }
     if (session.status === "preview") {
       throw new Error("선생님이 모둠을 확인하고 있습니다. 잠시만 기다려 주세요.");
     }
@@ -90,8 +232,9 @@ export const view = queryGeneric({
   args: { sessionId: v.id("sessions"), token: v.string() },
   handler: async (ctx, args) => {
     const session = await ctx.db.get(args.sessionId);
-    if (!session) return null;
-    const player = await requireStudent(ctx, args.sessionId, args.token);
+    if (!session || session.deleteAfter <= Date.now()) return null;
+    const player = await findStudent(ctx, args.sessionId, args.token);
+    if (!player) return null;
     const intervention = player.groupNumber
       ? await ctx.db
           .query("interventions")

@@ -2,7 +2,7 @@
 
 - 작성일: 2026-09-08
 - 작업: TASK-20260908-01
-- 상태: `approved-planned` — 사용자 진행 승인 완료, 구현·권한 시험 전
+- 상태: `implemented-dev-verified` — TASK-20260909-02 구현·Convex 개발 배포 시험 완료, Vercel Preview 검증 대기
 - 대상: `apps/cooperative-live`
 - 목적: QR 링크의 추측 가능성과 6자리 수업 코드 반복 시도를 막되 학생 계정·이름·기기 고유 ID를 새로 만들지 않는다.
 

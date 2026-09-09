@@ -40,7 +40,7 @@ export function DemoTeacherConsole() {
     () => window.location.origin,
     () => "https://example.invalid",
   );
-  const joinUrl = `${origin}/join?code=260907`;
+  const joinUrl = `${origin}/join#entry=${"a".repeat(64)}`;
 
   const rooms = useMemo(() => {
     const grouped = new Map<number, DemoStudent[]>();
