@@ -1,7 +1,7 @@
 # 원인과 결과 순서 맞추기 — 세 번째 역사 미니게임 기획
 
 - 작성일: 2026-09-09
-- 작업: TASK-20260909-05
+- 작업: TASK-20260909-07
 - 상태: `completed` — 2026-09-09 사용자가 2절 카드 문구 초안과 스테이지 2개 전부 진행을 승인, 구현·브라우저 검증 완료
 - 대상: `index.html`(확장 역사 활동 카드), `js/miniGames.js`, 신규 `data/causeEffectChains.json`, `js/encyclopedia.js`(배지)
 

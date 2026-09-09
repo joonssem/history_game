@@ -1,6 +1,6 @@
 ﻿# PROJECT_CONTEXT.md
 
-> **작성일**: 2026-09-01 | **최종 갱신**: 2026-09-09 | **버전**: v3.7 | **인수자**: OpenAI Codex
+> **작성일**: 2026-09-01 | **최종 갱신**: 2026-09-09 | **버전**: v3.8 | **인수자**: OpenAI Codex
 > **라이브 URL**: https://joonssem.github.io/history_game/
 
 이 문서는 새 개발자가 프로젝트를 빠르게 파악하고 작업을 이어갈 수 있도록 작성한 인수인계 문서다.
@@ -313,6 +313,15 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 1. **Convex 개인정보·국외 처리 절차 확인** 🔴 — 실시간 확장의 P1 차단 게이트다. 개인정보 처리 근거 확인과 Convex·Vercel 위탁/국외 처리 문서가 필요하다. [BACKLOG P1-COLLAB-PRIVACY](./BACKLOG.md), [감사 문서](./docs/audits/convex_elementary_school_privacy_audit.md) 참조. 통과 전에는 가상 데이터 개발만 허용한다.
 2. **8차시 정적 협동 MUD 실제 수업 운영** — 7차시 시조 설화는 2026-09-08 수업 운영을 마쳐 `EXPERIMENTS.md`의 `EXP-007`에 기록했다. 8차시 한강 유역은 제작·브라우저 검증만 끝난 상태다. 볼 것: 네 자료가 모두 발화되는가, 공유 전 최초 판단이 서로 다른가, 타이머 배지가 너무 자주/드물게 뜨지 않는가.
+
+### Deep-dive 트랙 현황 (2026-09-09 확정·완료)
+
+- **역할 분담 확정**: 2026-09-01 결정("Claude의 deep-dive 결과물이 낫다")의 범위가 일주일째 미확정이었던 것을 재확인했다. `deep_three_kingdoms.json`은 **Codex 소유 유지**, `deep_prehistoric.json`(이미 main에 반영 완료)·`deep_joseon.json`·`deep_modern.json`은 **Claude 담당**으로 확정. 상세: [`docs/handoff/codex_deep_three_kingdoms_ownership_handoff.md`](./docs/handoff/codex_deep_three_kingdoms_ownership_handoff.md), [`docs/handoff/claude_deep_dive_session_continuation.md`](./docs/handoff/claude_deep_dive_session_continuation.md).
+- **선택지 편향 잔여 3건 전부 해소**: `deep_joseon:1`(Claude)·`deep_three_kingdoms:1/5`(Codex)를 선택지 단서 인용형으로 수정. `scripts/12_audit_choice_bias.py` 기준 10자 이상 편향 0건.
+- **PRD.md/DECISIONS.md 개정(Codex)**: D-024(Deep-dive 필수 게이팅은 활동 자체에 역사적 판단이 있을 때만 허용)·D-025(교차 단원 Deep-dive는 `unitId: null` + `spansUnits`)·D-026(Deep-dive는 시대 길이가 아니라 사고 질문으로 구획) 채택. 새 교차 단원 Deep-dive 착수 전 D-025의 스키마·검증기 구현이 선행돼야 한다.
+- **구조 감사 결과**: `deep_joseon.json`은 8개 판단 스테이지 전부 실제 자료 확인 게이팅(`ordered-hotspot`)이 이미 걸려 있어 양호. `deep_modern.json`은 7개 중 4개 동일, 3개(`precise-taegeukgi`×2·`precise-vote`)는 정밀 조작형의 다른 방식 게이팅이라 문제로 보지 않음.
+- **미해결로 남긴 것**: `deep_joseon`의 실제 플레이 시간이 "신중한 학생" 기준 30분을 넘길 수 있다는 기존 감사([`deep_dive_playtime_estimate.md`](./docs/audits/deep_dive_playtime_estimate.md))는 아직 실측 전 — 콘텐츠를 임의로 줄이지 않고 그대로 두었다.
+- **덤으로 발견한 미반영 콘텐츠**: 옛 `codex-deep-three-kingdoms` 브랜치(Deep-dive와 무관)에 학생 피드백 대응 협동 MUD 기능 2건(고조선 8조법 뒤로가기 네비게이션, 먼저 끝낸 모둠용 추가 미션)이 main에 미반영 상태로 남아있던 것을 발견해 함께 병합했다.
 
 ### 그다음 (코드)
 

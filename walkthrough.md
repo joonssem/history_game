@@ -1427,7 +1427,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 
 ## 2026-09-09 — 확장 역사 활동(타임머신 스토리·퀴즈·미니게임) Tailwind 미적용 스타일 깨짐 수정
 
-`TASK-20260909-04 | 확장 역사 활동 스타일 깨짐 수정 | Claude Sonnet 5 | 상태: DONE`
+`TASK-20260909-06 | 확장 역사 활동 스타일 깨짐 수정 | Claude Sonnet 5 | 상태: DONE`
 
 - 사용자가 스크린샷으로 "타임머신 스토리" 카드 목록이 배경·테두리·버튼 스타일 없이 밋밋한 텍스트로만 보인다고 보고했다.
 - 원인: `js/storyEngine.js`가 `bg-stone-800`, `rounded-2xl`, `grid-cols-3` 등 Tailwind 유틸리티 클래스로 마크업을 그리는데, `index.html`에는 Tailwind가 로드된 적이 없었다. 같은 문제가 `js/quizGame.js`(골든벨 퀴즈)와 `js/miniGames.js`(유물 카드 짝맞추기·연표 순서 맞추기의 실제 게임 화면)에도 있었다.
@@ -1438,7 +1438,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 
 ## 2026-09-09 — 원인과 결과 순서 맞추기 세 번째 미니게임 추가
 
-`TASK-20260909-05 | 원인과 결과 순서 맞추기 미니게임 기획·구현 | Claude Sonnet 5 | 상태: DONE`
+`TASK-20260909-07 | 원인과 결과 순서 맞추기 미니게임 기획·구현 | Claude Sonnet 5 | 상태: DONE`
 
 - 사용자가 "다른 원인 결과 스토리 순서 활동을 기획하자"고 요청. 기존 "역사 연표 순서 맞추기"(연도 표시, 연대 암기로 풀 수 있음)와 차별화 지점을 먼저 확인한 뒤(연도 비노출, 인과 논리로만 채점) 진행했다.
 - 기획 문서 `docs/plans/implementation_plan_cause_effect_order_game.md` 작성 — 콘텐츠 후보(3단원 35~45차시 기반 2세트), UI 재사용 설계, 그리고 `docs/audits/historical_language_audit.md`가 경고하는 "단일 원인·과도한 인과 서사" 위험을 어떻게 피할지(카드 문구에 복수 요인 암시, 정답 화면에 "다섯 사건만으로 설명되지 않는다" 고정 안내)를 명시했다. 사용자가 문구 초안과 스테이지 2개 전부 진행을 승인.
@@ -1481,3 +1481,36 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 이 폴더는 세션 도중 계속 `feat/cooperative-group-preview`(Codex 브랜치)에 있었다. 공유 폴더 브랜치를 임의로 바꾸지 않는다는 원칙에 따라, 유물 비교·미니게임 관련 커밋은 전부 그 브랜치에서 만든 뒤 **`git worktree`로 별도 격리 공간을 만들어 `main`에만 cherry-pick**하는 방식으로 배포했다(Codex의 협동 MUD 관련 커밋은 섞이지 않도록 매번 `git diff origin/main --stat`로 반영 범위를 확인함).
 - 배포 후 실제 사이트 확인 시 **브라우저가 옛 스크립트를 캐싱**하는 문제가 반복됐다 — `<script>` 태그의 캐시 버스터 쿼리스트링이 바뀌었는지, 그리고 필요하면 `location.reload(true)`로 강제 새로고침했는지 먼저 확인한다.
 - 다음에 이어갈 것: 학생 피드백(구글 폼) 응답 누적 대기, 개인 전시 준비실(제출 경로부터 설계), 내 유물 연표 만들기.
+
+## 2026-09-09 — `deep_joseon:1` 선택지 편향 수정 + Codex 핸드오프 작성
+
+`TASK-20260909-08 | deep_joseon 선택지 편향 수정 + Codex 역할 핸드오프 | Claude Sonnet 5 | 상태: DONE`
+
+- `deep-dive-competition-task`(2026-09-01) 결정의 범위가 일주일째 미확정 상태였던 것을 사용자에게 재확인했다: `deep_three_kingdoms.json`은 Codex 소유 유지, `deep_joseon.json`·`deep_modern.json`은 Claude가 감사·개선 착수로 확정.
+- `deep_joseon.json`·`deep_modern.json` 구조 감사: 예상과 달리 `deep_joseon`은 이미 8개 스테이지 전부 `ordered-hotspot` 실제 게이팅이 걸려 있었고, `deep_modern`도 7개 중 4개가 동일 수준·3개(`precise-taegeukgi`×2·`precise-vote`)는 정밀 조작형의 다른 방식 게이팅이라 문제로 보지 않았다.
+- `scripts/12_audit_choice_bias.py`가 미해결로 남겨 둔 `deep_joseon:1`(정답이 오답보다 12자 길어 자료 안 읽고도 정답 티남)을 "선택지 단서 인용형 재작성" 기법으로 수정. 재실행으로 목록에서 빠진 것 확인.
+- `docs/handoff/codex_deep_three_kingdoms_ownership_handoff.md` 신규 작성: 위 역할 분담, `deep_three_kingdoms:1/5`에 남아있던 같은 종류의 편향(Codex 몫), PRD.md/DECISIONS.md 개정이 필요한 결정 3건(Deep-dive 필수 게이팅 허용 여부·교차 단원 스키마·Deep-dive 정의 개정)을 전달.
+- **정정 1건**: 문서 작성 중 `codex-deep-three-kingdoms` 브랜치 삭제를 제안하려다, `git log codex-deep-three-kingdoms ^main`으로 먼저 확인해 그 브랜치에 `deep_three_kingdoms.json`과 무관한 실제 협동 MUD 기능 2건(뒤로가기 네비게이션, 추가 미션 — 아래 TASK-10 참고)이 미반영 상태로 남아있음을 발견하고 삭제 제안을 철회·정정했다.
+- `docs/handoff/claude_deep_dive_session_continuation.md` 갱신(별도 워크트리 `claude-deep-prehistoric`) — 역할 분담 확정 사실 반영.
+- 검증: `01/03/04/06/08/09_validate_*`, JS 문법 검사 통과.
+
+## 2026-09-09 — Codex 작업 통합(선택지 편향 2건 + PRD/DECISIONS 3건)
+
+`TASK-20260909-09 | Codex 완료 작업 검증·통합 | Claude Sonnet 5 | 상태: DONE`
+
+- 위 핸드오프에 대해 Codex가 `fix/deep-three-choice-bias` 브랜치에서 응답: `deep_three_kingdoms:1/5` 편향 수정(`9ef85ae`)과 D-024(Deep-dive 필수 게이팅은 판단이 있을 때만)·D-025(교차 단원은 `unitId: null` + `spansUnits`)·D-026(사고축 구획 정의) 채택 + PRD.md 개정(`4220cd0`)을 완료했다는 보고를 사용자로부터 전달받았다.
+- 두 커밋을 그대로 신뢰하지 않고 `git show`로 직접 diff를 확인한 뒤(내용이 보고와 정확히 일치) cherry-pick으로 가져왔다. 중복 커밋(`7df22e7`, 내 커밋의 재적용본)은 Codex 안내대로 건너뛰었다.
+- `scripts/12_audit_choice_bias.py` 재실행: 10자 이상 편향 **0건**(기존 3건 전부 해소).
+- 검증: 정적 검증 전체(01/03/04/06/08/09/12) + 시뮬레이터 런타임 + JS 문법 통과.
+
+## 2026-09-09 — `main` 통합(오늘 작업 3건) + 배포 반영
+
+`TASK-20260909-10 | 오늘 작업 3건 main 병합·배포 | Claude Sonnet 5 | 상태: DONE`
+
+세 차례에 걸쳐 격리 워크트리를 만들어 `main`에 병합·검증·배포했다(공유 작업 폴더의 `feat/cooperative-group-preview` 체크아웃은 건드리지 않음).
+
+1. **1차 병합**(`3b076af`): Tailwind 스타일 깨짐 수정 + 원인과 결과 순서 맞추기 미니게임. `walkthrough.md`·`project_context.md` 충돌 2건은 양쪽 로그를 모두 보존해 해결.
+2. **2차 병합**(`ee77e94`): `deep_joseon:1` 편향 수정 + Codex의 `deep_three_kingdoms:1/5` 편향 수정·PRD/DECISIONS 개정. `walkthrough.md` 순수 추가형 충돌만 있어 전부 보존.
+3. **3차 병합**(`5067620`·`6636734`): `codex-deep-three-kingdoms`에서 발견한 미반영 협동 MUD 기능 2건(뒤로가기 네비게이션, 추가로 해볼 것 선택 미션)을 cherry-pick. `cooperative-mud/gojoseon-law/app.js`·`index.html`에서 실제 코드 충돌 발생 — main이 그 사이 추가한 타이머 페이싱 기능(`CoopPacing`)과 뒤로가기 기능이 `setScreen()`의 같은 지점을 건드려서, 두 기능 호출을 모두 유지하는 방향으로 직접 해결했다. 로컬 서버로 화면 전환 시 뒤로가기 버튼 노출·클릭 동작·추가 미션 토글을 브라우저로 직접 재생해 확인, 콘솔 에러 없음.
+4. 매 병합 전 `git rev-list --left-right --count origin/main...main`으로 그 사이 다른 푸시가 없었는지 확인 후 push, 매 push 후 `gh api repos/.../pages/builds/latest`로 빌드 성공을 폴링하고 배포된 파일을 직접 fetch해 반영을 확인했다.
+- **문서 처리 점검(2026-09-09 후속)**: 사용자가 "문서 처리 했는지" 확인 질문을 던져 재점검한 결과, `walkthrough.md`에 이 병합 작업 자체와 `deep_joseon:1` 수정 건에 대한 로그가 빠져 있었고, 내 `TASK-20260909-04/05`가 Codex가 독립적으로 쓴 `TASK-20260909-04/05`(QR 보안·가상 21명 테스트가 아니라 실제로는 `deep_three_kingdoms` 편향 수정·Deep-dive 결정)와 번호가 겹쳐 있었다. 이 절(TASK-08~10)로 보강하고, 겹치던 두 항목은 `TASK-20260909-06`·`-07`로 재번호했다(과거 커밋 메시지 텍스트 자체는 고치지 않음 — 로그 문서만 정정).
