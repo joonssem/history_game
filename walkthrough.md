@@ -1407,3 +1407,25 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 세 페어 모두 `requiredArtifactNames`(2026-09-09 근본 수정에서 만든 방식)를 바로 적용해서 만들었다 — `js/artifactComparison.js`는 이번에도 변경 없음, 데이터만 추가.
 - 검증: 브라우저 콘솔에서 각 마커 하나만으로 정확한 페어가 매치되는지, 결과 화면까지 진행해 문장·두 톤 분기를 페어마다 확인했다. `01_validate_game_data.py`·`06_validate_static_assets.py` 통과.
 - 문서: `BACKLOG.md`에 확장 6~8 기록, `TEACHING_artifact_comparison.md`를 9페어 기준 표로 갱신(10번째 보류 사실도 명시).
+
+## 2026-09-09 — 확장 역사 활동(타임머신 스토리·퀴즈·미니게임) Tailwind 미적용 스타일 깨짐 수정
+
+`TASK-20260909-04 | 확장 역사 활동 스타일 깨짐 수정 | Claude Sonnet 5 | 상태: DONE`
+
+- 사용자가 스크린샷으로 "타임머신 스토리" 카드 목록이 배경·테두리·버튼 스타일 없이 밋밋한 텍스트로만 보인다고 보고했다.
+- 원인: `js/storyEngine.js`가 `bg-stone-800`, `rounded-2xl`, `grid-cols-3` 등 Tailwind 유틸리티 클래스로 마크업을 그리는데, `index.html`에는 Tailwind가 로드된 적이 없었다. 같은 문제가 `js/quizGame.js`(골든벨 퀴즈)와 `js/miniGames.js`(유물 카드 짝맞추기·연표 순서 맞추기의 실제 게임 화면)에도 있었다.
+- 수정: 세 파일 모두 사이트 기존 커스텀 팔레트로 다시 작성했다 — 스토리·미니게임은 확장 역사 활동 박스의 다크 톤(`#F7E7CE`/`#1F1B19`/`#5A4E46`/`#B7791F`), 퀴즈는 모달의 라이트 톤(`--card-bg`/`--accent-red`/`--accent-teal` CSS 변수)에 맞췄다. MUD 엔진이 쓰던 `.btn`/`.btn.secondary`/`.choice-marker` 클래스를 그대로 재사용해 선택지 버튼 스타일을 통일했다.
+- 유물 카드 3D 뒤집기는 Tailwind 임의 유틸(`rotate-y-180` 등, 플러그인 없이는 원래도 작동 안 함)을 대체하는 순정 CSS(`.card-flip-wrap`/`.card-flip-inner`/`.card-flip-face`)를 `css/style.css`에 추가했다.
+- 검증: 로컬 정적 서버에서 각 기능을 JS로 직접 구동하며 computed style/DOM 상태를 확인했다 — 타임머신 스토리 카드 목록·진행 화면(선택지·타자 효과·보상 알림), 골든벨 퀴즈 진행·피드백·결과 화면, 유물 카드 짝맞추기(플립 애니메이션·매칭)·연표 순서 맞추기(선택·스왑·정오답 피드백) 전부 정상 동작 확인.
+- 배포 확인: 이 수정은 `feat/cooperative-group-preview` 브랜치에만 있었고 GitHub Pages는 `main`만 배포하므로, 실제 배포 페이지의 `js/storyEngine.js`를 fetch해 옛 버전임을 확인해 사용자에게 보고했다. main 병합은 별도 요청 시 진행하기로 함(→ 이번 병합 커밋에서 반영).
+
+## 2026-09-09 — 원인과 결과 순서 맞추기 세 번째 미니게임 추가
+
+`TASK-20260909-05 | 원인과 결과 순서 맞추기 미니게임 기획·구현 | Claude Sonnet 5 | 상태: DONE`
+
+- 사용자가 "다른 원인 결과 스토리 순서 활동을 기획하자"고 요청. 기존 "역사 연표 순서 맞추기"(연도 표시, 연대 암기로 풀 수 있음)와 차별화 지점을 먼저 확인한 뒤(연도 비노출, 인과 논리로만 채점) 진행했다.
+- 기획 문서 `docs/plans/implementation_plan_cause_effect_order_game.md` 작성 — 콘텐츠 후보(3단원 35~45차시 기반 2세트), UI 재사용 설계, 그리고 `docs/audits/historical_language_audit.md`가 경고하는 "단일 원인·과도한 인과 서사" 위험을 어떻게 피할지(카드 문구에 복수 요인 암시, 정답 화면에 "다섯 사건만으로 설명되지 않는다" 고정 안내)를 명시했다. 사용자가 문구 초안과 스테이지 2개 전부 진행을 승인.
+- `data/causeEffectChains.json` 신규: 스테이지 2개(을사늑약~임시정부 수립, 8·15 광복~정전 협정), 각 5개 사건, `year` 필드 없음.
+- `js/miniGames.js`에 `startCauseEffectGame`/`renderCauseEffectUI`/`handleCauseEffectClick`/`checkCauseEffectOrder` 4개 함수를 연표 게임과 동일한 클릭 교환 UI 패턴으로 추가.
+- `js/encyclopedia.js`에 `badge_causality_master`(🔗 인과 관계 탐정) 배지 추가. `index.html` 미니게임 카드에 버튼·컨테이너 추가.
+- 검증: 정적 서버에서 스테이지 1을 셔플→클릭 교환→정답 확인→배지 해금→스테이지 2 진입까지 전부 실행해 카드에 연도가 전혀 노출되지 않음과 판정 로직을 확인. `01_validate_game_data.py`는 신규 JSON을 검사 대상에 포함하지 않아 별도로 JSON 유효성만 확인(다음에 검증 스크립트 대상 추가를 고려할 것).

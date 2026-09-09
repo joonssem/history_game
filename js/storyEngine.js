@@ -25,26 +25,25 @@ class StoryEngine {
     if (!container) return;
 
     let html = `
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
     `;
 
     this.stories.forEach((story, idx) => {
       const isCleared = window.encyclopedia.data.completedStories.includes(story.id);
       html += `
-        <div class="group relative bg-stone-800/90 border-2 ${isCleared ? 'border-emerald-500/70' : 'border-amber-500/40'} hover:border-amber-400 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 shadow-xl hover:shadow-amber-500/20 flex flex-col justify-between overflow-hidden">
-          <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-gradient-to-br ${story.bgGradient} opacity-20 rounded-full blur-xl group-hover:scale-150 transition-all"></div>
+        <div style="background: #1F1B19; border: 1px solid ${isCleared ? '#2D6A4F' : '#5A4E46'}; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px;">
           <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="px-3 py-1 bg-amber-400/20 text-amber-300 text-xs font-bold rounded-full">${story.era}</span>
-              ${isCleared ? '<span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-bold">✨ 탐험 완료</span>' : '<span class="text-xs bg-stone-700 text-stone-300 px-2 py-0.5 rounded-full">도전 가능</span>'}
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 6px; flex-wrap: wrap;">
+              <span style="font-size: 0.7rem; font-weight: 700; background: rgba(183, 121, 31, 0.2); color: #F0C987; padding: 3px 10px; border-radius: 999px;">${story.era}</span>
+              ${isCleared ? '<span style="font-size: 0.7rem; font-weight: 700; background: rgba(45, 106, 79, 0.25); color: #7FE0B0; padding: 2px 8px; border-radius: 999px;">✨ 탐험 완료</span>' : '<span style="font-size: 0.7rem; background: #33302B; color: #C5BCB3; padding: 2px 8px; border-radius: 999px;">도전 가능</span>'}
             </div>
-            <h3 class="text-xl font-black text-stone-100 mb-2 leading-snug group-hover:text-amber-300 transition-colors">${story.title}</h3>
-            <p class="text-xs text-stone-300 mb-4">${story.subtitle}</p>
-            <div class="text-xs text-stone-300 bg-stone-900/60 p-2.5 rounded-lg mb-4 flex items-center gap-2 border border-stone-700/50">
-              <span>👤 주요 인물:</span> <strong class="text-amber-200">${story.character}</strong>
+            <h4 style="color: #F7E7CE; font-size: 1.02rem; font-weight: 800; margin-bottom: 6px; line-height: 1.4;">${story.title}</h4>
+            <p style="color: #C5BCB3; font-size: 0.8rem; margin-bottom: 10px;">${story.subtitle}</p>
+            <div style="font-size: 0.78rem; color: #C5BCB3; background: #14110F; border: 1px solid #3D352E; border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 6px;">
+              <span>👤 주요 인물:</span> <strong style="color: #F0C987;">${story.character}</strong>
             </div>
           </div>
-          <button onclick="window.storyEngine.startStory('${story.id}')" class="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-stone-950 font-bold rounded-xl shadow-md transition-transform active:scale-95 flex items-center justify-center gap-2">
+          <button onclick="window.storyEngine.startStory('${story.id}')" class="btn" style="background-color: #B7791F;">
             <span>🚀 타임머신 출발하기</span>
           </button>
         </div>
@@ -87,29 +86,29 @@ class StoryEngine {
     }
 
     playView.innerHTML = `
-      <div class="max-w-3xl mx-auto bg-stone-900/90 border border-amber-500/40 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur relative overflow-hidden">
+      <div style="max-width: 720px; margin: 0 auto; background: #1F1B19; border: 1px solid #5A4E46; border-radius: 16px; padding: 20px;">
         <!-- 상단 헤더 -->
-        <div class="flex items-center justify-between border-b border-stone-700/60 pb-4 mb-6">
-          <div class="flex items-center gap-3">
-            <span class="px-3 py-1 bg-amber-500/20 text-amber-300 font-bold text-xs rounded-full border border-amber-500/30">${story.era}</span>
-            <h3 class="font-bold text-stone-200 text-base md:text-lg">${story.title}</h3>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-bottom: 1px solid #3D352E; padding-bottom: 12px; margin-bottom: 16px;">
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <span style="font-size: 0.7rem; font-weight: 700; background: rgba(183, 121, 31, 0.2); color: #F0C987; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(183, 121, 31, 0.4);">${story.era}</span>
+            <h3 style="font-weight: 800; color: #F0EAE1; font-size: 1.02rem;">${story.title}</h3>
           </div>
-          <button onclick="window.storyEngine.exitStory()" class="text-stone-400 hover:text-stone-100 text-sm px-3 py-1 rounded-lg bg-stone-800 border border-stone-700 hover:bg-stone-700 transition">
+          <button onclick="window.storyEngine.exitStory()" style="font-size: 0.8rem; color: #C5BCB3; padding: 5px 12px; border-radius: 8px; background: #14110F; border: 1px solid #3D352E; cursor: pointer;">
             ✕ 나가기
           </button>
         </div>
 
         <!-- 캐릭터 대화 카드 -->
-        <div class="flex items-start gap-4 mb-6">
-          <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-amber-500/30 to-orange-500/30 border-2 border-amber-400 flex items-center justify-center text-3xl md:text-4xl shrink-0 shadow-lg shadow-amber-950/50">
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px;">
+          <div style="width: 64px; height: 64px; flex-shrink: 0; border-radius: 14px; background: rgba(183, 121, 31, 0.25); border: 2px solid #B7791F; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
             ${scene.avatar || '👤'}
           </div>
-          <div class="flex-1">
-            <h4 class="font-bold text-amber-300 text-base md:text-lg mb-1 flex items-center gap-2">
+          <div style="flex: 1;">
+            <h4 style="font-weight: 800; color: #F0C987; font-size: 1rem; margin-bottom: 6px;">
               ${scene.speaker}
             </h4>
-            <div class="p-4 rounded-2xl bg-stone-800/80 border border-stone-700 min-h-[90px] flex items-center">
-              <p id="typewriter-text" class="text-stone-100 text-sm md:text-base leading-relaxed"></p>
+            <div style="padding: 14px; border-radius: 12px; background: #14110F; border: 1px solid #3D352E; min-height: 82px; display: flex; align-items: center;">
+              <p id="typewriter-text" style="color: #F0EAE1; font-size: 0.92rem; line-height: 1.7;"></p>
             </div>
           </div>
         </div>
@@ -118,12 +117,12 @@ class StoryEngine {
         ${
           scene.reward
             ? `
-          <div class="mb-6 p-4 rounded-2xl bg-gradient-to-r from-yellow-500/20 via-amber-500/20 to-orange-500/20 border-2 border-yellow-400/60 animate-bounce-slow">
-            <div class="flex items-center gap-3">
-              <span class="text-3xl">✨</span>
+          <div style="margin-bottom: 18px; padding: 14px; border-radius: 12px; background: rgba(183, 121, 31, 0.18); border: 2px solid rgba(240, 201, 135, 0.6);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.6rem;">✨</span>
               <div>
-                <h5 class="font-black text-yellow-300 text-base">역사 유물 발굴 성공! [${scene.reward.artifact}]</h5>
-                <p class="text-xs text-stone-200 mt-0.5">${scene.reward.desc}</p>
+                <h5 style="font-weight: 900; color: #F7E7CE; font-size: 0.92rem;">역사 유물 발굴 성공! [${scene.reward.artifact}]</h5>
+                <p style="font-size: 0.78rem; color: #C5BCB3; margin-top: 2px;">${scene.reward.desc}</p>
               </div>
             </div>
           </div>
@@ -132,23 +131,23 @@ class StoryEngine {
         }
 
         <!-- 선택지 목록 -->
-        <div id="choices-container" class="space-y-3 opacity-0 transition-opacity duration-300">
+        <div id="choices-container" style="display: flex; flex-direction: column; gap: 10px; opacity: 0; transition: opacity 0.3s ease;">
           ${
             scene.isEnd
               ? `
-            <button onclick="window.storyEngine.exitStory()" class="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-stone-950 font-black rounded-xl shadow-lg transition transform active:scale-95 text-base flex items-center justify-center gap-2">
+            <button onclick="window.storyEngine.exitStory()" class="btn" style="background-color: #2D6A4F;">
               <span>🎉 모험 완수! 연구실로 돌아가기</span>
             </button>
           `
               : (scene.choices || [])
                   .map(
                     (choice, idx) => `
-              <button onclick="window.storyEngine.selectChoice(${choice.next})" class="w-full text-left p-4 rounded-xl bg-stone-800/90 hover:bg-amber-950/40 border border-stone-700 hover:border-amber-400 text-stone-100 hover:text-amber-200 font-semibold transition-all flex items-center justify-between group shadow-md active:scale-[0.99]">
-                <div class="flex items-center gap-3">
-                  <span class="w-7 h-7 rounded-full bg-stone-700 group-hover:bg-amber-500 group-hover:text-stone-950 text-stone-300 flex items-center justify-center text-xs font-bold">${idx + 1}</span>
-                  <span class="text-sm md:text-base">${choice.text}</span>
-                </div>
-                <span class="text-stone-400 group-hover:text-amber-400 transition-transform group-hover:translate-x-1">➔</span>
+              <button onclick="window.storyEngine.selectChoice(${choice.next})" class="btn secondary" style="justify-content: space-between; text-align: left;">
+                <span style="display: flex; align-items: center; gap: 10px;">
+                  <span class="choice-marker choice-marker-${idx % 3}" aria-hidden="true">${idx + 1}</span>
+                  <span>${choice.text}</span>
+                </span>
+                <span aria-hidden="true">➔</span>
               </button>
             `
                   )
@@ -179,7 +178,7 @@ class StoryEngine {
       } else {
         this.isTyping = false;
         if (choicesEl) {
-          choicesEl.classList.remove('opacity-0');
+          choicesEl.style.opacity = '1';
         }
       }
     };

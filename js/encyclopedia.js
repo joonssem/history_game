@@ -13,7 +13,8 @@ class EncyclopediaManager {
       { id: 'badge_joseon', title: '집현전 수석학사', desc: '훈민정음 창제 스토리를 완료했습니다.', icon: '📜' },
       { id: 'badge_quiz_master', title: '역사 골든벨 마스터', desc: '역사 스피드 퀴즈에서 90점 이상 획득했습니다.', icon: '⭐' },
       { id: 'badge_card_master', title: '유물 발굴 전문가', desc: '유물 카드 맞추기 게임을 완벽히 클리어했습니다.', icon: '🔍' },
-      { id: 'badge_timeline_master', title: '시간의 지배자', desc: '역사 연표 맞추기 챌린지를 정복했습니다.', icon: '⏳' }
+      { id: 'badge_timeline_master', title: '시간의 지배자', desc: '역사 연표 맞추기 챌린지를 정복했습니다.', icon: '⏳' },
+      { id: 'badge_causality_master', title: '인과 관계 탐정', desc: '원인과 결과 순서 맞추기 챌린지를 정복했습니다.', icon: '🔗' }
     ];
   }
 

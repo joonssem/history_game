@@ -366,3 +366,49 @@
     width: 100%;
   }
 }
+
+/* 역사 미니게임: 유물 카드 짝맞추기 (3D 플립 카드) */
+.card-flip-wrap {
+  perspective: 1000px;
+}
+
+.card-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease;
+  transform-style: preserve-3d;
+}
+
+.card-flip-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6px;
+}
+
+.card-flip-back {
+  background: #1F1B19;
+  border: 2px solid rgba(183, 121, 31, 0.4);
+}
+
+.card-flip-front {
+  background: linear-gradient(135deg, #1F1B19, #14110F);
+  border: 2px solid #B7791F;
+  transform: rotateY(180deg);
+}
+
+.card-flip-inner.matched .card-flip-front {
+  border-color: #2D6A4F;
+  background: rgba(45, 106, 79, 0.25);
+}
