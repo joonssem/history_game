@@ -19,16 +19,24 @@ class MiniGameEngine {
     this.currentStageIdx = 0;
     this.currentTimelineEvents = [];
     this.selectedTimelineItem = null;
+
+    // 원인과 결과 순서 맞추기 상태
+    this.causeEffectChains = [];
+    this.currentCauseEffectStageIdx = 0;
+    this.currentCauseEffectEvents = [];
+    this.selectedCauseEffectItem = null;
   }
 
   async init() {
     try {
-      const [artRes, timeRes] = await Promise.all([
+      const [artRes, timeRes, causeEffectRes] = await Promise.all([
         fetch('data/artifacts.json'),
-        fetch('data/timeline.json')
+        fetch('data/timeline.json'),
+        fetch('data/causeEffectChains.json')
       ]);
       this.artifacts = await artRes.json();
       this.timelineStages = await timeRes.json();
+      this.causeEffectChains = await causeEffectRes.json();
     } catch (e) {
       console.error('Failed to load mini-game data', e);
     }
@@ -286,6 +294,137 @@ class MiniGameEngine {
       fbEl.innerHTML = `
         <h4 style="font-weight: 800; font-size: 0.95rem; margin-bottom: 4px;">💡 아직 순서가 맞지 않은 곳이 있어요!</h4>
         <p style="font-size: 0.76rem; color: #C5BCB3;">힌트를 다시 확인하고 카드를 눌러 순서를 교환해 보세요.</p>
+      `;
+    }
+  }
+
+  // ==========================================
+  // 3. 원인과 결과 순서 맞추기 (Cause & Effect Order)
+  // 연표 게임과 달리 카드에 연도를 넣지 않는다 — 연대 암기가 아니라
+  // "이 일이 왜 일어났는가"라는 인과 논리로만 순서를 맞추게 하기 위함.
+  // ==========================================
+  startCauseEffectGame(stageIndex = 0) {
+    if (window.sounds) window.sounds.playClick();
+    this.currentCauseEffectStageIdx = stageIndex;
+    const stage = this.causeEffectChains[stageIndex] || this.causeEffectChains[0];
+
+    // 원본 사건 리스트를 섞기
+    this.currentCauseEffectEvents = [...stage.events].sort(() => Math.random() - 0.5);
+    this.selectedCauseEffectItem = null;
+
+    this.renderCauseEffectUI(stage);
+  }
+
+  renderCauseEffectUI(stage) {
+    const container = document.getElementById('cause-effect-game-container');
+    if (!container) return;
+
+    container.innerHTML = `
+      <div style="max-width: 640px; margin: 0 auto; background: #1F1B19; border: 1px solid #5A4E46; border-radius: 16px; padding: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #3D352E;">
+          <div>
+            <span style="font-size: 0.72rem; font-weight: 700; padding: 3px 10px; background: rgba(183, 121, 31, 0.2); color: #F0C987; border-radius: 999px;">스테이지 ${stage.stage}</span>
+            <h4 style="font-size: 1.05rem; font-weight: 800; color: #F7E7CE; margin-top: 6px;">${stage.title}</h4>
+          </div>
+          <span style="font-size: 0.72rem; color: #9B9088;">카드를 눌러 위치를 교환하세요!</span>
+        </div>
+
+        <p style="color: #C5BCB3; font-size: 0.8rem; margin-bottom: 16px;">${stage.description}</p>
+
+        <!-- 정렬 리스트 -->
+        <div id="cause-effect-list" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+          ${this.currentCauseEffectEvents
+            .map(
+              (evt, idx) => {
+                const selected = this.selectedCauseEffectItem === idx;
+                return `
+            <div id="cause-effect-item-${idx}" onclick="window.miniGames.handleCauseEffectClick(${idx})" style="padding: 12px 14px; border-radius: 10px; background: ${selected ? 'rgba(183, 121, 31, 0.25)' : '#14110F'}; border: 1px solid ${selected ? '#B7791F' : '#3D352E'}; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="width: 26px; height: 26px; border-radius: 50%; background: #33302B; color: #C5BCB3; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; flex-shrink: 0;">${idx + 1}</span>
+                <div>
+                  <h5 style="font-size: 0.88rem; font-weight: 700; color: #F0EAE1;">${evt.title}</h5>
+                  <span style="font-size: 0.7rem; color: #9B9088;">${evt.hint}</span>
+                </div>
+              </div>
+              <div style="font-size: 0.68rem; font-weight: 700; color: #9B9088; background: #0F0D0B; padding: 3px 8px; border-radius: 8px; flex-shrink: 0;">
+                위치 변경 ⇅
+              </div>
+            </div>
+          `;
+              }
+            )
+            .join('')}
+        </div>
+
+        <!-- 확인 버튼 -->
+        <button onclick="window.miniGames.checkCauseEffectOrder()" class="btn" style="background-color: #B7791F;">
+          ✅ 인과 순서 확인하기
+        </button>
+
+        <!-- 피드백 결과 -->
+        <div id="cause-effect-feedback" style="display: none; margin-top: 12px;"></div>
+      </div>
+    `;
+  }
+
+  handleCauseEffectClick(index) {
+    if (window.sounds) window.sounds.playClick();
+    if (this.selectedCauseEffectItem === null) {
+      this.selectedCauseEffectItem = index;
+    } else if (this.selectedCauseEffectItem === index) {
+      this.selectedCauseEffectItem = null;
+    } else {
+      // 스왑
+      const temp = this.currentCauseEffectEvents[this.selectedCauseEffectItem];
+      this.currentCauseEffectEvents[this.selectedCauseEffectItem] = this.currentCauseEffectEvents[index];
+      this.currentCauseEffectEvents[index] = temp;
+      this.selectedCauseEffectItem = null;
+    }
+    const stage = this.causeEffectChains[this.currentCauseEffectStageIdx];
+    this.renderCauseEffectUI(stage);
+  }
+
+  checkCauseEffectOrder() {
+    const stage = this.causeEffectChains[this.currentCauseEffectStageIdx];
+    const correctOrder = stage.events.map(e => e.id);
+    const userOrder = this.currentCauseEffectEvents.map(e => e.id);
+
+    const isAllCorrect = correctOrder.every((id, i) => id === userOrder[i]);
+    const fbEl = document.getElementById('cause-effect-feedback');
+    if (!fbEl) return;
+
+    fbEl.style.display = 'block';
+
+    if (isAllCorrect) {
+      if (window.sounds) window.sounds.playFanfare();
+      window.encyclopedia.unlockBadge('badge_causality_master');
+
+      let nextButton = '';
+      if (this.currentCauseEffectStageIdx + 1 < this.causeEffectChains.length) {
+        nextButton = `
+          <button onclick="window.miniGames.startCauseEffectGame(${this.currentCauseEffectStageIdx + 1})" style="margin-top: 10px; padding: 8px 18px; background: #0F0D0B; color: #F0C987; border-radius: 10px; border: 1px solid #3D352E; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
+            다음 스테이지로 ➔
+          </button>
+        `;
+      }
+
+      fbEl.style.cssText = 'display: block; margin-top: 16px; padding: 14px; border-radius: 12px; background: rgba(45, 106, 79, 0.25); border: 1px solid #2D6A4F; color: #B7E8CB; text-align: center;';
+      fbEl.innerHTML = `
+        <h4 style="font-weight: 800; font-size: 0.95rem; margin-bottom: 4px;">🎉 완벽합니다! 사건의 흐름이 논리적으로 이어집니다!</h4>
+        <p style="font-size: 0.76rem; color: #C5BCB3;">
+          ${stage.events.map(e => e.title).join(' ➔ ')}
+        </p>
+        <p style="font-size: 0.7rem; color: #9B9088; margin-top: 8px;">
+          ※ 실제 역사는 이 다섯 사건만으로 전부 설명되지 않아요. 더 많은 사람과 상황이 함께 얽혀 있었답니다.
+        </p>
+        ${nextButton}
+      `;
+    } else {
+      if (window.sounds) window.sounds.playWrong();
+      fbEl.style.cssText = 'display: block; margin-top: 16px; padding: 14px; border-radius: 12px; background: rgba(138, 59, 41, 0.2); border: 1px solid #8A3B29; color: #F1B9A8; text-align: center;';
+      fbEl.innerHTML = `
+        <h4 style="font-weight: 800; font-size: 0.95rem; margin-bottom: 4px;">💡 아직 인과 관계가 맞지 않은 곳이 있어요!</h4>
+        <p style="font-size: 0.76rem; color: #C5BCB3;">이 사건이 왜 먼저(또는 나중에) 일어났을지 다시 생각하며 카드를 눌러 순서를 교환해 보세요.</p>
       `;
     }
   }
