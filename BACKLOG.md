@@ -163,7 +163,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### 후속 검토 항목
 
-1. **P1 — 선택지 문장 품질 보정**: 감사·1차 보정 완료. **2026-09-07 Regular MUD 24개 스테이지의 10자 이상 편향을 전량 해소**(단서 인용형 재작성, 남은 3개는 Deep-dive 소관이라 범위 밖). 그 과정에서 발견한 콘텐츠 주제 불일치 버그 3건도 함께 고쳤다. 모든 오답보다 긴 단계 114개는 자연스러운 편차로 보고 이번 범위에서 제외. 상세 결과는 [`choice_bias_audit.md`](./docs/audits/choice_bias_audit.md) §2 참조.
+1. **P1 — 선택지 문장 품질 보정**: 감사·1차 보정 완료. **2026-09-07 Regular MUD 24개 스테이지의 10자 이상 편향을 전량 해소**했고, 2026-09-09 Deep-dive 잔여 3건도 `deep_joseon:1`(Claude)과 `deep_three_kingdoms:1/5`(Codex)에서 단서 인용형으로 수정했다. 모든 오답보다 긴 106개 단계는 10자 미만의 자연스러운 편차로 보고 이번 범위에서 제외. 상세 결과는 [`choice_bias_audit.md`](./docs/audits/choice_bias_audit.md) §2·§6 참조.
 2. **P1 — 유물 활용 시스템 기획**: 유물 조합·전시·복원·교환 등 학습과 연결되는 사용처를 설계한다.
 3. **P2 — 유물 기반 친구 경쟁/협력 모드 기획**: 실시간 네트워크 없이 가능한 비교·협력 방식부터 검토한다.
 4. **P2 — 역사 타이쿤 확장 활동 기획**: 대상 시대, 핵심 자원, 역사적 제약, 예상 활동 시간을 정의한다.
@@ -173,6 +173,12 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 9. **P2 — 에이전트 작업 claim 규칙**: TASK ID·담당 역할·상태(DOING/DONE)를 작업 시작 전에 기록하고, 같은 파일 동시 수정과 중복 구현을 방지한다.
 10. **P1 — Vercel 배포 경로 검토**: 현재 GitHub Pages를 유지한 채 정적 구조가 Vercel에서 동일하게 작동하는지 확인하고, 실제 이전 여부는 별도 결정한다.
 11. **P1 — Supabase `play_events` 설계**: 익명 세션 UUID와 최소 이벤트 필드, RLS 정책, 보관 기간을 설계한다. 프로젝트·테이블·코드 구현은 설계 승인 후 진행한다.
+
+## P2-DEEP-CROSSUNIT — 교차 단원 Deep-dive 등록 계약 구현
+
+- 상태: `documented` — [D-025](./DECISIONS.md)에서 방향만 채택했다. 첫 교차 단원 Deep-dive 후보가 사용자 승인되기 전에는 구현하지 않는다.
+- 목적: `unitId: null`과 단원별 `{ unitId, lessonNumbers }` 묶음인 `spansUnits`로 교육과정 범위를 정확히 표현하고, Regular 기본 차시 버튼과 분리된 확장 탐구 영역에 노출한다.
+- 예상 변경 범위: `data/mud/_index.json`, 대상 MUD JSON, `scripts/04_validate_mud_contract.py`, `scripts/08_validate_mud_catalog.py`, `js/app.js`, 관련 문서·테스트.
 12. **P2 — 선택 탐험 단서 실험**: 기존 MUD 한 편에 선택 탐험 1개를 추가하는 최소 설계를 만들고, 추가 단서 발견과 근거 공유가 실제로 발생하는지 관찰한다.
 13. **P2 — 선사 시대 협동 MUD 정적 제작** *(상태: 콘텐츠 원본 확보, 제작 전)*: 종이 리허설 단계는 2026-09-06에 폐기했다(기기 화면이 곧 역할 카드). 막 1 구석기부터 정적 협동 MUD로 만든다. 한산도는 해당 차시 학습 시점의 후속 후보로 유지한다. 계획: [`implementation_plan_cooperative_prehistory_pilot.md`](./docs/plans/implementation_plan_cooperative_prehistory_pilot.md), 콘텐츠 원본: [`cooperative_prehistory_content_draft.md`](./docs/plans/cooperative_prehistory_content_draft.md)
 ## 구현 우선순위
