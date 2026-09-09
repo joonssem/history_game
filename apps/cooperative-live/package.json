@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node --test --test-isolation=none shared/scenario.test.ts shared/join-security.test.ts",
+    "test": "npm run test:unit && npm run test:convex",
+    "test:unit": "node --test --test-isolation=none shared/scenario.test.ts shared/join-security.test.ts",
+    "test:convex": "vitest run",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build",
     "convex:dev": "convex dev",
     "convex:deploy": "convex deploy"
@@ -23,12 +25,15 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@edge-runtime/vm": "5.0.0",
     "@types/node": "26.4.1",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
+    "convex-test": "0.0.56",
     "eslint": "9.39.3",
     "eslint-config-next": "16.3.4",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vitest": "4.1.11"
   },
   "engines": {
     "node": ">=20.9"

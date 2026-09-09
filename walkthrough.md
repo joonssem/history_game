@@ -1326,3 +1326,12 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 수동 코드 실패는 서버 비밀키 HMAC 버킷으로만 센다. 브라우저별 5분 5회 뒤 10분, 코드 전체 5분 30회 뒤 5분 차단하며 코드·IP·User-Agent 원문은 저장하지 않는다.
 - Convex 개발 배포에서 5회 실패 차단과 원문 비저장을 확인했다. Vercel Preview에서 fragment 제거·공통 오류를 확인했고 Runtime 로그에는 `/join` 경로만 남았다.
 - 검증: lint·TypeScript·단위 테스트 12건·Next.js production build 통과, Convex 개발 배포 함수 준비 완료, Vercel Preview 배포 성공.
+
+## 2026-09-09 — 실시간 협동 MUD 가상 21명 회귀 테스트
+
+`TASK-20260909-03 | 가상 21명 Convex 동시성·삭제 회귀 테스트 | 담당: implementation agent | 상태: DONE`
+
+- 운영 함수나 실제 학생 데이터를 추가하지 않고 공식 `convex-test`·Vitest·Edge Runtime 기반 함수 통합 테스트를 구성했다.
+- 교사 세션 생성 뒤 같은 QR 입장키로 가상 학생 21명을 병렬 입장시키고, 서로 다른 호 21개와 4·4·4·4·5명 모둠, 모둠 안 역할 중복 없음, 교사 힌트 수신, 학생 단계 진행을 확인한다.
+- 연결된 가상 입장 시도 1건을 포함해 세션을 종료한 뒤 `sessions`·`players`·`rooms`·`interventions`·`joinAttempts`가 모두 비는지 검증한다.
+- 검증: ESLint, TypeScript, 기존 단위 테스트 12건, Convex 가상 학급 통합 테스트 1건, Next.js production build, `npm audit` 취약점 0건 통과.

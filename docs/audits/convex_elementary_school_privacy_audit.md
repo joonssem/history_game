@@ -117,6 +117,7 @@
 - 수동 코드 실패는 서버 비밀키 HMAC 버킷으로만 센다. 브라우저 버킷은 5분 5회 뒤 10분, 코드 버킷은 5분 30회 뒤 5분 차단하며 코드·IP·User-Agent 원문은 저장하지 않는다.
 - Convex 개발 배포에서 존재하지 않는 코드로 5회 실패시켜 브라우저 버킷의 `failedAttempts=5`·`blockedUntil`과 코드 버킷의 `failedAttempts=5`를 확인했다. 저장된 두 식별자는 모두 64자리 HMAC 해시였고 원문은 없었다.
 - Vercel Preview에서 잘못된 가상 QR을 열어 fragment가 즉시 주소창에서 제거되고 공통 오류로 끝나는 것을 확인했다. Runtime 로그에는 `GET /join`만 남았고 Build/Runtime 로그에서 QR 원문·수업 코드·호·역할은 발견되지 않았다.
+- `convex-test`에서 교사 1명과 가상 학생 21명의 QR 병렬 입장, 중복 없는 호, 4·4·4·4·5명 모둠 편성, 역할 분리, 교사 개입, 학생 진행, 종료 삭제를 자동 검증했다. 종료 뒤 `sessions`·`players`·`rooms`·`interventions`·`joinAttempts`는 모두 0건이었다.
 - 이 결과는 가상 데이터 보안 기능의 기술 검증이다. 실제 학생 운영 승인은 별도다.
 
 ```text

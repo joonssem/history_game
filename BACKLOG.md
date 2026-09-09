@@ -48,7 +48,7 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 
 ## P1-COLLAB-VERTICAL — Vercel·Convex 첫 수직 슬라이스
 
-- 상태: `implemented-preview` — `TASK-20260907-02 | apps/cooperative-live | implementation agent | 상태: DONE`. 로컬 구현과 Convex/Auth0/Vercel 가상 데이터 수직 통합을 완료했다. 교사 세션 복구, 같은 탭의 중복 입장 방지, 3~24명 균형 편성, 입장 정원 제한, 수업 코드 충돌 처리, QR·수동 코드 입장 보안을 포함한다. 실제 학생 운영은 P1 개인정보 게이트 해제 뒤 진행한다.
+- 상태: `implemented-preview` — `TASK-20260907-02 | apps/cooperative-live | implementation agent | 상태: DONE`. 로컬 구현과 Convex/Auth0/Vercel 가상 데이터 수직 통합을 완료했다. 교사 세션 복구, 같은 탭의 중복 입장 방지, 3~24명 균형 편성, 입장 정원 제한, 수업 코드 충돌 처리, QR·수동 코드 입장 보안을 포함한다. `TASK-20260909-03`에서 가상 학생 21명의 병렬 QR 입장→5개 모둠 편성→개입→종료 삭제까지 Convex 함수 회귀 테스트를 추가했다. 실제 학생 운영은 P1 개인정보 게이트 해제 뒤 진행한다.
 - 계획서: [`implementation_plan_vercel_convex_vertical_slice.md`](./docs/plans/implementation_plan_vercel_convex_vertical_slice.md)
 - 앱 위치: 같은 저장소 `apps/cooperative-live/`, 기존 정적 앱과 GitHub Pages는 유지.
 - 첫 범위: 고조선 8조법, 교사 1명과 가상 학생 8명, 새 무작위 호·4인 모둠 2개 무작위 편성·진행 대시보드·힌트/심화·종료 삭제까지.
@@ -57,7 +57,7 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 
 ## 2026-09-06 실시간 협동 MUD 검토 — P2-COLLAB-01
 
-- 상태: `partially-implemented` — 첫 수직 슬라이스는 로컬 구현·검증 완료. Convex/Auth0 개발 연결과 Vercel Preview 검증은 개인정보 게이트 및 계정 설정 뒤 진행한다. 백엔드는 Convex로 확정([D-019](./DECISIONS.md)).
+- 상태: `implemented-preview` — 첫 수직 슬라이스, Convex/Auth0 개발 연결, Vercel 기술 Preview, QR·수동 코드 보안, 가상 학생 21명 함수 회귀 테스트를 완료했다. 학교 네트워크·물리 기기·실제 학생 검증은 개인정보 게이트 뒤 진행한다. 백엔드는 Convex로 확정([D-019](./DECISIONS.md)).
 - 문제·목적: 기존 고조선 협동 v0.1은 기기별 정적 활동이며, 최초 판단 전에 공유하고 모둠 수는 5개로 고정한다. 21명 학급의 40분 수업 중 **10분 이내**에 운영할 활동별 무작위 편성 및 가변 학급용 실시간 협동 구조를 별도로 설계한다.
 - **실측 근거 (2026-09-04 수업, [`EXP-006`](./EXPERIMENTS.md))**: 비대칭 정보로 대면 대화가 실제로 발생했고 모둠 결과도 갈렸다. 그러나 교사가 꼽은 최대 제약은 **"모둠 진행 상황을 볼 수 없음"** 이었고, 빠른 모둠에 추가 상황을·느린 모둠에 힌트를 주는 개입이 불가능했다. 이 항목이 실시간 앱의 1순위 요구사항이다.
 - 교육·사용자 영향: 개인 최초 판단의 독립성, 3/4/5인 모두의 정보·발언 기회, 교사의 수업 진행·접속 복구를 확보한다.
@@ -262,6 +262,10 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 - 변경된 시뮬레이터 장면과 터치 흐름을 지원 브라우저·태블릿에서 정기적으로 육안 확인한다.
 - 실행 기준: [`BROWSER_REGRESSION_CHECKLIST.md`](./BROWSER_REGRESSION_CHECKLIST.md)
+
+### P3 — 협동 실시간 앱 ESLint 지원 버전 갱신
+
+- `apps/cooperative-live`의 깨끗한 설치에서 고정된 `eslint@9.39.3` 지원 종료 경고가 발생한다. 현재 lint와 `npm audit`는 통과하므로 이번 가상 부하 테스트에는 섞지 않고, Next.js 호환 범위를 확인한 뒤 별도 갱신한다.
 
 ### P2 — 감사 보고서 출력 경로 정합성
 
