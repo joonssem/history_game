@@ -27,14 +27,25 @@ const ArtifactComparisonEngine = {
     }
   },
 
-  // 아직 보지 않았고 해금 유물 수 조건을 만족하는 첫 비교 콘텐츠를 찾는다.
+  // 아직 보지 않았고, 해당 시대를 실제로 다룬 MUD의 보상 유물을 갖고 있는
+  // 첫 비교 콘텐츠를 찾는다.
+  // 2026-09-09: 예전엔 "해금 유물 총 개수 >= 임계값"만 봤는데, 학생이
+  // 차시를 순서대로 하지 않으면(예: 근현대 MUD를 먼저 클리어) 무관한
+  // 시대의 페어가 튀어나오는 문제가 있었다. 이제 requiredArtifactNames에
+  // 적힌 "그 시대 MUD가 실제로 준 유물"을 갖고 있는지로 직접 판정한다.
   getEligibleComparison() {
     if (!window.encyclopedia || !this.comparisons.length) return null;
-    const unlockedCount = window.encyclopedia.data.unlockedArtifacts.length;
-    return this.comparisons.find(cmp =>
-      unlockedCount >= (cmp.unlockThreshold || 2) &&
-      !window.encyclopedia.hasSeenArtifactComparison(cmp.id)
-    ) || null;
+    const unlocked = window.encyclopedia.data.unlockedArtifacts;
+    if (unlocked.length < 2) return null;
+    return this.comparisons.find(cmp => {
+      if (window.encyclopedia.hasSeenArtifactComparison(cmp.id)) return false;
+      const required = cmp.requiredArtifactNames;
+      if (required && required.length > 0) {
+        return required.some(name => unlocked.includes(name));
+      }
+      // 안전장치: requiredArtifactNames가 없는 콘텐츠는 예전 방식(개수)로 대체한다.
+      return unlocked.length >= (cmp.unlockThreshold || 2);
+    }) || null;
   },
 
   // renderFinalReflection() 마지막에 이어 붙일 제안 카드 HTML.
