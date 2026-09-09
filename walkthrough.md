@@ -1316,3 +1316,26 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - `js/artifactComparison.js`는 변경하지 않았다 — `unlockThreshold`를 실제로 비교에 쓰고 있었으므로 데이터만 고치면 됐다.
 - 검증: 브라우저 콘솔에서 `encyclopedia.data.unlockedArtifacts` 개수를 2/3/4/6/6(이전 페어 확인 후)/8로 바꿔가며 `ArtifactComparisonEngine.getEligibleComparison()`을 직접 호출해, 각 구간에서 같은 시대의 페어만 반환되는지 확인했다(2 → null, 3 → 토기, 6 → 신라·가야 왕관, 8 → 도자기). `01_validate_game_data.py`·`06_validate_static_assets.py` 통과.
 - 문서: `BACKLOG.md`에 버그·수정 기록 추가, `TEACHING_artifact_comparison.md`에 시대 구간별 등장 순서 안내 추가.
+
+## 2026-09-09 — 모둠 미리보기 기능 `main` 통합 준비
+
+`TASK-20260909-01 | 모둠 미리보기 기능 main 통합 | 담당: integration agent | 상태: DONE`
+
+- `feat/cooperative-group-preview`가 `main`보다 정확히 한 커밋 앞서 있고 원격 브랜치와 일치함을 확인했다.
+- 실시간 앱 `npm run lint`·`npm run typecheck`·단위 테스트 6건·프로덕션 빌드를 통과했다. 빌드는 샌드박스의 `spawn EPERM` 제한 때문에 승인된 외부 실행으로 재검증했다.
+- 저장소의 JSON·MUD 무결성·계약·카탈로그·출처·정적 자산·시뮬레이터 런타임 검사와 협동 MUD·핵심 JavaScript 문법 검사를 모두 통과했다.
+- `project_context.md`에서 7차시 실제 수업 완료, Convex/Auth0/Vercel 가상 통합 완료, 다음 코드 작업인 QR·수동 코드 입장 보안 상태를 최신화했다.
+
+## 2026-09-09 — 유물 비교·추론 프로토타입 6번째 페어(김홍도 vs 신윤복 풍속화)
+
+`TASK-20260909-CMP8 | 유물 비교 페어 확장(김홍도 vs 신윤복) | Claude Sonnet 5 | 상태: DONE`
+
+- Codex는 협동 MUD 실시간 서버(Convex) 트랙, 이 세션은 유물 비교 트랙으로 역할을 재확인한 뒤 6번째 페어를 추가했다.
+- 김홍도 「논갈이」(단원 풍속도첩, 본관6504-1)와 신윤복필 「여속도첩」(덕수1103)을 museum.go.kr에서 확인했다. 둘 다 국립중앙박물관 소장, 공공누리 출처표시만 적용(변경금지 없음). 신윤복의 대표작 《혜원전신첩》(국보135호)은 간송미술관 소장이라 이번 페어에서 제외하고, 국립중앙박물관 소장품인 「여속도첩」을 짝으로 골랐다.
+- 앞선 다섯 페어(기술 변화·가치관 변화·사회 격변·정치 체제 차이·기록 방식)와 다르게, "같은 조선 후기 화가여도 무엇을 눈여겨봤는지가 다른 이유"(김홍도=서민 남성의 노동, 신윤복=여성의 일상)라는 여섯 번째 해석 유형을 추가했다.
+- `unlockThreshold: 11`로 설정해 조선 후기 서민 문화 MUD(art_11 보상) 이후에만 등장하도록 시대 구간을 맞췄다.
+- 구현 중 claim 문장의 빈칸 뒤에 조사가 공백을 사이에 두고 어색하게 붙는 문제(`노동 을(를) 그렸고`)를 발견해, "모습을 그렸고" 형태로 middle/suffix를 다듬어 자연스러운 문장이 되도록 고쳤다.
+- `js/artifactComparison.js`는 변경하지 않았다 — 데이터만 추가.
+- 문서: `BACKLOG.md`에 확장 5 기록 추가, `TEACHING_artifact_comparison.md`를 6페어 기준으로 갱신.
+- 검증: 브라우저 콘솔에서 `getEligibleComparison()`을 유물 개수 10/11로 호출해 임계값 경계를 확인했고(10 → 이전 페어, 11 → 신규 페어), 실제 결과 화면까지 진행해 근접/차이 두 톤 분기와 문장 수정 결과를 확인했다. `01_validate_game_data.py`·`06_validate_static_assets.py` 통과.
+- 참고: 같은 작업 폴더에서 다른 세션이 `.worktrees/`를 만들어 격리 작업을 시작한 것을 확인했다 — 공유 폴더 충돌을 줄이는 올바른 방향이다.
