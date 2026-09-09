@@ -68,4 +68,17 @@ describe("협동 MUD 입장 보안", () => {
     assert.equal(reset.failedAttempts, 1);
     assert.equal(reset.windowStartedAt, 10_000 + CODE_ATTEMPT_POLICY.windowMs);
   });
+
+  it("수업 코드 전체 버킷은 30회 실패 뒤 5분 차단한다", () => {
+    let state = null;
+    const now = 2_000_000;
+    for (let count = 0; count < 30; count += 1) {
+      state = nextFailureState(state, now + count, CODE_ATTEMPT_POLICY);
+    }
+
+    assert.ok(state);
+    assert.equal(state.failedAttempts, 30);
+    assert.equal(isAttemptBlocked(state, now + 30), true);
+    assert.equal(state.blockedUntil, now + 29 + CODE_ATTEMPT_POLICY.blockMs);
+  });
 });

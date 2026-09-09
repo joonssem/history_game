@@ -316,10 +316,9 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 ### 그다음 (코드)
 
-3. **입장 보안 Vercel Preview 검증** — QR fragment·SHA-256 저장·15분 만료·수동 코드 HMAC 시도 제한은 구현 및 Convex 개발 배포 시험을 마쳤다. Preview의 요청·Runtime·Build Logs에 원문 키·코드·호가 남지 않는지 확인한다.
-4. **타이머 예산 조정** — 화면별 목표 시간은 추정치다. 2번 관찰 뒤 `scenario.pacing.budgets`를 고친다. 감도는 `pacing.tuning`으로 시나리오별로 덮어쓸 수 있다.
-5. **네 번째 협동 시나리오** — 진도에 맞춰 후보 풀에서 고른다. 새 편은 `scenario.js`와 `index.html` 둘만 만들면 된다.
-6. **실시간 확장 현장 검증** — 개인정보 게이트 해제 뒤 21명+교사 1명 동시접속, WebSocket, 재접속, 종료 삭제, 아이패드 QR 인식을 검사한다.
+3. **타이머 예산 조정** — 화면별 목표 시간은 추정치다. 2번 관찰 뒤 `scenario.pacing.budgets`를 고친다. 감도는 `pacing.tuning`으로 시나리오별로 덮어쓸 수 있다.
+4. **네 번째 협동 시나리오** — 진도에 맞춰 후보 풀에서 고른다. 새 편은 `scenario.js`와 `index.html` 둘만 만들면 된다.
+5. **실시간 확장 현장 검증** — QR·수동 코드 입장 보안의 Convex 개발 배포와 Vercel Preview 검증까지 완료했다. 개인정보 게이트 해제 뒤 21명+교사 1명 동시접속, WebSocket, 재접속, 종료 삭제, 아이패드 QR 인식을 검사한다.
 
 ### 감사 스크립트 (2026-09-07~08 완료)
 

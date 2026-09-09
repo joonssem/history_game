@@ -1316,3 +1316,13 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - `js/artifactComparison.js`는 변경하지 않았다 — `unlockThreshold`를 실제로 비교에 쓰고 있었으므로 데이터만 고치면 됐다.
 - 검증: 브라우저 콘솔에서 `encyclopedia.data.unlockedArtifacts` 개수를 2/3/4/6/6(이전 페어 확인 후)/8로 바꿔가며 `ArtifactComparisonEngine.getEligibleComparison()`을 직접 호출해, 각 구간에서 같은 시대의 페어만 반환되는지 확인했다(2 → null, 3 → 토기, 6 → 신라·가야 왕관, 8 → 도자기). `01_validate_game_data.py`·`06_validate_static_assets.py` 통과.
 - 문서: `BACKLOG.md`에 버그·수정 기록 추가, `TEACHING_artifact_comparison.md`에 시대 구간별 등장 순서 안내 추가.
+
+## 2026-09-09 — 실시간 협동 MUD QR·수동 코드 입장 보안
+
+`TASK-20260909-02 | QR·수동 코드 입장 보안 구현 | 담당: implementation agent | 상태: DONE`
+
+- QR 입장을 6자리 코드와 분리해 `/join#entry=...`의 256비트 난수키로 바꿨다. Convex에는 SHA-256 해시만 저장하고 학생 화면은 fragment를 읽은 즉시 주소창에서 제거한다.
+- QR·수동 코드는 최대 15분, 학생 복구 토큰은 최대 2시간 유효하다. 미리보기·시작·종료 시 입장을 잠그고 예약 정리 함수가 만료 QR 해시와 HMAC 시도 버킷을 제거한다.
+- 수동 코드 실패는 서버 비밀키 HMAC 버킷으로만 센다. 브라우저별 5분 5회 뒤 10분, 코드 전체 5분 30회 뒤 5분 차단하며 코드·IP·User-Agent 원문은 저장하지 않는다.
+- Convex 개발 배포에서 5회 실패 차단과 원문 비저장을 확인했다. Vercel Preview에서 fragment 제거·공통 오류를 확인했고 Runtime 로그에는 `/join` 경로만 남았다.
+- 검증: lint·TypeScript·단위 테스트 12건·Next.js production build 통과, Convex 개발 배포 함수 준비 완료, Vercel Preview 배포 성공.
