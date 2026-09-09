@@ -1317,6 +1317,33 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 검증: 브라우저 콘솔에서 `encyclopedia.data.unlockedArtifacts` 개수를 2/3/4/6/6(이전 페어 확인 후)/8로 바꿔가며 `ArtifactComparisonEngine.getEligibleComparison()`을 직접 호출해, 각 구간에서 같은 시대의 페어만 반환되는지 확인했다(2 → null, 3 → 토기, 6 → 신라·가야 왕관, 8 → 도자기). `01_validate_game_data.py`·`06_validate_static_assets.py` 통과.
 - 문서: `BACKLOG.md`에 버그·수정 기록 추가, `TEACHING_artifact_comparison.md`에 시대 구간별 등장 순서 안내 추가.
 
+## 2026-09-09 — 실시간 협동 MUD QR·수동 코드 입장 보안
+
+`TASK-20260909-02 | QR·수동 코드 입장 보안 구현 | 담당: implementation agent | 상태: DONE`
+
+- QR 입장을 6자리 코드와 분리해 `/join#entry=...`의 256비트 난수키로 바꿨다. Convex에는 SHA-256 해시만 저장하고 학생 화면은 fragment를 읽은 즉시 주소창에서 제거한다.
+- QR·수동 코드는 최대 15분, 학생 복구 토큰은 최대 2시간 유효하다. 미리보기·시작·종료 시 입장을 잠그고 예약 정리 함수가 만료 QR 해시와 HMAC 시도 버킷을 제거한다.
+- 수동 코드 실패는 서버 비밀키 HMAC 버킷으로만 센다. 브라우저별 5분 5회 뒤 10분, 코드 전체 5분 30회 뒤 5분 차단하며 코드·IP·User-Agent 원문은 저장하지 않는다.
+- Convex 개발 배포에서 5회 실패 차단과 원문 비저장을 확인했다. Vercel Preview에서 fragment 제거·공통 오류를 확인했고 Runtime 로그에는 `/join` 경로만 남았다.
+- 검증: lint·TypeScript·단위 테스트 12건·Next.js production build 통과, Convex 개발 배포 함수 준비 완료, Vercel Preview 배포 성공.
+
+## 2026-09-09 — 실시간 협동 MUD 가상 21명 회귀 테스트
+
+`TASK-20260909-03 | 가상 21명 Convex 동시성·삭제 회귀 테스트 | 담당: implementation agent | 상태: DONE`
+
+- 운영 함수나 실제 학생 데이터를 추가하지 않고 공식 `convex-test`·Vitest·Edge Runtime 기반 함수 통합 테스트를 구성했다.
+- 교사 세션 생성 뒤 같은 QR 입장키로 가상 학생 21명을 병렬 입장시키고, 서로 다른 호 21개와 4·4·4·4·5명 모둠, 모둠 안 역할 중복 없음, 교사 힌트 수신, 학생 단계 진행을 확인한다.
+- 연결된 가상 입장 시도 1건을 포함해 세션을 종료한 뒤 `sessions`·`players`·`rooms`·`interventions`·`joinAttempts`가 모두 비는지 검증한다.
+- 검증: ESLint, TypeScript, 기존 단위 테스트 12건, Convex 가상 학급 통합 테스트 1건, Next.js production build, `npm audit` 취약점 0건 통과.
+
+## 2026-09-09 — `deep_three_kingdoms` 선택지 길이 편향 수정
+
+`TASK-20260909-04 | deep_three_kingdoms 선택지 길이 편향 2건 수정 | 담당: content agent(Codex) | 상태: DONE`
+
+- 1단계 황산벌과 5단계 기벌포의 짧은 오답에 각 장면에서 이미 확인한 역사 단서를 인용해, 정답 문장만 10자 이상 길어 보이던 편향을 제거했다.
+- 분기·정답·다음 단계·시뮬레이터·역사 서술은 바꾸지 않았고 `data/mud/deep_joseon.json`·`data/mud/deep_modern.json`은 수정하지 않았다.
+- 검증: `scripts/12_audit_choice_bias.py`에서 `deep_three_kingdoms:1/5`가 10자 이상 편향 목록에서 제거됐고, `scripts/03~09`의 MUD 무결성·계약·런타임·정적 자산·시간·카탈로그·탭 내성·출처 검사를 통과했다.
+
 ## 2026-09-09 — 모둠 미리보기 기능 `main` 통합 준비
 
 `TASK-20260909-01 | 모둠 미리보기 기능 main 통합 | 담당: integration agent | 상태: DONE`
