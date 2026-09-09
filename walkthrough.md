@@ -1514,3 +1514,12 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 3. **3차 병합**(`5067620`·`6636734`): `codex-deep-three-kingdoms`에서 발견한 미반영 협동 MUD 기능 2건(뒤로가기 네비게이션, 추가로 해볼 것 선택 미션)을 cherry-pick. `cooperative-mud/gojoseon-law/app.js`·`index.html`에서 실제 코드 충돌 발생 — main이 그 사이 추가한 타이머 페이싱 기능(`CoopPacing`)과 뒤로가기 기능이 `setScreen()`의 같은 지점을 건드려서, 두 기능 호출을 모두 유지하는 방향으로 직접 해결했다. 로컬 서버로 화면 전환 시 뒤로가기 버튼 노출·클릭 동작·추가 미션 토글을 브라우저로 직접 재생해 확인, 콘솔 에러 없음.
 4. 매 병합 전 `git rev-list --left-right --count origin/main...main`으로 그 사이 다른 푸시가 없었는지 확인 후 push, 매 push 후 `gh api repos/.../pages/builds/latest`로 빌드 성공을 폴링하고 배포된 파일을 직접 fetch해 반영을 확인했다.
 - **문서 처리 점검(2026-09-09 후속)**: 사용자가 "문서 처리 했는지" 확인 질문을 던져 재점검한 결과, `walkthrough.md`에 이 병합 작업 자체와 `deep_joseon:1` 수정 건에 대한 로그가 빠져 있었고, 내 `TASK-20260909-04/05`가 Codex가 독립적으로 쓴 `TASK-20260909-04/05`(QR 보안·가상 21명 테스트가 아니라 실제로는 `deep_three_kingdoms` 편향 수정·Deep-dive 결정)와 번호가 겹쳐 있었다. 이 절(TASK-08~10)로 보강하고, 겹치던 두 항목은 `TASK-20260909-06`·`-07`로 재번호했다(과거 커밋 메시지 텍스트 자체는 고치지 않음 — 로그 문서만 정정).
+
+## 2026-09-09 — GitHub README 현행화
+
+`TASK-20260909-README | README 현행 기능·실행·배포 상태 최신화 | documentation agent(Codex) | DONE`
+
+- `README.md`의 기준일을 2026-09-09로 갱신하고 32개 MUD, 정적 협동 MUD 3편, 유물 비교 9페어, 미니게임 4종을 실제 데이터와 맞췄다.
+- 실시간 협동 앱을 “설계 중·미구현”으로 설명하던 내용을 Next.js·Convex·Auth0 기술 Preview 구현 상태로 바로잡았다. 실제 학생 사용은 `P1-COLLAB-PRIVACY` 해제 전까지 금지한다는 운영 경계를 함께 명시했다.
+- 정적 포털과 실시간 앱의 로컬 실행·검증 명령, 실시간 앱 상세 README 링크를 추가했다.
+- 검증: README 로컬 링크 37개 존재 확인, `scripts/01·03·04·06·08·09`과 시뮬레이터 런타임 검사 통과, 실시간 앱 `npm run check`로 lint·TypeScript·단위 테스트 12건·Convex 통합 테스트 1건·production build 통과.

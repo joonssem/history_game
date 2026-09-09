@@ -1,7 +1,10 @@
 ﻿# 🧭 초등 5학년 역사 인터랙티브 MUD 포털 (History Explorer MUD)
 
-> **초등학교 5학년 2학기 사회(역사) 전 단원(48차시) 교수·학습 과정안 기반 텍스트 MUD & 캔버스 인터랙티브 교육 포털**  
-> 🌐 **실시간 웹사이트:** [https://joonssem.github.io/history_game/](https://joonssem.github.io/history_game/)
+> **초등학교 5학년 2학기 사회(역사) 전 단원(48차시) 교수·학습 과정안 기반 텍스트 MUD & 캔버스 인터랙티브 교육 포털**
+>
+> 🌐 **정적 포털:** [https://joonssem.github.io/history_game/](https://joonssem.github.io/history_game/)
+>
+> 🧪 **실시간 협동 기술 Preview:** [https://history-game-kappa-gilt.vercel.app](https://history-game-kappa-gilt.vercel.app) — 가상 데이터 검증용이며 실제 학생 운영 전 개인정보 검토가 필요합니다.
 
 ---
 
@@ -12,23 +15,27 @@
 - **대상 학년**: 초등학교 5~6학년
 - **현재 콘텐츠 기준**: 2015 개정 초등 5학년 2학기 사회 (총 3개 단원, 48개 차시)
 - **목표 교육과정**: 2022 개정 교육과정 교과서에 맞춘 재매핑 진행 중 (`data/curriculum_mapping.json`)
-- **성취기준 매핑**: 30개 MUD를 `[6사04-01]`~`[6사07-02]`의 2022 개정 성취기준과 대조 검증했습니다. 명량대첩·병자호란 MUD 2종은 직접 과제로 단정하지 않고 보조 역사 맥락으로 분리했으며, 출판사·교과서 판본별 차시 번호는 확인 대기입니다. 자세한 판단은 [`curriculum_alignment_report_2022.md`](./docs/audits/curriculum_alignment_report_2022.md)에 기록합니다.
+- **성취기준 매핑**: 전체 32개 MUD 중 30개를 `[6사04-01]`~`[6사07-02]`의 2022 개정 성취기준과 직접 연결했습니다. 명량대첩·병자호란 MUD 2종은 보조 역사 맥락으로 분리했으며, 출판사·교과서 판본별 차시 번호는 확인 대기입니다. 자세한 판단은 [`curriculum_alignment_report_2022.md`](./docs/audits/curriculum_alignment_report_2022.md)에 기록합니다.
 - **활동 시간 감사**: Regular MUD는 10분 이내, 설계 목표 약 9분의 개인 복습 활동입니다. 자동 설계 지표 결과는 [`activity_duration_audit.md`](./activity_duration_audit.md)에서 관리합니다.
 - **활동 계층**: Regular MUD는 10분 이내(약 9분 목표)의 복습용이고, Deep-dive MUD는 여러 차시를 잇는 확장 탐구 활동입니다. 두 계층은 같은 시간·성공 기준으로 평가하지 않습니다.
 - **핵심 목표**: 단순 암기를 넘어 역사적 순간 속 '결단의 순간'을 체험하며 역사적 사고력과 문제 해결력 신장
-- **배포 방향**: 현재 GitHub Pages를 운영하며, 정적 구조를 유지한 Vercel 자동 배포를 향후 검토한다. Supabase는 익명 플레이 로그부터 단계적으로 검토한다.
+- **배포 구조**: 개인형 포털과 정적 협동 MUD는 GitHub Pages에서 운영합니다. 별도 실시간 협동 앱은 Vercel + Convex + Auth0 기술 Preview까지 구현했지만, 실제 학생 적용은 개인정보·국외 처리 검토가 끝날 때까지 금지합니다. Supabase 도입안은 보류 상태입니다.
 
 ---
 
-## 📊 현재 구축 현황 (v3.4 · 2026-09-04 기준)
+## 📊 현재 구축 현황 (2026-09-09 기준)
 
 | 구분 | 수량 | 설명 |
 |---|---|---|
 | Regular MUD (1계층) | **28종** | 기존 48개 차시 기준선 연결 |
 | Deep-dive MUD (2계층) | **4종** | 대단원 종합 통사 롤플레이 (3대 멀티 엔딩) |
+| 정적 협동 MUD | **3편** | 고조선 8조법·시조 설화·한강 유역, 대면 정보 공유 중심 |
 | 수집형 유물 도감 | **36종** | MUD·스토리 클리어 시 자동 언락 및 탐험가 레벨 |
+| 유물 비교·추론 활동 | **9페어** | 관찰→근거 선택→주장 완성→학계 관점 비교 |
+| 미니게임 | **4종** | 유물 카드·역사 연표·원인과 결과·유물 탐정 |
 | 단원별 골든벨 퀴즈 | **3개 단원** | 초성 퀴즈 & 사료 연계 문항 |
 | 인터랙티브 시뮬레이터 | **20종 모드** | 고인돌 물리, 명량해전, 태극기 컬러링 등 |
+| 실시간 협동 수직 슬라이스 | **1편** | 고조선 8조법 기술 Preview, 실제 학생 운영 전 개인정보 검토 필요 |
 
 ## 🔁 교실 기반 개발 순환
 
@@ -39,17 +46,19 @@
 → 진단 데이터 확인 → 가설 → 작은 수정 → 다시 수업
 ```
 
-2026-09-01 수업에서는 1단원 2·3차시 활동이 연속으로 4분 이내 완료되었다. 이후에는 활동을 무조건 늘리기보다 선택지 편향·완료 조건·읽기 속도·교실 내 정보 공유를 구분해 진단한다. 상세 기준은 [`PRD.md`](./PRD.md)와 [`BACKLOG.md`](./BACKLOG.md)에 기록한다.
+2026-09-01 수업에서는 1단원 2·3차시 활동이 연속으로 4분 이내 완료되었다. 2026-09-04에는 고조선 협동 MUD, 2026-09-08에는 시조 설화 협동 MUD를 실제 수업에서 운영했다. 이후에는 활동을 무조건 늘리기보다 선택지 편향·완료 조건·읽기 속도·교실 내 정보 공유를 구분해 진단한다. 상세 기준은 [`PRD.md`](./PRD.md), [`EXPERIMENTS.md`](./EXPERIMENTS.md), [`BACKLOG.md`](./BACKLOG.md)에 기록한다.
 
-게임성 확장은 문제 수를 단순히 늘리는 대신 탐험·발견·자료 추론·유물 활용·근거 공유를 중심으로 검토한다. 현재 백엔드와 데이터베이스는 구현되지 않았으며, 목표 아키텍처와 도입 단계는 [`TECH_STACK.md`](./TECH_STACK.md)와 [`DECISIONS.md`](./DECISIONS.md)에 기록한다.
+게임성 확장은 문제 수를 단순히 늘리는 대신 탐험·발견·자료 추론·유물 활용·근거 공유를 중심으로 검토한다. 개인형 포털은 서버 없이 동작하고, 실시간 공동 상태가 필요한 협동 수업만 별도 앱과 Convex를 사용한다. 시스템 경계와 결정 근거는 [`TECH_STACK.md`](./TECH_STACK.md)와 [`DECISIONS.md`](./DECISIONS.md)에 기록한다.
 
 ## 🤝 협동 MUD 실험
 
-**고조선 8조법: 우리 마을의 첫 번째 법**은 기존 개인형 MUD와 분리된 짧은 협동 MUD 파일럿이다. 학생마다 서로 다른 역할 정보와 이해관계를 보고, 실제 말로 정보를 공유한 뒤 개인 판단을 수정하고 모둠의 법을 만든다.
+정적 협동 MUD 3편은 기존 개인형 MUD와 분리된 짧은 모둠 활동이다. 학생마다 서로 다른 역할·자료를 보고 실제 말로 정보를 공유한 뒤, 개인 판단을 수정하거나 모둠의 설명을 만든다.
 
-핵심 흐름은 `비대칭 정보 → 개인 판단 → 정보 공유 → 추가 증거 → 판단 수정 → 공동 결정`이다. 교사가 정한 모둠과 별개로 학생이 실제 모둠 인원(3~5명)을 직접 선택하며, 인원수에 따라 추가 단서와 역할 배정이 달라진다. 첫 버전은 GitHub Pages 정적 파일과 기기별 `localStorage`만 사용하며, 로그인·실시간 채팅·투표 동기화·개인정보 수집은 하지 않는다.
+핵심 흐름은 `비대칭 정보 → 개인 판단 → 정보 공유 → 추가 증거 → 판단 수정 → 공동 결정`이다. 학생은 실제 모둠 인원(3~5명)과 자기 번호를 선택하고, 기기 화면을 역할 카드로 사용한다. 정적 버전은 GitHub Pages와 기기별 `localStorage`만 사용하며 로그인·실시간 채팅·투표 동기화·개인정보 수집을 하지 않는다. 고조선 편에는 단계 뒤로 가기와 빠른 모둠용 선택형 추가 미션도 제공한다.
 
-2026-09-04에 실제 수업에서 1회 운영했다. 비대칭 정보가 대면 대화를 만들었고 모둠 결과도 갈렸으나, 교사가 모둠 진행 상황을 볼 수 없다는 제약이 확인되었다. 관찰 기록은 [`EXPERIMENTS.md`](./EXPERIMENTS.md)의 `EXP-006`에 있다. 이 제약을 근거로 실시간 확장(Vercel + Convex)을 설계 중이며 아직 구현하지 않았다.
+고조선 편과 시조 설화 편은 실제 수업 운영을 마쳤고, 한강 유역 편은 수업 검증을 기다리고 있다. 비대칭 정보가 대면 대화를 만들었지만 교사가 모둠 진행 상황을 볼 수 없다는 제약도 확인했다. 관찰 기록은 [`EXPERIMENTS.md`](./EXPERIMENTS.md)의 `EXP-006`·`EXP-007`에 있다.
+
+이 제약을 해결하는 실시간 수직 슬라이스는 `apps/cooperative-live/`에 구현했다. 교사 Auth0 로그인, 학생 QR·6자리 코드 입장, 3~24명 균형 편성, 모둠 미리보기·재섞기, 진행 대시보드, 힌트·심화 개입, 종료 삭제를 지원한다. QR 원문은 서버에 저장하지 않으며, 가상 학생 21명의 병렬 입장과 5개 모둠 편성·개입·삭제를 자동 검증했다. 단, 현재는 **가상 데이터 기술 Preview**이며 [`P1-COLLAB-PRIVACY`](./BACKLOG.md#p1-collab-privacy--convex-개인정보국외-처리-착수-게이트)가 해제되기 전 실제 학생에게 사용하지 않는다.
 
 - [협동 MUD 허브](./cooperative-mud/)
 - **[수업 진행 안내](./cooperative-mud/TEACHING.md)** — 교실에서 바로 보는 준비·진행·관찰 문서
@@ -57,6 +66,7 @@
 - [삼국·가야 시조 설화 바로 시작](./cooperative-mud/founding-myths/) — 1단원 7차시. 네 나라의 시조 이야기를 하나씩 나눠 읽고 말로 모은 뒤, 옛사람들이 왜 그렇게 이야기했는지 모둠의 설명 문장을 만든다. 친구 이야기를 듣기 **전에** 각자 판단을 먼저 기록하는 순서로 만들었다
 - [한강 유역 쟁탈 바로 시작](./cooperative-mud/han-river/) — 1단원 8차시. 들·물길·바닷길·연표를 나눠 조사하고, 세 나라가 왜 모두 이 땅을 원했는지 근거로 설명한다. 전투 장면 없이 지리와 교역로로 다룬다
 - **[수업 구조도](https://claude.ai/code/artifact/97e312bf-7cf9-4b4c-be07-6d0a4fd2c9a2)** — 기존 7단계 화면 위에 QR 입장·학생 호(號)·타이머 페이싱·교사 대시보드·데이터 경계를 얹은 전체 구조 *(비공개 링크 · 저장소 소유자 계정에서 열림)*
+- [실시간 협동 앱 실행·검증 안내](./apps/cooperative-live/README.md)
 - [구현 계획](./docs/plans/implementation_plan_cooperative_mud_gojoseon_law_v01.md)
 - [실시간 확장 설계](./docs/plans/COLLABORATIVE_MUD_PLAN.md) · [아키텍처](./docs/plans/COLLABORATIVE_MUD_ARCHITECTURE.md) · [MVP](./docs/plans/COLLABORATIVE_MUD_MVP.md)
 
@@ -165,6 +175,15 @@
 - **등급 체계**: 전설의 국보(LEGENDARY) / 국가 지정 보물(TREASURE) / 살아있는 역사(RARE)
 - **수집률 프로그레스 바**: 실시간 수집 현황 표시
 
+## 🧩 확장 역사 활동
+
+- **유물 비교·추론 9페어**: 학생이 실제로 해금한 시대 마커 유물을 기준으로 활동을 제안한다. 두 유물을 관찰하고 근거를 골라 주장을 완성한 뒤 학계 관점과 비교한다.
+- **유물 카드 짝맞추기**: 유물 이름과 특징을 연결한다.
+- **역사 연표 순서 맞추기**: 사건 카드를 시간 순서로 배열한다.
+- **원인과 결과 순서 맞추기**: 여러 단계를 인과관계에 따라 배열한다.
+- **유물 탐정: 이게 뭘까?**: 실제 해금 유물만 출제하며 시대→종류→설명 순으로 힌트를 공개한다.
+- **학생 피드백**: MUD 완료 화면과 유물 비교 결과 화면에서 이메일을 수집하지 않는 Google 설문으로 이동할 수 있다.
+
 ---
 
 ## 🎨 UI/UX 디자인 시스템 (초등 맞춤 전통 테마)
@@ -179,11 +198,48 @@
 
 ## 🛠️ 기술 스택
 
-* **Frontend**: Pure Vanilla HTML5 / CSS3 / ES6+ JavaScript
+* **개인형·정적 협동 Frontend**: Pure Vanilla HTML5 / CSS3 / ES6+ JavaScript
+* **실시간 협동 Frontend**: Next.js 16 / React 19 / TypeScript
 * **Graphics**: HTML5 Canvas 기반 커스텀 2D 인터랙티브 시뮬레이션 엔진
 * **Audio**: Web Audio API Synth 기반 효과음 (외부 의존성 없음)
-* **Data Storage**: 현재 localStorage 기반 개인별 진행상황 영구 저장; 향후 Supabase 익명 이벤트 저장 검토
+* **State & Backend**: 개인형·정적 협동은 `localStorage`, 실시간 기술 Preview는 Convex
+* **Authentication**: 실시간 교사만 Auth0 Google 로그인, 학생은 계정 없이 세션 한정 난수 토큰 사용
+* **Deployment**: 정적 포털은 GitHub Pages, 실시간 기술 Preview는 Vercel
 * **Data**: JSON 기반 MUD 시나리오 (32개 파일), 커리큘럼 DB, 유물 DB, 교육과정 매핑 기준선
+* **보류된 후보**: Supabase 익명 플레이 로그 — Convex와 백엔드를 이중 운영하지 않기 위해 보류
+
+## 🚀 로컬 실행과 검증
+
+정적 포털은 `fetch()`로 JSON을 읽으므로 `file://`로 직접 열지 말고 로컬 서버를 사용한다.
+
+```powershell
+python -m http.server 8000
+# http://localhost:8000 접속
+```
+
+주요 정적 데이터·계약·자산 검증:
+
+```powershell
+python scripts/01_validate_game_data.py
+python scripts/03_validate_mud_integrity.py
+python scripts/04_validate_mud_contract.py
+python scripts/06_validate_static_assets.py
+python scripts/08_validate_mud_catalog.py
+python scripts/09_validate_mud_sources.py
+node scripts/05_test_simulator_runtime.js
+```
+
+실시간 협동 앱은 Node.js 20.9 이상이 필요하다.
+
+```powershell
+Set-Location apps/cooperative-live
+Copy-Item .env.example .env.local
+npm ci
+npm run dev
+# 전체 검사: npm run check
+```
+
+외부 계정 없이 살펴볼 때는 `.env.local`의 `NEXT_PUBLIC_DEMO_MODE=true`를 사용한다. 실제 Convex·Auth0 연결과 환경변수 경계는 [실시간 협동 앱 README](./apps/cooperative-live/README.md)를 따른다.
 
 ---
 
@@ -210,6 +266,7 @@
 * ⚖️ [DECISIONS.md](./DECISIONS.md) — 장기 설계 결정과 근거
 * 🧾 [walkthrough.md](./walkthrough.md) — 완료 작업의 누적 기록
 * 🧱 [TECH_STACK.md](./TECH_STACK.md) — 기술 선택과 시스템 경계
+* ⚡ [apps/cooperative-live/README.md](./apps/cooperative-live/README.md) — 실시간 협동 기술 Preview 실행·보안·검증 안내
 * 🔀 [USER_FLOWS.md](./USER_FLOWS.md) — 학생·기능별 사용자 흐름과 플로우차트
 * 🖼️ [WIREFRAMES.md](./WIREFRAMES.md) — 핵심 화면 저충실도 와이어프레임
 
