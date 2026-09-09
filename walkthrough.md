@@ -1336,6 +1336,14 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 연결된 가상 입장 시도 1건을 포함해 세션을 종료한 뒤 `sessions`·`players`·`rooms`·`interventions`·`joinAttempts`가 모두 비는지 검증한다.
 - 검증: ESLint, TypeScript, 기존 단위 테스트 12건, Convex 가상 학급 통합 테스트 1건, Next.js production build, `npm audit` 취약점 0건 통과.
 
+## 2026-09-09 — `deep_three_kingdoms` 선택지 길이 편향 수정
+
+`TASK-20260909-04 | deep_three_kingdoms 선택지 길이 편향 2건 수정 | 담당: content agent(Codex) | 상태: DONE`
+
+- 1단계 황산벌과 5단계 기벌포의 짧은 오답에 각 장면에서 이미 확인한 역사 단서를 인용해, 정답 문장만 10자 이상 길어 보이던 편향을 제거했다.
+- 분기·정답·다음 단계·시뮬레이터·역사 서술은 바꾸지 않았고 `data/mud/deep_joseon.json`·`data/mud/deep_modern.json`은 수정하지 않았다.
+- 검증: `scripts/12_audit_choice_bias.py`에서 `deep_three_kingdoms:1/5`가 10자 이상 편향 목록에서 제거됐고, `scripts/03~09`의 MUD 무결성·계약·런타임·정적 자산·시간·카탈로그·탭 내성·출처 검사를 통과했다.
+
 ## 2026-09-09 — 모둠 미리보기 기능 `main` 통합 준비
 
 `TASK-20260909-01 | 모둠 미리보기 기능 main 통합 | 담당: integration agent | 상태: DONE`
