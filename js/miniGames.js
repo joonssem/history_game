@@ -25,6 +25,13 @@ class MiniGameEngine {
     this.currentCauseEffectStageIdx = 0;
     this.currentCauseEffectEvents = [];
     this.selectedCauseEffectItem = null;
+
+    // 유물 탐정 상태 (2026-09-09 신규 — 학생이 실제로 해금한 유물만 출제)
+    this.detectiveRounds = [];
+    this.detectiveRoundIdx = 0;
+    this.detectiveHintLevel = 1;
+    this.detectiveResults = []; // 라운드별 { correct, hintLevelUsed }
+    this.detectiveOptions = [];
   }
 
   async init() {
@@ -427,6 +434,195 @@ class MiniGameEngine {
         <p style="font-size: 0.76rem; color: #C5BCB3;">이 사건이 왜 먼저(또는 나중에) 일어났을지 다시 생각하며 카드를 눌러 순서를 교환해 보세요.</p>
       `;
     }
+  }
+
+  // ==========================================
+  // 4. 유물 탐정: 이게 뭘까? (2026-09-09 신규)
+  // 고정 콘텐츠가 아니라 그 학생이 실제로 해금한 유물만 출제한다.
+  // 힌트 3단계(시대 → 종류 → 설명)를 순서대로 공개하며 4지선다로 맞힌다.
+  // "정답/오답" 채점형 미니게임이라 유물 비교 활동과는 톤이 다르지만,
+  // 오답이어도 감점 없이 다음 힌트로 자연스럽게 이어지게 설계했다.
+  // ==========================================
+  startDetectiveGame() {
+    if (window.sounds) window.sounds.playClick();
+    const container = document.getElementById('detective-game-container');
+    if (!container) return;
+
+    const unlocked = (window.encyclopedia && window.encyclopedia.data.unlockedArtifacts) || [];
+    const pool = this.artifacts.filter(
+      art => unlocked.includes(art.name) || unlocked.includes(art.id)
+    );
+
+    if (pool.length < 4) {
+      container.innerHTML = `
+        <div style="max-width: 520px; margin: 0 auto; padding: 16px; border-radius: 12px; background: #1F1B19; border: 1px solid #5A4E46; text-align: center; color: #C5BCB3; font-size: 0.85rem;">
+          🕵️ 유물 탐정은 <strong style="color: #F0C987;">해금한 유물이 4개 이상</strong>일 때 도전할 수 있어요. MUD를 몇 개 더 클리어하고 다시 와 봐!
+        </div>
+      `;
+      return;
+    }
+
+    const shuffled = [...pool].sort(() => Math.random() - 0.5);
+    const roundCount = Math.min(5, shuffled.length);
+    this.detectiveRounds = shuffled.slice(0, roundCount);
+    this.detectivePool = pool;
+    this.detectiveRoundIdx = 0;
+    this.detectiveHintLevel = 1;
+    this.detectiveResults = [];
+
+    this.renderDetectiveRound();
+  }
+
+  buildDetectiveOptions(answerArt) {
+    const others = this.detectivePool.filter(a => a.name !== answerArt.name);
+    const wrongChoices = [...others].sort(() => Math.random() - 0.5).slice(0, 3);
+    const options = [...wrongChoices, answerArt].sort(() => Math.random() - 0.5);
+    this.detectiveOptions = options;
+    return options;
+  }
+
+  detectiveHintText(art, level) {
+    if (level >= 3) {
+      const snippet = art.desc && art.desc.length > 40 ? art.desc.slice(0, 40) + '…' : art.desc;
+      return `힌트 3: 설명을 좀 더 볼게 — "${snippet}"`;
+    }
+    if (level === 2) {
+      return `힌트 2: 이 유물은 [${art.category}] 종류야.`;
+    }
+    return `힌트 1: 이 유물은 [${art.era}]와 관련이 있어.`;
+  }
+
+  renderDetectiveRound() {
+    const container = document.getElementById('detective-game-container');
+    if (!container) return;
+
+    const art = this.detectiveRounds[this.detectiveRoundIdx];
+    const options = this.detectiveOptions.length && this.detectiveHintLevel > 1
+      ? this.detectiveOptions
+      : this.buildDetectiveOptions(art);
+
+    const hints = [];
+    for (let lv = 1; lv <= this.detectiveHintLevel; lv++) {
+      hints.push(this.detectiveHintText(art, lv));
+    }
+
+    container.innerHTML = `
+      <div style="max-width: 560px; margin: 0 auto; background: #1F1B19; border: 1px solid #5A4E46; border-radius: 16px; padding: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #3D352E;">
+          <span style="font-size: 0.72rem; font-weight: 700; padding: 3px 10px; background: rgba(124, 58, 237, 0.25); color: #C4B5FD; border-radius: 999px;">
+            문제 ${this.detectiveRoundIdx + 1} / ${this.detectiveRounds.length}
+          </span>
+          <span style="font-size: 0.72rem; color: #9B9088;">🕵️ 이 유물은 뭘까?</span>
+        </div>
+
+        <div id="detective-hints" style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;">
+          ${hints.map(h => `<p style="font-size: 0.85rem; color: #E4DCD3; background: #14110F; border: 1px solid #3D352E; border-radius: 8px; padding: 8px 12px;">${h}</p>`).join('')}
+        </div>
+
+        <div id="detective-options" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 12px;">
+          ${options.map(opt => `
+            <button onclick="window.miniGames.guessDetective('${opt.name.replace(/'/g, "\\'")}')" style="text-align: left; padding: 10px 12px; border-radius: 10px; background: #14110F; border: 1px solid #3D352E; color: #F0EAE1; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.3rem;">${opt.icon}</span> ${opt.name}
+            </button>
+          `).join('')}
+        </div>
+
+        ${this.detectiveHintLevel < 3 ? `
+          <button onclick="window.miniGames.revealDetectiveHint()" style="padding: 6px 14px; background: #0F0D0B; color: #F0C987; border-radius: 10px; border: 1px solid #3D352E; font-weight: 700; font-size: 0.78rem; cursor: pointer;">
+            💡 힌트 더 보기
+          </button>
+        ` : ''}
+
+        <div id="detective-feedback" style="display: none; margin-top: 12px;"></div>
+      </div>
+    `;
+  }
+
+  revealDetectiveHint() {
+    if (this.detectiveHintLevel >= 3) return;
+    if (window.sounds) window.sounds.playClick();
+    this.detectiveHintLevel++;
+    this.renderDetectiveRound();
+  }
+
+  guessDetective(guessedName) {
+    const art = this.detectiveRounds[this.detectiveRoundIdx];
+    const fbEl = document.getElementById('detective-feedback');
+    if (!fbEl) return;
+    fbEl.style.display = 'block';
+
+    if (guessedName === art.name) {
+      if (window.sounds) window.sounds.playCorrect();
+      this.detectiveResults.push({ correct: true, hintLevelUsed: this.detectiveHintLevel });
+
+      const praise = this.detectiveHintLevel === 1
+        ? '힌트 1개 만에 맞혔어! 정말 대단해 🎉'
+        : this.detectiveHintLevel === 2
+          ? '힌트 2개로 맞혔어! 잘했어 👏'
+          : '끝까지 포기 안 하고 맞혔어! 좋아 😊';
+
+      const isLastRound = this.detectiveRoundIdx + 1 >= this.detectiveRounds.length;
+      fbEl.style.cssText = 'display: block; margin-top: 16px; padding: 14px; border-radius: 12px; background: rgba(45, 106, 79, 0.25); border: 1px solid #2D6A4F; color: #B7E8CB; text-align: center;';
+      fbEl.innerHTML = `
+        <h4 style="font-weight: 800; font-size: 0.95rem; margin-bottom: 4px;">${art.icon} 정답은 [${art.name}]!</h4>
+        <p style="font-size: 0.8rem; color: #C5BCB3; margin-bottom: 10px;">${praise}</p>
+        <button onclick="window.miniGames.${isLastRound ? 'completeDetectiveGame' : 'nextDetectiveRound'}()" style="padding: 8px 18px; background: #7C3AED; color: #fff; border-radius: 10px; border: none; font-weight: 700; font-size: 0.82rem; cursor: pointer;">
+          ${isLastRound ? '결과 보기' : '다음 문제로 ➔'}
+        </button>
+      `;
+    } else {
+      if (window.sounds) window.sounds.playWrong();
+      if (this.detectiveHintLevel < 3) {
+        this.detectiveHintLevel++;
+        fbEl.style.cssText = 'display: block; margin-top: 16px; padding: 12px; border-radius: 12px; background: rgba(138, 59, 41, 0.2); border: 1px solid #8A3B29; color: #F1B9A8; text-align: center;';
+        fbEl.innerHTML = `<p style="font-size: 0.82rem;">아직 아니야! 힌트를 하나 더 줄게 🔍</p>`;
+        setTimeout(() => this.renderDetectiveRound(), 900);
+      } else {
+        // 힌트를 다 봤는데도 틀리면 정답을 알려주고 다음 문제로
+        this.detectiveResults.push({ correct: false, hintLevelUsed: 3 });
+        const isLastRound = this.detectiveRoundIdx + 1 >= this.detectiveRounds.length;
+        fbEl.style.cssText = 'display: block; margin-top: 16px; padding: 14px; border-radius: 12px; background: rgba(138, 59, 41, 0.2); border: 1px solid #8A3B29; color: #F1B9A8; text-align: center;';
+        fbEl.innerHTML = `
+          <h4 style="font-weight: 800; font-size: 0.95rem; margin-bottom: 4px;">${art.icon} 정답은 [${art.name}]였어!</h4>
+          <p style="font-size: 0.8rem; color: #E4DCD3; margin-bottom: 10px;">괜찮아, 이제 알았으니 다음엔 바로 맞힐 수 있을 거야.</p>
+          <button onclick="window.miniGames.${isLastRound ? 'completeDetectiveGame' : 'nextDetectiveRound'}()" style="padding: 8px 18px; background: #7C3AED; color: #fff; border-radius: 10px; border: none; font-weight: 700; font-size: 0.82rem; cursor: pointer;">
+            ${isLastRound ? '결과 보기' : '다음 문제로 ➔'}
+          </button>
+        `;
+      }
+    }
+  }
+
+  nextDetectiveRound() {
+    if (window.sounds) window.sounds.playClick();
+    this.detectiveRoundIdx++;
+    this.detectiveHintLevel = 1;
+    this.detectiveOptions = [];
+    this.renderDetectiveRound();
+  }
+
+  completeDetectiveGame() {
+    const container = document.getElementById('detective-game-container');
+    if (!container) return;
+
+    const correctCount = this.detectiveResults.filter(r => r.correct).length;
+    const allHint1 = this.detectiveResults.every(r => r.correct && r.hintLevelUsed === 1);
+
+    if (window.sounds) window.sounds.playFanfare();
+    if (allHint1) window.encyclopedia.unlockBadge('badge_detective_master');
+
+    container.innerHTML = `
+      <div style="max-width: 560px; margin: 0 auto; padding: 20px; border-radius: 14px; background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(45, 106, 79, 0.2)); border: 2px solid #7C3AED; text-align: center;">
+        <h4 style="font-size: 1.05rem; font-weight: 900; color: #C4B5FD; margin-bottom: 6px;">🕵️ 탐정 활동 완료!</h4>
+        <p style="color: #E4DCD3; font-size: 0.85rem; margin-bottom: 12px;">
+          총 ${this.detectiveResults.length}문제 중 ${correctCount}개를 맞혔어.
+          ${allHint1 ? '전부 힌트 1개로 맞혀서 [유물 감식가] 배지를 획득했습니다! 🎉' : ''}
+        </p>
+        <button onclick="window.miniGames.startDetectiveGame()" class="btn" style="width: auto; padding: 8px 20px; background-color: #7C3AED;">
+          🔄 다른 문제로 다시 하기
+        </button>
+      </div>
+    `;
   }
 }
 
