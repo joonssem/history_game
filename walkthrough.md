@@ -1344,6 +1344,15 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 분기·정답·다음 단계·시뮬레이터·역사 서술은 바꾸지 않았고 `data/mud/deep_joseon.json`·`data/mud/deep_modern.json`은 수정하지 않았다.
 - 검증: `scripts/12_audit_choice_bias.py`에서 `deep_three_kingdoms:1/5`가 10자 이상 편향 목록에서 제거됐고, `scripts/03~09`의 MUD 무결성·계약·런타임·정적 자산·시간·카탈로그·탭 내성·출처 검사를 통과했다.
 
+## 2026-09-09 — Deep-dive 역할 경계와 설계 결정 확정
+
+`TASK-20260909-05 | Deep-dive PRD·DECISIONS 결정 정리 | 담당: audit agent(Codex) | 상태: DONE`
+
+- `deep_three_kingdoms.json`은 Codex, `deep_joseon.json`·`deep_modern.json`은 Claude가 담당하는 소유권 경계를 확인했다.
+- D-024로 Deep-dive 필수 활동을 "활동 자체에 역사적 판단이 있는 경우"로 제한하고, 단순 클릭 통행료형 게이팅은 금지했다.
+- D-025로 교차 단원 Deep-dive는 대표 단원으로 축약하지 않고 `unitId: null`과 단원별 `spansUnits`를 사용하도록 방향을 정했다. 스키마·검증기 구현은 첫 후보 승인 뒤 별도 작업으로 남겼다.
+- D-026으로 Deep-dive를 시대 순서의 긴 반복이 아니라 비교·관통·분류·사료 비판 같은 역사적 사고 질문 중심 탐구로 정의했다.
+
 ## 2026-09-09 — 모둠 미리보기 기능 `main` 통합 준비
 
 `TASK-20260909-01 | 모둠 미리보기 기능 main 통합 | 담당: integration agent | 상태: DONE`
