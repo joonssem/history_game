@@ -31,13 +31,13 @@
   - `scripts/03~09_validate_mud_*.py` 검증 스크립트 4종 전부 PASS.
   - 브라우저(Claude Browser pane)로 시작→새 6장→엔딩까지 전체 클릭 재생 완료, 게이팅 동작·씬 렌더링·콘솔 에러 없음 확인.
 
-## 4. 다음에 할 일 (제안 — 확정된 지시는 아님)
+## 4. 다음에 할 일
 
 > **먼저 읽을 것**: [`docs/plans/implementation_plan_deep_dive_redesign.md`](../plans/implementation_plan_deep_dive_redesign.md) (2026-09-02 작성). Deep-dive 전면 재설계 계획으로, 뿌리 문제 재정의·4종 구조 감사·해결 아이디어 5종·사고축 구획 원리·신규 Deep-dive 후보 6종·결정 대기 쟁점 4건이 정리되어 있다. 아래 목록보다 이 문서가 최신이다.
 
-1. **사용자에게 먼저 확인**: "Claude가 deep-dive 전체 담당" 결정의 구체적 범위(대상 파일, `deep_three_kingdoms.json` 인수 여부, Codex와의 역할 재조정 필요 여부).
-2. 실제 학생 기준 플레이 시간 재측정 — 지금까지는 에이전트가 클릭하는 방식으로만 검증했고, 실제 5학년 학생의 읽기·조작 속도를 반영한 실측은 아직 없음. `docs/handoff/deep_dive_competition_task.md`의 "결과 보고 형식"·"플레이 시간" 항목 참고.
-3. `deep_joseon.json`/`deep_modern.json`도 `deep_prehistoric.json`과 같은 감사(게이팅 누락 여부, 로드맵-스테이지 정합성, 5학년 어휘 난이도)가 필요할 가능성이 높음 — 아직 미착수.
+1. ~~사용자에게 먼저 확인: 범위~~ → **2026-09-09 해소**: `deep_three_kingdoms.json`은 Codex가 계속 소유한다(Claude가 인수하지 않음). `deep_joseon.json`/`deep_modern.json`은 Claude가 감사·개선에 착수한다. PRD/DECISIONS 개정이 필요한 3건(§8-1·8-2·8-4)은 [`docs/handoff/codex_deep_three_kingdoms_ownership_handoff.md`](codex_deep_three_kingdoms_ownership_handoff.md)로 Codex에 전달했다 — 그 결정이 나기 전에는 새 필수 게이팅을 추가하거나 여러 단원을 가로지르는 신규 Deep-dive(§5의 후보들)를 시작하지 않는다.
+2. **진행 중(2026-09-09~)**: `deep_joseon.json`/`deep_modern.json` 구조 감사 — 게이팅 누락 여부, 로드맵-스테이지 정합성, 5학년 어휘 난이도. 결과는 이 저장소의 감사 문서로 남긴다.
+3. 실제 학생 기준 플레이 시간 재측정 — 지금까지는 에이전트가 클릭하는 방식으로만 검증했고, 실제 5학년 학생의 읽기·조작 속도를 반영한 실측은 아직 없음. `docs/handoff/deep_dive_competition_task.md`의 "결과 보고 형식"·"플레이 시간" 항목 참고.
 4. 신규 스테이지 "6"의 판단형 선택지 난이도가 5학년 수준에 적절한지 재검토.
 
 ## 5. 참고
