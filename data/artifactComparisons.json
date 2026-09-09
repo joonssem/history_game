@@ -382,5 +382,197 @@
       ]
     },
     "scholarPerspective": "학자들은 김홍도가 시골 서민들의 농사와 놀이를 꾸밈없이 담아 누구나 보고 이해할 수 있는 그림을 그렸다고 봐. 신윤복은 평소 화려한 인물을 그리기로 유명했지만, 이 그림에서는 드물게 저잣거리에서 장사하는 평범한 여성의 활기찬 모습을 담았다고 해석해. 누가 더 잘 그렸다기보다, 두 화가가 서로 다른 곳에 관심을 뒀기 때문에 조선 후기 풍속화가 더 다양해졌다고 봐."
+  },
+  {
+    "id": "cmp_science_1",
+    "title": "해로 재는 시간, 물로 재는 시간",
+    "unlockThreshold": 10,
+    "requiredArtifactNames": ["훈민정음 해례본과 앙부일구", "art_sejong"],
+    "sourceNote": "국립중앙박물관 소장품 정보 기준(2026-09-09 재확인). 둘 다 공공누리 이용조건이 다르다(앙부일구는 출처표시만, 자격루는 출처표시+상업적이용금지+변경금지) — 이미지는 어느 쪽도 이 활동에서 싣지 않으므로 문제없다. 중요: 지금 남아있는 두 실물은 세종 당시(1430년대) 원본이 아니라 후대에 다시 만든 것이다(앙부일구는 1871년 강건 제작, 자격루는 1536년 중종 때 남은 부속). 이 사실을 traits·claim에 정직하게 반영했다.",
+    "artifactA": {
+      "name": "휴대용 앙부일구",
+      "era": "조선 시대(1871년 제작, 세종 때 발명된 앙부일구의 후대 제작본)",
+      "location": "국립중앙박물관",
+      "icon": "🌞",
+      "museumId": "신수15157",
+      "museumUrl": "https://www.museum.go.kr/site/main/relic/search/view?relicId=2399",
+      "license": "공공누리 제1유형(출처표시), 국립중앙박물관",
+      "traits": {
+        "pattern": "오목한 반구형 그릇 안에 시각 눈금을 새기고, 청동 바늘(영침)의 그림자 위치로 시간을 읽음",
+        "material": "회백색 대리석 몸체에 청동 바늘을 꽂아 만듦",
+        "shape": "손에 들고 다닐 수 있는 작은 크기(휴대용)",
+        "location": "햇빛이 있어야 쓸 수 있어 주로 낮에, 야외에서 사용"
+      }
+    },
+    "artifactB": {
+      "name": "보루각 자격루",
+      "era": "조선 시대(1536년 다시 만듦, 세종 때 처음 발명된 자격루의 남은 부속)",
+      "location": "국립중앙박물관",
+      "icon": "💧",
+      "museumId": "덕수6470",
+      "museumUrl": "https://www.museum.go.kr/site/main/relic/search/view?relicId=4530",
+      "license": "공공누리 출처표시+상업적이용금지+변경금지, 국립중앙박물관(이미지 미사용)",
+      "traits": {
+        "pattern": "물받이 통에 물이 차오르면 지렛대를 건드려 쇠구슬을 굴리고, 구슬이 종·징·북을 울리거나 인형이 시각 팻말을 듦",
+        "material": "청동(동합금)으로 만든 크고 복잡한 기계 장치",
+        "shape": "궁궐 안에 설치해 두고 쓰는 큰 장치",
+        "location": "해가 없어도(밤에도, 흐린 날에도) 낮밤 상관없이 사용"
+      }
+    },
+    "observation": {
+      "prompt": "두 시간 재는 도구를 나란히 놓고 보니, 너는 뭐가 가장 먼저 눈에 띄어?",
+      "options": [
+        { "id": "obs_method", "text": "시간을 재는 방법이 다르다(햇빛 그림자 vs 물의 흐름)" },
+        { "id": "obs_size", "text": "크기와 쓰는 곳이 다르다(들고 다니는 것 vs 궁궐에 설치하는 것)" },
+        { "id": "obs_when", "text": "언제 쓸 수 있는지가 다르다(낮에만 vs 밤낮 상관없이)" }
+      ]
+    },
+    "evidencePrompt": "네 관찰을 뒷받침할 근거로 쓸 만한 카드를 골라 봐. (여러 개 고를 수 있어)",
+    "evidenceCards": [
+      { "id": "ev_method", "text": "시간을 알아내는 원리(그림자 위치 vs 물통·지렛대·구슬 장치)", "valid": true },
+      { "id": "ev_weather", "text": "날씨나 시간대에 상관없이 쓸 수 있는지", "valid": true },
+      { "id": "ev_portability", "text": "들고 다닐 수 있는 크기인지, 설치해 두고 쓰는 크기인지", "valid": true },
+      { "id": "ev_current_relic_age", "text": "지금 남아있는 실물이 세종 당시 것이 아니라 후대에 다시 만든 것이라는 점", "valid": true },
+      { "id": "ev_color", "text": "도구의 색깔이 예쁜지", "valid": false },
+      { "id": "ev_museum_room", "text": "지금 박물관 몇 층에 전시돼 있는지", "valid": false }
+    ],
+    "claim": {
+      "prefix": "휴대용 앙부일구는",
+      "middle": "재는 도구고, 보루각 자격루는",
+      "suffix": "재는 도구다. 같은 세종 시대에 발명됐어도 시간을 재는 원리가 서로 달랐다고 생각한다.",
+      "blanks": [
+        { "id": "blank1", "options": ["햇빛의 그림자로 시간을", "물의 흐름과 기계 장치로 시간을", "달의 모양으로 시간을"], "answer": "햇빛의 그림자로 시간을" },
+        { "id": "blank2", "options": ["햇빛의 그림자로 시간을", "물의 흐름과 기계 장치로 시간을", "달의 모양으로 시간을"], "answer": "물의 흐름과 기계 장치로 시간을" }
+      ]
+    },
+    "scholarPerspective": "학자들은 세종이 낮에 편하게 쓸 수 있는 휴대용 해시계(앙부일구)와, 날씨·시간대에 상관없이 정확한 시각을 알려주는 물시계(자격루)를 함께 만들어 백성의 생활에 실질적인 도움을 주려 했다고 봐. 지금 남아있는 실물은 세종 당시가 아니라 후대에 다시 만든 것들이지만, 서로 다른 방법으로 시간을 재려 한 세종 때의 발명 정신은 그대로 이어져 왔다고 해석해."
+  },
+  {
+    "id": "cmp_paleo_neo_1",
+    "title": "돌을 다루는 기술의 발전",
+    "unlockThreshold": 2,
+    "requiredArtifactNames": ["암사동 빗살무늬 토기", "art_2"],
+    "sourceNote": "국립중앙박물관 소장품 정보 기준(2026-09-09 재확인). 둘 다 공공누리 제1유형(출처표시)만 적용, 변경금지 없음. 이미지는 이 활동에서 어느 쪽도 싣지 않는다.",
+    "artifactA": {
+      "name": "주먹도끼",
+      "era": "구석기 시대",
+      "location": "국립중앙박물관",
+      "icon": "🪨",
+      "museumId": "신수51599",
+      "museumUrl": "https://www.museum.go.kr/site/main/relic/search/view?relicId=31578173",
+      "license": "공공누리 제1유형(출처표시), 국립중앙박물관",
+      "traits": {
+        "pattern": "긴 타원형 돌 양면을 정교하게 떼어내 날을 세운 도구",
+        "material": "돌을 깨뜨려 만듦(뗀석기)",
+        "shape": "손에 쥐고 찍거나 자르는 데 쓰는 뭉툭한 큰 도구",
+        "location": "경기 연천군 전곡리 일대에서 여러 점 발견"
+      }
+    },
+    "artifactB": {
+      "name": "바퀴날도끼",
+      "era": "신석기 시대",
+      "location": "국립중앙박물관",
+      "icon": "🪨",
+      "museumId": "본관6555",
+      "museumUrl": "https://www.museum.go.kr/site/main/relic/search/view?relicId=574",
+      "license": "공공누리 제1유형(출처표시), 국립중앙박물관",
+      "traits": {
+        "pattern": "가운데가 볼록한 둥근 테두리에 날을 세우고, 자루를 끼우는 구멍을 뚫음",
+        "material": "돌을 갈아 다듬어 만듦(간석기)",
+        "shape": "자루를 꽂아 쓸 수 있도록 정교하게 다듬고 구멍까지 뚫은 도구",
+        "location": "여러 신석기 마을 유적에서 발견"
+      }
+    },
+    "observation": {
+      "prompt": "두 도구를 나란히 놓고 보니, 너는 뭐가 가장 먼저 눈에 띄어?",
+      "options": [
+        { "id": "obs_finish", "text": "표면 마감이 다르다(거친 면 vs 매끈하게 간 면)" },
+        { "id": "obs_hole", "text": "구멍이 있고 없고가 다르다" },
+        { "id": "obs_shape", "text": "전체 모양이 다르다" }
+      ]
+    },
+    "evidencePrompt": "네 관찰을 뒷받침할 근거로 쓸 만한 카드를 골라 봐. (여러 개 고를 수 있어)",
+    "evidenceCards": [
+      { "id": "ev_technique", "text": "돌을 다듬은 방법(깨뜨림 vs 갈아냄)", "valid": true },
+      { "id": "ev_hole", "text": "자루를 끼우기 위한 구멍이 있는지", "valid": true },
+      { "id": "ev_precision", "text": "표면이 매끈하게 다듬어졌는지", "valid": true },
+      { "id": "ev_era_order", "text": "먼저 나온 도구인지 나중에 나온 도구인지", "valid": true },
+      { "id": "ev_size", "text": "돌의 크기가 큰지 작은지", "valid": false },
+      { "id": "ev_weight_guess", "text": "도구가 무거워 보이는지 가벼워 보이는지 내 느낌", "valid": false }
+    ],
+    "claim": {
+      "prefix": "주먹도끼는",
+      "middle": "만든 도구고, 바퀴날도끼는",
+      "suffix": "만든 도구다. 시간이 지나면서 돌을 다루는 기술이 더 정교해졌다고 생각한다.",
+      "blanks": [
+        { "id": "blank1", "options": ["돌을 깨뜨려", "돌을 갈아서", "쇠를 녹여서"], "answer": "돌을 깨뜨려" },
+        { "id": "blank2", "options": ["돌을 깨뜨려", "돌을 갈아서", "쇠를 녹여서"], "answer": "돌을 갈아서" }
+      ]
+    },
+    "scholarPerspective": "학자들은 구석기 시대에는 돌을 깨뜨려 필요한 모양을 급하게 만들었지만, 신석기 시대로 오면서 사람들이 한곳에 오래 머물러 살게 되자 시간을 들여 돌을 갈아 더 정교하고 쓰기 편한 도구를 만들기 시작했다고 봐. 도구가 정교해진 건 사람들이 더 똑똑해져서라기보다, 이동하며 살던 삶에서 한곳에 머물러 사는 삶으로 바뀌면서 도구에 공들일 시간과 필요가 생겼기 때문이라고 해석해."
+  },
+  {
+    "id": "cmp_metal_tech_1",
+    "title": "청동에서 철로, 달라진 귀한 금속",
+    "unlockThreshold": 6,
+    "requiredArtifactNames": ["백제 칠지도", "신라 북한산 순수비", "art_5", "art_6"],
+    "sourceNote": "국립중앙박물관 소장품 정보 기준(2026-09-09 재확인). 둘 다 공공누리 제1유형(출처표시)만 적용, 변경금지 없음. 두 유물 모두 실제 전투 도구라기보다 무덤에 함께 묻힌 신분·권위의 상징물로 알려져 있어, 무기 대결이 아니라 금속 기술과 상징적 의미로 서술을 한정했다. 이미지는 이 활동에서 어느 쪽도 싣지 않는다.",
+    "artifactA": {
+      "name": "비파형(요령식) 동검",
+      "era": "고조선·청동기 시대",
+      "location": "국립중앙박물관",
+      "icon": "🗡️",
+      "museumId": "신수3094",
+      "museumUrl": "https://www.museum.go.kr/site/main/relic/search/view?relicId=2040",
+      "license": "공공누리 제1유형(출처표시), 국립중앙박물관",
+      "traits": {
+        "pattern": "칼날 아래쪽이 비파(악기) 모양으로 볼록하게 넓어짐",
+        "material": "청동(구리와 주석을 섞은 합금)으로 만듦",
+        "shape": "무덤에 함께 묻힌 것으로 보아 실제 싸움보다 신분·제사용으로 귀하게 다뤄짐",
+        "location": "충남 부여 송국리 돌널무덤(석관묘)에서 출토"
+      }
+    },
+    "artifactB": {
+      "name": "용·봉황 장식 고리자루 큰 칼",
+      "era": "삼국시대",
+      "location": "국립중앙박물관",
+      "icon": "🗡️",
+      "museumId": "신수1319",
+      "museumUrl": "https://www.museum.go.kr/site/main/relic/search/view?relicId=1968",
+      "license": "공공누리 제1유형(출처표시), 국립중앙박물관",
+      "traits": {
+        "pattern": "손잡이 끝 둥근 고리 안에 용과 봉황을 새김",
+        "material": "철로 만든 칼몸에 금·은으로 화려하게 장식한 손잡이",
+        "shape": "실제 전투보다 최고 지배자의 권위를 드러내는 상징물로 쓰임",
+        "location": "가야·신라·백제의 왕릉급 무덤에서 출토"
+      }
+    },
+    "observation": {
+      "prompt": "두 칼을 나란히 놓고 보니, 너는 뭐가 가장 먼저 눈에 띄어?",
+      "options": [
+        { "id": "obs_material", "text": "재료가 다르다(청동 vs 철)" },
+        { "id": "obs_decoration", "text": "장식의 화려함이 다르다" },
+        { "id": "obs_shape", "text": "칼의 생김새가 다르다" }
+      ]
+    },
+    "evidencePrompt": "네 관찰을 뒷받침할 근거로 쓸 만한 카드를 골라 봐. (여러 개 고를 수 있어)",
+    "evidenceCards": [
+      { "id": "ev_material", "text": "칼을 만든 금속(청동 vs 철)", "valid": true },
+      { "id": "ev_hardness", "text": "어느 금속이 더 단단하고 구하기 쉬웠는지", "valid": true },
+      { "id": "ev_decoration", "text": "손잡이 장식의 정교함", "valid": true },
+      { "id": "ev_time_order", "text": "만들어진 시대 순서(청동기가 먼저)", "valid": true },
+      { "id": "ev_price_guess", "text": "지금 경매에서 얼마에 팔릴지", "valid": false },
+      { "id": "ev_drama2", "text": "사극 드라마에 나온 적 있는지", "valid": false }
+    ],
+    "claim": {
+      "prefix": "비파형 동검은",
+      "middle": "만들었고, 고리자루 큰 칼은",
+      "suffix": "만들었다. 시간이 지나면서 사람들이 더 단단한 금속을 다루는 기술을 갖게 됐다고 생각한다.",
+      "blanks": [
+        { "id": "blank1", "options": ["청동으로", "철로", "나무로"], "answer": "청동으로" },
+        { "id": "blank2", "options": ["청동으로", "철로", "나무로"], "answer": "철로" }
+      ]
+    },
+    "scholarPerspective": "학자들은 청동보다 철이 훨씬 흔하고 단단해서, 시간이 지나며 무기와 도구 모두에 철을 널리 쓰게 됐다고 봐. 다만 두 칼 모두 실제 전투보다는 신분과 권위를 드러내는 데 더 크게 쓰였다고 해석해 — 비파형 동검은 제사와 무덤에, 고리자루 큰 칼은 최고 지배자의 상징물로 함께 묻혔다는 공통점이 있다고 봐."
   }
 ]
