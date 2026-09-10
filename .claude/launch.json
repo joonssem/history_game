@@ -4,14 +4,72 @@
     {
       "name": "static-server",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8791"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8791"
+      ],
       "port": 8791
     },
     {
       "name": "static-server-claude-worktree",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "--directory", "D:/codexwork/history_game-claude", "8792"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "--directory",
+        "D:/codexwork/history_game-claude",
+        "8792"
+      ],
       "port": 8792
+    },
+    {
+      "name": "gate-grammar",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "--directory",
+        "D:/codexwork/history_game/.worktrees/claude-gate-grammar",
+        "8801"
+      ],
+      "port": 8801
+    },
+    {
+      "name": "artifact-site",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "--directory",
+        "D:/codexwork/history_game/.worktrees/claude-artifact-site",
+        "8802"
+      ],
+      "port": 8802
+    },
+    {
+      "name": "activity-loop",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "--directory",
+        "D:/codexwork/history_game/.worktrees/claude-activity-loop",
+        "8803"
+      ],
+      "port": 8803
+    },
+    {
+      "name": "inquiry-console",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "--directory",
+        "D:/codexwork/history_game/.worktrees/claude-inquiry-console",
+        "8804"
+      ],
+      "port": 8804
     }
   ]
 }
