@@ -658,6 +658,22 @@ const MudEngine = {
       });
     }
 
+    // 2026-09-10: 방금 끝낸 MUD가 어느 시대인지(이 MUD가 실제로 준 보상
+    // 유물의 era 값 기준) 계산해, 유물 비교 활동이 전혀 다른 시대에
+    // 튀어나오지 않도록 ArtifactComparisonEngine.getOfferHtml에 넘긴다.
+    let currentEraGroup = null;
+    if (this.currentMudData && this.currentMudData.rewards && this.currentMudData.rewards.length > 0
+        && window.encyclopedia && Array.isArray(window.encyclopedia.artifactsList)
+        && window.ArtifactComparisonEngine) {
+      for (const r of this.currentMudData.rewards) {
+        const meta = window.encyclopedia.artifactsList.find(a => a.id === r.artifactId);
+        if (meta && meta.era) {
+          currentEraGroup = window.ArtifactComparisonEngine.getEraGroup(meta.era);
+          if (currentEraGroup) break;
+        }
+      }
+    }
+
     const title = this.currentMudData ? this.currentMudData.title : '역사 탐구';
     const tag = this.currentMudData ? this.currentMudData.header.tag : '역사 탐험';
 
@@ -716,7 +732,7 @@ const MudEngine = {
           <a href="${window.FEEDBACK_FORM_URL}" target="_blank" rel="noopener" class="btn secondary" style="display:block; width: 100%; box-sizing: border-box; font-size: 0.85rem; padding: 8px; margin-top: 8px; text-align:center; text-decoration:none;">
             📮 오늘 활동 피드백 남기기 <i class="fas fa-external-link-alt" style="font-size:0.75em;"></i>
           </a>` : ''}
-          <div id="artifact-comparison-offer">${window.ArtifactComparisonEngine ? window.ArtifactComparisonEngine.getOfferHtml() : ''}</div>
+          <div id="artifact-comparison-offer">${window.ArtifactComparisonEngine ? window.ArtifactComparisonEngine.getOfferHtml(currentEraGroup) : ''}</div>
         </div>
       `;
     }

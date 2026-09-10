@@ -1436,3 +1436,16 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 배지 체계도 기존 3개(발굴 전문가·시간의 지배자·인과 관계 탐정)와 나란히 `badge_detective_master`(유물 감식가, 전 문제를 힌트 1개로 맞혔을 때만 획득)를 `js/encyclopedia.js`에 추가했다.
 - 검증: 로컬 정적 서버에서 (1) 해금 유물 3개일 때 안내 문구, (2) 6개일 때 5라운드·4지선다 정상 생성, (3) 오답 시 힌트 자동 증가, (4) 정답 시 힌트 단계별 격려 문구 분기, (5) 5라운드 전부 힌트1로 완료 시 배지 획득까지 브라우저 콘솔로 전부 확인했다. 콘솔 에러 없음. `01_validate_game_data.py`·`06_validate_static_assets.py` 통과.
 - 아직 안 만든 것: 개인 전시 준비실(1번), 내 유물 연표 만들기(3번) — 다음에 이어갈 후보로 남긴다.
+
+## 2026-09-10 — 시대 매칭 버그 3차 수정 + 8조법 정정 + 유물↔유적 연결
+
+`TASK-20260910-CMP14 | 유물 비교 시대 매칭 근본 원인 보완 + 유물↔유적 연결 신규 | Claude Sonnet 5 | 상태: DONE`
+
+- 사용자가 스크린샷 2장으로 "두 나라의 왕관(삼국시대) 페어가 3·1 운동·대한민국 정부 수립(근현대) MUD 직후에도 뜬다"고 보고했다. 지난(9-09) 마커 기반 수정은 "그 시대 MUD가 실제로 준 유물을 갖고 있는가"는 보장했지만, "방금 끝낸 MUD가 그 시대인가"는 애초에 확인하지 않았다는 걸 사고실험으로 먼저 검증한 뒤 코드를 고쳤다.
+- 데이터를 더 파다가 두 번째 원인도 찾았다: `cmp_metal_tech_1`(비파형동검 페어)이 자기 유물(art_4)이 아니라 `cmp_crown_1`의 마커(칠지도·순수비)를 복붙해 갖고 있어서, 고조선 MUD를 한 번도 안 한 학생에게도 뜰 수 있었다.
+- 수정: `js/artifactComparison.js`에 `getEraGroup()`(선사~근현대 5개 묶음)을 추가하고 `getEligibleComparison(currentEraGroup)`이 시대 불일치 페어를 후보에서 아예 제외하도록 바꿨다. `js/mudEngine.js`의 `renderFinalReflection()`이 방금 끝낸 MUD의 실제 보상 유물 era를 `artifacts.json`에서 찾아 `currentEraGroup`을 계산해 넘긴다. `cmp_metal_tech_1`의 마커를 정정했고, `cmp_crown_2`(실물 보상이 따로 없는 페어)는 사용자 확인에 따라 삼국시대 보상 여러 개 중 OR 유지 + eraGroup 보호막을 추가했다.
+- 검증: 브라우저 콘솔에서 사고실험 5개 시나리오(스크린샷 재현이 null이 되는지, 정상 삼국시대 MUD 뒤엔 제대로 뜨는지, crown_1 완료 뒤 crown_2로 이어지는지, metal_tech_1이 정확한 조건에서만 뜨는지, currentEraGroup 미확인 시 안전하게 미노출되는지)를 전부 재현·확인했다.
+- 이어서 사용자가 "8조법 목판?"이라고 물어, Deep-dive 보상 `art_deep_1`의 "8조법 목판" 표기가 실물 근거 없는 단정이라는 걸 확인(8조법은 『한서』에 3개 조항만 전해지는 문헌 기록, 실물 목판 발굴 사례 없음). `data/artifacts.json`·`data/mud/deep_prehistoric.json`의 이름을 "…전해오는 8조법"으로 정정하고 desc에 사실 관계를 명시했다.
+- 마지막으로 "유물만큼 유적도 많고 웹에 좋은 사진이 많다"는 요청에 유물↔유적(발견 장소) 연결 기능을 추가했다. 사진을 직접 삽입하지 않고(저작권 부담) 국가유산포털(heritage.go.kr) 공식 사적 페이지로만 링크하는 방식을 사용자가 선택했다. 6개 유적(서울 암사동, 부여 송국리, 연천 전곡리, 경주 대릉원 일원, 고령 지산동 고분군, 공주 무령왕릉과 왕릉원)을 heritage.go.kr에서 직접 열어 사진·설명이 실제로 맞는지 확인한 뒤 `data/artifactComparisons.json`의 유물 객체에 `site` 필드로 추가했다. 출토지를 모르는 전세품 유물(청자·백자·풍속화·앙부일구·자격루)에는 일부러 넣지 않았다. `js/artifactComparison.js`에 `siteLinksHtml()`을 추가해 결과 화면에 "🏛️ 이 유물이 발견된 유적" 박스로 노출(같은 유적 공유 시 중복 제거).
+- 검증: 로컬 정적 서버 + 브라우저 콘솔에서 site 링크 텍스트·href 정확성, site 정보 없는 페어(풍속화)는 빈 문자열을 반환해 정보를 지어내지 않는지 확인. `01_validate_game_data.py` 통과, `js/artifactComparison.js`는 `node -c`로 문법 확인.
+- 문서: `BACKLOG.md`에 3건 기록, `TEACHING_artifact_comparison.md`에 "2026-09-10 추가 — 유물↔유적 연결" 절 신설, 캐시버스터 `?v=20260910-eragroup1`(엔진)·`?v=20260910-sitelinks1`(엔진 재갱신).
