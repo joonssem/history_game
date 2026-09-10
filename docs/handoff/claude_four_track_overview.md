@@ -1,6 +1,6 @@
-# 3트랙 병렬 작업 개요 (2026-09-10)
+# 4트랙 병렬 작업 개요 (2026-09-10)
 
-Opus 5 기획 세션의 결과물이다. Claude 쪽 작업을 세 창으로 나누고, 각 창은 자기 지시서만 읽으면 되도록 범위와 파일 소유권을 분리했다.
+Opus 5 기획 세션의 결과물이다. Claude 쪽 작업을 네 창으로 나누고, 각 창은 자기 지시서만 읽으면 되도록 범위와 파일 소유권을 분리했다.
 
 ## 창 이름과 지시서
 
@@ -9,8 +9,11 @@ Opus 5 기획 세션의 결과물이다. Claude 쪽 작업을 세 창으로 나�
 | 1 | **관문 설계실** | `gate-grammar` | 트랙 1-A · Regular MUD 콘텐츠 | [claude_track1a_gate_grammar_instruction.md](./claude_track1a_gate_grammar_instruction.md) |
 | 2 | **대조실** | `artifact-site-lens` | 트랙 2 · 유물·유적 비교 확장 | [claude_track2_artifact_site_instruction.md](./claude_track2_artifact_site_instruction.md) |
 | 3 | **연결 공방** | `activity-loop` | 트랙 3 · 확장 역사 활동 전반 | [claude_track3_activity_loop_instruction.md](./claude_track3_activity_loop_instruction.md) |
+| 4 | **조작대** | `inquiry-console` | 트랙 1-B · inquiry-task UI/UX | [claude_track1b_inquiry_console_instruction.md](./claude_track1b_inquiry_console_instruction.md) |
 
-Codex는 별도로 실시간 협동 MUD 시스템을 구축 중이며 위 세 트랙과 파일이 겹치지 않는다.
+관문 설계실과 조작대는 같은 활동의 다른 층을 맡는다. 설계실은 *무엇을 생각하게 할지*(데이터), 조작대는 *그 생각이 손끝에서 어떻게 일어나는지*(런타임·화면)다. 파일이 완전히 분리되어 있어 동시에 진행할 수 있다.
+
+Codex는 별도로 실시간 협동 MUD 시스템을 구축 중이며 위 네 트랙과 파일이 겹치지 않는다.
 
 ## 파일 소유권 표
 
@@ -19,10 +22,11 @@ Codex는 별도로 실시간 협동 MUD 시스템을 구축 중이며 위 세 �
 | 파일 | 소유 창 |
 |---|---|
 | `data/mud/regular_*.json` | 관문 설계실 |
-| `js/mudInquiry.js`, `js/mudEngine.js`, `js/mudSimulators.js` | **없음 — 트랙 1-B 미배정** |
+| `js/mudInquiry.js`, `js/mudEngine.js`, `js/mudSimulators.js` | 조작대 |
 | `data/artifactComparisons.json`, `js/artifactComparison.js`, `js/encyclopedia.js` | 대조실 |
 | `js/miniGames.js`, `js/storyEngine.js`, `data/causeEffectChains.json`, `data/timeline.json`, `data/stories*.json` | 연결 공방 |
-| `index.html` 구조·레이아웃 | 연결 공방 |
+| `index.html` 「확장 역사 활동」 section (69~97) | 연결 공방 |
+| `index.html` `#view-myeongnyang` 블록 (105~) | 조작대 |
 | `index.html` 캐시버스터 줄 | 각 창이 **자기 파일 줄만** |
 | `css/style.css` | 공유 — **추가만**, 기존 규칙 수정 금지 |
 | `BACKLOG.md`, `DECISIONS.md`, `EXPERIMENTS.md` | 공유 — **말미에 추가만**, 기존 항목 수정 금지 |
@@ -33,17 +37,22 @@ Codex는 별도로 실시간 협동 MUD 시스템을 구축 중이며 위 세 �
 260  js/encyclopedia.js?v=...        ← 대조실
 261  js/artifactComparison.js?v=...  ← 대조실
 264  js/miniGames.js?v=...           ← 연결 공방
-265  js/mudEngine.js?v=...           ← 트랙 1-B
-266  js/mudInquiry.js?v=...          ← 트랙 1-B
-267  js/mudSimulators.js?v=...       ← 트랙 1-B
+265  js/mudEngine.js?v=...           ← 조작대
+266  js/mudInquiry.js?v=...          ← 조작대
+267  js/mudSimulators.js?v=...       ← 조작대
 268  js/app.js?v=...                 ← 공유(사전 협의)
 ```
 
-## 미배정 — 트랙 1-B (UI/UX)
+## 관문 설계실 ↔ 조작대 조율
 
-`inquiry-task` 화면은 세로로 긴 폼이고, 아이패드 가로에서 제출 버튼이 보이지 않는다. Canvas와 DOM 버튼이 이중화되어 지도가 장식이 됐고, 진행도 게이지가 0%에 고정된다. 이 작업에는 아직 담당 창이 없다.
+두 창은 파일이 겹치지 않지만 같은 화면을 공유한다.
 
-관문 설계실이 전환하는 3편은 **현재 UI 위에서 동작**하므로 1-B 없이도 진행할 수 있다. 다만 1-B가 늦어질수록 나중에 다시 손대야 할 편수가 늘어난다.
+- 설계실이 전환하는 3편은 **현재 UI 위에서 동작**하므로 조작대를 기다릴 필요가 없다.
+- 조작대는 **`data/mud/*.json`을 절대 수정하지 않는다.** 데이터 구조가 부족하면 고치지 말고 설계실에 넘긴다.
+- 설계실은 **`js/mud*.js`를 절대 수정하지 않는다.** 새 문법이 필요하면 설계 문서만 남기고 조작대가 구현한다.
+- 조작대가 상호작용 모델 자체를 바꾸는 변경(단계 진행형 전환, Canvas 역할 정리)을 할 때는 **사용자 확인을 먼저 받는다.** 설계실이 만든 편의 전제가 흔들릴 수 있다.
+
+현재 미배정 작업은 없다.
 
 ## 시작 전 필수 정리
 
