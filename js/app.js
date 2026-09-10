@@ -92,6 +92,22 @@ function switchUnitTab(unitId) {
   renderCurriculum(unitId);
 }
 
+// 확장 역사 활동: 타임머신 스토리 / 역사 미니게임 토글 전환
+function switchExpandedActivityTab(tab) {
+  if (window.sounds) window.sounds.playClick();
+
+  const storyPanel = document.getElementById('activity-panel-story');
+  const minigamePanel = document.getElementById('activity-panel-minigame');
+  const storyTab = document.getElementById('activity-tab-story');
+  const minigameTab = document.getElementById('activity-tab-minigame');
+
+  const showStory = tab === 'story';
+  if (storyPanel) storyPanel.style.display = showStory ? '' : 'none';
+  if (minigamePanel) minigamePanel.style.display = showStory ? 'none' : '';
+  if (storyTab) storyTab.classList.toggle('active', showStory);
+  if (minigameTab) minigameTab.classList.toggle('active', !showStory);
+}
+
 // 커리큘럼 카드 렌더링
 function renderCurriculum(unitId) {
   const container = document.getElementById('curriculum-container');
