@@ -199,7 +199,7 @@ class MiniGameEngine {
     if (!container) return;
 
     container.innerHTML = `
-      <div style="max-width: 640px; margin: 0 auto; background: #1F1B19; border: 1px solid #5A4E46; border-radius: 16px; padding: 20px;">
+      <div style="max-width: 820px; margin: 0 auto; background: #1F1B19; border: 1px solid #5A4E46; border-radius: 16px; padding: 20px;">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #3D352E;">
           <div>
             <span style="font-size: 0.72rem; font-weight: 700; padding: 3px 10px; background: rgba(183, 121, 31, 0.2); color: #F0C987; border-radius: 999px;">스테이지 ${stage.stage}</span>
@@ -210,8 +210,8 @@ class MiniGameEngine {
 
         <p style="color: #C5BCB3; font-size: 0.8rem; margin-bottom: 16px;">${stage.description}</p>
 
-        <!-- 정렬 리스트 -->
-        <div id="timeline-list" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+        <!-- 정렬 리스트: 가로 화면에서 세로 스크롤을 줄이기 위해 2열 그리드로 배치 -->
+        <div id="timeline-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; margin-bottom: 16px;">
           ${this.currentTimelineEvents
             .map(
               (evt, idx) => {
@@ -327,7 +327,7 @@ class MiniGameEngine {
     if (!container) return;
 
     container.innerHTML = `
-      <div style="max-width: 640px; margin: 0 auto; background: #1F1B19; border: 1px solid #5A4E46; border-radius: 16px; padding: 20px;">
+      <div style="max-width: 820px; margin: 0 auto; background: #1F1B19; border: 1px solid #5A4E46; border-radius: 16px; padding: 20px;">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #3D352E;">
           <div>
             <span style="font-size: 0.72rem; font-weight: 700; padding: 3px 10px; background: rgba(183, 121, 31, 0.2); color: #F0C987; border-radius: 999px;">스테이지 ${stage.stage}</span>
@@ -338,8 +338,8 @@ class MiniGameEngine {
 
         <p style="color: #C5BCB3; font-size: 0.8rem; margin-bottom: 16px;">${stage.description}</p>
 
-        <!-- 정렬 리스트 -->
-        <div id="cause-effect-list" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+        <!-- 정렬 리스트: 가로 화면에서 세로 스크롤을 줄이기 위해 2열 그리드로 배치 -->
+        <div id="cause-effect-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; margin-bottom: 16px;">
           ${this.currentCauseEffectEvents
             .map(
               (evt, idx) => {

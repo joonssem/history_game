@@ -1,6 +1,6 @@
 # Codex 핸드오프 — `deep_three_kingdoms.json` 처리 + Deep-dive 재설계 관련 PRD/DECISIONS 결정
 
-상태: `ready-for-codex`
+상태: `ready-for-codex` (§1-0·§2 3건은 2026-09-09 Codex가 `fix/deep-three-choice-bias`에서 처리 완료, `9ef85ae`·`4220cd0`로 main에 병합됨 — §5 참고)
 작성: Claude (Sonnet), 사용자 확인 후 작성 요청
 관련: [`docs/plans/implementation_plan_deep_dive_redesign.md`](../plans/implementation_plan_deep_dive_redesign.md), [`docs/handoff/deep_dive_competition_task.md`](deep_dive_competition_task.md), [`docs/handoff/claude_deep_dive_session_continuation.md`](claude_deep_dive_session_continuation.md)
 
@@ -58,3 +58,18 @@
 
 - `deep_three_kingdoms.json`을 지금 당장 고치라는 요구는 아니다 — Codex의 우선순위 판단에 맡긴다.
 - Claude가 `deep_prehistoric`에서 쓴 패턴을 그대로 따르라는 것도 아니다 — 참고 자료일 뿐, Codex가 다른 접근을 택해도 무방하다.
+
+## 5. 처리 결과 (2026-09-09, Codex)
+
+§1-0·§2의 3건 모두 Codex가 `fix/deep-three-choice-bias` 브랜치에서 처리했다: 선택지 길이 편향 2건 수정(`9ef85ae`), D-024·D-025·D-026 채택 + PRD.md 개정(`4220cd0`). Claude가 두 커밋을 diff로 직접 확인한 뒤 `feat/cooperative-group-preview`를 거쳐 `main`(`ee77e94`)에 병합·배포까지 완료했다.
+
+## 6. `codex-deep-three-kingdoms` 브랜치 — 삭제하지 말 것 (정정)
+
+처음엔 이 브랜치(마지막 커밋 2026-09-04, `a4d1f75`)가 완전히 폐기된 것으로 보여 정리를 제안하려 했다. `data/mud/deep_three_kingdoms.json`만 보면 실제로 옛날 버전(§5의 `9ef85ae` 이전 상태)이라 그 파일 기준으로는 맞는 판단이었다.
+
+**하지만 `git log codex-deep-three-kingdoms ^main`으로 직접 확인한 결과, 이 브랜치에는 `deep_three_kingdoms.json`과 무관한 실제 협동 MUD 기능 2건이 main에 반영되지 않은 채 남아 있었다**:
+
+- `67e53db` (2026-09-04): 고조선 협동 MUD(`cooperative-mud/gojoseon-law/`)에 인앱 뒤로가기 네비게이션 추가 — `INBOX.md TASK-20260904-04`(학생 피드백) 대응
+- `c9b1f9f` (2026-09-04): 먼저 끝낸 모둠을 위한 선택적 "추가로 해볼 것" 섹션 추가 — `INBOX.md TASK-20260904-05`(학생 피드백) 대응
+
+두 커밋 모두 `main`의 현재 `cooperative-mud/gojoseon-law/app.js`에 해당 문자열이 없음을 grep으로 확인했다 — 실제로 반영 안 된 콘텐츠다. **이 브랜치는 지우지 말고, 이 두 커밋을 main에 반영할지부터 판단해야 한다.** (Deep-dive 작업과 무관한 브랜치라 이 문서 범위 밖일 수 있다 — Codex가 이 두 기능의 배경을 더 잘 알 테니 처리 여부를 판단해달라.)
