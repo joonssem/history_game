@@ -49,6 +49,19 @@ class MiniGameEngine {
     }
   }
 
+  // 2026-09-10: 4개 미니게임이 각자 독립된 컨테이너(#card-game-container 등)에
+  // 렌더링되는데, 하나를 시작해도 다른 게임의 결과물이 DOM에 그대로 남아
+  // 있었다 — 토글로 게임을 바꿔도 이전 게임판이 그 위/아래에 계속 쌓여
+  // "확장 역사 활동" 영역이 불필요하게 길어지는 원인이었다. 새 게임을
+  // 시작할 때마다 4개 컨테이너를 모두 비운 뒤 자신을 채우도록 한다.
+  clearMiniGameContainers() {
+    ['card-game-stats', 'card-game-container', 'timeline-game-container', 'cause-effect-game-container', 'detective-game-container']
+      .forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = '';
+      });
+  }
+
   // ==========================================
   // 1. 유물 카드 짝맞추기 게임 (Memory Match)
   // 2026-09-10: 예전엔 artifacts.json의 앞 6개를 고정으로 보여줘서(해금 여부
@@ -62,6 +75,7 @@ class MiniGameEngine {
   // ==========================================
   startCardGame() {
     if (window.sounds) window.sounds.playClick();
+    this.clearMiniGameContainers();
     this.matchedPairs = 0;
     this.cardMoves = 0;
     this.flippedCards = [];
@@ -206,6 +220,7 @@ class MiniGameEngine {
   // ==========================================
   startTimelineGame(stageIndex = 0) {
     if (window.sounds) window.sounds.playClick();
+    this.clearMiniGameContainers();
     this.currentStageIdx = stageIndex;
     const stage = this.timelineStages[stageIndex] || this.timelineStages[0];
     
@@ -334,6 +349,7 @@ class MiniGameEngine {
   // ==========================================
   startCauseEffectGame(stageIndex = 0) {
     if (window.sounds) window.sounds.playClick();
+    this.clearMiniGameContainers();
     this.currentCauseEffectStageIdx = stageIndex;
     const stage = this.causeEffectChains[stageIndex] || this.causeEffectChains[0];
 
@@ -467,6 +483,7 @@ class MiniGameEngine {
   // ==========================================
   startDetectiveGame() {
     if (window.sounds) window.sounds.playClick();
+    this.clearMiniGameContainers();
     const container = document.getElementById('detective-game-container');
     if (!container) return;
 

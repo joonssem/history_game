@@ -356,3 +356,9 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
   - `checkCardMatch()`의 `unlockArtifact()` 호출 제거 — 카드 풀이 이미 해금된 유물로만 구성되어 항상 no-op이었다.
 - **검증**: 해금 0/3/10개 시나리오를 브라우저에서 직접 실행 — 0개는 안내 문구 표시, 3개는 3쌍(6장), 10개는 6쌍(12장)으로 상한, 완주 시 완료 화면까지 정상 동작. 카드에 노출된 이름이 전부 해금 목록에 포함됨을 확인(스포일러 없음). `node --check`, `06_validate_static_assets.py`, 콘솔 에러 0건.
 - **다음**: P2(연표 개인화 — 설계 문서 우선 제안), P3(스토리 위치 재정의 문서화) 순서로 진행 예정.
+
+### 2026-09-10 「연결 공방」(activity-loop) Track 3 — 회귀 발견 및 수정: 미니게임 전환 시 이전 결과 잔존
+
+- **문제 발견 경위**: 4트랙 지시서(`claude_track3_activity_loop_instruction.md`) §6 완료 판정 "토글로 활동을 전환해도 이전 활동의 결과가 남아 있지 않다"를 iPad 가로(1180×820)·세로(820×1180) 뷰포트 실측 중 직접 확인하다가 발견. 4개 미니게임(`card-game-container`/`timeline-game-container`/`cause-effect-game-container`/`detective-game-container`)이 각자 독립된 `<div>`에 렌더링되는데, 하나를 시작해도 이전에 플레이한 다른 게임의 결과물이 DOM에서 지워지지 않고 계속 쌓여 "확장 역사 활동" 영역이 불필요하게 길어지고 있었다.
+- **수정**: `js/miniGames.js`에 `clearMiniGameContainers()`를 추가해 4개 컨테이너(+ `card-game-stats`)를 모두 비우고, 4개 `start*Game()` 진입점 각각의 첫 줄에서 호출하도록 했다.
+- **검증**: 로컬 서버에서 카드→원인결과→연표→탐정 순으로 전환하며 매번 4개 컨테이너의 `innerHTML.length`를 측정 — 항상 방금 시작한 게임 하나만 내용이 있고 나머지 3개는 0임을 확인. 콘솔 에러 0건. iPad 가로(1180×820)에서 확장 활동 섹션 높이 1231px(카드 게임), 세로(820×1180)에서 697px로 뷰포트 대비 과도하지 않음.
