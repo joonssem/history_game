@@ -25,8 +25,8 @@ Codex는 별도로 실시간 협동 MUD 시스템을 구축 중이며 위 네 �
 | `js/mudInquiry.js`, `js/mudEngine.js`, `js/mudSimulators.js` | 조작대 |
 | `data/artifactComparisons.json`, `js/artifactComparison.js`, `js/encyclopedia.js` | 대조실 |
 | `js/miniGames.js`, `js/storyEngine.js`, `data/causeEffectChains.json`, `data/timeline.json`, `data/stories*.json` | 연결 공방 |
-| `index.html` 「확장 역사 활동」 section (69~97) | 연결 공방 |
-| `index.html` `#view-myeongnyang` 블록 (105~) | 조작대 |
+| `index.html` 「확장 역사 활동」 section (69~104) | 연결 공방 |
+| `index.html` `#view-myeongnyang` 블록 (111~) | 조작대 |
 | `index.html` 캐시버스터 줄 | 각 창이 **자기 파일 줄만** |
 | `css/style.css` | 공유 — **추가만**, 기존 규칙 수정 금지 |
 | `BACKLOG.md`, `DECISIONS.md`, `EXPERIMENTS.md` | 공유 — **말미에 추가만**, 기존 항목 수정 금지 |
@@ -34,13 +34,13 @@ Codex는 별도로 실시간 협동 MUD 시스템을 구축 중이며 위 네 �
 `index.html`의 캐시버스터는 파일별로 분리되어 있어 서로 다른 줄을 만지면 충돌하지 않는다.
 
 ```
-260  js/encyclopedia.js?v=...        ← 대조실
-261  js/artifactComparison.js?v=...  ← 대조실
-264  js/miniGames.js?v=...           ← 연결 공방
-265  js/mudEngine.js?v=...           ← 조작대
-266  js/mudInquiry.js?v=...          ← 조작대
-267  js/mudSimulators.js?v=...       ← 조작대
-268  js/app.js?v=...                 ← 공유(사전 협의)
+266  js/encyclopedia.js?v=...        ← 대조실
+267  js/artifactComparison.js?v=...  ← 대조실
+270  js/miniGames.js?v=...           ← 연결 공방
+271  js/mudEngine.js?v=...           ← 조작대
+272  js/mudInquiry.js?v=...          ← 조작대
+273  js/mudSimulators.js?v=...       ← 조작대
+274  js/app.js?v=...                 ← 공유(사전 협의)
 ```
 
 ## 관문 설계실 ↔ 조작대 조율
@@ -54,9 +54,11 @@ Codex는 별도로 실시간 협동 MUD 시스템을 구축 중이며 위 네 �
 
 현재 미배정 작업은 없다.
 
-## 시작 전 필수 정리
+## 시작 전 정리 — 완료됨
 
-`feat/cooperative-group-preview`에 확장 역사 활동 작업 2개(`76f7cde`, `2108f0f`)가 main에 반영되지 않은 채 남아 있다. **연결 공방이 첫 작업으로 정리**한다. 이것이 끝나기 전에 다른 창이 `index.html`이나 `css/style.css`를 만지면 충돌한다.
+`feat/cooperative-group-preview`의 확장 역사 활동 작업 3개(`76f7cde`, `2108f0f`, `9be09eb`)는 2026-09-10 `b18d658`로 main에 병합됐다. 확장 활동 토글 스위치(`.activity-toggle`)가 main에 정착해 있으므로, 네 창은 **지금 바로 동시에 시작할 수 있다.**
+
+이 문서의 줄 번호는 `b18d658` 병합 이후 기준이다.
 
 ## 공통 원칙
 

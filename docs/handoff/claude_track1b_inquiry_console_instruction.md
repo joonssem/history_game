@@ -15,15 +15,15 @@
 **소유(단독 수정 가능)**
 - `js/mudInquiry.js`
 - `js/mudEngine.js`, `js/mudSimulators.js`
-- `index.html`의 `#view-myeongnyang` 블록 내부 (105번 줄부터)
-- `index.html` 265~267번 줄 캐시버스터 (`mudEngine` / `mudInquiry` / `mudSimulators`)
+- `index.html`의 `#view-myeongnyang` 블록 내부 (111번 줄부터)
+- `index.html` 271~273번 줄 캐시버스터 (`mudEngine` / `mudInquiry` / `mudSimulators`)
 
 **조건부**
 - `css/style.css` — `.inquiry-*` 계열만 수정한다. 다른 선택자는 **추가만** 하고 기존 규칙을 고치지 않는다. 이 파일은 세 창이 공유한다.
 
 **읽기만 (수정 금지)**
 - `data/mud/*.json` — **관문 설계실 소유.** 데이터 스키마를 바꾸지 않는다.
-- `index.html`의 「확장 역사 활동」 `<section>`(69~97번 줄 부근) — **연결 공방 소유**
+- `index.html`의 「확장 역사 활동」 `<section>`(69~104번 줄) — **연결 공방 소유**
 - `js/miniGames.js`, `js/artifactComparison.js`, `js/encyclopedia.js`
 
 ## 1. 왜 이 트랙이 급한가
@@ -38,7 +38,7 @@ Opus 세션이 운영 사이트와 로컬에서 4관문을 끝까지 플레이�
 
 관문을 넘어가도 상단 "진행도: 0%"가 그대로다.
 
-원인: `js/mudSimulators.js:93`에서 `interaction === 'inquiry-task'`가 조기 분기해, 게이지를 갱신하는 코드(`js/mudSimulators.js:118-124` 등)에 도달하지 않는다. `#gauge-progress`와 `#gauge-bar`(`index.html:177`, `:180`)는 여전히 화면에 남아 있으므로, **학생에게는 "아무 진전이 없다"로 읽힌다.**
+원인: `js/mudSimulators.js:93`에서 `interaction === 'inquiry-task'`가 조기 분기해, 게이지를 갱신하는 코드(`js/mudSimulators.js:118-124` 등)에 도달하지 않는다. `#gauge-progress`와 `#gauge-bar`(`index.html:183`, `:186`)는 여전히 화면에 남아 있으므로, **학생에게는 "아무 진전이 없다"로 읽힌다.**
 
 두 가지 선택지가 있다. 판단하고 이유를 기록한다.
 - (a) `validated-state` 완료 시 게이지를 갱신한다 — 관문 통과가 곧 진행이므로 자연스럽다
@@ -59,7 +59,7 @@ Opus 세션이 운영 사이트와 로컬에서 4관문을 끝까지 플레이�
 
 섹션 1/2/3이 세로로 모두 펼쳐지고 "판단 확인" 버튼이 맨 아래에 있다. 1180×820에서는 1번 섹션만 보이고 제출 버튼이 화면 밖이다.
 
-같은 문제가 이 프로젝트에서 반복해서 나왔다 — `76f7cde`, `2108f0f`가 확장 활동 영역에서 같은 증상을 고쳤다. 그쪽 해법(토글 전환, 가로 배치)을 참고하되, 이 트랙은 탐구 화면에 맞는 방식을 쓴다. 제출 버튼 하단 고정(sticky)이 가장 작은 변경이다.
+같은 문제가 이 프로젝트에서 반복해서 나왔다 — `76f7cde`, `2108f0f`가 확장 활동 영역에서 같은 증상을 고쳤고 `b18d658`로 main에 들어와 있다. 그쪽 해법(`.activity-toggle` 탭 전환, 가로 배치 — `index.html:77`, `css/style.css:585`)을 참고하되, 이 트랙은 탐구 화면에 맞는 방식을 쓴다. 제출 버튼 하단 고정(sticky)이 가장 작은 변경이다.
 
 ### [P1] 근거 인벤토리가 텍스트 한 줄뿐이다
 
@@ -85,7 +85,7 @@ Opus 세션이 운영 사이트와 로컬에서 4관문을 끝까지 플레이�
 
 1. **3단 잠금** — `commit-revise`의 최종 판단 선택지는 `requiredEvidenceIds`를 **모두** 열기 전까지 `disabled`다. 1개만 열면 여전히 잠긴다. 자료를 읽지 않고 정답을 찍는 경로가 DOM 레벨에서 막혀 있다.
 2. **접근성 속성** — `aria-pressed`, `role="group"`, `role="status"`, `aria-live="polite"`가 이미 쓰이고 있다.
-3. **오답 시 포커스 이동** — `setFeedback(message, { focus: true })`(`js/mudInquiry.js:323`, `:455`)가 피드백으로 포커스를 옮긴다.
+3. **오답 시 포커스 이동** — `setFeedback(message, { focus: true })`(`js/mudInquiry.js:323`, `:455-457`)가 피드백으로 포커스를 옮긴다.
 4. **반복 오답 힌트** — `repeatHint()`가 정답을 노출하지 않고 질문 형태로 안내한다.
 5. **완료 후 전체 잠금** — 정답 제출 시 패널의 모든 버튼이 `disabled`가 되고 다음 버튼만 열린다.
 6. **셔플** — `shuffleForTask()`는 섞은 결과가 우연히 정답 순서가 되면 한 칸 회전시킨다.
@@ -160,7 +160,7 @@ cd .worktrees/claude-inquiry-console
 cat docs/handoff/claude_track1b_inquiry_console_instruction.md
 cat js/mudInquiry.js
 sed -n '85,130p' js/mudSimulators.js
-sed -n '155,185p' index.html
+sed -n '160,190p' index.html
 sed -n '295,430p' css/style.css
 ```
 

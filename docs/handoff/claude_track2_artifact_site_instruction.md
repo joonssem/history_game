@@ -17,7 +17,7 @@
 - `TEACHING_artifact_comparison.md`
 
 **조건부**
-- `index.html` — **자기 파일의 캐시버스터 줄만** 수정한다. 현재 261번 줄 `js/artifactComparison.js?v=20260910-sitelinks1`, 260번 줄 `js/encyclopedia.js?v=20260909-detective1`. 다른 줄은 건드리지 않는다.
+- `index.html` — **자기 파일의 캐시버스터 줄만** 수정한다. 현재 267번 줄 `js/artifactComparison.js?v=20260910-sitelinks1`, 266번 줄 `js/encyclopedia.js?v=20260909-detective1`. 다른 줄은 건드리지 않는다.
 - `css/style.css` — 이 활동 전용 클래스만 추가한다. 기존 규칙을 수정하지 않는다.
 
 **읽기만 (수정 금지)**
