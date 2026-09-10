@@ -267,6 +267,8 @@ class EncyclopediaManager {
     html += `
       </div>
 
+      ${window.ArtifactComparisonEngine ? window.ArtifactComparisonEngine.encyclopediaEntryHtml() : ''}
+
       <!-- 상세 모달 컨테이너 (동적 주입용) -->
       <div id="art-detail-modal-box"></div>
     `;

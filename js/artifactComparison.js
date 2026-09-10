@@ -93,6 +93,66 @@ const ArtifactComparisonEngine = {
     `;
   },
 
+  // 2026-09-10 추가(트랙 2 · 대조실 P1): 도감에서 학생이 직접 시작할 수
+  // 있는 진입점용. MUD 클리어 직후 제안(getEligibleComparison)과 달리
+  // "방금 끝낸 MUD의 시대"라는 맥락이 없으므로 시대 필터를 걸지 않고,
+  // 아직 안 본 것 중 마커 조건을 만족하는 비교를 전부 돌려준다(선택은
+  // 학생 몫). seenArtifactComparisons 상태는 MUD 경로와 완전히 공유한다
+  // — 별도 상태를 만들지 않는다.
+  getAllEligibleComparisons() {
+    if (!window.encyclopedia || !this.comparisons.length) return [];
+    const unlocked = window.encyclopedia.data.unlockedArtifacts;
+    if (unlocked.length < 2) return [];
+    return this.comparisons.filter(cmp => {
+      if (window.encyclopedia.hasSeenArtifactComparison(cmp.id)) return false;
+      const required = cmp.requiredArtifactNames;
+      if (required && required.length > 0) {
+        return required.some(name => unlocked.includes(name));
+      }
+      return unlocked.length >= (cmp.unlockThreshold || 2);
+    });
+  },
+
+  // 도감 화면(encyclopedia.js `renderEncyclopedia`)에 삽입할 "대조실 입장"
+  // 섹션 HTML. 시작할 수 있는 게 하나도 없으면 빈 문자열(섹션 자체를 숨김).
+  encyclopediaEntryHtml() {
+    const list = this.getAllEligibleComparisons();
+    if (!list.length) return '';
+    const typeLabel = { artifact_vs_artifact: '유물 vs 유물', site_vs_site: '유적 vs 유적', artifact_vs_site: '유물 ↔ 유적' };
+    const cardsHtml = list.map(cmp => `
+      <div style="background:#1E1B1A; border:1px solid #443C37; border-radius:10px; padding:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+        <div>
+          <span style="font-size:0.68rem; font-weight:700; color:${this.themeColor}; background:${this.themeColor}22; padding:2px 8px; border-radius:10px;">${typeLabel[cmp.pairType] || typeLabel.artifact_vs_artifact}</span>
+          <div style="font-size:0.92rem; font-weight:700; color:#F7E7CE; margin-top:4px;">${cmp.artifactA.icon} ${cmp.title} ${cmp.artifactB.icon}</div>
+        </div>
+        <button onclick="ArtifactComparisonEngine.startFromEncyclopedia('${cmp.id}')" class="btn" style="width:auto; background:${this.themeColor}; font-size:0.82rem; padding:8px 14px;">
+          시작하기
+        </button>
+      </div>
+    `).join('');
+    return `
+      <h4 style="font-family: 'SchoolSafetyNotification', sans-serif; font-size: 1.15rem; color: var(--text-main); margin: 24px 0 10px;">
+        🏛️ 대조실 — 지금 바로 비교해 보기
+      </h4>
+      <p style="font-size:0.8rem; color:#887E75; margin: 0 0 10px;">모은 유물·유적 중 아직 안 해 본 대조가 ${list.length}개 있어요. 원할 때 바로 시작할 수 있습니다.</p>
+      <div style="margin-bottom: 20px;">${cardsHtml}</div>
+    `;
+  },
+
+  // 도감 모달 안 "시작하기" 버튼용. 모달을 닫고 MUD 시뮬레이터 뷰로 전환한
+  // 뒤(그 뷰의 mn-story-content/mn-choices-grid를 그대로 재사용) 활동을
+  // 시작한다. MudEngine.currentMudData는 건드리지 않는다 — 결과 화면의
+  // "돌아가기"는 showPortalView()만 호출하므로 의존성이 없다.
+  startFromEncyclopedia(comparisonId) {
+    if (typeof closeEncyclopediaModal === 'function') closeEncyclopediaModal();
+    const portal = document.getElementById('view-portal');
+    const sim = document.getElementById('view-myeongnyang');
+    if (portal) portal.style.display = 'none';
+    if (sim) sim.style.display = 'block';
+    this.start(comparisonId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+
   skip(comparisonId) {
     if (window.encyclopedia) window.encyclopedia.markArtifactComparisonSeen(comparisonId);
     // 건너뛰기 버튼은 최종 회고 화면 안에 있으므로 화면은 그대로 둔다.
@@ -124,6 +184,30 @@ const ArtifactComparisonEngine = {
         </div>
         ${bodyHtml}
       </div>
+    `;
+  },
+
+  // 2026-09-10 추가(트랙 2 · 대조실): artifactA/artifactB가 유물이 아니라
+  // "유적 그 자체"를 비교 대상으로 삼을 때는 kind: 'site'를 갖는다(museumId/
+  // museumUrl 필드는 그대로 재사용하되 국가유산포털 사적번호·링크를 담는다).
+  // 출처 표기 문구만 유물/유적에 맞게 갈라 준다 — 기존 9개(kind 없음)는
+  // 그대로 "국립중앙박물관 소장품 · 실물 보기"로 표시된다.
+  sourceEntryMeta(art) {
+    if (art.kind === 'site') {
+      return { label: '국가유산청 국가유산포털', linkText: '유적 보기' };
+    }
+    return { label: '국립중앙박물관 소장품', linkText: '실물 보기' };
+  },
+
+  sourceLineHtml(cmp) {
+    const a = this.sourceEntryMeta(cmp.artifactA);
+    const b = this.sourceEntryMeta(cmp.artifactB);
+    return `
+      <p style="font-size: 0.75rem; color: #9CA3AF; margin: 10px 0 14px;">
+        출처: ${a.label} 「${cmp.artifactA.name}」(${cmp.artifactA.museumId}), ${b.label} 「${cmp.artifactB.name}」(${cmp.artifactB.museumId}) ·
+        <a href="${cmp.artifactA.museumUrl}" target="_blank" rel="noopener">${a.linkText} A</a> ·
+        <a href="${cmp.artifactB.museumUrl}" target="_blank" rel="noopener">${b.linkText} B</a>
+      </p>
     `;
   },
 
@@ -318,11 +402,7 @@ const ArtifactComparisonEngine = {
           네 생각은 ${studentSummary}
         </p>
         ${toneBoxHtml}
-        <p style="font-size: 0.75rem; color: #9CA3AF; margin: 10px 0 14px;">
-          출처: 국립중앙박물관 소장품 「${cmp.artifactA.name}」(${cmp.artifactA.museumId}), 「${cmp.artifactB.name}」(${cmp.artifactB.museumId}) ·
-          <a href="${cmp.artifactA.museumUrl}" target="_blank" rel="noopener">실물 보기 A</a> ·
-          <a href="${cmp.artifactB.museumUrl}" target="_blank" rel="noopener">실물 보기 B</a>
-        </p>
+        ${this.sourceLineHtml(cmp)}
         ${this.siteLinksHtml(cmp)}
         <button onclick="ArtifactComparisonEngine.finish()" class="btn secondary" style="width:100%; padding: 10px;">
           <i class="fas fa-arrow-left"></i> 전체 탐구 진도표로 돌아가기
