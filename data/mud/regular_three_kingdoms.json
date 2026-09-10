@@ -91,9 +91,8 @@
       "simulator": {
         "mode": "battle-gauge",
         "scene": "three-kingdoms-baekje",
-        "interaction": "ordered-hotspot",
-        "sequence": ["han-river", "west-sea-route", "baekje-territory"],
         "type": "info",
+        "interaction": "inquiry-task",
         "hotspots": [
           {
             "id": "han-river",
@@ -117,17 +116,39 @@
             "feedback": "한강을 중심으로 백제의 세력이 성장했습니다."
           }
         ],
+        "task": {
+          "type": "map-evidence",
+          "prompt": "백제가 4세기 전성기를 이룬 핵심 장소와 그 근거의 의미, 자료의 범위를 연결하세요.",
+          "locations": [
+            { "id": "han-river", "label": "한강 유역", "detail": "농사가 잘되고 물길로 이동하기 좋은 핵심 거점", "correct": true, "feedback": "한강 유역은 백제가 4세기 전성기를 이루는 데 가장 직접적인 근거가 되는 곳입니다." },
+            { "id": "west-sea-route", "label": "서해 교역로", "detail": "중국·가야·왜와의 교류 통로", "correct": false, "feedback": "서해 교역로는 중요한 교류 통로이지만, 백제 전성기를 뒷받침하는 핵심 장소는 한강 유역입니다." },
+            { "id": "baekje-territory", "label": "백제 영토", "detail": "백제의 세력이 성장한 범위", "correct": false, "feedback": "백제 영토 전체는 전성기의 결과로 나타난 범위이지, 전성기를 이루게 한 핵심 장소 자체는 아닙니다." }
+          ],
+          "supports": [
+            { "id": "chiljido-record", "label": "칠지도를 만들어 왜에 보냈다는 기록", "correct": true, "feedback": "칠지도는 백제의 제철 기술과 대외 교류를 직접 보여주는 자료입니다." },
+            { "id": "territory-only-claim", "label": "백제 영토가 넓었다는 사실만으로 전성기의 근거가 충분하다", "correct": false, "feedback": "영토의 크기만으로는 무역·기술 교류까지 보여주지 못합니다." }
+          ],
+          "limits": [
+            { "id": "han-river-only-scope", "label": "한강 유역 자료 하나만으로 백제 전체 지역의 생활을 설명할 수는 없다.", "correct": true, "feedback": "핵심 거점 자료라도 백제 전체를 대표하지는 않습니다." },
+            { "id": "han-river-explains-everything", "label": "한강 유역 자료만 있으면 백제의 모든 시대·모든 지역을 다 설명할 수 있다.", "correct": false, "feedback": "한 지역의 자료로 모든 시대·지역을 단정할 수는 없습니다." }
+          ],
+          "awards": [
+            { "id": "baekje-han-river-network", "label": "백제의 한강 유역 근거지", "detail": "농경과 수운의 이점을 가진 백제 전성기의 핵심 거점이자 교류의 발판", "category": "baekje", "role": "support" },
+            { "id": "baekje-record-scope", "label": "백제 자료의 범위", "detail": "한강 유역 자료 하나로 백제 전체를 설명할 수 없다는 한계", "category": "source-scope", "role": "limit" }
+          ]
+        },
+        "infoText": "지도에서 장소를 찾은 뒤, 그 장소가 보여주는 근거의 의미와 자료의 범위를 함께 연결하세요.",
+        "instruction": "🗺️ <b>Canvas나 아래 버튼으로 장소를 고르고 근거와 자료 범위를 연결하세요.</b>",
+        "feedback": "장소·근거·자료 범위를 한 묶음으로 선택하세요.",
         "required": true,
         "completion": {
-          "target": 3,
+          "strategy": "validated-state",
+          "target": 1,
           "increment": 1,
-          "minActions": 3,
+          "minActions": 1,
           "progressKey": "simulatorProgress",
-          "successText": "🗺️ 백제의 한강·교역·영토 단서를 모두 확인했습니다."
-        },
-        "infoText": "4세기 백제는 한강 유역의 풍요로움을 바탕으로 삼국 중 가장 먼저 전성기를 이룩했습니다.",
-        "instruction": "🗺️ <b>4세기 백제 전성기 지도 확인</b>",
-        "feedback": "서해 무역로와 영토를 확인하세요!"
+          "successText": "🗺️ 백제 전성기의 핵심 장소와 근거를 연결했습니다."
+        }
       }
     },
     "1-1": {
@@ -187,9 +208,8 @@
       "simulator": {
         "mode": "battle-gauge",
         "scene": "three-kingdoms-goguryeo",
-        "interaction": "ordered-hotspot",
-        "sequence": ["guknae", "pyeongyang", "han-river"],
         "type": "info",
+        "interaction": "inquiry-task",
         "hotspots": [
           {
             "id": "pyeongyang",
@@ -213,17 +233,39 @@
             "feedback": "고구려의 옛 수도로 북방 영토를 다스리던 곳입니다."
           }
         ],
+        "task": {
+          "type": "map-evidence",
+          "prompt": "장수왕의 남진 정책을 보여주는 핵심 장소와 그 의미, 자료의 범위를 연결하세요.",
+          "locations": [
+            { "id": "pyeongyang", "label": "평양성", "detail": "427년 국내성에서 옮긴 새 수도", "correct": true, "feedback": "평양 천도(427년)는 장수왕의 남진 정책을 보여주는 핵심 장소입니다." },
+            { "id": "guknae", "label": "국내성", "detail": "고구려의 옛 수도로 북방 영토를 다스리던 곳", "correct": false, "feedback": "국내성은 남진 정책 이전의 옛 수도로, 남진 정책의 핵심 장소는 아닙니다." },
+            { "id": "han-river", "label": "한강 유역", "detail": "남진 정책의 결과로 차지한 지역", "correct": false, "feedback": "한강 유역은 남진 정책의 결과로 차지한 지역이지, 정책 자체를 보여주는 핵심 장소는 아닙니다." }
+          ],
+          "supports": [
+            { "id": "pyeongyang-relocation-record", "label": "수도를 국내성에서 평양으로 옮겼다는 기록(427년)", "correct": true, "feedback": "천도 기록은 남진 정책의 의지를 직접 보여줍니다." },
+            { "id": "territory-size-only", "label": "고구려의 영토가 가장 넓었다는 사실만으로 남진 정책의 근거가 충분하다", "correct": false, "feedback": "영토 크기만으로는 어떤 방향으로 세력을 확장했는지 보여주지 못합니다." }
+          ],
+          "limits": [
+            { "id": "pyeongyang-limited-scope", "label": "평양 천도 기록 하나만으로 고구려 전체의 대외 정책을 다 설명할 수는 없다.", "correct": true, "feedback": "천도는 중요한 근거이지만 고구려 대외 정책 전체를 대표하지는 않습니다." },
+            { "id": "pyeongyang-explains-everything", "label": "평양 천도 기록만 있으면 고구려의 모든 시대 정책을 다 설명할 수 있다.", "correct": false, "feedback": "한 시기의 기록으로 모든 시대의 정책을 단정할 수는 없습니다." }
+          ],
+          "awards": [
+            { "id": "goguryeo-pyeongyang-policy", "label": "고구려의 평양 천도와 남진 정책", "detail": "국내성에서 평양으로 수도를 옮겨 남진 정책을 본격화한 근거", "category": "goguryeo", "role": "support" },
+            { "id": "goguryeo-record-scope", "label": "고구려 자료의 범위", "detail": "평양 천도 기록 하나로 고구려 전체 정책을 설명할 수 없다는 한계", "category": "source-scope", "role": "limit" }
+          ]
+        },
+        "infoText": "지도에서 장소를 찾은 뒤, 그 장소가 보여주는 근거의 의미와 자료의 범위를 함께 연결하세요.",
+        "instruction": "🗺️ <b>Canvas나 아래 버튼으로 장소를 고르고 근거와 자료 범위를 연결하세요.</b>",
+        "feedback": "장소·근거·자료 범위를 한 묶음으로 선택하세요.",
         "required": true,
         "completion": {
-          "target": 3,
+          "strategy": "validated-state",
+          "target": 1,
           "increment": 1,
-          "minActions": 3,
+          "minActions": 1,
           "progressKey": "simulatorProgress",
-          "successText": "🏹 평양 천도와 남진 정책의 지리적 단서를 모두 확인했습니다."
-        },
-        "infoText": "5세기 고구려는 평양 천도와 남진 정책으로 한강 유역을 차지하며 전성기를 맞았습니다.",
-        "instruction": "🗺️ <b>5세기 고구려 대제국 지도 확인</b>",
-        "feedback": "만주에서 한강까지 이르는 영토를 확인하세요!"
+          "successText": "🏹 남진 정책의 핵심 장소와 근거를 연결했습니다."
+        }
       }
     },
     "2-1": {
@@ -289,9 +331,8 @@
       "simulator": {
         "mode": "battle-gauge",
         "scene": "three-kingdoms-silla",
-        "interaction": "ordered-hotspot",
-        "sequence": ["han-river", "danghangseong", "bukhansan-monument"],
         "type": "info",
+        "interaction": "inquiry-task",
         "hotspots": [
           {
             "id": "bukhansan-monument",
@@ -315,17 +356,39 @@
             "feedback": "서해안의 당항성을 통해 중국과 직접 교류할 수 있었습니다."
           }
         ],
+        "task": {
+          "type": "map-evidence",
+          "prompt": "진흥왕이 한강 유역을 차지했다는 사실을 확인해 주는 기록이 있는 곳과 그 의미, 자료의 범위를 연결하세요.",
+          "locations": [
+            { "id": "bukhansan-monument", "label": "북한산 순수비", "detail": "진흥왕이 순행하고 세운 영토 기념비", "correct": true, "feedback": "북한산 순수비는 진흥왕이 한강 유역을 직접 순행하고 기록을 남긴 확실한 증거입니다." },
+            { "id": "han-river", "label": "한강 유역", "detail": "신라가 새로 차지한 지역", "correct": false, "feedback": "한강 유역은 신라가 차지한 지역이지만, 그 사실을 확인해 주는 기록 자체는 순수비에 있습니다." },
+            { "id": "danghangseong", "label": "당항성", "detail": "중국과의 교류 거점", "correct": false, "feedback": "당항성은 중국과의 교류 거점이지, 영토 확장을 직접 증명하는 기록이 있는 곳은 아닙니다." }
+          ],
+          "supports": [
+            { "id": "bukhansan-inscription", "label": "진흥왕이 세운 비석에 영토와 순행 사실이 새겨져 있다는 기록", "correct": true, "feedback": "비석의 기록은 신라의 영토 확장을 직접 증명하는 자료입니다." },
+            { "id": "alliance-broken-only", "label": "신라가 백제와의 동맹을 깨뜨렸다는 사실만으로 영토 확장의 근거가 충분하다", "correct": false, "feedback": "동맹을 깬 사실만으로는 실제로 어디를 차지했는지 확인할 수 없습니다." }
+          ],
+          "limits": [
+            { "id": "bukhansan-limited-scope", "label": "북한산 순수비 하나만으로 신라가 차지한 모든 지역을 다 확인할 수는 없다.", "correct": true, "feedback": "순수비는 중요한 증거이지만 신라가 차지한 모든 지역을 다 보여주지는 않습니다." },
+            { "id": "bukhansan-explains-everything", "label": "북한산 순수비만 있으면 신라의 삼국 통일 과정을 전부 설명할 수 있다.", "correct": false, "feedback": "비석 하나로 삼국 통일까지 이어지는 전체 과정을 다 설명할 수는 없습니다." }
+          ],
+          "awards": [
+            { "id": "silla-bukhansan-record", "label": "신라의 북한산 순수비 기록", "detail": "진흥왕이 한강 유역을 순행하고 영토를 확인한 비석 기록", "category": "silla", "role": "support" },
+            { "id": "silla-record-scope", "label": "신라 자료의 범위", "detail": "순수비 하나로 신라가 차지한 모든 지역을 확인할 수 없다는 한계", "category": "source-scope", "role": "limit" }
+          ]
+        },
+        "infoText": "지도에서 장소를 찾은 뒤, 그 장소가 보여주는 근거의 의미와 자료의 범위를 함께 연결하세요.",
+        "instruction": "⛰️ <b>Canvas나 아래 버튼으로 장소를 고르고 근거와 자료 범위를 연결하세요.</b>",
+        "feedback": "장소·근거·자료 범위를 한 묶음으로 선택하세요.",
         "required": true,
         "completion": {
-          "target": 3,
+          "strategy": "validated-state",
+          "target": 1,
           "increment": 1,
-          "minActions": 3,
+          "minActions": 1,
           "progressKey": "simulatorProgress",
-          "successText": "⛰️ 신라의 영토·교류·기록 단서를 모두 확인했습니다."
-        },
-        "infoText": "6세기 신라는 한강 유역을 차지하여 당항성을 통해 중국과 직접 교류하며 삼국 통일의 기틀을 마련했습니다.",
-        "instruction": "⛰️ <b>6세기 신라 진흥왕 순수비 확인</b>",
-        "feedback": "북한산 순수비의 위치를 확인하세요!"
+          "successText": "⛰️ 신라의 영토 확장을 증명하는 기록과 근거를 연결했습니다."
+        }
       }
     },
     "3-1": {
@@ -374,16 +437,59 @@
         "mode": "battle-gauge",
         "type": "info",
         "scene": "three-kingdoms-summary",
-        "infoText": "한강은 비옥한 토지, 풍부한 수운, 서해 교역로를 갖춘 전략적 요충지였습니다.",
-        "instruction": "🏆 <b>삼국 전성기 탐험 대성공!</b>",
-        "feedback": "국보 도감에서 유물을 확인하세요!",
+        "interaction": "inquiry-task",
+        "task": {
+          "type": "claim-evidence",
+          "prompt": "서로 다른 시대·나라의 근거를 연결해 한강 유역 쟁탈전의 흐름을 설명하세요.",
+          "claims": [
+            {
+              "id": "han-river-changed-hands",
+              "label": "한강 유역은 4~6세기 동안 백제→고구려→신라 순서로 주인이 바뀌었다.",
+              "accepts": ["baekje-han-river-network", "goguryeo-pyeongyang-policy", "silla-bukhansan-record"],
+              "minCategories": 1
+            },
+            {
+              "id": "goguryeo-to-silla-handover",
+              "label": "5세기 고구려가 차지했던 한강 유역을 6세기에는 신라가 차지했다.",
+              "accepts": ["goguryeo-pyeongyang-policy", "silla-bukhansan-record"],
+              "minCategories": 1
+            }
+          ],
+          "allowedEvidenceIds": ["baekje-han-river-network", "goguryeo-pyeongyang-policy", "silla-bukhansan-record"],
+          "minEvidence": 2,
+          "maxEvidence": 3,
+          "limits": [
+            {
+              "id": "connect-multiple-eras",
+              "label": "여러 시대·나라의 서로 다른 기록을 연결해야 한강 쟁탈전의 흐름을 온전히 설명할 수 있다.",
+              "correct": true,
+              "feedback": "시대별 근거를 연결할수록 한강 쟁탈전의 흐름이 더 분명해집니다."
+            },
+            {
+              "id": "one-era-enough",
+              "label": "한 시대의 기록 하나만으로 한강 쟁탈전 전체를 설명할 수 있다.",
+              "correct": false,
+              "feedback": "한 시대의 기록만으로는 이전·이후의 주인 교체까지 설명할 수 없습니다."
+            },
+            {
+              "id": "winner-always-same",
+              "label": "결국 신라가 차지했으므로 한강 유역은 처음부터 신라의 땅이었다고 볼 수 있다.",
+              "correct": false,
+              "feedback": "백제·고구려가 먼저 차지했던 기록이 있으므로 처음부터 신라 땅이었다고 볼 수는 없습니다."
+            }
+          ]
+        },
+        "infoText": "근거의 개수보다 서로 다른 시대·나라의 자료를 연결했는지가 중요합니다.",
+        "instruction": "🏆 <b>주장을 고르고 앞선 관문에서 모은 근거를 연결하세요.</b>",
+        "feedback": "앞에서 모은 근거를 사용해 최종 설명을 완성하세요.",
         "required": true,
         "completion": {
-          "target": 100,
-          "increment": 50,
-          "minActions": 2,
-          "progressKey": "gaugeProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "strategy": "validated-state",
+          "target": 1,
+          "increment": 1,
+          "minActions": 1,
+          "progressKey": "simulatorProgress",
+          "successText": "🏆 시대별 근거를 연결해 한강 쟁탈전의 흐름을 설명했습니다."
         }
       }
     }

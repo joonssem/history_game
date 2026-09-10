@@ -1567,3 +1567,13 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 검증: 지시서 §8 전체(`node --check` 3종, `01/03/04/06/07/08/09_validate·audit_*`, `05_test_simulator_runtime.js`) 통과, `git diff --check` 클린. 격리 워크트리 로컬 정적 서버(다른 세션과 포트 충돌 확인 후 8792 포트 사용)에서 1~4단계 전부 실제 플레이: 오답 제출 시 다음 버튼 비활성 유지·정답 비노출, 정답 제출 시 탐구 패널 컨트롤 전체 비활성화 + 다음 버튼만 활성화, 최종 보상(`art_2` 암사동 빗살무늬 토기) 정상 지급, 콘솔 error/warning 0건을 모두 확인했다.
 - 버그 발견(수정 안 함, 기록만): `js/mudInquiry.js`의 `evaluateSequence()`가 완료 메시지를 JSON의 `completion.successText`가 아니라 고려 문화 2단계 전용 문구로 하드코딩 반환한다. `regular_neolithic` 1~3단계 정답 제출 시 실측으로 확인했다. `js/`는 이 트랙 소유가 아니므로 `BACKLOG.md`에만 기록했다.
 - 문서: `BACKLOG.md`에 "트랙 1-A(관문 설계실) `regular_neolithic` 파일럿 완료" 절 신설.
+
+## 2026-09-10 — 트랙 1-A(관문 설계실) `regular_three_kingdoms` 파일럿 2편
+
+`TASK-20260910-GATE2 | Regular MUD 관문 문법 다양화 2편(삼국 한강 쟁탈전) | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- 지시서 §3 1차 범위 3편 중 2편째. `data/mud/regular_three_kingdoms.json`의 필수 단계 4개를 `map-evidence`(1~3단계, 백제·고구려·신라 각 나라의 핵심 장소·근거·자료 범위 연결)와 `claim-evidence`(4단계, 시대별 근거 종합)로 전환. 기존 3개 hotspot이 각 단계의 `locations`와 정확히 대응해 별도 좌표 재설계 없이 그대로 재사용했다.
+- 범주 설계 자체 점검 사례: 4단계 두 주장의 `minCategories`를 처음 2로 잡았다가, 갱신된 `scripts/04_validate_mud_contract.py`가 "근거 3개가 이미 서로 다른 범주라 아무 2개를 골라도 항상 통과하는 죽은 조건"이라고 자동으로 잡아냈다. 1~3단계 각 나라당 지원 근거가 정확히 1개뿐이라 같은 범주 조합 자체가 존재하지 않는 게 원인이었다 — `minCategories`를 1로 낮추고 `minEvidence`+`accepts` 멤버십으로 "서로 다른 나라 근거를 실제로 골라야 한다"는 요구를 대신 걸었다.
+- D-027 회귀를 4단계에서 직접 재현: 좁은 주장("5세기 고구려→6세기 신라")을 고른 뒤 그 주장의 `accepts`에 없는 백제 근거를 함께 제출 → 정상 거부됨을 확인, 백제 근거를 빼자 정상 완료(역사가 등급)됐다.
+- 검증: 지시서 §8 전체 통과(반복 탭 감사 후보 7개→6개, `regular_three_kingdoms.json:4` 제외됨). `.claude/launch.json`의 `gate-grammar` 설정(포트 8801, 이 워크트리 디렉터리 고정)으로 로컬 서버를 띄워 1~4단계 전부 실제 플레이: 오답 게이트 유지·정답 비노출, 정답 시 컨트롤 전체 비활성화+다음 버튼만 개방, 최종 보상(`art_5` 백제 칠지도, `art_6` 신라 북한산 순수비) 정상 지급, 콘솔 error/warning 0건.
+- 문서: `BACKLOG.md`에 "트랙 1-A(관문 설계실) `regular_three_kingdoms` 파일럿 완료" 절 신설.

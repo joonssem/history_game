@@ -344,3 +344,11 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - 검증: `04_validate_mud_contract.py` 포함 지시서 §8 전체 통과. 로컬 서버(격리 워크트리, 다른 세션과 포트 충돌 확인 후 8792 사용)에서 1~4단계 전부 실제 플레이: 오답 제출 시 다음 버튼 비활성 유지·정답 비노출 확인, 정답 제출 시 탐구 패널 컨트롤 전체 비활성화 + 다음 버튼만 활성화 확인, 최종 보상(`art_2` 암사동 빗살무늬 토기) 정상 지급, 콘솔 에러 0건.
 - **버그 발견(트랙 1-B 소관, 수정하지 않음)**: `js/mudInquiry.js`의 `evaluateSequence()`가 완료 메시지를 `task.completion.successText`가 아니라 하드코딩된 문자열 `"인쇄 절차와 금속활자의 재사용 의미를 연결했습니다."`(고려 문화 2단계 전용 문구)로 고정 반환한다. `regular_neolithic` 1~3단계에서 정답 제출 시 이 문구가 그대로 뜨는 것을 실측으로 확인했다 — 완료 판정 자체는 정확하지만 학생이 보는 성공 메시지가 신석기 내용과 무관하다. `js/`는 이 트랙 소유가 아니므로 수정하지 않고 여기 기록만 남긴다.
 - 다음: `regular_three_kingdoms.json`(`map-evidence`) 착수 전 한 편 완료 원칙에 따라 사용자 확인 대기.
+
+### P1 — 트랙 1-A(관문 설계실) `regular_three_kingdoms` 파일럿 완료 (2026-09-10)
+
+- 작업: §3 1차 범위 2편/3. `regular_three_kingdoms.json`의 필수 단계 1~4를 `map-evidence`(1~3단계, 장소·근거·자료 범위 연결)와 `claim-evidence`(4단계, 시대별 근거 종합)로 전환. 기존 3개 hotspot(장소)이 이미 존재해 `locations`로 그대로 재사용했다.
+- 범주 설계 재검토: 처음에 4단계 두 주장(claim)의 `minCategories`를 2로 설정했으나, `04_validate_mud_contract.py`가 갱신되어 있어 **"근거 3개가 서로 다른 범주 3개라 2개만 골라도 항상 통과하는 죽은 조건"**을 자동으로 잡아냈다(에러: `minCategories=2 can never fail`). 1~3단계 각 나라(백제/고구려/신라)당 지원 근거가 정확히 1개뿐이라 같은 범주 조합 자체가 존재하지 않았던 것이 원인 — `minCategories`를 1로 낮추고, 대신 `minEvidence`(claim2는 2개 고정)와 `accepts` 멤버십 자체로 "서로 다른 나라 근거를 실제로 골라야 한다"는 요구를 걸었다.
+- D-027 회귀를 4단계에서 직접 재현: 좁은 주장("5세기 고구려→6세기 신라")을 고른 뒤 그 주장의 `accepts`에 없는 백제 근거를 함께 선택해 제출 → **"선택한 주장과 직접 연결되지 않는 자료가 있습니다"로 정상 거부**됨을 확인했다. 백제 근거를 빼고 고구려+신라만 남기자 정상 완료(역사가 등급)됐다.
+- 검증: 지시서 §8 전체 통과(반복 탭 회피 감사 후보가 7개→6개로 감소, `regular_three_kingdoms.json:4`가 목록에서 빠짐). 로컬 서버(포트 8801, `.claude/launch.json`의 `gate-grammar` 설정 디렉터리 고정)에서 1~4단계 전부 실제 플레이: 각 단계 오답 제출 시 다음 버튼 비활성 유지·정답 비노출, 정답 제출 시 컨트롤 전체 비활성화 + 다음 버튼만 개방, 최종 보상(`art_5` 백제 칠지도 + `art_6` 신라 북한산 순수비) 정상 지급, 콘솔 error/warning 0건.
+- 다음: `regular_modern_open.json`(`commit-revise`) 착수 전 한 편 완료 원칙에 따라 사용자 확인 대기.
