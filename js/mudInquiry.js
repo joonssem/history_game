@@ -84,13 +84,44 @@ const MudInquiry = {
     button.disabled = Boolean(options.disabled || this.state?.completed);
     if (options.pressed !== undefined) button.setAttribute('aria-pressed', String(options.pressed));
     if (options.label) button.setAttribute('aria-label', options.label);
+    if (options.focusKey) button.dataset.focusKey = options.focusKey;
     if (options.onClick) button.addEventListener('click', options.onClick);
     return button;
+  },
+
+  // 재렌더는 panel.replaceChildren()로 DOM을 통째로 버리므로, 클릭 직전 포커스가 있던
+  // 버튼을 data-focus-key로 식별해 재렌더 후 같은 버튼으로 포커스를 되돌린다.
+  captureFocusKey(panel) {
+    const active = document.activeElement;
+    if (!panel || !active || !panel.contains(active)) return null;
+    return active.dataset.focusKey || null;
+  },
+
+  restoreFocus(panel, focusKey) {
+    if (!panel || !focusKey) return;
+    const tryFocus = key => {
+      const target = panel.querySelector(`[data-focus-key="${CSS.escape(key)}"]`);
+      if (target && !target.disabled) {
+        target.focus({ preventScroll: true });
+        return true;
+      }
+      return false;
+    };
+    if (tryFocus(focusKey)) return;
+    // 순서 카드가 맨 위/아래로 이동해 눌렀던 방향 버튼이 disabled가 되면
+    // 같은 카드의 반대 방향 버튼으로 포커스를 이어 준다(연속 ↑↓ 조작 지원).
+    const seqMatch = focusKey.match(/^seq-(up|down):(.+)$/);
+    if (seqMatch) {
+      const [, direction, cardId] = seqMatch;
+      const altDirection = direction === 'up' ? 'down' : 'up';
+      tryFocus(`seq-${altDirection}:${cardId}`);
+    }
   },
 
   render() {
     const panel = document.getElementById('mn-inquiry-panel');
     if (!panel || !this.task || !this.state) return;
+    const focusKey = this.captureFocusKey(panel);
     panel.replaceChildren();
 
     const heading = this.element('h3', 'inquiry-heading', this.task.prompt || '자료를 살펴보고 판단하세요.');
@@ -106,6 +137,8 @@ const MudInquiry = {
     else if (this.task.type === 'map-evidence') this.renderMapEvidence(panel);
     else if (this.task.type === 'claim-evidence') this.renderClaimEvidence(panel);
     else panel.appendChild(this.element('p', 'inquiry-error', '지원하지 않는 탐구 활동입니다.'));
+
+    this.restoreFocus(panel, focusKey);
   },
 
   renderSection(panel, title) {
@@ -115,7 +148,7 @@ const MudInquiry = {
     return section;
   },
 
-  renderChoiceGroup(section, items, selectedId, onSelect, disabled = false) {
+  renderChoiceGroup(section, items, selectedId, onSelect, disabled = false, groupKey = 'choice') {
     const group = this.element('div', 'inquiry-options');
     group.setAttribute('role', 'group');
     items.forEach(item => {
@@ -124,6 +157,7 @@ const MudInquiry = {
         className: `inquiry-option${selected ? ' is-selected' : ''}`,
         disabled,
         pressed: selected,
+        focusKey: `${groupKey}:${item.id}`,
         onClick: () => onSelect(item)
       });
       group.appendChild(button);
@@ -142,7 +176,7 @@ const MudInquiry = {
       this.state.initialChoice = item.id;
       this.setFeedback('첫 판단을 정했습니다. 이제 자료를 확인하세요.');
       this.render();
-    });
+    }, false, 'initial');
 
     const evidenceSection = this.renderSection(panel, '2. 근거 자료를 확인하세요');
     const evidenceGrid = this.element('div', 'inquiry-evidence-grid');
@@ -152,6 +186,7 @@ const MudInquiry = {
         className: `inquiry-evidence${viewed ? ' is-viewed' : ''}`,
         disabled: !this.state.initialChoice,
         pressed: viewed,
+        focusKey: `evidence:${item.id}`,
         onClick: () => {
           if (!viewed) this.state.viewedEvidence.push(item.id);
           this.state.lastEvidenceId = item.id;
@@ -168,7 +203,7 @@ const MudInquiry = {
     this.renderChoiceGroup(final, options, this.state.finalChoice, item => {
       this.state.finalChoice = item.id;
       this.render();
-    }, !evidenceReady);
+    }, !evidenceReady, 'final');
     final.appendChild(this.submitButton(!evidenceReady || !this.state.finalChoice));
   },
 
@@ -189,12 +224,14 @@ const MudInquiry = {
         className: 'inquiry-move',
         disabled: index === 0,
         label: `${card.label} 카드를 앞으로 이동`,
+        focusKey: `seq-up:${card.id}`,
         onClick: () => this.moveSequenceCard(index, index - 1)
       }));
       controls.appendChild(this.button('↓', {
         className: 'inquiry-move',
         disabled: index === this.state.order.length - 1,
         label: `${card.label} 카드를 뒤로 이동`,
+        focusKey: `seq-down:${card.id}`,
         onClick: () => this.moveSequenceCard(index, index + 1)
       }));
       row.appendChild(controls);
@@ -207,7 +244,7 @@ const MudInquiry = {
     this.renderChoiceGroup(meaningSection, meaning.options || [], this.state.meaningChoice, item => {
       this.state.meaningChoice = item.id;
       this.render();
-    });
+    }, false, 'meaning');
     meaningSection.appendChild(this.submitButton(!this.state.meaningChoice));
   },
 
@@ -223,19 +260,19 @@ const MudInquiry = {
     const locationSection = this.renderSection(panel, '1. 교류 자료와 연결되는 장소를 고르세요');
     this.renderChoiceGroup(locationSection, this.task.locations || [], this.state.locationId, item => {
       this.selectMapLocation(item.id);
-    });
+    }, false, 'location');
 
     const supportSection = this.renderSection(panel, '2. 국제 교류를 뒷받침하는 근거를 고르세요');
     this.renderChoiceGroup(supportSection, this.task.supports || [], this.state.supportId, item => {
       this.state.supportId = item.id;
       this.render();
-    });
+    }, false, 'support');
 
     const limitSection = this.renderSection(panel, '3. 이 자료의 한계를 바르게 말한 문장을 고르세요');
     this.renderChoiceGroup(limitSection, this.task.limits || [], this.state.limitId, item => {
       this.state.limitId = item.id;
       this.render();
-    });
+    }, false, 'map-limit');
     limitSection.appendChild(this.submitButton(!this.state.locationId || !this.state.supportId || !this.state.limitId));
   },
 
@@ -261,7 +298,7 @@ const MudInquiry = {
       this.state.claimId = item.id;
       this.state.selectedEvidence = [];
       this.render();
-    });
+    }, false, 'claim');
 
     const allowed = new Set(this.task.allowedEvidenceIds || []);
     const evidence = (this.engine?.inquiryRunState?.evidence || [])
@@ -276,6 +313,7 @@ const MudInquiry = {
         className: `inquiry-evidence${selected ? ' is-selected' : ''}`,
         disabled: !this.state.claimId || atLimit,
         pressed: selected,
+        focusKey: `evidence:${item.id}`,
         onClick: () => {
           this.state.selectedEvidence = selected
             ? this.state.selectedEvidence.filter(id => id !== item.id)
@@ -290,7 +328,7 @@ const MudInquiry = {
     this.renderChoiceGroup(limitSection, this.task.limits || [], this.state.limitId, item => {
       this.state.limitId = this.state.limitId === item.id ? null : item.id;
       this.render();
-    });
+    }, false, 'claim-limit');
     limitSection.appendChild(this.submitButton(!this.state.claimId || this.state.selectedEvidence.length < Number(this.task.minEvidence || 2)));
   },
 
@@ -298,6 +336,7 @@ const MudInquiry = {
     return this.button(this.state.completed ? '탐구 완료' : '판단 확인', {
       className: 'inquiry-submit',
       disabled,
+      focusKey: 'submit',
       onClick: () => this.submit()
     });
   },
