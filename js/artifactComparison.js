@@ -27,17 +27,39 @@ const ArtifactComparisonEngine = {
     }
   },
 
+  // artifacts.json의 자유 텍스트 "era" 값을 큰 단위(선사~근현대) 묶음으로
+  // 뭉뚱그린다. 2026-09-10: 방금 끝낸 MUD의 시대와 비교 페어의 시대가
+  // 맞는지 판정하는 데 쓴다(getEligibleComparison 참고).
+  getEraGroup(rawEra) {
+    if (!rawEra) return null;
+    if (/구석기|신석기|청동기|고조선|선사/.test(rawEra)) return 'prehistoric_ancient';
+    if (/삼국|통일신라|남북국/.test(rawEra)) return 'three_kingdoms';
+    if (/고려/.test(rawEra)) return 'goryeo';
+    if (/조선/.test(rawEra)) return 'joseon';
+    if (/개항기|일제|현대|근현대/.test(rawEra)) return 'modern';
+    return null;
+  },
+
   // 아직 보지 않았고, 해당 시대를 실제로 다룬 MUD의 보상 유물을 갖고 있는
   // 첫 비교 콘텐츠를 찾는다.
   // 2026-09-09: 예전엔 "해금 유물 총 개수 >= 임계값"만 봤는데, 학생이
   // 차시를 순서대로 하지 않으면(예: 근현대 MUD를 먼저 클리어) 무관한
-  // 시대의 페어가 튀어나오는 문제가 있었다. 이제 requiredArtifactNames에
+  // 시대의 페어가 튀어나오는 문제가 있었다. requiredArtifactNames에
   // 적힌 "그 시대 MUD가 실제로 준 유물"을 갖고 있는지로 직접 판정한다.
-  getEligibleComparison() {
+  // 2026-09-10 추가: 그것만으로는 부족했다 — 도감은 누적이라, 예전에
+  // 삼국시대 MUD를 끝내 유물을 이미 갖고 있으면 그 뒤로 전혀 다른 시대
+  // (예: 3·1 운동, 정부 수립) MUD를 끝낼 때마다 계속 튀어나왔다.
+  // 이제 "방금 끝낸 MUD의 시대(currentEraGroup)"도 함께 넘겨받아,
+  // 그 시대와 무관한 페어는 아예 후보에서 제외한다. currentEraGroup을
+  // 알 수 없으면(보상 유물이 없는 특수 엔딩 등) 아무 것도 제안하지 않는다
+  // — 틀린 시대를 보여주는 것보다 아예 안 보여주는 편이 낫다.
+  getEligibleComparison(currentEraGroup) {
     if (!window.encyclopedia || !this.comparisons.length) return null;
+    if (!currentEraGroup) return null;
     const unlocked = window.encyclopedia.data.unlockedArtifacts;
     if (unlocked.length < 2) return null;
     return this.comparisons.find(cmp => {
+      if (cmp.eraGroup && cmp.eraGroup !== currentEraGroup) return false;
       if (window.encyclopedia.hasSeenArtifactComparison(cmp.id)) return false;
       const required = cmp.requiredArtifactNames;
       if (required && required.length > 0) {
@@ -49,9 +71,10 @@ const ArtifactComparisonEngine = {
   },
 
   // renderFinalReflection() 마지막에 이어 붙일 제안 카드 HTML.
+  // currentEraGroup: 방금 끝낸 MUD의 시대 묶음(getEraGroup 결과). 없으면 미제안.
   // 조건을 만족하는 비교 콘텐츠가 없으면 빈 문자열을 반환한다.
-  getOfferHtml() {
-    const cmp = this.getEligibleComparison();
+  getOfferHtml(currentEraGroup) {
+    const cmp = this.getEligibleComparison(currentEraGroup);
     if (!cmp) return '';
     return `
       <div class="mission-box" style="text-align: center; border: 2px dashed ${this.themeColor}; background: ${this.themeColor}10; margin-top: 14px;">
@@ -101,6 +124,28 @@ const ArtifactComparisonEngine = {
         </div>
         ${bodyHtml}
       </div>
+    `;
+  },
+
+  // 2026-09-10 추가: 유물이 실제로 발견된 유적(장소) 링크.
+  // artifactA/artifactB의 "site" 필드(국가유산포털 등 공식 출처, 사진 확인됨)가
+  // 있을 때만 노출한다. 같은 유적이 양쪽에 겹치면(예: 신라 금관을 두 페어가
+  // 공유) 한 번만 보여준다. 출토지를 모르는 전세품 유물(청자·백자·풍속화 등)은
+  // site 필드 자체가 없으므로 빈 문자열을 반환 — 없는 정보를 지어내지 않는다.
+  siteLinksHtml(cmp) {
+    const sites = [cmp.artifactA.site, cmp.artifactB.site].filter(Boolean);
+    if (!sites.length) return '';
+    const seen = new Set();
+    const unique = sites.filter(s => {
+      if (seen.has(s.url)) return false;
+      seen.add(s.url);
+      return true;
+    });
+    const links = unique.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join(' · ');
+    return `
+      <p style="font-size: 0.8rem; color: #4B5563; margin: 0 0 14px; background:#F5F3FF; border:1px solid #DDD6FE; border-radius:6px; padding:8px 10px;">
+        🏛️ <b>이 유물이 발견된 유적</b>도 사진으로 볼 수 있어: ${links}
+      </p>
     `;
   },
 
@@ -278,6 +323,7 @@ const ArtifactComparisonEngine = {
           <a href="${cmp.artifactA.museumUrl}" target="_blank" rel="noopener">실물 보기 A</a> ·
           <a href="${cmp.artifactB.museumUrl}" target="_blank" rel="noopener">실물 보기 B</a>
         </p>
+        ${this.siteLinksHtml(cmp)}
         <button onclick="ArtifactComparisonEngine.finish()" class="btn secondary" style="width:100%; padding: 10px;">
           <i class="fas fa-arrow-left"></i> 전체 탐구 진도표로 돌아가기
         </button>
