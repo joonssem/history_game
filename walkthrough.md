@@ -1556,3 +1556,14 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 마지막으로 "유물만큼 유적도 많고 웹에 좋은 사진이 많다"는 요청에 유물↔유적(발견 장소) 연결 기능을 추가했다. 사진을 직접 삽입하지 않고(저작권 부담) 국가유산포털(heritage.go.kr) 공식 사적 페이지로만 링크하는 방식을 사용자가 선택했다. 6개 유적(서울 암사동, 부여 송국리, 연천 전곡리, 경주 대릉원 일원, 고령 지산동 고분군, 공주 무령왕릉과 왕릉원)을 heritage.go.kr에서 직접 열어 사진·설명이 실제로 맞는지 확인한 뒤 `data/artifactComparisons.json`의 유물 객체에 `site` 필드로 추가했다. 출토지를 모르는 전세품 유물(청자·백자·풍속화·앙부일구·자격루)에는 일부러 넣지 않았다. `js/artifactComparison.js`에 `siteLinksHtml()`을 추가해 결과 화면에 "🏛️ 이 유물이 발견된 유적" 박스로 노출(같은 유적 공유 시 중복 제거).
 - 검증: 로컬 정적 서버 + 브라우저 콘솔에서 site 링크 텍스트·href 정확성, site 정보 없는 페어(풍속화)는 빈 문자열을 반환해 정보를 지어내지 않는지 확인. `01_validate_game_data.py` 통과, `js/artifactComparison.js`는 `node -c`로 문법 확인.
 - 문서: `BACKLOG.md`에 3건 기록, `TEACHING_artifact_comparison.md`에 "2026-09-10 추가 — 유물↔유적 연결" 절 신설, 캐시버스터 `?v=20260910-eragroup1`(엔진)·`?v=20260910-sitelinks1`(엔진 재갱신).
+
+## 2026-09-10 — 트랙 1-A(관문 설계실) `regular_neolithic` 파일럿 1편
+
+`TASK-20260910-GATE1 | Regular MUD 관문 문법 다양화 1편(신석기) | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- 지시서 `docs/handoff/claude_track1a_gate_grammar_instruction.md`(Opus 5 기획) §3 1차 범위 3편 중 1편째. `data/mud/regular_neolithic.json`의 필수 단계 4개를 기존 `ordered-hotspot`/`resource-allocation`/`reflection`(모두 "원 3개 누르기" 계열)에서 `inquiry-task`로 전환했다. 배정 문법은 `sequence`(정착지→토기→의생활 순서의 앞뒤 관계 판단), 4단계(종합)는 참조 구현 `regular_goryeo_culture`와 같은 관례로 `claim-evidence`를 사용했다.
+- 범위: `simulator` 블록만 수정, `choices`·`narrative`·`glossary`와 실패 분기(`1-1`/`2-1`/`3-1`)는 그대로 유지했다. `js/`·`css/`·`index.html`은 건드리지 않았다(트랙 1-A 소유권 범위).
+- D-027(범주 무력화) 회귀를 직접 재현·확인: 근거 3개 중 같은 범주(`technology`) 2개만으로 `minCategories:2` 주장을 제출하면 정상적으로 거부됨을 확인했다. 범주를 `environment`(1개)·`technology`(2개)로 의도적으로 겹치게 배정해 범주 다양성 조건이 실제로 의미 있게 걸리도록 설계했다.
+- 검증: 지시서 §8 전체(`node --check` 3종, `01/03/04/06/07/08/09_validate·audit_*`, `05_test_simulator_runtime.js`) 통과, `git diff --check` 클린. 격리 워크트리 로컬 정적 서버(다른 세션과 포트 충돌 확인 후 8792 포트 사용)에서 1~4단계 전부 실제 플레이: 오답 제출 시 다음 버튼 비활성 유지·정답 비노출, 정답 제출 시 탐구 패널 컨트롤 전체 비활성화 + 다음 버튼만 활성화, 최종 보상(`art_2` 암사동 빗살무늬 토기) 정상 지급, 콘솔 error/warning 0건을 모두 확인했다.
+- 버그 발견(수정 안 함, 기록만): `js/mudInquiry.js`의 `evaluateSequence()`가 완료 메시지를 JSON의 `completion.successText`가 아니라 고려 문화 2단계 전용 문구로 하드코딩 반환한다. `regular_neolithic` 1~3단계 정답 제출 시 실측으로 확인했다. `js/`는 이 트랙 소유가 아니므로 `BACKLOG.md`에만 기록했다.
+- 문서: `BACKLOG.md`에 "트랙 1-A(관문 설계실) `regular_neolithic` 파일럿 완료" 절 신설.

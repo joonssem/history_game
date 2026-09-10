@@ -335,3 +335,12 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - 영향: 감사 결과의 기준 경로가 불명확해지고, 문서 재배치 이후 링크와 생성 산출물이 분리된다.
 - 예상 변경 범위: 두 스크립트의 `REPORT` 경로, 기존 감사 문서의 보존·재생성 위치, 관련 링크의 실제 파일 존재 여부를 함께 점검한다.
 - 원칙: 경로를 하나로 정한 별도 계획과 사용자 확인 후 수정하며, 감사 결과의 내용·판정 기준은 이 항목에서 변경하지 않는다.
+
+### P1 — 트랙 1-A(관문 설계실) `regular_neolithic` 파일럿 완료 (2026-09-10)
+
+- 작업: `docs/handoff/claude_track1a_gate_grammar_instruction.md` §3 1차 범위 3편 중 1편째. `regular_neolithic.json`의 4개 필수 단계(1·2·3·4)를 `ordered-hotspot`/`resource-allocation`/`reflection`에서 `inquiry-task`로 전환. 배정 문법은 `sequence`(1·2·3단계, 정착→토기→의생활 과정의 앞뒤 관계)이고 4단계(종합)는 참조 구현(`regular_goryeo_culture`)과 같은 관례로 `claim-evidence`를 사용했다.
+- 소유권 범위 준수: `simulator` 블록만 수정했고 `choices`·`narrative`·`glossary`·실패 분기(`1-1`/`2-1`/`3-1`)는 그대로 두었다. `js/`·`css/`·`index.html`은 건드리지 않았다.
+- D-027 회귀 직접 확인: 4단계 근거 3개 중 같은 범주(`technology`) 2개만으로 `minCategories:2` 주장을 제출해 **거부됨**을 확인했다(기존 고려 문화 결함과 달리 이번엔 정상 차단). 범주는 `environment`(1개)·`technology`(2개, 토기·의생활)로 의도적으로 겹쳐 배정해 범주 다양성 조건이 실제로 걸리도록 설계했다.
+- 검증: `04_validate_mud_contract.py` 포함 지시서 §8 전체 통과. 로컬 서버(격리 워크트리, 다른 세션과 포트 충돌 확인 후 8792 사용)에서 1~4단계 전부 실제 플레이: 오답 제출 시 다음 버튼 비활성 유지·정답 비노출 확인, 정답 제출 시 탐구 패널 컨트롤 전체 비활성화 + 다음 버튼만 활성화 확인, 최종 보상(`art_2` 암사동 빗살무늬 토기) 정상 지급, 콘솔 에러 0건.
+- **버그 발견(트랙 1-B 소관, 수정하지 않음)**: `js/mudInquiry.js`의 `evaluateSequence()`가 완료 메시지를 `task.completion.successText`가 아니라 하드코딩된 문자열 `"인쇄 절차와 금속활자의 재사용 의미를 연결했습니다."`(고려 문화 2단계 전용 문구)로 고정 반환한다. `regular_neolithic` 1~3단계에서 정답 제출 시 이 문구가 그대로 뜨는 것을 실측으로 확인했다 — 완료 판정 자체는 정확하지만 학생이 보는 성공 메시지가 신석기 내용과 무관하다. `js/`는 이 트랙 소유가 아니므로 수정하지 않고 여기 기록만 남긴다.
+- 다음: `regular_three_kingdoms.json`(`map-evidence`) 착수 전 한 편 완료 원칙에 따라 사용자 확인 대기.
