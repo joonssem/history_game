@@ -231,7 +231,7 @@ const MudInquiry = {
       this.render();
     });
 
-    const limitSection = this.renderSection(panel, '3. 이 자료로 단정할 수 없는 범위를 고르세요');
+    const limitSection = this.renderSection(panel, '3. 이 자료의 한계를 바르게 말한 문장을 고르세요');
     this.renderChoiceGroup(limitSection, this.task.limits || [], this.state.limitId, item => {
       this.state.limitId = item.id;
       this.render();
@@ -412,9 +412,17 @@ const MudInquiry = {
     if (selected.length < minEvidence || selected.length > maxEvidence) {
       return { status: 'revise', issue: 'claim-evidence-count', message: `근거를 ${minEvidence}~${maxEvidence}장 골라 연결하세요.` };
     }
-    const categoryCount = new Set(selected.map(item => item.category)).size;
-    if (categoryCount < Number(claim.minCategories || 2)) {
+    const selectedCategories = new Set(selected.map(item => item.category));
+    if (selectedCategories.size < Number(claim.minCategories || 2)) {
       return { status: 'revise', issue: 'claim-category-variety', message: '서로 다른 성격의 자료를 연결해야 주장이 더 탄탄해집니다.' };
+    }
+    const missingCategory = (claim.requiredCategories || []).find(category => !selectedCategories.has(category));
+    if (missingCategory) {
+      return {
+        status: 'revise',
+        issue: `claim-required-category-${missingCategory}`,
+        message: claim.requiredCategoriesFeedback || '주장이 말하는 내용 중 아직 근거로 뒷받침되지 않은 부분이 있습니다.'
+      };
     }
     const limit = (task.limits || []).find(item => item.id === state.limitId);
     if (limit && !limit.correct) {

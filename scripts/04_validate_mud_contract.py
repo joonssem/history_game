@@ -51,6 +51,68 @@ def require_single_correct(value: object, prefix: str, errors: list[str]) -> Non
         errors.append(f"{prefix} must contain exactly one correct item")
 
 
+def minimum_distinct_categories(group_sizes: list[int], pick: int) -> int:
+    """pick장을 고를 때 나올 수 있는 가장 적은 범주 개수.
+
+    큰 범주부터 채우면 범주 수가 최소가 된다.
+    """
+    used = 0
+    remaining = pick
+    for size in sorted(group_sizes, reverse=True):
+        if remaining <= 0:
+            break
+        used += 1
+        remaining -= size
+    return used
+
+
+def check_claim_categories(
+    prefix: str,
+    index: int,
+    claim: dict,
+    min_evidence: int,
+    award_categories: dict[str, str],
+) -> list[str]:
+    """주장별 범주 조건이 실제로 판정에 영향을 주는지 검사한다.
+
+    minCategories가 어떤 선택으로도 실패할 수 없으면 죽은 조건이므로 알린다.
+    requiredCategories가 accepts로 만족될 수 없으면 통과 불가능한 주장이므로 알린다.
+    """
+    problems: list[str] = []
+    accepts = claim.get("accepts")
+    if not isinstance(accepts, list) or not accepts:
+        return problems
+
+    categories: dict[str, int] = {}
+    for evidence_id in accepts:
+        category = award_categories.get(evidence_id)
+        if category:
+            categories[category] = categories.get(category, 0) + 1
+    if not categories:
+        return problems
+
+    required = claim.get("requiredCategories")
+    if required is not None:
+        if not isinstance(required, list) or not all(isinstance(item, str) for item in required):
+            problems.append(f"{prefix}:task.claims[{index}] requiredCategories must be a list of strings")
+        else:
+            for category in required:
+                if category not in categories:
+                    problems.append(
+                        f"{prefix}:task.claims[{index}] requiredCategories '{category}' is unreachable from accepts"
+                    )
+
+    min_categories = claim.get("minCategories")
+    if isinstance(min_categories, int) and min_categories > 1 and not claim.get("requiredCategories"):
+        floor = minimum_distinct_categories(list(categories.values()), min_evidence)
+        if floor >= min_categories:
+            problems.append(
+                f"{prefix}:task.claims[{index}] minCategories={min_categories} can never fail "
+                f"(any {min_evidence} accepted evidence already span {floor} categories)"
+            )
+    return problems
+
+
 def validate_inquiry_task(
     simulator: dict,
     prefix: str,
@@ -58,6 +120,8 @@ def validate_inquiry_task(
     errors: list[str],
     awarded_ids: set[str],
     referenced_ids: list[tuple[str, str]],
+    awarded_categories: dict[str, str],
+    claim_checks: list[tuple[str, int, dict, int]],
 ) -> None:
     task = simulator.get("task")
     if not isinstance(task, dict):
@@ -84,6 +148,8 @@ def validate_inquiry_task(
                 errors.append(f"{prefix}:task.awards[{index}] invalid role")
             if not isinstance(award.get("category"), str) or not award["category"].strip():
                 errors.append(f"{prefix}:task.awards[{index}] missing category")
+            elif isinstance(award.get("id"), str):
+                awarded_categories[award["id"]] = award["category"]
 
     if task_type == "commit-revise":
         option_ids = inquiry_item_ids(task.get("options"), f"{prefix}:task.options", errors, min_items=2)
@@ -147,6 +213,7 @@ def validate_inquiry_task(
                         errors.append(f"{prefix}:task.claims[{index}] accepts unknown {evidence_id}")
             if not isinstance(claim.get("minCategories"), int) or claim["minCategories"] < 1:
                 errors.append(f"{prefix}:task.claims[{index}] invalid minCategories")
+            claim_checks.append((prefix, index, claim, minimum_required))
         if not claim_ids:
             errors.append(f"{prefix}: claim-evidence needs a claim")
         limits = task.get("limits", [])
@@ -228,6 +295,8 @@ def main() -> int:
         data = json.loads(path.read_text(encoding="utf-8"))
         inquiry_awarded_ids: set[str] = set()
         inquiry_referenced_ids: list[tuple[str, str]] = []
+        inquiry_award_categories: dict[str, str] = {}
+        inquiry_claim_checks: list[tuple[str, int, dict, int]] = []
         for stage_id, stage in data.get("stages", {}).items():
             simulator = stage.get("simulator") or {}
             interaction = simulator.get("interaction")
@@ -241,6 +310,8 @@ def main() -> int:
                     errors,
                     inquiry_awarded_ids,
                     inquiry_referenced_ids,
+                    inquiry_award_categories,
+                    inquiry_claim_checks,
                 )
             if "buttonsHtml" in simulator:
                 errors.append(f"{path.name}:{stage_id}: executable buttonsHtml is not allowed")
@@ -281,6 +352,11 @@ def main() -> int:
         for prefix, evidence_id in inquiry_referenced_ids:
             if evidence_id not in inquiry_awarded_ids:
                 errors.append(f"{prefix}: allowedEvidenceIds references unawarded {evidence_id}")
+
+        for prefix, index, claim, min_evidence in inquiry_claim_checks:
+            errors.extend(
+                check_claim_categories(prefix, index, claim, min_evidence, inquiry_award_categories)
+            )
 
     if errors:
         print(f"FAIL: {len(errors)} contract errors")

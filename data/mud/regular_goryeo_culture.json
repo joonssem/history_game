@@ -208,7 +208,7 @@
               "id": "reusable-type",
               "label": "다시 조합할 수 있는 낱글자",
               "detail": "인쇄 뒤 활자를 풀어 다른 내용에 재사용할 수 있다는 기술 특징",
-              "category": "technology",
+              "category": "printing-process",
               "role": "support"
             }
           ]
@@ -319,7 +319,9 @@
               "id": "technology-and-exchange",
               "label": "서로 다른 자료를 함께 보면 고려의 제작·인쇄 기술과 국제 교류를 더 균형 있게 설명할 수 있다.",
               "accepts": ["tripitaka-making", "tripitaka-storage", "jikji-process", "reusable-type", "byeokrando-network"],
-              "minCategories": 2
+              "minCategories": 2,
+              "requiredCategories": ["exchange"],
+              "requiredCategoriesFeedback": "이 주장은 국제 교류까지 말하고 있습니다. 교류를 보여 주는 자료를 근거에 넣어야 합니다."
             },
             {
               "id": "technology-needs-sources",
