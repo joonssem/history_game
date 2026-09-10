@@ -56,6 +56,7 @@ def is_supported_interaction(interaction: str) -> bool:
         "reflection",
         "gauge",
         "hotspot-choice",
+        "inquiry-task",
     }
 
 

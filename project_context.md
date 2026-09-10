@@ -1,6 +1,6 @@
 ﻿# PROJECT_CONTEXT.md
 
-> **작성일**: 2026-09-01 | **최종 갱신**: 2026-09-09 | **버전**: v3.8 | **인수자**: OpenAI Codex
+> **작성일**: 2026-09-01 | **최종 갱신**: 2026-09-10 | **버전**: v3.9 | **인수자**: OpenAI Codex
 > **라이브 URL**: https://joonssem.github.io/history_game/
 
 이 문서는 새 개발자가 프로젝트를 빠르게 파악하고 작업을 이어갈 수 있도록 작성한 인수인계 문서다.
@@ -67,6 +67,7 @@ history_game/
 ├── js/
 │   ├── app.js                          # 포털 메인: 커리큘럼 렌더링, 뷰 전환, 퀴즈 허브
 │   ├── mudEngine.js                    # MUD 핵심 엔진: JSON 로드·스테이지 렌더링·회고록
+│   ├── mudInquiry.js                   # inquiry-task DOM 렌더링·의미 상태 판정
 │   ├── mudSimulators.js                # Canvas 인터랙티브 시뮬레이터 렌더러·이벤트
 │   ├── encyclopedia.js                 # 유물 도감: localStorage 수집·배지·탐험가 레벨
 │   ├── quizGame.js                     # 골든벨 퀴즈 엔진
@@ -119,6 +120,7 @@ history_game/
 | `index.html` | 단일 페이지. `view-portal`(메인 포털)과 `view-myeongnyang`(MUD 뷰) 두 div를 display 전환으로 사용. 모달 2개(퀴즈, 도감)도 내부에 있음 |
 | `js/app.js` | DOMContentLoaded 시 데이터 로드 및 초기화. `renderCurriculum(unitId)`가 핵심으로, `_index.json`을 우선 사용하고 레거시 조건문을 fallback으로 두어 MUD 버튼을 동적 생성 |
 | `js/mudEngine.js` | `window.MudEngine` 전역 객체. `openMUD(mudId)`로 JSON fetch → 상태 초기화 → 뷰 전환 → 첫 스테이지 렌더링. `renderStage(stageId)`로 narrative·choices·simulator 렌더링 |
+| `js/mudInquiry.js` | `window.MudInquiry` 전역 객체. `inquiry-task`의 첫 판단·수정, 순서, 지도 근거, 주장–근거 task를 DOM으로 렌더링하고 의미 상태를 판정 |
 | `js/mudSimulators.js` | `window.MudSimulators` 전역 객체. Canvas `mousedown`/`touchstart` 이벤트를 `simMode` 분기로 처리. `drawSim()`이 rAF 루프에서 계속 호출됨 |
 | `js/encyclopedia.js` | `window.encyclopedia`. localStorage 키 `history_explorer_save_v1`. `unlockArtifact(id)`와 `unlockBadge(id)` 호출로 수집 기록 |
 | `js/quizGame.js` | `window.quizGame`. `data/quizzes.json` 로드 후 랜덤 셔플·타이머(15초)·채점 |
@@ -131,7 +133,8 @@ history_game/
 
 ### 중요한 의존 관계
 
-- **스크립트 로드 순서** (index.html): `soundEffects` → `encyclopedia` → `storyEngine` → `quizGame` → `miniGames` → `mudEngine` → `mudSimulators` → `app.js`
+- **스크립트 로드 순서** (index.html): `soundEffects` → `encyclopedia` → `storyEngine` → `quizGame` → `miniGames` → `mudEngine` → `mudInquiry` → `mudSimulators` → `app.js`
+  - `mudInquiry.js`는 승인된 의미 상태를 `mudEngine.js`에 전달하고, `mudSimulators.js`는 지도 Canvas 선택을 `mudInquiry.js`에 의미 ID로 전달함
   - `mudSimulators.js`는 `window.MudEngine`을 직접 참조하므로 `mudEngine.js` 이후 로드 필수
   - `app.js`는 마지막에 로드되어 나머지 모듈이 전역에 등록된 상태를 전제함
 - **뷰 전환**: `MudEngine.openMUD()` → `view-portal` hide + `view-myeongnyang` show. `showPortalView()` → 반대
@@ -158,6 +161,7 @@ history_game/
 - **모달 키보드 접근성**: Tab 순환·Escape 닫기·원래 트리거 포커스 복귀를 지원한다.
 - **협동 MUD 3편**: 1인 1기기로 학생마다 다른 자료를 주고 말로 공유하게 하는 모둠 활동. 6차시(고조선 8조법)·7차시(시조 설화)·8차시(한강 유역). 서버 없이 기기별 `localStorage`만 사용한다. 상세는 §7 로드맵.
 - **협동 MUD 타이머 페이싱**: 활동 길이 선택이 곧 시간 예산이 되어, 느린 모둠에는 질문형 힌트를, 빠른 모둠에는 심화 질문을 작은 배지로 띄운다. 화면을 덮지 않고 학생이 눌러야 펼쳐진다.
+- **고려 문화 inquiry 수직 파일럿**: `regular_goryeo_culture` 4단계에서 첫 판단·수정, 금속활자 절차 배열, 벽란도 근거–자료 범위, 주장–근거–한계를 판정한다. `completion.strategy: validated-state`로 단순 탭 횟수가 아니라 타당한 제출만 진행을 해제하며, 앞 단계 근거를 최종 관문에서 재사용한다.
 
 ### 부분적으로 구현된 기능
 
@@ -291,6 +295,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 - **MUD 콘텐츠 품질 확장**: 일부 자동 생성 IF 스테이지와 유물 설명은 추가 교육적 검수가 필요함. IF 구조 선별 결과는 `docs/audits/if_stage_audit.md`에서 확인함
 - **실제 활동 시간 검증**: 2026-09-01 학생들이 1단원 2·3차시 Regular 활동을 연속으로 4분 이내에 완료했다. 빠른 학습자용 선택형 확장 활동과 전체 학생 표본 측정은 후속 검토 대상이다.
+- **상호작용 다양성 파일럿 수업 검증**: 고려 문화 파일럿의 자동·데스크톱 브라우저 검증은 완료했다. 390×844·820×1180 지정 뷰포트와 학생 3명 이상 수업에서 7~12분, 독립 완주, 두 자료 연결 설명, 무작위 전수 클릭 방지 여부를 확인하기 전에는 다른 Regular로 확대하지 않는다.
 - **최소 플레이 진단 로그**: 아직 구현하지 않았다. 서버·계정 없이 단계·선택·시뮬레이터·완료 시각과 재시도 정도만 기록하는 설계가 다음 P1 후보이며, 학생 식별 정보는 수집하지 않는다.
 
 ### 임시 구현

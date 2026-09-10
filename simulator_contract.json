@@ -1,12 +1,23 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "supportedInteractions": [
     "hotspot-discovery",
     "ordered-hotspot",
     "resource-allocation",
     "reflection",
     "gauge",
-    "hotspot-choice"
+    "hotspot-choice",
+    "inquiry-task"
+  ],
+  "completionStrategies": [
+    "counter",
+    "validated-state"
+  ],
+  "inquiryTaskTypes": [
+    "commit-revise",
+    "sequence",
+    "map-evidence",
+    "claim-evidence"
   ],
   "requiredSimulatorCompletion": [
     "target",

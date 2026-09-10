@@ -1,5 +1,16 @@
 # Walkthrough
 
+## 2026-09-10 — 고려 문화 `inquiry-task` 수직 파일럿
+
+`TASK-20260910-06 | regular_goryeo_culture inquiry-task 수직 파일럿 구현 | 실행·코딩 에이전트(Codex) | 상태: DONE`
+
+- `regular_goryeo_culture`의 반복 핫스팟 4단계를 첫 판단·수정, 인쇄 절차 배열, 지도 근거–자료 한계, 주장–근거–한계 구성 활동으로 바꿨다. 단계 1~3에서 획득한 근거 6장을 최종 관문에서 다시 사용한다.
+- 공용 `inquiry-task`와 네 하위 task 판정기를 `js/mudInquiry.js`로 분리했다. 조작 횟수가 아니라 제출 결과가 타당한 `validated-state`일 때만 기존 MUD 선택지 게이트가 열린다.
+- 카드 선택과 순서 이동은 실제 버튼으로 제공하고 선택 상태를 `aria-pressed`, 피드백을 `aria-live`로 노출했다. 같은 오개념을 다시 제출하면 질문형 힌트를 붙이고 오류 요약으로 키보드 초점을 옮긴다. 지도 단계는 Canvas 지점과 동일한 DOM 버튼을 함께 제공하며 어느 쪽을 눌러도 같은 의미 ID가 선택된다.
+- 계약·무결성·런타임 검사에 새 interaction과 task별 필수 필드·참조·완료 전략을 추가했다. 반복 탭 감사기는 `validated-state` 단계를 숫자 target만 보고 후보로 잡지 않도록 갱신했다.
+- 데스크톱 Chrome에서 오답→수정→완료 네 단계, 캔버스 지점 선택, 키보드 Enter, 최종 유물·성찰 화면, 기존 구석기·신석기 핫스팟 게이트를 확인했고 콘솔 오류·경고는 0건이었다. 390×844·820×1180 지정 뷰포트와 실제 학생 수업 관찰은 다음 검증 게이트다.
+- 검증: `scripts/01·03·04·06·08·09_validate_*`, `scripts/07_audit_activity_duration.py`, `scripts/09_audit_tap_resistance.py`, `scripts/05_test_simulator_runtime.js`, `scratch/audit_interaction_diversity.py`, JS 문법 검사, `git diff --check` 통과.
+
 ## 2026-09-08 — 실시간 협동 MUD 모둠 미리보기·재섞기
 
 `TASK-20260908-03 | apps/cooperative-live 모둠 미리보기·재섞기 | implementation agent | DONE`

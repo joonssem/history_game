@@ -15,6 +15,146 @@ STANDARDS = ROOT / "data" / "curriculum_standards_2022.json"
 VERIFIED_MAPPING_STATUS = "achievement-standards-verified-publisher-pending"
 
 
+def inquiry_item_ids(
+    value: object,
+    prefix: str,
+    errors: list[str],
+    *,
+    min_items: int = 1,
+) -> set[str]:
+    if not isinstance(value, list) or len(value) < min_items:
+        errors.append(f"{prefix} must contain at least {min_items} item(s)")
+        return set()
+    ids: set[str] = set()
+    for index, item in enumerate(value):
+        item_prefix = f"{prefix}[{index}]"
+        if not isinstance(item, dict):
+            errors.append(f"{item_prefix} must be an object")
+            continue
+        item_id = item.get("id")
+        if not isinstance(item_id, str) or not item_id:
+            errors.append(f"{item_prefix} missing string id")
+        elif item_id in ids:
+            errors.append(f"{item_prefix} duplicate id {item_id}")
+        else:
+            ids.add(item_id)
+        if not isinstance(item.get("label"), str) or not item["label"].strip():
+            errors.append(f"{item_prefix} missing label")
+    return ids
+
+
+def require_single_correct(value: object, prefix: str, errors: list[str]) -> None:
+    if not isinstance(value, list):
+        return
+    correct_count = sum(item.get("correct") is True for item in value if isinstance(item, dict))
+    if correct_count != 1:
+        errors.append(f"{prefix} must contain exactly one correct item")
+
+
+def validate_inquiry_task(
+    simulator: dict,
+    prefix: str,
+    supported_types: set[str],
+    errors: list[str],
+    awarded_ids: set[str],
+    referenced_ids: list[tuple[str, str]],
+) -> None:
+    task = simulator.get("task")
+    if not isinstance(task, dict):
+        errors.append(f"{prefix}: inquiry-task requires task object")
+        return
+    task_type = task.get("type")
+    if task_type not in supported_types:
+        errors.append(f"{prefix}: unsupported inquiry task type {task_type}")
+        return
+    if not isinstance(task.get("prompt"), str) or not task["prompt"].strip():
+        errors.append(f"{prefix}: inquiry task missing prompt")
+
+    awards = task.get("awards", [])
+    if awards:
+        award_ids = inquiry_item_ids(awards, f"{prefix}:task.awards", errors)
+        for award_id in award_ids:
+            if award_id in awarded_ids:
+                errors.append(f"{prefix}: duplicate inquiry evidence award {award_id}")
+            awarded_ids.add(award_id)
+        for index, award in enumerate(awards):
+            if not isinstance(award, dict):
+                continue
+            if award.get("role") not in {"support", "limit"}:
+                errors.append(f"{prefix}:task.awards[{index}] invalid role")
+            if not isinstance(award.get("category"), str) or not award["category"].strip():
+                errors.append(f"{prefix}:task.awards[{index}] missing category")
+
+    if task_type == "commit-revise":
+        option_ids = inquiry_item_ids(task.get("options"), f"{prefix}:task.options", errors, min_items=2)
+        require_single_correct(task.get("options"), f"{prefix}:task.options", errors)
+        evidence_ids = inquiry_item_ids(task.get("evidence"), f"{prefix}:task.evidence", errors, min_items=2)
+        required_ids = task.get("requiredEvidenceIds")
+        if not isinstance(required_ids, list) or not required_ids:
+            errors.append(f"{prefix}: commit-revise requires requiredEvidenceIds")
+        else:
+            for evidence_id in required_ids:
+                if evidence_id not in evidence_ids:
+                    errors.append(f"{prefix}: requiredEvidenceIds references unknown {evidence_id}")
+        if len(option_ids) < 2:
+            errors.append(f"{prefix}: commit-revise needs at least two judgments")
+
+    elif task_type == "sequence":
+        card_ids = inquiry_item_ids(task.get("cards"), f"{prefix}:task.cards", errors, min_items=3)
+        correct_order = task.get("correctOrder")
+        if not isinstance(correct_order, list) or len(correct_order) != len(card_ids) or set(correct_order) != card_ids:
+            errors.append(f"{prefix}: correctOrder must contain every card id exactly once")
+        meaning = task.get("meaningQuestion")
+        if not isinstance(meaning, dict):
+            errors.append(f"{prefix}: sequence requires meaningQuestion")
+        else:
+            inquiry_item_ids(meaning.get("options"), f"{prefix}:task.meaningQuestion.options", errors, min_items=2)
+            require_single_correct(meaning.get("options"), f"{prefix}:task.meaningQuestion.options", errors)
+
+    elif task_type == "map-evidence":
+        location_ids = inquiry_item_ids(task.get("locations"), f"{prefix}:task.locations", errors, min_items=2)
+        inquiry_item_ids(task.get("supports"), f"{prefix}:task.supports", errors, min_items=2)
+        inquiry_item_ids(task.get("limits"), f"{prefix}:task.limits", errors, min_items=2)
+        require_single_correct(task.get("locations"), f"{prefix}:task.locations", errors)
+        require_single_correct(task.get("supports"), f"{prefix}:task.supports", errors)
+        require_single_correct(task.get("limits"), f"{prefix}:task.limits", errors)
+        hotspot_ids = {item.get("id") for item in simulator.get("hotspots", []) if isinstance(item, dict)}
+        if hotspot_ids != location_ids:
+            errors.append(f"{prefix}: map-evidence hotspots and locations must use the same ids")
+
+    elif task_type == "claim-evidence":
+        claim_ids = inquiry_item_ids(task.get("claims"), f"{prefix}:task.claims", errors)
+        allowed_ids = task.get("allowedEvidenceIds")
+        if not isinstance(allowed_ids, list) or len(allowed_ids) < 2 or len(set(allowed_ids)) != len(allowed_ids):
+            errors.append(f"{prefix}: claim-evidence requires unique allowedEvidenceIds")
+            allowed_ids = []
+        for evidence_id in allowed_ids:
+            referenced_ids.append((prefix, evidence_id))
+        min_evidence = task.get("minEvidence")
+        max_evidence = task.get("maxEvidence")
+        if not isinstance(min_evidence, int) or not isinstance(max_evidence, int) or not 1 <= min_evidence <= max_evidence:
+            errors.append(f"{prefix}: invalid minEvidence/maxEvidence")
+        minimum_required = min_evidence if isinstance(min_evidence, int) and min_evidence > 0 else 1
+        for index, claim in enumerate(task.get("claims", [])):
+            if not isinstance(claim, dict):
+                continue
+            accepts = claim.get("accepts")
+            if not isinstance(accepts, list) or len(accepts) < minimum_required:
+                errors.append(f"{prefix}:task.claims[{index}] has too few accepted evidence ids")
+            else:
+                for evidence_id in accepts:
+                    if evidence_id not in allowed_ids:
+                        errors.append(f"{prefix}:task.claims[{index}] accepts unknown {evidence_id}")
+            if not isinstance(claim.get("minCategories"), int) or claim["minCategories"] < 1:
+                errors.append(f"{prefix}:task.claims[{index}] invalid minCategories")
+        if not claim_ids:
+            errors.append(f"{prefix}: claim-evidence needs a claim")
+        limits = task.get("limits", [])
+        if limits:
+            inquiry_item_ids(limits, f"{prefix}:task.limits", errors)
+            require_single_correct(limits, f"{prefix}:task.limits", errors)
+
+
 def main() -> int:
     errors: list[str] = []
     index = json.loads(INDEX.read_text(encoding="utf-8"))
@@ -80,15 +220,28 @@ def main() -> int:
     supported = set(contract.get("supportedInteractions", []))
     supported_progress_keys = set(contract.get("supportedProgressKeys", []))
     supported_action_types = set(contract.get("supportedActionTypes", []))
+    supported_completion_strategies = set(contract.get("completionStrategies", []))
+    supported_inquiry_types = set(contract.get("inquiryTaskTypes", []))
     for path in sorted(MUD_DIR.glob("*.json")):
         if path.name == "_index.json":
             continue
         data = json.loads(path.read_text(encoding="utf-8"))
+        inquiry_awarded_ids: set[str] = set()
+        inquiry_referenced_ids: list[tuple[str, str]] = []
         for stage_id, stage in data.get("stages", {}).items():
             simulator = stage.get("simulator") or {}
             interaction = simulator.get("interaction")
             if interaction and interaction not in supported:
                 errors.append(f"{path.name}:{stage_id}: unsupported interaction {interaction}")
+            if interaction == "inquiry-task":
+                validate_inquiry_task(
+                    simulator,
+                    f"{path.name}:{stage_id}",
+                    supported_inquiry_types,
+                    errors,
+                    inquiry_awarded_ids,
+                    inquiry_referenced_ids,
+                )
             if "buttonsHtml" in simulator:
                 errors.append(f"{path.name}:{stage_id}: executable buttonsHtml is not allowed")
             actions = simulator.get("actions")
@@ -119,6 +272,15 @@ def main() -> int:
                     errors.append(
                         f"{path.name}:{stage_id}: unsupported completion.progressKey {progress_key}"
                     )
+                strategy = completion.get("strategy", "counter")
+                if strategy not in supported_completion_strategies:
+                    errors.append(f"{path.name}:{stage_id}: unsupported completion.strategy {strategy}")
+                if interaction == "inquiry-task" and strategy != "validated-state":
+                    errors.append(f"{path.name}:{stage_id}: inquiry-task requires validated-state completion")
+
+        for prefix, evidence_id in inquiry_referenced_ids:
+            if evidence_id not in inquiry_awarded_ids:
+                errors.append(f"{prefix}: allowedEvidenceIds references unawarded {evidence_id}")
 
     if errors:
         print(f"FAIL: {len(errors)} contract errors")

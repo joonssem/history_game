@@ -17,7 +17,7 @@ minActions 기본값              completion.target    99 (사실상 판정 안 
 검사 대상 스테이지             전체                 본 스테이지만
 ===========================  ===================  ==========================
 
-통일 기준은 **제외 조건의 합집합**이다. 아래 다섯 가지는 각각 "이 단계는 같은 곳을
+통일 기준은 **제외 조건의 합집합**이다. 아래 여섯 가지는 각각 "이 단계는 같은 곳을
 반복해서 눌러도 통과되지 않는다"는 서로 다른 근거이므로, 하나라도 해당하면
 반복 탭 후보가 아니다.
 
@@ -51,24 +51,28 @@ def is_rapid_tap_candidate(simulator: dict | None) -> bool:
 
     completion = simulator.get("completion") or {}
 
-    # 1. JSON 핫스팟이 있으면 정해진 좌표를 찾아 눌러야 한다.
+    # 1. 의미 판정을 통과해야 하는 단계는 카운터를 올리는 탭만으로 끝나지 않는다.
+    if completion.get("strategy") == "validated-state":
+        return False
+
+    # 2. JSON 핫스팟이 있으면 정해진 좌표를 찾아 눌러야 한다.
     if simulator.get("hotspots"):
         return False
 
-    # 2. 버튼형에 서로 다른 action이 정의돼 있으면 반복 탭 경로가 아니다.
+    # 3. 버튼형에 서로 다른 action이 정의돼 있으면 반복 탭 경로가 아니다.
     actions = simulator.get("actions")
     if simulator.get("type") == "buttons" and isinstance(actions, list) and actions:
         return False
 
-    # 3. 완료 조건이 서로 다른 조작을 요구하면 같은 곳을 반복해도 끝나지 않는다.
+    # 4. 완료 조건이 서로 다른 조작을 요구하면 같은 곳을 반복해도 끝나지 않는다.
     if completion.get("uniqueActions"):
         return False
 
-    # 4. 런타임에서 중복 입력을 거부하는 레거시 렌더러.
+    # 5. 런타임에서 중복 입력을 거부하는 레거시 렌더러.
     if simulator.get("mode") in KNOWN_DISTINCT_INTERACTION_MODES:
         return False
 
-    # 5. 필요한 조작 수. minActions가 없으면 target이 실질 요구치다.
+    # 6. 필요한 조작 수. minActions가 없으면 target이 실질 요구치다.
     min_actions = completion.get("minActions", completion.get("target"))
     if isinstance(min_actions, bool) or not isinstance(min_actions, (int, float)):
         return False

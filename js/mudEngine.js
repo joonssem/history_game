@@ -15,6 +15,7 @@ const MudEngine = {
   simulatorComplete: true,    // 필수 활동 완료 여부
   simulatorProgress: 0,
   simulatorState: { found: [], step: 0, lastId: null },
+  inquiryRunState: { evidence: [], stageResults: {} },
   simulatorProgressKeys: [
     'simulatorProgress', 'gaugeProgress', 'paleoEnvironmentFound',
     'paleoFireStep', 'paleoStoneFacets', 'paleoHuntFound',
@@ -117,6 +118,7 @@ const MudEngine = {
     this.simulatorComplete = true;
     this.simulatorProgress = 0;
     this.simulatorState = { found: [], step: 0, lastId: null };
+    this.inquiryRunState = { evidence: [], stageResults: {} };
   },
 
   // === 테마 색상 적용 ===
@@ -235,6 +237,12 @@ const MudEngine = {
     // 선택지 원본 순서는 보존하고, 화면에 표시할 복사본만 섞는다.
     // 선택지가 하나뿐인 IF 재시도 단계는 불필요하게 처리하지 않는다.
     const choices = [...(stage.choices || [])];
+    const choiceTitle = document.getElementById('mn-choice-title');
+    if (choiceTitle) {
+      choiceTitle.innerHTML = choices.length === 1
+        ? '<i class="fas fa-arrow-right"></i> 다음 단계'
+        : '<i class="fas fa-scroll"></i> 사생결단: 당신의 선택은 무엇입니까?';
+    }
     for (let i = choices.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [choices[i], choices[j]] = [choices[j], choices[i]];
@@ -331,8 +339,10 @@ const MudEngine = {
       : this.simActionCount;
     const actionReady = actionCount >= minActions;
     const progressReady = !target || progress >= target;
+    const validationReady = completion.strategy !== 'validated-state'
+      || this.simulatorState.validated === true;
 
-    if (actionReady && progressReady && !this.simulatorComplete) {
+    if (actionReady && progressReady && validationReady && !this.simulatorComplete) {
       this.simulatorComplete = true;
       const feedback = document.getElementById('mn-canvas-feedback');
       if (feedback && completion.successText) feedback.innerHTML = completion.successText;
@@ -346,6 +356,35 @@ const MudEngine = {
         });
       }
     }
+  },
+
+  acceptInquiryResult(result = {}) {
+    const completion = this.currentSimulator?.completion;
+    if (completion?.strategy !== 'validated-state' || this.simulatorComplete) return false;
+
+    this.simulatorState.validated = true;
+    this.simulatorState.inquiryResult = result;
+    this.registerSimulatorAction();
+    this.registerUniqueSimulatorAction(`inquiry:${this.currentStage}`);
+    this.setSimulatorProgress(Number(completion.target || 1));
+
+    const awards = Array.isArray(result.earnedEvidence) ? result.earnedEvidence : [];
+    awards.forEach(card => {
+      if (!card?.id || this.inquiryRunState.evidence.some(item => item.id === card.id)) return;
+      this.inquiryRunState.evidence.push({ ...card, stageId: String(this.currentStage) });
+    });
+    this.inquiryRunState.stageResults[String(this.currentStage)] = {
+      attempts: Number(result.attempts || 0),
+      revised: Boolean(result.revised),
+      quality: result.quality || 'observer',
+      firstChoice: result.firstChoice || null,
+      hintsUsed: Number(result.hintsUsed || 0),
+      misconceptionFlags: Array.isArray(result.misconceptionFlags)
+        ? [...new Set(result.misconceptionFlags)]
+        : []
+    };
+    this.updateSimulatorCompletion();
+    return this.simulatorComplete;
   },
 
   runSimulatorAction(action) {
@@ -410,6 +449,7 @@ const MudEngine = {
 
   // === 시뮬레이터 위젯 및 가이드 설정 ===
   setupSimulator(sim) {
+    if (window.MudInquiry) window.MudInquiry.unmount();
     this.simMode = sim?.mode || '';
     this.currentSimulator = sim || null;
     this.simActionCount = 0;
@@ -469,6 +509,9 @@ const MudEngine = {
     if (feedback) feedback.textContent = sim.feedback || '화면을 터치하여 체험을 진행하세요!';
 
     if (window.MudSimulators) window.MudSimulators.renderAlternativeControls();
+    if (sim.interaction === 'inquiry-task' && window.MudInquiry) {
+      window.MudInquiry.mount(sim, this);
+    }
 
     switch (sim.type) {
       case 'info':

@@ -2,10 +2,7 @@
   "mudId": "regular_goryeo_culture",
   "tier": "regular",
   "unitId": 1,
-  "lessonNumbers": [
-    17,
-    18
-  ],
+  "lessonNumbers": [17, 18],
   "title": "팔만대장경과 벽란도: 세계와 만난 고려 문화",
   "subtitle": "1단원 고려 17~18차시",
   "storyId": "story_goryeo_culture",
@@ -15,421 +12,352 @@
   "header": {
     "tag": "1단원 17~18차시 · 찬란한 고려의 문화와 국제 교류",
     "title": "📜 세계를 놀라게 한 고려의 기술과 무역",
-    "interactiveTitle": "<i class=\"fas fa-book\" style=\"color: #059669;\"></i> 목판 인쇄 시뮬레이터",
-    "roadmapTitle": "문화와 무역 연대기"
+    "interactiveTitle": "<i class=\"fas fa-magnifying-glass\" style=\"color: #059669;\"></i> 고려 문화 근거 탐구",
+    "roadmapTitle": "문화와 무역 탐구 과정"
   },
   "roadmap": [
-    {
-      "id": "1",
-      "label": "1. 팔만대장경 판각"
-    },
-    {
-      "id": "1-1",
-      "label": "1-F. 대장경 훼손 실패"
-    },
-    {
-      "id": "2",
-      "label": "2. 직지 금속활자"
-    },
-    {
-      "id": "2-1",
-      "label": "2-F. 인쇄술 포기 실패"
-    },
-    {
-      "id": "3",
-      "label": "3. 국제 무역항 벽란도"
-    },
-    {
-      "id": "3-1",
-      "label": "3-F. 쇄국 고립 실패"
-    },
-    {
-      "id": "4",
-      "label": "4. 제작·인쇄·교류 자료 종합"
-    },
-    {
-      "id": "4-1",
-      "label": "4-F. 한 유물로 단정"
-    }
+    { "id": "1", "label": "1. 팔만대장경: 판단과 수정" },
+    { "id": "2", "label": "2. 직지: 인쇄 과정과 의미" },
+    { "id": "3", "label": "3. 벽란도: 교류 근거와 범위" },
+    { "id": "4", "label": "4. 고려 문화: 주장과 근거" }
   ],
   "stages": {
     "1": {
-      "location": "강화도 대장도감 (1236년)",
-      "badge": "📖 제1관문: 호국의 염원 팔만대장경",
+      "location": "강화도 대장도감과 해인사 장경판전",
+      "badge": "📖 제1관문: 근거를 보고 판단 수정하기",
       "character": {
-        "name": "고려 장인 & 승려",
-        "role": "대장경 조각 장인",
+        "name": "고려 장인과 승려",
+        "role": "대장경 제작·보관 자료 안내",
         "emoji": "🪵"
       },
-      "narrative": "<b>몽골 침입기 고려에서는 대장경판을 새기는 일이 이루어졌습니다.</b><br><br>경판 제작에는 목재 선택·가공·글자 새김 등 여러 과정이 필요했고, 오늘날 보존 상태를 설명할 때도 제작 과정과 보관 환경을 구분해 살펴야 합니다. 어떤 제작 원리를 확인하겠습니까?",
+      "narrative": "<b>몽골 침입기 고려에서는 대장경판을 다시 새기는 일이 이루어졌습니다.</b><br><br>경판을 만드는 과정과 오늘날까지 보존된 환경은 같은 일이 아닙니다. 먼저 생각을 정한 뒤 두 종류의 자료를 확인하고, 설명을 유지하거나 수정해 보세요.",
       "glossary": [
         {
           "term": "팔만대장경",
-          "definition": "몽골 침입기에 다시 새긴 8만여 장의 불교 경전 목판으로, 제작·보관 기술을 함께 살필 수 있는 문화유산"
+          "definition": "몽골 침입기에 다시 새긴 8만여 장의 불교 경전 목판으로, 제작 과정과 보관 환경을 함께 살필 수 있는 문화유산"
         },
         {
           "term": "장경판전",
-          "definition": "해인사에 위치한 자연 환기와 습도 조절이 과학적으로 설계된 대장경 보관 건축물"
+          "definition": "해인사에서 대장경판을 보관하는 건축물로, 자연 환기와 습도 조절에 알맞은 구조를 갖춤"
         }
       ],
       "choices": [
-        {
-          "text": "🪵 \"목재 가공과 글자 새김의 과정을 확인하고, 경판과 보관 건축물의 역할을 구분해 살핀다.\"",
-          "correct": true,
-          "feedback": "경판 제작 기술과 해인사 장경판전의 보관 환경은 서로 다른 자료로 살펴볼 수 있습니다.",
-          "next": "2"
-        },
-        {
-          "text": "🪵 \"시간이 없으니 아무 생나무나 베어다가 급하게 대충 글자를 파서 쌓아둔다.\"",
-          "correct": false,
-          "feedback": "건조되지 않은 나무는 얼마 못 가 뒤틀리고 벌레가 먹어 글자를 읽을 수 없게 됩니다.",
-          "next": "1-1"
-        }
+        { "text": "다음 관문에서 직지의 인쇄 과정을 살펴봅니다.", "correct": true, "next": "2" }
       ],
       "simulator": {
         "mode": "culture-touch",
         "scene": "goryeo-tripitaka-carving",
         "type": "info",
-        "interaction": "hotspot-discovery",
-        "hotspots": [
-          {
-            "id": "wood-selection",
-            "label": "목재 선택",
-            "x": 0.22,
-            "y": 0.48,
-            "feedback": "대장경판 제작은 알맞은 목재를 선택하는 데서 시작합니다."
-          },
-          {
-            "id": "carving-process",
-            "label": "가공과 글자 새김",
-            "x": 0.5,
-            "y": 0.65,
-            "feedback": "목재를 가공하고 글자를 새기는 제작 과정을 살펴봅니다."
-          },
-          {
-            "id": "storage-environment",
-            "label": "보관 환경",
-            "x": 0.78,
-            "y": 0.48,
-            "feedback": "오늘날 보존 상태를 설명할 때는 제작 과정과 보관 환경을 구분해야 합니다."
-          }
-        ],
-        "gaugeLabel": "경판 완성도:",
-        "instruction": "🪵 <b>화면을 터치하여 팔만대장경의 글자를 한 획 한 획 정성껏 새기세요!</b>",
-        "feedback": "8만 1,258장의 팔만대장경판이 완성되었습니다!",
+        "interaction": "inquiry-task",
+        "task": {
+          "type": "commit-revise",
+          "prompt": "팔만대장경판이 오늘날까지 남은 까닭을 어떻게 설명할 수 있을까요?",
+          "options": [
+            {
+              "id": "making-only",
+              "label": "경판을 정교하게 만든 과정만으로 설명할 수 있다.",
+              "correct": false,
+              "feedback": "제작 과정은 중요하지만, 완성된 경판이 놓인 보관 환경도 함께 살펴야 합니다."
+            },
+            {
+              "id": "storage-only",
+              "label": "장경판전의 보관 환경만으로 설명할 수 있다.",
+              "correct": false,
+              "feedback": "보관 환경은 중요하지만, 목재를 고르고 가공해 글자를 새긴 제작 과정도 빠뜨릴 수 없습니다."
+            },
+            {
+              "id": "making-and-storage",
+              "label": "경판의 제작 과정과 이후 보관 환경을 함께 살펴야 한다.",
+              "correct": true,
+              "feedback": "제작과 보관은 서로 다른 자료로 확인하고 함께 설명해야 합니다."
+            }
+          ],
+          "evidence": [
+            {
+              "id": "wood-process-source",
+              "label": "경판 제작 자료",
+              "detail": "알맞은 목재를 선택하고 가공한 뒤 글자를 새기는 여러 과정이 필요했습니다."
+            },
+            {
+              "id": "storage-building-source",
+              "label": "장경판전 보관 자료",
+              "detail": "장경판전의 위치와 구조는 경판을 보관하기에 알맞은 환기와 습도 환경을 만드는 데 도움을 주었습니다."
+            }
+          ],
+          "requiredEvidenceIds": ["wood-process-source", "storage-building-source"],
+          "awards": [
+            {
+              "id": "tripitaka-making",
+              "label": "팔만대장경판의 제작 과정",
+              "detail": "목재 선택·가공·글자 새김을 살필 수 있는 제작 자료",
+              "category": "production",
+              "role": "support"
+            },
+            {
+              "id": "tripitaka-storage",
+              "label": "장경판전의 보관 환경",
+              "detail": "완성된 경판의 장기 보존을 설명하는 건축 환경 자료",
+              "category": "preservation",
+              "role": "support"
+            }
+          ]
+        },
+        "infoText": "첫 생각이 달라져도 괜찮습니다. 새 자료로 설명을 고치는 것이 역사 탐구입니다.",
+        "instruction": "🪵 <b>먼저 판단하고, 제작·보관 자료를 연 뒤 최종 판단을 정하세요.</b>",
+        "feedback": "첫 판단부터 정해 보세요.",
         "required": true,
         "completion": {
-          "target": 3,
+          "strategy": "validated-state",
+          "target": 1,
           "increment": 1,
-          "minActions": 3,
+          "minActions": 1,
           "progressKey": "simulatorProgress",
-          "successText": "✅ 목재·제작 과정·보관 환경 단서를 모두 확인했습니다. 이제 원리를 선택하세요."
+          "successText": "✅ 제작과 보관 자료를 함께 사용했습니다."
         }
       }
     },
-    "1-1": {
-      "location": "썩어버린 목판",
-      "badge": "❌ 자료 해석 (문화유산 상실)",
-      "character": {
-        "name": "시간 안내원 '타미'",
-        "role": "역사 해설자",
-        "emoji": "🤖"
-      },
-      "narrative": "<b>❌ [자료 다시 보기: 제작과 보관]</b><br>문화유산의 보존은 장인의 제작 과정과 이후 보관 환경을 함께 살펴야 설명할 수 있습니다.<br><br>대장경판의 목재 가공·글자 새김 과정과, 경판을 오랫동안 보관한 건축 환경의 역할을 구분해 관련 자료를 다시 확인해 보세요.",
-      "choices": [
-        {
-          "text": "🔄 목재 가공과 보관 환경의 자료를 다시 비교한다.",
-          "next": "1",
-          "correct": true
-        }
-      ]
-    },
     "2": {
       "location": "청주 흥덕사 (1377년)",
-      "badge": "✨ 제2관문: 직지심체요절과 금속활자",
+      "badge": "✨ 제2관문: 절차와 기술의 의미 연결하기",
       "character": {
-        "name": "흥덕사 승려 백운화상",
-        "role": "금속활자 장인",
+        "name": "흥덕사 인쇄 장인",
+        "role": "금속활자 인쇄 자료 안내",
         "emoji": "✨"
       },
-      "narrative": "<b>1377년 청주 흥덕사에서 찍은 『직지』는 현존하는 가장 오래된 금속활자 인쇄본으로 알려져 있습니다.</b><br><br>금속활자는 글자를 다시 조합할 수 있는 기술이지만, 책의 내용·제작 목적·전해지는 방식까지 한꺼번에 알려 주지는 않습니다. 어떤 자료로 의미를 설명하겠습니까?",
+      "narrative": "<b>1377년 청주 흥덕사에서 찍은 『직지』는 현존하는 가장 오래된 금속활자 인쇄본으로 알려져 있습니다.</b><br><br>금속활자는 낱글자를 배열해 인쇄하고 다시 사용할 수 있는 기술입니다. 인쇄 과정을 배열한 뒤, 글자를 다시 조합할 수 있다는 점의 의미를 연결해 보세요.",
       "glossary": [
         {
-          "term": "직지심체요절",
-          "definition": "1377년 청주 흥덕사에서 인쇄된 현존하는 세계에서 가장 오래된 금속활자본 (유네스코 세계기록유산)"
+          "term": "금속활자",
+          "definition": "금속으로 만든 낱글자를 필요한 내용에 맞게 배열해 인쇄하는 도구"
         },
         {
-          "term": "상정고금예문",
-          "definition": "1230년대 금속 활자로 인쇄했다는 기록이 남은 책으로, 실물은 전하지 않음"
+          "term": "직지",
+          "definition": "1377년 청주 흥덕사에서 인쇄된 현존하는 세계에서 가장 오래된 금속활자 인쇄본으로 알려진 책"
         }
       ],
       "choices": [
-        {
-          "text": "✨ \"부처의 가르침을 모은 '직지심체요절'을 금속활자로 정교하게 인쇄한다!\"",
-          "correct": true,
-          "feedback": "『직지』는 고려의 금속활자 인쇄 기술을 보여 주는 중요한 자료이며, 현존하는 가장 오래된 금속활자 인쇄본으로 알려져 있습니다.",
-          "next": "3"
-        },
-        {
-          "text": "📜 \"금속활자는 너무 어렵고 비싸니 비싼 양피지에 손으로 베껴 쓰는 필사만 고집한다.\"",
-          "correct": false,
-          "feedback": "손으로 쓰는 필사는 책의 보급 속도가 너무 느려 지식의 대중화를 이끌 수 없습니다.",
-          "next": "2-1"
-        }
+        { "text": "다음 관문에서 벽란도의 교류 자료를 살펴봅니다.", "correct": true, "next": "3" }
       ],
       "simulator": {
         "mode": "culture-touch",
         "scene": "goryeo-metal-type",
         "type": "info",
-        "interaction": "hotspot-discovery",
-        "hotspots": [
-          {
-            "id": "metal-type",
-            "label": "금속활자 인쇄",
-            "x": 0.22,
-            "y": 0.48,
-            "feedback": "1377년 흥덕사에서 찍은 직지는 현존하는 가장 오래된 금속활자 인쇄본으로 알려져 있습니다."
+        "interaction": "inquiry-task",
+        "task": {
+          "type": "sequence",
+          "prompt": "금속활자로 한 면을 인쇄하는 핵심 과정을 배열하고 기술의 의미를 연결하세요.",
+          "cards": [
+            {
+              "id": "prepare-type",
+              "label": "필요한 낱글자 준비",
+              "detail": "찍을 내용에 필요한 금속활자를 고릅니다.",
+              "orderFeedback": "먼저 찍을 내용에 필요한 낱글자를 준비해야 배열할 수 있습니다."
+            },
+            {
+              "id": "compose-type",
+              "label": "내용에 맞게 활자 배열",
+              "detail": "낱글자를 문장과 판면에 맞게 조판합니다.",
+              "orderFeedback": "인쇄하기 전에 낱글자를 내용에 맞게 배열하는 조판 과정이 필요합니다."
+            },
+            {
+              "id": "print-sheet",
+              "label": "먹을 묻혀 종이에 인쇄",
+              "detail": "배열한 활자에 먹을 묻혀 종이에 찍습니다.",
+              "orderFeedback": "종이에 찍는 일은 활자를 모두 배열한 뒤에 할 수 있습니다."
+            },
+            {
+              "id": "reuse-type",
+              "label": "활자를 풀어 다시 사용",
+              "detail": "인쇄를 마친 낱글자는 다른 내용을 찍을 때 다시 조합할 수 있습니다.",
+              "orderFeedback": "다시 사용하는 일은 현재 면의 인쇄를 마친 뒤에 이어집니다."
+            }
+          ],
+          "correctOrder": ["prepare-type", "compose-type", "print-sheet", "reuse-type"],
+          "meaningQuestion": {
+            "prompt": "낱글자를 다시 조합할 수 있다는 점은 무엇을 보여 줄까요?",
+            "options": [
+              {
+                "id": "reuse-for-new-text",
+                "label": "같은 활자를 다른 내용의 인쇄에도 다시 활용할 수 있다.",
+                "correct": true,
+                "feedback": "금속활자의 낱글자는 필요한 내용에 맞게 다시 조합할 수 있습니다."
+              },
+              {
+                "id": "one-book-only",
+                "label": "한 번 만든 활자는 한 권을 찍은 뒤 모두 버려야 한다.",
+                "correct": false,
+                "feedback": "낱글자를 다시 조합할 수 있다는 점이 금속활자의 중요한 특징입니다."
+              },
+              {
+                "id": "all-people-read",
+                "label": "금속활자가 있었으므로 당시 모든 사람이 책을 읽었다.",
+                "correct": false,
+                "feedback": "인쇄 기술의 존재만으로 당시 모든 사람의 독서 생활까지 단정할 수는 없습니다."
+              }
+            ]
           },
-          {
-            "id": "reusable-letters",
-            "label": "다시 조합하는 글자",
-            "x": 0.5,
-            "y": 0.65,
-            "feedback": "금속활자는 글자를 다시 조합할 수 있는 인쇄 기술입니다."
-          },
-          {
-            "id": "book-context",
-            "label": "책의 내용과 제작 목적",
-            "x": 0.78,
-            "y": 0.48,
-            "feedback": "활자 기술만으로 책의 내용·제작 목적·전해지는 방식까지 모두 알 수는 없습니다."
-          }
-        ],
-        "infoText": "고려는 금속활자를 활용한 인쇄 기술을 발전시켰고, 현존하는 가장 오래된 금속활자 인쇄본으로 알려진 직지심체요절을 남겼습니다.",
-        "instruction": "✨ <b>금속활자를 조판하여 직지를 인쇄하세요</b>",
-        "feedback": "현존하는 가장 오래된 금속활자 인쇄본으로 알려진 직지심체요절의 의미를 확인했습니다!",
+          "awards": [
+            {
+              "id": "jikji-process",
+              "label": "직지의 금속활자 인쇄 과정",
+              "detail": "낱글자를 배열해 종이에 찍는 인쇄 기술 자료",
+              "category": "printing-process",
+              "role": "support"
+            },
+            {
+              "id": "reusable-type",
+              "label": "다시 조합할 수 있는 낱글자",
+              "detail": "인쇄 뒤 활자를 풀어 다른 내용에 재사용할 수 있다는 기술 특징",
+              "category": "technology",
+              "role": "support"
+            }
+          ]
+        },
+        "infoText": "순서를 외우는 것보다 각 과정이 왜 앞뒤로 이어지는지 살펴보세요.",
+        "instruction": "✨ <b>카드의 앞뒤 관계를 생각하며 금속활자 인쇄 과정을 배열하세요.</b>",
+        "feedback": "과정 카드와 기술 의미를 모두 완성해야 합니다.",
         "required": true,
         "completion": {
-          "target": 3,
+          "strategy": "validated-state",
+          "target": 1,
           "increment": 1,
-          "minActions": 3,
+          "minActions": 1,
           "progressKey": "simulatorProgress",
-          "successText": "✅ 금속활자·재조합·자료의 범위 단서를 모두 확인했습니다. 이제 의미를 선택하세요."
+          "successText": "✅ 인쇄 절차와 금속활자의 의미를 연결했습니다."
         }
       }
     },
-    "2-1": {
-      "location": "지식이 멈춘 세상",
-      "badge": "❌ 자료 해석 (인쇄술 발전 지체)",
-      "character": {
-        "name": "시간 안내원 '타미'",
-        "role": "역사 해설자",
-        "emoji": "🤖"
-      },
-      "narrative": "<b>❌ [자료 다시 보기: 기술과 자료의 범위]</b><br>금속활자는 중요한 기술이지만 한 기술만으로 당시 모든 사람이 책을 읽었다고 단정할 수는 없습니다.",
-      "choices": [
-        {
-          "text": "🔄 직지심체요절 인쇄를 완성한다.",
-          "next": "2",
-          "correct": true
-        }
-      ]
-    },
     "3": {
       "location": "예성강 하구 국제 무역항 벽란도 (11~12세기)",
-      "badge": "⛵ 제3관문: 벽란도와 코리아(Corea)",
+      "badge": "⛵ 제3관문: 공간 근거와 자료의 범위 구분하기",
       "character": {
-        "name": "아라비아 상인 & 고려 상인",
-        "role": "국제 무역상",
+        "name": "고려와 외국의 상인",
+        "role": "벽란도 교류 기록 안내",
         "emoji": "⛵"
       },
-      "narrative": "<b>벽란도는 고려 수도 개경 인근의 예성강 하구에 있던 무역항입니다.</b><br><br>송·일본·아라비아 상인과의 교류 기록은 고려가 넓은 교역망과 연결되어 있었음을 보여 줍니다. 다만 한 항구의 기록만으로 고려 사회 전체가 똑같이 국제 교류를 했다고 단정할 수는 없습니다.",
+      "narrative": "<b>벽란도는 고려 수도 개경 인근의 예성강 하구에 있던 무역항입니다.</b><br><br>송·일본·아라비아 상인과의 교류 기록은 고려가 여러 지역과 연결되었음을 보여 줍니다. 장소, 교류 근거, 자료의 한계를 한 묶음으로 연결해 보세요.",
       "glossary": [
-        {
-          "term": "벽란도",
-          "definition": "고려 수도 개경 근처 예성강 하구에 위치한 고려 최대의 국제 무역항"
-        },
-        {
-          "term": "코리아(Korea)",
-          "definition": "벽란도를 찾은 아라비아 상인들이 '고려(Goryeo)'를 서방에 전하면서 굳어진 우리나라의 이름"
-        }
+        { "term": "벽란도", "definition": "고려 수도 개경 근처 예성강 하구에 있던 국제 무역항" },
+        { "term": "교역", "definition": "지역 사이에서 물건과 기술, 정보가 오가는 활동" }
       ],
       "choices": [
-        {
-          "text": "🌍 \"벽란도의 교역 기록을 통해 고려가 여러 지역과 연결되었음을 설명하되, 자료가 보여 주는 범위를 구분한다.\"",
-          "correct": true,
-          "feedback": "벽란도는 고려의 국제 교류를 보여 주는 중요한 항구였고, 고려라는 이름은 서아시아 기록에 'Corea' 등으로 나타납니다.",
-          "next": "4"
-        },
-        {
-          "text": "🔒 \"송·일본·아라비아와의 교류 기록은 무시하고 도적이 두려워 벽란도를 폐쇄해 바닷길을 걸어 잠근다.\"",
-          "correct": false,
-          "feedback": "쇄국 정책은 국제 사회로부터 고립되어 찬란한 고려 문화의 세계화를 막아버립니다.",
-          "next": "3-1"
-        }
+        { "text": "마지막 관문에서 지금까지 모은 근거를 연결합니다.", "correct": true, "next": "4" }
       ],
       "simulator": {
         "mode": "text-reading",
         "scene": "goryeo-byeokrando",
         "type": "info",
-        "interaction": "hotspot-discovery",
+        "interaction": "inquiry-task",
         "hotspots": [
-          {
-            "id": "byeokrando-port",
-            "label": "벽란도 무역항",
-            "x": 0.22,
-            "y": 0.48,
-            "feedback": "벽란도는 고려 수도 개경 인근 예성강 하구에 있던 무역항입니다."
-          },
-          {
-            "id": "trade-network",
-            "label": "송·일본·아라비아 교류",
-            "x": 0.5,
-            "y": 0.65,
-            "feedback": "교류 기록은 고려가 송·일본·아라비아 상인과 연결되어 있었음을 보여 줍니다."
-          },
-          {
-            "id": "record-limits",
-            "label": "한 항구 기록의 범위",
-            "x": 0.78,
-            "y": 0.48,
-            "feedback": "한 항구의 기록만으로 고려 사회 전체가 똑같이 국제 교류를 했다고 단정할 수는 없습니다."
-          }
+          { "id": "byeokrando-port", "label": "벽란도", "x": 0.22, "y": 0.52, "feedback": "개경 인근 예성강 하구의 국제 무역항입니다." },
+          { "id": "heungdeoksa", "label": "흥덕사", "x": 0.5, "y": 0.68, "feedback": "직지를 인쇄한 곳으로 알려진 절이며 국제 무역항 자료는 아닙니다." },
+          { "id": "haeinsa", "label": "해인사", "x": 0.78, "y": 0.52, "feedback": "팔만대장경판을 보관하는 곳이며 벽란도 교역 장소와는 다릅니다." }
         ],
-        "infoText": "벽란도는 동서양의 문물이 오가던 고려의 창문이자 글로벌 무역 허브였습니다.",
-        "instruction": "⛵ <b>벽란도에서 세계와 교류하세요</b>",
-        "feedback": "고려의 이름 '코리아(Korea)'가 전 세계에 널리 알려졌습니다!",
+        "task": {
+          "type": "map-evidence",
+          "prompt": "벽란도 자료가 보여 주는 교류와 그 자료의 범위를 연결하세요.",
+          "locations": [
+            { "id": "byeokrando-port", "label": "벽란도", "detail": "고려 수도 개경 인근 예성강 하구에 있던 무역항", "correct": true, "feedback": "벽란도는 고려의 국제 교류를 보여 주는 무역항입니다." },
+            { "id": "heungdeoksa", "label": "흥덕사", "detail": "직지를 인쇄한 곳으로 알려진 절", "correct": false, "feedback": "흥덕사는 직지 인쇄 자료와 연결됩니다. 국제 무역항 자료를 다시 찾아보세요." },
+            { "id": "haeinsa", "label": "해인사", "detail": "팔만대장경판을 보관하는 곳", "correct": false, "feedback": "해인사는 대장경판 보관 자료와 연결됩니다. 국제 무역항은 다른 장소입니다." }
+          ],
+          "supports": [
+            { "id": "trade-records", "label": "송·일본·아라비아 상인과 교류했다는 기록", "correct": true, "feedback": "서로 다른 지역 상인의 교류 기록은 국제 연결을 직접 뒷받침합니다." },
+            { "id": "printing-record", "label": "흥덕사에서 직지를 인쇄했다는 기록", "correct": false, "feedback": "직지 기록은 인쇄 기술의 근거이지만 벽란도의 국제 교역을 직접 보여 주지는 않습니다." },
+            { "id": "storage-building", "label": "장경판전이 경판 보관에 알맞았다는 자료", "correct": false, "feedback": "장경판전 자료는 보관 환경의 근거입니다. 교역 기록과 자료 종류를 구분하세요." }
+          ],
+          "limits": [
+            { "id": "port-record-scope", "label": "한 항구의 기록만으로 고려의 모든 지역과 계층을 설명할 수는 없다.", "correct": true, "feedback": "한 자료의 가치와 그 자료가 보여 주는 범위를 함께 살펴야 합니다." },
+            { "id": "all-people-traded", "label": "벽란도 기록이 있으므로 고려 사람 모두가 국제 무역을 했다.", "correct": false, "feedback": "무역항의 기록을 고려 사회 모든 사람의 생활로 확대하면 과잉 일반화가 됩니다." },
+            { "id": "no-other-exchange", "label": "벽란도 기록만 남았으므로 다른 장소에서는 어떤 교류도 없었다.", "correct": false, "feedback": "한 자료에 나오지 않는다고 다른 교류가 없었다고 단정할 수는 없습니다." }
+          ],
+          "awards": [
+            { "id": "byeokrando-network", "label": "벽란도의 국제 교류 기록", "detail": "송·일본·아라비아 상인과의 연결을 보여 주는 교역 자료", "category": "exchange", "role": "support" },
+            { "id": "record-limit", "label": "한 항구 기록의 범위", "detail": "한 항구 자료만으로 고려 사회 전체를 똑같이 설명할 수 없다는 한계", "category": "source-scope", "role": "limit" }
+          ]
+        },
+        "infoText": "지도에서 장소를 찾은 뒤, 그 장소가 남긴 기록의 가치와 한계를 함께 연결하세요.",
+        "instruction": "⛵ <b>Canvas나 아래 버튼으로 장소를 고르고 교류 근거와 자료 한계를 연결하세요.</b>",
+        "feedback": "장소·근거·자료 범위를 한 묶음으로 선택하세요.",
         "required": true,
         "completion": {
-          "target": 3,
+          "strategy": "validated-state",
+          "target": 1,
           "increment": 1,
-          "minActions": 3,
+          "minActions": 1,
           "progressKey": "simulatorProgress",
-          "successText": "✅ 무역항·교류망·자료의 범위 단서를 모두 확인했습니다. 이제 근거를 선택하세요."
+          "successText": "✅ 국제 교류의 근거와 자료의 범위를 구분했습니다."
         }
       }
     },
-    "3-1": {
-      "location": "닫혀버린 항구",
-      "badge": "❌ 자료 해석 (국제 고립)",
-      "character": {
-        "name": "시간 안내원 '타미'",
-        "role": "역사 해설자",
-        "emoji": "🤖"
-      },
-      "narrative": "<b>❌ [자료 다시 보기: 교류의 범위]</b><br>무역항 기록은 국제 교류를 보여 주지만, 당시 모든 지역과 계층의 생활을 그대로 보여 주지는 않습니다.",
-      "choices": [
-        {
-          "text": "🔄 벽란도 국제 무역을 다시 활짝 연다.",
-          "next": "3",
-          "correct": true
-        }
-      ]
-    },
     "4": {
       "location": "고려 문화 자료 연구실",
-      "badge": "🔎 제4관문: 고려 문화의 여러 연결",
+      "badge": "🔎 최종 관문: 주장·근거·한계 연결하기",
       "character": {
         "name": "어린이 역사 연구원",
         "role": "자료 종합 담당",
         "emoji": "🔎"
       },
-      "narrative": "<b>팔만대장경판, 『직지』, 벽란도 교역 기록은 각각 제작 기술, 인쇄 기술, 국제 교류를 보여 줍니다.</b><br><br>세 자료를 연결하되, 어느 한 자료가 고려 사회 전체를 설명하지는 않는다는 점도 함께 생각해 봅시다.",
+      "narrative": "<b>앞선 세 관문에서 팔만대장경판, 『직지』, 벽란도에 관한 근거를 모았습니다.</b><br><br>이제 한 자료만 반복하지 말고 서로 다른 성격의 자료를 연결해 고려 문화에 관한 주장을 완성해 보세요. 자료의 한계까지 붙이면 더 깊은 설명이 됩니다.",
       "glossary": [
-        {
-          "term": "문화유산",
-          "definition": "과거 사람들이 남긴 생활·기술·생각을 알려 주는 유물과 기록"
-        },
-        {
-          "term": "교역",
-          "definition": "지역 사이에서 물건과 기술, 정보가 오가는 활동"
-        }
+        { "term": "주장", "definition": "여러 자료를 바탕으로 설명하려는 중심 생각" },
+        { "term": "근거", "definition": "주장이 타당하다고 설명하는 데 사용하는 자료와 이유" }
       ],
       "choices": [
-        {
-          "text": "🔎 \"경판 제작, 금속활자 인쇄, 벽란도 교역을 연결해 고려의 문화와 교류를 설명하고 자료의 범위를 구분한다.\"",
-          "correct": true,
-          "feedback": "서로 다른 자료를 함께 보면 고려의 기술·문화·교류를 균형 있게 설명할 수 있습니다.",
-          "next": "end"
-        },
-        {
-          "text": "📜 \"벽란도 교역도 경판 제작도 무시하고 『직지』 한 권만 보고 고려의 모든 문화를 안다고 말한다.\"",
-          "correct": false,
-          "feedback": "『직지』는 중요한 자료이지만, 제작·교류·생활의 다른 모습은 다른 자료와 함께 살펴야 합니다.",
-          "next": "4-1"
-        }
+        { "text": "탐구 결과를 확인하고 고려 문화 MUD를 완료합니다.", "correct": true, "next": "end" }
       ],
       "simulator": {
         "mode": "culture-touch",
         "scene": "goryeo-culture-evidence",
-        "interaction": "ordered-hotspot",
-        "sequence": ["tripitaka", "jikji", "byeokrando"],
         "type": "info",
-        "hotspots": [
-          {
-            "id": "tripitaka",
-            "label": "팔만대장경판",
-            "x": 0.22,
-            "y": 0.48,
-            "feedback": "목재 가공과 판각, 보관 기술을 살필 수 있는 자료입니다."
-          },
-          {
-            "id": "jikji",
-            "label": "직지 금속활자본",
-            "x": 0.5,
-            "y": 0.65,
-            "feedback": "고려의 금속활자 인쇄 기술을 보여 주는 현존 자료입니다."
-          },
-          {
-            "id": "byeokrando",
-            "label": "벽란도 교역 기록",
-            "x": 0.78,
-            "y": 0.48,
-            "feedback": "고려가 여러 지역과 연결된 해상 교류를 보여 주는 자료입니다."
-          }
-        ],
+        "interaction": "inquiry-task",
+        "task": {
+          "type": "claim-evidence",
+          "prompt": "서로 다른 근거를 연결해 고려 문화에 관한 설명을 완성하세요.",
+          "claims": [
+            {
+              "id": "technology-and-exchange",
+              "label": "서로 다른 자료를 함께 보면 고려의 제작·인쇄 기술과 국제 교류를 더 균형 있게 설명할 수 있다.",
+              "accepts": ["tripitaka-making", "tripitaka-storage", "jikji-process", "reusable-type", "byeokrando-network"],
+              "minCategories": 2
+            },
+            {
+              "id": "technology-needs-sources",
+              "label": "고려의 인쇄·보존 기술은 하나의 유물보다 제작·보관·인쇄 자료를 연결해 설명해야 한다.",
+              "accepts": ["tripitaka-making", "tripitaka-storage", "jikji-process", "reusable-type"],
+              "minCategories": 2
+            }
+          ],
+          "allowedEvidenceIds": ["tripitaka-making", "tripitaka-storage", "jikji-process", "reusable-type", "byeokrando-network"],
+          "minEvidence": 2,
+          "maxEvidence": 3,
+          "limits": [
+            { "id": "one-source-limit", "label": "한 문화유산이나 한 항구의 기록만으로 고려 사회 전체를 설명할 수는 없다.", "correct": true, "feedback": "자료마다 보여 주는 범위가 다르므로 여러 자료를 비교해야 합니다." },
+            { "id": "one-source-enough", "label": "직지 한 권만 살펴보면 고려의 모든 문화와 생활을 알 수 있다.", "correct": false, "feedback": "직지는 중요한 인쇄 자료이지만 제작·교류·생활의 모든 모습을 보여 주지는 않습니다." },
+            { "id": "important-no-limit", "label": "중요한 문화유산은 자료의 범위를 따로 따질 필요가 없다.", "correct": false, "feedback": "중요한 자료도 무엇을 보여 주고 무엇은 보여 주지 못하는지 구분해야 합니다." }
+          ]
+        },
+        "infoText": "근거의 개수보다 서로 다른 자료를 연결했는지, 자료의 범위를 구분했는지가 중요합니다.",
+        "instruction": "🔎 <b>주장을 고르고 앞선 관문에서 모은 근거 2~3장을 연결하세요.</b>",
+        "feedback": "앞에서 모은 근거를 사용해 최종 설명을 구성하세요.",
         "required": true,
         "completion": {
-          "target": 3,
+          "strategy": "validated-state",
+          "target": 1,
           "increment": 1,
-          "minActions": 3,
+          "minActions": 1,
           "progressKey": "simulatorProgress",
-          "successText": "🔎 제작·인쇄·교류 자료를 모두 확인했습니다. 이제 근거를 종합하세요."
-        },
-        "infoText": "자료마다 알려 주는 범위가 다르므로 함께 비교해야 합니다.",
-        "instruction": "🔎 <b>고려 문화의 세 자료를 비교하세요</b>",
-        "feedback": "한 문화유산만으로 시대 전체를 단정하지 마세요."
-      }
-    },
-    "4-1": {
-      "location": "고려 문화 자료 연구실",
-      "badge": "↩️ 근거 보완: 자료의 범위",
-      "character": {
-        "name": "시간 안내원 타미",
-        "role": "역사 해설자",
-        "emoji": "🤖"
-      },
-      "narrative": "<b>팔만대장경판 자료 하나만으로는 고려 문화의 전체 모습을 설명할 수 없습니다.</b><br><br>팔만대장경판 자료는 목판 제작 기술을, 직지 금속활자본 기록은 인쇄 기술을, 벽란도 교역 기록은 국제 교류를 각각 보여 줍니다. 세 자료를 함께 비교해 연결해야 고려의 문화와 교류를 온전히 설명할 수 있습니다.",
-      "choices": [
-        {
-          "text": "🔄 팔만대장경·직지·벽란도 세 자료를 함께 연결해 다시 설명한다.",
-          "next": "4",
-          "correct": true
+          "successText": "🔎 서로 다른 자료를 연결해 고려 문화를 설명했습니다."
         }
-      ]
+      }
     }
   },
   "rewards": [
-    {
-      "artifactId": "art_8",
-      "name": "직지심체요절 영인본과 고려 비색 청자"
-    }
+    { "artifactId": "art_8", "name": "직지심체요절 영인본과 고려 비색 청자" }
   ],
   "curriculum": {
     "version": "2022-revised",
-    "achievementStandards": [
-      "6사04-03"
-    ],
+    "achievementStandards": ["6사04-03"],
     "mappingStatus": "achievement-standard-mapped"
   },
   "sources": [

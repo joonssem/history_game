@@ -90,6 +90,19 @@ const MudSimulators = {
         actionAccepted = true;
         if (window.sounds) window.sounds.playFanfare();
       }
+    } else if (interaction === 'inquiry-task') {
+      // inquiry-task의 완료 판정은 DOM 기반 MudInquiry evaluator가 담당한다.
+      // Canvas는 map-evidence에서 장소 ID를 전달하는 보조 입력일 뿐이다.
+      if (engine.currentSimulator?.task?.type === 'map-evidence') {
+        hotspotInteracted = this.getPaleoHotspot(simMode, x, y, canvas);
+        if (hotspotInteracted && window.MudInquiry) {
+          window.MudInquiry.selectMapLocation(hotspotInteracted.id);
+        } else if (!hotspotInteracted) {
+          this.setPaleoFeedback('지도에 표시된 장소나 아래의 장소 버튼을 선택하세요.');
+        }
+      } else {
+        this.setPaleoFeedback('아래 탐구 카드에서 자료를 선택해 활동을 진행하세요.');
+      }
     } else if (interaction === 'ordered-hotspot') {
       hotspotInteracted = this.getPaleoHotspot(simMode, x, y, canvas);
       actionAccepted = this.dispatchHotspotInteraction(simMode, hotspotInteracted, engine);

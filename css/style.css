@@ -296,6 +296,174 @@
   font-size: 0.82rem;
 }
 
+/* Regular MUD 근거 기반 탐구 활동 */
+.inquiry-panel {
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: #fffdf8;
+  color: var(--text-main);
+}
+
+.inquiry-heading {
+  margin: 0 0 8px;
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+
+.inquiry-run-status {
+  display: inline-flex;
+  margin-bottom: 10px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #e8f4ed;
+  color: #24553f;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.inquiry-section {
+  margin: 0 0 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--card-sub);
+}
+
+.inquiry-section:last-child {
+  margin-bottom: 0;
+}
+
+.inquiry-section-title {
+  margin: 0 0 7px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.inquiry-options,
+.inquiry-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 7px;
+}
+
+.inquiry-option,
+.inquiry-evidence,
+.inquiry-move,
+.inquiry-submit {
+  min-height: 44px;
+  border: 1.5px solid #5f776b;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #2c3d35;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 650;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.inquiry-option,
+.inquiry-evidence {
+  padding: 8px 9px;
+  text-align: left;
+}
+
+.inquiry-option:hover:not(:disabled),
+.inquiry-option:focus-visible,
+.inquiry-evidence:hover:not(:disabled),
+.inquiry-evidence:focus-visible,
+.inquiry-move:focus-visible,
+.inquiry-submit:focus-visible {
+  outline: 3px solid rgba(5, 150, 105, 0.25);
+  outline-offset: 2px;
+}
+
+.inquiry-option.is-selected,
+.inquiry-evidence.is-selected,
+.inquiry-evidence.is-viewed {
+  border-color: #047857;
+  background: #dff5e8;
+  color: #174c36;
+}
+
+.inquiry-option:disabled,
+.inquiry-evidence:disabled,
+.inquiry-move:disabled,
+.inquiry-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.inquiry-evidence-detail {
+  margin: 8px 0 0;
+  padding: 8px;
+  border-left: 4px solid #059669;
+  background: #ffffff;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.inquiry-sequence-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0;
+  padding-left: 25px;
+}
+
+.inquiry-sequence-card {
+  padding: 8px;
+  border: 1px solid #d7cec1;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.inquiry-sequence-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 6px;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.inquiry-sequence-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.inquiry-move {
+  flex: 1;
+  min-width: 44px;
+  padding: 5px 8px;
+}
+
+.inquiry-submit {
+  width: 100%;
+  margin-top: 9px;
+  padding: 9px 12px;
+  border-color: #047857;
+  background: #047857;
+  color: #ffffff;
+}
+
+.inquiry-error {
+  margin: 0;
+  color: #9f1239;
+}
+
+@media (max-width: 620px) {
+  .inquiry-panel {
+    padding: 9px;
+  }
+
+  .inquiry-options,
+  .inquiry-evidence-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* 협동 MUD 파일럿 진입점 */
 .cooperative-entry {
   display: flex;

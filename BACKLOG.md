@@ -2,6 +2,24 @@
 
 > 완료된 기능은 이 목록에 넣지 않는다. 완료 이력은 [`walkthrough.md`](./walkthrough.md), 현재 상태는 [`project_context.md`](./project_context.md)에서 확인한다.
 
+## P1 실험 — Regular MUD 상호작용 다양성 수업 검증
+
+- 작업 claim: `TASK-20260910-01 | Regular MUD 핫스팟 반복 구조·시대별 조작 다양성 감사 | 기획·점검 에이전트(Codex) | 상태: DONE`
+- 계획 claim: `TASK-20260910-04 | 고려 문화 상호작용 다양성 파일럿 구현 계획 수립 | 기획·점검 에이전트(Codex) | 상태: DONE`
+- 구조 claim: `TASK-20260910-05 | Regular MUD 상호작용 전체 구조·확장 계획 수립 | 기획·점검 에이전트(Codex) | 상태: DONE`
+- 상태: `implemented / classroom-validation-needed` — `regular_goryeo_culture` 한 편의 수직 파일럿과 공용 계약·검증은 완료했다. 실제 학생 관찰과 지정 모바일·태블릿 뷰포트 검증 전에는 다른 Regular로 확장하지 않는다.
+- 구현 claim: `TASK-20260910-06 | regular_goryeo_culture inquiry-task 수직 파일럿 구현 | 실행·코딩 에이전트(Codex) | 상태: DONE`
+- 문제 기준선: 파일럿 전 Regular의 필수 시뮬레이터 112개 중 104개(92.9%)가 원형 핫스팟 계열이고 103개(92.0%)의 `completion.target`이 3이었다. 파일럿 후에는 `inquiry-task` 4개가 추가되어 필수 단계 중 target 3은 99개(88.4%), JSON 핫스팟 배열 단계는 99개로 줄었지만 모두 핫스팟이 정확히 3개인 전체 구조 문제는 여전히 남아 있다.
+- 기존 감사와의 구분: 반복 탭 내성 감사는 “같은 단서를 연타해 게이트를 우회하는가”를 검사한다. 이번 항목은 “서로 다른 역사 단계에서 같은 조작 문법을 반복하는가”를 다루므로 기존 감사 통과 여부와 별개다.
+- 교육적 영향: 배경과 라벨은 달라도 학생 행동이 `세 원을 순서대로/아무 순서로 누르기`에 수렴한다. `resource-allocation`·`reflection`도 실제로는 `hotspot-discovery`와 같은 처리기를 사용한다. 다만 4분 완료·학생 이탈의 직접 원인이라는 주장은 아직 가설이며 수업 비교 관찰이 필요하다.
+- 레드팀 후속 검증: JSON 기반 `ordered-hotspot` 55개는 sequence 밖 함정 단서가 0개다. 오입력은 진행도·시도 상태에 남지 않고, 좌표 입력 뒤 feedback을 읽거나 근거 관계를 이해했는지도 판정하지 않는다. 다만 전체 앱에는 퀴즈 점수·타이머와 유물·배지가 있으므로 “게임 요소 전무”는 과장이고, 초등 역사 학습에 속도·감점을 바로 넣는 방향은 채택하지 않는다. 상세: [`regular_gameplay_red_team_audit.md`](./docs/audits/regular_gameplay_red_team_audit.md).
+- 방향: 102개 장면 일괄 재작성 금지. 서로 다른 시대의 단편 3개보다 **Regular MUD 한 편의 4단계 수직 슬라이스**에서 `관찰 → 분류·순서화 → 인과·공간 추론 → 주장·근거·반례` 난이도 곡선을 시험한다. 1차 후보는 비민감 주제이고 단계별 사고 행동이 분명한 `regular_goryeo_culture`다. 기존 `hotspot-choice`와 새 범용 계약 1개까지만 허용한다.
+- 아이디어 옵션: [`regular_interaction_gameplay_idea_options.md`](./docs/plans/regular_interaction_gameplay_idea_options.md) — 판단–공개–수정, `card-placement`, 지도 근거 선택, 실제 자원 배분, 반례 찾기, 근거 충분도 등급, 유물 도구화, 관점 기반 재플레이를 비교한다. 확정 사양이 아니며 계획 승인 전 구현하지 않는다.
+- 파일럿 계획: [`implementation_plan_regular_interaction_diversity_pilot.md`](./docs/plans/implementation_plan_regular_interaction_diversity_pilot.md) — `inquiry-task` 하나의 하위 task로 첫 판단·순서·지도 근거·주장–근거를 구성하고, `completion.strategy: validated-state`로 의미 상태를 판정한다. 기술 구현·데스크톱 브라우저 검증 완료.
+- 전체 구조 계획: [`regular_interaction_architecture_plan.md`](./docs/plans/regular_interaction_architecture_plan.md) — 표현·입력·판정·진행 계층, 상태 수명, 28종 인지 행동 매핑과 4~6종 단위 확장 게이트를 제안한다. 파일럿 증거 전에는 `ARCHITECTURE.md`·`ROADMAP.md`·`DECISIONS.md`로 승격하지 않는다.
+- 구현 범위: 신규 `js/mudInquiry.js`, `simulator_contract.json`, `js/mudEngine.js`, `js/mudSimulators.js`, `index.html`, `css/style.css`, `data/mud/regular_goryeo_culture.json`, 계약·무결성·런타임·반복 탭 감사기. 다른 27개 Regular 데이터는 변경하지 않았다.
+- 다음 게이트: 390×844·820×1180 실기기 또는 동등 뷰포트 점검과 학생 3명 이상 수업 관찰을 기록한다. 전체 28종 확장은 그 결과를 검토한 뒤 별도 승인한다.
+
 ## 2026-09-08 유물 2개 비교·추론 프로토타입
 
 TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 | 담당: Claude Sonnet 5 | 상태: DONE

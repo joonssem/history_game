@@ -34,7 +34,7 @@ function makeElement() {
 for (const id of [
   'widget-info', 'widget-gauge', 'widget-slider', 'mn-canvas-instr',
   'mn-canvas-feedback', 'mn-hotspot-actions', 'mn-choices-grid',
-  'mn-interactive-card'
+  'mn-interactive-card', 'mn-inquiry-panel', 'mn-choice-title'
 ]) {
   fakeElements.set(id, makeElement());
 }
@@ -48,9 +48,11 @@ global.document = {
 };
 
 require('../js/mudEngine.js');
+require('../js/mudInquiry.js');
 require('../js/mudSimulators.js');
 
 const engine = window.MudEngine;
+const inquiry = window.MudInquiry;
 const simulators = window.MudSimulators;
 
 function prepare(simulator) {
@@ -247,4 +249,83 @@ simulators.handleCanvasTouch(100, 50);
 assert.equal(engine.simulatorProgress, 2, 'direct vote canvas input must update canonical progress');
 assert.equal(engine.simulatorComplete, true, 'direct vote canvas input must unlock choices');
 
-console.log('PASS: simulator runtime state, valid-action counting, and legacy progress adapters');
+const goryeo = require('../data/mud/regular_goryeo_culture.json');
+const commitTask = goryeo.stages['1'].simulator.task;
+const commitState = {
+  initialChoice: 'making-only',
+  viewedEvidence: ['wood-process-source', 'storage-building-source'],
+  finalChoice: 'making-and-storage'
+};
+const commitResult = inquiry.evaluateTask(commitTask, commitState);
+assert.equal(commitResult.status, 'complete', 'commit-revise must accept a supported final judgment');
+assert.equal(commitResult.quality, 'historian', 'changing a judgment after evidence must be recognized');
+assert.equal(
+  inquiry.evaluateTask(commitTask, { ...commitState, finalChoice: 'making-only' }).status,
+  'revise',
+  'an incomplete explanation must not satisfy commit-revise'
+);
+
+const sequenceTask = goryeo.stages['2'].simulator.task;
+assert.equal(inquiry.evaluateTask(sequenceTask, {
+  order: [...sequenceTask.correctOrder],
+  meaningChoice: 'reuse-for-new-text'
+}).status, 'complete', 'valid historical sequence and meaning must complete together');
+assert.equal(inquiry.evaluateTask(sequenceTask, {
+  order: [...sequenceTask.correctOrder].reverse(),
+  meaningChoice: 'reuse-for-new-text'
+}).status, 'revise', 'wrong sequence must not complete through a correct meaning answer');
+
+const mapTask = goryeo.stages['3'].simulator.task;
+assert.equal(inquiry.evaluateTask(mapTask, {
+  locationId: 'byeokrando-port',
+  supportId: 'trade-records',
+  limitId: 'port-record-scope'
+}).status, 'complete', 'map place, supporting evidence, and scope limit must complete as a set');
+assert.equal(inquiry.evaluateTask(mapTask, {
+  locationId: 'byeokrando-port',
+  supportId: 'printing-record',
+  limitId: 'port-record-scope'
+}).status, 'revise', 'unrelated evidence must keep map-evidence incomplete');
+
+const runEvidence = ['1', '2', '3'].flatMap(stageId => goryeo.stages[stageId].simulator.task.awards || []);
+const claimTask = goryeo.stages['4'].simulator.task;
+assert.equal(inquiry.evaluateTask(claimTask, {
+  claimId: 'technology-and-exchange',
+  selectedEvidence: ['tripitaka-making', 'byeokrando-network'],
+  limitId: 'one-source-limit'
+}, runEvidence).quality, 'historian', 'claim-evidence must reward cross-category evidence and a valid limit');
+assert.equal(inquiry.evaluateTask(claimTask, {
+  claimId: 'technology-needs-sources',
+  selectedEvidence: ['tripitaka-making', 'byeokrando-network'],
+  limitId: null
+}, runEvidence).status, 'revise', 'evidence outside the selected claim must be rejected');
+
+const inquirySimulator = goryeo.stages['1'].simulator;
+prepare(inquirySimulator);
+engine.inquiryRunState = { evidence: [], stageResults: {} };
+engine.setSimulatorProgress(1);
+engine.registerSimulatorAction();
+engine.updateSimulatorCompletion();
+assert.equal(engine.simulatorComplete, false, 'validated-state must ignore counters without evaluator approval');
+assert.equal(engine.acceptInquiryResult({
+  ...commitResult,
+  attempts: 1,
+  revised: true,
+  firstChoice: 'making-only',
+  hintsUsed: 1,
+  misconceptionFlags: ['commit-making-only', 'commit-making-only'],
+  earnedEvidence: commitTask.awards
+}), true, 'accepted inquiry result must unlock the existing progression gate');
+assert.equal(engine.inquiryRunState.evidence.length, 2, 'accepted inquiry must add its evidence once');
+assert.deepEqual(engine.inquiryRunState.stageResults['1'], {
+  attempts: 1,
+  revised: true,
+  quality: 'historian',
+  firstChoice: 'making-only',
+  hintsUsed: 1,
+  misconceptionFlags: ['commit-making-only']
+}, 'inquiry diagnostics must remain deduplicated in MUD-run memory');
+assert.equal(engine.acceptInquiryResult({ earnedEvidence: commitTask.awards }), false, 'completed inquiry cannot be accepted twice');
+assert.equal(engine.inquiryRunState.evidence.length, 2, 'duplicate completion must not duplicate evidence');
+
+console.log('PASS: simulator runtime, legacy progress adapters, and inquiry validated-state contract');
