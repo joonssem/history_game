@@ -1,5 +1,14 @@
 # Walkthrough
 
+## 2026-09-10 — 고려 문화 파일럿 GitHub Pages 운영 배포
+
+`TASK-20260910-07 | main 병합·GitHub Pages 배포 | integration agent(Codex) | 상태: DONE`
+
+- `audit/interaction-diversity`를 최신 `main`과 격리된 통합 worktree에서 fast-forward한 뒤 `1b1fc89d24625fa5ffd1f9f6744c160de5c126d4`로 `main`에 푸시했다.
+- GitHub Pages build `1205796181`은 해당 커밋 기준 `built` 상태이며 운영 URL은 `https://joonssem.github.io/history_game/`이다.
+- 운영 화면에서 inquiry-task 패널을 확인했고, Canvas 3회 탭과 첫 선택지 단독 선택만으로는 진행되지 않았다. 두 근거 자료와 최종 판단 제출 후에만 첫 관문이 해제되었다.
+- 운영 브라우저 콘솔 error/warning은 0건이었다.
+
 ## 2026-09-10 — 고려 문화 `inquiry-task` 수직 파일럿
 
 `TASK-20260910-06 | regular_goryeo_culture inquiry-task 수직 파일럿 구현 | 실행·코딩 에이전트(Codex) | 상태: DONE`

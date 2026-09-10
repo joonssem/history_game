@@ -2087,7 +2087,7 @@ TASK-20260910-06 | `regular_goryeo_culture` inquiry-task 수직 파일럿 구현
 
 ## 2026-09-10 고려 문화 상호작용 파일럿 운영 배포 승인
 
-TASK-20260910-07 | `audit/interaction-diversity` main 병합·GitHub Pages 배포 | 담당: integration agent(Codex) | 상태: DOING
+TASK-20260910-07 | `audit/interaction-diversity` main 병합·GitHub Pages 배포 | 담당: integration agent(Codex) | 상태: DONE
 
 상태: `promoted` — 사용자가 원격 기능 브랜치의 검증 결과를 확인한 뒤 운영 배포를 명시적으로 요청했다.
 
@@ -2100,3 +2100,11 @@ TASK-20260910-07 | `audit/interaction-diversity` main 병합·GitHub Pages 배�
 - 최신 `origin/main`과 기능 브랜치를 별도 통합 worktree에서 병합
 - 전체 정적·계약·런타임 회귀 통과 후 `main` 푸시
 - GitHub Pages 빌드 성공과 운영 URL의 고려 문화 신규 탐구 UI 확인
+
+### 처리 결과
+
+- 최신 `origin/main`과 기능 브랜치를 격리된 통합 worktree에서 fast-forward하여 `1b1fc89d24625fa5ffd1f9f6744c160de5c126d4`를 `main`에 푸시했다.
+- 정적·계약·런타임·콘텐츠 검증 스크립트와 `git diff --check`가 모두 통과했다.
+- GitHub Pages build `1205796181`이 `main`의 해당 커밋으로 `built` 상태가 되었다.
+- 운영 브라우저에서 Canvas 3회 탭과 첫 선택지 단독 선택만으로는 다음 단계가 열리지 않음을 확인했다. 제작·보관 자료 2개와 근거 기반 최종 판단을 제출한 뒤에만 첫 관문이 해제되었다.
+- 운영 콘솔의 error/warning 로그는 0건이었다.
