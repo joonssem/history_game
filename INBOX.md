@@ -2084,3 +2084,19 @@ TASK-20260910-06 | `regular_goryeo_culture` inquiry-task 수직 파일럿 구현
 - 단순 클릭 수가 아니라 task 판정기가 승인한 `validated-state`만 다음 단계를 열도록 바꾸고, 획득 근거 6장을 마지막 관문에서 다시 사용하게 했다.
 - 전체 정적·계약·런타임 검증과 데스크톱 Chrome 완주, 오답 수정, 키보드 Enter, 보상·성찰 화면, 기존 Regular 2종 회귀를 통과했다. 콘솔 오류·경고는 0건이었다.
 - 390×844·820×1180 실제 뷰포트와 학생 3명 이상 수업 관찰은 아직 수행하지 않았으므로 전체 28종 확장은 계속 보류한다.
+
+## 2026-09-10 고려 문화 상호작용 파일럿 운영 배포 승인
+
+TASK-20260910-07 | `audit/interaction-diversity` main 병합·GitHub Pages 배포 | 담당: integration agent(Codex) | 상태: DOING
+
+상태: `promoted` — 사용자가 원격 기능 브랜치의 검증 결과를 확인한 뒤 운영 배포를 명시적으로 요청했다.
+
+### 사용자 원문
+
+> 배포 진행
+
+### 배포 범위
+
+- 최신 `origin/main`과 기능 브랜치를 별도 통합 worktree에서 병합
+- 전체 정적·계약·런타임 회귀 통과 후 `main` 푸시
+- GitHub Pages 빌드 성공과 운영 URL의 고려 문화 신규 탐구 UI 확인
