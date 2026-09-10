@@ -335,3 +335,14 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - 영향: 감사 결과의 기준 경로가 불명확해지고, 문서 재배치 이후 링크와 생성 산출물이 분리된다.
 - 예상 변경 범위: 두 스크립트의 `REPORT` 경로, 기존 감사 문서의 보존·재생성 위치, 관련 링크의 실제 파일 존재 여부를 함께 점검한다.
 - 원칙: 경로를 하나로 정한 별도 계획과 사용자 확인 후 수정하며, 감사 결과의 내용·판정 기준은 이 항목에서 변경하지 않는다.
+
+### 2026-09-10 「연결 공방」(activity-loop) Track 3 — P0 완료: 원인과 결과 1·2단원 세트 신규 제작
+
+- **배경**: `docs/handoff/claude_track3_activity_loop_instruction.md`(Opus 5 기획) — 확장 역사 활동을 "MUD에서 얻은 것을 다시 쓰는 곳"으로 재정의하는 트랙. §1 미병합 커밋(`76f7cde` 버튼-결과 위치 수정, `2108f0f` 토글 스위치 도입) 정리 후 P0 착수.
+- **문제**: `data/causeEffectChains.json`이 3단원(근현대) 2세트뿐이라 1·2단원 진도 중에는 원인과 결과 게임이 완전히 비어 있었다.
+- **작업**: 1단원(고려)·2단원(조선) 세트를 각 1개씩 신규 제작, 총 4세트로 확장.
+  - 1단원: 고려 건국 → 거란 침입·서희의 담판 → 거란 재침입·강감찬의 귀주대첩 → 몽골 침입·팔만대장경 조판 → 벽란도 국제 교류 (`regular_goryeo_founding`/`regular_goryeo_war`/`regular_goryeo_culture` MUD 내용 기준)
+  - 2단원: 조선 건국 → 한양 천도·도성 설계 → 훈민정음 창제 → 임진왜란·명량대첩 → 병자호란과 전후 회복 (`regular_joseon_founding`/`regular_sejong`/`regular_myeongnyang`/`regular_joseon_diplomacy` MUD 내용 기준)
+  - 기존 3단원 2세트는 그대로 두되 순서상 뒤로 배치(stage 3·4로 재번호). 새 이벤트는 모두 연도 표기 없이 인과 논리 힌트로만 구성했고, MUD에 없는 서술은 지어내지 않았다(예: 팔만대장경은 거란이 아니라 몽골 침입기 조판이라는 실제 MUD 서술을 그대로 따름).
+- **검증**: `python -c "json.load(...)"`, `01_validate_game_data.py`, `06_validate_static_assets.py`, `node --check js/miniGames.js` 통과. 로컬 서버에서 두 신규 세트 모두 정답 판정·"다음 스테이지로" 흐름·배지 획득 로직까지 실제 실행 확인, 콘솔 에러 0건.
+- **다음**: P1(카드 짝맞추기 해금 유물 기반 전환), P2(연표 개인화 — 설계 문서 우선), P3(스토리 위치 재정의 문서화) 순서로 진행 예정.
