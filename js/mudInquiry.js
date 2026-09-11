@@ -400,14 +400,14 @@ const MudInquiry = {
     }
     const selected = (task.options || []).find(item => item.id === state.finalChoice);
     if (!selected?.correct) {
-      return { status: 'revise', issue: `commit-${state.finalChoice}`, message: selected?.feedback || '제작과 보관 자료를 함께 비교해 보세요.' };
+      return { status: 'revise', issue: `commit-${state.finalChoice}`, message: selected?.feedback || '확인한 자료를 함께 놓고 다시 판단해 보세요.' };
     }
     return {
       status: 'complete',
       quality: state.initialChoice === state.finalChoice ? 'connector' : 'historian',
       message: state.initialChoice === state.finalChoice
-        ? '제작 과정과 보관 환경을 함께 고려한 판단입니다.'
-        : '새 근거를 보고 생각을 수정했습니다. 역사 탐구에서 중요한 과정입니다.'
+        ? this.taskCompleteMessage('자료를 확인하고 판단을 정했습니다.')
+        : (this.task?.reviseCompleteMessage || '새 근거를 보고 생각을 수정했습니다. 역사 탐구에서 중요한 과정입니다.')
     };
   },
 
@@ -424,7 +424,7 @@ const MudInquiry = {
     }
     const selectedMeaning = (task.meaningQuestion?.options || []).find(item => item.id === state.meaningChoice);
     if (!selectedMeaning?.correct) {
-      return { status: 'revise', issue: `meaning-${state.meaningChoice}`, message: selectedMeaning?.feedback || '활자를 다시 조합할 수 있다는 의미를 생각해 보세요.' };
+      return { status: 'revise', issue: `meaning-${state.meaningChoice}`, message: selectedMeaning?.feedback || '이 과정이 무엇을 보여 주는지 다시 생각해 보세요.' };
     }
     return { status: 'complete', quality: 'connector', message: this.taskCompleteMessage('과정의 순서와 그 의미를 연결했습니다.') };
   },

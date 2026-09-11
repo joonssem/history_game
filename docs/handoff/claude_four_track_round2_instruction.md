@@ -43,7 +43,9 @@
 
 - 원 배정은 `commit-revise`였지만, 그건 **편 사이** 배정이었다. 이제 기준은 **편 내부 4관문이 서로 다른 문법**이다. 강화도 조약·근대 문물의 내용 성격에 맞춰 1~3관문에 `commit-revise`/`sequence`/`map-evidence`를 배치하고 4관문은 `claim-evidence`로 둔다.
 - **`labels`를 반드시 넣는다.** `map-evidence`를 쓰면 `task.labels.location`·`support`·`limit`가 필수다(없으면 계약 검증이 실패한다). 문구는 근대 문물 내용에 맞게 쓴다 — 다른 편 문구를 복사하지 않는다.
-- `sequence`·`commit-revise`의 완료 메시지는 이제 그 단계의 `completion.successText`가 그대로 표시된다. 편에 맞는 문장인지 확인한다.
+- `sequence`·`commit-revise`의 완료 메시지는 그 단계의 `completion.successText`가 그대로 표시된다. 편에 맞는 문장인지 확인한다.
+  - **정정(2026-09-11)**: 이 문서 초판은 `commit-revise`도 이미 그렇다고 적었으나 사실이 아니었다. D-029 수정 때 `evaluateCommitRevise()`가 누락되어 고려 문화 전용 문구("제작 과정과 보관 환경을 함께 고려한 판단입니다.")가 계속 나왔다. 관문 설계실이 `regular_modern_open` 작업 중 실측으로 잡아 보고했고 `ce0fa4f` 이후 커밋에서 고쳤다. 지금은 세 편 모두 자기 `successText`가 나온다.
+  - 단, **판단을 수정한 경우**(첫 판단 ≠ 최종 판단)에는 `successText` 대신 "새 근거를 보고 생각을 수정했습니다…"가 나온다. 시대와 무관하고 `commit-revise`의 핵심 행동을 짚는 문장이라 의도적으로 유지했다. 편별로 바꾸고 싶으면 `task.reviseCompleteMessage`로 덮어쓸 수 있다.
 
 **주제 민감도 주의.** 강화도 조약은 불평등 조약이고 개항은 평가가 갈리는 주제다. "근대 문물 도입은 발전인가 침탈인가"를 **어느 한쪽이 정답인 구조로 만들지 않는다.** 각 입장이 어떤 근거 위에 서 있는지를 묻는다. 판단이 서지 않으면 `docs/plans/implementation_plan_sensitive_history_interactions.md`를 먼저 읽고, 그래도 애매하면 진행하지 말고 보고한다.
 
