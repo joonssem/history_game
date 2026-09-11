@@ -364,3 +364,11 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - 재검증: `python -c ...`로 1~4단계 interaction/task.type을 직접 출력해 `map-evidence/sequence/commit-revise/claim-evidence` 4종이 실제로 다른지 확인. 지시서 §8 전체 스크립트 재통과.
 - 로컬 재플레이(포트 8801, `preview_start` 이름 `gate-grammar`): 1~4단계 전부 다시 끝까지 플레이. 3단계(신규 `commit-revise`)에서 초기 판단→근거 2종 확인→최종 판단까지 실제로 요구되는지, 4단계 D-027 가드(좁은 주장에 무관한 근거 섞으면 거부)가 재설계 이후에도 여전히 걸리는지 재확인했다. 콘솔 error/warning 0건.
 - 추가 버그 확인(트랙 1-B 소관, 수정 안 함): 이전에 `evaluateSequence()`에서 발견한 하드코딩 성공 메시지 버그가 `evaluateCommitRevise()`에도 동일하게 있다 — 3단계(신석기 도구 판단)를 정답으로 완료해도 "제작 과정과 보관 환경을 함께 고려한 판단입니다."(고려 문화 1단계 전용 문구)가 그대로 뜬다. `evaluateMapEvidence`/`evaluateClaimEvidence`의 완료 메시지는 문구 자체가 MUD에 무관하게 쓸 수 있는 일반 문장이라 눈에 띄는 오류로 드러나지 않을 뿐, 4개 평가 함수 전부 `task.completion.successText`가 아니라 함수 안에 하드코딩된 문자열을 반환하는 동일한 구조다.
+
+### P1 — 트랙 1-A(관문 설계실) `regular_three_kingdoms` 편 내부 4관문 재설계 (2026-09-11)
+
+- 재배정: 1단계(백제, "무엇이 전성기의 핵심이었나" 판단 질문) `map-evidence`→`commit-revise`(hotspot 제거, 한강 유역 자원·칠지도 교류를 근거로 초기 판단→수정). 2단계(고구려, 평양 천도 장소 판단) `map-evidence` 유지(변경 없음, 이미 최적 문법이었음). 3단계(신라, 영토 확보→교류→기록의 시간 순서) `map-evidence`→`sequence`(hotspot 제거, 한강 확보→당항성 교류→북한산 순수비 건립 3단계 카드로 재구성). 4단계는 `claim-evidence` 그대로, `baekje-han-river-network`/`goguryeo-pyeongyang-policy`/`silla-bukhansan-record` 등 기존 award id·category를 전부 보존해 종합 관문이 계속 작동하도록 했다.
+- 재검증: `python -c ...`로 1~4단계 interaction/task.type을 직접 출력해 `commit-revise/map-evidence/sequence/claim-evidence` 4종이 실제로 다른지 확인. 지시서 §8 전체 스크립트 재통과(반복 탭 감사 후보 6개 유지, 새 회귀 없음).
+- 로컬 재플레이(포트 8801, `preview_start` 이름 `gate-grammar`): 1~4단계 전부 다시 끝까지 플레이. 1단계(신규 `commit-revise`)의 초기 판단→근거 2종→최종 판단, 3단계(신규 `sequence`)의 카드 순서 배열+의미 질문, 4단계 D-027 가드(좁은 주장에 백제 근거를 섞으면 거부)가 재설계 이후에도 정상 작동함을 재확인했다. 콘솔 error/warning 0건.
+- 3단계에서도 동일한 하드코딩 성공 메시지 버그(`evaluateSequence()`가 "인쇄 절차와 금속활자의 재사용 의미를 연결했습니다."를 그대로 반환)를 재현했다 — 트랙 1-B 소관, 기존 기록과 동일 원인이라 새 항목은 추가하지 않는다.
+- 3편 모두(신석기/삼국) 재설계 완료. 다음: `regular_modern_open.json`(`commit-revise`, 1차 배정 문법이지만 4관문 다양화 기준으로 3종 중 하나로 재배치 필요) 착수 전 사용자 확인 대기.

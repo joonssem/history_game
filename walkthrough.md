@@ -1587,3 +1587,13 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 검증: `python -c`로 4단계 interaction/task.type을 직접 출력해 4종이 서로 다름을 확인. 지시서 §8 전체 재통과. `preview_start(name: "gate-grammar")`로 포트 8801 서버를 다시 띄우고 1~4단계 전부 재플레이(신규 3단계의 초기 판단→근거 확인→최종 판단 흐름, 4단계 D-027 가드 재확인 포함), 콘솔 error/warning 0건.
 - 버그 확인 범위 확장: `evaluateCommitRevise()`도 `evaluateSequence()`와 같은 방식으로 고려 문화 전용 문구를 하드코딩 반환한다. `evaluateMapEvidence`/`evaluateClaimEvidence`는 문구가 MUD-불특정 일반 문장이라 눈에 띄지 않을 뿐, 4개 평가 함수 모두 `completion.successText`를 쓰지 않는 동일 구조임을 확인해 `BACKLOG.md`에 갱신했다.
 - 문서: `BACKLOG.md`에 정정 배경과 재설계 결과 절 신설.
+
+## 2026-09-11 — 트랙 1-A(관문 설계실) `regular_three_kingdoms` 편 내부 4관문 재설계
+
+`TASK-20260911-GATE2R | 지시서 재해석 정정에 따른 삼국 한강 쟁탈전 편 재설계 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- `regular_neolithic`와 같은 기준으로 `regular_three_kingdoms`(1~3단계 전부 `map-evidence`)를 재설계했다.
+- 재배정: 1단계(백제) `map-evidence`→`commit-revise`, 2단계(고구려) `map-evidence` 유지, 3단계(신라) `map-evidence`→`sequence`(영토 확보→교류→기록 3단계 카드). 4단계 `claim-evidence`는 변경 없음, 기존 award id·category(`baekje-han-river-network`/`goguryeo-pyeongyang-policy`/`silla-bukhansan-record` 등) 그대로 보존.
+- 검증: `python -c`로 4단계 interaction/task.type 재확인(4종 모두 다름). 지시서 §8 전체 재통과. `preview_start(name: "gate-grammar")`로 1~4단계 전부 재플레이: 신규 1단계(commit-revise) 초기 판단→근거→최종 판단, 신규 3단계(sequence) 카드 순서·의미 질문, 4단계 D-027 가드 재확인 모두 정상 작동, 콘솔 error/warning 0건.
+- 신규 3단계에서도 `evaluateSequence()`의 하드코딩 성공 메시지 버그를 재현(기존 기록과 동일 원인, `BACKLOG.md`에 중복 기록하지 않음).
+- 이로써 지시서 §3 파일럿 3편 중 2편(신석기/삼국)이 "편 내부 4관문 서로 다른 문법" 기준을 충족했다. 문서: `BACKLOG.md`에 재설계 결과 절 신설.
