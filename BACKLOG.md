@@ -447,3 +447,12 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - [`implementation_plan_inquiry_progressive_disclosure.md`](./docs/plans/implementation_plan_inquiry_progressive_disclosure.md) — 섹션 3개가 한 번에 노출되는 문제. 문법별 단계 정의, 자동 전진/명시적 "다음" 버튼을 가르는 기준, 완료 단계 접힘 요약과 `[수정]` 시 이후 단계 초기화 규칙, 3편(고려·신석기·삼국) 12개 관문이 각각 어떻게 달라지는지를 `regular_goryeo_culture` 기준으로 명시.
 
 두 문서 모두 §3 보존 항목·D-027 회귀·1180×820 검증을 구현 후 재확인 항목으로 못박아 둠.
+
+### 조작대(inquiry-console) — P2 옵션 A(Canvas 역할 정리) 구현 완료 (2026-09-11)
+
+- 사용자 확인 후 `implementation_plan_map_evidence_canvas_role.md`의 옵션 A만 구현. 옵션 B(데이터 스키마 확장)는 그대로 미착수.
+- `js/mudSimulators.js`: `map-evidence` 관문에서 학생이 고른 지점을 캔버스가 즉시 정답/오답 색(초록/빨강)으로 칠하도록 `getMapEvidenceCorrectness()` 헬퍼 추가. **다른 지점의 정답 여부는 표시하지 않는다** — 학생이 방금 읽은 자신의 선택에 대한 텍스트 피드백을 캔버스 색으로 그대로 옮겨 그릴 뿐, 새로운 정보를 추가로 공개하지 않는다("오답 피드백은 정답을 노출하지 않는다" 원칙 유지). `map-evidence`가 아닌 다른 hotspot 계열 활동(paleo-* 등)의 기존 주황색 "found" 표시는 그대로 둠(회귀 없음).
+- **부수 발견·수정**: `history-game-b4`(관문 설계실) 세션이 실측으로 보고한 버그 — `evaluateCommitRevise()`가 `evaluateSequence`/`evaluateMapEvidence`와 달리 `taskCompleteMessage()`를 쓰지 않고 고려 문화 전용 문구("제작 과정과 보관 환경을 함께 고려한 판단입니다.")를 하드코딩해 반환하고 있었다. `regular_neolithic`·`regular_three_kingdoms`·`regular_modern_open`(강화도 조약 등)의 commit-revise 관문에서도 그대로 노출되던 D-029 위반. `js/mudInquiry.js`의 해당 return을 `this.taskCompleteMessage('자료를 근거로 판단을 정리했습니다.')`로 교체해 다른 두 함수와 같은 패턴으로 통일.
+- **다른 편 교차 확인**: `regular_three_kingdoms` 2번째 관문(map-evidence, 한강 유역)에서 동일하게 정답/오답 색상이 정확히 표시됨을 확인.
+- **캐시버스터**: `js/mudInquiry.js` → `?v=20260911-commitfix1`, `js/mudSimulators.js` → `?v=20260911-mapcanvas1`.
+- 검증: `regular_goryeo_culture` 4관문 전체 재플레이(commit-revise 완료 문구가 데이터 `completion.successText`로 나오는지 확인 포함), 지도 오답→정답 재선택 시 색이 정확히 갈리고 미선택 지점은 중립으로 남는지 스크린샷으로 확인. §8 자동 검증 전부 통과, 콘솔 error/warning 0건.

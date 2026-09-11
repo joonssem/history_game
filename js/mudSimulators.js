@@ -466,6 +466,15 @@ const MudSimulators = {
     return hotspot ? hotspot.label : id;
   },
 
+  // map-evidence 관문에서만 쓰는 조회다. 이 문법이 아닌 다른 hotspot 계열
+  // 활동(paleo-*, ordered-hotspot 등)의 "found" 색상은 건드리지 않는다.
+  getMapEvidenceCorrectness(hotspotId) {
+    const sim = window.MudEngine?.currentSimulator;
+    if (sim?.interaction !== 'inquiry-task' || sim?.task?.type !== 'map-evidence') return null;
+    const location = (sim.task.locations || []).find(item => item.id === hotspotId);
+    return location ? Boolean(location.correct) : null;
+  },
+
   getPaleoHotspot(mode, x, y, canvas) {
     const w = canvas.width / window.devicePixelRatio;
     const h = canvas.height / window.devicePixelRatio;
@@ -624,15 +633,28 @@ const MudSimulators = {
       const cx = hotspot.x * w;
       const cy = hotspot.y * h;
       const isFound = found.includes(hotspot.id);
-      ctx.fillStyle = isFound ? '#f59e0b' : 'rgba(255,255,255,0.92)';
-      ctx.strokeStyle = isFound ? '#fff7ed' : colors[1];
+      // map-evidence는 학생이 고른 지점 자체가 판단이다. DOM 버튼에서 골라도
+      // 캔버스가 즉시 같은 지점을 강조하고(양방향 동기화), 그 지점이 학생이
+      // 방금 읽은 feedback과 같은 방향(맞음/틀림)으로 색이 갈리게 해 지도가
+      // 텍스트 피드백을 그대로 옮겨 그린다 — 다른 지점의 정답 여부는 보여주지
+      // 않는다(오답 피드백에서 정답을 노출하지 않는다는 원칙과 동일).
+      const correctness = isFound ? this.getMapEvidenceCorrectness(hotspot.id) : null;
+      let fill = 'rgba(255,255,255,0.92)';
+      let stroke = colors[1];
+      let textColor = '#1f2937';
+      let markLabel = hotspot.label;
+      if (correctness === true) { fill = '#22c55e'; stroke = '#dcfce7'; textColor = '#052e12'; markLabel = `✓ ${hotspot.label}`; }
+      else if (correctness === false) { fill = '#ef4444'; stroke = '#fee2e2'; textColor = '#450a0a'; markLabel = `✕ ${hotspot.label}`; }
+      else if (isFound) { fill = '#f59e0b'; stroke = '#fff7ed'; textColor = '#422006'; markLabel = `✓ ${hotspot.label}`; }
+      ctx.fillStyle = fill;
+      ctx.strokeStyle = stroke;
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.arc(cx, cy, hotspot.radius * 0.68, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
-      ctx.fillStyle = isFound ? '#422006' : '#1f2937';
-      ctx.fillText(isFound ? `✓ ${hotspot.label}` : hotspot.label, cx, cy + 4);
+      ctx.fillStyle = textColor;
+      ctx.fillText(markLabel, cx, cy + 4);
     });
     ctx.fillStyle = mode === 'paleo-fire' || mode === 'paleo-stone' ? '#fef3c7' : '#1f2937';
     ctx.fillText(`진행: ${progress}/${hotspots.length}`, w / 2, h - 16);
