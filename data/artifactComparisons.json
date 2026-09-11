@@ -623,5 +623,140 @@
       ]
     },
     "scholarPerspective": "학자들은 청동보다 철이 훨씬 흔하고 단단해서, 시간이 지나며 무기와 도구 모두에 철을 널리 쓰게 됐다고 봐. 다만 두 칼 모두 실제 전투보다는 신분과 권위를 드러내는 데 더 크게 쓰였다고 해석해 — 비파형 동검은 제사와 무덤에, 고리자루 큰 칼은 최고 지배자의 상징물로 함께 묻혔다는 공통점이 있다고 봐."
+  },
+  {
+    "id": "cmp_artifact_site_1",
+    "title": "토기 하나, 마을 전체",
+    "pairType": "artifact_vs_site",
+    "unlockThreshold": 2,
+    "requiredArtifactNames": ["암사동 빗살무늬 토기", "art_2"],
+    "eraGroup": "prehistoric_ancient",
+    "sourceNote": "트랙 2(대조실) 신규. `docs/plans/artifact_site_source_policy.md` 규칙 적용. 빗살무늬 토기는 국립중앙박물관 소장품 정보 기준(신수22891, relicId=4328, 공공누리 제1유형·변경금지 없음, 2026-09-08 재확인). 서울 암사동 유적은 국가유산포털 사적 상세 페이지로 2026-09-10 직접 확인(ccbaCpno=1331102670000, 사적 제267호, 대표 사진 있음).",
+    "artifactA": {
+      "name": "빗살무늬 토기",
+      "era": "신석기 시대",
+      "location": "서울 암사동",
+      "icon": "🏺",
+      "museumId": "신수22891",
+      "museumUrl": "https://www.museum.go.kr/site/main/relic/search/view?relicId=4328",
+      "license": "공공누리 제1유형(출처표시), 국립중앙박물관",
+      "traits": {
+        "pattern": "겉면 전체에 점·선으로 이루어진 빗살무늬",
+        "material": "강가의 고운 진흙, 비교적 낮은 온도로 구움",
+        "shape": "바닥이 뾰족하거나 둥근 V자형",
+        "location": "큰 강가(한강 유역) 마을 유적"
+      }
+    },
+    "artifactB": {
+      "kind": "site",
+      "name": "서울 암사동 유적",
+      "era": "신석기 시대",
+      "location": "서울 강동구 암사동",
+      "icon": "🏘️",
+      "museumId": "사적 제267호",
+      "museumUrl": "https://www.heritage.go.kr/heri/cul/culSelectDetail.do?ccbaCpno=1331102670000",
+      "license": "국가유산청 국가유산포털 공식 자료(2026-09-10 확인)",
+      "traits": {
+        "scale": "약 9만 8354㎡ 넓이에 움집터가 100여 개 발견된 마을 유적",
+        "layout": "강가 모래언덕 위에 여러 움집이 모여 있는 마을 형태(무덤이 아니라 사람이 살던 곳)",
+        "surroundings": "한강가에 자리 잡아 물고기잡이·조개잡이에 유리한 위치",
+        "coFinds": "빗살무늬 토기, 돌도끼, 그물추 등 신석기 생활 도구가 함께 발견됨"
+      }
+    },
+    "observation": {
+      "prompt": "토기 하나만 볼 때와, 그 토기가 나온 마을 유적 전체를 볼 때 눈에 띄는 게 서로 다르지 않아?",
+      "options": [
+        { "id": "obs_object_detail", "text": "토기는 무늬·모양처럼 물건 하나의 생김새를 보여준다" },
+        { "id": "obs_site_scale", "text": "유적은 움집이 몇 개나 모여 있는지, 마을이 얼마나 컸는지를 보여준다" },
+        { "id": "obs_both", "text": "둘 다 신석기 시대인 건 같지만 알려주는 정보의 종류가 다르다" }
+      ]
+    },
+    "evidencePrompt": "네 관찰을 뒷받침할 근거로 쓸 만한 카드를 골라 봐. (여러 개 고를 수 있어)",
+    "evidenceCards": [
+      { "id": "ev_pattern", "text": "토기 겉면의 빗살무늬가 어떻게 생겼는지", "valid": true },
+      { "id": "ev_village_size", "text": "움집터가 몇 개나 발견됐는지(마을 규모)", "valid": true },
+      { "id": "ev_location", "text": "유적이 한강가 어디에 자리 잡았는지", "valid": true },
+      { "id": "ev_cofinds", "text": "이 마을에서 토기 말고 또 무엇이 함께 나왔는지", "valid": true },
+      { "id": "ev_guess_feeling", "text": "토기가 예뻐 보이는지 내 느낌", "valid": false },
+      { "id": "ev_modern_park", "text": "지금 이 자리가 공원으로 잘 꾸며져 있는지", "valid": false }
+    ],
+    "claim": {
+      "prefix": "빗살무늬 토기 하나만 보면",
+      "middle": "을(를) 알 수 있고, 암사동 유적 전체를 보면",
+      "suffix": "을(를) 알 수 있다. 유물과 유적을 함께 봐야 신석기 사람들의 삶을 더 잘 이해할 수 있다고 생각한다.",
+      "blanks": [
+        { "id": "blank1", "options": ["토기를 만든 기술과 무늬를", "마을 전체의 크기와 생활 모습을", "왕의 이름을"], "answer": "토기를 만든 기술과 무늬를" },
+        { "id": "blank2", "options": ["토기를 만든 기술과 무늬를", "마을 전체의 크기와 생활 모습을", "왕의 이름을"], "answer": "마을 전체의 크기와 생활 모습을" }
+      ]
+    },
+    "scholarPerspective": "학자들은 유물 하나만으로는 그 시대 기술 수준은 알 수 있어도 사람들이 어떻게 모여 살았는지는 알기 어렵다고 봐. 암사동처럼 움집터가 100여 개나 발견된 유적을 함께 봐야, 신석기 사람들이 한곳에 모여 마을을 이루고 정착 생활을 했다는 걸 알 수 있어. 유물이 '무엇을 만들었나'를 보여준다면, 유적은 '어떻게 살았나'를 보여준다고 해석해."
+  },
+  {
+    "id": "cmp_site_vs_site_1",
+    "title": "움집 마을과 거대한 무덤",
+    "pairType": "site_vs_site",
+    "unlockThreshold": 3,
+    "requiredArtifactNames": ["암사동 빗살무늬 토기", "art_2", "고창 탁자식 고인돌", "art_3"],
+    "eraGroup": "prehistoric_ancient",
+    "sourceNote": "트랙 2(대조실) 신규. `docs/plans/artifact_site_source_policy.md` 규칙 적용. 둘 다 국가유산포털 사적 상세 페이지로 2026-09-10 직접 확인. 서울 암사동 유적(ccbaCpno=1331102670000, 사적 제267호). 고창 죽림리 지석묘군(ccbaCpno=1333503910000, 사적 제391호, 2000년 유네스코 세계유산 '고창·화순·강화 고인돌 유적'의 일부).",
+    "artifactA": {
+      "kind": "site",
+      "name": "서울 암사동 유적",
+      "era": "신석기 시대",
+      "location": "서울 강동구 암사동",
+      "icon": "🏘️",
+      "museumId": "사적 제267호",
+      "museumUrl": "https://www.heritage.go.kr/heri/cul/culSelectDetail.do?ccbaCpno=1331102670000",
+      "license": "국가유산청 국가유산포털 공식 자료(2026-09-10 확인)",
+      "traits": {
+        "scale": "약 9만 8354㎡ 넓이에 움집터가 100여 개 발견된 마을 유적",
+        "layout": "강가 모래언덕 위에 여러 움집이 모여 있는 마을 형태",
+        "surroundings": "한강가에 자리 잡아 물고기잡이·조개잡이에 유리한 위치",
+        "coFinds": "빗살무늬 토기, 돌도끼, 그물추 등 신석기 생활 도구가 함께 발견됨"
+      }
+    },
+    "artifactB": {
+      "kind": "site",
+      "name": "고창 죽림리 지석묘군(고인돌 유적)",
+      "era": "청동기 시대",
+      "location": "전북 고창군 죽림리·도산리 일대",
+      "icon": "🪨",
+      "museumId": "사적 제391호",
+      "museumUrl": "https://www.heritage.go.kr/heri/cul/culSelectDetail.do?ccbaCpno=1333503910000",
+      "license": "국가유산청 국가유산포털 공식 자료(2026-09-10 확인)",
+      "traits": {
+        "scale": "동서로 약 1,764m 범위에 고인돌 447기가 모여 있는, 우리나라에서 가장 큰 고인돌 무리",
+        "layout": "여러 고인돌(무덤)이 줄지어 늘어선 무덤 떼 — 사람이 살던 움집이 아니라 죽은 사람을 묻은 곳",
+        "surroundings": "매산마을을 중심으로 야산 구릉지에 분포, 2000년 유네스코 세계유산으로 등재됨",
+        "coFinds": "고인돌 아래에서 청동기 시대 간석기·토기 조각 등이 함께 발견됨"
+      }
+    },
+    "observation": {
+      "prompt": "두 유적을 나란히 놓고 보니, 너는 뭐가 가장 먼저 눈에 띄어?",
+      "options": [
+        { "id": "obs_purpose", "text": "유적의 쓰임새가 다르다(사람이 살던 마을 vs 사람을 묻은 무덤)" },
+        { "id": "obs_labor", "text": "만드는 데 드는 노동력이 다르다(움집 vs 수십 톤 바위를 옮긴 무덤)" },
+        { "id": "obs_era", "text": "만들어진 시대가 다르다(신석기 vs 청동기)" }
+      ]
+    },
+    "evidencePrompt": "네 관찰을 뒷받침할 근거로 쓸 만한 카드를 골라 봐. (여러 개 고를 수 있어)",
+    "evidenceCards": [
+      { "id": "ev_purpose", "text": "유적이 사람이 살던 곳인지, 죽은 사람을 묻은 곳인지", "valid": true },
+      { "id": "ev_labor", "text": "덮개돌 하나를 옮기는 데 얼마나 많은 사람이 필요했을지", "valid": true },
+      { "id": "ev_uniformity", "text": "움집들이 다 비슷한 크기인지, 고인돌들이 서로 다른 크기인지(계급 차이 단서)", "valid": true },
+      { "id": "ev_era_order", "text": "신석기(암사동)가 청동기(고창)보다 먼저라는 시대 순서", "valid": true },
+      { "id": "ev_scary_feeling", "text": "고인돌을 보면 무섭게 느껴지는지", "valid": false },
+      { "id": "ev_tourist", "text": "지금 관광지로 인기가 많은지", "valid": false }
+    ],
+    "claim": {
+      "prefix": "암사동 유적은",
+      "middle": "곳이고, 고창 고인돌 유적은",
+      "suffix": "곳이다. 무덤 크기가 서로 달라졌다는 건 사람들 사이에 힘(권력)의 차이가 생기기 시작했다는 증거라고 생각한다.",
+      "blanks": [
+        { "id": "blank1", "options": ["다 같이 모여 살던 마을이었던", "일부 사람만 거대한 돌무덤에 묻힐 수 있었던", "왕이 성을 쌓고 다스리던"], "answer": "다 같이 모여 살던 마을이었던" },
+        { "id": "blank2", "options": ["다 같이 모여 살던 마을이었던", "일부 사람만 거대한 돌무덤에 묻힐 수 있었던", "왕이 성을 쌓고 다스리던"], "answer": "일부 사람만 거대한 돌무덤에 묻힐 수 있었던" }
+      ]
+    },
+    "scholarPerspective": "학자들은 암사동처럼 움집이 모여 있는 마을 유적은 신석기 시대 사람들이 비슷한 크기의 집에서 큰 차이 없이 살았다는 걸 보여준다고 봐. 반면 고창 고인돌처럼 수십 톤이나 되는 돌을 옮겨 만든 무덤은, 그만큼 많은 사람을 동원할 수 있는 힘을 가진 사람(지배자)이 나타나기 시작했다는 증거로 해석해. 고인돌이 커질수록 그 사회에 계급이 뚜렷해지고 있었다는 뜻이라고 봐."
   }
 ]
