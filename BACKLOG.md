@@ -341,3 +341,9 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - `js/mudInquiry.js`: 재렌더 시 `panel.replaceChildren()`로 DOM을 통째로 버려 포커스가 매번 `body`로 날아가던 문제를 `data-focus-key` 기반 캡처·복원(`captureFocusKey`/`restoreFocus`)으로 해결. 순서 카드 ↑↓가 맨 위/아래에 닿아 눌렀던 방향 버튼이 disabled가 되면 같은 카드의 반대 방향 버튼으로 폴백해 연속 조작이 끊기지 않는다.
 - 지시서(`docs/handoff/claude_track1b_inquiry_console_instruction.md`)의 P0 "진행도 게이지 0% 고정"은 로컬 실측 결과 **재현되지 않음** — 고려 문화 4관문 모두 `sim.type: "info"`라 `#widget-gauge`가 애초에 `display:none`이며, 파일럿 도입 커밋(`87c1b10`)부터 계속 이랬다(git history 확인). 실제 UI에 노출되는 결함이 아니므로 이번 작업에서는 별도 조치 없이 다음 항목(P1)으로 넘어간다.
 - 검증: `regular_goryeo_culture` 4관문을 로컬 서버에서 실제 클릭/스크립트 혼합으로 끝까지 플레이. §3 보존 항목(3단 잠금, 완료 후 전체 잠금, D-027 카테고리 판정) 모두 유지 확인. §8 자동 검증 전부 통과, 콘솔 에러 0건.
+
+### 조작대(inquiry-console) 트랙 1-B — P0 진행도 게이지 방어 처리 완료 (2026-09-10)
+
+- 위 항목에서 "재현되지 않음"으로 남겼던 P0(게이지 0% 고정)를 사용자 재확인 요청에 따라 `js/mudEngine.js`에 명시적 방어 코드로 처리함. 결정과 근거는 `DECISIONS.md` D-028 참조(선택지 (b): inquiry-task는 게이지 UI 자체를 숨긴다).
+- `setupSimulator`에서 `sim.interaction === 'inquiry-task'`이면 `sim.type === 'gauge'`라도 게이지 위젯을 켜지 않도록 가드 추가. 강제로 `type: 'gauge'`를 주입해도 `#widget-gauge`가 계속 `display:none`으로 남는 것을 콘솔에서 확인.
+- 4관문 재플레이로 §3 보존 항목(3단 잠금, 오답 시 다음 버튼 잠금·상태 보존, 완료 후 전체 잠금) 재확인, §8 자동 검증 전부 통과, 콘솔 에러 0건.

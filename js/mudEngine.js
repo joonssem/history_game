@@ -520,6 +520,10 @@ const MudEngine = {
         break;
 
       case 'gauge':
+        // D-028: inquiry-task는 게이지를 갱신할 수단이 없어(§mudSimulators 조기 분기)
+        // 0%에 고정된 채 남으면 "진전 없음"으로 읽힌다. 근거 인벤토리가 이미 진행
+        // 표시 역할을 하므로 게이지 위젯 자체를 숨긴다.
+        if (sim.interaction === 'inquiry-task') break;
         document.getElementById('widget-gauge').style.display = 'block';
         document.getElementById('gauge-label').textContent = sim.gaugeLabel || '진행도:';
         this.gaugeProgress = 0;
