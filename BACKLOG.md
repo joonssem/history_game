@@ -354,3 +354,40 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - `index.html`의 `css/style.css` 링크에 캐시버스터(`?v=20260911-inquiry-sticky1`)를 처음으로 추가함 — 그동안 버전 쿼리가 없어 브라우저가 이전 스타일을 계속 캐시하는 문제를 실측 중 발견(로컬 정적 서버 curl 응답은 최신인데 브라우저 렌더링만 구버전 유지). 이 파일은 세 창이 공유하므로, 다른 창도 `css/style.css`를 고칠 때 이 캐시버스터 값을 함께 올려야 반영을 확인할 수 있음 — `claude_four_track_overview.md`의 공유 파일 원칙에 참고 부탁.
 - `js/mudInquiry.js`: `restoreFocus`의 `preventScroll: true`를 제거함. `.inquiry-panel`이 내부 스크롤 영역이 된 뒤에는 포커스 복원 시 브라우저가 패널 내부만 필요한 만큼 스크롤해 보여줘야 하므로(막으면 포커스는 이동해도 화면에 안 보일 수 있음).
 - 검증: 아이패드 가로(1180×820)·세로(820×1180) 양쪽에서 4관문 모두 실제 클릭으로 끝까지 플레이, 매 관문 제출 버튼이 뷰포트 안에 있음을 `getBoundingClientRect`로 확인. §3 보존 항목(3단 잠금, 포커스 복원, 완료 후 전체 잠금) 재확인. §8 자동 검증 전부 통과, 콘솔 에러 0건.
+
+### P1 — 트랙 1-A(관문 설계실) `regular_neolithic` 파일럿 완료 (2026-09-10)
+
+- 작업: `docs/handoff/claude_track1a_gate_grammar_instruction.md` §3 1차 범위 3편 중 1편째. `regular_neolithic.json`의 4개 필수 단계(1·2·3·4)를 `ordered-hotspot`/`resource-allocation`/`reflection`에서 `inquiry-task`로 전환. 배정 문법은 `sequence`(1·2·3단계, 정착→토기→의생활 과정의 앞뒤 관계)이고 4단계(종합)는 참조 구현(`regular_goryeo_culture`)과 같은 관례로 `claim-evidence`를 사용했다.
+- 소유권 범위 준수: `simulator` 블록만 수정했고 `choices`·`narrative`·`glossary`·실패 분기(`1-1`/`2-1`/`3-1`)는 그대로 두었다. `js/`·`css/`·`index.html`은 건드리지 않았다.
+- D-027 회귀 직접 확인: 4단계 근거 3개 중 같은 범주(`technology`) 2개만으로 `minCategories:2` 주장을 제출해 **거부됨**을 확인했다(기존 고려 문화 결함과 달리 이번엔 정상 차단). 범주는 `environment`(1개)·`technology`(2개, 토기·의생활)로 의도적으로 겹쳐 배정해 범주 다양성 조건이 실제로 걸리도록 설계했다.
+- 검증: `04_validate_mud_contract.py` 포함 지시서 §8 전체 통과. 로컬 서버(격리 워크트리, 다른 세션과 포트 충돌 확인 후 8792 사용)에서 1~4단계 전부 실제 플레이: 오답 제출 시 다음 버튼 비활성 유지·정답 비노출 확인, 정답 제출 시 탐구 패널 컨트롤 전체 비활성화 + 다음 버튼만 활성화 확인, 최종 보상(`art_2` 암사동 빗살무늬 토기) 정상 지급, 콘솔 에러 0건.
+- **버그 발견(트랙 1-B 소관, 수정하지 않음)**: `js/mudInquiry.js`의 `evaluateSequence()`가 완료 메시지를 `task.completion.successText`가 아니라 하드코딩된 문자열 `"인쇄 절차와 금속활자의 재사용 의미를 연결했습니다."`(고려 문화 2단계 전용 문구)로 고정 반환한다. `regular_neolithic` 1~3단계에서 정답 제출 시 이 문구가 그대로 뜨는 것을 실측으로 확인했다 — 완료 판정 자체는 정확하지만 학생이 보는 성공 메시지가 신석기 내용과 무관하다. `js/`는 이 트랙 소유가 아니므로 수정하지 않고 여기 기록만 남긴다.
+- 다음: `regular_three_kingdoms.json`(`map-evidence`) 착수 전 한 편 완료 원칙에 따라 사용자 확인 대기.
+
+### P1 — 트랙 1-A(관문 설계실) `regular_three_kingdoms` 파일럿 완료 (2026-09-10)
+
+- 작업: §3 1차 범위 2편/3. `regular_three_kingdoms.json`의 필수 단계 1~4를 `map-evidence`(1~3단계, 장소·근거·자료 범위 연결)와 `claim-evidence`(4단계, 시대별 근거 종합)로 전환. 기존 3개 hotspot(장소)이 이미 존재해 `locations`로 그대로 재사용했다.
+- 범주 설계 재검토: 처음에 4단계 두 주장(claim)의 `minCategories`를 2로 설정했으나, `04_validate_mud_contract.py`가 갱신되어 있어 **"근거 3개가 서로 다른 범주 3개라 2개만 골라도 항상 통과하는 죽은 조건"**을 자동으로 잡아냈다(에러: `minCategories=2 can never fail`). 1~3단계 각 나라(백제/고구려/신라)당 지원 근거가 정확히 1개뿐이라 같은 범주 조합 자체가 존재하지 않았던 것이 원인 — `minCategories`를 1로 낮추고, 대신 `minEvidence`(claim2는 2개 고정)와 `accepts` 멤버십 자체로 "서로 다른 나라 근거를 실제로 골라야 한다"는 요구를 걸었다.
+- D-027 회귀를 4단계에서 직접 재현: 좁은 주장("5세기 고구려→6세기 신라")을 고른 뒤 그 주장의 `accepts`에 없는 백제 근거를 함께 선택해 제출 → **"선택한 주장과 직접 연결되지 않는 자료가 있습니다"로 정상 거부**됨을 확인했다. 백제 근거를 빼고 고구려+신라만 남기자 정상 완료(역사가 등급)됐다.
+- 검증: 지시서 §8 전체 통과(반복 탭 회피 감사 후보가 7개→6개로 감소, `regular_three_kingdoms.json:4`가 목록에서 빠짐). 로컬 서버(포트 8801, `.claude/launch.json`의 `gate-grammar` 설정 디렉터리 고정)에서 1~4단계 전부 실제 플레이: 각 단계 오답 제출 시 다음 버튼 비활성 유지·정답 비노출, 정답 제출 시 컨트롤 전체 비활성화 + 다음 버튼만 개방, 최종 보상(`art_5` 백제 칠지도 + `art_6` 신라 북한산 순수비) 정상 지급, 콘솔 error/warning 0건.
+- 다음: `regular_modern_open.json`(`commit-revise`) 착수 전 한 편 완료 원칙에 따라 사용자 확인 대기.
+
+### P1 — 트랙 1-A(관문 설계실) 정정: "같은 문법 두 번 금지"는 편 내부 4관문 기준 (2026-09-11)
+
+- 사용자 정정: 지시서 §3 "같은 문법을 두 번 쓰지 않는다"는 세 편 사이의 배정 문법이 아니라, **참조 구현(`regular_goryeo_culture`)처럼 한 편 안의 4관문이 서로 다른 사고 문법**(commit-revise→sequence→map-evidence→claim-evidence, 관찰→분류·순서화→인과·공간 추론→주장·근거·반례)을 요구해야 한다는 뜻이었다. 앞서 커밋한 `regular_neolithic`(1~3단계 전부 `sequence`)과 `regular_three_kingdoms`(1~3단계 전부 `map-evidence`)는 편 사이만 구분했을 뿐 편 내부는 여전히 단일 문법이라, 이 트랙이 고치려던 "배경만 다르고 조작은 동일" 문제를 그대로 재현했다.
+- 두 편을 `regular_modern_open` 착수 전에 재설계한다: 각 편의 1~3단계를 서로 다른 문법(map-evidence/sequence/commit-revise, 순서는 편마다 원래 콘텐츠 성격에 맞춰 배정) + 4단계 `claim-evidence`(변경 없음, 기존 award id·category 그대로 유지해 종합 관문이 계속 작동하도록 함)로 바꾼다. 상세 결과는 아래 두 항목에 이어서 기록한다.
+
+### P1 — 트랙 1-A(관문 설계실) `regular_neolithic` 편 내부 4관문 재설계 (2026-09-11)
+
+- 재배정: 1단계(정착지 선택, 강가/농경지/움집 hotspot이 이미 장소 개념이라) → `map-evidence`. 2단계(토기 제작 순서) → `sequence`(변경 없음, 이미 순서 문법이 가장 자연스러웠음). 3단계(가락바퀴·뼈바늘) → `commit-revise`("어떤 도구·재료가 필요한가"라는 판단 질문에 맞음). 4단계는 `claim-evidence` 그대로, `settlement-environment`(category `environment`)·`pottery-technology`/`weaving-technology`(둘 다 category `technology`)라는 기존 award id·범주를 그대로 유지해 종합 관문 로직을 건드리지 않았다.
+- 재검증: `python -c ...`로 1~4단계 interaction/task.type을 직접 출력해 `map-evidence/sequence/commit-revise/claim-evidence` 4종이 실제로 다른지 확인. 지시서 §8 전체 스크립트 재통과.
+- 로컬 재플레이(포트 8801, `preview_start` 이름 `gate-grammar`): 1~4단계 전부 다시 끝까지 플레이. 3단계(신규 `commit-revise`)에서 초기 판단→근거 2종 확인→최종 판단까지 실제로 요구되는지, 4단계 D-027 가드(좁은 주장에 무관한 근거 섞으면 거부)가 재설계 이후에도 여전히 걸리는지 재확인했다. 콘솔 error/warning 0건.
+- 추가 버그 확인(트랙 1-B 소관, 수정 안 함): 이전에 `evaluateSequence()`에서 발견한 하드코딩 성공 메시지 버그가 `evaluateCommitRevise()`에도 동일하게 있다 — 3단계(신석기 도구 판단)를 정답으로 완료해도 "제작 과정과 보관 환경을 함께 고려한 판단입니다."(고려 문화 1단계 전용 문구)가 그대로 뜬다. `evaluateMapEvidence`/`evaluateClaimEvidence`의 완료 메시지는 문구 자체가 MUD에 무관하게 쓸 수 있는 일반 문장이라 눈에 띄는 오류로 드러나지 않을 뿐, 4개 평가 함수 전부 `task.completion.successText`가 아니라 함수 안에 하드코딩된 문자열을 반환하는 동일한 구조다.
+
+### P1 — 트랙 1-A(관문 설계실) `regular_three_kingdoms` 편 내부 4관문 재설계 (2026-09-11)
+
+- 재배정: 1단계(백제, "무엇이 전성기의 핵심이었나" 판단 질문) `map-evidence`→`commit-revise`(hotspot 제거, 한강 유역 자원·칠지도 교류를 근거로 초기 판단→수정). 2단계(고구려, 평양 천도 장소 판단) `map-evidence` 유지(변경 없음, 이미 최적 문법이었음). 3단계(신라, 영토 확보→교류→기록의 시간 순서) `map-evidence`→`sequence`(hotspot 제거, 한강 확보→당항성 교류→북한산 순수비 건립 3단계 카드로 재구성). 4단계는 `claim-evidence` 그대로, `baekje-han-river-network`/`goguryeo-pyeongyang-policy`/`silla-bukhansan-record` 등 기존 award id·category를 전부 보존해 종합 관문이 계속 작동하도록 했다.
+- 재검증: `python -c ...`로 1~4단계 interaction/task.type을 직접 출력해 `commit-revise/map-evidence/sequence/claim-evidence` 4종이 실제로 다른지 확인. 지시서 §8 전체 스크립트 재통과(반복 탭 감사 후보 6개 유지, 새 회귀 없음).
+- 로컬 재플레이(포트 8801, `preview_start` 이름 `gate-grammar`): 1~4단계 전부 다시 끝까지 플레이. 1단계(신규 `commit-revise`)의 초기 판단→근거 2종→최종 판단, 3단계(신규 `sequence`)의 카드 순서 배열+의미 질문, 4단계 D-027 가드(좁은 주장에 백제 근거를 섞으면 거부)가 재설계 이후에도 정상 작동함을 재확인했다. 콘솔 error/warning 0건.
+- 3단계에서도 동일한 하드코딩 성공 메시지 버그(`evaluateSequence()`가 "인쇄 절차와 금속활자의 재사용 의미를 연결했습니다."를 그대로 반환)를 재현했다 — 트랙 1-B 소관, 기존 기록과 동일 원인이라 새 항목은 추가하지 않는다.
+- 3편 모두(신석기/삼국) 재설계 완료. 다음: `regular_modern_open.json`(`commit-revise`, 1차 배정 문법이지만 4관문 다양화 기준으로 3종 중 하나로 재배치 필요) 착수 전 사용자 확인 대기.

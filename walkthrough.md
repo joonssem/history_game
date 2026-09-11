@@ -1556,3 +1556,44 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 마지막으로 "유물만큼 유적도 많고 웹에 좋은 사진이 많다"는 요청에 유물↔유적(발견 장소) 연결 기능을 추가했다. 사진을 직접 삽입하지 않고(저작권 부담) 국가유산포털(heritage.go.kr) 공식 사적 페이지로만 링크하는 방식을 사용자가 선택했다. 6개 유적(서울 암사동, 부여 송국리, 연천 전곡리, 경주 대릉원 일원, 고령 지산동 고분군, 공주 무령왕릉과 왕릉원)을 heritage.go.kr에서 직접 열어 사진·설명이 실제로 맞는지 확인한 뒤 `data/artifactComparisons.json`의 유물 객체에 `site` 필드로 추가했다. 출토지를 모르는 전세품 유물(청자·백자·풍속화·앙부일구·자격루)에는 일부러 넣지 않았다. `js/artifactComparison.js`에 `siteLinksHtml()`을 추가해 결과 화면에 "🏛️ 이 유물이 발견된 유적" 박스로 노출(같은 유적 공유 시 중복 제거).
 - 검증: 로컬 정적 서버 + 브라우저 콘솔에서 site 링크 텍스트·href 정확성, site 정보 없는 페어(풍속화)는 빈 문자열을 반환해 정보를 지어내지 않는지 확인. `01_validate_game_data.py` 통과, `js/artifactComparison.js`는 `node -c`로 문법 확인.
 - 문서: `BACKLOG.md`에 3건 기록, `TEACHING_artifact_comparison.md`에 "2026-09-10 추가 — 유물↔유적 연결" 절 신설, 캐시버스터 `?v=20260910-eragroup1`(엔진)·`?v=20260910-sitelinks1`(엔진 재갱신).
+
+## 2026-09-10 — 트랙 1-A(관문 설계실) `regular_neolithic` 파일럿 1편
+
+`TASK-20260910-GATE1 | Regular MUD 관문 문법 다양화 1편(신석기) | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- 지시서 `docs/handoff/claude_track1a_gate_grammar_instruction.md`(Opus 5 기획) §3 1차 범위 3편 중 1편째. `data/mud/regular_neolithic.json`의 필수 단계 4개를 기존 `ordered-hotspot`/`resource-allocation`/`reflection`(모두 "원 3개 누르기" 계열)에서 `inquiry-task`로 전환했다. 배정 문법은 `sequence`(정착지→토기→의생활 순서의 앞뒤 관계 판단), 4단계(종합)는 참조 구현 `regular_goryeo_culture`와 같은 관례로 `claim-evidence`를 사용했다.
+- 범위: `simulator` 블록만 수정, `choices`·`narrative`·`glossary`와 실패 분기(`1-1`/`2-1`/`3-1`)는 그대로 유지했다. `js/`·`css/`·`index.html`은 건드리지 않았다(트랙 1-A 소유권 범위).
+- D-027(범주 무력화) 회귀를 직접 재현·확인: 근거 3개 중 같은 범주(`technology`) 2개만으로 `minCategories:2` 주장을 제출하면 정상적으로 거부됨을 확인했다. 범주를 `environment`(1개)·`technology`(2개)로 의도적으로 겹치게 배정해 범주 다양성 조건이 실제로 의미 있게 걸리도록 설계했다.
+- 검증: 지시서 §8 전체(`node --check` 3종, `01/03/04/06/07/08/09_validate·audit_*`, `05_test_simulator_runtime.js`) 통과, `git diff --check` 클린. 격리 워크트리 로컬 정적 서버(다른 세션과 포트 충돌 확인 후 8792 포트 사용)에서 1~4단계 전부 실제 플레이: 오답 제출 시 다음 버튼 비활성 유지·정답 비노출, 정답 제출 시 탐구 패널 컨트롤 전체 비활성화 + 다음 버튼만 활성화, 최종 보상(`art_2` 암사동 빗살무늬 토기) 정상 지급, 콘솔 error/warning 0건을 모두 확인했다.
+- 버그 발견(수정 안 함, 기록만): `js/mudInquiry.js`의 `evaluateSequence()`가 완료 메시지를 JSON의 `completion.successText`가 아니라 고려 문화 2단계 전용 문구로 하드코딩 반환한다. `regular_neolithic` 1~3단계 정답 제출 시 실측으로 확인했다. `js/`는 이 트랙 소유가 아니므로 `BACKLOG.md`에만 기록했다.
+- 문서: `BACKLOG.md`에 "트랙 1-A(관문 설계실) `regular_neolithic` 파일럿 완료" 절 신설.
+
+## 2026-09-10 — 트랙 1-A(관문 설계실) `regular_three_kingdoms` 파일럿 2편
+
+`TASK-20260910-GATE2 | Regular MUD 관문 문법 다양화 2편(삼국 한강 쟁탈전) | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- 지시서 §3 1차 범위 3편 중 2편째. `data/mud/regular_three_kingdoms.json`의 필수 단계 4개를 `map-evidence`(1~3단계, 백제·고구려·신라 각 나라의 핵심 장소·근거·자료 범위 연결)와 `claim-evidence`(4단계, 시대별 근거 종합)로 전환. 기존 3개 hotspot이 각 단계의 `locations`와 정확히 대응해 별도 좌표 재설계 없이 그대로 재사용했다.
+- 범주 설계 자체 점검 사례: 4단계 두 주장의 `minCategories`를 처음 2로 잡았다가, 갱신된 `scripts/04_validate_mud_contract.py`가 "근거 3개가 이미 서로 다른 범주라 아무 2개를 골라도 항상 통과하는 죽은 조건"이라고 자동으로 잡아냈다. 1~3단계 각 나라당 지원 근거가 정확히 1개뿐이라 같은 범주 조합 자체가 존재하지 않는 게 원인이었다 — `minCategories`를 1로 낮추고 `minEvidence`+`accepts` 멤버십으로 "서로 다른 나라 근거를 실제로 골라야 한다"는 요구를 대신 걸었다.
+- D-027 회귀를 4단계에서 직접 재현: 좁은 주장("5세기 고구려→6세기 신라")을 고른 뒤 그 주장의 `accepts`에 없는 백제 근거를 함께 제출 → 정상 거부됨을 확인, 백제 근거를 빼자 정상 완료(역사가 등급)됐다.
+- 검증: 지시서 §8 전체 통과(반복 탭 감사 후보 7개→6개, `regular_three_kingdoms.json:4` 제외됨). `.claude/launch.json`의 `gate-grammar` 설정(포트 8801, 이 워크트리 디렉터리 고정)으로 로컬 서버를 띄워 1~4단계 전부 실제 플레이: 오답 게이트 유지·정답 비노출, 정답 시 컨트롤 전체 비활성화+다음 버튼만 개방, 최종 보상(`art_5` 백제 칠지도, `art_6` 신라 북한산 순수비) 정상 지급, 콘솔 error/warning 0건.
+- 문서: `BACKLOG.md`에 "트랙 1-A(관문 설계실) `regular_three_kingdoms` 파일럿 완료" 절 신설.
+
+## 2026-09-11 — 트랙 1-A(관문 설계실) 정정: `regular_neolithic` 편 내부 4관문 재설계
+
+`TASK-20260911-GATE1R | 지시서 재해석 정정에 따른 신석기 편 재설계 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- 사용자가 지시서 §3 "같은 문법을 두 번 쓰지 않는다"를 "세 편 사이"가 아니라 "참조 구현(`regular_goryeo_culture`)처럼 한 편 안의 4관문이 서로 다른 사고 문법을 요구해야 한다"는 뜻으로 정정했다. 앞서 커밋한 `regular_neolithic`(1~3단계 전부 `sequence`)이 이 기준을 어겼다.
+- 재배정: 1단계(정착지 선택) `sequence`→`map-evidence`, 2단계(토기 제작 순서) `sequence` 유지, 3단계(가락바퀴·뼈바늘) `sequence`→`commit-revise`, 4단계 `claim-evidence` 유지(기존 award id·category 보존). 최종 분포: `map-evidence`→`sequence`→`commit-revise`→`claim-evidence`.
+- 검증: `python -c`로 4단계 interaction/task.type을 직접 출력해 4종이 서로 다름을 확인. 지시서 §8 전체 재통과. `preview_start(name: "gate-grammar")`로 포트 8801 서버를 다시 띄우고 1~4단계 전부 재플레이(신규 3단계의 초기 판단→근거 확인→최종 판단 흐름, 4단계 D-027 가드 재확인 포함), 콘솔 error/warning 0건.
+- 버그 확인 범위 확장: `evaluateCommitRevise()`도 `evaluateSequence()`와 같은 방식으로 고려 문화 전용 문구를 하드코딩 반환한다. `evaluateMapEvidence`/`evaluateClaimEvidence`는 문구가 MUD-불특정 일반 문장이라 눈에 띄지 않을 뿐, 4개 평가 함수 모두 `completion.successText`를 쓰지 않는 동일 구조임을 확인해 `BACKLOG.md`에 갱신했다.
+- 문서: `BACKLOG.md`에 정정 배경과 재설계 결과 절 신설.
+
+## 2026-09-11 — 트랙 1-A(관문 설계실) `regular_three_kingdoms` 편 내부 4관문 재설계
+
+`TASK-20260911-GATE2R | 지시서 재해석 정정에 따른 삼국 한강 쟁탈전 편 재설계 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- `regular_neolithic`와 같은 기준으로 `regular_three_kingdoms`(1~3단계 전부 `map-evidence`)를 재설계했다.
+- 재배정: 1단계(백제) `map-evidence`→`commit-revise`, 2단계(고구려) `map-evidence` 유지, 3단계(신라) `map-evidence`→`sequence`(영토 확보→교류→기록 3단계 카드). 4단계 `claim-evidence`는 변경 없음, 기존 award id·category(`baekje-han-river-network`/`goguryeo-pyeongyang-policy`/`silla-bukhansan-record` 등) 그대로 보존.
+- 검증: `python -c`로 4단계 interaction/task.type 재확인(4종 모두 다름). 지시서 §8 전체 재통과. `preview_start(name: "gate-grammar")`로 1~4단계 전부 재플레이: 신규 1단계(commit-revise) 초기 판단→근거→최종 판단, 신규 3단계(sequence) 카드 순서·의미 질문, 4단계 D-027 가드 재확인 모두 정상 작동, 콘솔 error/warning 0건.
+- 신규 3단계에서도 `evaluateSequence()`의 하드코딩 성공 메시지 버그를 재현(기존 기록과 동일 원인, `BACKLOG.md`에 중복 기록하지 않음).
+- 이로써 지시서 §3 파일럿 3편 중 2편(신석기/삼국)이 "편 내부 4관문 서로 다른 문법" 기준을 충족했다. 문서: `BACKLOG.md`에 재설계 결과 절 신설.
