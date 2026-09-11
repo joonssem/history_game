@@ -23,8 +23,8 @@
 | `regular_joseon_silhak` | 10min | 4 | 4 | 3 | 4 | 7.7분 | 반복 탭 조기 종료 위험 |
 | `regular_goryeo_culture` | 5-10min | 4 | 4 | 3 | 4 | 5.7분 | 기준 충족 추정 |
 | `regular_neolithic` | 5-10min | 4 | 4 | 4 | 4 | 6.0분 | 기준 충족 추정 |
+| `regular_modern_open` | 5-10min | 4 | 4 | 3 | 4 | 6.2분 | 기준 충족 추정 |
 | `regular_three_kingdoms` | 5-10min | 4 | 4 | 4 | 4 | 6.2분 | 기준 충족 추정 |
-| `regular_modern_open` | 5-10min | 4 | 4 | 3 | 4 | 7.2분 | 기준 충족 추정 |
 | `regular_bronze_age` | 5-10min | 4 | 4 | 4 | 4 | 7.3분 | 기준 충족 추정 |
 | `regular_gwangbok` | 5-10min | 4 | 4 | 4 | 3 | 7.4분 | 기준 충족 추정 |
 | `regular_post_war` | 5-10min | 4 | 4 | 3 | 4 | 7.4분 | 기준 충족 추정 |
