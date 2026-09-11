@@ -362,3 +362,8 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - **문제 발견 경위**: 4트랙 지시서(`claude_track3_activity_loop_instruction.md`) §6 완료 판정 "토글로 활동을 전환해도 이전 활동의 결과가 남아 있지 않다"를 iPad 가로(1180×820)·세로(820×1180) 뷰포트 실측 중 직접 확인하다가 발견. 4개 미니게임(`card-game-container`/`timeline-game-container`/`cause-effect-game-container`/`detective-game-container`)이 각자 독립된 `<div>`에 렌더링되는데, 하나를 시작해도 이전에 플레이한 다른 게임의 결과물이 DOM에서 지워지지 않고 계속 쌓여 "확장 역사 활동" 영역이 불필요하게 길어지고 있었다.
 - **수정**: `js/miniGames.js`에 `clearMiniGameContainers()`를 추가해 4개 컨테이너(+ `card-game-stats`)를 모두 비우고, 4개 `start*Game()` 진입점 각각의 첫 줄에서 호출하도록 했다.
 - **검증**: 로컬 서버에서 카드→원인결과→연표→탐정 순으로 전환하며 매번 4개 컨테이너의 `innerHTML.length`를 측정 — 항상 방금 시작한 게임 하나만 내용이 있고 나머지 3개는 0임을 확인. 콘솔 에러 0건. iPad 가로(1180×820)에서 확장 활동 섹션 높이 1231px(카드 게임), 세로(820×1180)에서 697px로 뷰포트 대비 과도하지 않음.
+
+### 2026-09-11 「연결 공방」(activity-loop) Track 3 — §6 완료 판정 통과 + P2 설계안 작성
+
+- **§6 완료 판정(P0·P1 대상) 실측**: `activity-loop`(포트 8803)에서 5개 활동(카드/연표/원인결과/탐정/스토리) 전부 실제 클릭으로 플레이. 4개 미니게임 각각 시작 버튼과 결과가 14px 간격으로 항상 같은 위치, 전환 시 다른 게임 컨테이너는 모두 0자(잔존 없음) 확인. 콘솔 에러 0건. 아이패드 가로(1180×820) 597.7px, 세로(820×1180) 591.3px — 두 뷰포트 모두 세로 스크롤 과도하지 않음.
+- **P2 설계안**: `docs/plans/implementation_plan_personal_timeline.md` 작성. `unlockedArtifacts` 배열 순서가 곧 MUD 완료 순서임을 코드로 확인했고, `artifacts.json`의 `hint` 필드에서 (단원, 차시)를 파싱해 36개 중 31개를 역사적 순서로 재구성 가능함을 검증(Deep-dive·협동 MUD 5종은 예외 처리 필요). 옵션 A(완전 전환)/B(병행, 추천)/C(보류) 중 B를 추천하되 최종 결정은 사용자 확인 대기 — **구현하지 않음.**
