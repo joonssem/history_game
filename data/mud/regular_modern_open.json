@@ -89,42 +89,52 @@
       "simulator": {
         "mode": "text-reading",
         "scene": "ganghwa-treaty-hall",
-        "interaction": "ordered-hotspot",
-        "sequence": ["treaty-pressure", "extraterritoriality", "coastal-survey"],
         "type": "info",
-        "hotspots": [
-          {
-            "id": "treaty-pressure",
-            "label": "무력 위협",
-            "x": 0.22,
-            "y": 0.48,
-            "feedback": "강화도 조약은 일본의 무력 위협 속에서 체결된 조약입니다."
-          },
-          {
-            "id": "extraterritoriality",
-            "label": "치외법권",
-            "x": 0.5,
-            "y": 0.65,
-            "feedback": "치외법권은 일본인이 조선 법률이 아닌 일본 영사의 재판을 받게 한 조항입니다."
-          },
-          {
-            "id": "coastal-survey",
-            "label": "해안 측량권",
-            "x": 0.78,
-            "y": 0.48,
-            "feedback": "해안 측량권은 조선의 바다와 해안에 대한 주권을 제한한 조항입니다."
-          }
-        ],
-        "infoText": "강화도 조약으로 부산, 원산, 인천 3개 항구가 차례로 열리며 조선은 세계 무대로 내던져졌습니다.",
-        "instruction": "📜 <b>조약의 체결 배경과 불평등 조항을 모두 확인하세요.</b>",
-        "feedback": "개항과 함께 자주적 근대화의 무거운 과제가 주어졌습니다.",
+        "interaction": "inquiry-task",
+        "task": {
+          "type": "commit-revise",
+          "prompt": "강화도 조약을 어떻게 설명하는 것이 가장 정확할까요?",
+          "options": [
+            {
+              "id": "fully-favorable",
+              "label": "강화도 조약은 조선에 유리한 대등한 조약이었다.",
+              "correct": false,
+              "feedback": "치외법권과 해안 측량권 조항은 조선에 불리했습니다."
+            },
+            {
+              "id": "military-pressure-only",
+              "label": "조약은 단지 무력 위협 한 가지 이유만으로 체결되었다.",
+              "correct": false,
+              "feedback": "무력 위협은 배경이지만, 조약 안의 구체적 조항 내용도 함께 살펴야 합니다."
+            },
+            {
+              "id": "unequal-but-opening",
+              "label": "강화도 조약은 개항의 계기가 되었지만 치외법권·해안 측량권 같은 불평등 조항을 담고 있었다.",
+              "correct": true,
+              "feedback": "조약문의 조항을 보면 개항과 함께 주권을 침해하는 내용이 함께 있었음을 알 수 있습니다."
+            }
+          ],
+          "evidence": [
+            { "id": "extraterritoriality-clause", "label": "치외법권 조항 자료", "detail": "일본인이 조선 법률이 아닌 일본 영사의 재판을 받게 한 조항입니다." },
+            { "id": "coastal-survey-clause", "label": "해안 측량권 조항 자료", "detail": "조선의 바다와 해안에 대한 주권을 제한한 조항입니다." }
+          ],
+          "requiredEvidenceIds": ["extraterritoriality-clause", "coastal-survey-clause"],
+          "awards": [
+            { "id": "treaty-unequal-clauses", "label": "강화도 조약의 불평등 조항", "detail": "치외법권·해안 측량권 등 조선의 주권을 제한한 조약 조항", "category": "treaty", "role": "support" },
+            { "id": "treaty-record-scope", "label": "조약 자료의 범위", "detail": "조약문 하나로 개항기 전체의 생활 변화를 설명할 수 없다는 한계", "category": "source-scope", "role": "limit" }
+          ]
+        },
+        "infoText": "첫 생각이 달라져도 괜찮습니다. 새 자료로 설명을 고치는 것이 역사 탐구입니다.",
+        "instruction": "📜 <b>먼저 판단하고, 치외법권·해안 측량권 조항을 연 뒤 최종 판단을 정하세요.</b>",
+        "feedback": "첫 판단부터 정해 보세요.",
         "required": true,
         "completion": {
-          "target": 3,
+          "strategy": "validated-state",
+          "target": 1,
           "increment": 1,
-          "minActions": 3,
+          "minActions": 1,
           "progressKey": "simulatorProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "successText": "📜 조약의 개항 계기와 불평등 조항을 함께 판단했습니다."
         }
       }
     },
@@ -181,42 +191,71 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "jejungwon-postal",
-        "interaction": "ordered-hotspot",
-        "sequence": ["jejungwon", "ujeongchongguk", "unequal-access"],
         "type": "info",
-        "hotspots": [
-          {
-            "id": "jejungwon",
-            "label": "제중원",
-            "x": 0.22,
-            "y": 0.48,
-            "feedback": "제중원은 서양 의학을 받아들인 근대식 병원으로 사람들의 치료 기회를 넓혔습니다."
+        "interaction": "inquiry-task",
+        "task": {
+          "type": "sequence",
+          "prompt": "근대 시설이 세워지고 이용의 한계가 드러나는 과정을 순서대로 배열하세요.",
+          "cards": [
+            {
+              "id": "found-ujeongchongguk",
+              "label": "우정총국 설립(1884)",
+              "detail": "근대적 우편 업무를 시작하기 위한 관청이 세워집니다.",
+              "orderFeedback": "우정총국은 제중원보다 먼저인 1884년에 설립되었습니다."
+            },
+            {
+              "id": "found-jejungwon",
+              "label": "제중원 설립(1885)",
+              "detail": "서양 의학을 도입한 근대식 병원이 문을 엽니다.",
+              "orderFeedback": "제중원은 우정총국 다음 해인 1885년에 설립되었습니다."
+            },
+            {
+              "id": "uneven-access",
+              "label": "이용 기회의 차이 확인",
+              "detail": "새 시설이 생겨도 모든 사람이 같은 조건으로 이용하지는 못했습니다.",
+              "orderFeedback": "이용의 한계는 시설이 세워진 뒤에 드러나는 문제입니다."
+            }
+          ],
+          "correctOrder": ["found-ujeongchongguk", "found-jejungwon", "uneven-access"],
+          "meaningQuestion": {
+            "prompt": "시설이 세워진 순서와 이용 한계가 나중에 드러났다는 사실은 무엇을 보여 줄까요?",
+            "options": [
+              {
+                "id": "institution-then-limit",
+                "label": "새 시설이 생긴 것과 그 시설을 실제로 누가 이용할 수 있었는지는 서로 다른 문제다.",
+                "correct": true,
+                "feedback": "시설의 존재와 이용 기회는 구분해서 살펴야 합니다."
+              },
+              {
+                "id": "all-solved-at-once",
+                "label": "시설이 생기자마자 모든 사람의 문제가 동시에 해결되었다.",
+                "correct": false,
+                "feedback": "자료의 순서를 보면 이용의 한계가 시설 설립 뒤에도 남아 있었습니다."
+              },
+              {
+                "id": "order-irrelevant",
+                "label": "두 시설이 세워진 순서는 아무 의미가 없다.",
+                "correct": false,
+                "feedback": "설립 순서는 근대 문물이 도입된 과정을 보여 주는 중요한 정보입니다."
+              }
+            ]
           },
-          {
-            "id": "ujeongchongguk",
-            "label": "우정총국",
-            "x": 0.5,
-            "y": 0.65,
-            "feedback": "우정총국은 근대적 우편 제도를 시작해 사람과 소식의 이동을 바꾸었습니다."
-          },
-          {
-            "id": "unequal-access",
-            "label": "이용의 한계",
-            "x": 0.78,
-            "y": 0.48,
-            "feedback": "새 시설이 생겨도 모든 사람이 같은 조건으로 이용할 수 있었던 것은 아닙니다."
-          }
-        ],
-        "infoText": "제중원은 신분 차별 없이 가난한 백성까지 평등하게 치료한 사랑과 의술의 공간이었습니다.",
-        "instruction": "🏥 <b>근대 시설의 변화와 이용의 한계를 함께 확인하세요.</b>",
-        "feedback": "근대 병원과 우편망이 전국으로 뻗어나갔습니다!",
+          "awards": [
+            { "id": "modern-institution-access", "label": "근대 시설과 이용의 한계", "detail": "제중원·우정총국이 세워졌지만 이용 기회가 모두에게 같지 않았다는 근거", "category": "institution", "role": "support" },
+            { "id": "institution-record-scope", "label": "시설 자료의 범위", "detail": "두 시설 기록만으로 근대 문물 전체의 생활 변화를 설명할 수 없다는 한계", "category": "source-scope", "role": "limit" }
+          ]
+        },
+        "infoText": "순서를 외우는 것보다 왜 그 순서로 이어지는지를 생각해 보세요.",
+        "instruction": "🏥 <b>우정총국→제중원→이용 한계 확인 순서로 근대 시설 도입 과정을 배열하세요.</b>",
+        "feedback": "과정 카드와 의미 질문을 모두 완성해야 합니다.",
         "required": true,
         "completion": {
-          "target": 3,
+          "strategy": "validated-state",
+          "target": 1,
           "increment": 1,
-          "minActions": 3,
+          "minActions": 1,
           "progressKey": "simulatorProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "successText": "🏥 근대 시설 설립과 이용 한계의 순서를 연결했습니다."
         }
       }
     },
@@ -273,9 +312,8 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "hanyang-tram-street",
-        "interaction": "ordered-hotspot",
-        "sequence": ["tram-route", "electric-light", "urban-change"],
         "type": "info",
+        "interaction": "inquiry-task",
         "hotspots": [
           {
             "id": "tram-route",
@@ -299,16 +337,43 @@
             "feedback": "전차와 전등은 도시 생활을 바꾸었지만 사회 전체의 변화는 여러 조건이 함께 작용한 결과입니다."
           }
         ],
-        "infoText": "전차는 신분 차별 없이 누구나 나란히 앉아 타던 평등한 근대 대중교통이었습니다.",
-        "instruction": "🚋 <b>전차·전등이 도시 생활에 준 변화를 모두 확인하세요.</b>",
-        "feedback": "전차가 '땡땡' 소리를 내며 종로 거리를 시원하게 달립니다!",
+        "task": {
+          "type": "map-evidence",
+          "labels": {
+            "location": "1. 도시 생활 변화를 실제 경로로 확인할 수 있는 장소를 고르세요",
+            "support": "2. 그 장소를 뒷받침하는 근거를 고르세요",
+            "limit": "3. 이 자료의 한계를 바르게 말한 문장을 고르세요"
+          },
+          "prompt": "종로 거리에서 전차가 바꾼 도시 생활을 실제 경로로 확인할 수 있는 장소와 그 근거, 자료의 범위를 연결하세요.",
+          "locations": [
+            { "id": "tram-route", "label": "전차 노선", "detail": "서대문과 청량리 사이를 오간 실제 운행 경로", "correct": true, "feedback": "전차 노선은 도시 생활 변화를 실제 경로로 확인할 수 있는 핵심 장소입니다." },
+            { "id": "electric-light", "label": "전등", "detail": "도시의 밤을 밝힌 개별 시설", "correct": false, "feedback": "전등도 중요한 변화이지만, 실제 이동 경로로 확인할 수 있는 장소는 전차 노선입니다." },
+            { "id": "urban-change", "label": "도시 생활 변화", "detail": "여러 시설이 함께 만든 결과에 대한 해석", "correct": false, "feedback": "도시 생활 변화는 특정 장소가 아니라 여러 근거를 모아 내린 해석입니다." }
+          ],
+          "supports": [
+            { "id": "tram-route-record", "label": "전차가 서대문~청량리 구간을 오갔다는 운행 기록", "correct": true, "feedback": "실제 운행 구간 기록은 도시 이동의 변화를 직접 보여 줍니다." },
+            { "id": "single-anecdote-only", "label": "어느 한 사람이 전차를 탔다는 일화 하나만으로 도시 전체의 변화를 설명할 수 있다", "correct": false, "feedback": "한 사람의 경험만으로 도시 전체의 변화를 단정할 수는 없습니다." }
+          ],
+          "limits": [
+            { "id": "tram-limited-scope", "label": "전차 노선 하나만으로 당시 사회 전체의 변화를 다 설명할 수는 없다.", "correct": true, "feedback": "전차는 중요한 변화이지만 도시 전체·사회 전체를 대표하지는 않습니다." },
+            { "id": "tram-explains-everything", "label": "전차가 생겼으므로 당시 모든 사람의 생활이 즉시 평등해졌다.", "correct": false, "feedback": "교통 시설 하나로 사회의 모든 조건이 달라졌다고 볼 수는 없습니다." }
+          ],
+          "awards": [
+            { "id": "tram-urban-change", "label": "전차가 바꾼 도시 생활", "detail": "서대문~청량리 전차 노선이 도시의 이동과 시간을 바꾸었다는 근거", "category": "urban", "role": "support" },
+            { "id": "tram-record-scope", "label": "전차 자료의 범위", "detail": "전차 노선 기록 하나로 당시 사회 전체를 설명할 수 없다는 한계", "category": "source-scope", "role": "limit" }
+          ]
+        },
+        "infoText": "지도에서 장소를 찾은 뒤, 그 장소가 보여주는 근거의 의미와 자료의 범위를 함께 연결하세요.",
+        "instruction": "🚋 <b>Canvas나 아래 버튼으로 장소를 고르고 근거와 자료 범위를 연결하세요.</b>",
+        "feedback": "장소·근거·자료 범위를 한 묶음으로 선택하세요.",
         "required": true,
         "completion": {
-          "target": 3,
+          "strategy": "validated-state",
+          "target": 1,
           "increment": 1,
-          "minActions": 3,
+          "minActions": 1,
           "progressKey": "simulatorProgress",
-          "successText": "✅ 관찰과 조작을 마쳤습니다. 이제 확인한 단서를 바탕으로 선택하세요."
+          "successText": "🚋 도시 생활 변화를 보여 주는 장소와 근거를 연결했습니다."
         }
       }
     },
@@ -365,43 +430,61 @@
       "simulator": {
         "mode": "culture-touch",
         "scene": "modern-open-evidence",
-        "interaction": "ordered-hotspot",
-        "sequence": ["treaty", "institution", "city"],
         "type": "info",
-        "hotspots": [
-          {
-            "id": "treaty",
-            "label": "강화도 조약문",
-            "x": 0.22,
-            "y": 0.48,
-            "feedback": "개항과 함께 주권 침해 조항이 들어간 외교 자료입니다."
-          },
-          {
-            "id": "institution",
-            "label": "병원·우편 시설",
-            "x": 0.5,
-            "y": 0.65,
-            "feedback": "의료와 통신의 새로운 제도·시설 자료입니다."
-          },
-          {
-            "id": "city",
-            "label": "전차·전등",
-            "x": 0.78,
-            "y": 0.48,
-            "feedback": "도시의 시간과 이동을 바꾼 생활 자료입니다."
-          }
-        ],
+        "interaction": "inquiry-task",
+        "task": {
+          "type": "claim-evidence",
+          "prompt": "서로 다른 근거를 연결해 개항기의 명암을 함께 설명하세요.",
+          "claims": [
+            {
+              "id": "connect-treaty-institution-city",
+              "label": "조약의 불평등성과 근대 시설·도시 생활의 변화를 함께 연결해야 개항기를 온전히 설명할 수 있다.",
+              "accepts": ["treaty-unequal-clauses", "modern-institution-access", "tram-urban-change"],
+              "minCategories": 1
+            },
+            {
+              "id": "institution-and-city-show-change",
+              "label": "근대 시설과 도시 생활의 변화는 개항 이후 실제로 일어난 삶의 변화를 보여 준다.",
+              "accepts": ["modern-institution-access", "tram-urban-change"],
+              "minCategories": 1
+            }
+          ],
+          "allowedEvidenceIds": ["treaty-unequal-clauses", "modern-institution-access", "tram-urban-change"],
+          "minEvidence": 2,
+          "maxEvidence": 3,
+          "limits": [
+            {
+              "id": "connect-multiple-sources",
+              "label": "조약·시설·도시 생활처럼 서로 다른 자료를 연결해야 개항기를 온전히 설명할 수 있다.",
+              "correct": true,
+              "feedback": "서로 다른 자료를 연결할수록 설명이 더 탄탄해집니다."
+            },
+            {
+              "id": "tram-alone-enough",
+              "label": "전차 하나만으로 개항기의 주권 문제와 생활 변화를 모두 설명할 수 있다.",
+              "correct": false,
+              "feedback": "전차 자료만으로는 조약의 불평등 문제까지 설명할 수 없습니다."
+            },
+            {
+              "id": "treaty-erases-progress",
+              "label": "불평등 조약이 있었으므로 근대 시설과 도시 생활의 변화는 의미가 없다고 볼 수 있다.",
+              "correct": false,
+              "feedback": "조약의 문제와 생활 변화는 서로 다른 측면이며, 하나가 다른 하나의 의미를 지우지는 않습니다."
+            }
+          ]
+        },
+        "infoText": "근거의 개수보다 서로 다른 성격의 자료를 연결했는지가 중요합니다.",
+        "instruction": "🔎 <b>주장을 고르고 앞선 관문에서 모은 근거를 연결하세요.</b>",
+        "feedback": "앞에서 모은 근거를 사용해 최종 설명을 완성하세요.",
         "required": true,
         "completion": {
-          "target": 3,
+          "strategy": "validated-state",
+          "target": 1,
           "increment": 1,
-          "minActions": 3,
+          "minActions": 1,
           "progressKey": "simulatorProgress",
-          "successText": "🔎 세 자료를 모두 확인했습니다. 이제 근거를 종합하세요."
-        },
-        "infoText": "자료마다 알려 주는 범위와 관점이 다릅니다.",
-        "instruction": "🔎 <b>세 자료를 비교하세요</b>",
-        "feedback": "한 자료만으로 시대 전체를 단정하지 마세요."
+          "successText": "🔎 조약·시설·도시 생활의 근거를 연결해 개항기를 설명했습니다."
+        }
       }
     },
     "4-1": {

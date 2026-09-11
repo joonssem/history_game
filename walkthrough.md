@@ -1597,3 +1597,15 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 검증: `python -c`로 4단계 interaction/task.type 재확인(4종 모두 다름). 지시서 §8 전체 재통과. `preview_start(name: "gate-grammar")`로 1~4단계 전부 재플레이: 신규 1단계(commit-revise) 초기 판단→근거→최종 판단, 신규 3단계(sequence) 카드 순서·의미 질문, 4단계 D-027 가드 재확인 모두 정상 작동, 콘솔 error/warning 0건.
 - 신규 3단계에서도 `evaluateSequence()`의 하드코딩 성공 메시지 버그를 재현(기존 기록과 동일 원인, `BACKLOG.md`에 중복 기록하지 않음).
 - 이로써 지시서 §3 파일럿 3편 중 2편(신석기/삼국)이 "편 내부 4관문 서로 다른 문법" 기준을 충족했다. 문서: `BACKLOG.md`에 재설계 결과 절 신설.
+
+## 2026-09-11 — 트랙 1-A(관문 설계실) 라운드 2 §1-1: `regular_modern_open` 전환 (파일럿 3편/3 완료)
+
+`TASK-20260911-GATE3 | 4트랙 라운드 2 §1-1 강화도 조약·근대 문물 편 전환 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- `docs/handoff/claude_four_track_round2_instruction.md` §1-1. `data/mud/regular_modern_open.json`의 필수 단계 4개를 `ordered-hotspot`에서 `inquiry-task`로 전환. 신석기·삼국과 달리 처음부터 편 내부 4관문 다양화(commit-revise/sequence/map-evidence/claim-evidence)로 설계해 재작업 없이 끝냈다.
+- 1단계(강화도 조약) `commit-revise`, 2단계(제중원·우정총국) `sequence`(1884 우정총국→1885 제중원→이용 한계 확인의 실제 연대순), 3단계(전차·전등) `map-evidence`(D-029에 따라 `task.labels` 필수 채움), 4단계 `claim-evidence`.
+- **민감 주제 균형 설계(라운드 2 §1-1 요구)**: `docs/plans/implementation_plan_sensitive_history_interactions.md`를 먼저 읽고, 4단계 `limits`에 "불평등 조약이 있었으므로 근대화는 의미 없다"(치욕사관 단정)와 "전차 하나로 주권 문제까지 다 설명된다"(근대화 미화) 양쪽을 모두 `correct:false`로 배치해 어느 한쪽 단정도 게이트를 통과하지 못하게 했다. 실플레이로 편향 응답 제출 시 실제 거부됨을 확인했다.
+- 검증: 지시서 §8 전체 재통과(반복 탭 후보 6개 유지). `preview_start(name: "gate-grammar")` 포트 8801, **아이패드 가로 1180×820**에서 1~4단계 전부 재생: 3단계 커스텀 `labels` 문구 렌더링 확인, 4단계 편향 응답 거부 후 균형 응답으로 정상 완료, 콘솔 error/warning 0건.
+- **지시서 오류 발견 및 기록**: 라운드 2 §1-1은 "`commit-revise`의 완료 메시지도 이제 `completion.successText`가 표시된다"고 했지만, 실측 결과 `evaluateSequence()`만 D-029로 수정됐고 `evaluateCommitRevise()`는 여전히 고려 문화 전용 문구를 하드코딩 반환한다. 1단계(강화도 조약, `commit-revise`) 정답 완료 시 "제작 과정과 보관 환경을 함께 고려한 판단입니다."가 그대로 노출됨을 재현했다. `js/`는 트랙 1-B 소유라 수정하지 않고 `BACKLOG.md`에 기록만 남겼다.
+- §1-2: `docs/plans/mud_perspective_task_design.md` 설계 문서 작성(코드 없음) — `perspective` task 유형 설계안, D-029 적용(라벨·완료 메시지를 데이터로 받는 방법 포함).
+- 파일럿 3편(신석기/삼국/근대 개항) 전부 완료. 지시서 §1-3에 따라 여기서 멈춘다.

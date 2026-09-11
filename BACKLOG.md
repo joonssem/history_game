@@ -456,3 +456,17 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - **다른 편 교차 확인**: `regular_three_kingdoms` 2번째 관문(map-evidence, 한강 유역)에서 동일하게 정답/오답 색상이 정확히 표시됨을 확인.
 - **캐시버스터**: `js/mudInquiry.js` → `?v=20260911-commitfix1`, `js/mudSimulators.js` → `?v=20260911-mapcanvas1`.
 - 검증: `regular_goryeo_culture` 4관문 전체 재플레이(commit-revise 완료 문구가 데이터 `completion.successText`로 나오는지 확인 포함), 지도 오답→정답 재선택 시 색이 정확히 갈리고 미선택 지점은 중립으로 남는지 스크린샷으로 확인. §8 자동 검증 전부 통과, 콘솔 error/warning 0건.
+
+### 2026-09-11 「관문 설계실」(gate-grammar) 라운드 2 §1-1 — `regular_modern_open` 편 내부 4관문 전환 (파일럿 3편/3 완료)
+
+- 작업: `claude_four_track_round2_instruction.md` §1-1. `data/mud/regular_modern_open.json`의 필수 단계 1~4를 `ordered-hotspot`에서 `inquiry-task`로 전환. 신석기·삼국과 달리 처음부터 편 내부 4관문 다양화 기준으로 설계해 재작업 없이 한 번에 끝냈다.
+  - 1단계(강화도 조약): `commit-revise` — "조약을 어떻게 설명해야 정확한가" 판단. 정답 프레이밍은 기존 콘텐츠의 균형("개항의 계기 + 불평등 조항")을 그대로 유지했다.
+  - 2단계(제중원·우정총국): `sequence` — 우정총국(1884)→제중원(1885)→이용 기회 차이 확인이라는 실제 연대순 인과 관계로 재구성.
+  - 3단계(전차·전등): `map-evidence` — `task.labels`(location/support/limit)를 반드시 채워 넣었다(D-029 계약 요구). 라벨 문구는 "도시 생활 변화를 실제 경로로 확인할 수 있는 장소" 등 이 편 전용으로 새로 썼다.
+  - 4단계: `claim-evidence`. **민감 주제 균형 설계**: `limits`에 "불평등 조약이 있었으므로 근대 시설과 도시 생활의 변화는 의미가 없다"(치욕사관 단정, `correct:false`)와 "전차 하나만으로 주권 문제까지 다 설명할 수 있다"(근대화 미화, `correct:false`)를 양쪽 다 오답으로 배치해, 학생이 "조약은 나빴다"와 "근대화는 다 좋았다" 어느 한쪽으로도 단정하지 못하게 게이트를 걸었다. `docs/plans/implementation_plan_sensitive_history_interactions.md`를 먼저 읽고 설계했다.
+- `minCategories` 죽은 조건 재확인: 지원 근거 3개(조약/시설/도시)가 서로 다른 범주라 신석기·삼국과 같은 이유로 `minCategories:1`로 설정, `04_validate_mud_contract.py`가 죽은 조건 없이 통과함을 확인.
+- 검증: 지시서 §8 전체 스크립트 통과(반복 탭 후보 6개 유지, 새 회귀 없음). `preview_start(name: "gate-grammar")` 포트 8801, **아이패드 가로 1180×820 뷰포트**에서 1~4단계 전부 실제 플레이: 신규 3단계 `labels` 커스텀 문구가 실제로 렌더링됨을 스크린샷으로 확인, 4단계에서 "조약이 나빴으니 근대화도 의미없다"는 한쪽 편향 응답을 실제로 제출해 거부됨을 확인(정상 차단), 이어서 균형 잡힌 응답으로 완료. 콘솔 error/warning 0건.
+- **라운드 2 §0-1 교차 확인**: 이번 라운드에서 공용 런타임(`js/mudInquiry.js` 등)은 건드리지 않았다(소유권 범위 밖, 읽기만 함). 따라서 "다른 편 교차 확인" 항목은 해당 없음 — 대신 `js/`를 고치지 않았다는 사실 자체를 커밋에서 확인 가능하다. 캐시버스터도 `js/`·`css/`를 고치지 않았으므로 갱신 대상 없음.
+- **라운드 2 지시서 오류 발견**: §1-1이 "`sequence`·`commit-revise`의 완료 메시지는 이제 그 단계의 `completion.successText`가 그대로 표시된다"고 했으나, 실측 결과 `evaluateSequence()`(D-029로 수정됨)는 맞지만 **`evaluateCommitRevise()`는 여전히 고려 문화 1단계 전용 하드코딩 문구("제작 과정과 보관 환경을 함께 고려한 판단입니다.")를 반환**한다. 1단계(강화도 조약, `commit-revise`)를 정답으로 완료해 직접 재현했다 — 국가 조약을 판단한 직후 도자기 제작·보관 이야기가 뜨는 것은 신석기·삼국 때보다 훨씬 부자연스럽다. `js/`는 이 트랙 소유가 아니므로 수정하지 않는다. 조작대(트랙 1-B)가 `evaluateCommitRevise()`도 `taskCompleteMessage()`를 쓰도록 고쳐야 한다.
+- **1-2 완료**: `docs/plans/mud_perspective_task_design.md` 설계 문서 작성(코드 없음, 아래 항목에 이어서 기록).
+- **파일럿 3편 전부 완료.** 지시서 §1-3에 따라 여기서 멈춘다 — 나머지 24편 확장은 수업 관찰 뒤 별도 승인 사항이며, 3단원(일제강점기·전쟁)도 손대지 않았다.
