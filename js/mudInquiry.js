@@ -16,6 +16,7 @@ const MudInquiry = {
     this.simulator = simulator;
     this.task = simulator.task || {};
     this.state = this.createInitialState(this.task);
+    this.inventoryOpen = false; // 근거 인벤토리는 관문마다 접힌 채로 시작한다
     panel.style.display = 'block';
     this.render();
   },
@@ -130,10 +131,7 @@ const MudInquiry = {
     const heading = this.element('h3', 'inquiry-heading', this.task.prompt || '자료를 살펴보고 판단하세요.');
     panel.appendChild(heading);
 
-    const evidenceCount = this.engine?.inquiryRunState?.evidence?.length || 0;
-    const status = this.element('div', 'inquiry-run-status', `이번 탐구에서 모은 근거 ${evidenceCount}장`);
-    status.setAttribute('aria-label', `이번 탐구에서 모은 근거 ${evidenceCount}장`);
-    panel.appendChild(status);
+    panel.appendChild(this.renderEvidenceInventory());
 
     if (this.task.type === 'commit-revise') this.renderCommitRevise(panel);
     else if (this.task.type === 'sequence') this.renderSequence(panel);
@@ -142,6 +140,32 @@ const MudInquiry = {
     else panel.appendChild(this.element('p', 'inquiry-error', '지원하지 않는 탐구 활동입니다.'));
 
     this.restoreFocus(panel, focusKey);
+  },
+
+  // 이번 탐구 내내 모은 근거를 "몇 장"이 아니라 "무엇인지" 항상 볼 수 있게 한다.
+  // 접기/펼치기(<details>)로 세로 공간은 기본 늘리지 않으면서, 펼치면 라벨을
+  // 그대로 보여 준다. 라벨은 데이터(awards[].label)에서만 오고 코드에 문구를
+  // 박지 않는다(D-029).
+  renderEvidenceInventory() {
+    const evidence = this.engine?.inquiryRunState?.evidence || [];
+    const inventory = this.element('details', 'inquiry-evidence-inventory');
+    inventory.open = Boolean(this.inventoryOpen);
+    inventory.addEventListener('toggle', () => { this.inventoryOpen = inventory.open; });
+
+    const summary = document.createElement('summary');
+    summary.textContent = `이번 탐구에서 모은 근거 ${evidence.length}장`;
+    inventory.appendChild(summary);
+
+    if (evidence.length) {
+      const chips = this.element('ul', 'inquiry-evidence-chips');
+      evidence.forEach(item => {
+        chips.appendChild(this.element('li', 'inquiry-evidence-chip', item.label));
+      });
+      inventory.appendChild(chips);
+    } else {
+      inventory.appendChild(this.element('p', 'inquiry-evidence-chip-empty', '아직 모은 근거가 없습니다.'));
+    }
+    return inventory;
   },
 
   renderSection(panel, title) {

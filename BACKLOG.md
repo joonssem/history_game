@@ -430,3 +430,11 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 - **§6 완료 판정(P0·P1 대상) 실측**: `activity-loop`(포트 8803)에서 5개 활동(카드/연표/원인결과/탐정/스토리) 전부 실제 클릭으로 플레이. 4개 미니게임 각각 시작 버튼과 결과가 14px 간격으로 항상 같은 위치, 전환 시 다른 게임 컨테이너는 모두 0자(잔존 없음) 확인. 콘솔 에러 0건. 아이패드 가로(1180×820) 597.7px, 세로(820×1180) 591.3px — 두 뷰포트 모두 세로 스크롤 과도하지 않음.
 - **P2 설계안**: `docs/plans/implementation_plan_personal_timeline.md` 작성. `unlockedArtifacts` 배열 순서가 곧 MUD 완료 순서임을 코드로 확인했고, `artifacts.json`의 `hint` 필드에서 (단원, 차시)를 파싱해 36개 중 31개를 역사적 순서로 재구성 가능함을 검증(Deep-dive·협동 MUD 5종은 예외 처리 필요). 옵션 A(완전 전환)/B(병행, 추천)/C(보류) 중 B를 추천하되 최종 결정은 사용자 확인 대기 — **구현하지 않음.**
+
+### 조작대(inquiry-console) 트랙 1-B 라운드 2 — P1 근거 인벤토리 가시화 완료 (2026-09-11)
+
+- `js/mudInquiry.js`: "이번 탐구에서 모은 근거 N장" 한 줄 텍스트를 `<details>`/`<summary>` 접기·펼치기(`renderEvidenceInventory`)로 바꿔, 펼치면 `awards[].label`을 칩 목록(`<ul class="inquiry-evidence-chips">`)으로 보여줌. 기본은 접힘(세로를 늘리지 않음), 관문 이동 시 다시 접힘, 같은 관문 안 재렌더에서는 열림 상태를 유지(`this.inventoryOpen`)해 선택 도중 확인하려고 펼쳤다가 다른 버튼을 눌러도 다시 접히지 않음. 문구는 전부 데이터에서 옴(D-029 준수, 코드에 편별 문구 없음).
+- `css/style.css`: `.inquiry-run-status`를 제거하고 `.inquiry-evidence-inventory`/`-chips`/`-chip` 계열로 교체. `.inquiry-panel`의 `max-height`를 `min(58vh,480px)` → `min(54vh,440px)`로 살짝 낮춤(인벤토리가 펼쳐질 때도 4관문 제출 버튼이 뷰포트 안에 있는지 재확인하며 여유 확보).
+- **다른 편 교차 확인**: `regular_three_kingdoms`(commit-revise 1관문)를 열어 인벤토리·문구가 정상 렌더링되는지 확인함 — 콘솔 에러 없음, 편별 문구 누출 없음. 4관문까지는 진행하지 않음(스테이지 ID가 "1-1" 등 분기형이라 시간상 1관문만 확인).
+- **캐시버스터**: `css/style.css` → `?v=20260911-inquiry-evidence2`, `js/mudInquiry.js` → `?v=20260911-evidence2`로 갱신.
+- 검증: `regular_goryeo_culture` 4관문 전체를 인벤토리를 펼친 채로 재플레이(1180×820 포함), 매 관문 제출 버튼이 뷰포트 안에 있음을 `getBoundingClientRect`로 확인. `<summary>`가 네이티브로 포커스·클릭 가능함을 확인(스크린리더 disclosure 시맨틱 그대로 사용, 별도 ARIA 불필요). §8 자동 검증 전부 통과, 콘솔 에러 0건. 이로써 원 지시서 §2 [P1] 두 항목이 모두 끝났다.
