@@ -438,3 +438,12 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - **다른 편 교차 확인**: `regular_three_kingdoms`(commit-revise 1관문)를 열어 인벤토리·문구가 정상 렌더링되는지 확인함 — 콘솔 에러 없음, 편별 문구 누출 없음. 4관문까지는 진행하지 않음(스테이지 ID가 "1-1" 등 분기형이라 시간상 1관문만 확인).
 - **캐시버스터**: `css/style.css` → `?v=20260911-inquiry-evidence2`, `js/mudInquiry.js` → `?v=20260911-evidence2`로 갱신.
 - 검증: `regular_goryeo_culture` 4관문 전체를 인벤토리를 펼친 채로 재플레이(1180×820 포함), 매 관문 제출 버튼이 뷰포트 안에 있음을 `getBoundingClientRect`로 확인. `<summary>`가 네이티브로 포커스·클릭 가능함을 확인(스크린리더 disclosure 시맨틱 그대로 사용, 별도 ARIA 불필요). §8 자동 검증 전부 통과, 콘솔 에러 0건. 이로써 원 지시서 §2 [P1] 두 항목이 모두 끝났다.
+
+### 조작대(inquiry-console) 트랙 1-B 라운드 2 — P2 설계 문서 2건 작성 (구현 대기)
+
+원 지시서 §5 절차대로, 아래 두 항목은 **문서만** 작성했다. 구현하지 않았고, 사용자 확인 전까지 착수하지 않는다.
+
+- [`implementation_plan_map_evidence_canvas_role.md`](./docs/plans/implementation_plan_map_evidence_canvas_role.md) — `map-evidence`에서 Canvas가 장식이 된 문제. 접근성상 "캔버스를 반드시 봐야만 풀린다"로 만들 수 없는 이유(DOM 대체 조작과의 정보 동등성 요건)를 먼저 정리하고, 런타임만 바꾸는 옵션 A(권장, 조작대 단독 가능)와 데이터 스키마까지 바꾸는 옵션 B(관문 설계실 조율 필요, 이번 라운드 범위 밖)로 나눔.
+- [`implementation_plan_inquiry_progressive_disclosure.md`](./docs/plans/implementation_plan_inquiry_progressive_disclosure.md) — 섹션 3개가 한 번에 노출되는 문제. 문법별 단계 정의, 자동 전진/명시적 "다음" 버튼을 가르는 기준, 완료 단계 접힘 요약과 `[수정]` 시 이후 단계 초기화 규칙, 3편(고려·신석기·삼국) 12개 관문이 각각 어떻게 달라지는지를 `regular_goryeo_culture` 기준으로 명시.
+
+두 문서 모두 §3 보존 항목·D-027 회귀·1180×820 검증을 구현 후 재확인 항목으로 못박아 둠.
