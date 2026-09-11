@@ -304,6 +304,12 @@
   border-radius: 10px;
   background: #fffdf8;
   color: var(--text-main);
+  /* 아이패드 가로(1180x820) 등 세로 공간이 좁은 화면에서 "판단 확인" 버튼이
+     화면 밖으로 밀려나지 않도록, 패널 자체를 스크롤 영역으로 만들고
+     제출 버튼을 그 안에서 하단 고정(sticky)한다. */
+  max-height: min(58vh, 480px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .inquiry-heading {
@@ -446,6 +452,11 @@
   border-color: #047857;
   background: #047857;
   color: #ffffff;
+  /* .inquiry-panel의 내부 스크롤 하단에 항상 붙어 있도록 한다. */
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  box-shadow: 0 -4px 10px rgba(20, 30, 25, 0.14);
 }
 
 .inquiry-error {

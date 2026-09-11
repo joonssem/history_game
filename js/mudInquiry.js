@@ -102,7 +102,10 @@ const MudInquiry = {
     const tryFocus = key => {
       const target = panel.querySelector(`[data-focus-key="${CSS.escape(key)}"]`);
       if (target && !target.disabled) {
-        target.focus({ preventScroll: true });
+        // .inquiry-panel은 자체 스크롤 영역(overflow-y: auto)이므로, 복원된
+        // 포커스가 패널 안에서 가려져 있으면 브라우저가 그 영역만 스크롤해
+        // 보이게 한다(preventScroll을 주면 패널 내부 스크롤도 막혀버린다).
+        target.focus();
         return true;
       }
       return false;

@@ -347,3 +347,10 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - 위 항목에서 "재현되지 않음"으로 남겼던 P0(게이지 0% 고정)를 사용자 재확인 요청에 따라 `js/mudEngine.js`에 명시적 방어 코드로 처리함. 결정과 근거는 `DECISIONS.md` D-028 참조(선택지 (b): inquiry-task는 게이지 UI 자체를 숨긴다).
 - `setupSimulator`에서 `sim.interaction === 'inquiry-task'`이면 `sim.type === 'gauge'`라도 게이지 위젯을 켜지 않도록 가드 추가. 강제로 `type: 'gauge'`를 주입해도 `#widget-gauge`가 계속 `display:none`으로 남는 것을 콘솔에서 확인.
 - 4관문 재플레이로 §3 보존 항목(3단 잠금, 오답 시 다음 버튼 잠금·상태 보존, 완료 후 전체 잠금) 재확인, §8 자동 검증 전부 통과, 콘솔 에러 0건.
+
+### 조작대(inquiry-console) 트랙 1-B — P1 제출 버튼 sticky + 아이패드 가로 레이아웃 완료 (2026-09-11)
+
+- `css/style.css`: `.inquiry-panel`에 `max-height: min(58vh, 480px)` + `overflow-y: auto`를 추가해 패널 자체를 내부 스크롤 영역으로 만들고, `.inquiry-submit`에 `position: sticky; bottom: 0`을 추가해 그 안에서 항상 하단에 붙어 있게 함. 세로로 긴 3섹션 구조(특히 4관문 claim-evidence)에서도 판단 확인 버튼을 찾아 스크롤할 필요가 없어짐.
+- `index.html`의 `css/style.css` 링크에 캐시버스터(`?v=20260911-inquiry-sticky1`)를 처음으로 추가함 — 그동안 버전 쿼리가 없어 브라우저가 이전 스타일을 계속 캐시하는 문제를 실측 중 발견(로컬 정적 서버 curl 응답은 최신인데 브라우저 렌더링만 구버전 유지). 이 파일은 세 창이 공유하므로, 다른 창도 `css/style.css`를 고칠 때 이 캐시버스터 값을 함께 올려야 반영을 확인할 수 있음 — `claude_four_track_overview.md`의 공유 파일 원칙에 참고 부탁.
+- `js/mudInquiry.js`: `restoreFocus`의 `preventScroll: true`를 제거함. `.inquiry-panel`이 내부 스크롤 영역이 된 뒤에는 포커스 복원 시 브라우저가 패널 내부만 필요한 만큼 스크롤해 보여줘야 하므로(막으면 포커스는 이동해도 화면에 안 보일 수 있음).
+- 검증: 아이패드 가로(1180×820)·세로(820×1180) 양쪽에서 4관문 모두 실제 클릭으로 끝까지 플레이, 매 관문 제출 버튼이 뷰포트 안에 있음을 `getBoundingClientRect`로 확인. §3 보존 항목(3단 잠금, 포커스 복원, 완료 후 전체 잠금) 재확인. §8 자동 검증 전부 통과, 콘솔 에러 0건.
