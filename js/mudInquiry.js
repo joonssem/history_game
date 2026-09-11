@@ -260,18 +260,19 @@ const MudInquiry = {
   },
 
   renderMapEvidence(panel) {
-    const locationSection = this.renderSection(panel, '1. 교류 자료와 연결되는 장소를 고르세요');
+    const labels = this.task.labels || {};
+    const locationSection = this.renderSection(panel, labels.location || '1. 자료와 연결되는 장소를 고르세요');
     this.renderChoiceGroup(locationSection, this.task.locations || [], this.state.locationId, item => {
       this.selectMapLocation(item.id);
     }, false, 'location');
 
-    const supportSection = this.renderSection(panel, '2. 국제 교류를 뒷받침하는 근거를 고르세요');
+    const supportSection = this.renderSection(panel, labels.support || '2. 이 주장을 뒷받침하는 근거를 고르세요');
     this.renderChoiceGroup(supportSection, this.task.supports || [], this.state.supportId, item => {
       this.state.supportId = item.id;
       this.render();
     }, false, 'support');
 
-    const limitSection = this.renderSection(panel, '3. 이 자료의 한계를 바르게 말한 문장을 고르세요');
+    const limitSection = this.renderSection(panel, labels.limit || '3. 이 자료의 한계를 바르게 말한 문장을 고르세요');
     this.renderChoiceGroup(limitSection, this.task.limits || [], this.state.limitId, item => {
       this.state.limitId = item.id;
       this.render();
@@ -425,7 +426,7 @@ const MudInquiry = {
     if (!selectedMeaning?.correct) {
       return { status: 'revise', issue: `meaning-${state.meaningChoice}`, message: selectedMeaning?.feedback || '활자를 다시 조합할 수 있다는 의미를 생각해 보세요.' };
     }
-    return { status: 'complete', quality: 'connector', message: '인쇄 절차와 금속활자의 재사용 의미를 연결했습니다.' };
+    return { status: 'complete', quality: 'connector', message: this.taskCompleteMessage('과정의 순서와 그 의미를 연결했습니다.') };
   },
 
   evaluateMapEvidence(task, state) {
@@ -433,12 +434,12 @@ const MudInquiry = {
     const support = (task.supports || []).find(item => item.id === state.supportId);
     const limit = (task.limits || []).find(item => item.id === state.limitId);
     if (!location || !support || !limit) {
-      return { status: 'incomplete', issue: 'map-incomplete', message: '장소, 교류 근거, 자료의 한계를 모두 선택하세요.' };
+      return { status: 'incomplete', issue: 'map-incomplete', message: '장소, 근거, 자료의 한계를 모두 선택하세요.' };
     }
-    if (!location.correct) return { status: 'revise', issue: `location-${state.locationId}`, message: location.feedback || '국제 무역항의 위치를 다시 살펴보세요.' };
-    if (!support.correct) return { status: 'revise', issue: `support-${state.supportId}`, message: support.feedback || '국제 교류를 직접 보여 주는 기록을 찾아보세요.' };
-    if (!limit.correct) return { status: 'revise', issue: `map-limit-${state.limitId}`, message: limit.feedback || '한 항구의 기록이 보여 주는 범위를 생각해 보세요.' };
-    return { status: 'complete', quality: 'historian', message: '교류의 근거와 자료가 보여 주는 한계를 함께 구분했습니다.' };
+    if (!location.correct) return { status: 'revise', issue: `location-${state.locationId}`, message: location.feedback || '이 자료와 연결되는 장소를 다시 살펴보세요.' };
+    if (!support.correct) return { status: 'revise', issue: `support-${state.supportId}`, message: support.feedback || '주장을 직접 보여 주는 기록을 찾아보세요.' };
+    if (!limit.correct) return { status: 'revise', issue: `map-limit-${state.limitId}`, message: limit.feedback || '이 자료가 보여 주는 범위를 생각해 보세요.' };
+    return { status: 'complete', quality: 'historian', message: this.taskCompleteMessage('근거와 자료가 보여 주는 범위를 함께 구분했습니다.') };
   },
 
   evaluateClaimEvidence(task, state, runEvidence) {
@@ -480,11 +481,18 @@ const MudInquiry = {
     };
   },
 
+  taskCompleteMessage(fallback) {
+    // 관문마다 다른 문구는 데이터(task.completeMessage 또는 completion.successText)가 갖는다.
+    // 코드의 fallback은 어떤 시대에 붙어도 어색하지 않은 중립 문장이어야 한다.
+    const successText = this.engine?.currentSimulator?.completion?.successText;
+    return this.task?.completeMessage || successText || fallback;
+  },
+
   repeatHint(taskType) {
     const hints = {
       'commit-revise': '두 자료 중 지금 설명에 빠진 조건은 무엇인가요?',
       sequence: '각 카드가 바로 앞 단계 없이 실행될 수 있는지 하나씩 확인해 보세요.',
-      'map-evidence': '선택한 기록이 그 장소와 교류를 직접 보여 주는지, 어디까지 말할 수 있는지 나눠 보세요.',
+      'map-evidence': '선택한 기록이 그 장소와 주장을 직접 보여 주는지, 어디까지 말할 수 있는지 나눠 보세요.',
       'claim-evidence': '각 근거가 선택한 주장을 직접 받치는지, 서로 다른 종류의 자료인지 확인해 보세요.'
     };
     return hints[taskType] || '선택한 자료가 질문의 어느 부분을 직접 뒷받침하는지 확인해 보세요.';

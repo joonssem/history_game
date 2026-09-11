@@ -10,20 +10,20 @@
 
 <!-- DURATION_SUMMARY:START -->
 - Regular MUD: 28종
-- 보완 우선 대상: 7종
-- 기준 충족 추정: 21종
+- 보완 우선 대상: 6종
+- 기준 충족 추정: 22종
 
 | MUD | 선언 시간 | 핵심 단계 | 시뮬레이터 | 능동 활동 | 필수 활동 | 추정 시간 | 보완 신호 |
 |---|---:|---:|---:|---:|---:|---:|---|
 | `regular_goryeo_founding` | 5-10min | 4 | 4 | 2 | 4 | 6.9분 | 반복 탭 조기 종료 위험 |
 | `regular_three_kingdoms_life` | 5-10min | 4 | 4 | 4 | 4 | 6.9분 | 반복 탭 조기 종료 위험 |
-| `regular_three_kingdoms` | 5-10min | 4 | 4 | 4 | 4 | 7.2분 | 반복 탭 조기 종료 위험 |
 | `regular_goryeo_society` | 5-10min | 4 | 4 | 2 | 4 | 7.3분 | 반복 탭 조기 종료 위험 |
 | `regular_joseon_economy` | 10min | 4 | 4 | 4 | 4 | 7.5분 | 반복 탭 조기 종료 위험 |
 | `regular_myeongnyang` | 5-10min | 4 | 4 | 4 | 4 | 7.5분 | 반복 탭 조기 종료 위험 |
 | `regular_joseon_silhak` | 10min | 4 | 4 | 3 | 4 | 7.7분 | 반복 탭 조기 종료 위험 |
 | `regular_goryeo_culture` | 5-10min | 4 | 4 | 3 | 4 | 5.7분 | 기준 충족 추정 |
-| `regular_neolithic` | 5-10min | 4 | 4 | 4 | 4 | 7.1분 | 기준 충족 추정 |
+| `regular_neolithic` | 5-10min | 4 | 4 | 4 | 4 | 6.0분 | 기준 충족 추정 |
+| `regular_three_kingdoms` | 5-10min | 4 | 4 | 4 | 4 | 6.2분 | 기준 충족 추정 |
 | `regular_modern_open` | 5-10min | 4 | 4 | 3 | 4 | 7.2분 | 기준 충족 추정 |
 | `regular_bronze_age` | 5-10min | 4 | 4 | 4 | 4 | 7.3분 | 기준 충족 추정 |
 | `regular_gwangbok` | 5-10min | 4 | 4 | 4 | 3 | 7.4분 | 기준 충족 추정 |

@@ -255,6 +255,11 @@
         ],
         "task": {
           "type": "map-evidence",
+          "labels": {
+            "location": "1. 교류 자료와 연결되는 장소를 고르세요",
+            "support": "2. 국제 교류를 뒷받침하는 근거를 고르세요",
+            "limit": "3. 이 자료의 한계를 바르게 말한 문장을 고르세요"
+          },
           "prompt": "벽란도 자료가 보여 주는 교류와 그 자료의 범위를 연결하세요.",
           "locations": [
             { "id": "byeokrando-port", "label": "벽란도", "detail": "고려 수도 개경 인근 예성강 하구에 있던 무역항", "correct": true, "feedback": "벽란도는 고려의 국제 교류를 보여 주는 무역항입니다." },

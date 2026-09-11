@@ -113,6 +113,26 @@ def check_claim_categories(
     return problems
 
 
+def check_task_labels(prefix: str, task: dict, required_keys: tuple[str, ...]) -> list[str]:
+    """화면에 보이는 섹션 제목이 편마다 맞는 말인지 검사한다.
+
+    같은 task 유형을 다른 시대에 재사용하면 코드에 박힌 문구가 그대로 따라온다.
+    2026-09-11에 map-evidence를 신석기·삼국에 쓰면서 "국제 교류를 뒷받침하는
+    근거"라는 고려 벽란도 전용 문구가 노출된 사례가 있었다. 그래서 labels는
+    필수로 두고, 편의 내용과 무관한 문구가 남아 있는지 함께 본다.
+    """
+    problems: list[str] = []
+    labels = task.get("labels")
+    if not isinstance(labels, dict):
+        problems.append(f"{prefix}:task.labels is required so section titles match this MUD")
+        return problems
+    for key in required_keys:
+        value = labels.get(key)
+        if not isinstance(value, str) or not value.strip():
+            problems.append(f"{prefix}:task.labels.{key} must be a non-empty string")
+    return problems
+
+
 def validate_inquiry_task(
     simulator: dict,
     prefix: str,
@@ -187,6 +207,7 @@ def validate_inquiry_task(
         hotspot_ids = {item.get("id") for item in simulator.get("hotspots", []) if isinstance(item, dict)}
         if hotspot_ids != location_ids:
             errors.append(f"{prefix}: map-evidence hotspots and locations must use the same ids")
+        errors.extend(check_task_labels(prefix, task, ("location", "support", "limit")))
 
     elif task_type == "claim-evidence":
         claim_ids = inquiry_item_ids(task.get("claims"), f"{prefix}:task.claims", errors)
