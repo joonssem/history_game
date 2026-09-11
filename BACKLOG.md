@@ -352,3 +352,15 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - D-027 회귀를 4단계에서 직접 재현: 좁은 주장("5세기 고구려→6세기 신라")을 고른 뒤 그 주장의 `accepts`에 없는 백제 근거를 함께 선택해 제출 → **"선택한 주장과 직접 연결되지 않는 자료가 있습니다"로 정상 거부**됨을 확인했다. 백제 근거를 빼고 고구려+신라만 남기자 정상 완료(역사가 등급)됐다.
 - 검증: 지시서 §8 전체 통과(반복 탭 회피 감사 후보가 7개→6개로 감소, `regular_three_kingdoms.json:4`가 목록에서 빠짐). 로컬 서버(포트 8801, `.claude/launch.json`의 `gate-grammar` 설정 디렉터리 고정)에서 1~4단계 전부 실제 플레이: 각 단계 오답 제출 시 다음 버튼 비활성 유지·정답 비노출, 정답 제출 시 컨트롤 전체 비활성화 + 다음 버튼만 개방, 최종 보상(`art_5` 백제 칠지도 + `art_6` 신라 북한산 순수비) 정상 지급, 콘솔 error/warning 0건.
 - 다음: `regular_modern_open.json`(`commit-revise`) 착수 전 한 편 완료 원칙에 따라 사용자 확인 대기.
+
+### P1 — 트랙 1-A(관문 설계실) 정정: "같은 문법 두 번 금지"는 편 내부 4관문 기준 (2026-09-11)
+
+- 사용자 정정: 지시서 §3 "같은 문법을 두 번 쓰지 않는다"는 세 편 사이의 배정 문법이 아니라, **참조 구현(`regular_goryeo_culture`)처럼 한 편 안의 4관문이 서로 다른 사고 문법**(commit-revise→sequence→map-evidence→claim-evidence, 관찰→분류·순서화→인과·공간 추론→주장·근거·반례)을 요구해야 한다는 뜻이었다. 앞서 커밋한 `regular_neolithic`(1~3단계 전부 `sequence`)과 `regular_three_kingdoms`(1~3단계 전부 `map-evidence`)는 편 사이만 구분했을 뿐 편 내부는 여전히 단일 문법이라, 이 트랙이 고치려던 "배경만 다르고 조작은 동일" 문제를 그대로 재현했다.
+- 두 편을 `regular_modern_open` 착수 전에 재설계한다: 각 편의 1~3단계를 서로 다른 문법(map-evidence/sequence/commit-revise, 순서는 편마다 원래 콘텐츠 성격에 맞춰 배정) + 4단계 `claim-evidence`(변경 없음, 기존 award id·category 그대로 유지해 종합 관문이 계속 작동하도록 함)로 바꾼다. 상세 결과는 아래 두 항목에 이어서 기록한다.
+
+### P1 — 트랙 1-A(관문 설계실) `regular_neolithic` 편 내부 4관문 재설계 (2026-09-11)
+
+- 재배정: 1단계(정착지 선택, 강가/농경지/움집 hotspot이 이미 장소 개념이라) → `map-evidence`. 2단계(토기 제작 순서) → `sequence`(변경 없음, 이미 순서 문법이 가장 자연스러웠음). 3단계(가락바퀴·뼈바늘) → `commit-revise`("어떤 도구·재료가 필요한가"라는 판단 질문에 맞음). 4단계는 `claim-evidence` 그대로, `settlement-environment`(category `environment`)·`pottery-technology`/`weaving-technology`(둘 다 category `technology`)라는 기존 award id·범주를 그대로 유지해 종합 관문 로직을 건드리지 않았다.
+- 재검증: `python -c ...`로 1~4단계 interaction/task.type을 직접 출력해 `map-evidence/sequence/commit-revise/claim-evidence` 4종이 실제로 다른지 확인. 지시서 §8 전체 스크립트 재통과.
+- 로컬 재플레이(포트 8801, `preview_start` 이름 `gate-grammar`): 1~4단계 전부 다시 끝까지 플레이. 3단계(신규 `commit-revise`)에서 초기 판단→근거 2종 확인→최종 판단까지 실제로 요구되는지, 4단계 D-027 가드(좁은 주장에 무관한 근거 섞으면 거부)가 재설계 이후에도 여전히 걸리는지 재확인했다. 콘솔 error/warning 0건.
+- 추가 버그 확인(트랙 1-B 소관, 수정 안 함): 이전에 `evaluateSequence()`에서 발견한 하드코딩 성공 메시지 버그가 `evaluateCommitRevise()`에도 동일하게 있다 — 3단계(신석기 도구 판단)를 정답으로 완료해도 "제작 과정과 보관 환경을 함께 고려한 판단입니다."(고려 문화 1단계 전용 문구)가 그대로 뜬다. `evaluateMapEvidence`/`evaluateClaimEvidence`의 완료 메시지는 문구 자체가 MUD에 무관하게 쓸 수 있는 일반 문장이라 눈에 띄는 오류로 드러나지 않을 뿐, 4개 평가 함수 전부 `task.completion.successText`가 아니라 함수 안에 하드코딩된 문자열을 반환하는 동일한 구조다.

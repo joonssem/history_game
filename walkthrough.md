@@ -1577,3 +1577,13 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - D-027 회귀를 4단계에서 직접 재현: 좁은 주장("5세기 고구려→6세기 신라")을 고른 뒤 그 주장의 `accepts`에 없는 백제 근거를 함께 제출 → 정상 거부됨을 확인, 백제 근거를 빼자 정상 완료(역사가 등급)됐다.
 - 검증: 지시서 §8 전체 통과(반복 탭 감사 후보 7개→6개, `regular_three_kingdoms.json:4` 제외됨). `.claude/launch.json`의 `gate-grammar` 설정(포트 8801, 이 워크트리 디렉터리 고정)으로 로컬 서버를 띄워 1~4단계 전부 실제 플레이: 오답 게이트 유지·정답 비노출, 정답 시 컨트롤 전체 비활성화+다음 버튼만 개방, 최종 보상(`art_5` 백제 칠지도, `art_6` 신라 북한산 순수비) 정상 지급, 콘솔 error/warning 0건.
 - 문서: `BACKLOG.md`에 "트랙 1-A(관문 설계실) `regular_three_kingdoms` 파일럿 완료" 절 신설.
+
+## 2026-09-11 — 트랙 1-A(관문 설계실) 정정: `regular_neolithic` 편 내부 4관문 재설계
+
+`TASK-20260911-GATE1R | 지시서 재해석 정정에 따른 신석기 편 재설계 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- 사용자가 지시서 §3 "같은 문법을 두 번 쓰지 않는다"를 "세 편 사이"가 아니라 "참조 구현(`regular_goryeo_culture`)처럼 한 편 안의 4관문이 서로 다른 사고 문법을 요구해야 한다"는 뜻으로 정정했다. 앞서 커밋한 `regular_neolithic`(1~3단계 전부 `sequence`)이 이 기준을 어겼다.
+- 재배정: 1단계(정착지 선택) `sequence`→`map-evidence`, 2단계(토기 제작 순서) `sequence` 유지, 3단계(가락바퀴·뼈바늘) `sequence`→`commit-revise`, 4단계 `claim-evidence` 유지(기존 award id·category 보존). 최종 분포: `map-evidence`→`sequence`→`commit-revise`→`claim-evidence`.
+- 검증: `python -c`로 4단계 interaction/task.type을 직접 출력해 4종이 서로 다름을 확인. 지시서 §8 전체 재통과. `preview_start(name: "gate-grammar")`로 포트 8801 서버를 다시 띄우고 1~4단계 전부 재플레이(신규 3단계의 초기 판단→근거 확인→최종 판단 흐름, 4단계 D-027 가드 재확인 포함), 콘솔 error/warning 0건.
+- 버그 확인 범위 확장: `evaluateCommitRevise()`도 `evaluateSequence()`와 같은 방식으로 고려 문화 전용 문구를 하드코딩 반환한다. `evaluateMapEvidence`/`evaluateClaimEvidence`는 문구가 MUD-불특정 일반 문장이라 눈에 띄지 않을 뿐, 4개 평가 함수 모두 `completion.successText`를 쓰지 않는 동일 구조임을 확인해 `BACKLOG.md`에 갱신했다.
+- 문서: `BACKLOG.md`에 정정 배경과 재설계 결과 절 신설.
