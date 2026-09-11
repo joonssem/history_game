@@ -15,10 +15,16 @@ class MiniGameEngine {
     this.cardMoves = 0;
     this.isCardLocked = false;
 
-    // 연표 게임 상태
+    // 연표 게임 상태 (기본 연표: 고정 2세트)
     this.currentStageIdx = 0;
     this.currentTimelineEvents = [];
     this.selectedTimelineItem = null;
+
+    // 나의 연표 상태 (2026-09-11 신규 — Track3 P2, 해금 유물 기반)
+    this.timelineMode = 'basic';
+    this.personalTimelineEvents = [];
+    this.personalTimelineCorrectIds = [];
+    this.selectedPersonalTimelineItem = null;
 
     // 원인과 결과 순서 맞추기 상태
     this.causeEffectChains = [];
@@ -217,13 +223,54 @@ class MiniGameEngine {
 
   // ==========================================
   // 2. 역사 연표 순서 맞추기 챌린지 (Timeline Sort)
+  // 2026-09-11 (Track3 P2, docs/plans/implementation_plan_personal_timeline.md
+  // 옵션 B): 기존 고정 2세트("기본 연표")는 그대로 두고, 해금 유물 기반
+  // "나의 연표"를 하위 토글로 추가한다. 진입점은 openTimelineGame() 하나이고,
+  // 기본 연표/나의 연표 모두 #timeline-mode-content 안에서만 다시 그린다
+  // (바깥 #timeline-game-container를 매번 지우면 토글 자체가 사라진다).
   // ==========================================
-  startTimelineGame(stageIndex = 0) {
+  openTimelineGame() {
     if (window.sounds) window.sounds.playClick();
     this.clearMiniGameContainers();
+    // 해금 유물이 적으면(§5-2: 3개 미만) "나의 연표"가 성립하지 않으므로
+    // 처음부터 "기본 연표"를 기본값으로 보여준다.
+    this.timelineMode = this.buildPersonalTimelineEvents().length >= 3 ? 'personal' : 'basic';
+    this.renderTimelineShell();
+  }
+
+  switchTimelineMode(mode) {
+    if (window.sounds) window.sounds.playClick();
+    this.timelineMode = mode;
+    this.renderTimelineShell();
+  }
+
+  renderTimelineShell() {
+    const container = document.getElementById('timeline-game-container');
+    if (!container) return;
+    const isPersonal = this.timelineMode === 'personal';
+
+    container.innerHTML = `
+      <div style="max-width: 820px; margin: 0 auto;">
+        <div class="activity-toggle" role="tablist" aria-label="연표 모드 전환" style="margin-bottom: 12px;">
+          <button type="button" onclick="window.miniGames.switchTimelineMode('personal')" class="activity-toggle-btn ${isPersonal ? 'active' : ''}" style="padding: 6px 14px; font-size: 0.8rem;">⏳ 나의 연표</button>
+          <button type="button" onclick="window.miniGames.switchTimelineMode('basic')" class="activity-toggle-btn ${!isPersonal ? 'active' : ''}" style="padding: 6px 14px; font-size: 0.8rem;">📖 기본 연표</button>
+        </div>
+        <div id="timeline-mode-content"></div>
+      </div>
+    `;
+
+    if (isPersonal) {
+      this.startPersonalTimelineGame();
+    } else {
+      this.startTimelineGame(0);
+    }
+  }
+
+  // ---- 2-A. 기본 연표 (고정 2세트, 기존 그대로) ----
+  startTimelineGame(stageIndex = 0) {
     this.currentStageIdx = stageIndex;
     const stage = this.timelineStages[stageIndex] || this.timelineStages[0];
-    
+
     // 원본 사건 리스트를 섞기
     this.currentTimelineEvents = [...stage.events].sort(() => Math.random() - 0.5);
     this.selectedTimelineItem = null;
@@ -232,7 +279,7 @@ class MiniGameEngine {
   }
 
   renderTimelineUI(stage) {
-    const container = document.getElementById('timeline-game-container');
+    const container = document.getElementById('timeline-mode-content');
     if (!container) return;
 
     container.innerHTML = `
@@ -338,6 +385,181 @@ class MiniGameEngine {
       fbEl.innerHTML = `
         <h4 style="font-weight: 800; font-size: 0.95rem; margin-bottom: 4px;">💡 아직 순서가 맞지 않은 곳이 있어요!</h4>
         <p style="font-size: 0.76rem; color: #C5BCB3;">힌트를 다시 확인하고 카드를 눌러 순서를 교환해 보세요.</p>
+      `;
+    }
+  }
+
+  // ---- 2-B. 나의 연표 (해금 유물 기반 개인 연표, Track3 P2) ----
+  // data/artifacts.json의 hint 필드("N단원 M차시 [MUD명] 클리어 시 획득")에서
+  // (단원, 차시)를 뽑아 정렬 키로 쓴다 — 커리큘럼 차시 자체가 이미 시대순으로
+  // 배열되어 있으므로 (단원, 차시) 순서 ≈ 역사적 발생 순서로 볼 수 있다
+  // (설계안 §2-1). 36개 중 5개(협동 MUD·타임루프 스토리 보상 1개,
+  // Deep-dive 보상 4개)는 차시 번호가 없어 예외 처리한다(설계안 §5-3):
+  // "N단원 심화" 표기가 있으면 그 단원의 정규 차시들 뒤(lesson=99)에 배치하고,
+  // 그것도 없으면(art_29) era로 단원을 역추정한다. 조용히 버리거나 임의
+  // 위치에 끼우지 않고, 항상 소속 단원 안에서만 뒤로 미루는 방식으로
+  // 최소한의 시대 정합성을 지킨다.
+  getArtifactTimelineRank(art) {
+    const hint = art.hint || '';
+    let m = /(\d)단원\s*(\d+)(?:~\d+)?차시/.exec(hint);
+    if (m) return { unit: Number(m[1]), lesson: Number(m[2]) };
+
+    m = /(\d)단원\s*심화/.exec(hint);
+    if (m) return { unit: Number(m[1]), lesson: 99 };
+
+    // art_29(타임루프 스토리 보상)처럼 "N단원" 표기 자체가 없는 경우의
+    // 최후 예외 처리 — era로 대단원만 역추정한다(1단원: 선사~통일신라,
+    // 2단원: 고려~개항기, 3단원: 일제강점기~현대).
+    const eraToUnit = {
+      '구석기 시대': 1, '신석기 시대': 1, '청동기 시대': 1, '고조선': 1, '선사 시대': 1,
+      '삼국 시대': 1, '삼국·남북국': 1, '남북국 시대': 1, '통일신라': 1,
+      '고려 시대': 2, '조선 시대': 2, '조선 전기': 2, '조선 후기': 2, '개항기': 2,
+      '일제 강점기': 3, '근현대사': 3, '현대': 3
+    };
+    return { unit: eraToUnit[art.era] || 1, lesson: 99 };
+  }
+
+  // hint의 대괄호 안(그 유물을 준 MUD/스토리 이름)만 뽑아 카드에 짧게 보여준다.
+  personalTimelineLabel(art) {
+    const m = /\[([^\]]+)\]/.exec(art.hint || '');
+    return m ? m[1] : (art.hint || '');
+  }
+
+  // 해금 유물을 (단원, 차시) 기준 역사적 순서로 정렬해 반환한다.
+  buildPersonalTimelineEvents() {
+    const unlocked = (window.encyclopedia && window.encyclopedia.data.unlockedArtifacts) || [];
+    const owned = this.artifacts.filter(art => unlocked.includes(art.name) || unlocked.includes(art.id));
+    return owned
+      .map(art => ({ art, rank: this.getArtifactTimelineRank(art) }))
+      .sort((a, b) => (a.rank.unit - b.rank.unit) || (a.rank.lesson - b.rank.lesson))
+      .map(x => x.art);
+  }
+
+  startPersonalTimelineGame() {
+    const content = document.getElementById('timeline-mode-content');
+    if (!content) return;
+
+    const ordered = this.buildPersonalTimelineEvents();
+
+    // §5-2: 순서 맞추기는 최소 3개가 있어야 "순서"라는 개념이 성립한다
+    // (카드 짝맞추기 P1과 같은 최소 3개 기준 — 2개 이하는 항상 정답이
+    // 하나뿐이라 게임이 되지 않는다). 미만이면 기본 연표로 안내한다.
+    if (ordered.length < 3) {
+      content.innerHTML = `
+        <div style="padding: 16px; border-radius: 12px; background: #1F1B19; border: 1px solid #5A4E46; text-align: center; color: #C5BCB3; font-size: 0.85rem;">
+          ⏳ 나의 연표는 <strong style="color: #F0C987;">해금한 유물이 3개 이상</strong>일 때 만들 수 있어요. 지금은 위의 <strong style="color: #F0C987;">기본 연표</strong>로 순서 감각을 먼저 익혀 보세요!
+        </div>
+      `;
+      return;
+    }
+
+    // 해금이 많아지면(카드 짝맞추기 P1과 동일한 이유로) 매번 무작위로
+    // 최대 6개만 뽑아 재플레이 가치를 확보한다 — 뽑힌 것들끼리는
+    // buildPersonalTimelineEvents()가 정해준 실제 역사적 순서를 그대로 정답으로 쓴다.
+    const pickCount = Math.min(6, ordered.length);
+    const chosenSet = new Set([...ordered].sort(() => Math.random() - 0.5).slice(0, pickCount));
+    const correctOrder = ordered.filter(art => chosenSet.has(art));
+
+    this.personalTimelineCorrectIds = correctOrder.map(art => art.id);
+    this.personalTimelineEvents = [...correctOrder].sort(() => Math.random() - 0.5);
+    this.selectedPersonalTimelineItem = null;
+
+    this.renderPersonalTimelineUI();
+  }
+
+  renderPersonalTimelineUI() {
+    const content = document.getElementById('timeline-mode-content');
+    if (!content) return;
+
+    content.innerHTML = `
+      <div style="background: #1F1B19; border: 1px solid #5A4E46; border-radius: 16px; padding: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #3D352E;">
+          <div>
+            <span style="font-size: 0.72rem; font-weight: 700; padding: 3px 10px; background: rgba(183, 121, 31, 0.2); color: #F0C987; border-radius: 999px;">내가 모은 유물 ${this.personalTimelineEvents.length}개</span>
+            <h4 style="font-size: 1.05rem; font-weight: 800; color: #F7E7CE; margin-top: 6px;">내가 직접 겪은 역사, 시대 순서대로!</h4>
+          </div>
+          <span style="font-size: 0.72rem; color: #9B9088;">카드를 눌러 위치를 교환하세요!</span>
+        </div>
+
+        <p style="color: #C5BCB3; font-size: 0.8rem; margin-bottom: 16px;">MUD를 클리어하고 얻은 유물들이에요. 정확한 연도는 몰라도 괜찮아요 — 어느 시대가 먼저인지 순서로 맞춰 보세요!</p>
+
+        <div id="personal-timeline-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; margin-bottom: 16px;">
+          ${this.personalTimelineEvents
+            .map((art, idx) => {
+              const selected = this.selectedPersonalTimelineItem === idx;
+              return `
+            <div id="personal-timeline-item-${idx}" onclick="window.miniGames.handlePersonalTimelineClick(${idx})" style="padding: 12px 14px; border-radius: 10px; background: ${selected ? 'rgba(183, 121, 31, 0.25)' : '#14110F'}; border: 1px solid ${selected ? '#B7791F' : '#3D352E'}; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="width: 26px; height: 26px; border-radius: 50%; background: #33302B; color: #C5BCB3; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; flex-shrink: 0;">${idx + 1}</span>
+                <div>
+                  <h5 style="font-size: 0.88rem; font-weight: 700; color: #F0EAE1;">${art.icon || ''} ${art.name}</h5>
+                  <span style="font-size: 0.7rem; color: #9B9088;">${this.personalTimelineLabel(art)}</span>
+                </div>
+              </div>
+              <div style="font-size: 0.68rem; font-weight: 700; color: #9B9088; background: #0F0D0B; padding: 3px 8px; border-radius: 8px; flex-shrink: 0;">
+                위치 변경 ⇅
+              </div>
+            </div>
+          `;
+            })
+            .join('')}
+        </div>
+
+        <button onclick="window.miniGames.checkPersonalTimelineOrder()" class="btn" style="background-color: #B7791F;">
+          ✅ 순서 정답 확인하기
+        </button>
+        ${this.personalTimelineEvents.length < this.buildPersonalTimelineEvents().length ? `
+          <button onclick="window.miniGames.startPersonalTimelineGame()" style="margin-top: 8px; padding: 8px 18px; background: #0F0D0B; color: #F0C987; border-radius: 10px; border: 1px solid #3D352E; font-weight: 700; font-size: 0.78rem; cursor: pointer;">
+            🔀 다른 유물로 다시 뽑기
+          </button>
+        ` : ''}
+
+        <div id="personal-timeline-feedback" style="display: none; margin-top: 12px;"></div>
+      </div>
+    `;
+  }
+
+  handlePersonalTimelineClick(index) {
+    if (window.sounds) window.sounds.playClick();
+    if (this.selectedPersonalTimelineItem === null) {
+      this.selectedPersonalTimelineItem = index;
+    } else if (this.selectedPersonalTimelineItem === index) {
+      this.selectedPersonalTimelineItem = null;
+    } else {
+      const temp = this.personalTimelineEvents[this.selectedPersonalTimelineItem];
+      this.personalTimelineEvents[this.selectedPersonalTimelineItem] = this.personalTimelineEvents[index];
+      this.personalTimelineEvents[index] = temp;
+      this.selectedPersonalTimelineItem = null;
+    }
+    this.renderPersonalTimelineUI();
+  }
+
+  checkPersonalTimelineOrder() {
+    const userOrder = this.personalTimelineEvents.map(art => art.id);
+    const isAllCorrect = this.personalTimelineCorrectIds.every((id, i) => id === userOrder[i]);
+    const fbEl = document.getElementById('personal-timeline-feedback');
+    if (!fbEl) return;
+
+    fbEl.style.display = 'block';
+
+    if (isAllCorrect) {
+      if (window.sounds) window.sounds.playFanfare();
+      window.encyclopedia.unlockBadge('badge_timeline_master');
+
+      fbEl.style.cssText = 'display: block; margin-top: 16px; padding: 14px; border-radius: 12px; background: rgba(45, 106, 79, 0.25); border: 1px solid #2D6A4F; color: #B7E8CB; text-align: center;';
+      fbEl.innerHTML = `
+        <h4 style="font-weight: 800; font-size: 0.95rem; margin-bottom: 4px;">🎉 완벽합니다! 내가 겪어온 역사의 순서예요!</h4>
+        <p style="font-size: 0.76rem; color: #C5BCB3;">
+          ${this.personalTimelineEvents.map(art => `[${art.era}] ${art.name}`).join(' ➔ ')}
+        </p>
+        <p style="font-size: 0.7rem; color: #9B9088; margin-top: 6px;">※ 정확한 연도가 아니라 시대 순서예요. 같은 시대 안의 세부 순서는 실제와 다를 수 있어요.</p>
+      `;
+    } else {
+      if (window.sounds) window.sounds.playWrong();
+      fbEl.style.cssText = 'display: block; margin-top: 16px; padding: 14px; border-radius: 12px; background: rgba(138, 59, 41, 0.2); border: 1px solid #8A3B29; color: #F1B9A8; text-align: center;';
+      fbEl.innerHTML = `
+        <h4 style="font-weight: 800; font-size: 0.95rem; margin-bottom: 4px;">💡 아직 순서가 맞지 않은 곳이 있어요!</h4>
+        <p style="font-size: 0.76rem; color: #C5BCB3;">어느 유물을 얻은 MUD가 더 먼저 일어난 일인지 다시 생각하며 카드를 교환해 보세요.</p>
       `;
     }
   }
