@@ -398,3 +398,35 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - 로컬 재플레이(포트 8801, `preview_start` 이름 `gate-grammar`): 1~4단계 전부 다시 끝까지 플레이. 1단계(신규 `commit-revise`)의 초기 판단→근거 2종→최종 판단, 3단계(신규 `sequence`)의 카드 순서 배열+의미 질문, 4단계 D-027 가드(좁은 주장에 백제 근거를 섞으면 거부)가 재설계 이후에도 정상 작동함을 재확인했다. 콘솔 error/warning 0건.
 - 3단계에서도 동일한 하드코딩 성공 메시지 버그(`evaluateSequence()`가 "인쇄 절차와 금속활자의 재사용 의미를 연결했습니다."를 그대로 반환)를 재현했다 — 트랙 1-B 소관, 기존 기록과 동일 원인이라 새 항목은 추가하지 않는다.
 - 3편 모두(신석기/삼국) 재설계 완료. 다음: `regular_modern_open.json`(`commit-revise`, 1차 배정 문법이지만 4관문 다양화 기준으로 3종 중 하나로 재배치 필요) 착수 전 사용자 확인 대기.
+
+### 2026-09-10 「연결 공방」(activity-loop) Track 3 — P0 완료: 원인과 결과 1·2단원 세트 신규 제작
+
+- **배경**: `docs/handoff/claude_track3_activity_loop_instruction.md`(Opus 5 기획) — 확장 역사 활동을 "MUD에서 얻은 것을 다시 쓰는 곳"으로 재정의하는 트랙. §1 미병합 커밋(`76f7cde` 버튼-결과 위치 수정, `2108f0f` 토글 스위치 도입) 정리 후 P0 착수.
+- **문제**: `data/causeEffectChains.json`이 3단원(근현대) 2세트뿐이라 1·2단원 진도 중에는 원인과 결과 게임이 완전히 비어 있었다.
+- **작업**: 1단원(고려)·2단원(조선) 세트를 각 1개씩 신규 제작, 총 4세트로 확장.
+  - 1단원: 고려 건국 → 거란 침입·서희의 담판 → 거란 재침입·강감찬의 귀주대첩 → 몽골 침입·팔만대장경 조판 → 벽란도 국제 교류 (`regular_goryeo_founding`/`regular_goryeo_war`/`regular_goryeo_culture` MUD 내용 기준)
+  - 2단원: 조선 건국 → 한양 천도·도성 설계 → 훈민정음 창제 → 임진왜란·명량대첩 → 병자호란과 전후 회복 (`regular_joseon_founding`/`regular_sejong`/`regular_myeongnyang`/`regular_joseon_diplomacy` MUD 내용 기준)
+  - 기존 3단원 2세트는 그대로 두되 순서상 뒤로 배치(stage 3·4로 재번호). 새 이벤트는 모두 연도 표기 없이 인과 논리 힌트로만 구성했고, MUD에 없는 서술은 지어내지 않았다(예: 팔만대장경은 거란이 아니라 몽골 침입기 조판이라는 실제 MUD 서술을 그대로 따름).
+- **검증**: `python -c "json.load(...)"`, `01_validate_game_data.py`, `06_validate_static_assets.py`, `node --check js/miniGames.js` 통과. 로컬 서버에서 두 신규 세트 모두 정답 판정·"다음 스테이지로" 흐름·배지 획득 로직까지 실제 실행 확인, 콘솔 에러 0건.
+- **다음**: P1(카드 짝맞추기 해금 유물 기반 전환), P2(연표 개인화 — 설계 문서 우선), P3(스토리 위치 재정의 문서화) 순서로 진행 예정.
+
+### 2026-09-10 「연결 공방」(activity-loop) Track 3 — P1 완료: 카드 짝맞추기를 해금 유물 기반으로 전환
+
+- **문제**: `js/miniGames.js:62`의 `[...this.artifacts].slice(0, 6)`이 해금 여부와 무관하게 `artifacts.json`의 앞 6개를 항상 고정 출제 — 재플레이 가치가 없고, 아직 클리어하지 않은 MUD의 유물 이름이 스포일러로 노출됐다.
+- **작업**: 유물 탐정(`startDetectiveGame`)과 같은 패턴으로 `window.encyclopedia.data.unlockedArtifacts` 기반 풀로 전환.
+  - 최소 기준은 **3개**로 정했다(유물 탐정의 4개보다 낮음) — 카드 짝맞추기는 카드 자체가 정답을 보여주는 기억 게임이라 4지선다만큼 후보가 많이 필요하지 않고, 3쌍(6장)부터 최소한의 게임이 성립한다고 판단했다.
+  - 해금 유물이 6개 미만이면 있는 만큼(3~5쌍)으로 진행, 6개 이상이면 매번 무작위로 6개를 뽑아 재플레이 가치를 확보.
+  - `checkCardMatch()`의 `unlockArtifact()` 호출 제거 — 카드 풀이 이미 해금된 유물로만 구성되어 항상 no-op이었다.
+- **검증**: 해금 0/3/10개 시나리오를 브라우저에서 직접 실행 — 0개는 안내 문구 표시, 3개는 3쌍(6장), 10개는 6쌍(12장)으로 상한, 완주 시 완료 화면까지 정상 동작. 카드에 노출된 이름이 전부 해금 목록에 포함됨을 확인(스포일러 없음). `node --check`, `06_validate_static_assets.py`, 콘솔 에러 0건.
+- **다음**: P2(연표 개인화 — 설계 문서 우선 제안), P3(스토리 위치 재정의 문서화) 순서로 진행 예정.
+
+### 2026-09-10 「연결 공방」(activity-loop) Track 3 — 회귀 발견 및 수정: 미니게임 전환 시 이전 결과 잔존
+
+- **문제 발견 경위**: 4트랙 지시서(`claude_track3_activity_loop_instruction.md`) §6 완료 판정 "토글로 활동을 전환해도 이전 활동의 결과가 남아 있지 않다"를 iPad 가로(1180×820)·세로(820×1180) 뷰포트 실측 중 직접 확인하다가 발견. 4개 미니게임(`card-game-container`/`timeline-game-container`/`cause-effect-game-container`/`detective-game-container`)이 각자 독립된 `<div>`에 렌더링되는데, 하나를 시작해도 이전에 플레이한 다른 게임의 결과물이 DOM에서 지워지지 않고 계속 쌓여 "확장 역사 활동" 영역이 불필요하게 길어지고 있었다.
+- **수정**: `js/miniGames.js`에 `clearMiniGameContainers()`를 추가해 4개 컨테이너(+ `card-game-stats`)를 모두 비우고, 4개 `start*Game()` 진입점 각각의 첫 줄에서 호출하도록 했다.
+- **검증**: 로컬 서버에서 카드→원인결과→연표→탐정 순으로 전환하며 매번 4개 컨테이너의 `innerHTML.length`를 측정 — 항상 방금 시작한 게임 하나만 내용이 있고 나머지 3개는 0임을 확인. 콘솔 에러 0건. iPad 가로(1180×820)에서 확장 활동 섹션 높이 1231px(카드 게임), 세로(820×1180)에서 697px로 뷰포트 대비 과도하지 않음.
+
+### 2026-09-11 「연결 공방」(activity-loop) Track 3 — §6 완료 판정 통과 + P2 설계안 작성
+
+- **§6 완료 판정(P0·P1 대상) 실측**: `activity-loop`(포트 8803)에서 5개 활동(카드/연표/원인결과/탐정/스토리) 전부 실제 클릭으로 플레이. 4개 미니게임 각각 시작 버튼과 결과가 14px 간격으로 항상 같은 위치, 전환 시 다른 게임 컨테이너는 모두 0자(잔존 없음) 확인. 콘솔 에러 0건. 아이패드 가로(1180×820) 597.7px, 세로(820×1180) 591.3px — 두 뷰포트 모두 세로 스크롤 과도하지 않음.
+- **P2 설계안**: `docs/plans/implementation_plan_personal_timeline.md` 작성. `unlockedArtifacts` 배열 순서가 곧 MUD 완료 순서임을 코드로 확인했고, `artifacts.json`의 `hint` 필드에서 (단원, 차시)를 파싱해 36개 중 31개를 역사적 순서로 재구성 가능함을 검증(Deep-dive·협동 MUD 5종은 예외 처리 필요). 옵션 A(완전 전환)/B(병행, 추천)/C(보류) 중 B를 추천하되 최종 결정은 사용자 확인 대기 — **구현하지 않음.**

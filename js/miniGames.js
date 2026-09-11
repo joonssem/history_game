@@ -49,17 +49,56 @@ class MiniGameEngine {
     }
   }
 
+  // 2026-09-10: 4개 미니게임이 각자 독립된 컨테이너(#card-game-container 등)에
+  // 렌더링되는데, 하나를 시작해도 다른 게임의 결과물이 DOM에 그대로 남아
+  // 있었다 — 토글로 게임을 바꿔도 이전 게임판이 그 위/아래에 계속 쌓여
+  // "확장 역사 활동" 영역이 불필요하게 길어지는 원인이었다. 새 게임을
+  // 시작할 때마다 4개 컨테이너를 모두 비운 뒤 자신을 채우도록 한다.
+  clearMiniGameContainers() {
+    ['card-game-stats', 'card-game-container', 'timeline-game-container', 'cause-effect-game-container', 'detective-game-container']
+      .forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = '';
+      });
+  }
+
   // ==========================================
   // 1. 유물 카드 짝맞추기 게임 (Memory Match)
+  // 2026-09-10: 예전엔 artifacts.json의 앞 6개를 고정으로 보여줘서(해금 여부
+  // 무관) 재플레이 가치가 없고 아직 못 얻은 유물이 스포일러로 노출됐다.
+  // 유물 탐정(startDetectiveGame)과 같은 패턴으로, 그 학생이 실제로 해금한
+  // 유물 풀에서만 뽑는다. 짝맞추기는 4지선다만큼 후보가 많이 필요하지
+  // 않으므로(카드 자체가 정답을 보여줌), 최소 기준은 유물 탐정(4개)보다
+  // 낮은 3개로 정했다 — 2쌍(4장)은 게임으로서 의미가 없지만 3쌍(6장)부터는
+  // 최소한의 기억 게임이 성립한다. 해금 유물이 6개 미만이면 있는 만큼만
+  // (3~5쌍)으로 진행하고, 6개 이상이면 매번 다른 6개를 무작위로 뽑는다.
   // ==========================================
   startCardGame() {
     if (window.sounds) window.sounds.playClick();
+    this.clearMiniGameContainers();
     this.matchedPairs = 0;
     this.cardMoves = 0;
     this.flippedCards = [];
     this.isCardLocked = false;
 
-    const selectedArts = [...this.artifacts].slice(0, 6); // 6쌍 (12장)
+    const container = document.getElementById('card-game-container');
+    if (!container) return;
+
+    const unlocked = (window.encyclopedia && window.encyclopedia.data.unlockedArtifacts) || [];
+    const pool = this.artifacts.filter(art => unlocked.includes(art.name) || unlocked.includes(art.id));
+
+    if (pool.length < 3) {
+      document.getElementById('card-game-stats').innerHTML = '';
+      container.innerHTML = `
+        <div style="max-width: 520px; margin: 0 auto; padding: 16px; border-radius: 12px; background: #1F1B19; border: 1px solid #5A4E46; text-align: center; color: #C5BCB3; font-size: 0.85rem;">
+          🎴 유물 카드 짝맞추기는 <strong style="color: #F0C987;">해금한 유물이 3개 이상</strong>일 때 도전할 수 있어요. MUD를 몇 개 더 클리어하고 다시 와 봐!
+        </div>
+      `;
+      return;
+    }
+
+    const pairCount = Math.min(6, pool.length);
+    const selectedArts = [...pool].sort(() => Math.random() - 0.5).slice(0, pairCount);
     const deck = [];
 
     selectedArts.forEach((art, index) => {
@@ -68,9 +107,6 @@ class MiniGameEngine {
     });
 
     this.cardDeck = deck.sort(() => Math.random() - 0.5);
-
-    const container = document.getElementById('card-game-container');
-    if (!container) return;
 
     this.updateCardGameStats();
 
@@ -131,8 +167,8 @@ class MiniGameEngine {
         this.flippedCards = [];
         this.isCardLocked = false;
 
-        // 도감 등록
-        window.encyclopedia.unlockArtifact(c1.card.name);
+        // 2026-09-10: 카드 풀이 이미 해금된 유물로만 구성되므로 여기서
+        // 새로 unlockArtifact()를 호출할 필요가 없다(항상 no-op이었다).
 
         if (this.matchedPairs === this.cardDeck.length / 2) {
           this.completeCardGame();
@@ -184,6 +220,7 @@ class MiniGameEngine {
   // ==========================================
   startTimelineGame(stageIndex = 0) {
     if (window.sounds) window.sounds.playClick();
+    this.clearMiniGameContainers();
     this.currentStageIdx = stageIndex;
     const stage = this.timelineStages[stageIndex] || this.timelineStages[0];
     
@@ -312,6 +349,7 @@ class MiniGameEngine {
   // ==========================================
   startCauseEffectGame(stageIndex = 0) {
     if (window.sounds) window.sounds.playClick();
+    this.clearMiniGameContainers();
     this.currentCauseEffectStageIdx = stageIndex;
     const stage = this.causeEffectChains[stageIndex] || this.causeEffectChains[0];
 
@@ -445,6 +483,7 @@ class MiniGameEngine {
   // ==========================================
   startDetectiveGame() {
     if (window.sounds) window.sounds.playClick();
+    this.clearMiniGameContainers();
     const container = document.getElementById('detective-game-container');
     if (!container) return;
 
