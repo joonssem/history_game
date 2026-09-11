@@ -1,6 +1,6 @@
 ﻿# PROJECT_CONTEXT.md
 
-> **작성일**: 2026-09-01 | **최종 갱신**: 2026-09-10 | **버전**: v3.9 | **인수자**: OpenAI Codex
+> **작성일**: 2026-09-01 | **최종 갱신**: 2026-09-11 | **버전**: v4.0 | **인수자**: OpenAI Codex
 > **라이브 URL**: https://joonssem.github.io/history_game/
 
 이 문서는 새 개발자가 프로젝트를 빠르게 파악하고 작업을 이어갈 수 있도록 작성한 인수인계 문서다.
@@ -161,7 +161,11 @@ history_game/
 - **모달 키보드 접근성**: Tab 순환·Escape 닫기·원래 트리거 포커스 복귀를 지원한다.
 - **협동 MUD 3편**: 1인 1기기로 학생마다 다른 자료를 주고 말로 공유하게 하는 모둠 활동. 6차시(고조선 8조법)·7차시(시조 설화)·8차시(한강 유역). 서버 없이 기기별 `localStorage`만 사용한다. 상세는 §7 로드맵.
 - **협동 MUD 타이머 페이싱**: 활동 길이 선택이 곧 시간 예산이 되어, 느린 모둠에는 질문형 힌트를, 빠른 모둠에는 심화 질문을 작은 배지로 띄운다. 화면을 덮지 않고 학생이 눌러야 펼쳐진다.
-- **고려 문화 inquiry 수직 파일럿**: `regular_goryeo_culture` 4단계에서 첫 판단·수정, 금속활자 절차 배열, 벽란도 근거–자료 범위, 주장–근거–한계를 판정한다. `completion.strategy: validated-state`로 단순 탭 횟수가 아니라 타당한 제출만 진행을 해제하며, 앞 단계 근거를 최종 관문에서 재사용한다.
+- **inquiry-task 파일럿 4편**(2026-09-11): `regular_goryeo_culture`·`regular_neolithic`·`regular_three_kingdoms`·`regular_modern_open`. 각 편의 필수 4관문이 **서로 다른 사고 문법**(`commit-revise`·`sequence`·`map-evidence`·`claim-evidence`)을 요구해 "관찰 → 분류·순서화 → 인과·공간 추론 → 주장·근거·반례" 곡선을 만든다. `completion.strategy: validated-state`로 탭 횟수가 아니라 타당한 제출만 진행을 해제하며, 앞 관문의 근거가 누적되어 최종 관문에서 재사용된다. 나머지 24편은 수업 관찰 전까지 전환하지 않는다.
+  - 화면 문구는 코드가 아니라 편 데이터가 갖는다(`task.labels`, `completion.successText`). 계약 검증기가 `map-evidence`의 `labels` 누락과 죽은 `minCategories` 조건을 오류로 잡는다. `DECISIONS.md` D-027·D-029.
+- **근거 인벤토리·sticky 제출 버튼**: inquiry-task 패널이 내부 스크롤 영역이고 "판단 확인"이 하단에 고정된다. 모은 근거는 접기/펼치기 칩 목록으로 볼 수 있다(기본 접힘).
+- **유물·유적 대조실**: 비교 페어 11개. `pairType`으로 유물↔유물 / 유물↔유적 / 유적↔유적 세 유형을 구분하고, 유적은 `kind: "site"`와 유적 전용 `traits`(규모·배치·주변환경·함께나온것)를 쓴다. 도감에서도 직접 시작할 수 있다.
+- **확장 역사 활동 정렬**: 미니게임 4종과 스토리가 "MUD에서 얻은 것을 다시 쓰는 곳"으로 정렬됐다. 카드 짝맞추기·유물 탐정은 해금 유물 기반, 역사 연표는 "나의 연표"(해금 유물 순서)와 "기본 연표"(고정 2세트) 토글, 원인과 결과는 1·2·3단원 4세트.
 
 ### 부분적으로 구현된 기능
 
@@ -295,7 +299,8 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 - **MUD 콘텐츠 품질 확장**: 일부 자동 생성 IF 스테이지와 유물 설명은 추가 교육적 검수가 필요함. IF 구조 선별 결과는 `docs/audits/if_stage_audit.md`에서 확인함
 - **실제 활동 시간 검증**: 2026-09-01 학생들이 1단원 2·3차시 Regular 활동을 연속으로 4분 이내에 완료했다. 빠른 학습자용 선택형 확장 활동과 전체 학생 표본 측정은 후속 검토 대상이다.
-- **상호작용 다양성 파일럿 수업 검증**: 고려 문화 파일럿의 자동·데스크톱 브라우저 검증은 완료했다. 390×844·820×1180 지정 뷰포트와 학생 3명 이상 수업에서 7~12분, 독립 완주, 두 자료 연결 설명, 무작위 전수 클릭 방지 여부를 확인하기 전에는 다른 Regular로 확대하지 않는다.
+- **상호작용 다양성 파일럿 수업 검증**: 파일럿 4편의 자동·브라우저 검증(아이패드 가로 1180×820 포함)은 완료했다. **학생 관찰은 아직 한 번도 하지 않았다.** 390×844 실기기와 학생 3명 이상 수업에서 7~12분, 독립 완주, 두 자료 연결 설명, 무작위 전수 클릭 방지 여부를 확인하기 전에는 나머지 24편으로 확대하지 않는다. 유물 비교 11페어와 "나의 연표"도 같은 관찰 대기 상태다.
+- **승인 대기 설계 문서 4건**(구현 전 사용자 확인 필요): [`mud_perspective_task_design.md`](./docs/plans/mud_perspective_task_design.md)(새 문법 `perspective`, 병자호란 주화 vs 척화), [`implementation_plan_inquiry_progressive_disclosure.md`](./docs/plans/implementation_plan_inquiry_progressive_disclosure.md)(섹션 3개 동시 노출 → 단계 진행형, 파일럿 4편 16관문의 전제가 바뀜), [`story_mud_relationship.md`](./docs/plans/story_mud_relationship.md)(타임머신 스토리의 위치), [`implementation_plan_map_evidence_canvas_role.md`](./docs/plans/implementation_plan_map_evidence_canvas_role.md) 옵션 B(지도가 실제 정보를 나르게, 스키마 확장·관문 설계실 조율 필요). 넷 다 상호작용 모델이나 콘텐츠를 크게 바꾸므로 수업 관찰 결과가 우선순위를 뒤집을 수 있다.
 - **최소 플레이 진단 로그**: 아직 구현하지 않았다. 서버·계정 없이 단계·선택·시뮬레이터·완료 시각과 재시도 정도만 기록하는 설계가 다음 P1 후보이며, 학생 식별 정보는 수집하지 않는다.
 
 ### 임시 구현

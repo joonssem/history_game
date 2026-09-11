@@ -1609,3 +1609,34 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - **지시서 오류 발견 및 기록**: 라운드 2 §1-1은 "`commit-revise`의 완료 메시지도 이제 `completion.successText`가 표시된다"고 했지만, 실측 결과 `evaluateSequence()`만 D-029로 수정됐고 `evaluateCommitRevise()`는 여전히 고려 문화 전용 문구를 하드코딩 반환한다. 1단계(강화도 조약, `commit-revise`) 정답 완료 시 "제작 과정과 보관 환경을 함께 고려한 판단입니다."가 그대로 노출됨을 재현했다. `js/`는 트랙 1-B 소유라 수정하지 않고 `BACKLOG.md`에 기록만 남겼다.
 - §1-2: `docs/plans/mud_perspective_task_design.md` 설계 문서 작성(코드 없음) — `perspective` task 유형 설계안, D-029 적용(라벨·완료 메시지를 데이터로 받는 방법 포함).
 - 파일럿 3편(신석기/삼국/근대 개항) 전부 완료. 지시서 §1-3에 따라 여기서 멈춘다.
+
+## 2026-09-10~11 — 4트랙 병렬 작업 기획·통합·배포 (Opus 5 세션)
+
+`TASK-20260911-INT4 | 4트랙 병렬 작업 기획·라운드 1·2 통합·배포 | Claude Opus 5 | 상태: DONE`
+
+### 기획
+
+Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리했다. 지시서는 `docs/handoff/`에 있다 — [개요](./docs/handoff/claude_four_track_overview.md), [관문 설계실](./docs/handoff/claude_track1a_gate_grammar_instruction.md), [대조실](./docs/handoff/claude_track2_artifact_site_instruction.md), [연결 공방](./docs/handoff/claude_track3_activity_loop_instruction.md), [조작대](./docs/handoff/claude_track1b_inquiry_console_instruction.md), [라운드 2](./docs/handoff/claude_four_track_round2_instruction.md).
+
+### 통합 단계에서 잡은 결함 (각 창의 트리에서는 보이지 않던 것)
+
+1. **고려 문화 4관문 주장–근거 정합성**(`972dcd4`): Codex가 red team으로 만든 파일럿을 운영 사이트에서 4관문 실플레이한 결과, "국제 교류"를 말하는 주장이 교류 근거 0장으로 통과했다. `minCategories: 2`가 허용 근거 5장의 category가 전부 달라 절대 실패할 수 없는 죽은 조건이었다. `DECISIONS.md` D-027, 계약 검증기에 `check_claim_categories` 추가.
+2. **편 전용 문구 누출**(`47a39e6`, `e208e86`): `map-evidence`·`sequence`·`commit-revise`의 화면 문구가 파일럿 1편 기준으로 코드에 박혀 있어, 같은 문법을 재사용한 신석기·삼국·근대 편에 "국제 교류를 뒷받침하는 근거를 고르세요", "인쇄 절차와 금속활자의…"가 그대로 따라왔다. `task.labels`·`taskCompleteMessage()`로 데이터화하고 계약 검증기에 `check_task_labels` 추가. `DECISIONS.md` D-029.
+   - 1차 수정에서 `evaluateCommitRevise()`를 빠뜨렸고, 관문 설계실 세션이 `regular_modern_open` 작업 중 실측으로 보고해 `e208e86`에서 전수 대조로 3곳을 마저 고쳤다.
+3. **`js/miniGames.js` 캐시버스터 누락**(`9bf6112`): 51줄을 고치고 `index.html` 버전 쿼리를 올리지 않아 재방문 학생이 캐시된 옛 파일을 받을 상태였다.
+
+### 배포
+
+- 라운드 1: `47a39e6` — 네 트랙 병합, 검증 17종, Pages `built`.
+- 라운드 2: `699cc53` — 네 트랙 병합, 검증 17종, Pages `built`. 충돌은 `BACKLOG.md`뿐(양쪽 보존).
+- 운영 사이트 실측: 파일럿 4편 모두 관문별 문법이 다름, "나의 연표" 해금 5개로 동작, 유물 비교 11페어, 원인결과 4세트, 캐시버스터 4개 파일 갱신, 콘솔 error/warning 0건.
+
+### 사고
+
+- **검증 스크립트 통과 ≠ 의도대로 동작.** D-027·D-028·D-029 모두 같은 계열이다. 자동 검증은 "조건이 있는가"를 보지, "그 조건이 실패할 수 있는가"나 "그 문구가 이 편에 맞는가"를 보지 않는다.
+- **자기 트리 검증만으로는 안 잡히는 결함이 있다.** 위 2번은 콘텐츠 창이 `js/`를 안 만지고 런타임 창이 자기 편만 테스트해서 양쪽 다 볼 수 없었다. 라운드 2 지시서 §0-1에 "공용 런타임을 고쳤으면 다른 편을 실제로 열어 확인"을 필수 보고 항목으로 넣었다.
+- **잘못된 지시는 실행 세션이 정정할 수 있다.** 조작대는 "진행도 게이지 0% 고정"이 실제로는 노출되지 않음을 실측으로 밝혔고(`#widget-gauge`가 기본 `display:none`), 관문 설계실은 지시서의 틀린 서술을 잡아 보고했다. 둘 다 지시를 그대로 따르지 않은 것이 옳았다.
+
+### 정리
+
+4트랙 브랜치·worktree와 통합 브랜치를 삭제했다(미반영 커밋 0·미커밋 0 확인 후). Codex 소유 worktree 4개와 미반영 커밋이 남은 브랜치 3개(`codex-deep-three-kingdoms` 18, `claude-deep-prehistoric` 7, `fix/deep-three-choice-bias` 3)는 손대지 않았다.
