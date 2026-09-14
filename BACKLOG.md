@@ -522,3 +522,20 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - **핵심 발견 2**: 스토리 4편 전부 같은 차시의 Regular MUD와 주제가 거의 동일(예: `story_paleolithic`↔`regular_paleolithic` 제목이 사실상 같음). 스토리에는 MUD 완료 여부에 대한 선행조건이 전혀 없고, 완료 보상 유물(`art_29` 등)은 MUD 보상과 같은 도감 풀에 섞여 이미 다른 4개 활동(나의 연표·카드 짝맞추기·유물 탐정)에 노출된다 — 데이터는 이미 섞여 있는데 배치·존재 이유는 정의된 적이 없다.
 - 옵션 A(MUD 전 도입)/B(MUD 후 요약)/C(현행 유지)/D(축소·보류) 제시. A는 MUD 카드 UI(트랙 1 소유)를 건드려야 해 연결 공방 범위를 넘어선다는 점, B가 트랙 범위 안에서 가장 구현이 쉽다는 점만 짚고 강한 추천은 하지 않음 — 최종 결정은 사용자 몫.
 - 이로써 Track3 원 지시서(P0~P3) + Round 2(§3-1 P2 구현, §3-2 P3 문서) 범위를 마쳤다. 지시서 §3-3에 따라 새 미니게임을 추가하지 않고 여기서 멈춘다.
+
+### 2026-09-14 「관문 설계실」(gate-grammar) Round 3 — §1-1·§1-2: 16관문 의미 검토표 + 수업 관찰 준비
+
+- 지시서: `docs/handoff/claude_four_track_round3_instruction.md` §1. "새 편을 전환하지 않는다. `js/`는 수정하지 않는다"는 원칙을 지켰다 — `data/mud/*.json` 1개 파일과 `docs/` 문서만 수정.
+- **주 작업(§1-1)**: `docs/audits/inquiry_pilot_semantic_review.md`에 파일럿 4편(고려 문화·신석기·삼국·근대 개항) 16관문 전부를 표로 정리했다. 지시서가 지목한 "근대 1관문 '개항의 계기'를 받치는 자료가 없다"(RT-02)를 먼저 처리: 강화도 조약 제5조("부산 이외에 두 항구를 20개월 이내에 개항하여 통상을 허가한다")를 국사편찬위원회 우리역사넷(`kc_i400800`) 원문으로 대조해 새 근거 카드 `port-opening-clause`를 추가하고 `requiredEvidenceIds`에 포함시켰다. `treaty-unequal-clauses` award의 라벨·설명도 "개항과 불평등 조항"으로 갱신했다.
+- 나머지 15관문은 2026-09-14 `32f6d82`(D-030) 조치가 이미 RT-02·03·05를 해소한 상태였음을 사람이 직접 문장을 다시 읽어 재확인했다 — `requiredCategories`/`requiredEvidenceIds`가 각 주장 문장의 요소와 정확히 대응하는지, `sequence` 카드가 모두 절차·연대로 확인되는 순서인지, `map-evidence` 세 정답이 같은 이야기를 하는지, 오답 피드백이 정답을 노출하지 않는지 확인했다. 신규 수정은 없음.
+- **§1-2**: `docs/plans/classroom_observation_inquiry_pilot.md` 작성 — Codex 첫 인계(`claude_code_interaction_diversity_handoff_20260910.md` §6 P0)가 2026-09-10에 요구했으나 아직 없었던 문서. 공통 지표(완료 시간 7~12분, 무작위 클릭, 자료 연결 설명, 오답 후 수정, 교사 개입, 막힌 지점) + 편별 관찰 포인트 + 교사용 1장 기록 양식 포함. `EXPERIMENTS.md`에 `EXP-008`을 "관찰 → 가설 → 실험 → 결과 → 다음 결정" 형식으로 추가하고 결과·다음 결정 칸은 비워 뒀다.
+- **검증**: `node --check` 3종, `01/03/04/06/07/08/09_validate·audit_*`, `05_test_simulator_runtime.js` 전부 통과, `git diff --check` 클린. `preview_start(name: "gate-grammar")`(포트 8801)로 근대 개항 1관문을 실제로 플레이 — 항구 개방·치외법권·해안 측량권 세 자료를 모두 연 뒤에만 최종 판단 제출이 가능함을 확인, 콘솔 error/warning 0건.
+- 커밋 직전 `git status --short`로 바뀐 파일이 의도한 것(데이터 1개 + 문서 3개)만인지 확인했다(§0-4 사고 재발 방지).
+
+#### §0-3 사실 확인 표
+
+| 문장·수치 | 대조 결과 | 조치 | 근거 URL | 확인 날짜 |
+|---|---|---|---|---|
+| 강화도 조약이 "개항의 계기"였다는 문장을 받치는 자료가 없었음 | 원문 확인 — 제5조가 부산 외 2개 항구를 20개월 이내에 개항하도록 규정 | **정정**: 근거 카드 `port-opening-clause` 추가, `requiredEvidenceIds`에 포함 | https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_i400800 | 2026-09-14 |
+| 조항 번호("제5조"/"제5관") | 국사편찬위원회 자료 원문은 "제5조"로 표기하나, 다른 일반 서술은 "관(款)"으로도 부르는 사례가 있어 두 번째 출처로 조 번호 표기를 교차 확인하지 못함 | **보류**: 학생 화면 문구(`port-opening-clause`)에는 조 번호를 넣지 않고 "부산 외에 두 항구를 20개월 안에 추가로 열어 통상을 허용한 조항"으로만 서술해 번호 오기 위험을 없앰 | https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_i400800 | 2026-09-14 |
+| 나머지 15관문의 `requiredCategories`/`requiredEvidenceIds`가 정답 문장의 요소와 대응하는가 | 2026-09-14 `32f6d82`에서 이미 구현된 값을 문장 대 문장으로 재대조 — 전부 일치 | **확인**(변경 없음) | 저장소 내부 대조(`data/mud/*.json` + `docs/audits/claude_four_track_red_team_audit.md`) | 2026-09-14 |

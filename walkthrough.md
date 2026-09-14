@@ -1653,3 +1653,15 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - **RT-04 전수 대입**: 부분 수용. 오답 제한·감점 없는 재시도는 초등 대상 의도된 설계라 유지하고, 마지막 관문 밀도만 낮췄다.
 - **브랜치 정리**: Codex 권고대로 Codex 브랜치 9개와 worktree 4개, 원격의 Claude 4트랙 브랜치 4개를 삭제했다. `codex-deep-three-kingdoms`는 main에 병합할 수 없는 낡은 base라 `archive/codex-deep-three-kingdoms` 태그(`a4d1f75`)를 남기고 지웠다. `fix/deep-three-choice-bias`는 main과 실질 차이 0을 확인했다.
 - 검증: 자동 14종 통과, 감사 재현 사례 전부 차단 확인, 검증기 오류 규칙 3종 동작 확인, 브라우저 실플레이(아래 배포 항목).
+
+## 2026-09-14 — 「관문 설계실」(gate-grammar) Round 3 §1-1·§1-2: 16관문 의미 검토 + 수업 관찰 준비
+
+`TASK-20260914-GATE-R3 | 파일럿 4편 16관문 의미 검토표 + 수업 관찰 체크리스트 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- 지시서 `docs/handoff/claude_four_track_round3_instruction.md` §1. 새 편 전환·`js/` 수정 없이 문서 검토와 1건의 데이터 수정만 진행했다.
+- `docs/audits/inquiry_pilot_semantic_review.md`: 파일럿 4편(고려 문화·신석기·삼국·근대 개항) 16관문 전부를 문법별 기준(commit-revise 요소별 근거/sequence 절차·연대/map-evidence 세 정답 일치/claim-evidence 요구-문장 대응)으로 사람이 직접 읽고 표로 남겼다.
+- 지시서가 지목한 근대 개항 1관문의 공백("개항의 계기"를 받치는 자료 없음, RT-02)을 처리: 강화도 조약 제5조 원문(국사편찬위원회 우리역사넷 `kc_i400800`, "부산 이외에 두 항구를 20개월 이내에 개항하여 통상을 허가한다")을 대조해 새 근거 카드 `port-opening-clause`를 추가하고 `requiredEvidenceIds`에 포함시켰다. 조 번호 표기(조/관)는 두 번째 출처로 교차 확인하지 못해 학생 화면 문구에서 뺐다(`BACKLOG.md` §0-3 표에 보류로 기록).
+- 나머지 15관문은 2026-09-14 `32f6d82`(D-030)가 이미 해소한 상태였음을 재확인만 하고 데이터는 바꾸지 않았다.
+- `docs/plans/classroom_observation_inquiry_pilot.md`: Codex 첫 인계(2026-09-10) §6 P0가 요구했던 수업 관찰 체크리스트를 처음으로 작성. 공통 지표·편별 관찰 포인트·교사용 1장 기록 양식 포함. `EXPERIMENTS.md`에 `EXP-008`을 관찰-전 상태(결과·다음 결정 비움)로 추가.
+- 검증: `node --check` 3종, `01/03/04/06/07/08/09_validate·audit_*`, `05_test_simulator_runtime.js` 전부 통과(source 중복 URL 오류 1건 발견·즉시 정정). `preview_start(name: "gate-grammar")`(포트 8801)에서 근대 개항 1관문 실플레이 — 치외법권·해안 측량권만 열고는 제출 버튼이 비활성 상태로 남고, 항구 개방 자료까지 연 뒤에야 제출이 활성화되며 정상 완료됨을 확인. 콘솔 error/warning 0건.
+- 커밋 전 `git status --short`로 바뀐 파일이 의도한 데이터 1개 + 문서 3개뿐인지 확인했다(지난 라운드 작업 위치 사고 재발 방지, §0-4).
