@@ -76,3 +76,39 @@ git fetch origin && git log --oneline origin/main -5 && cat docs/handoff/claude_
 ```
 
 상태가 이 문서와 충돌하면 덮어쓰지 말고 충돌 지점을 먼저 보고한다.
+
+---
+
+## 2026-09-14 갱신 — red team 반영과 라운드 3 이후 (Opus 5)
+
+기준 커밋: `origin/main` `2e25810` (Pages `built`, 운영 사이트 실측 확인)
+
+### 이 문서 작성 이후 끝난 것
+
+| 일 | 결과 | 기록 |
+|---|---|---|
+| Codex red team 감사 | 의미 결함 발견: 나의 연표 시대 역전, 주장 요소 누락 통과, 근대 2관문 해석 카드, 암사동 수치 | `docs/audits/claude_four_track_red_team_audit.md` |
+| 감사 반영 | 전부 수정·배포(`4b98e01`) | `DECISIONS.md` D-030 |
+| 브랜치 정리 (§3-4) | Codex 브랜치 9개·worktree 4개, 원격 4트랙 브랜치 4개 삭제. `codex-deep-three-kingdoms`는 `archive/codex-deep-three-kingdoms` 태그만 남김 | `walkthrough.md` 2026-09-14 |
+| 라운드 3 (넓히지 않고 검증) | 16관문 의미 검토표, 수업 관찰 체크리스트, 기존 9개 페어 사실 검증, 원인결과·연표 40장 검증, 조합 감사 스크립트 `scripts/13`, D-030 회귀 테스트 | `claude_four_track_round3_instruction.md`, `walkthrough.md` |
+
+원격 브랜치는 이제 `main`과 `claude-deep-prehistoric`뿐이다. 로컬 worktree 4개(`.worktrees/claude-*`)는 main에 모두 반영된 상태로 다음 라운드용으로 남겨 두었다.
+
+### 지금 권하는 다음 단계 — 수업 관찰
+
+관찰 준비물이 갖춰졌다: [`classroom_observation_inquiry_pilot.md`](../plans/classroom_observation_inquiry_pilot.md)(교사용 기록 양식 포함), `EXPERIMENTS.md` 새 실험 항목. 아래 판단 대기 항목 대부분은 관찰 결과가 있어야 우선순위를 정할 수 있으므로, **다음 개발 라운드보다 관찰을 먼저** 권한다.
+
+### 판단 대기 (갱신)
+
+1. 설계 문서 4건 — `perspective`, 단계 진행형, 스토리 관계, 캔버스 옵션 B
+2. 이미 배포된 캔버스 옵션 A 승인 여부
+3. 근거 인벤토리 기본 펼침 여부
+4. `claude-deep-prehistoric` 미반영 7커밋
+5. `art_12` 판옥선 `era` 라벨(조선 전기/후기 경계) — 교과서 단원 구분 확인 후 나의 연표 기간표와 함께 결정
+6. 원인과 결과 고려 세트 벽란도 순서 정정의 근거를 위키백과에서 공식 출처(우리역사넷·한국민족문화대백과)로 교체
+
+### 다음 라운드 지시서에 넣을 것
+
+- **실행 창은 main에 직접 push하지 않는다.** 라운드 3에서 대조실이 main에 바로 올려 다른 창이 뒤처졌다. 통합은 기획 세션이 한다.
+- 셸 작업 위치가 다음 명령에 남는다 — 파일 쓰기는 절대경로·`git -C`, 커밋 전 `git status --short`.
+- 백그라운드 명령이 시작된 폴더는 그 명령이 끝날 때까지 지울 수 없다(통합 worktree 폴더 삭제가 한동안 거부됨).

@@ -302,6 +302,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 - **실제 활동 시간 검증**: 2026-09-01 학생들이 1단원 2·3차시 Regular 활동을 연속으로 4분 이내에 완료했다. 빠른 학습자용 선택형 확장 활동과 전체 학생 표본 측정은 후속 검토 대상이다.
 - **상호작용 다양성 파일럿 수업 검증**: 파일럿 4편의 자동·브라우저 검증(아이패드 가로 1180×820 포함)은 완료했다. **학생 관찰은 아직 한 번도 하지 않았다.** 390×844 실기기와 학생 3명 이상 수업에서 7~12분, 독립 완주, 두 자료 연결 설명, 무작위 전수 클릭 방지 여부를 확인하기 전에는 나머지 24편으로 확대하지 않는다. 유물 비교 11페어와 "나의 연표"도 같은 관찰 대기 상태다.
 - **승인 대기 설계 문서 4건**(구현 전 사용자 확인 필요): [`mud_perspective_task_design.md`](./docs/plans/mud_perspective_task_design.md)(새 문법 `perspective`, 병자호란 주화 vs 척화), [`implementation_plan_inquiry_progressive_disclosure.md`](./docs/plans/implementation_plan_inquiry_progressive_disclosure.md)(섹션 3개 동시 노출 → 단계 진행형, 파일럿 4편 16관문의 전제가 바뀜), [`story_mud_relationship.md`](./docs/plans/story_mud_relationship.md)(타임머신 스토리의 위치), [`implementation_plan_map_evidence_canvas_role.md`](./docs/plans/implementation_plan_map_evidence_canvas_role.md) 옵션 B(지도가 실제 정보를 나르게, 스키마 확장·관문 설계실 조율 필요). 넷 다 상호작용 모델이나 콘텐츠를 크게 바꾸므로 수업 관찰 결과가 우선순위를 뒤집을 수 있다.
+- **수업 관찰 준비 완료, 관찰은 미실시**(2026-09-14): 파일럿 4편 의미 검토표(`docs/audits/inquiry_pilot_semantic_review.md`), 관찰 체크리스트·교사용 기록 양식(`docs/plans/classroom_observation_inquiry_pilot.md`), 관문별 통과 조합 밀도 감사(`node scripts/13_audit_inquiry_combinatorics.js`)가 있다. 유물 비교 기존 9개 페어와 원인과 결과·기본 연표 카드는 공식 출처 대조를 마쳤다. 보류: `art_12` 판옥선 `era` 라벨(조선 전기/후기 경계), 원인과 결과 고려 세트 벽란도 순서의 공식 출처 교체.
 - **최소 플레이 진단 로그**: 아직 구현하지 않았다. 서버·계정 없이 단계·선택·시뮬레이터·완료 시각과 재시도 정도만 기록하는 설계가 다음 P1 후보이며, 학생 식별 정보는 수집하지 않는다.
 
 ### 임시 구현
