@@ -9,7 +9,7 @@
 | regular_goryeo_culture | 1 | commit-revise | 9 | 3 | 33.3% |  |
 |  | 2 | sequence | 72 | 1 | 1.4% |  |
 |  | 3 | map-evidence | 27 | 1 | 3.7% |  |
-|  | 4 | claim-evidence | 40 | 11 | 27.5% |  |
+|  | 4 | claim-evidence | 160 | 22 | 13.8% |  |
 | regular_modern_open | 1 | commit-revise | 9 | 3 | 33.3% |  |
 |  | 2 | sequence | 18 | 1 | 5.6% |  |
 |  | 3 | map-evidence | 12 | 1 | 8.3% |  |
@@ -17,11 +17,11 @@
 | regular_neolithic | 1 | map-evidence | 12 | 1 | 8.3% |  |
 |  | 2 | sequence | 18 | 1 | 5.6% |  |
 |  | 3 | commit-revise | 9 | 3 | 33.3% |  |
-|  | 4 | claim-evidence | 8 | 2 | 25.0% |  |
+|  | 4 | claim-evidence | 32 | 4 | 12.5% |  |
 | regular_three_kingdoms | 1 | commit-revise | 9 | 3 | 33.3% |  |
 |  | 2 | map-evidence | 12 | 1 | 8.3% |  |
 |  | 3 | sequence | 18 | 1 | 5.6% |  |
-|  | 4 | claim-evidence | 8 | 2 | 25.0% |  |
+|  | 4 | claim-evidence | 32 | 4 | 12.5% |  |
 
 ## 경고 규칙
 

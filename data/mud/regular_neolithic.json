@@ -145,11 +145,11 @@
             "support": "2. 그 장소를 고른 까닭을 뒷받침하는 근거를 고르세요",
             "limit": "3. 이 자료의 한계를 바르게 말한 문장을 고르세요"
           },
-          "prompt": "신석기 사람들이 정착지를 정할 때 가장 먼저 확인해야 했던 장소와 그 이유, 자료의 범위를 연결하세요.",
+          "prompt": "신석기 사람들이 정착지를 정할 때 중요하게 살핀 장소와 그 이유, 자료의 범위를 연결하세요.",
           "locations": [
-            { "id": "riverbank", "label": "강가", "detail": "물과 물고기·조개를 구할 수 있는 곳", "correct": true, "feedback": "강가는 신석기 사람들이 정착지를 정할 때 가장 먼저 확인한 핵심 장소입니다." },
-            { "id": "farmland", "label": "농경지", "detail": "씨앗을 심고 가꾸는 곳", "correct": false, "feedback": "농경지는 강가를 찾은 뒤에야 마련할 수 있는 곳으로, 가장 먼저 확인하는 장소는 아닙니다." },
-            { "id": "pit-house", "label": "움집", "detail": "머물며 생활하는 정착 공간", "correct": false, "feedback": "움집은 정착지를 다 정한 뒤에 짓는 곳으로, 정착지를 판단하는 핵심 장소는 아닙니다." }
+            { "id": "riverbank", "label": "강가", "detail": "물과 물고기·조개를 구할 수 있는 곳", "correct": true, "feedback": "강가는 물과 먹을거리를 얻기 쉬워 신석기 사람들이 정착지로 많이 고른 장소입니다." },
+            { "id": "farmland", "label": "농경지", "detail": "씨앗을 심고 가꾸는 곳", "correct": false, "feedback": "농경지도 중요하지만, 이 관문의 기록은 물과 먹을거리를 얻기 쉬운 곳을 말합니다. 기록이 가리키는 장소를 찾아보세요." },
+            { "id": "pit-house", "label": "움집", "detail": "머물며 생활하는 정착 공간", "correct": false, "feedback": "움집은 사람이 살려고 지은 집입니다. 이 관문의 기록이 가리키는, 물과 먹을거리를 얻기 쉬운 장소를 찾아보세요." }
           ],
           "supports": [
             { "id": "water-food-access", "label": "강가에서는 물과 물고기·조개를 쉽게 구할 수 있다는 기록", "correct": true, "feedback": "물과 식량을 구하기 쉬운 조건은 정착지를 정하는 핵심 근거입니다." },
@@ -270,7 +270,7 @@
         "interaction": "inquiry-task",
         "task": {
           "type": "sequence",
-          "prompt": "빗살무늬 토기를 만드는 과정을 순서대로 배열하세요.",
+          "prompt": "빗살무늬 토기를 빚는 과정 가운데 모양을 만들고 무늬를 새기는 단계를 순서대로 배열하세요.",
           "cards": [
             {
               "id": "prepare-clay",
@@ -287,25 +287,25 @@
             {
               "id": "carve-comb-pattern",
               "label": "빗살무늬 새기기",
-              "detail": "겉면에 빗살무늬를 새겨 토기를 완성합니다.",
-              "orderFeedback": "무늬는 그릇의 형태를 다 빚은 뒤에 새기는 마지막 단계입니다."
+              "detail": "겉면에 빗살무늬를 새깁니다. 이렇게 빚은 그릇은 그다음 불에 구워야 단단한 토기가 됩니다.",
+              "orderFeedback": "무늬는 그릇 모양을 다 빚은 뒤, 굽기 전에 새깁니다."
             }
           ],
           "correctOrder": ["prepare-clay", "shape-pointed-base", "carve-comb-pattern"],
           "meaningQuestion": {
-            "prompt": "밑을 뾰족하게 빚고 겉에 빗살무늬를 새긴 것은 무엇을 보여 줄까요?",
+            "prompt": "밑을 뾰족하게 빚은 모양은 무엇을 보여 줄까요?",
             "options": [
               {
                 "id": "sand-adapted-design",
-                "label": "토기의 모양과 무늬는 모래밭에서 사용하기에 알맞도록 만들어졌다.",
+                "label": "뾰족한 바닥 모양은 모래밭이나 강가 땅에 꽂아 세우기 알맞게 만들어졌다.",
                 "correct": true,
-                "feedback": "뾰족한 바닥은 모래밭에 꽂아 세우기 좋고, 빗살무늬는 굽는 동안 갈라짐을 줄이는 데 도움을 줍니다."
+                "feedback": "뾰족한 바닥은 모래밭에 꽂아 세우기 좋은 모양입니다."
               },
               {
-                "id": "decoration-only",
-                "label": "빗살무늬는 오직 꾸미기 위한 장식일 뿐 다른 이유는 없다.",
+                "id": "flat-table-use",
+                "label": "뾰족한 바닥은 평평한 탁자 위에 올려 쓰기 위한 모양이다.",
                 "correct": false,
-                "feedback": "빗살무늬는 장식이기도 하지만 굽는 과정의 갈라짐을 줄이는 것과도 관련이 있습니다."
+                "feedback": "평평한 곳에서는 뾰족한 바닥이 쉽게 넘어집니다. 어디에 세워 쓰기 좋은 모양인지 생각해 보세요."
               },
               {
                 "id": "shape-random",
@@ -319,14 +319,14 @@
             {
               "id": "pottery-technology",
               "label": "빗살무늬 토기 제작 기술",
-              "detail": "모래밭에 맞게 뾰족한 바닥과 빗살무늬로 설계한 토기 제작 기술",
+              "detail": "모래밭에 꽂아 세우기 좋게 뾰족한 바닥으로 빚고 겉면에 빗살무늬를 새긴 토기 제작 기술",
               "category": "technology",
               "role": "support"
             }
           ]
         },
         "infoText": "순서를 외우는 것보다 왜 그 순서로 만드는지를 생각해 보세요.",
-        "instruction": "🏺 <b>진흙 준비→바닥 빚기→무늬 새기기 순서로 제작 과정을 배열하세요.</b>",
+        "instruction": "🏺 <b>카드의 앞뒤 관계를 생각하며 토기를 빚는 과정을 배열하세요.</b>",
         "feedback": "제작 순서와 의미 질문을 모두 완성해야 합니다.",
         "required": true,
         "completion": {
@@ -335,7 +335,7 @@
           "increment": 1,
           "minActions": 1,
           "progressKey": "simulatorProgress",
-          "successText": "🏺 빗살무늬 토기의 제작 순서와 의미를 연결했습니다."
+          "successText": "🏺 빗살무늬 토기를 빚는 순서와 뾰족한 바닥의 쓰임을 연결했습니다."
         }
       }
     },
@@ -385,7 +385,7 @@
             "label": "빗살무늬",
             "x": 0.78,
             "y": 0.65,
-            "feedback": "겉면에 빗살무늬를 새겨 토기를 완성합니다."
+            "feedback": "겉면에 빗살무늬를 새깁니다. 이렇게 빚은 그릇은 그다음 불에 구워야 단단한 토기가 됩니다."
           }
         ],
         "type": "gauge",

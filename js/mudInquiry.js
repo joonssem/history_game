@@ -44,7 +44,7 @@ const MudInquiry = {
       misconceptionFlags: []
     };
     if (task.type === 'commit-revise') {
-      return { ...base, initialChoice: null, finalChoice: null, viewedEvidence: [] };
+      return { ...base, initialChoice: null, firstInitialChoice: null, finalChoice: null, viewedEvidence: [] };
     }
     if (task.type === 'sequence') {
       const cardIds = (task.cards || []).map(card => card.id);
@@ -200,7 +200,7 @@ const MudInquiry = {
 
     const initial = this.renderSection(panel, '1. 먼저 생각을 정하세요');
     this.renderChoiceGroup(initial, options, this.state.initialChoice, item => {
-      this.state.initialChoice = item.id;
+      this.selectInitialChoice(item.id);
       this.setFeedback('첫 판단을 정했습니다. 이제 자료를 확인하세요.');
       this.render();
     }, false, 'initial');
@@ -405,8 +405,8 @@ const MudInquiry = {
       ...result,
       attempts: this.state.attempts,
       revised: this.task.type === 'commit-revise'
-        && this.state.initialChoice !== this.state.finalChoice,
-      firstChoice: this.state.initialChoice || null,
+        && this.firstJudgement(this.state) !== this.state.finalChoice,
+      firstChoice: this.firstJudgement(this.state) || null,
       hintsUsed: this.state.hintsUsed,
       misconceptionFlags: [...this.state.misconceptionFlags],
       earnedEvidence: this.task.awards || []
@@ -425,6 +425,20 @@ const MudInquiry = {
     return { status: 'incomplete', message: '지원하지 않는 탐구 유형입니다.' };
   },
 
+  // 첫 판단 기록 (2026-09-15 Codex red team R3-03).
+  // "먼저 생각" 선택지는 자료를 본 뒤에도 바꿀 수 있어서, 예전에는 나중 선택이 첫 판단을
+  // 덮어써 실제로 생각을 고친 학생이 '고치지 않음'으로 기록됐다. 화면 동작은 그대로 두고,
+  // 처음 고른 값만 따로 보존해 수정 여부와 등급 판정에 쓴다.
+  selectInitialChoice(choiceId) {
+    if (!this.state || this.state.completed) return;
+    if (this.state.firstInitialChoice == null) this.state.firstInitialChoice = choiceId;
+    this.state.initialChoice = choiceId;
+  },
+
+  firstJudgement(state) {
+    return state?.firstInitialChoice ?? state?.initialChoice ?? null;
+  },
+
   evaluateCommitRevise(task, state) {
     const required = task.requiredEvidenceIds || (task.evidence || []).map(item => item.id);
     if (!state.initialChoice || !required.every(id => state.viewedEvidence.includes(id)) || !state.finalChoice) {
@@ -436,8 +450,8 @@ const MudInquiry = {
     }
     return {
       status: 'complete',
-      quality: state.initialChoice === state.finalChoice ? 'connector' : 'historian',
-      message: state.initialChoice === state.finalChoice
+      quality: this.firstJudgement(state) === state.finalChoice ? 'connector' : 'historian',
+      message: this.firstJudgement(state) === state.finalChoice
         ? this.taskCompleteMessage('자료를 확인하고 판단을 정했습니다.')
         : (this.task?.reviseCompleteMessage || '새 근거를 보고 생각을 수정했습니다. 역사 탐구에서 중요한 과정입니다.')
     };

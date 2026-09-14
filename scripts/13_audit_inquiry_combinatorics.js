@@ -104,8 +104,10 @@ function enumerateMapEvidence(task) {
 
 // claim-evidence: 평가 함수가 실제로 읽는 근거 후보 풀은 화면에 뜨는 task.allowedEvidenceIds다
 // (claim.accepts는 그 풀 중 이 주장과 연결되는 것만 판정에서 걸러내는 내부 기준일 뿐,
-// 학생이 "고를 수 있는" 후보 자체는 주장을 바꿔도 같다). limitId는 requireLimit일 때만
-// 필수 차원으로 늘어놓는다 — 그렇지 않으면 "선택 사항"이라 미선택(null) 한 값으로 고정한다.
+// 학생이 "고를 수 있는" 후보 자체는 주장을 바꿔도 같다). limitId는 requireLimit이면 한계 선택지만,
+// 아니면 미선택(null)과 모든 한계 선택지를 함께 센다. 선택 사항이어도 학생은 정답·오답 한계를
+// 고를 수 있고 판정 결과(complete/historian, complete/connector, revise)가 달라지기 때문이다
+// (2026-09-15 Codex red team R3-01: 이전에는 null 한 값만 세어 오답 한계 경로가 빠졌다).
 function enumerateClaimEvidence(task) {
   const claims = (task.claims || []).map(c => c.id);
   const pool = task.allowedEvidenceIds || [];
@@ -114,7 +116,7 @@ function enumerateClaimEvidence(task) {
   const evidenceSubsets = subsetsInRange(pool, minEvidence, maxEvidence);
   const limitIds = task.requireLimit === true
     ? (task.limits || []).map(l => l.id)
-    : [null];
+    : [null, ...(task.limits || []).map(l => l.id)];
   const states = [];
   for (const claimId of claims) {
     for (const selectedEvidence of evidenceSubsets) {
@@ -239,11 +241,13 @@ function main() {
   fs.writeFileSync(reportPath, `${report}\n`, 'utf-8');
   console.log(`\n보고서 작성: ${path.relative(process.cwd(), reportPath)}`);
 
-  // --- 자기 검증: 2026-09-14 D-030 수정 후 파일럿 4편 마지막 관문의 기대 수치 ---
+  // --- 자기 검증: 파일럿 4편 마지막 관문의 기대 수치 ---
+  // 2026-09-15 R3-01 반영으로 선택 사항 한계(미선택·정답·오답)를 모두 센다.
+  // 분모 N은 "근거 순서를 같은 것으로 본 제출 가능 의미 상태"다(학생 정답률이 아니다).
   const expected = {
-    regular_goryeo_culture: [11, 40],
-    regular_neolithic: [2, 8],
-    regular_three_kingdoms: [2, 8],
+    regular_goryeo_culture: [22, 160],
+    regular_neolithic: [4, 32],
+    regular_three_kingdoms: [4, 32],
     regular_modern_open: [4, 24]
   };
   let ok = true;
@@ -260,7 +264,7 @@ function main() {
     console.error('\nFAIL: inquiry-task 조합 감사 자기 검증 불일치');
     process.exit(1);
   }
-  console.log('\nPASS: inquiry-task 조합 감사 자기 검증(고려 11/40, 신석기 2/8, 삼국 2/8, 근대 4/24) 일치');
+  console.log('\nPASS: inquiry-task 조합 감사 자기 검증(고려 22/160, 신석기 4/32, 삼국 4/32, 근대 4/24) 일치');
 }
 
 main();

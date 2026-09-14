@@ -386,5 +386,65 @@ assert.equal(inquiry.evaluateTask(modernOpenClaimTask, {
   limitId: modernOpenLimitCorrect.id
 }, modernOpenEvidence).status, 'complete', 'D-030: 조약+시설 근거와 올바른 한계를 모두 갖추면 통과해야 한다');
 
+// --- R3-02 과잉 차단 회귀 (2026-09-15 Codex red team) ---
+// 막혀야 하는 조합만 검사하면, 정상 조합을 잘못 막는 변경을 놓친다. 모든 주장의 정상 조합,
+// any-of의 대체 가지, 선택 사항 한계의 정답·오답·미선택 경로를 함께 검사한다.
+const expectComplete = (task, state, evidence, message) => {
+  const result = inquiry.evaluateTask(task, state, evidence);
+  assert.equal(result.status, 'complete', `${message} (실제: ${result.status} ${result.issue || ''})`);
+  return result;
+};
+const goryeoLimitCorrect = claimTask.limits.find(l => l.correct).id;
+const goryeoLimitWrong = claimTask.limits.find(l => !l.correct).id;
+expectComplete(claimTask, { claimId: 'technology-and-exchange', selectedEvidence: ['tripitaka-making', 'byeokrando-network'], limitId: null }, runEvidence,
+  '고려 주장1: 제작+교류 정상 조합');
+expectComplete(claimTask, { claimId: 'technology-and-exchange', selectedEvidence: ['jikji-process', 'byeokrando-network'], limitId: null }, runEvidence,
+  '고려 주장1: any-of 대체 가지(인쇄+교류) 정상 조합');
+expectComplete(claimTask, { claimId: 'technology-needs-sources', selectedEvidence: ['tripitaka-making', 'tripitaka-storage', 'jikji-process'], limitId: null }, runEvidence,
+  '고려 주장2: 제작·보관·인쇄 정상 조합');
+assert.equal(expectComplete(claimTask, { claimId: 'technology-and-exchange', selectedEvidence: ['tripitaka-making', 'byeokrando-network'], limitId: goryeoLimitCorrect }, runEvidence,
+  '고려 선택 한계: 정답 한계 경로').quality, 'historian', '선택 한계의 정답을 고르면 역사가 등급이어야 한다');
+assert.equal(inquiry.evaluateTask(claimTask, { claimId: 'technology-and-exchange', selectedEvidence: ['tripitaka-making', 'byeokrando-network'], limitId: goryeoLimitWrong }, runEvidence).status,
+  'revise', '선택 한계라도 오답 한계를 고르면 수정이 필요해야 한다');
+
+const neolithicLimitCorrect = neolithicClaimTask.limits.find(l => l.correct).id;
+expectComplete(neolithicClaimTask, { claimId: 'technology-shows-adaptation', selectedEvidence: ['pottery-technology', 'weaving-technology'], limitId: null }, neolithicEvidence,
+  '신석기 주장2: 토기+의생활 정상 조합');
+expectComplete(neolithicClaimTask, { claimId: 'environment-and-technology', selectedEvidence: ['settlement-environment', 'pottery-technology', 'weaving-technology'], limitId: neolithicLimitCorrect }, neolithicEvidence,
+  '신석기 선택 한계: 정답 한계 경로');
+
+const threeKingdomsLimitCorrect = threeKingdomsClaimTask.limits.find(l => l.correct).id;
+expectComplete(threeKingdomsClaimTask, { claimId: 'goguryeo-to-silla-handover', selectedEvidence: ['goguryeo-pyeongyang-policy', 'silla-bukhansan-record'], limitId: null }, threeKingdomsEvidence,
+  '삼국 주장2: 고구려+신라 정상 조합');
+expectComplete(threeKingdomsClaimTask, { claimId: 'han-river-changed-hands', selectedEvidence: ['baekje-han-river-network', 'goguryeo-pyeongyang-policy', 'silla-bukhansan-record'], limitId: threeKingdomsLimitCorrect }, threeKingdomsEvidence,
+  '삼국 선택 한계: 정답 한계 경로');
+
+expectComplete(modernOpenClaimTask, { claimId: 'connect-treaty-institution-city', selectedEvidence: ['treaty-unequal-clauses', 'tram-urban-change'], limitId: modernOpenLimitCorrect.id }, modernOpenEvidence,
+  '근대 주장1: any-of 대체 가지(조약+도시) 정상 조합');
+expectComplete(modernOpenClaimTask, { claimId: 'institution-and-city-show-change', selectedEvidence: ['modern-institution-access', 'tram-urban-change'], limitId: modernOpenLimitCorrect.id }, modernOpenEvidence,
+  '근대 주장2: 시설+도시 정상 조합');
+
+// --- R3-03 첫 판단 보존 ---
+const firstChoiceTask = commitTask;
+const firstChoiceEvidence = (firstChoiceTask.requiredEvidenceIds || firstChoiceTask.evidence.map(e => e.id));
+const firstChoiceCorrect = firstChoiceTask.options.find(o => o.correct).id;
+const firstChoiceWrong = firstChoiceTask.options.find(o => !o.correct).id;
+inquiry.task = firstChoiceTask;
+inquiry.state = inquiry.createInitialState(firstChoiceTask);
+inquiry.selectInitialChoice(firstChoiceWrong);
+inquiry.selectInitialChoice(firstChoiceCorrect);
+assert.equal(inquiry.state.firstInitialChoice, firstChoiceWrong, '첫 판단을 바꿔도 처음 고른 값은 보존되어야 한다');
+assert.equal(inquiry.state.initialChoice, firstChoiceCorrect, '현재 선택은 마지막 선택을 따라야 한다');
+assert.equal(inquiry.evaluateCommitRevise(firstChoiceTask, {
+  ...inquiry.state, finalChoice: firstChoiceCorrect, viewedEvidence: firstChoiceEvidence
+}).quality, 'historian', '처음 오답에서 정답으로 고친 경로는 수정한 것으로 판정해야 한다');
+assert.equal(inquiry.evaluateCommitRevise(firstChoiceTask, {
+  initialChoice: firstChoiceCorrect, firstInitialChoice: firstChoiceCorrect, finalChoice: firstChoiceCorrect, viewedEvidence: firstChoiceEvidence
+}).quality, 'connector', '처음부터 정답을 유지한 경로는 수정하지 않은 것으로 판정해야 한다');
+assert.equal(inquiry.evaluateCommitRevise(firstChoiceTask, {
+  initialChoice: firstChoiceWrong, finalChoice: firstChoiceCorrect, viewedEvidence: firstChoiceEvidence
+}).quality, 'historian', 'firstInitialChoice가 없는 옛 상태도 기존 방식으로 판정해야 한다');
+
 console.log('PASS: simulator runtime, legacy progress adapters, and inquiry validated-state contract');
 console.log('PASS: D-030 requiredCategories/requiredEvidenceIds/requireLimit regressions (goryeo/neolithic/three_kingdoms/modern_open)');
+console.log('PASS: R3-02 over-blocking regressions (all claims, any-of branches, optional limits) and R3-03 first-judgement preservation');
