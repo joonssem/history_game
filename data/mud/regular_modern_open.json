@@ -115,17 +115,18 @@
             }
           ],
           "evidence": [
+            { "id": "port-opening-clause", "label": "항구 개방 조항 자료", "detail": "부산 외에 두 항구를 20개월 안에 추가로 열어 통상을 허용한 조항입니다." },
             { "id": "extraterritoriality-clause", "label": "치외법권 조항 자료", "detail": "일본인이 조선 법률이 아닌 일본 영사의 재판을 받게 한 조항입니다." },
             { "id": "coastal-survey-clause", "label": "해안 측량권 조항 자료", "detail": "조선의 바다와 해안에 대한 주권을 제한한 조항입니다." }
           ],
-          "requiredEvidenceIds": ["extraterritoriality-clause", "coastal-survey-clause"],
+          "requiredEvidenceIds": ["port-opening-clause", "extraterritoriality-clause", "coastal-survey-clause"],
           "awards": [
-            { "id": "treaty-unequal-clauses", "label": "강화도 조약의 불평등 조항", "detail": "치외법권·해안 측량권 등 조선의 주권을 제한한 조약 조항", "category": "treaty", "role": "support" },
+            { "id": "treaty-unequal-clauses", "label": "강화도 조약의 개항과 불평등 조항", "detail": "부산 외 항구 개방 조항과, 치외법권·해안 측량권 등 조선의 주권을 제한한 조약 조항", "category": "treaty", "role": "support" },
             { "id": "treaty-record-scope", "label": "조약 자료의 범위", "detail": "조약문 하나로 개항기 전체의 생활 변화를 설명할 수 없다는 한계", "category": "source-scope", "role": "limit" }
           ]
         },
         "infoText": "첫 생각이 달라져도 괜찮습니다. 새 자료로 설명을 고치는 것이 역사 탐구입니다.",
-        "instruction": "📜 <b>먼저 판단하고, 치외법권·해안 측량권 조항을 연 뒤 최종 판단을 정하세요.</b>",
+        "instruction": "📜 <b>먼저 판단하고, 항구 개방·치외법권·해안 측량권 조항을 연 뒤 최종 판단을 정하세요.</b>",
         "feedback": "첫 판단부터 정해 보세요.",
         "required": true,
         "completion": {
@@ -542,8 +543,8 @@
       "institution": "국사편찬위원회",
       "title": "강화도 조약",
       "url": "https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_i400800",
-      "checkedAt": "2026-08-27",
-      "claimScope": "강화도 조약의 체결 배경과 조항 관련 1·4단계 서술"
+      "checkedAt": "2026-09-14",
+      "claimScope": "강화도 조약의 체결 배경과 조항 관련 1·4단계 서술. 2026-09-14 라운드 3 의미 검토(RT-02)에서 1단계 commit-revise가 '개항의 계기'를 뒷받침하는 자료 없이 불평등 조항 자료만 요구하던 공백을 확인하고, 원문 대조로 '부산 이외에 두 항구를 20개월 이내에 개항하여 통상을 허가한다'는 조항을 새 근거 카드(port-opening-clause)로 추가함"
     },
     {
       "institution": "국사편찬위원회",
