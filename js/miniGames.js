@@ -389,34 +389,21 @@ class MiniGameEngine {
     }
   }
 
-  // ---- 2-B. 나의 연표 (해금 유물 기반 개인 연표, Track3 P2) ----
-  // data/artifacts.json의 hint 필드("N단원 M차시 [MUD명] 클리어 시 획득")에서
-  // (단원, 차시)를 뽑아 정렬 키로 쓴다 — 커리큘럼 차시 자체가 이미 시대순으로
-  // 배열되어 있으므로 (단원, 차시) 순서 ≈ 역사적 발생 순서로 볼 수 있다
-  // (설계안 §2-1). 36개 중 5개(협동 MUD·타임루프 스토리 보상 1개,
-  // Deep-dive 보상 4개)는 차시 번호가 없어 예외 처리한다(설계안 §5-3):
-  // "N단원 심화" 표기가 있으면 그 단원의 정규 차시들 뒤(lesson=99)에 배치하고,
-  // 그것도 없으면(art_29) era로 단원을 역추정한다. 조용히 버리거나 임의
-  // 위치에 끼우지 않고, 항상 소속 단원 안에서만 뒤로 미루는 방식으로
-  // 최소한의 시대 정합성을 지킨다.
-  getArtifactTimelineRank(art) {
-    const hint = art.hint || '';
-    let m = /(\d)단원\s*(\d+)(?:~\d+)?차시/.exec(hint);
-    if (m) return { unit: Number(m[1]), lesson: Number(m[2]) };
-
-    m = /(\d)단원\s*심화/.exec(hint);
-    if (m) return { unit: Number(m[1]), lesson: 99 };
-
-    // art_29(타임루프 스토리 보상)처럼 "N단원" 표기 자체가 없는 경우의
-    // 최후 예외 처리 — era로 대단원만 역추정한다(1단원: 선사~통일신라,
-    // 2단원: 고려~개항기, 3단원: 일제강점기~현대).
-    const eraToUnit = {
-      '구석기 시대': 1, '신석기 시대': 1, '청동기 시대': 1, '고조선': 1, '선사 시대': 1,
-      '삼국 시대': 1, '삼국·남북국': 1, '남북국 시대': 1, '통일신라': 1,
-      '고려 시대': 2, '조선 시대': 2, '조선 전기': 2, '조선 후기': 2, '개항기': 2,
-      '일제 강점기': 3, '근현대사': 3, '현대': 3
+  // 나의 연표 정렬 기준 (2026-09-14, Codex red team RT-01 반영).
+  // 이전에는 유물 hint의 "N단원 M차시"로 정렬했는데, 그 번호는 연대순이 아니다
+  // (세종 2단원 24차시가 개항기 2단원 11차시보다 뒤). 그래서 시대가 뒤집힌 순서를
+  // 정답으로 요구했다. 이제 era마다 대략의 기간을 두고, 기간이 겹치지 않는
+  // 유물끼리만 순서를 묻는다. 겹치는 유물은 어느 쪽이 먼저여도 정답이다.
+  // era가 표에 없으면 추측하지 않고 나의 연표에서 뺀다.
+  getArtifactTimelineRange(art) {
+    const eraRanges = {
+      '구석기 시대': [-700000, -8001], '신석기 시대': [-8000, -1501],
+      '청동기 시대': [-1500, -300], '선사 시대': [-1500, -108], '고조선': [-1000, -108],
+      '삼국 시대': [-57, 675], '삼국·남북국': [-57, 926], '통일신라': [676, 900], '남북국 시대': [698, 926],
+      '고려 시대': [918, 1391], '조선 전기': [1392, 1591], '조선 시대': [1392, 1875], '조선 후기': [1592, 1875],
+      '개항기': [1876, 1909], '일제 강점기': [1910, 1944], '근현대사': [1910, 1987], '현대': [1945, 2025]
     };
-    return { unit: eraToUnit[art.era] || 1, lesson: 99 };
+    return eraRanges[art.era] || null;
   }
 
   // hint의 대괄호 안(그 유물을 준 MUD/스토리 이름)만 뽑아 카드에 짧게 보여준다.
@@ -430,9 +417,21 @@ class MiniGameEngine {
     const unlocked = (window.encyclopedia && window.encyclopedia.data.unlockedArtifacts) || [];
     const owned = this.artifacts.filter(art => unlocked.includes(art.name) || unlocked.includes(art.id));
     return owned
-      .map(art => ({ art, rank: this.getArtifactTimelineRank(art) }))
-      .sort((a, b) => (a.rank.unit - b.rank.unit) || (a.rank.lesson - b.rank.lesson))
+      .map(art => ({ art, range: this.getArtifactTimelineRange(art) }))
+      .filter(x => x.range)
+      .sort((a, b) => (a.range[0] - b.range[0]) || (a.range[1] - b.range[1]))
       .map(x => x.art);
+  }
+
+  // 뒤에 놓인 유물의 기간이 앞 유물의 기간보다 완전히 앞서는 쌍이 하나라도 있으면 틀린 순서다.
+  isChronologicallyValidOrder(arts) {
+    const ranges = arts.map(art => this.getArtifactTimelineRange(art));
+    for (let i = 0; i < ranges.length; i += 1) {
+      for (let j = i + 1; j < ranges.length; j += 1) {
+        if (ranges[i] && ranges[j] && ranges[j][1] < ranges[i][0]) return false;
+      }
+    }
+    return true;
   }
 
   startPersonalTimelineGame() {
@@ -536,7 +535,7 @@ class MiniGameEngine {
 
   checkPersonalTimelineOrder() {
     const userOrder = this.personalTimelineEvents.map(art => art.id);
-    const isAllCorrect = this.personalTimelineCorrectIds.every((id, i) => id === userOrder[i]);
+    const isAllCorrect = this.isChronologicallyValidOrder(this.personalTimelineEvents);
     const fbEl = document.getElementById('personal-timeline-feedback');
     if (!fbEl) return;
 
@@ -552,7 +551,7 @@ class MiniGameEngine {
         <p style="font-size: 0.76rem; color: #C5BCB3;">
           ${this.personalTimelineEvents.map(art => `[${art.era}] ${art.name}`).join(' ➔ ')}
         </p>
-        <p style="font-size: 0.7rem; color: #9B9088; margin-top: 6px;">※ 정확한 연도가 아니라 시대 순서예요. 같은 시대 안의 세부 순서는 실제와 다를 수 있어요.</p>
+        <p style="font-size: 0.7rem; color: #9B9088; margin-top: 6px;">※ 정확한 연도가 아니라 시대 순서예요. 같은 시기에 겹치는 유물끼리는 어느 쪽이 먼저여도 정답으로 인정해요.</p>
       `;
     } else {
       if (window.sounds) window.sounds.playWrong();

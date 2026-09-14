@@ -352,12 +352,20 @@ const MudInquiry = {
     });
     evidenceSection.appendChild(grid);
 
-    const limitSection = this.renderSection(panel, '3. 선택 사항: 자료의 한계까지 살펴보세요');
+    // requireLimit: 민감 주제처럼 양쪽 극단을 반드시 검토해야 하는 편은 한계 선택을 필수로 둔다.
+    const limitRequired = this.task.requireLimit === true;
+    const limitTitle = (this.task.labels || {}).limit
+      || (limitRequired ? '3. 자료의 한계를 바르게 말한 문장을 고르세요' : '3. 선택 사항: 자료의 한계까지 살펴보세요');
+    const limitSection = this.renderSection(panel, limitTitle);
     this.renderChoiceGroup(limitSection, this.task.limits || [], this.state.limitId, item => {
       this.state.limitId = this.state.limitId === item.id ? null : item.id;
       this.render();
     }, false, 'claim-limit');
-    limitSection.appendChild(this.submitButton(!this.state.claimId || this.state.selectedEvidence.length < Number(this.task.minEvidence || 2)));
+    limitSection.appendChild(this.submitButton(
+      !this.state.claimId
+      || this.state.selectedEvidence.length < Number(this.task.minEvidence || 2)
+      || (limitRequired && !this.state.limitId)
+    ));
   },
 
   submitButton(disabled) {
@@ -483,15 +491,27 @@ const MudInquiry = {
     if (selectedCategories.size < Number(claim.minCategories || 2)) {
       return { status: 'revise', issue: 'claim-category-variety', message: '서로 다른 성격의 자료를 연결해야 주장이 더 탄탄해집니다.' };
     }
-    const missingCategory = (claim.requiredCategories || []).find(category => !selectedCategories.has(category));
-    if (missingCategory) {
+    // 주장 문장이 말하는 요소마다 근거를 요구한다(Codex red team RT-02·03).
+    // requiredCategories의 요소가 문자열이면 그 범주가 반드시, 배열이면 그중 하나 이상이 있어야 한다.
+    const missingCategory = (claim.requiredCategories || []).find(requirement => (
+      Array.isArray(requirement)
+        ? !requirement.some(category => selectedCategories.has(category))
+        : !selectedCategories.has(requirement)
+    ));
+    const missingEvidence = (claim.requiredEvidenceIds || []).find(id => !state.selectedEvidence.includes(id));
+    if (missingCategory || missingEvidence) {
       return {
         status: 'revise',
-        issue: `claim-required-category-${missingCategory}`,
+        issue: missingEvidence
+          ? `claim-required-evidence-${missingEvidence}`
+          : `claim-required-category-${[].concat(missingCategory).join('|')}`,
         message: claim.requiredCategoriesFeedback || '주장이 말하는 내용 중 아직 근거로 뒷받침되지 않은 부분이 있습니다.'
       };
     }
     const limit = (task.limits || []).find(item => item.id === state.limitId);
+    if (task.requireLimit === true && !limit) {
+      return { status: 'incomplete', issue: 'claim-limit-required', message: '이 주제는 자료의 한계까지 골라야 판단을 마칠 수 있습니다.' };
+    }
     if (limit && !limit.correct) {
       return { status: 'revise', issue: `claim-limit-${state.limitId}`, message: limit.feedback || '자료 한계 설명을 다시 살펴보세요.' };
     }

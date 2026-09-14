@@ -448,13 +448,17 @@
               "id": "han-river-changed-hands",
               "label": "한강 유역은 4~6세기 동안 백제→고구려→신라 순서로 주인이 바뀌었다.",
               "accepts": ["baekje-han-river-network", "goguryeo-pyeongyang-policy", "silla-bukhansan-record"],
-              "minCategories": 1
+              "minCategories": 1,
+              "requiredCategories": ["baekje", "goguryeo", "silla"],
+              "requiredCategoriesFeedback": "이 주장은 백제→고구려→신라로 주인이 바뀌었다고 말합니다. 세 나라의 근거를 모두 넣어야 합니다."
             },
             {
               "id": "goguryeo-to-silla-handover",
               "label": "5세기 고구려가 차지했던 한강 유역을 6세기에는 신라가 차지했다.",
               "accepts": ["goguryeo-pyeongyang-policy", "silla-bukhansan-record"],
-              "minCategories": 1
+              "minCategories": 1,
+              "requiredCategories": ["goguryeo", "silla"],
+              "requiredCategoriesFeedback": "이 주장은 고구려와 신라를 함께 말하고 있습니다. 두 나라의 근거를 모두 넣어야 합니다."
             }
           ],
           "allowedEvidenceIds": ["baekje-han-river-network", "goguryeo-pyeongyang-policy", "silla-bukhansan-record"],

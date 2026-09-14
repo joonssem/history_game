@@ -325,14 +325,16 @@
               "label": "서로 다른 자료를 함께 보면 고려의 제작·인쇄 기술과 국제 교류를 더 균형 있게 설명할 수 있다.",
               "accepts": ["tripitaka-making", "tripitaka-storage", "jikji-process", "reusable-type", "byeokrando-network"],
               "minCategories": 2,
-              "requiredCategories": ["exchange"],
-              "requiredCategoriesFeedback": "이 주장은 국제 교류까지 말하고 있습니다. 교류를 보여 주는 자료를 근거에 넣어야 합니다."
+              "requiredCategories": ["exchange", ["production", "printing-process"]],
+              "requiredCategoriesFeedback": "이 주장은 제작·인쇄 기술과 국제 교류를 함께 말하고 있습니다. 교류 자료와 함께 제작이나 인쇄를 보여 주는 자료도 근거에 넣어야 합니다."
             },
             {
               "id": "technology-needs-sources",
               "label": "고려의 인쇄·보존 기술은 하나의 유물보다 제작·보관·인쇄 자료를 연결해 설명해야 한다.",
               "accepts": ["tripitaka-making", "tripitaka-storage", "jikji-process", "reusable-type"],
-              "minCategories": 2
+              "minCategories": 2,
+              "requiredCategories": ["production", "preservation", "printing-process"],
+              "requiredCategoriesFeedback": "이 주장은 제작·보관·인쇄 자료를 연결해야 한다고 말합니다. 세 가지 자료를 한 장씩 모두 근거로 넣어야 합니다."
             }
           ],
           "allowedEvidenceIds": ["tripitaka-making", "tripitaka-storage", "jikji-process", "reusable-type", "byeokrando-network"],

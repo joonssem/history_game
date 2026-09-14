@@ -560,13 +560,17 @@
               "id": "environment-and-technology",
               "label": "살기 좋은 환경을 찾은 것과 여러 기술을 갖춘 것을 함께 연결해야 신석기 정착 생활을 설명할 수 있다.",
               "accepts": ["settlement-environment", "pottery-technology", "weaving-technology"],
-              "minCategories": 2
+              "minCategories": 2,
+              "requiredEvidenceIds": ["settlement-environment", "pottery-technology", "weaving-technology"],
+              "requiredCategoriesFeedback": "이 주장은 살기 좋은 환경과 여러 기술을 함께 말하고 있습니다. 환경 자료와 토기·옷을 만드는 기술 자료를 모두 근거로 넣어야 합니다."
             },
             {
               "id": "technology-shows-adaptation",
               "label": "토기와 옷을 만드는 기술은 신석기 사람들이 정착 생활에 필요한 것을 스스로 만들어 냈음을 보여 준다.",
               "accepts": ["pottery-technology", "weaving-technology"],
-              "minCategories": 1
+              "minCategories": 1,
+              "requiredEvidenceIds": ["pottery-technology", "weaving-technology"],
+              "requiredCategoriesFeedback": "이 주장은 토기와 옷을 만드는 기술을 함께 말하고 있습니다. 두 기술 자료를 모두 근거로 넣어야 합니다."
             }
           ],
           "allowedEvidenceIds": ["settlement-environment", "pottery-technology", "weaving-technology"],

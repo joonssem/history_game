@@ -71,6 +71,7 @@ def check_claim_categories(
     index: int,
     claim: dict,
     min_evidence: int,
+    max_evidence: int,
     award_categories: dict[str, str],
 ) -> list[str]:
     """주장별 범주 조건이 실제로 판정에 영향을 주는지 검사한다.
@@ -93,17 +94,44 @@ def check_claim_categories(
 
     required = claim.get("requiredCategories")
     if required is not None:
-        if not isinstance(required, list) or not all(isinstance(item, str) for item in required):
-            problems.append(f"{prefix}:task.claims[{index}] requiredCategories must be a list of strings")
+        valid_shape = isinstance(required, list) and all(
+            isinstance(item, str)
+            or (isinstance(item, list) and item and all(isinstance(option, str) for option in item))
+            for item in required
+        )
+        if not valid_shape:
+            problems.append(
+                f"{prefix}:task.claims[{index}] requiredCategories must be category strings or any-of lists"
+            )
         else:
-            for category in required:
-                if category not in categories:
+            for requirement in required:
+                options = requirement if isinstance(requirement, list) else [requirement]
+                if not any(option in categories for option in options):
                     problems.append(
-                        f"{prefix}:task.claims[{index}] requiredCategories '{category}' is unreachable from accepts"
+                        f"{prefix}:task.claims[{index}] requiredCategories {options} is unreachable from accepts"
                     )
+            if len(required) > max_evidence:
+                problems.append(
+                    f"{prefix}:task.claims[{index}] requires {len(required)} categories but maxEvidence is {max_evidence}"
+                )
+
+    required_ids = claim.get("requiredEvidenceIds")
+    if required_ids is not None:
+        if not isinstance(required_ids, list) or not all(isinstance(item, str) for item in required_ids):
+            problems.append(f"{prefix}:task.claims[{index}] requiredEvidenceIds must be a list of strings")
+        else:
+            for evidence_id in required_ids:
+                if evidence_id not in accepts:
+                    problems.append(
+                        f"{prefix}:task.claims[{index}] requiredEvidenceIds '{evidence_id}' is not in accepts"
+                    )
+            if len(required_ids) > max_evidence:
+                problems.append(
+                    f"{prefix}:task.claims[{index}] requires {len(required_ids)} evidence but maxEvidence is {max_evidence}"
+                )
 
     min_categories = claim.get("minCategories")
-    if isinstance(min_categories, int) and min_categories > 1 and not claim.get("requiredCategories"):
+    if isinstance(min_categories, int) and min_categories > 1 and not claim.get("requiredCategories") and not claim.get("requiredEvidenceIds"):
         floor = minimum_distinct_categories(list(categories.values()), min_evidence)
         if floor >= min_categories:
             problems.append(
@@ -141,7 +169,7 @@ def validate_inquiry_task(
     awarded_ids: set[str],
     referenced_ids: list[tuple[str, str]],
     awarded_categories: dict[str, str],
-    claim_checks: list[tuple[str, int, dict, int]],
+    claim_checks: list[tuple[str, int, dict, int, int]],
 ) -> None:
     task = simulator.get("task")
     if not isinstance(task, dict):
@@ -234,7 +262,8 @@ def validate_inquiry_task(
                         errors.append(f"{prefix}:task.claims[{index}] accepts unknown {evidence_id}")
             if not isinstance(claim.get("minCategories"), int) or claim["minCategories"] < 1:
                 errors.append(f"{prefix}:task.claims[{index}] invalid minCategories")
-            claim_checks.append((prefix, index, claim, minimum_required))
+            maximum_allowed = max_evidence if isinstance(max_evidence, int) and max_evidence > 0 else minimum_required
+            claim_checks.append((prefix, index, claim, minimum_required, maximum_allowed))
         if not claim_ids:
             errors.append(f"{prefix}: claim-evidence needs a claim")
         limits = task.get("limits", [])
@@ -317,7 +346,7 @@ def main() -> int:
         inquiry_awarded_ids: set[str] = set()
         inquiry_referenced_ids: list[tuple[str, str]] = []
         inquiry_award_categories: dict[str, str] = {}
-        inquiry_claim_checks: list[tuple[str, int, dict, int]] = []
+        inquiry_claim_checks: list[tuple[str, int, dict, int, int]] = []
         for stage_id, stage in data.get("stages", {}).items():
             simulator = stage.get("simulator") or {}
             interaction = simulator.get("interaction")
@@ -374,9 +403,9 @@ def main() -> int:
             if evidence_id not in inquiry_awarded_ids:
                 errors.append(f"{prefix}: allowedEvidenceIds references unawarded {evidence_id}")
 
-        for prefix, index, claim, min_evidence in inquiry_claim_checks:
+        for prefix, index, claim, min_evidence, max_evidence in inquiry_claim_checks:
             errors.extend(
-                check_claim_categories(prefix, index, claim, min_evidence, inquiry_award_categories)
+                check_claim_categories(prefix, index, claim, min_evidence, max_evidence, inquiry_award_categories)
             )
 
     if errors:
