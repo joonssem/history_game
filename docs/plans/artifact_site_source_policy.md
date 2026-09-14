@@ -27,6 +27,15 @@
 | 확인 날짜 | `site.checkedAt` | 링크를 실제로 열어 확인한 날짜(ISO, `YYYY-MM-DD`) |
 | 지정 면적·연도 | (선택, `site.note`에 문장으로) | 상세 페이지의 "지정일"·"면적" — 있으면 규모 비교에 쓸 수 있어 기록해 둔다 |
 
+### 2-1. `checkedAt`/`hasPhoto` 저장 위치 (2026-09-14 라운드 3 정리)
+
+Codex red team 감사가 지적한 공백이다. 지금까지 확인 날짜를 `site.note` 문장 속에만 적어 두고 구조화된 필드로는 빼지 않았다. 두 경우를 구분한다:
+
+1. **유물에 딸린 유적 링크**(`artifactA.site`/`artifactB.site`, 기존 4개 페어): 그 nested `site` 객체 바로 아래에 `checkedAt`·`hasPhoto`를 둔다. 예: `artifactA.site.checkedAt`, `artifactA.site.hasPhoto`.
+2. **유적 자체가 비교 대상인 경우**(`kind: "site"`, `cmp_artifact_site_1`/`cmp_site_vs_site_1`): 유적 객체 자체가 "site"이므로 nested가 아니라 **그 객체 최상위**에 `checkedAt`·`hasPhoto`를 둔다. 예: `artifactB.checkedAt`(`artifactB.kind === "site"`일 때).
+
+두 경우 모두 `checkedAt`은 `YYYY-MM-DD`, `hasPhoto`는 boolean이다. 기존 `note` 문장 속 날짜 서술은 그대로 남겨 사람이 읽기 쉽게 하되, 구조화된 필드를 진짜 출처로 삼는다. 이 필드는 렌더링에 쓰이지 않는 순수 데이터/검증용이라 `js/`를 고치지 않아도 된다 — `scripts/01_validate_game_data.py`가 존재 여부를 검사한다.
+
 ## 3. 공통 규칙
 
 1. **확인하지 못한 항목을 추측으로 채우지 않는다.** museum.go.kr·heritage.go.kr 검색 UI가 동적이라 relicId/ccbaCpno를 못 찾을 때가 있다 — 이럴 때는 그 페어(또는 그 항목)를 보류하고, `sourceNote`에 "확인하지 못함"이라고 정직하게 남긴다. 지금까지 실제로 보류한 사례: 고려 홍패(개인·문중 소장만 확인됨), 신라 금관과 짝지을 가야 금동관의 개별 소장품번호(상설전시 안내 페이지 설명만 확보).

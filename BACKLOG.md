@@ -119,6 +119,25 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
   - **2-3 다시 보기 — 보류**: 학생이 실제로 요청한 적이 없고(교사 전달 피드백 3건 중 없음), 구현하려면 `seenArtifactComparisons`와 분리된 새 상태가 필요해 복잡도 대비 근거가 약해 **보류**로 판단했다. 근거·대안 방향은 `EXPERIMENTS.md` `EXP-002`에 기록.
   - **2-4 수업 관찰 체크리스트**: 기능 추가 없이 `EXPERIMENTS.md` `EXP-002`에 유적 페어 관련 관찰 항목 5개(유물↔유적/유적↔유적 페어 체감, 유적 링크 클릭 여부, 도감 진입점 자발적 사용, sourceNote 노출 필요성, 기존 체크리스트 유지)를 추가했다.
   - **판단이 갈린 지점**: 없음 — 지시서의 판단(신규 페어 동결, 추측 금지)에 전부 동의했고, 2-2에서 "붙일 수 있는 것"을 하나도 못 찾은 것 자체가 이번 조사의 정직한 결과다.
+- **2026-09-14 라운드 3 「대조실」 — 기존 9개 페어 사실 검증 + 유적 출처 필드 공백 정리**: `docs/handoff/claude_four_track_round3_instruction.md` §0·§2를 받아 진행. 이번에도 **`js/`는 전혀 건드리지 않았다** — §2-2의 신규 필드는 렌더링에 쓰이지 않는 순수 데이터임을 추가 전에 `js/artifactComparison.js`를 다시 읽어 확인했다.
+  - **2-1 사실 검증(수치·연도·단정 표현을 공식 출처 원문과 대조)**: Codex red team은 신규 유적 페어 2개만 감사했으므로, 기존 9개(`cmp_pottery_1`/`ceramics_1`/`ceramics_2`/`crown_1`/`crown_2`/`folk_paintings_1`/`science_1`/`paleo_neo_1`/`metal_tech_1`)의 `traits`·`claim` 정답·`scholarPerspective`·`evidenceCards`에서 수치·연도·"몇 세기" 표현을 전부 뽑아 museum.go.kr·encykorea.aks.ac.kr·국사편찬위원회 우리역사넷 원문과 WebFetch/WebSearch로 대조했다.
+
+    | 페어 | 문장 | 대조 결과 | 조치 | 근거 URL·확인일 |
+    |---|---|---|---|---|
+    | `cmp_pottery_1` | `sourceNote`가 "두 유물 모두 전세품이라 유적을 연결하지 않는다"고 적어 두고도 실제로는 `site` 필드로 암사동·송국리를 연결해 둠 | **오류(모순)** | 2026-09-11 편집 때 `cmp_ceramics_1/2`용 문구가 잘못 복사된 것으로 확인 — `sourceNote`를 정정해 실제로는 출토지가 알려진 유물이라 유적을 연결했다고 바로잡음 | 데이터 자체 대조(museum.go.kr 확인은 기존과 동일) |
+    | `cmp_ceramics_1`/`2` 청자 매병(덕수2182) era "고려 시대(12~13세기)" | 확인 불가(범위 과다) | 완화 | museum.go.kr 정식 시대 필드는 "고려"만 표기, 큐레이터 추천글이 "12세기 고려 청자 매병을 대표할 만하다"고만 언급 → '12세기경'으로 좁힘 | museum.go.kr/site/main/relic/search/view?relicId=1126, /relic/recommend/view?relicRecommendId=254445 (2026-09-14) |
+    | `cmp_ceramics_1` 백자 달항아리(접수702) era "조선 시대(18세기 초)" | 더 정확한 표기 확인됨 | 정정 | museum.go.kr 국보·보물 검색 페이지가 "18세기 전반" 제작으로 명시 → '18세기 초'를 '18세기 전반'으로 정정 | museum.go.kr/site/main/relic/treasure/view?relicId=941 (2026-09-14) |
+    | `cmp_ceramics_2` 분청사기 매병(덕수253) era "조선 시대 초기"(세기 미표기) | **일치** | 유지 | museum.go.kr 자체 설명도 "조선 초기에 제작된 매병"이라고만 하고 세기를 밝히지 않음 — 기존 표현이 이미 적절히 낮춰져 있었음 | museum.go.kr/site/main/relic/search/view?relicId=967 (2026-09-14) |
+    | `cmp_crown_1` 신라 금관(본관9435) era "신라 시대(5~6세기경)" | 더 구체적 표기 확인됨 | 완화·정정 | museum.go.kr 정식 필드는 "신라"만 표기. 웹 검색으로 확인한 국립경주박물관 계열 설명은 "5세기(대략 500년 전후)"로 소개 — '5세기 말~6세기 초로 짐작'(단정 아님)으로 다듬음 | museum.go.kr/site/main/relic/search/view?relicId=159727 + 웹 검색(국립경주박물관 계열) (2026-09-14) |
+    | `cmp_crown_1` 가야 금동관(고령 지산동 32호분) era "가야 시대(대가야, 5~6세기경)" | 더 정확한 표기 확인됨 | 정정 | encykorea(한국학중앙연구원, 기존 sourceNote에 이미 인용된 출처) "6세기 전반 무렵 제작"으로 명시 → '6세기 전반'으로 좁힘 | encykorea.aks.ac.kr/Article/E0068696 (재확인, 2026-09-14) |
+    | `cmp_crown_2` 무령왕 금제 관식 era "525년 무렵" | **일치(재확인)** | 유지 | 우리역사넷이 무령왕릉 지석을 근거로 "523년 5월 사망, 525년 8월 안치"라고 명시 — 기존 표기가 정확했음 | contents.history.go.kr(우리역사넷) + 경향신문 인용 (2026-09-14) |
+    | `cmp_science_1` 앙부일구 "1871년 제작", 자격루 "1536년 다시 만듦" | **일치(재확인)** | 유지 | museum.go.kr 소장품 상세 설명이 앙부일구 "1871년(고종8), 강건 제작"·자격루 "1536년(중종31) 재건"을 그대로 명시 — 이 페어가 이미 세운 "현존 실물=후대 제작본" 정직성 기준이 실제로 정확했음을 재확인 | museum.go.kr/site/main/relic/search/view?relicId=2399, relicId=4530 (2026-09-14) |
+    | `cmp_folk_paintings_1`/`paleo_neo_1`/`metal_tech_1`의 나머지 서술, "학자들은 ~라고 봐" 해석 문장 전체 | 원문 대조는 안 했으나 이미 "학자들은 ~라고 봐/해석해"로 헤지되어 있어 단정형이 아님을 확인 | **판단 보류(변경 없음)** | 가야 연맹체설·분청사기 혼란기설처럼 교과서 수준의 통설이고, 문장 자체가 이미 "하나의 해석"이라고 표시하고 있어 추가 완화는 5학년 가독성만 해친다고 판단 — 더 볼 여지는 있으나 이번 라운드에서 손대지 않음 | — |
+
+  - **2-2 유적 출처 필드 공백 정리**: `docs/plans/artifact_site_source_policy.md`에 "§2-1 저장 위치" 절을 추가해 `checkedAt`/`hasPhoto`가 (1) 유물에 딸린 `site` 링크에서는 그 nested 객체 아래, (2) `kind: "site"`(유적 자체가 비교 대상)에서는 그 객체 최상위에 있어야 한다고 정했다. `data/artifactComparisons.json`의 유적 관련 필드 11곳(nested `site` 8곳 + `kind:"site"` 3곳) 전부에 `checkedAt: "2026-09-10"`·`hasPhoto: true`를 채웠다(전부 2026-09-10에 실제로 사진 유무까지 확인했던 유적들이라 날짜·값이 동일). `scripts/01_validate_game_data.py`에 `validate_artifact_comparison_site_fields()`를 추가해 앞으로 이 필드가 빠지면 스크립트가 FAIL로 잡는다.
+  - **렌더링 영향 없음 확인**: 브라우저(`artifact-site`, 8802)에서 `cmp_crown_1`·`cmp_pottery_1`을 실제로 플레이해 정정된 연대 표기가 화면에 그대로 나오는지, 콘솔 에러/경고가 없는지 확인했다(`read_console_messages` 0건). `js/`를 고치지 않았으므로 다른 트랙 교차 확인은 이번 라운드 요건에 해당하지 않는다(§0-1은 공용 런타임을 고쳤을 때만 발동).
+  - 검증: `python scripts/01_validate_game_data.py`(신규 필드 검사 포함, PASS), `python -c` JSON 파싱 확인(11개 페어), `git status --short`로 커밋 전 변경 파일이 `data/artifactComparisons.json`·`docs/plans/artifact_site_source_policy.md`·`scripts/01_validate_game_data.py` 세 개뿐임을 확인(§0-4).
+  - **판단이 갈린 지점**: `cmp_crown_1`/`cmp_crown_2`의 신라 금관 연대를 "5~6세기경"에서 더 좁혔지만, "5세기 말~6세기 초"도 여전히 범위 표현이다 — 정확한 단일 연도를 단정할 근거가 없어(금관총 자체의 절대연대는 학계에서도 폭넓게 논의됨) 의도적으로 범위+'짐작'을 유지했다. 라운드 3 지시서의 "확인 안 되면 오류로 단정하지 말고 짐작 수준으로 낮춘다"는 원칙을 문자 그대로 적용한 결과다.
 
 ## P1-COLLAB-PRIVACY — Convex 개인정보·국외 처리 착수 게이트
 
