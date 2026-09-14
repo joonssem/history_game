@@ -64,6 +64,8 @@ Codex는 별도로 실시간 협동 MUD 시스템을 구축 중이며 위 네 �
 
 - **라운드 1** (2026-09-10~11): 네 트랙 모두 1차 범위 완료. `origin/main` `47a39e6`에 병합·배포됨.
 - **라운드 2** (2026-09-11~): [`claude_four_track_round2_instruction.md`](./claude_four_track_round2_instruction.md) — 각 창은 자기 절과 §0(공통)을 읽는다.
+- **red team 반영** (2026-09-14): Codex 감사 [`claude_four_track_red_team_audit.md`](../audits/claude_four_track_red_team_audit.md) 결과를 기획 세션이 직접 고쳐 배포(`4b98e01`, `DECISIONS.md` D-030).
+- **라운드 3** (2026-09-14~): [`claude_four_track_round3_instruction.md`](./claude_four_track_round3_instruction.md) — 넓히지 않고 관찰 준비와 의미·사실 검증. worktree는 기획 세션이 미리 만들어 둔다.
 
 ## 공통 원칙
 
