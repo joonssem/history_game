@@ -1676,3 +1676,14 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - `docs/plans/classroom_observation_inquiry_pilot.md`: Codex 첫 인계(2026-09-10) §6 P0가 요구했던 수업 관찰 체크리스트를 처음으로 작성. 공통 지표·편별 관찰 포인트·교사용 1장 기록 양식 포함. `EXPERIMENTS.md`에 `EXP-008`을 관찰-전 상태(결과·다음 결정 비움)로 추가.
 - 검증: `node --check` 3종, `01/03/04/06/07/08/09_validate·audit_*`, `05_test_simulator_runtime.js` 전부 통과(source 중복 URL 오류 1건 발견·즉시 정정). `preview_start(name: "gate-grammar")`(포트 8801)에서 근대 개항 1관문 실플레이 — 치외법권·해안 측량권만 열고는 제출 버튼이 비활성 상태로 남고, 항구 개방 자료까지 연 뒤에야 제출이 활성화되며 정상 완료됨을 확인. 콘솔 error/warning 0건.
 - 커밋 전 `git status --short`로 바뀐 파일이 의도한 데이터 1개 + 문서 3개뿐인지 확인했다(지난 라운드 작업 위치 사고 재발 방지, §0-4).
+
+## 2026-09-14 — 4트랙 라운드 3 통합·배포 (Opus 5)
+
+`TASK-20260914-03 | 4트랙 라운드 3 통합·교차 검증·배포 | Claude Opus 5 | 상태: DONE`
+
+- 지시서: [`claude_four_track_round3_instruction.md`](./docs/handoff/claude_four_track_round3_instruction.md). 넓히지 않고 관찰 준비와 의미·사실 검증.
+- 관문 설계실(`8173011`): 파일럿 4편 16관문 의미 검토표(`docs/audits/inquiry_pilot_semantic_review.md`), 수업 관찰 체크리스트(`docs/plans/classroom_observation_inquiry_pilot.md`), EXPERIMENTS 항목. 근대 1관문에 "항구 개방 조항" 근거를 추가해 "개항의 계기" 공백을 메웠다.
+- 대조실(`56f8013`, main 직접): 기존 9개 페어 사실 검증, 연대 표기 정밀화, 유적 링크 `checkedAt`·`hasPhoto` 필드와 검증.
+- 연결 공방(`90f460f`): 나의 연표 판정 인수 검토, 원인과 결과·기본 연표 40개 카드 검증, 고려 세트 벽란도 순서 정정. `art_12` era 라벨은 보류(BACKLOG 참조).
+- 조작대(`c331259`): `scripts/13_audit_inquiry_combinatorics.js`(관문별 통과 조합 밀도 전수 열거, 기대값 자기 검증), `scripts/05`에 D-030 회귀 테스트.
+- 통합: 충돌은 `walkthrough.md`·`BACKLOG.md`(양쪽 보존)뿐. 검증 15종 통과. 브라우저 교차 확인: 근대 1관문은 근거 3장을 모두 열어야 최종 판단이 열림, 고려 원인결과 새 순서 정답 판정, 대조실 연대 표기와 유적 필드 반영.
