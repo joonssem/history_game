@@ -1653,3 +1653,14 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - **RT-04 전수 대입**: 부분 수용. 오답 제한·감점 없는 재시도는 초등 대상 의도된 설계라 유지하고, 마지막 관문 밀도만 낮췄다.
 - **브랜치 정리**: Codex 권고대로 Codex 브랜치 9개와 worktree 4개, 원격의 Claude 4트랙 브랜치 4개를 삭제했다. `codex-deep-three-kingdoms`는 main에 병합할 수 없는 낡은 base라 `archive/codex-deep-three-kingdoms` 태그(`a4d1f75`)를 남기고 지웠다. `fix/deep-three-choice-bias`는 main과 실질 차이 0을 확인했다.
 - 검증: 자동 14종 통과, 감사 재현 사례 전부 차단 확인, 검증기 오류 규칙 3종 동작 확인, 브라우저 실플레이(아래 배포 항목).
+
+## 2026-09-14 — 조작대(inquiry-console) 라운드 3: inquiry-task 조합 감사 도구 + D-030 회귀 테스트
+
+`docs/handoff/claude_four_track_round3_instruction.md` §4 주 작업.
+
+- **`scripts/13_audit_inquiry_combinatorics.js` 신설**: red team이 손으로 계산한 "관문별 통과 조합 밀도"(RT-04)를 반복 가능한 도구로 만들었다. `js/mudEngine.js`·`mudInquiry.js`·`mudSimulators.js`를 DOM 스텁 위에서 그대로 불러와, 각 편의 inquiry-task 관문마다 "제출 가능한 상태"를 실제 UI 활성화 조건대로 전수 열거(`commit-revise`는 initialChoice×finalChoice, `sequence`는 카드 순열×의미선택지, `map-evidence`는 장소×근거×한계, `claim-evidence`는 주장×근거 부분집합×(requireLimit일 때만) 한계)해 `MudInquiry.evaluateTask()`에 그대로 넣고 `complete` 비율을 낸다. 결과는 `docs/audits/inquiry_combinatorics_audit.md`에 표로 남긴다.
+- 2026-09-14 D-030 수정 후 마지막 관문 기대 수치(고려 11/40, 신석기 2/8, 삼국 2/8, 근대 4/24 — 위 "Codex red team 감사 반영" 절의 수치와 일치)로 스크립트 자체가 자기 검증한다. 불일치 시 종료 코드 1로 실패한다.
+- 경고 규칙 2종을 함께 낸다: 마지막 관문 통과 밀도 50% 초과, claim-evidence의 주장이 여러 범주 근거를 받는데 `requiredCategories`·`requiredEvidenceIds`가 둘 다 없는 경우. 현재 4편은 D-030 수정이 이미 반영돼 경고 0건이다.
+- **`scripts/05_test_simulator_runtime.js`에 D-030 회귀 8건 추가**: `requiredCategories`(문자열/배열 any-of), `requiredEvidenceIds`, `requireLimit`을 막아야 하는 조합과 통과해야 하는 조합을 짝으로 넣었다 — 신석기(의생활 근거 누락), 삼국(신라 근거 누락), 근대(조약 근거 0장·한계 미선택), 고려(보관+교류만으로 D-027류 재발 여부) 4편 모두 포함.
+- 검증: `node scripts/13_audit_inquiry_combinatorics.js`·`node scripts/05_test_simulator_runtime.js` 모두 통과, 기존 §8 자동 검증(01·03·04·06·09) 재실행 이상 없음. 화면을 건드리지 않아 브라우저 확인은 생략했다.
+- P2 두 건(단계 진행형 전환, 캔버스 옵션 B)은 지시대로 구현하지 않았다 — §0-5에서 사용자 판단 대기 항목으로 명시됐다.

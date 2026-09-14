@@ -328,4 +328,63 @@ assert.deepEqual(engine.inquiryRunState.stageResults['1'], {
 assert.equal(engine.acceptInquiryResult({ earnedEvidence: commitTask.awards }), false, 'completed inquiry cannot be accepted twice');
 assert.equal(engine.inquiryRunState.evidence.length, 2, 'duplicate completion must not duplicate evidence');
 
+// --- D-030 회귀: requiredCategories(문자열/배열 any-of), requiredEvidenceIds, requireLimit ---
+// red team이 실측으로 재현한 사례를 그대로 테스트로 박는다. 막혀야 하는 조합과
+// 통과해야 하는 조합을 함께 넣는다 — 막기만 하는 테스트는 과잉 차단을 못 잡는다.
+
+assert.equal(inquiry.evaluateTask(claimTask, {
+  claimId: 'technology-and-exchange',
+  selectedEvidence: ['tripitaka-storage', 'byeokrando-network'],
+  limitId: null
+}, runEvidence).status, 'revise', 'D-027/D-030 회귀: 보관+교류 근거만으로는 제작·인쇄를 말하는 주장이 통과하면 안 된다');
+
+const neolithic = require('../data/mud/regular_neolithic.json');
+const neolithicClaimTask = neolithic.stages['4'].simulator.task;
+const neolithicEvidence = ['1', '2', '3'].flatMap(id => neolithic.stages[id].simulator.task.awards || []);
+assert.equal(inquiry.evaluateTask(neolithicClaimTask, {
+  claimId: 'environment-and-technology',
+  selectedEvidence: ['settlement-environment', 'pottery-technology'],
+  limitId: null
+}, neolithicEvidence).status, 'revise', 'D-030 회귀: 의생활(직조) 근거가 빠지면 환경+기술 주장이 통과하면 안 된다');
+assert.equal(inquiry.evaluateTask(neolithicClaimTask, {
+  claimId: 'environment-and-technology',
+  selectedEvidence: ['settlement-environment', 'pottery-technology', 'weaving-technology'],
+  limitId: null
+}, neolithicEvidence).status, 'complete', 'D-030: 환경·토기·직조 세 요소를 모두 갖추면 통과해야 한다');
+
+const threeKingdoms = require('../data/mud/regular_three_kingdoms.json');
+const threeKingdomsClaimTask = threeKingdoms.stages['4'].simulator.task;
+const threeKingdomsEvidence = ['1', '2', '3'].flatMap(id => threeKingdoms.stages[id].simulator.task.awards || []);
+assert.equal(inquiry.evaluateTask(threeKingdomsClaimTask, {
+  claimId: 'han-river-changed-hands',
+  selectedEvidence: ['baekje-han-river-network', 'goguryeo-pyeongyang-policy'],
+  limitId: null
+}, threeKingdomsEvidence).status, 'revise', 'D-030 회귀: 신라 근거가 빠지면 세 나라 주인 교체 주장이 통과하면 안 된다');
+assert.equal(inquiry.evaluateTask(threeKingdomsClaimTask, {
+  claimId: 'han-river-changed-hands',
+  selectedEvidence: ['baekje-han-river-network', 'goguryeo-pyeongyang-policy', 'silla-bukhansan-record'],
+  limitId: null
+}, threeKingdomsEvidence).status, 'complete', 'D-030: 백제·고구려·신라 근거를 모두 넣으면 통과해야 한다');
+
+const modernOpen = require('../data/mud/regular_modern_open.json');
+const modernOpenClaimTask = modernOpen.stages['4'].simulator.task;
+const modernOpenEvidence = ['1', '2', '3'].flatMap(id => modernOpen.stages[id].simulator.task.awards || []);
+const modernOpenLimitCorrect = (modernOpenClaimTask.limits || []).find(l => l.correct);
+assert.equal(inquiry.evaluateTask(modernOpenClaimTask, {
+  claimId: 'connect-treaty-institution-city',
+  selectedEvidence: ['modern-institution-access', 'tram-urban-change'],
+  limitId: modernOpenLimitCorrect.id
+}, modernOpenEvidence).status, 'revise', 'D-030 회귀: 조약 근거가 0장이면 조약+근대 변화 주장이 통과하면 안 된다');
+assert.equal(inquiry.evaluateTask(modernOpenClaimTask, {
+  claimId: 'connect-treaty-institution-city',
+  selectedEvidence: ['treaty-unequal-clauses', 'modern-institution-access'],
+  limitId: null
+}, modernOpenEvidence).status, 'incomplete', 'D-030: requireLimit인 편은 한계를 고르지 않으면 완료되면 안 된다');
+assert.equal(inquiry.evaluateTask(modernOpenClaimTask, {
+  claimId: 'connect-treaty-institution-city',
+  selectedEvidence: ['treaty-unequal-clauses', 'modern-institution-access'],
+  limitId: modernOpenLimitCorrect.id
+}, modernOpenEvidence).status, 'complete', 'D-030: 조약+시설 근거와 올바른 한계를 모두 갖추면 통과해야 한다');
+
 console.log('PASS: simulator runtime, legacy progress adapters, and inquiry validated-state contract');
+console.log('PASS: D-030 requiredCategories/requiredEvidenceIds/requireLimit regressions (goryeo/neolithic/three_kingdoms/modern_open)');
