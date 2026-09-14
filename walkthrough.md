@@ -1640,3 +1640,16 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 ### 정리
 
 4트랙 브랜치·worktree와 통합 브랜치를 삭제했다(미반영 커밋 0·미커밋 0 확인 후). Codex 소유 worktree 4개와 미반영 커밋이 남은 브랜치 3개(`codex-deep-three-kingdoms` 18, `claude-deep-prehistoric` 7, `fix/deep-three-choice-bias` 3)는 손대지 않았다.
+
+## 2026-09-14 — Codex red team 감사 반영 (Opus 5)
+
+`TASK-20260914-02 | Codex red team 감사 결과 검증·수정·브랜치 정리 | Claude Opus 5 | 상태: DONE`
+
+- 감사 문서: [`claude_four_track_red_team_audit.md`](./docs/audits/claude_four_track_red_team_audit.md). 핵심 주장을 코드·데이터로 직접 재현해 확인한 뒤 수정했다. 판정표는 감사 문서 §6.
+- **RT-01 나의 연표 역전**: `js/miniGames.js`의 정렬 기준을 유물 hint 차시 번호에서 `era`별 기간으로 바꾸고, 기간이 겹치지 않는 유물끼리만 순서를 판정한다(`isChronologicallyValidOrder`). 36개 유물 모두 기간표에 있고, 감사의 역전 사례 A(세종↔개항기)·B(3·1 운동↔이산가족)·C(선사 심화·백제↔고려)가 모두 오답으로 바뀌었다. 겹치는 조선 시대 유물(남한산성↔판옥선)은 양쪽 순서를 모두 인정한다.
+- **RT-02·03 주장 요소 누락**: 파일럿 4편 마지막 관문 주장 8개 모두에 요소별 근거 요구를 넣었다. `requiredCategories`에 any-of 배열, `requiredEvidenceIds`를 추가하고 계약 검증기가 둘 다 검사한다. 근대 개항 편은 `requireLimit: true`로 한계 선택을 필수화했다. 통과 조합 밀도: 고려 19/40→11/40, 신석기 4/8→2/8, 삼국 5/8→2/8, 근대 5/8→4/24.
+- **RT-05 근대 2관문**: 연도 없는 해석 카드 "이용 기회의 차이 확인"을 빼고 "강화도 조약 체결(1876)"을 첫 카드로 넣었다. 이용 기회는 의미 질문으로 옮겼다. 순서를 미리 알려 주던 instruction 문구도 고쳤다.
+- **RT-06 유적 사실관계**: 암사동 "움집터 100여 개"를 국가유산 설명 원문("20여 기의 집터", "신석기시대 최대의 마을단위 유적")으로 정정했다. 고창의 출토품·크기-계급 서술은 연결된 출처로 확인되지 않아 "짐작·단서" 범위로 낮췄다.
+- **RT-04 전수 대입**: 부분 수용. 오답 제한·감점 없는 재시도는 초등 대상 의도된 설계라 유지하고, 마지막 관문 밀도만 낮췄다.
+- **브랜치 정리**: Codex 권고대로 Codex 브랜치 9개와 worktree 4개, 원격의 Claude 4트랙 브랜치 4개를 삭제했다. `codex-deep-three-kingdoms`는 main에 병합할 수 없는 낡은 base라 `archive/codex-deep-three-kingdoms` 태그(`a4d1f75`)를 남기고 지웠다. `fix/deep-three-choice-bias`는 main과 실질 차이 0을 확인했다.
+- 검증: 자동 14종 통과, 감사 재현 사례 전부 차단 확인, 검증기 오류 규칙 3종 동작 확인, 브라우저 실플레이(아래 배포 항목).
