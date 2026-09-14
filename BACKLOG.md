@@ -12,6 +12,12 @@
 4. **근거 인벤토리 기본 접힘** — 마지막 `claim-evidence` 관문에서만 기본 펼침으로 바꿀지 판단.
 5. **원격 브랜치 4개 정리** — 리베이스 전 커밋을 담은 채 GitHub에 남아 있다. 여기서 브랜치를 뜨면 낡은 base 문제가 재현된다.
 6. **`claude-deep-prehistoric` 브랜치에 main에 없는 7커밋** — Deep-dive 트랙이라 4트랙과 별개다. 내용 확인 필요.
+7. **T1 R3-01·02 (P1 제안)** — 선택적 한계 열거 누락과 정상 조합 과잉 차단 테스트 공백의 보완 범위 판단. [라운드 3 감사](./docs/audits/round3_red_team_audit.md) §2·3, 관련 `scripts/13`·`scripts/05`·`js/mudInquiry.js`; 검증 신뢰도·진행 가능성 영향, 보고만 완료.
+8. **T1 R3-03 (P2 제안)** — 첫 판단 변경 시 `firstChoice/revised` 기록이 덮어써짐. 학습 진단 의미와 보존 방식 판단 필요(`js/mudInquiry.js`), [감사 §3](./docs/audits/round3_red_team_audit.md).
+9. **T1 R3-04 (P1 제안)** — 신석기 2관문의 굽기 없는 완성 표현·모양과 무늬의 의미 비약 검토. `regular_neolithic.json` 질문·카드·지급 근거 범위, 학생 오학습 영향; 기능설은 원문 확인 불가로 보존([감사 §4](./docs/audits/round3_red_team_audit.md)).
+10. **T1 R3-05·06 (P1 제안)** — 삼국 2관문 한강 장소 배제와 3관문 교류→비석 순서 단정의 근거 보완 판단. `regular_three_kingdoms.json` 질문·피드백·순서, 학생 오학습 영향; 역순 정답으로 자동 변경 금지([감사 §4](./docs/audits/round3_red_team_audit.md)).
+11. **T1 R3-08·09 (P1 제안)** — 가야 금동관에 다른 금관의 연대를 적용한 출처 오인과 청자 매병 편년 설명 차이 검토. `artifactComparisons.json`의 crown_1·ceramics_1/2 시대·sourceNote, 학생 오학습 영향; T2 허용 3페어 밖이므로 별도 판단([감사 §6](./docs/audits/round3_red_team_audit.md)).
+12. **T1 R3-07·10·11 (P2 제안)** — 정답 미노출 감사 기록, 개항 제4·5관 요약의 직접 인용 표시, 앙부일구 연대의 개별·일반 설명 구분 보완. 기존 감사·출처 기록 정확성 목적, 확인된 핵심 개항 내용과 1871년 데이터를 오류로 단정하지 않음([감사 §4~6](./docs/audits/round3_red_team_audit.md)).
 
 **2026-09-14 갱신**: 5번(원격 브랜치 정리)은 완료했다. Codex red team 감사로 파일럿 4편 마지막 관문의 주장 요소 누락, 나의 연표 역전, 근대 2관문 설계 오류, 암사동 수치 오류를 찾아 고쳤다(`DECISIONS.md` D-030, `walkthrough.md` 2026-09-14). 1·2·3·4·6번은 여전히 판단 대기다. 라운드 3(2026-09-14) 뒤 추가된 판단 대기: `art_12` 판옥선 `era` 라벨, 원인과 결과 고려 세트 벽란도 순서 근거의 공식 출처 교체. 수업 관찰 준비물은 갖춰졌다(`docs/plans/classroom_observation_inquiry_pilot.md`) — 다음 개발 라운드보다 관찰을 먼저 권한다. 전체 현황은 `docs/handoff/claude_four_track_session_close_20260911.md` 2026-09-14 갱신 절. 새로 남은 기록 사항: 유적 출처 정책이 `kind: "site"` 대상의 확인 날짜·사진 유무를 저장할 필드를 정의하지 않았다(기능 영향 없음, 다음 유적 페어 추가 때 정한다). 근대 개항 1관문은 정답 문장의 "개항의 계기" 부분을 받치는 자료가 없다(감사 RT-02 부기, 수업 관찰 뒤 판단).
 

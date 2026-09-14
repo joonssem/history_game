@@ -119,3 +119,17 @@ git diff --check
 - `walkthrough.md` 말미에 작업 기록을 추가한다.
 - 판단이 필요한 결과는 `BACKLOG.md` 상단 "지금 판단이 필요한 것" 목록에 한 줄씩 추가한다.
 - Claude가 돌아왔을 때 읽을 수 있게, 결과 문서 경로를 이 문서 끝에 "완료 기록" 절로 덧붙인다.
+
+## 완료 기록
+
+### 2026-09-14 — T1 완료 / Codex
+
+- `TASK-20260914-T1 | 라운드 3 결과 5항목 교차 감사 | audit agent(Codex) | 상태: DONE`
+- 기준: `main / 9e27a67`. 사용자 `t1 진행` 요청 범위만 수행.
+- 결과: [`docs/audits/round3_red_team_audit.md`](../audits/round3_red_team_audit.md) — 끝의 요약 표부터 읽고 R3-01~11을 검토하면 된다.
+- 재현 명령: [`docs/audits/round3_red_team_reproduction.md`](../audits/round3_red_team_reproduction.md).
+- 핵심: 선택적 한계 조합 누락, 정상 경로 과잉 차단 테스트 공백, 최초 판단 덮어쓰기, 신석기·삼국 의미 검토 반례, 가야 금동관 출처 대상 오인, 매병 편년 설명 차이. 개항 조항의 핵심 사실은 일치하고 제4·5관 합성 요약으로 인용 기록을 보완할 필요가 있다.
+- 검증: 05 런타임·04 계약 PASS; 13 원본은 보고서 쓰기만 막은 VM에서 PASS; 확장 상태·변이·UI 콜백 재현 결과는 부속 문서에 기록.
+- 코드·데이터 수정 없음, 커밋·푸시 없음. `BACKLOG.md` 상단에 후속 판단 항목, `walkthrough.md` 말미에 완료 이력 추가.
+- **T2·T3·T4·T5 미착수. 발견 사항의 수정·통합은 완료되지 않았다.** 기존 판단 대기·Claude worktree는 그대로 유지했다.
+- 최종 `git diff --check` PASS. 브랜치 `main` 유지와 코드·데이터·scripts 변경 없음 확인. 변경 파일은 감사 문서 2개와 `INBOX.md`·`BACKLOG.md`·`walkthrough.md`·이 지시서, 총 6개다.

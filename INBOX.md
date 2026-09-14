@@ -2108,3 +2108,9 @@ TASK-20260910-07 | `audit/interaction-diversity` main 병합·GitHub Pages 배�
 - GitHub Pages build `1205796181`이 `main`의 해당 커밋으로 `built` 상태가 되었다.
 - 운영 브라우저에서 Canvas 3회 탭과 첫 선택지 단독 선택만으로는 다음 단계가 열리지 않음을 확인했다. 제작·보관 자료 2개와 근거 기반 최종 판단을 제출한 뒤에만 첫 관문이 해제되었다.
 - 운영 콘솔의 error/warning 로그는 0건이었다.
+
+## 2026-09-14 Claude 제한기간 T1 실행 요청
+
+- 사용자 원문: "t1 진행"
+- 상태: `triaged` — 이미 작성된 `docs/handoff/codex_tasks_while_claude_limited_20260914.md`의 T1 감사 실행 요청.
+- 실행 claim·결과: `docs/audits/round3_red_team_audit.md`. T2 이후는 이번 요청 범위에 포함하지 않는다.
