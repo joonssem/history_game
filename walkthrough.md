@@ -1716,3 +1716,16 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - **R3-07·10**: 의미 검토표의 "정답 미노출", 개항 조항 "제5관 원문" 기록을 정정. 요약 판정이 "15관문 조치 없음"에서 "5관문 의미 수정 필요"로 바뀜.
 - **보류**: R3-08(가야 금동관 연대 출처 대상 오인)·R3-09(청자 매병 편년 인용)는 `data/artifactComparisons.json` 수정인데 Codex가 같은 파일로 T2를 진행 중이라 커밋 뒤 처리. R3-11(앙부일구 1871년)은 오류 아님, 기록만.
 - 검증: 자동 14종 통과(05 신규 회귀 포함, 13 새 기대값 일치). 변경 관문은 실제 판정 함수로 확인 — 신석기2·삼국2·삼국3 정답 경로 complete, 삼국3 비석을 순행 앞에 두면 revise, 삭제 대상 서술 잔존 0. 브라우저 확인은 main 체크아웃 설정을 건드리지 않으려고 이번에 하지 않았고, 병합 전 통합 단계에서 한다.
+
+## 2026-09-15 — 「관문 설계실」(gate-grammar) Round 4 §1-1: 1단원 비파일럿 9편 사실 대조
+
+`TASK-20260915-GATE-R4 | 1단원 비파일럿 9편 수치·연도·인물·인과 대조 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- 지시서 `docs/handoff/claude_four_track_round4_instruction.md` §1. 기준 브랜치 `fix/round3-red-team`(`b4dca60`) 위에서 작업, main 체크아웃은 건드리지 않았고 이 브랜치에만 커밋했다(원격 push 없음, §0-4).
+- 대상 9편(`regular_paleolithic`/`regular_bronze_age`/`regular_gojoseon`/`regular_three_kingdoms_life`/`regular_silla`/`regular_balhae`/`regular_goryeo_founding`/`regular_goryeo_society`/`regular_goryeo_war`)의 `narrative`·`choices`·`glossary`·`location`·`badge`·시뮬레이터 텍스트에서 수치·연도·인물·인과 단정을 뽑아 `WebFetch`로 국사편찬위원회 우리역사넷 원문과 직접 대조했다. 결과 표: `docs/audits/unit1_regular_fact_check.md`.
+- **정정 2건**(원문 직접 열람으로 확정): (1) `regular_goryeo_war` 3단계의 "귀주대첩 이후 200년간 평화·다시는 넘보지 못했고" — 원문은 그런 구체적 기간·절대적 서술을 담고 있지 않아 원문 문구("큰 갈등이나 물리적 충돌 없이 오랜 시간 안정적인 평화")에 맞춤. (2) `regular_gojoseon` 1단계의 "《삼국유사》에는... 기원전 2333년" — 원문이 "삼국유사와 동국통감의 기록에 따르면"이라 두 문헌을 함께 인용하므로 병기로 정정.
+- **완화 1건**(원문 미확인): `regular_bronze_age`의 "전 세계 고인돌의 절반 이상" — 국가유산포털 등 여러 페이지를 열었으나 비율을 명시한 원문을 찾지 못해 구체적 수치 단정을 뺐다.
+- **구조 오류 1건**(사실 오류 아님, 문자열만 정정): `regular_three_kingdoms_life`의 `roadmap` 2관문 라벨 "삼국의 불교 수용"이 실제 stage 내용(고분 벽화 인물 크기로 신분 표현)과 처음부터 달랐다 — "2. 벽화 속 신분 표현"으로 정정. 게임 구조는 그대로 유지.
+- 나머지 5편은 검토 후에도 반증을 찾지 못해 데이터를 바꾸지 않았고, 어디까지 이번 세션에서 실제로 재열람했는지와 어디는 기존 2026-08-26~27 검증에 의존했는지를 감사 문서에 정직하게 구분해 표시했다.
+- 검증: `01/03/04/06/08/09_validate_*`, `05_test_simulator_runtime.js`, `11_audit_artifacts.py`, `13_audit_inquiry_combinatorics.js` 전부 통과, `git diff --check` 클린. 모든 변경이 텍스트 필드뿐이라 게임 구조에 영향이 없음을 `git diff`로 직접 확인했고, 별도 브라우저 플레이는 생략했다. `13_audit_inquiry_combinatorics.js` 실행이 부수적으로 갱신한 `docs/audits/inquiry_combinatorics_audit.md`(날짜만 변경, 내 소유 아님)는 커밋 전 `git checkout --`으로 되돌렸다.
+- 커밋 직전 `git status --short`로 바뀐 파일이 의도한 데이터 4개 + 문서 1개뿐인지 확인했다.
