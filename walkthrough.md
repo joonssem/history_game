@@ -1801,3 +1801,15 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - 5분형(310초)·10분형(600초)의 총 시간 예산, 3·4·5인 역할 분기, 법 만들기·역사 자료 비교·로컬 저장 구조는 유지했다. 진행 표시는 8단계로 맞췄다.
 - 교사용 허브·안내·프로젝트 문서를 세 활동 공통의 최초 판단 순서로 정리했다. 판단 변화의 교육 효과는 실제 수업에서 별도로 재관찰해야 한다.
 - 검증: `node --check cooperative-mud/gojoseon-law/app.js`, `scenario.js`, `cooperative-mud/pacing.js`; `python scripts/06_validate_static_assets.py`; `git diff --check` 통과. 로컬 브라우저에서 3인·5분형의 역할→공유 재진입, 5인·10분형의 완료 요약까지를 확인했다.
+
+## 2026-09-15 — 「관문 설계실」(gate-grammar) Round 5 §1: 2단원 비파일럿 8편 사실 대조
+
+`TASK-20260915-GATE-R5 | 2단원 비파일럿 8편 수치·연도·인물·인과 대조 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- 지시서 `docs/handoff/claude_four_track_round5_instruction.md` §1. `origin/main` 기준, main 체크아웃 미접촉, 이 브랜치에만 커밋(push 없음).
+- 대상 8편(`regular_joseon_founding`/`regular_sejong`/`regular_joseon_status`/`regular_joseon_silhak`/`regular_joseon_economy`/`regular_joseon_folk`/`regular_joseon_diplomacy`/`regular_myeongnyang`) 전부를 읽고 수치·연도·인물·인과 단정과 로드맵 라벨-콘텐츠 정합성을 확인했다. 결과: `docs/audits/unit2_regular_fact_check.md`.
+- **확인된 사실 오류 없음 — 데이터를 바꾸지 않았다.** 지시서가 예시로 든 "측우기를 장영실이 만들었다" 서술을 `regular_sejong` 3관문에서 직접 확인했지만, 실제로는 측우기 발명자를 특정하지 않고 앙부일구와 명확히 구분해 서술하고 있었다. 8편 모두 로드맵 라벨도 실제 관문 내용과 일치했다(라운드 4에서 발견된 것과 같은 불일치 없음).
+- `regular_joseon_silhak`의 거중기·수원 화성 "10년 예정→2년 9개월" 수치는 여러 URL 시도에도 원문을 확보하지 못해 확인 불가로 남기고 유지했다(반증도 없음).
+- `data/artifacts.json`의 `art_10`(홍패) 관련해 대조실이 남긴 참고 사항을 `regular_goryeo_society.json`에서 직접 확인 — 이미 "고려·조선 시대" 병기, 제도의 고려 기원만 말하고 실물 연대는 단정하지 않아 조치 불필요로 결론.
+- 검증: `04_validate_mud_contract.py`, `05_test_simulator_runtime.js`, `11_audit_artifacts.py`, `13_audit_inquiry_combinatorics.js`, `14_lint_inquiry_semantics.js` 전부 통과(데이터 불변이라 회귀 없음). `13`·`14`가 부수적으로 갱신한 보고서 2개(내 소유 아님)는 `git checkout --`으로 되돌렸다.
+- 커밋 직전 `git status --short`로 새 문서 1개만 추가됐는지 확인했다.

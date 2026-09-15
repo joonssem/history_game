@@ -664,7 +664,20 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - [ ] R3-09 청자 매병 시기 표기 → 라운드 5 §2
 - [ ] 라운드 4 통합본 브라우저 교차 확인 → 라운드 5 §4
 - [ ] lint "날짜 없는 카드"가 공정 순서에서 오탐 → 라운드 5 §4
-- [ ] 2단원 비파일럿 8편 사실 대조 → 라운드 5 §1
+- [x] 2단원 비파일럿 8편 사실 대조 → 라운드 5 §1 (완료, 2026-09-15, 관문 설계실 — 아래 항목 참고)
 - [ ] 원인·결과 스토리 4세트 사실 대조 → 라운드 5 §3
 - [ ] (사용자 판단) 첨성대 해설 문구: "세계에서 가장 오래된(온전히 남은 것 중)" vs "동양 최고"
 - [ ] 3단원 사실 대조: 수정 금지 해제 여부를 사용자가 판단
+
+### 2026-09-15 「관문 설계실」(gate-grammar) Round 5 — §1: 2단원 비파일럿 8편 사실 대조
+
+- 지시서: `docs/handoff/claude_four_track_round5_instruction.md` §1. 기준은 `origin/main`. **main 체크아웃은 열지도 쓰지도 않았고, 이 브랜치에만 커밋 — push 없음**(§0 그대로).
+- 대상: `regular_joseon_founding`·`regular_sejong`·`regular_joseon_status`·`regular_joseon_silhak`·`regular_joseon_economy`·`regular_joseon_folk`·`regular_joseon_diplomacy`·`regular_myeongnyang` 8편. 결과: `docs/audits/unit2_regular_fact_check.md`.
+- **결과: 확인된 사실 오류 없음, 데이터 변경 없음.** 라운드 4의 1단원 9편과 대비된다 — 2단원 8편은 이미 정밀하게 다듬어진 상태였다. 특히 지시서가 예로 든 "측우기를 장영실이 만들었다"는 통속 서술을 `regular_sejong` 3관문에서 직접 확인했지만, 측우기는 발명자를 특정하지 않고 앙부일구(장영실 관련 해시계)와 명확히 구분해 서술하고 있었다.
+- `regular_joseon_silhak`의 "수원 화성 10년 예정→2년 9개월 완공" 수치는 원문 재확인에 실패했다(기존 인용 출처에 해당 서술 없음, 재탐색한 URL들도 매번 무관한 페이지로 연결). 반증도 찾지 못해 유지했고, 다음 라운드에서 정확한 원문을 찾으면 재확인이 필요하다고 남겨 뒀다.
+- **art_10(홍패) 교차 확인**: 대조실이 알려온 대로 `regular_goryeo_society.json`을 직접 열어 확인 — 이미 글로서리가 "고려·조선 시대"로 병기돼 있고, narrative는 제도(과거제)의 고려 기원만 말할 뿐 특정 실물의 소장 연대를 단정하지 않는다. `art_10`의 `sourceNote`(대조실이 이미 기록)와 충돌하지 않아 **조치 불필요**로 결론.
+- 8편 전부 로드맵 라벨과 실제 관문 내용을 대조했다 — 라운드 4의 삼국 생활 편 같은 불일치는 발견되지 않았다.
+- 검증: `04_validate_mud_contract.py`, `05_test_simulator_runtime.js`, `11_audit_artifacts.py`, `13_audit_inquiry_combinatorics.js`, `14_lint_inquiry_semantics.js` 전부 통과(데이터 불변이라 회귀 없음). `13`·`14` 스크립트 실행이 부수적으로 갱신한 두 보고서(내 소유 아님, 날짜만 변경)는 `git checkout --`으로 되돌렸다.
+- 커밋 직전 `git status --short`로 새 문서 1개만 추가됐는지 확인했다(§0-4/§0 discipline 유지).
+- **확인 불가 항목**: 수원 화성 공사 기간 수치(위 참고), "세계에서 가장 과학적인 문자"(훈민정음) — 수치·연도·인물 단정이 아니라 평가적 수사 표현이라 언어 감사 범주로 판단해 이번엔 다루지 않음.
+- **3단원 관련 발견**: 없음.
