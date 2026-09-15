@@ -1757,3 +1757,12 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - 나머지 5편은 검토 후에도 반증을 찾지 못해 데이터를 바꾸지 않았고, 어디까지 이번 세션에서 실제로 재열람했는지와 어디는 기존 2026-08-26~27 검증에 의존했는지를 감사 문서에 정직하게 구분해 표시했다.
 - 검증: `01/03/04/06/08/09_validate_*`, `05_test_simulator_runtime.js`, `11_audit_artifacts.py`, `13_audit_inquiry_combinatorics.js` 전부 통과, `git diff --check` 클린. 모든 변경이 텍스트 필드뿐이라 게임 구조에 영향이 없음을 `git diff`로 직접 확인했고, 별도 브라우저 플레이는 생략했다. `13_audit_inquiry_combinatorics.js` 실행이 부수적으로 갱신한 `docs/audits/inquiry_combinatorics_audit.md`(날짜만 변경, 내 소유 아님)는 커밋 전 `git checkout --`으로 되돌렸다.
 - 커밋 직전 `git status --short`로 바뀐 파일이 의도한 데이터 4개 + 문서 1개뿐인지 확인했다.
+
+## 2026-09-15 — 조작대(inquiry-console) 라운드 4: inquiry-task 의미 lint 스크립트 + 첫 판단 보존 브라우저 확인
+
+`docs/handoff/claude_four_track_round4_instruction.md` §4 주 작업.
+
+- **`scripts/14_lint_inquiry_semantics.js` 신설**: 라운드 3 red team이 사람이 읽어서 찾은 결함(R3-04, R3-07, D-030 3) 중 기계가 신호로 잡을 수 있는 5종을 검토 목록(실패 아님)으로 낸다 — 순서 노출(구조적 화살표-사슬 신호 + 카드 라벨 어휘 신호), 날짜 없는 순서 카드, map-evidence 오답 피드백의 정답 장소 라벨 노출, 완료·단정어(`완성`·`가장 먼저`·`반드시`·`뒤에야`·`마지막 단계`), inquiry-task 편의 개별 출처 공백. 결과는 `docs/audits/inquiry_semantics_lint.md`.
+- **자기 검증 결과, 지시서와 다른 사실을 발견**: 지시서는 "기획 세션이 방금 고친 삼국 3관문은 순서 노출 경고가 사라져야 한다"고 했으나, 실제로는 남아 있다. `b4dca60`는 `simulator.instruction`의 "영토 확보→교류→기록 순서로"만 지웠고, `meaningQuestion.options[order-random].feedback`의 같은 패턴("영토 확보→순행→기록 사이에는 앞뒤 관계가 있습니다")은 손대지 않았다. `data/mud/regular_three_kingdoms.json`은 이번 라운드 조작대 소유가 아니라(관문 설계실) 고치지 않고 보고서 상단에 눈에 띄게 남겼다.
+- 검증 명령 목록에 `node scripts/14_lint_inquiry_semantics.js` 추가.
+- **§4-2 첫 판단 보존 브라우저 확인**: 아래 항목에 별도 기록.
