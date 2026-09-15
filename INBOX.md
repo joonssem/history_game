@@ -18,6 +18,13 @@
 
 ---
 
+## 2026-09-15 — T2~T4 push 후 T5 계획 수립 요청
+
+- 상태: `promoted`
+- 사용자 원문: "커밋 푸시 후 계획 세우기 진행하자"
+- 분류: T2~T4 검증·커밋·push 후, `P2-COLLAB-02` 고조선 정적 협동 MUD의 최초 판단 순서 교정 계획을 작성했다. 계획 승인 전에는 코드를 수정하지 않는다.
+- 승격: [`docs/plans/implementation_plan_gojoseon_initial_judgment_order.md`](./docs/plans/implementation_plan_gojoseon_initial_judgment_order.md)
+
 ## 2026-09-15 — T4 `claude-deep-prehistoric` 브랜치 분석 요청
 
 - 상태: `triaged`

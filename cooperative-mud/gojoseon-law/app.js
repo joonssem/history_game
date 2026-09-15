@@ -3,17 +3,19 @@
 
   const scenario = window.GojoseonLawScenario;
   const storageKey = 'history_cooperative_gojoseon_law_v01';
-  const screenIds = ['intro', 'setup', 'role', 'first', 'reveal', 'second', 'law', 'history', 'finish'];
+  const totalSteps = 8;
+  const screenIds = ['intro', 'setup', 'role', 'first', 'share', 'reveal', 'second', 'law', 'history', 'finish'];
   const progressInfo = {
     intro: { label: '활동 소개', step: 1 },
     setup: { label: '모둠·좌석 선택', step: 2 },
     role: { label: '역할 정보', step: 3 },
     first: { label: '최초 판단', step: 4 },
-    reveal: { label: '추가 증거', step: 5 },
-    second: { label: '두 번째 사건', step: 5 },
-    law: { label: '모둠의 법', step: 6 },
-    history: { label: '역사 자료 비교', step: 7 },
-    finish: { label: '탐구 완료', step: 7 }
+    share: { label: '정보 공유', step: 5 },
+    reveal: { label: '추가 증거', step: 6 },
+    second: { label: '두 번째 사건', step: 6 },
+    law: { label: '모둠의 법', step: 7 },
+    history: { label: '역사 자료 비교', step: 8 },
+    finish: { label: '탐구 완료', step: 8 }
   };
 
   let state = loadState();
@@ -100,6 +102,8 @@
       renderRole();
     } else if (screenId === 'first') {
       bindFirstChoices();
+    } else if (screenId === 'share') {
+      renderShare();
     } else if (screenId === 'reveal') {
       renderReveal();
     } else if (screenId === 'law') {
@@ -114,9 +118,9 @@
     const count = get('progress-count');
     const label = get('progress-step');
     const value = get('progress-value');
-    if (count) count.textContent = info.step + ' / 7';
+    if (count) count.textContent = info.step + ' / ' + totalSteps;
     if (label) label.textContent = info.label;
-    if (value) value.style.width = Math.round((info.step / 7) * 100) + '%';
+    if (value) value.style.width = Math.round((info.step / totalSteps) * 100) + '%';
   }
 
   function getRole() {
@@ -221,28 +225,36 @@
   function renderRole() {
     const role = getRole();
     const card = get('role-card');
+    if (!role || !card) return;
+    card.innerHTML = '<div class="role-head"><div class="role-icon" aria-hidden="true">' + role.icon + '</div><div><span class="role-badge">' + state.team + '모둠 · ' + state.seat + '번</span><h2>' + role.name + '</h2></div></div>' +
+      '<p class="private-label">나만 알고 있는 정보</p><p class="private-info">' + role.privateInfo + '</p>' +
+      '<div class="interest-box"><strong>나의 이해관계:</strong> ' + role.interest + '</div>';
+  }
+
+  function renderShare() {
+    const role = getRole();
+    const card = get('share-card');
     const shareButton = get('share-button');
     const shareState = get('share-state');
     if (!role || !card) return;
     card.innerHTML = '<div class="role-head"><div class="role-icon" aria-hidden="true">' + role.icon + '</div><div><span class="role-badge">' + state.team + '모둠 · ' + state.seat + '번</span><h2>' + role.name + '</h2></div></div>' +
-      '<p class="private-label">나만 알고 있는 정보</p><p class="private-info">' + role.privateInfo + '</p>' +
-      '<div class="interest-box"><strong>나의 이해관계:</strong> ' + role.interest + '</div>' +
-      '<div class="share-quote"><strong>모둠에 꼭 말할 내용</strong><br>' + role.shareText + '</div>';
+      '<p class="private-label">모둠에 꼭 말할 내용</p><div class="share-quote">' + role.shareText + '</div>';
     if (shareButton) {
-      shareButton.textContent = state.shared ? '다음: 최초 판단 선택하기' : '모둠에 이야기했어요';
+      shareButton.textContent = state.shared ? '다시 추가 증거 보기' : '모둠에 이야기했어요';
     }
-    if (shareState) shareState.textContent = state.shared ? '✓ 이제 사건 1의 최초 판단을 선택할 수 있습니다.' : '친구에게 설명한 뒤 버튼을 눌러 주세요.';
+    if (shareState) shareState.textContent = state.shared ? '✓ 이미 공유했습니다. 추가 증거 화면으로 다시 갈 수 있습니다.' : '친구에게 설명한 뒤 버튼을 눌러 주세요.';
   }
 
   function bindFirstChoices() {
     renderChoices('first-choice-grid', function (choice) {
       state.firstChoice = choice.id;
+      state.shared = false;
       state.revisedChoice = null;
       state.decisionChanged = null;
       saveState();
-      renderReveal();
-      setScreen('reveal');
-      setStatus('새로운 증거가 공개되었습니다. 처음 생각과 비교해 보세요.');
+      renderShare();
+      setScreen('share');
+      setStatus('최초 판단을 기록했습니다. 이제 역할별 정보를 말로 공유하세요.');
     });
   }
 
@@ -383,16 +395,21 @@
     if (window.CoopPacing) window.CoopPacing.start(state.durationMode);
     renderRole();
     setScreen('role');
-    setStatus('내 역할 정보를 읽고 친구에게 설명하세요.');
+    setStatus('내 역할 정보를 혼자 읽으세요. 아직 친구에게 설명하지 않습니다.');
+  });
+
+  get('role-continue-button').addEventListener('click', function () {
+    bindFirstChoices();
+    setScreen('first');
+    setStatus('친구와 상의하기 전에 나의 최초 판단을 선택하세요.');
   });
 
   get('share-button').addEventListener('click', function () {
     state.shared = true;
     saveState();
-    renderRole();
-    bindFirstChoices();
-    setScreen('first');
-    setStatus('친구에게 설명했습니다. 이제 나의 최초 판단을 선택하세요.');
+    renderReveal();
+    setScreen('reveal');
+    setStatus('친구의 정보를 들었습니다. 새로운 증거를 보고 판단을 다시 살펴보세요.');
   });
 
   get('keep-button').addEventListener('click', function () {

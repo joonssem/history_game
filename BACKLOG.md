@@ -7,6 +7,8 @@
 - 작업 claim: `TASK-20260915-T2 | 벽란도 순서 및 원문 미대조 유물 페어 공식 출처 대조 | audit agent(Codex) | 상태: DONE`
 - 작업 claim: `TASK-20260915-T3 | art_12 판옥선 시대 라벨 및 연표 영향 조사 | audit agent(Codex) | 상태: DONE`
 - 작업 claim: `TASK-20260915-T4 | claude-deep-prehistoric 브랜치 미반영 작업 분석 | audit agent(Codex) | 상태: DONE`
+- 작업 claim: `TASK-20260915-T5-PLAN | 고조선 정적 협동 MUD 최초 판단 순서 교정 계획 | planning agent(Codex) | 상태: DONE`
+- 작업 claim: `TASK-20260915-T5-1 | 고조선 정적 협동 MUD 최초 판단 순서 교정 | implementation agent(Codex) | 상태: DONE | 검증: node --check ×3, 06_validate_static_assets.py, git diff --check, 브라우저 3인·5분형/5인·10분형`
 
 상세와 근거는 [`claude_four_track_session_close_20260911.md`](./docs/handoff/claude_four_track_session_close_20260911.md).
 
@@ -210,7 +212,6 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 
 ### 관련 후속 항목
 
-- **P2-COLLAB-02 — v0.1 화면 순서 수정 (미착수)**: `cooperative-mud/gojoseon-law/app.js`의 공유 확인 게이트가 최초 판단보다 앞서, 기록된 "최초 판단"이 이미 공유 후 값이다. `역할 확인 → 최초 판단 → 공유 → 추가 증거`로 바꾸면 판단 변경 가설을 서버 없이 측정할 수 있다. 실시간 앱과 독립적으로 진행 가능하며 작업량이 작다.
 - **P2-COLLAB-03 — 협동 시나리오 확장 (진행 중, 3편 제작 완료 · 수업 검증 대기)**: 고조선 형식이 통했으므로 다른 시대로 넓힌다. 소재는 진도 순서를 기준으로 고른다.
   - 1단원 6차시 `cooperative-mud/gojoseon-law/` 고조선 8조법 — 제작·**수업 운영 완료**([`EXP-006`](./EXPERIMENTS.md))
   - 1단원 7차시 `cooperative-mud/founding-myths/` 삼국·가야 시조 설화 — 제작·**수업 운영 완료**([`EXP-007`](./EXPERIMENTS.md), 2026-09-08)
