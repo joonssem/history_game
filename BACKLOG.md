@@ -166,6 +166,17 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
   - **렌더링 확인**: `artifact-site`(8802)에서 `art_10`·`art_14`를 실제로 도감 상세 모달로 열어 늘어난/완화된 `desc`가 레이아웃 안 깨지고 `sourceNote`가 화면에 안 뜨는지 스크린샷으로 확인. 콘솔 에러 0건. `js/`는 전혀 안 고쳤다.
   - 검증: `python -c` JSON 파싱(36개 항목), `python scripts/01_validate_game_data.py`·`06_validate_static_assets.py`·`11_audit_artifacts.py`(0건) 통과. `git status --short`로 커밋 전 변경 파일이 `data/artifacts.json`·`docs/audits/artifacts_fact_check.md` 둘뿐임을 확인(§0-4). **main 체크아웃(`D:\codexwork\history_game`)에는 어떤 명령도 실행하지 않았다.**
   - **판단이 갈린 지점**: 없음 — §2-2를 건드리지 않은 판단은 지시서 그대로였고, `desc`/`sourceNote` 분리는 지시서에 명시되진 않았지만 "출처 필드(sources, sourceNote 등)에 남긴다"는 §0-3 문구와 자체 감사 스크립트의 150자 경고를 근거로 자연스럽게 따라온 결정이다.
+- **2026-09-15 라운드 5 「대조실」 — R3-08·R3-09 처리 + 도감 미대조 항목**: `docs/handoff/claude_four_track_round5_instruction.md` §2를 받아 진행. 기준이 이번엔 `origin/main`이었지만(라운드 4가 이미 통합됨) **여전히 main 체크아웃은 건드리지 않았고 push도 안 했다**(§0-2, Codex가 협동 MUD 작업 중). 상세는 `docs/audits/artifacts_fact_check.md`의 "라운드 5 추가" 절.
+  - **먼저 읽음**: `docs/audits/round3_red_team_audit.md`, Codex T2의 `docs/audits/source_crosscheck_followup_20260914.md`(T2-2는 다른 3페어·art_12만 처리하고 R3-08·09는 대조실 몫으로 남겨 둔 것을 확인).
+  - **R3-08 정정**: `cmp_crown_1.artifactB`(가야 금동관) — 지난 라운드에 "6세기 전반"으로 좁힌 근거(encykorea 글)가 실은 **다른 유물(리움·도쿄국립박물관 소장 가야 금관)을 설명하는 문장**이었음을 원문 재열람으로 확인. era를 "5~6세기경으로 짐작"으로 되돌리되, 이번엔 "확정 근거가 없다는 걸 직접 확인하고 의도적으로 넓게 유지"했다는 점을 `sourceNote`에 남겼다(단순 원복이 아님).
+  - **R3-09 정정**: `cmp_ceramics_1`/`cmp_ceramics_2`의 청자 매병(덕수2182) — sourceNote가 인용한 큐레이터 글(relicRecommendId=254445)의 실제 이미지 캡션이 "고려 12세기 후반~13세기"임을 WebFetch로 재확인. era를 "12세기경" → "12세기 후반~13세기"로 정정. claim(빈칸)은 "고려"/"조선"만 채우므로 이 정정으로 흔들리지 않음을 확인.
+  - **라운드 4 미대조 항목**(`art_23`, `art_deep_2~4`)을 `art_deep_1`과 같은 기준으로 점검하다가 **`art_deep_2`·`art_deep_3`에서 name과 desc가 서로 다른 유물을 가리키는 진짜 불일치를 발견**했다(`art_deep_2`: 정혜공주 묘지석 vs 대조영의 건국 보검, `art_deep_3`: 수원 화성 설계도 vs 거중기 모형) — name 기준으로 desc를 정정하고 각각 `sourceNote`를 붙였다. `art_deep_4`·`art_23`은 name/desc 자체는 일치해 `sourceNote`만 추가(desc 불변).
+  - Deep-dive 카드는 `art_deep_1`을 고칠 때 "다른 항목도 이런 불일치가 있을까" 걱정했다가 없다고 결론 냈던 자리인데, 이번에 실제로 2건이 더 나왔다 — Deep-dive 카드를 새로 만들 때는 name/desc가 같은 대상을 가리키는지부터 확인하는 습관이 필요하다는 교훈을 감사 문서에 남겼다.
+  - **편집 실수**: `data/artifacts.json`에 새 객체를 끼워 넣으면서 4곳에서 닫는 `},`를 빠뜨려 JSON이 깨졌다 — `python -c` 파싱으로 매번 즉시 잡아 그 자리에서 고쳤다(최종본은 정상).
+  - **부수 확인**: `node scripts/13_audit_inquiry_combinatorics.js`·`14_lint_inquiry_semantics.js`(지시서 §0-7이 요구하는 검증 목록)를 실행하면 조작대 소유 보고서 2개(`inquiry_combinatorics_audit.md`, `inquiry_semantics_lint.md`)가 재생성되는데, 실제 내용 변화는 없었다(git diff 무변화, 줄바꿈 경고만) — 커밋 범위를 깨끗하게 유지하려고 `git checkout --`으로 되돌렸다.
+  - **렌더링 확인**: `artifact-site`(8802)에서 `cmp_crown_1`·`cmp_ceramics_1`을 실제로 플레이해 정정된 연대가 화면에 그대로 나오는지, `art_deep_2` 도감 상세 모달에서 정정된 desc가 뜨는지 확인. 콘솔 에러 0건.
+  - 검증: `python -c` JSON 파싱(11+36개), `01_validate_game_data.py`·`04_validate_mud_contract.py`·`node 05_test_simulator_runtime.js`·`11_audit_artifacts.py`(0건)·`node 13`·`node 14` 전부 통과. `git status --short`로 최종 커밋 범위가 `data/artifactComparisons.json`·`data/artifacts.json`·`BACKLOG.md`·`docs/audits/artifacts_fact_check.md` 넷뿐임을 확인. main 체크아웃은 열지도 않았다.
+  - **판단이 갈린 지점**: 없음 — Codex T2의 기존 정정(cmp_folk_paintings_1/paleo_neo_1/metal_tech_1, art_12 보고)은 지시대로 되돌리지 않았다.
 
 ## P1-COLLAB-PRIVACY — Convex 개인정보·국외 처리 착수 게이트
 

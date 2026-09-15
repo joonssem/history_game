@@ -50,6 +50,50 @@
 - `python scripts/11_audit_artifacts.py`: 처음엔 4건이 "설명 150자 초과"로 걸려(`desc`에 각주를 직접 넣었던 1차 편집분), `sourceNote`로 분리한 뒤 재실행해 **0건**으로 확인.
 - `js/`는 전혀 건드리지 않았다.
 
+## 라운드 5 추가 — R3-08·R3-09 정정 + 도감 미대조 항목(`art_23`, `art_deep_2~4`)
+
+- 작성: Sonnet 5(대조실), 2026-09-15
+- 지시서: `docs/handoff/claude_four_track_round5_instruction.md` §2
+- 먼저 `docs/audits/round3_red_team_audit.md`와 Codex T2의 `docs/audits/source_crosscheck_followup_20260914.md`를 읽었다 — T2는 `cmp_folk_paintings_1`/`cmp_paleo_neo_1`/`cmp_metal_tech_1`(T2-2)와 `art_12`(T3, 보고 전용)를 처리했지만 **R3-08·R3-09는 처리하지 않고 대조실 몫으로 남겨 뒀다.** 이번에 직접 처리했고, **Codex T2의 정정은 되돌리지 않았다**(§2-5).
+
+### R3-08 — `cmp_crown_1.artifactB` 가야 금동관 연대
+
+- red team 판정: "6세기 전반"의 출처인 encykorea 글이 실제로는 **지산동 32호분 금동관이 아니라 리움미술관·도쿄국립박물관 소장 전세 가야 금관**을 설명하는 문장이었다(대상 오인).
+- WebFetch로 `encykorea.aks.ac.kr/Article/E0068696` 원문을 다시 직접 열어, 지산동 32호분 금동관을 설명하는 문장("가야문화를 대표하는 작품이며 제작 의장에서 가야 금관과 공통하는 면모를 보여준다")에는 **구체적 세기 표기가 없음**을 확인했다.
+- 웹 검색으로 지산동 고분군 전체의 축조 시기(4세기 말~6세기 중엽)는 확인했지만 32호분 하나만 좁혀 특정할 근거는 찾지 못했다.
+- **조치**: `era`를 "가야 시대(대가야, 6세기 전반)" → **"가야 시대(대가야, 5~6세기경으로 짐작)"** 로 되돌렸다. 라운드 3 이전 값과 문자열은 비슷해 보이지만, 이번엔 "확정 근거가 없다는 사실을 확인한 뒤 의도적으로 넓게 유지"한 것이라는 점을 `sourceNote`에 남겼다.
+- 확인 대조: **확인 불가(정정)** — 원문을 열었으나 대상이 다른 문장이었음을 확인하고 완화.
+
+### R3-09 — `cmp_ceramics_1`/`cmp_ceramics_2`의 청자 매병 연대
+
+- red team 판정: 데이터는 "12세기경", 그러나 sourceNote가 근거로 든 큐레이터 글(relicRecommendId=254445)의 **실제 이미지 캡션은 "고려 12세기 후반~13세기"** — 라운드 3에서 본문의 다른 문장("12세기 고려 청자 매병을 대표할 만하다")만 보고 캡션을 확인하지 않은 인용 위치 오류였다.
+- WebFetch로 해당 URL을 다시 직접 열어 캡션 전문("청자 구름 학 무늬 매병, 고려 12세기 후반~13세기, 높이 30.0cm, 보물, 덕수2182")을 확인했다.
+- **조치**: `cmp_ceramics_1.artifactA.era`, `cmp_ceramics_2.artifactA.era`를 "고려 시대(12세기경)" → **"고려 시대(12세기 후반~13세기)"** 로 정정. 두 sourceNote 모두에 재확인 경위를 남겼다.
+- 대조 결과: **일치(원문 캡션 그대로 반영)**.
+- 비교 쌍 판단 근거 흔들림 여부: `cmp_ceramics_1`의 claim은 "고려"/"조선"만 빈칸으로 채우고 세기는 쓰지 않으므로 **claim·정답에는 영향 없음**. `traits`·`observation`·`evidenceCards`도 세기를 언급하지 않아 무영향.
+
+### 라운드 4 미대조 항목 — `art_23`, `art_deep_2~4` (`art_deep_1`과 같은 기준)
+
+`data/artifacts.json`에서 확인:
+
+| id | 문제 | 조치 |
+|---|---|---|
+| `art_deep_2` | **name/desc 불일치 발견** — name은 "화랑의 서약검과 정혜공주 묘지석", desc는 "화랑 관창의 맹세검과 해동성國 발해 고왕 대조영의 건국 보검"으로 서로 다른 두 번째 유물을 가리킴 | name 기준으로 desc를 "정혜공주 묘지석"으로 정정. `sourceNote`에 관창의 검은 상징적 표현(실물 미확인, 『삼국사기』 일화는 실재)이고 정혜공주 묘지석은 실존 발해 유물이나 중국 지린성 소재(국내 미소장)임을 기록 |
+| `art_deep_3` | **name/desc 불일치 발견** — name은 "훈민정음 해례본과 수원 화성 설계도", desc는 "춘추관 사초와 거중기 모형"으로 서로 다른 두 유물을 가리킴 | name 기준으로 desc를 "수원 화성의 성곽 축조 계획"으로 정정. `sourceNote`에 훈민정음 해례본(국보, 간송미술관)은 실존, '설계도'는 화성성역의궤 등을 상징한 표현임을 기록 |
+| `art_deep_4` | name·desc는 일치하나 "민주 시민 헌장(직선제 헌정 선언문)"이라는 구체적 문서명을 확인 못함 | `sourceNote`로 실물 미확인·상징적 표현임을 기록(desc는 변경 없음) |
+| `art_23` | "한양 전차 승차권"·"근대 전등 모형" 개별 소장품 미확인. desc 자체는 이미 개별 소장품을 단정하지 않고 일반화돼 있어 안전 | `sourceNote`로 개별 소장품 미확인 사실과, 전차(1899)·전등(1887) 도입 자체는 널리 알려진 사실임을 구분해 기록(desc는 변경 없음) |
+
+**`art_deep_2`/`art_deep_3`의 name/desc 불일치는 `art_deep_1`("8조법 목판", 이전 라운드에 정정)과 같은 유형이 아니라 한 단계 더 심각한 문제였다** — 단순히 실물 단정이 과했던 게 아니라 **서로 다른 두 유물을 가리키는 데이터 자체의 모순**이었다. `art_deep_1`을 고칠 때 "혹시 다른 항목도 이런 불일치가 있을까" 우려했다가 그때는 없었다고 결론 냈는데, 이번에 실제로 두 건이 나왔다 — 다음에 유물 카드를 새로 만들 때는 name/desc가 같은 대상을 가리키는지부터 확인하는 습관이 필요하다.
+
+### 검증(라운드 5 추가분)
+
+- `python -c` JSON 파싱: `data/artifactComparisons.json`(11개), `data/artifacts.json`(36개) 둘 다 정상.
+- `python scripts/01_validate_game_data.py`: 통과(유적 필드 검사 포함).
+- `python scripts/11_audit_artifacts.py`: **0건**(4개 항목에 `sourceNote`를 추가했지만 `desc` 자체는 이미 짧게 유지해 150자 초과 없음).
+- `python scripts/04_validate_mud_contract.py`, `node scripts/05_test_simulator_runtime.js`: 통과(내 변경과 무관한 영역이지만 지시서 §0-7 요구대로 실행).
+- `node scripts/13_audit_inquiry_combinatorics.js`, `node scripts/14_lint_inquiry_semantics.js`: 실행하면 `docs/audits/inquiry_combinatorics_audit.md`·`inquiry_semantics_lint.md`(조작대 소유)가 재생성되는데 **실제 내용 변화는 없었다**(git diff 무변화, 줄바꿈 경고만) — 커밋 범위를 깨끗하게 유지하려고 `git checkout --`으로 되돌렸다.
+- `js/`는 이번에도 전혀 건드리지 않았다.
+
 ## 다음에 볼 것
 
 - `art_7`/`art_9`/`art_10`/`art_14`의 늘어난 `desc`가 도감 상세 모달에서 실제로 깨지는지 `artifact-site`(8802)로 확인했다 — `art_10`으로 스크린샷까지 확인, 레이아웃 정상·콘솔 에러 0건(`js/` 미변경이라 필수 요건은 아니었지만 제출 전 직접 확인함).
