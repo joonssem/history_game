@@ -348,7 +348,7 @@
           "prompt": "종로 거리에서 전차가 바꾼 도시 생활을 실제 경로로 확인할 수 있는 장소와 그 근거, 자료의 범위를 연결하세요.",
           "locations": [
             { "id": "tram-route", "label": "전차 노선", "detail": "서대문과 청량리 사이를 오간 실제 운행 경로", "correct": true, "feedback": "전차 노선은 도시 생활 변화를 실제 경로로 확인할 수 있는 핵심 장소입니다." },
-            { "id": "electric-light", "label": "전등", "detail": "도시의 밤을 밝힌 개별 시설", "correct": false, "feedback": "전등도 중요한 변화이지만, 실제 이동 경로로 확인할 수 있는 장소는 전차 노선입니다." },
+            { "id": "electric-light", "label": "전등", "detail": "도시의 밤을 밝힌 개별 시설", "correct": false, "feedback": "전등도 중요한 변화이지만, 한곳에 머무는 시설입니다. 기록이 말하는 \"사람이 실제로 오간 경로\"에 해당하는 곳을 찾아보세요." },
             { "id": "urban-change", "label": "도시 생활 변화", "detail": "여러 시설이 함께 만든 결과에 대한 해석", "correct": false, "feedback": "도시 생활 변화는 특정 장소가 아니라 여러 근거를 모아 내린 해석입니다." }
           ],
           "supports": [
