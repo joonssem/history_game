@@ -611,3 +611,17 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - **`art_12` 판옥선 `era` 라벨(연결 공방 제안) — 보류.** 임진왜란(1592~1598)을 조선 전기 끝으로 볼지 후기 시작으로 볼지는 서술 관행이 갈리는 경계 사례다. 나의 연표 기간표는 조선 후기를 1592년부터로 잡아 이 라벨과 일관되게 동작하므로 학생에게 틀린 순서를 요구하지 않는다. 라벨을 `조선 전기`로 바꾸면 기간표도 함께 바꿔야 하고, 그러면 세종 유물과의 순서 판정이 사라진다. 교과서 단원 구분을 확인한 뒤 함께 정한다.
 - **원인과 결과 고려 세트 벽란도 순서 정정 — 수용, 출처는 보완 필요.** "귀주대첩 → 벽란도 교류 → 몽골 침입·팔만대장경"은 연대상 맞다(몽골 침입 1231년~, 팔만대장경 조판 1236~1251년, 벽란도는 고려 전기에 번성). 다만 연결 공방이 근거로 든 것은 위키백과로, 지시서 §0-3의 공식 출처 규칙에 맞지 않는다. 기획 세션도 이번에 공식 출처 원문을 자동으로 받아 오지 못했다. 다음에 우리역사넷·한국민족문화대백과 원문으로 근거를 교체한다.
 - **`ce13` "거란의 재침입" 표현 — 유지(연결 공방 판단 동의).** 귀주대첩은 3차 침입 때지만 "재침입"이 사실을 왜곡하지는 않는다.
+
+### 2026-09-15 「관문 설계실」(gate-grammar) Round 4 — §1-1: 1단원 비파일럿 9편 사실 대조
+
+- 지시서: `docs/handoff/claude_four_track_round4_instruction.md` §1. 기준 브랜치는 main이 아니라 `fix/round3-red-team`(`b4dca60`). **main 체크아웃은 건드리지 않았고, 이 브랜치에만 커밋 — 원격 push도 하지 않았다**(§0-4 지시 그대로).
+- 대상: `regular_paleolithic`·`regular_bronze_age`·`regular_gojoseon`·`regular_three_kingdoms_life`·`regular_silla`·`regular_balhae`·`regular_goryeo_founding`·`regular_goryeo_society`·`regular_goryeo_war` 9편. 결과 표는 `docs/audits/unit1_regular_fact_check.md`.
+- **정정 2건(원문 직접 열람으로 확정)**:
+  1. `regular_goryeo_war` 3단계: "귀주대첩 이후 거란은 다시는 고려를 넘보지 못했고, 동아시아의 평화가 200년간 유지되었습니다" → 국사편찬위원회 우리역사넷 원문("큰 갈등이나 물리적 충돌 없이 오랜 시간 안정적인 평화 체제를 유지")에 맞춰 "200년"과 "다시는 넘보지 못했고"라는 확인되지 않은 단정을 뺐다.
+  2. `regular_gojoseon` 1단계: "《삼국유사》에는... 기원전 2333년" → 원문이 "삼국유사와 동국통감의 기록에 따르면"이라고 두 문헌을 함께 인용하므로 《삼국유사》 단독 인용을 《삼국유사》·《동국통감》 병기로 정정.
+- **완화 1건(원문 미확인)**: `regular_bronze_age` 4단계 "전 세계 고인돌의 절반 이상이 밀집해 있는" — 국가유산포털·우리역사넷 여러 페이지를 열었으나 세계 대비 비율을 명시한 원문을 찾지 못해(§0-3 "원문을 열지 못했으면 확인 불가로 적는다"), 확인되지 않은 구체적 비율 단정을 빼고 "세계적으로 고인돌이 많이 모여 있는"으로 낮췄다.
+- **구조 오류 1건(사실 오류 아님)**: `regular_three_kingdoms_life`의 `roadmap` 2관문 라벨이 "삼국의 불교 수용"으로 적혀 있었으나 실제 stage `"2"` 내용은 고분 벽화 인물 크기로 신분을 표현하는 방식이었다 — 라벨과 콘텐츠가 처음부터 어긋나 있었던 것을 발견해 라벨 문자열만 "2. 벽화 속 신분 표현"으로 정정. `choices`·`next`·선택지 수 등 게임 구조는 그대로 두었다.
+- **확인 불가로 유지한 항목**: 8조법 "50만 전" 수치와 "최초의 성문법" 표현(원문 페이지 재접속 실패, 이미 적절히 완화된 기존 서술이라 손대지 않음), 무예 관련 상식적 서술 등. 나머지 5편(`regular_paleolithic`/`regular_silla`/`regular_balhae`/`regular_goryeo_founding`/`regular_goryeo_society`)은 검토했지만 이번 세션에서 반증을 찾지 못해 데이터를 바꾸지 않았다 — 기존 2026-08-26~27 검증에 의존한 부분은 "재열람 안 함"으로 정직하게 표시했다(§0-3 "실제로 원문을 열었는지 표시" 규칙).
+- 편마다 `sources`에 실제로 대조한 결과를 `sourceNote` 또는 `claimScope`에 확인 날짜·근거와 함께 기록했다(`regular_goryeo_war`/`regular_bronze_age`/`regular_gojoseon`).
+- 검증: `01/03/04/06/08/09_validate_*`, `05_test_simulator_runtime.js`, `11_audit_artifacts.py`, `13_audit_inquiry_combinatorics.js` 전부 통과, `git diff --check` 클린. 모든 변경이 텍스트 필드뿐이라(게임 구조 불변) 브라우저 실플레이는 생략하고 `git diff`로 변경 범위를 직접 확인했다. 검증 스크립트가 부수적으로 갱신한 `docs/audits/inquiry_combinatorics_audit.md`(내 소유 아님, 날짜만 변경)는 커밋 전 `git checkout --`으로 되돌렸다.
+- 커밋 직전 `git status --short`로 바뀐 파일이 의도한 데이터 4개 + 문서 1개뿐인지 확인했다(§0-4).
