@@ -149,6 +149,21 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
   - **렌더링 영향 없음 확인**: 브라우저(`artifact-site`, 8802)에서 `cmp_crown_1`·`cmp_pottery_1`을 실제로 플레이해 정정된 연대 표기가 화면에 그대로 나오는지, 콘솔 에러/경고가 없는지 확인했다(`read_console_messages` 0건). `js/`를 고치지 않았으므로 다른 트랙 교차 확인은 이번 라운드 요건에 해당하지 않는다(§0-1은 공용 런타임을 고쳤을 때만 발동).
   - 검증: `python scripts/01_validate_game_data.py`(신규 필드 검사 포함, PASS), `python -c` JSON 파싱 확인(11개 페어), `git status --short`로 커밋 전 변경 파일이 `data/artifactComparisons.json`·`docs/plans/artifact_site_source_policy.md`·`scripts/01_validate_game_data.py` 세 개뿐임을 확인(§0-4).
   - **판단이 갈린 지점**: `cmp_crown_1`/`cmp_crown_2`의 신라 금관 연대를 "5~6세기경"에서 더 좁혔지만, "5세기 말~6세기 초"도 여전히 범위 표현이다 — 정확한 단일 연도를 단정할 근거가 없어(금관총 자체의 절대연대는 학계에서도 폭넓게 논의됨) 의도적으로 범위+'짐작'을 유지했다. 라운드 3 지시서의 "확인 안 되면 오류로 단정하지 말고 짐작 수준으로 낮춘다"는 원칙을 문자 그대로 적용한 결과다.
+- **2026-09-15 라운드 4 「대조실」 — 유물 도감 36종 사실 대조 (§2-1만, §2-2는 대기)**: `docs/handoff/claude_four_track_round4_instruction.md` §2를 받아 진행. 기준 브랜치가 `main`이 아니라 `fix/round3-red-team`(Codex가 main 체크아웃에서 작업 중)이라 **main 체크아웃은 건드리지 않았고, 결과도 이번엔 push하지 않고 자기 브랜치(`feat/artifact-site-comparison`)에만 커밋했다**(§0-4).
+  - **먼저 확인**: `git -C .worktrees/claude-artifact-site fetch origin && git log --oneline origin/main -5`로 Codex T2(R3-08·R3-09) 커밋이 main에 올라왔는지 확인 — **아직 안 올라와 있었다**(origin/main 최신 커밋은 `3c77437 docs: record T1 round 3 red team audit`, T2 관련 커밋 없음). 지시대로 **§2-2(신라 금관·가야 금동관·청자 매병 연대 재조정)는 손대지 않았다** — 흥미롭게도 R3-08·R3-09가 지적한 오류는 바로 위 2026-09-14 라운드 3 항목에서 내가 직접 넣은 정정이었다(`cmp_crown_1`의 가야 금동관 "6세기 전반", `cmp_ceramics_1/2`의 청자 매병 "12세기경"). Codex가 그 출처 자체(리움·도쿄국립박물관 소장 가야 금관 혼동, 청자 큐레이터 글의 "12세기 후반~13세기" 누락)를 다시 검토 중이므로, 기획 세션이 통합할 때까지 기다린다.
+  - **2-1 유물 도감 36종 사실 대조**: `data/artifacts.json`의 `name`/`desc`/`hint`/`era`/`tierName`을 훑어 정도전 근정전 설계(일치, 변경 없음) 등 여러 항목을 검토했고, 실제로 공식 출처 원문을 열어 대조한 4건에서 문제를 찾았다 — 상세 표는 `docs/audits/artifacts_fact_check.md` 참고:
+    - `art_7`(귀주대첩 승전보와 강감찬 보검): museum.go.kr·웹 검색으로 실물을 확인 못함 → `sourceNote` 신설, 실물 미확인·상징적 표현임을 기록.
+    - `art_9`(훈요 10조): 한국민족문화대백과사전이 원본 실물 부존재를 명시(『고려사』로만 전해짐) → `desc`에 "남겼다고 전하는"으로 완화, `sourceNote`에 근거 기록.
+    - `art_10`(고려 과거 합격증 '홍패'): museum.go.kr(relicId=2374)가 국립중앙박물관 소장 실물은 조선 1814년(신수14948) 것임을 명시(2026-09-08 유물비교 작업 때도 같은 결론) → `desc`를 "제도가 고려 때 시작됐음을 보여준다"로 정정(실물 시대 단정 제거), `sourceNote`에 실제 시대 기록. `era`/`hint`는 [고려 사회 탐정 MUD]와 연결된 `data/mud/*.json` 소관이라(대조실은 읽기만) 손대지 않고 관문 설계실에 참고 보고.
+    - `art_14`(홍대용의 둥근 지구의): 실제 발명품은 1762년 나경적과 함께 만든 '혼천시계'이고 원본도 전하지 않아 국립중앙과학관이 현대에 복원 — "지구의" 실물은 확인 안 됨 → `desc`를 "지전설을 나타내는 상징적인 물건"으로 완화, `sourceNote`에 근거 기록.
+    - **스키마 조정**: 확인 내용을 처음엔 `desc`에 바로 적었더니 `scripts/11_audit_artifacts.py`가 4건 모두 "설명 150자 초과"로 걸렸다 — 학생이 읽는 `desc`에 각주를 붙이는 게 부적절하다고 판단해, `artifactComparisons.json`과 같은 이름 규칙으로 `sourceNote` 필드를 새로 만들어 확인 내용을 옮겼다(화면에 렌더링되지 않음, `js/encyclopedia.js`의 `showDetailModal`이 참조하는 필드에 없음을 재확인). 재실행 결과 0건.
+    - **미확인(다음 라운드 후보)**: `art_3`(고인돌 "수십 톤" 표현), `art_11`/`art_13`/`art_19`/`art_21`/`art_25`~`art_28`/`art_sejong` 등은 이번 라운드에서 원문을 열지 못했다 — "확인했다"고 적지 않고 표에 그대로 남겼다. `art_deep_2`~`4`는 `art_deep_1`("8조법 목판", 이전 라운드에 정정)과 같은 유형의 상징적 서술 가능성이 있어 다음 후보로 남겼다.
+    - **3단원 8종**(`art_15`~`20`·`24`·`art_independence`·`art_korean_war`)은 지시대로 손대지 않고 열람도 하지 않았다.
+    - **`art_12` era**: 지시대로 바꾸지 않았다.
+    - **나의 연표 영향**: 이번에 고친 4건 모두 `era` 필드는 그대로라 `js/miniGames.js`의 `getArtifactTimelineRange()` 판정에는 영향이 없다.
+  - **렌더링 확인**: `artifact-site`(8802)에서 `art_10`·`art_14`를 실제로 도감 상세 모달로 열어 늘어난/완화된 `desc`가 레이아웃 안 깨지고 `sourceNote`가 화면에 안 뜨는지 스크린샷으로 확인. 콘솔 에러 0건. `js/`는 전혀 안 고쳤다.
+  - 검증: `python -c` JSON 파싱(36개 항목), `python scripts/01_validate_game_data.py`·`06_validate_static_assets.py`·`11_audit_artifacts.py`(0건) 통과. `git status --short`로 커밋 전 변경 파일이 `data/artifacts.json`·`docs/audits/artifacts_fact_check.md` 둘뿐임을 확인(§0-4). **main 체크아웃(`D:\codexwork\history_game`)에는 어떤 명령도 실행하지 않았다.**
+  - **판단이 갈린 지점**: 없음 — §2-2를 건드리지 않은 판단은 지시서 그대로였고, `desc`/`sourceNote` 분리는 지시서에 명시되진 않았지만 "출처 필드(sources, sourceNote 등)에 남긴다"는 §0-3 문구와 자체 감사 스크립트의 150자 경고를 근거로 자연스럽게 따라온 결정이다.
 
 ## P1-COLLAB-PRIVACY — Convex 개인정보·국외 처리 착수 게이트
 
