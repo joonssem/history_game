@@ -1701,6 +1701,34 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - 검증: `node scripts/05_test_simulator_runtime.js` PASS, `python scripts/04_validate_mud_contract.py` PASS(32 MUD), 13 원본 VM 실행 PASS(보고서 쓰기만 스텁), 변이·DOM 콜백 재현 완료. 실기기 브라우저 검증은 수행하지 않았다.
 - 감사·인계 문서만 변경. 코드·데이터·기존 생성 감사 문서·Claude worktree/브랜치는 변경하지 않음. 커밋·푸시 없음. T2~T4는 미착수이며 지시서 끝 완료 기록으로 인계했다.
 - 최종 확인: `git diff --check` PASS(LF→CRLF 안내만 있음), 브랜치 `main` 유지, `git diff --name-only -- js data scripts .worktrees` 출력 없음. 감사·인계 문서 6개만 변경했다.
+## 2026-09-15 — T2 공식 출처 대조·명백한 데이터 정정
+
+`TASK-20260915-T2 | 벽란도 순서 및 원문 미대조 유물 페어 공식 출처 대조 | audit agent(Codex) | 상태: DONE`
+
+- 우리역사넷 원문으로 벽란도 국제 교류가 몽골 침입(1231)보다 앞선 현행 순서의 근거를 교체했다.
+- 국립중앙박물관 원문 대조로 `artifactComparisons.json`의 「저잣길」 채색(화려한 색채→담청 중심), 바퀴날도끼(신석기→청동기 및 그에 기대던 질문·해설), 고리자루 큰 칼의 출토지 단정(유사 유물 사례로 한정)을 정정했다.
+- 해석·표현 문제는 보고만 했으며, 상세 근거는 [`source_crosscheck_followup_20260914.md`](./docs/audits/source_crosscheck_followup_20260914.md)에 남겼다.
+- 검증: `01/03/04/05/06/13` 및 `git diff --check` 전부 통과.
+
+## 2026-09-15 — T3 판옥선 시대 표시 조사(보고 전용)
+
+`TASK-20260915-T3 | art_12 판옥선 시대 라벨 및 연표 영향 조사 | audit agent(Codex) | 상태: DONE`
+
+- 2022 개정 국가 성취기준, 프로젝트가 사용하는 5-2 교사용 지도서 차시 배열, 국사편찬위원회 『신편 한국사』의 시대 구분을 대조했다. 국가 기준은 임진왜란을 전기·후기로 직접 지정하지 않고, 교사용 지도서는 임진왜란을 명시적 조선 후기 소단원 직전에, 『신편 한국사』는 조선 중기에 둔다.
+- `art_12`를 `조선 전기`로 라벨만 바꾸면 명량 해전 1597년이 기존 `[1392, 1591]` 범위에서 벗어나며, 세종 유물과 범위가 겹쳐 순서 판정도 사라짐을 확인했다. 전기 범위를 1598년까지 넓혀도 같은 범위 안의 순서는 강제되지 않는다.
+- 데이터와 코드는 수정하지 않았다. 현행을 임시 유지하고, 별도 계획에서 화면 표시와 연표 계산 범위를 분리하는 방안을 권고했다.
+- 상세: [`source_crosscheck_followup_20260914.md`](./docs/audits/source_crosscheck_followup_20260914.md#t3-art_12-판옥선-시대-표시와-연표-영향-조사)
+
+## 2026-09-15 — T4 `claude-deep-prehistoric` 브랜치 분석(보고 전용)
+
+`TASK-20260915-T4 | claude-deep-prehistoric 브랜치 미반영 작업 분석 | audit agent(Codex) | 상태: DONE`
+
+- branch의 7커밋 중 2개가 main에 patch-equivalent이고 5개가 고유함을 확인했다.
+- 콘텐츠 `6fee7fc`는 직접 cherry-pick 시 `stage 4`에서 충돌했다. 현재 `hotspot-choice`와 빈 `choices`를 유지하면 7단계 14문구의 단서 인용 개선만 남으며, 분리된 임시 worktree에서 현행 전체 검사에 통과했다.
+- 과거 재설계 계획의 핵심은 이미 `D-024~D-026`과 PRD에 반영됐고 역할 분담도 현행 인계 문서에 있다. 계획·세션 노트를 그대로 복원하면 승인·진행 상태가 후퇴하지만, main의 일부 문서가 이 미존재 파일을 가리키므로 링크 정리는 필요하다.
+- 직접 cherry-pick 대신 문구 수동 이식, 문서 링크/아카이브 정리, 이후 archive 태그와 브랜치 정리를 순서대로 승인받는 방안을 권고했다.
+- 상세: [`claude_deep_prehistoric_branch_review.md`](./docs/audits/claude_deep_prehistoric_branch_review.md)
+
 
 ## 2026-09-15 — Codex 라운드 3 red team(T1) 반영 1차 (Opus 5)
 
