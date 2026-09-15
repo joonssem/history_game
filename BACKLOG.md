@@ -178,6 +178,21 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
   - 검증: `python -c` JSON 파싱(11+36개), `01_validate_game_data.py`·`04_validate_mud_contract.py`·`node 05_test_simulator_runtime.js`·`11_audit_artifacts.py`(0건)·`node 13`·`node 14` 전부 통과. `git status --short`로 최종 커밋 범위가 `data/artifactComparisons.json`·`data/artifacts.json`·`BACKLOG.md`·`docs/audits/artifacts_fact_check.md` 넷뿐임을 확인. main 체크아웃은 열지도 않았다.
   - **판단이 갈린 지점**: 없음 — Codex T2의 기존 정정(cmp_folk_paintings_1/paleo_neo_1/metal_tech_1, art_12 보고)은 지시대로 되돌리지 않았다.
 
+## P1-COLLAB-EARLY-GORYEO — 실시간 협동 MUD 첫 실제 활동
+
+- 작업 claim: `TASK-20260915-08 | 고려 초기 첫 실시간 활동 계획·Claude 단일 구현 소유권 정리 | 기획·점검 에이전트 | 상태: DONE`
+- 상태: `planned` — [`구현 계획`](./docs/plans/implementation_plan_early_goryeo_cooperative_live_first_activity.md) 작성 완료. 사용자 승인과 Claude 구현 claim 전 코드·시나리오 데이터는 수정하지 않는다.
+- 활동: 1단원 13차시 “새 고려의 첫 회의 — 서로 다른 사람들을 어떻게 한 나라로 묶을까?”를 `apps/cooperative-live`의 첫 실제 학생 활동으로 만든다. 고조선은 기술 데모·회귀 기준으로 남긴다.
+- 작업 경계: Claude가 `apps/cooperative-live/**`, 고려 활동 데이터·화면·테스트와 필요 시 정적 폴백을 단독 구현한다. Codex는 계획 문서, Claude 커밋 이후 읽기 전용 감사, 통합 Go/No-go만 맡고 앱 코드를 수정하지 않는다.
+- 검증 순서: 자동 회귀 → 교사 1명+4~8명 실제 기기 리허설 → 실제 학생 소규모 시험 → 21명 시험 판단. 결과는 [`EXP-009`](./EXPERIMENTS.md)에 기록한다.
+
+## P1-COLLAB-JOSEON-LATE — 10월 28일 공개수업용 조선 후기 실시간 수직 슬라이스
+
+- 작업 claim: `TASK-20260915-06 | 조선 후기 실시간 협동 MUD 수직 슬라이스 구현 계획 | 기획·점검 에이전트 | 상태: DONE`
+- 상태: `planned-after-early-goryeo` — [`구현 계획`](./docs/plans/implementation_plan_joseon_late_cooperative_live_vertical_slice.md) 작성 완료. 고려 초기 첫 실제 활동에서 공통 엔진을 검증한 뒤 착수하며, 사용자 승인 전 코드·시나리오 데이터는 수정하지 않는다.
+- 원문·일정: [`INBOX.md`](./INBOX.md)의 “2026-09-15 — 10월 28일 공개수업 역산” 항목.
+- 작업 경계: Claude가 `apps/cooperative-live`와 조선 후기 활동 콘텐츠·테스트·정적 폴백을 단독 구현한다. Codex는 계획·읽기 전용 감사·통합 판정만 맡고 앱 파일을 수정하지 않는다. 고려 초기 활동의 소유권과 같은 원칙을 유지한다.
+
 ## P1-COLLAB-PRIVACY — Convex 개인정보·국외 처리 착수 게이트
 
 - 작업 claim: `TASK-20260908-01 | 개인정보 처리 기록·QR 입장 보안·Preview 연결 | integration agent | 상태: DONE`
@@ -195,6 +210,7 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 - 2026-09-08 공급자 재검토: Convex·Vercel의 공개 DPA, 리전, 하위처리자 관리, 로그 보존 범위를 [감사 문서](./docs/audits/convex_elementary_school_privacy_audit.md)에 기록했다. Vercel DPA는 공개 문구상 Pro·Enterprise 대상이고, Hobby 런타임 로그는 1시간이지만 빌드 로그는 배포별 무기한 보관된다. Convex의 공급자 로그·백업 삭제기간과 무료/Starter 계약 적용 범위는 공개 문서만으로 수치 확정이 되지 않아 실제 학생 적용 차단 항목으로 유지한다.
 - QR·수동 코드 보안 계획: [`implementation_plan_cooperative_join_security.md`](./docs/plans/implementation_plan_cooperative_join_security.md) — 상태 `completed`. QR 토큰은 URL fragment로 전달하고 서버에는 SHA-256 해시만 저장하며, 수동 코드는 요청 본문·HMAC 시도 버킷·만료를 적용했다. Convex 개발 배포에서 동일 가상 브라우저 5회 실패 후 10분 차단과 원문 비저장을 확인했고, Vercel Preview의 요청 경로·Build/Runtime 로그에도 QR 원문·코드·호·역할이 남지 않음을 확인했다.
 - 2026-09-08 기술 통합 검증: Auth0 Google 전용 SPA와 Convex 미국 동부 개발 배포를 연결하고, Vercel `history-game` 프로젝트를 `apps/cooperative-live` 루트로 배포했다. 가상 학생 8명 입장→4인 모둠 2개 편성→종료 흐름을 확인했고, 정리 후 Convex의 `sessions`·`players`·`rooms`·`interventions` 테이블이 모두 비어 있음을 확인했다. Vercel 고정 주소는 기술 Preview 용도이며 실제 학생 접속 허가를 뜻하지 않는다.
+- 2026-09-15 사용자 확인: 개인정보 국외 처리 조건을 처리했다. 실제 학생 시험 전에는 위 해제 조건의 근거 문서와 사용할 Convex·Vercel 환경이 일치하는지만 운영 체크리스트에서 재확인한다. 첫 실제 활동은 [`고려 초기 실시간 협동 MUD 구현 계획`](./docs/plans/implementation_plan_early_goryeo_cooperative_live_first_activity.md)과 [`EXP-009`](./EXPERIMENTS.md)로 분리해 기록했다.
 
 ## P1-COLLAB-VERTICAL — Vercel·Convex 첫 수직 슬라이스
 

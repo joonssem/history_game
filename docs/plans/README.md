@@ -22,10 +22,13 @@
 
 ## 1. 협동 MUD 계열
 
-이 계열은 문서가 여러 개라 관계를 먼저 본다. **현재 실행 기준은 아래 제작 파이프라인이다** — 아이디어 고도화 후 정적 협동 MUD를 먼저 만들고, 검증 뒤 실시간으로 발전시킨다.
+이 계열은 문서가 여러 개라 관계를 먼저 본다. **현재 실행 기준은 아래 제작 파이프라인이다** — 기존 고조선 실시간 구현은 기술 데모·회귀 기준으로 유지하고, 고려 초기 활동을 첫 실제 학생 활동으로 검증한 뒤 같은 공통 엔진에 조선 후기 공개수업 활동을 이식한다. 정적 협동 MUD는 실시간 장애 시 폴백으로 유지한다.
 
 | 문서 | 상태 | 다음 행동 |
 |---|---|---|
+| [`early_goryeo_cooperative_live_pilot_rough_sketch.md`](./early_goryeo_cooperative_live_pilot_rough_sketch.md) | `구현 계획으로 승격` | 1단원 13차시 “새 고려의 첫 회의”를 첫 실제 학생 활동으로 확정. 상세 실행은 아래 구현 계획 기준 |
+| [`implementation_plan_early_goryeo_cooperative_live_first_activity.md`](./implementation_plan_early_goryeo_cooperative_live_first_activity.md) | `제안` | Claude가 앱·콘텐츠를 단독 구현하고 Codex가 읽기 전용 감사·통합 판정. 사용자 승인과 Claude claim 전 코드 수정 금지 |
+| [`implementation_plan_joseon_late_cooperative_live_vertical_slice.md`](./implementation_plan_joseon_late_cooperative_live_vertical_slice.md) | `제안·후속 활동` | 고려 첫 활동에서 검증한 엔진에 Claude가 조선 후기를 이식. Codex는 계획·읽기 전용 감사·통합 판정만 담당 |
 | [`COLLABORATIVE_MUD_PLAN.md`](./COLLABORATIVE_MUD_PLAN.md) | `검토안` | 전체 계획·모둠 구성·배치 방식. 첫 수직 슬라이스 착수 승인 대기 |
 | [`COLLABORATIVE_MUD_ARCHITECTURE.md`](./COLLABORATIVE_MUD_ARCHITECTURE.md) | `검토안` | Convex 스키마·권한·상태 전이. 백엔드는 [D-019](../../DECISIONS.md)로 확정 |
 | [`COLLABORATIVE_MUD_MVP.md`](./COLLABORATIVE_MUD_MVP.md) | `검토안` | §8 첫 수직 슬라이스가 다음 구현 단위 |

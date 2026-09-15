@@ -18,6 +18,30 @@
 
 ---
 
+## 2026-09-15 — 고려 초기 자료를 첫 실시간 협동 MUD 활동으로 승격
+
+TASK-20260915-08 | 고려 초기 첫 실시간 활동 계획·Claude 단일 구현 소유권 정리 | 담당: 기획·점검 에이전트 | 상태: DONE
+
+- 사용자 원문:
+  - "러프 스케치의 고려 자료를 실시간 협동mud의 실제 첫 활동 자료로 만들자. 계획을 이렇게 구성해."
+  - "현재 협동mud의 개발은 claude에 맡기고 있어. 이러한 충돌은 어떻게 해결할 수 있을까?"
+- 상태: `promoted`
+- 분류 메모: 고려 초기 러프 스케치를 단순 사전 시험 후보가 아니라 `apps/cooperative-live`의 첫 실제 학생 활동으로 승격한다. 기존 고조선 시나리오는 기술 데모·회귀 기준으로 남기고, 조선 후기 공개수업 시나리오는 고려 초기 활동으로 검증한 공통 엔진 위의 후속 활동으로 재배치한다.
+- 소유권 원칙: 이번 구현 묶음의 단일 소유자는 Claude다. Claude가 협동 MUD 앱·시나리오 데이터·정적 폴백을 구현하고, Codex는 구현 계획·읽기 전용 감사·통합 판정만 맡는다. 같은 파일을 교차 수정하지 않는다.
+- 다음 문서: [`docs/plans/implementation_plan_early_goryeo_cooperative_live_first_activity.md`](./docs/plans/implementation_plan_early_goryeo_cooperative_live_first_activity.md)
+
+## 2026-09-15 — 개인정보 조건 처리 후 고려 초기 실시간 협동 MUD 시험
+
+TASK-20260915-07 | 고려 초기 실시간 협동 MUD 러프 스케치 | 담당: 기획·점검 에이전트 | 상태: DONE
+
+- 사용자 원문:
+  - "개인정보 국외 처리 조건 처리함."
+  - "그 다음을 확인할 수 있는 고려 초기 내용으로 테스트를 진행할 예정."
+  - "관련 내용 러프한 스케치 구상하기"
+- 상태: `promoted`
+- 분류 메모: 개인정보 게이트가 처리됐다는 사용자 확인을 기록한다. 다만 기존 `P1-COLLAB-PRIVACY`의 세부 해제 조건과 근거 문서 완료 여부는 별도로 대조한 뒤 상태를 바꾼다. 다음 실시간 협동 MUD 시험 소재는 1단원 13차시 고려 건국 과정과 연결하되, 구현 전 러프 시나리오와 검증 질문부터 정한다.
+- 승격: 러프 시나리오는 [`docs/plans/early_goryeo_cooperative_live_pilot_rough_sketch.md`](./docs/plans/early_goryeo_cooperative_live_pilot_rough_sketch.md), 수업 가설·관찰 항목은 [`EXPERIMENTS.md`](./EXPERIMENTS.md)의 `EXP-009`에 기록했다. 콘텐츠·구현은 아직 시작하지 않는다.
+
 ## 2026-09-15 — 10월 28일 공개수업 역산: 조선 후기 실시간 협동 MUD·sticky-wall 검증 일정
 
 TASK-20260915-05 | 공개수업과 실시간 협동 MUD 개발·검증 일정 수립 | 담당: 기획·점검 에이전트 | 상태: DONE
@@ -42,6 +66,8 @@ TASK-20260915-05 | 공개수업과 실시간 협동 MUD 개발·검증 일정 �
 - 필수 운영 원칙: 실제 학생 이름·이메일·자유 채팅·개인 선택과 이유의 서버 저장은 하지 않으며, 세션 종료 시 협동 활동 데이터를 삭제한다. 공개수업의 `sticky-wall`도 학생 실명 대신 모둠명 또는 일회 가명을 사용한다.
 - 결정 기준: 이번 일정은 실시간 기능을 무조건 공개수업에 넣는 계획이 아니라, 10월 22일까지 검증해 통과한 기능만 넣는 계획이다. 정적 폴백도 동일한 4인 역할·자료 공유·질문·수정 구조를 유지한다.
 - 다음 문서: 9/18까지 Codex의 조선 후기 실시간 시나리오 수직 슬라이스 `implementation_plan_*.md`와 콘텐츠 트랙의 역할별 자료 검토 문서를 분리해 작성하고, 승인된 항목부터 구현한다.
+- 승격: Codex 실시간 트랙의 구체 계획을 [`docs/plans/implementation_plan_joseon_late_cooperative_live_vertical_slice.md`](./docs/plans/implementation_plan_joseon_late_cooperative_live_vertical_slice.md)로 작성했다. 상태는 `제안`이며 사용자 승인 전 코드·시나리오 데이터는 수정하지 않는다. Claude 콘텐츠 패킷과 사실 검토 문서는 별도 파일·별도 worktree에서 작성한다.
+- 후속 변경(2026-09-15, `TASK-20260915-08`): 사용자가 협동 MUD 구현 전체를 Claude에게 맡긴 현재 상태를 확인했다. 위의 원래 역할 분담은 당시 원문과 결정 이력으로 보존하되 실행 기준에서는 폐기한다. 고려 초기 첫 실제 활동과 조선 후기 후속 활동 모두 Claude가 앱·콘텐츠를 단독 구현하고, Codex는 계획·읽기 전용 감사·통합 판정만 맡는다.
 
 ## 2026-09-15 — T2~T4 push 후 T5 계획 수립 요청
 
