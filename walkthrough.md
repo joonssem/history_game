@@ -1782,4 +1782,4 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - 최초 판단을 다시 고르면 `shared=false`, 재판단과 판단 변화 기록을 초기화한다. 추가 증거에서 공유 화면으로 돌아간 뒤에는 `다시 추가 증거 보기`로 재진입할 수 있어 뒤로가기에 막히지 않는다.
 - 5분형(310초)·10분형(600초)의 총 시간 예산, 3·4·5인 역할 분기, 법 만들기·역사 자료 비교·로컬 저장 구조는 유지했다. 진행 표시는 8단계로 맞췄다.
 - 교사용 허브·안내·프로젝트 문서를 세 활동 공통의 최초 판단 순서로 정리했다. 판단 변화의 교육 효과는 실제 수업에서 별도로 재관찰해야 한다.
-- 검증: `node --check cooperative-mud/gojoseon-law/app.js`, `scenario.js`, `cooperative-mud/pacing.js`; `python scripts/06_validate_static_assets.py`; `git diff --check` 통과. 로컬 브라우저에서 3인·5분형의 전체 선행 흐름과 공유 재진입, 5인·10분형 역할·모드 분기를 확인했다.
+- 검증: `node --check cooperative-mud/gojoseon-law/app.js`, `scenario.js`, `cooperative-mud/pacing.js`; `python scripts/06_validate_static_assets.py`; `git diff --check` 통과. 로컬 브라우저에서 3인·5분형의 역할→공유 재진입, 5인·10분형의 완료 요약까지를 확인했다.
