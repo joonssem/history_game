@@ -133,3 +133,26 @@ git diff --check
 - 코드·데이터 수정 없음, 커밋·푸시 없음. `BACKLOG.md` 상단에 후속 판단 항목, `walkthrough.md` 말미에 완료 이력 추가.
 - **T2·T3·T4·T5 미착수. 발견 사항의 수정·통합은 완료되지 않았다.** 기존 판단 대기·Claude worktree는 그대로 유지했다.
 - 최종 `git diff --check` PASS. 브랜치 `main` 유지와 코드·데이터·scripts 변경 없음 확인. 변경 파일은 감사 문서 2개와 `INBOX.md`·`BACKLOG.md`·`walkthrough.md`·이 지시서, 총 6개다.
+
+### 2026-09-15 — T2 완료 / Codex
+
+- `TASK-20260915-T2 | 벽란도 순서 및 원문 미대조 유물 페어 공식 출처 대조 | audit agent(Codex) | 상태: DONE`
+- 결과: [`source_crosscheck_followup_20260914.md`](../audits/source_crosscheck_followup_20260914.md). 우리역사넷 원문으로 벽란도 순서의 근거를 교체했고, 원문과 충돌한 「저잣길」 채색, 바퀴날도끼 시대·서술, 고리자루 큰 칼 출토지 문구만 정정했다.
+- 검증: §5의 01·03·04·05·06·13 및 `git diff --check` PASS. T4·T5는 미착수다.
+
+### 2026-09-15 — T3 완료 / Codex
+
+- `TASK-20260915-T3 | art_12 판옥선 시대 라벨 및 연표 영향 조사 | audit agent(Codex) | 상태: DONE`
+- 결과: [`source_crosscheck_followup_20260914.md`](../audits/source_crosscheck_followup_20260914.md) T3. 국가 성취기준은 임진왜란을 전기·후기로 직접 분류하지 않으며, 프로젝트가 따르는 교사용 지도서에서는 임진왜란이 명시적 “조선 후기 사회 변화” 소단원보다 앞에 있음을 확인했다. 『신편 한국사』는 임진왜란을 조선 중기로 편성한다.
+- 연표 영향: `art_12`를 `조선 전기`로 라벨만 바꾸면 명량 해전 1597년이 현재 `[1392, 1591]` 범위 밖이고 세종과의 순서 판정이 사라진다. 전기 범위를 1598년까지 늘려도 같은 범위가 되어 세종 순서 강제는 복구되지 않는다.
+- 권고: 당장은 현행 유지. 별도 승인 작업에서 화면 표시(`조선 시대(임진왜란)` 또는 `조선 중기`)와 계산 범위(`[1592, 1598]`)를 분리한다.
+- `data/artifacts.json`·`js/miniGames.js` 수정 없음. T4·T5는 미착수다.
+
+### 2026-09-15 — T4 완료 / Codex
+
+- `TASK-20260915-T4 | claude-deep-prehistoric 브랜치 미반영 작업 분석 | audit agent(Codex) | 상태: DONE`
+- 결과: [`claude_deep_prehistoric_branch_review.md`](../audits/claude_deep_prehistoric_branch_review.md).
+- 7커밋 중 2개는 main에 patch-equivalent, 5개가 고유했다. 콘텐츠 `6fee7fc`를 분리된 임시 worktree에서 시험한 결과 `stage 4`의 현재 `hotspot-choice` 구조와 충돌했다. 현행 구조를 유지하고 나머지 7단계 14문구만 적용한 시험본은 01·03·04·05·06·07·08·현행 09 두 종·10·11·12·13 및 diff check를 통과했다.
+- 문서의 핵심 결정·역할은 이미 `D-024~D-026`, PRD, 현행 인계 문서에 반영됐다. 과거 계획·세션 노트는 상태가 낡았고, main에는 이를 가리키는 끊어진 링크가 남아 있다.
+- 권고: 직접 cherry-pick/병합하지 않고, 승인 후 선택지 문구를 수동 이식하면서 문서 링크·archive를 정리한다. 그 뒤 별도 승인으로 archive 태그와 대상 worktree·브랜치를 정리한다.
+- 대상 브랜치·기존 Claude worktree·main 콘텐츠 수정, 병합·삭제·push 없음. T5는 미착수다.
