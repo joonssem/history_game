@@ -46,19 +46,23 @@ window.GojoseonLawScenario = {
     }
   ],
   pacing: {
-    order: ['role', 'first', 'reveal', 'second', 'law', 'history'],
+    order: ['role', 'first', 'share', 'reveal', 'second', 'law', 'history'],
     budgets: {
-      '5':  { role: 80,  first: 30, reveal: 55, law: 75,  history: 70 },
-      '10': { role: 140, first: 45, reveal: 90, second: 85, law: 130, history: 110 }
+      '5':  { role: 35,  first: 30, share: 45, reveal: 55, law: 75,  history: 70 },
+      '10': { role: 50, first: 45, share: 90, reveal: 90, second: 85, law: 130, history: 110 }
     },
     prompts: {
       role: {
         slow: '내 정보에서 모둠에 꼭 말해야 할 것은 무엇인가요? 한 가지만 정해도 됩니다.',
-        fast: '내 이해관계와 반대되는 입장은 누구일까요? 그 친구 이야기를 먼저 들어 보세요.'
+        fast: '내가 아는 사정은 어떤 판단을 하게 하나요? 혼자 한 문장으로 정리해 보세요.'
       },
       first: {
         slow: '정답은 없습니다. 내가 가진 정보로 보면 어떤 쪽이 나아 보이나요?',
         fast: '왜 그렇게 골랐는지 한 문장으로 말할 수 있나요?'
+      },
+      share: {
+        slow: '친구의 정보에서 나와 다른 사정은 무엇인가요? 한 가지만 확인해 보세요.',
+        fast: '내 이해관계와 반대되는 입장은 누구일까요? 그 친구 이야기를 먼저 들어 보세요.'
       },
       reveal: {
         slow: '새 증거를 알기 전과 알고 난 뒤, 무엇이 달라졌나요?',

@@ -79,7 +79,7 @@ history_game/
 │   ├── cooperative.css                 # 협동 MUD 전용 스타일
 │   ├── episode.js                      # 공통 화면 흐름 엔진 (역사 내용 없음)
 │   ├── pacing.js                       # 공통 타이머 페이싱 (힌트·심화 배지)
-│   ├── gojoseon-law/                   # 6차시. 자체 app.js (화면 순서가 다름)
+│   ├── gojoseon-law/                   # 6차시. 법 만들기 전용 자체 app.js
 │   ├── founding-myths/                 # 7차시. scenario.js + index.html
 │   └── han-river/                      # 8차시. scenario.js + index.html
 ├── apps/cooperative-live/               # Next.js + Convex 실시간 협동 앱(로컬 구현 완료)
@@ -365,7 +365,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
   - 6차시 `gojoseon-law/` 고조선 8조법 — 2026-09-04 실제 수업 운영([`EXP-006`](./EXPERIMENTS.md))
   - 7차시 `founding-myths/` 삼국·가야 시조 설화 — 2026-09-08 실제 수업 운영([`EXP-007`](./EXPERIMENTS.md))
   - 8차시 `han-river/` 한강 유역 쟁탈 — 수업 미운영
-  - 공통 파일: `cooperative-mud/episode.js`(화면 흐름 엔진), `pacing.js`(타이머 페이싱), `cooperative.css`. 시나리오는 각 폴더의 `scenario.js`가 소유하고 엔진에는 역사 내용을 넣지 않는다. 고조선만 화면 순서가 달라 자체 `app.js`를 쓴다.
+  - 공통 파일: `cooperative-mud/episode.js`(화면 흐름 엔진), `pacing.js`(타이머 페이싱), `cooperative.css`. 시나리오는 각 폴더의 `scenario.js`가 소유하고 엔진에는 역사 내용을 넣지 않는다. 고조선은 법 만들기 화면 때문에 자체 `app.js`를 쓰지만, 세 활동 모두 `역할 확인 → 최초 판단 → 정보 공유 → 추가 자료 → 재판단` 순서를 따른다.
   - 선사시대 협동 MUD는 종이 리허설 단계를 2026-09-06에 폐기하고 정적 웹 제작 대상으로 전환했다 — 1인 1기기 화면이 곧 역할 카드다.
   - 수업 운영 방법은 [`cooperative-mud/TEACHING.md`](./cooperative-mud/TEACHING.md)에 있다. 교실에서 바로 보는 문서다.
   - 실시간 확장(Vercel + Convex)의 첫 수직 슬라이스는 `apps/cooperative-live/`에 구현됐다. Convex 개발 배포·Auth0 교사 로그인·Vercel 기술 Preview에서 가상 학생 흐름을 확인했고, 모둠 미리보기·재섞기와 QR·수동 코드 보안까지 개발 검증을 마쳤다. 실제 학생 적용과 Production 운영은 개인정보 게이트 해제 전까지 금지한다. `apps/cooperative-live/README.md`와 `docs/plans/implementation_plan_vercel_convex_vertical_slice.md` 참조.

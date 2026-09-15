@@ -1729,7 +1729,6 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - 직접 cherry-pick 대신 문구 수동 이식, 문서 링크/아카이브 정리, 이후 archive 태그와 브랜치 정리를 순서대로 승인받는 방안을 권고했다.
 - 상세: [`claude_deep_prehistoric_branch_review.md`](./docs/audits/claude_deep_prehistoric_branch_review.md)
 
-
 ## 2026-09-15 — Codex 라운드 3 red team(T1) 반영 1차 (Opus 5)
 
 `TASK-20260915-01 | round3_red_team_audit.md R3-01~07·10 반영 | Claude Opus 5 | 상태: DONE(브랜치), main 병합은 Codex T2 커밋 뒤`
@@ -1766,3 +1765,21 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - **자기 검증 결과, 지시서와 다른 사실을 발견**: 지시서는 "기획 세션이 방금 고친 삼국 3관문은 순서 노출 경고가 사라져야 한다"고 했으나, 실제로는 남아 있다. `b4dca60`는 `simulator.instruction`의 "영토 확보→교류→기록 순서로"만 지웠고, `meaningQuestion.options[order-random].feedback`의 같은 패턴("영토 확보→순행→기록 사이에는 앞뒤 관계가 있습니다")은 손대지 않았다. `data/mud/regular_three_kingdoms.json`은 이번 라운드 조작대 소유가 아니라(관문 설계실) 고치지 않고 보고서 상단에 눈에 띄게 남겼다.
 - 검증 명령 목록에 `node scripts/14_lint_inquiry_semantics.js` 추가.
 - **§4-2 첫 판단 보존 브라우저 확인**: 아래 항목에 별도 기록.
+
+## 2026-09-15 — T2~T4 통합 및 T5-1 구현 계획 작성
+
+- T2 공식 출처 정정, T3 판옥선 시대 표시 조사, T4 `claude-deep-prehistoric` 브랜치 감사를 전체 검증 후 `e4229c9`로 커밋하고 `origin/main`에 push했다.
+- `TASK-20260915-T5-PLAN | 고조선 정적 협동 MUD 최초 판단 순서 교정 계획 | planning agent(Codex) | 상태: DONE`
+- `EXP-006`, 고조선 전용 `app.js`, 공용 `episode.js`, 7·8차시 화면 흐름을 대조해 [`implementation_plan_gojoseon_initial_judgment_order.md`](./docs/plans/implementation_plan_gojoseon_initial_judgment_order.md)를 작성했다.
+- 계획은 고조선 편을 공용 엔진으로 전면 이관하지 않고 `역할 → 최초 판단 → 공유 → 추가 증거` 순서만 최소 이식한다. 기존 총 시간 예산, 법 만들기, 3·4·5인/5·10분형 분기를 유지하고 뒤로가기 재진입 상태를 명시적으로 검증한다.
+- 상태: 계획 작성 완료, 사용자 구현 승인 대기. 협동 MUD 코드와 실시간 앱은 수정하지 않았다.
+
+## 2026-09-15 — T5-1 고조선 협동 MUD 최초 판단 순서 교정
+
+`TASK-20260915-T5-1 | 고조선 정적 협동 MUD 최초 판단 순서 교정 | implementation agent(Codex) | 상태: DONE`
+
+- 고조선 8조법의 화면 흐름을 `역할 정보 → 최초 판단 → 정보 공유 → 추가 증거 → 재판단`으로 바꿨다. 역할 화면에서는 `shareText`를 보이지 않게 했고, 최초 판단 뒤에만 역할별 공유 문장과 공유 확인 버튼을 보여 준다.
+- 최초 판단을 다시 고르면 `shared=false`, 재판단과 판단 변화 기록을 초기화한다. 추가 증거에서 공유 화면으로 돌아간 뒤에는 `다시 추가 증거 보기`로 재진입할 수 있어 뒤로가기에 막히지 않는다.
+- 5분형(310초)·10분형(600초)의 총 시간 예산, 3·4·5인 역할 분기, 법 만들기·역사 자료 비교·로컬 저장 구조는 유지했다. 진행 표시는 8단계로 맞췄다.
+- 교사용 허브·안내·프로젝트 문서를 세 활동 공통의 최초 판단 순서로 정리했다. 판단 변화의 교육 효과는 실제 수업에서 별도로 재관찰해야 한다.
+- 검증: `node --check cooperative-mud/gojoseon-law/app.js`, `scenario.js`, `cooperative-mud/pacing.js`; `python scripts/06_validate_static_assets.py`; `git diff --check` 통과. 로컬 브라우저에서 3인·5분형의 전체 선행 흐름과 공유 재진입, 5인·10분형 역할·모드 분기를 확인했다.
