@@ -81,3 +81,5 @@ Codex는 별도로 실시간 협동 MUD 시스템을 구축 중이며 위 네 �
 - 화면에 보이는 문구는 코드가 아니라 편 데이터가 갖는다. 코드의 fallback은 중립 문장이어야 한다(D-029).
 
 - 2026-09-15 라운드 4 통합·배포(`5e59d03`) → 라운드 5 지시서: `docs/handoff/claude_four_track_round5_instruction.md` (2단원 사실 대조 / R3-08·09 / 원인·결과 대조 / lint 오탐·브라우저 교차 확인)
+
+- 2026-09-15 라운드 5 통합·배포(`ae5bfbc`). 사용자 결정: D-031(sequenceKind), D-032(3단원 해제), D-033(수업 관찰 먼저, 첨성대 유지). 다음 라운드 후보: D-031 구현 + 3단원 사실 대조. 관찰 기록지: `docs/plans/classroom_observation_session_sheet.md`

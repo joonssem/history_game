@@ -704,3 +704,17 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - "정리 활동" 문구(완료 화면 등)도 확인했으나 새로운 사실 단정 없음.
 
 **검증**: `json.load` 통과, `04_validate_mud_contract.py`/`05_test_simulator_runtime.js`/`11_audit_artifacts.py`/`13_audit_inquiry_combinatorics.js`/`14_lint_inquiry_semantics.js`(조작대 소유 산출물이라 결과 파일은 `git checkout --`로 되돌림) 실행, `git diff --check` 통과. `activity-loop`(8803)에서 stage1 정답 제출 실측, 콘솔 에러 0건. 데이터 JSON만 변경해 캐시버스터 대상 아님. 커밋 전 `git status --short`로 `causeEffectChains.json` 외 다른 트랙 소유 파일이 섞이지 않았는지 확인(스크립트가 만든 감사 산출물 2개를 되돌림).
+
+## 2026-09-15 라운드 5 통합 후 상태
+- [x] R3-08 가야 금동관 → "5~6세기경으로 짐작" (대조실 라운드 5)
+- [x] R3-09 청자 매병 → "12세기 후반~13세기" (대조실 라운드 5)
+- [x] 라운드 4 통합본 브라우저 교차 확인 (조작대 라운드 5)
+- [x] lint 공정 순서 오탐 축소 (조작대 라운드 5)
+- [x] 2단원 비파일럿 8편 사실 대조: 새 오류 없음, 화성 공사 기간은 확인 불가 (관문 설계실 라운드 5)
+- [x] 원인·결과 4세트 사실 대조: ce15 완화 (연결 공방 라운드 5)
+- [x] 첨성대 해설 → 현 문구 유지 (D-033)
+- [ ] **수업 관찰** — 기록지 `docs/plans/classroom_observation_session_sheet.md` (D-033, 사용자 진행)
+- [ ] `sequenceKind` 구현: 04 계약 검사, 14 lint, 파일럿 4편 데이터 (D-031)
+- [ ] 3단원 사실 대조 (D-032)
+- [ ] 수원 화성 공사 기간(10년 예정 → 2년 9개월) 원문 확인
+- [ ] 대기 유지: 설계 문서 4종, 캔버스 A/B, `art_12` 시대, deep-prehistoric 7커밋

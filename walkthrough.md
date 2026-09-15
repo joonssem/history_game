@@ -1839,3 +1839,20 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 | 금동대향로 스토리(story_samguk) | `storyEngine.startStory()` 후 장면 1→5 순차 이동 | 6개 장면(분기 포함) 모두 정상 렌더, 콘솔 오류 없음 |
 
 콘솔 error/warning 0건(전 구간). 1180×820은 화면 레이아웃을 건드리지 않아 별도 확인하지 않았다.
+
+## 2026-09-15 — 기획 세션: 라운드 5 통합·배포(`ae5bfbc`)와 사용자 결정
+
+- 병합한 네 브랜치와 결과:
+  - `feat/mud-gate-grammar`: 2단원 8편, 새 오류 없음
+  - `feat/artifact-site-comparison`: R3-08·09 정정, 심화 보상 desc 2건
+  - `feat/extended-activity-loop`: ce15 인과 표현 완화
+  - `feat/inquiry-ui-console`: lint 오탐 축소, 라운드 4 통합본 브라우저 교차 확인 7곳, 콘솔 오류 0
+- 충돌은 BACKLOG/walkthrough의 덧붙이기 충돌뿐이었다.
+- 검증: 01·03·04·05·06·08·09·11·13·14 모두 PASS. 기존 경고 1건(원본 데이터상 정답이 첫 보기 → 화면 섞기 유지 필요)은 그대로다.
+- Codex가 main을 `ae5bfbc`까지 fast-forward한 것을 확인했다.
+- 사용자 결정:
+  - 첨성대 문구 유지(D-033)
+  - `sequenceKind` 채택(D-031)
+  - 3단원 수정 금지 해제(D-032)
+  - 수업 관찰 먼저(D-033)
+- 관찰 기록지를 새로 만들었다: `docs/plans/classroom_observation_session_sheet.md`. 차시 전체 기록 A, 추적 학생 B(기존 파일럿 기록지 확장), 라운드 3~5에서 고친 곳을 교실에서 확인하는 표 C를 담았다.
