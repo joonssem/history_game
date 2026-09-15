@@ -4,14 +4,14 @@
     "chasi": "1단원 2차시",
     "era": "구석기 시대",
     "title": "MUD 구석기 생존기: 전곡리의 만능 주먹도끼",
-    "subtitle": "70만 년 전 한반도, 거친 야생에서 살아남아라!",
+    "subtitle": "수십만 년 전 한반도, 거친 야생에서 살아남아라!",
     "character": "부족장 '바우' & 시간 안내원 '타미'",
     "bgGradient": "from-amber-950 via-stone-900 to-stone-950",
     "badgeId": "badge_paleolithic",
     "scenes": [
       {
         "id": 1,
-        "location": "70만 년 전 한탄강 전곡리 강가",
+        "location": "수십만 년 전 한탄강 전곡리 강가",
         "speaker": "부족장 '바우'",
         "avatar": "🧔",
         "text": "으슬으슬 날씨가 추워지고 부족원들이 배를 곯고 있소. 숲속의 열매와 사냥감이 다 떨어졌는데, 어떻게 해야 하겠소?",

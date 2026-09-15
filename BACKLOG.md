@@ -640,3 +640,20 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - 편마다 `sources`에 실제로 대조한 결과를 `sourceNote` 또는 `claimScope`에 확인 날짜·근거와 함께 기록했다(`regular_goryeo_war`/`regular_bronze_age`/`regular_gojoseon`).
 - 검증: `01/03/04/06/08/09_validate_*`, `05_test_simulator_runtime.js`, `11_audit_artifacts.py`, `13_audit_inquiry_combinatorics.js` 전부 통과, `git diff --check` 클린. 모든 변경이 텍스트 필드뿐이라(게임 구조 불변) 브라우저 실플레이는 생략하고 `git diff`로 변경 범위를 직접 확인했다. 검증 스크립트가 부수적으로 갱신한 `docs/audits/inquiry_combinatorics_audit.md`(내 소유 아님, 날짜만 변경)는 커밋 전 `git checkout --`으로 되돌렸다.
 - 커밋 직전 `git status --short`로 바뀐 파일이 의도한 데이터 4개 + 문서 1개뿐인지 확인했다(§0-4).
+
+### 2026-09-15 「연결 공방」(activity-loop) Track 3 — 라운드 4: 골든벨 퀴즈·타임머신 스토리 사실 검증
+
+`data/quizzes.json`(10문항) + `data/stories.json`(3편) + `data/stories_chasi2.json`(1편) 전체를 공식 출처(국사편찬위원회 우리역사넷, 한국민족문화대백과사전)와 대조했다. 위키백과는 근거로 쓰지 않았다(라운드3 지적 반영). 상세 표는 [`docs/audits/quiz_story_fact_check.md`](docs/audits/quiz_story_fact_check.md).
+
+**정정 3건 (모두 원문 대조 완료):**
+1. `quiz_3`(첨성대): "동양에서 가장 오래된 천문대" → 우리역사넷 원문("완전한 모습으로 남아 있는 것으로는 세계에서 가장 오래된")에 맞게 정정.
+2. `quiz_7`(측우기): "장영실 등이 제작한"이라는 널리 퍼진 오해를 삭제 — 우리역사넷이 세종실록을 인용해 "왕세자(훗날 문종)가 발명을 주도했다"고 명시함을 확인, 해설에 정정 반영.
+3. `story_samguk`(백제 금동대향로): 향로를 완성해 받는 인물이 "성왕"으로 되어 있었으나, 우리역사넷에 따르면 향로가 나온 능산리사지는 위덕왕(성왕의 아들)이 567년 아버지 성왕의 명복을 빌며 조성한 것 — 성왕은 이미 사망(554)한 뒤라 시기가 맞지 않음. 화자를 "위덕왕"으로 정정하고 "아버님(성왕)을 기리며"라는 대사로 실제 맥락을 살림.
+
+**완화 1건**: `story_paleolithic`(구석기, `stories_chasi2.json`)의 "70만 년 전" — 우리역사넷은 전곡리 유적 연대에 여러 학설(20~30만/4만/50만/12.6~18.2만 년 전)이 대립한다고만 밝히고 "70만 년 전"이라는 수치는 원문에 없어 "수십만 년 전"으로 완화.
+
+**확인 불가로 표시(원문 미접속, 통설과 일치)**: quiz_2, 4, 8, 9, 10 — 검색 중 상충 자료는 없었으나 개별 원문 페이지를 직접 열지 못해 정직하게 "확인 불가"로 표에 기록(라운드3의 "위키백과 근거 사용" 재발 방지 차원에서 과대 확인 표시하지 않음).
+
+**부수 발견(범위 밖, 보고만)**: `stories_chasi2.json`이 어떤 JS에서도 로드되지 않는 죽은 데이터임을 확인(`grep` 0건). `story_mud_relationship.md`가 이미 제기한 질문과 직결 — 이번 라운드에서 로드 경로를 추가하지 않고 보고만 함.
+
+**검증**: `json.load` 3개 파일 통과, `01_validate_game_data.py`/`03_validate_mud_integrity.py`/`06_validate_static_assets.py`/`git diff --check` 모두 통과. 로컬(activity-loop:8803)에서 `window.quizGame`/`window.storyEngine` 직접 조회로 수정 내용 반영 확인, 콘솔 에러 0건. 데이터 JSON만 변경해 캐시버스터 대상 아님.
