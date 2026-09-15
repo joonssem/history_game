@@ -1766,3 +1766,21 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - **자기 검증 결과, 지시서와 다른 사실을 발견**: 지시서는 "기획 세션이 방금 고친 삼국 3관문은 순서 노출 경고가 사라져야 한다"고 했으나, 실제로는 남아 있다. `b4dca60`는 `simulator.instruction`의 "영토 확보→교류→기록 순서로"만 지웠고, `meaningQuestion.options[order-random].feedback`의 같은 패턴("영토 확보→순행→기록 사이에는 앞뒤 관계가 있습니다")은 손대지 않았다. `data/mud/regular_three_kingdoms.json`은 이번 라운드 조작대 소유가 아니라(관문 설계실) 고치지 않고 보고서 상단에 눈에 띄게 남겼다.
 - 검증 명령 목록에 `node scripts/14_lint_inquiry_semantics.js` 추가.
 - **§4-2 첫 판단 보존 브라우저 확인**: 아래 항목에 별도 기록.
+
+## 2026-09-15 — 기획 세션: 라운드 4 통합·배포 (`5e59d03`)
+
+- 병합 순서:
+  1. `origin/main`(Codex T2~T4 `e4229c9`)
+  2. `feat/mud-gate-grammar`
+  3. `feat/artifact-site-comparison`
+  4. `feat/extended-activity-loop`
+  5. `feat/inquiry-ui-console`
+- 충돌은 walkthrough/BACKLOG의 덧붙이기 충돌뿐이었고, 양쪽 내용을 모두 남겼다.
+- lint(`scripts/14`)가 R3 수정의 누락을 찾아 정정했다.
+  - 삼국 3관문 `order-random` 피드백에 "확보→순행→기록"으로 순서가 노출돼 있었다. 연도 비교를 안내하는 문장으로 바꿨다.
+  - 근대 3관문 `electric-light` 피드백에 정답 장소 이름 "전차 노선"이 들어 있었다. 기록의 조건을 안내하는 문장으로 바꿨다.
+  - 재실행 결과 순서 노출·정답 장소 노출 경고는 0건이다.
+- 검증: 04 PASS, 05 PASS(D-030·R3-02·R3-03 회귀 포함), 11 PASS(36종 0건), 13·14 보고서를 재생성했다.
+- 브라우저 교차 확인은 하지 않았다. 라운드 5 §4로 넘겼다.
+- `origin/main`에 fast-forward push했다. main 체크아웃에는 Codex의 커밋 전 작업이 있어 건드리지 않았다. Codex는 커밋 전에 `git pull --rebase`가 필요하다.
+- 사용자 판단 대기에 1건 추가: 첨성대 해설 문구. 연결 공방이 우리역사넷 표현("온전히 남은 것 중 세계에서 가장 오래된")으로 바꿨는데, 백과사전의 흔한 표현은 "동양 최고"다.

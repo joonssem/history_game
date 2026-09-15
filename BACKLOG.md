@@ -657,3 +657,13 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 **부수 발견(범위 밖, 보고만)**: `stories_chasi2.json`이 어떤 JS에서도 로드되지 않는 죽은 데이터임을 확인(`grep` 0건). `story_mud_relationship.md`가 이미 제기한 질문과 직결 — 이번 라운드에서 로드 경로를 추가하지 않고 보고만 함.
 
 **검증**: `json.load` 3개 파일 통과, `01_validate_game_data.py`/`03_validate_mud_integrity.py`/`06_validate_static_assets.py`/`git diff --check` 모두 통과. 로컬(activity-loop:8803)에서 `window.quizGame`/`window.storyEngine` 직접 조회로 수정 내용 반영 확인, 콘솔 에러 0건. 데이터 JSON만 변경해 캐시버스터 대상 아님.
+
+## 2026-09-15 라운드 4 통합 후 남은 일
+- [ ] R3-08 가야 금동관 출처 대상 불일치 → 라운드 5 §2
+- [ ] R3-09 청자 매병 시기 표기 → 라운드 5 §2
+- [ ] 라운드 4 통합본 브라우저 교차 확인 → 라운드 5 §4
+- [ ] lint "날짜 없는 카드"가 공정 순서에서 오탐 → 라운드 5 §4
+- [ ] 2단원 비파일럿 8편 사실 대조 → 라운드 5 §1
+- [ ] 원인·결과 스토리 4세트 사실 대조 → 라운드 5 §3
+- [ ] (사용자 판단) 첨성대 해설 문구: "세계에서 가장 오래된(온전히 남은 것 중)" vs "동양 최고"
+- [ ] 3단원 사실 대조: 수정 금지 해제 여부를 사용자가 판단
