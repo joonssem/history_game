@@ -11,13 +11,16 @@ const TEACHER_SUB = "auth0|virtual-load-teacher";
 const STUDENT_COUNT = 21;
 
 describe("실시간 협동 MUD 가상 학급", () => {
-  it("교사 1명과 학생 21명의 입장부터 종료 삭제까지 관통한다", async () => {
+  it("고조선에서 교사 1명과 학생 21명의 입장부터 종료 삭제까지 관통한다", async () => {
     process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
     process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
 
     const testBackend = convexTest(schema, modules);
     const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
-    const created = await teacher.mutation(convexApi.sessions.create, {});
+    const created = await teacher.mutation(convexApi.sessions.create, {
+      scenarioId: "gojoseon-eight-laws",
+      scenarioVersion: 1,
+    });
 
     expect(created.entryKey).toMatch(/^[0-9a-f]{64}$/);
     const students = await Promise.all(
@@ -49,6 +52,7 @@ describe("실시간 협동 MUD 가상 학급", () => {
     const previewDashboard = await teacher.query(convexApi.sessions.dashboard, {
       sessionId: created.sessionId,
     });
+    expect(previewDashboard.session.scenarioId).toBe("gojoseon-eight-laws");
     const groups = new Map<number, typeof previewDashboard.players>();
     for (const player of previewDashboard.players) {
       expect(player.groupNumber).toBeDefined();
