@@ -51,3 +51,7 @@
 - 장애 시 대체 절차는 교사 읽기·화이트보드 방식이며 독립 정적 웹판은 아니다.
 
 다음 관문은 [`TEACHING_EARLY_GORYEO.md`](../../apps/cooperative-live/TEACHING_EARLY_GORYEO.md)에 따라 성인·교사 역할 4~8대 리허설을 수행하고 결과를 `EXP-009`에 기록하는 것이다.
+
+## 코드 감사 반영
+
+기준 커밋 `ba5adb5`의 읽기 전용 감사에서 공동 초안 내용 미표시, 편집 시작 revision 미고정, 판단·말하기 단계의 자기 역할 자료 미표시가 발견됐다. 서버의 정확히 2개 검증도 함께 강화했다. 수정 내용과 회귀 근거는 [`early_goryeo_cooperative_live_review.md`](../audits/early_goryeo_cooperative_live_review.md)에 기록했다.

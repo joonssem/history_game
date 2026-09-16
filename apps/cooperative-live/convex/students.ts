@@ -408,6 +408,12 @@ export const view = queryGeneric({
         : null,
       firstSubmitted: Boolean(player.submittedAt),
       sharedAt: Boolean(player.sharedAt),
+      sharing: groupNumber
+        ? {
+            completed: groupMembers.filter((member) => Boolean(member.sharedAt)).length,
+            total: groupMembers.length,
+          }
+        : null,
       draft: draft
         ? {
             policyIds: draft.policyIds,
@@ -533,7 +539,7 @@ export const saveDraft = mutationGeneric({
     evidenceRoleIds: v.array(v.string()),
     limitationId: v.string(),
     connectionId: v.string(),
-    expectedRevision: v.optional(v.number()),
+    expectedRevision: v.number(),
   },
   handler: async (ctx, args) => {
     const { scenario } = await requireActiveSession(ctx, args.sessionId);
@@ -550,7 +556,8 @@ export const saveDraft = mutationGeneric({
       throw new Error("모둠 친구 모두가 자료를 설명한 뒤 초안을 만들 수 있습니다.");
     }
     if (
-      new Set(args.policyIds).size !== 2
+      args.policyIds.length !== 2
+      || new Set(args.policyIds).size !== 2
       || !args.policyIds.every((id) =>
         scenario.sharedPrompt.policies.some((policy) => policy.id === id)
       )
@@ -558,7 +565,8 @@ export const saveDraft = mutationGeneric({
       throw new Error("서로 다른 정책 두 가지를 선택해 주세요.");
     }
     if (
-      new Set(args.evidenceRoleIds).size < 2
+      args.evidenceRoleIds.length !== 2
+      || new Set(args.evidenceRoleIds).size !== 2
       || !args.evidenceRoleIds.every((roleId) =>
         members.some((member) => member.roleId === roleId)
       )
@@ -583,10 +591,7 @@ export const saveDraft = mutationGeneric({
         query.eq(query.field("groupNumber"), player.groupNumber!),
       )
       .unique();
-    if (
-      args.expectedRevision !== undefined
-      && args.expectedRevision !== (existing?.revision ?? 0)
-    ) {
+    if (args.expectedRevision !== (existing?.revision ?? 0)) {
       throw new Error("다른 탭에서 초안이 바뀌었습니다. 최신 초안을 확인해 주세요.");
     }
 

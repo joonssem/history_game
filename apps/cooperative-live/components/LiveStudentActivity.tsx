@@ -68,6 +68,7 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
   const [limitationId, setLimitationId] = useState("");
   const [connectionId, setConnectionId] = useState("");
   const [editingDraft, setEditingDraft] = useState(false);
+  const [editingRevision, setEditingRevision] = useState<number | null>(null);
   const selectAlias = useMutation(convexApi.students.selectAlias);
   const advance = useMutation(convexApi.students.advance);
   const completeFirst = useMutation(convexApi.students.completeFirst);
@@ -140,10 +141,20 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
         evidenceRoleIds,
         limitationId,
         connectionId,
-        expectedRevision: view.draft?.revision,
+        expectedRevision: editingRevision ?? 0,
       });
       setEditingDraft(false);
-    } catch (caught) { setError(caught instanceof Error ? caught.message : "공동 초안을 저장하지 못했습니다."); }
+      setEditingRevision(null);
+    } catch (caught) {
+      const message = caught instanceof Error
+        ? caught.message
+        : "공동 초안을 저장하지 못했습니다.";
+      if (message.includes("최신 초안")) {
+        setEditingDraft(false);
+        setEditingRevision(null);
+      }
+      setError(message);
+    }
   }
 
   async function confirmSharedDraft() {
@@ -180,6 +191,26 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
   }
 
   const guide = STAGE_GUIDE[view.stage];
+  const selectedPolicies = view.draft
+    ? view.sharedPrompt.policies.filter((item) =>
+        view.draft?.policyIds.includes(item.id)
+      )
+    : [];
+  const selectedEvidence = view.draft
+    ? view.evidenceRoles.filter((role) =>
+        view.draft?.evidenceRoleIds.includes(role.id)
+      )
+    : [];
+  const selectedConnection = view.draft
+    ? view.sharedPrompt.connections.find(
+        (item) => item.id === view.draft?.connectionId,
+      )
+    : undefined;
+  const selectedLimitation = view.draft
+    ? view.sharedPrompt.limitations.find(
+        (item) => item.id === view.draft?.limitationId,
+      )
+    : undefined;
   return (
     <section className="student-panel">
       <div className="topbar">
@@ -202,7 +233,7 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
       <p>{guide.body}</p>
       {view.paused && <p className="notice error">선생님이 잠시 멈췄습니다. 안내를 기다려 주세요.</p>}
 
-      {view.stage === "role" && view.role && (
+      {["role", "first", "share"].includes(view.stage) && view.role && (
         <div className="role-card">
           <h3>{view.role.icon} {view.role.name}</h3>
           <p><strong>나만 알고 있는 정보</strong><br />{view.role.privateInfo}</p>
@@ -237,6 +268,12 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
         </div>
       )}
 
+      {view.stage === "share" && view.sharing && (
+        <p className="notice">
+          모둠 설명 완료 {view.sharing.completed}/{view.sharing.total} · 자기 자료를 말한 뒤 버튼을 누르세요.
+        </p>
+      )}
+
       {(view.stage === "draft" || editingDraft) && (
         <div className="form">
           <strong>{view.sharedPrompt.question}</strong>
@@ -263,6 +300,18 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
           <p className="notice">
             공동 초안 revision {view.draft.revision} · 확인 {view.confirmation?.confirmed ?? 0}/{view.confirmation?.total ?? 0}. 새 초안이 저장되면 이전 확인은 취소됩니다.
           </p>
+          <div className="role-card">
+            <h3>확인할 공동 초안</h3>
+            <p><strong>정책 2개</strong><br />{selectedPolicies.map((item) => item.label).join(" + ")}</p>
+            <p><strong>서로 다른 역할 근거 2개</strong></p>
+            <ul>
+              {selectedEvidence.map((role) => (
+                <li key={role.id}>{role.name}: {role.evidence[0]?.label}</li>
+              ))}
+            </ul>
+            <p><strong>함께 필요한 까닭</strong><br />{selectedConnection?.label}</p>
+            <p><strong>자료의 한계</strong><br />{selectedLimitation?.label}</p>
+          </div>
           {!editingDraft && (
             <button
               className="button ghost"
@@ -271,6 +320,7 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
                 setEvidenceRoleIds(view.draft?.evidenceRoleIds ?? []);
                 setLimitationId(view.draft?.limitationId ?? "");
                 setConnectionId(view.draft?.connectionId ?? "");
+                setEditingRevision(view.draft?.revision ?? 0);
                 setEditingDraft(true);
               }}
               disabled={view.paused}
@@ -283,7 +333,7 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
         <div className="notice">
           <strong>발표용 공동 문장</strong>
           <p>
-            {view.sharedPrompt.policies.filter((item) => view.draft?.policyIds.includes(item.id)).map((item) => item.label).join(" + ")}가 필요합니다. {view.sharedPrompt.whyTogetherStem} {view.sharedPrompt.connections.find((item) => item.id === view.draft?.connectionId)?.label}. 다만 {view.sharedPrompt.limitations.find((item) => item.id === view.draft?.limitationId)?.label}.
+            {selectedPolicies.map((item) => item.label).join(" + ")}가 필요합니다. {view.sharedPrompt.whyTogetherStem} {selectedConnection?.label}. 근거는 {selectedEvidence.map((role) => `${role.name}의 ${role.evidence[0]?.label}`).join("와 ")}입니다. 다만 {selectedLimitation?.label}.
           </p>
         </div>
       )}

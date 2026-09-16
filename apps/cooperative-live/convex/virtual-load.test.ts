@@ -235,9 +235,36 @@ describe("실시간 협동 MUD 가상 학급", () => {
     });
     expect(draftView?.stage).toBe("draft");
     expect(draftView?.evidenceRoles).toHaveLength(4);
+    expect(draftView?.sharing).toEqual({ completed: 4, total: 4 });
     const evidenceRoleIds = draftView!.evidenceRoles.slice(0, 2).map(
       (role) => role.id,
     );
+    await expect(testBackend.mutation(convexApi.students.saveDraft, {
+      sessionId: students[0].sessionId,
+      token: students[0].token,
+      policyIds: draftView!.sharedPrompt.policies.slice(0, 3).map(
+        (item) => item.id,
+      ),
+      evidenceRoleIds: draftView!.evidenceRoles.slice(0, 3).map(
+        (role) => role.id,
+      ),
+      limitationId: draftView!.sharedPrompt.limitations[0].id,
+      connectionId: draftView!.sharedPrompt.connections[0].id,
+      expectedRevision: 0,
+    })).rejects.toThrow("정책 두 가지");
+    await expect(testBackend.mutation(convexApi.students.saveDraft, {
+      sessionId: students[0].sessionId,
+      token: students[0].token,
+      policyIds: draftView!.sharedPrompt.policies.slice(0, 2).map(
+        (item) => item.id,
+      ),
+      evidenceRoleIds: draftView!.evidenceRoles.slice(0, 3).map(
+        (role) => role.id,
+      ),
+      limitationId: draftView!.sharedPrompt.limitations[0].id,
+      connectionId: draftView!.sharedPrompt.connections[0].id,
+      expectedRevision: 0,
+    })).rejects.toThrow("역할 근거 두 가지");
     const saved = await testBackend.mutation(convexApi.students.saveDraft, {
       sessionId: students[0].sessionId,
       token: students[0].token,
@@ -262,11 +289,43 @@ describe("실시간 협동 MUD 가상 학급", () => {
       expectedRevision: 0,
     })).rejects.toThrow("최신 초안");
 
+    const firstConfirmation = await testBackend.mutation(
+      convexApi.students.confirmDraft,
+      {
+        sessionId: students[0].sessionId,
+        token: students[0].token,
+        revision: 1,
+      },
+    );
+    expect(firstConfirmation.complete).toBe(false);
+    const revised = await testBackend.mutation(convexApi.students.saveDraft, {
+      sessionId: students[1].sessionId,
+      token: students[1].token,
+      policyIds: draftView!.sharedPrompt.policies.slice(0, 2).map(
+        (item) => item.id,
+      ),
+      evidenceRoleIds,
+      limitationId: draftView!.sharedPrompt.limitations[1].id,
+      connectionId: draftView!.sharedPrompt.connections[1].id,
+      expectedRevision: 1,
+    });
+    expect(revised.revision).toBe(2);
+    const revisedView = await testBackend.query(convexApi.students.view, {
+      sessionId: students[0].sessionId,
+      token: students[0].token,
+    });
+    expect(revisedView?.confirmation).toEqual({ confirmed: 0, total: 4 });
+    await expect(testBackend.mutation(convexApi.students.confirmDraft, {
+      sessionId: students[0].sessionId,
+      token: students[0].token,
+      revision: 1,
+    })).rejects.toThrow("최신 공동 초안");
+
     for (let index = 0; index < students.length; index += 1) {
       const result = await testBackend.mutation(convexApi.students.confirmDraft, {
         sessionId: students[index].sessionId,
         token: students[index].token,
-        revision: 1,
+        revision: 2,
       });
       expect(result.complete).toBe(index === students.length - 1);
     }

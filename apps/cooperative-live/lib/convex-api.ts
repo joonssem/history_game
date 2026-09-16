@@ -79,6 +79,7 @@ export type StudentView = {
   stage: Stage;
   firstSubmitted: boolean;
   sharedAt: boolean;
+  sharing: { completed: number; total: number } | null;
   draft: {
     policyIds: string[];
     evidenceRoleIds: string[];
@@ -209,7 +210,7 @@ export const convexApi = {
       evidenceRoleIds: string[];
       limitationId: string;
       connectionId: string;
-      expectedRevision?: number;
+      expectedRevision: number;
     }, { revision: number }>("students:saveDraft"),
     confirmDraft: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; token: string; revision: number }, { complete: boolean }>("students:confirmDraft"),
     requestHelp: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; token: string }, { requested: boolean }>("students:requestHelp"),
