@@ -145,6 +145,7 @@
         "interaction": "inquiry-task",
         "task": {
           "type": "sequence",
+          "sequenceKind": "process",
           "prompt": "금속활자로 한 면을 인쇄하는 핵심 과정을 배열하고 기술의 의미를 연결하세요.",
           "cards": [
             {

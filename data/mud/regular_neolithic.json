@@ -270,6 +270,7 @@
         "interaction": "inquiry-task",
         "task": {
           "type": "sequence",
+          "sequenceKind": "process",
           "prompt": "빗살무늬 토기를 빚는 과정 가운데 모양을 만들고 무늬를 새기는 단계를 순서대로 배열하세요.",
           "cards": [
             {
