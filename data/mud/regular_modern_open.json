@@ -196,6 +196,7 @@
         "interaction": "inquiry-task",
         "task": {
           "type": "sequence",
+          "sequenceKind": "event",
           "prompt": "개항부터 근대 시설이 세워지기까지의 과정을 순서대로 배열하세요.",
           "cards": [
             {

@@ -3,7 +3,14 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
+
+
+# D-031: sequence 카드에 연도로 확인되는 표지가 있는지 판정하는 정규식.
+# scripts/14의 YEAR_PATTERN과 같은 기준을 쓴다(둘이 다른 카드를 사건으로
+# 볼 위험을 없앤다).
+YEAR_PATTERN = re.compile(r"\d{3,4}\s*년|\(\s*\d{3,4}\s*\)")
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -218,6 +225,20 @@ def validate_inquiry_task(
         correct_order = task.get("correctOrder")
         if not isinstance(correct_order, list) or len(correct_order) != len(card_ids) or set(correct_order) != card_ids:
             errors.append(f"{prefix}: correctOrder must contain every card id exactly once")
+        # D-031: sequenceKind가 event/process 중 하나여야 하고, event면 카드마다
+        # 연도 표지가 있어야 한다("날짜로 확인되는 사건만 넣는다", D-030 3).
+        sequence_kind = task.get("sequenceKind")
+        if sequence_kind not in ("event", "process"):
+            errors.append(f"{prefix}: sequenceKind must be \"event\" or \"process\"")
+        elif sequence_kind == "event":
+            for card in task.get("cards") or []:
+                if not isinstance(card, dict):
+                    continue
+                text = f"{card.get('label', '')} {card.get('detail', '')}"
+                if not YEAR_PATTERN.search(text):
+                    errors.append(
+                        f"{prefix}:task.cards[{card.get('id')}] sequenceKind=event requires a year marker"
+                    )
         meaning = task.get("meaningQuestion")
         if not isinstance(meaning, dict):
             errors.append(f"{prefix}: sequence requires meaningQuestion")

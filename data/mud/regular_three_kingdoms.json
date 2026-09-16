@@ -329,6 +329,7 @@
         "interaction": "inquiry-task",
         "task": {
           "type": "sequence",
+          "sequenceKind": "event",
           "prompt": "신라가 한강 유역을 차지하고 그 사실을 기록으로 남기는 과정을 순서대로 배열하세요.",
           "cards": [
             {
@@ -345,8 +346,8 @@
             },
             {
               "id": "erect-bukhansan-monument",
-              "label": "북한산 순수비 세우기",
-              "detail": "영토 확장과 순행을 기념하는 비석을 세웁니다. 세운 해는 학자마다 의견이 다르지만 모두 순행 뒤로 봅니다.",
+              "label": "북한산 순수비 세우기(568년경)",
+              "detail": "영토 확장과 순행을 기념하는 비석을 세웁니다. 정확한 연도는 학자마다 의견이 다르지만(555~568년), 우리역사넷은 비문의 지명 '남천주'를 근거로 568년 10월 이후로 추정합니다. 모두 순행 뒤로 봅니다.",
               "orderFeedback": "비석은 영토를 차지하고 순행한 뒤에 그 성과를 남긴 기록입니다."
             }
           ],
@@ -519,6 +520,7 @@
   },
   "sources": [
     {"institution": "한국학중앙연구원", "title": "서울 북한산 신라 진흥왕 순수비(한국민족문화대백과사전)", "url": "https://encykorea.aks.ac.kr/Article/E0024795", "checkedAt": "2026-09-14", "claimScope": "3단계 sequence: 553년 한강 하류 확보, 555년 북한산 순행, 비석 건립 연대 미확정(561~568년 또는 그 뒤). Codex red team R3-06이 원문을 확인했고 Claude가 2026-09-15 데이터에 반영"},
+    {"institution": "국사편찬위원회", "title": "서울 북한산 신라 진흥왕 순수비(우리역사넷)", "url": "https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_r101300&code=kc_age_10", "checkedAt": "2026-09-16", "claimScope": "3단계 sequence 카드 erect-bukhansan-monument: D-031로 sequenceKind:\"event\"를 적용하며 카드에 연도 표지가 필요해졌다. 우리역사넷은 비문의 지명 '남천주'를 근거로 건립을 568년 10월 이후로 추정한다고 밝혀, 라벨에 \"(568년경)\"을 추가했다(555~568년 학설 대립은 위 한국민족문화대백과사전 출처와 detail 문구에 이미 반영돼 있어 그대로 둠). Claude가 2026-09-16 데이터에 반영"},
     {"institution": "국사편찬위원회", "title": "평양 천도와 남진(우리역사넷)", "url": "https://contents.history.go.kr/front/hm/print.do?levelId=hm_009_0050&tabId=01&treeId=020102&whereStr=", "checkedAt": "2026-09-14", "claimScope": "2단계 map-evidence: 427년 평양 천도, 475년 한성 함락. Codex red team R3-05가 원문을 확인했고 Claude가 2026-09-15 데이터에 반영"},
     {
       "institution": "국립특수교육원",

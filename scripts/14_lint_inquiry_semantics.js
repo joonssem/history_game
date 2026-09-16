@@ -105,31 +105,49 @@ function checkSequenceOrderLeak(mudId, stageKey, simulator, task) {
   return warnings;
 }
 
-// --- 체크 2: sequence 카드가 날짜로 확인되는 사건인가 (D-030 3) ---
-// 라운드 5: 공정 순서(토기 만들기, 활자 인쇄 단계)는 애초에 "몇 년에 일어난 일"이
-// 아니라 "무엇을 먼저 해야 다음이 가능한가"를 묻는 문법이라 카드에 연도가 없는 게
-// 정상이다. 데이터에 이를 구분하는 필드가 없어(§4-1, 스키마 제안은 보고서 참고),
-// 카드 전부가 날짜 없이 구성돼 있으면 "공정 순서"로 보고 카드별 경고를 한 줄
-// 요약으로 묶는다. 날짜가 섞여 있으면(일부만 있음) "사건 순서"로 보고 날짜 없는
-// 카드만 개별적으로 계속 경고한다 — 그게 진짜 검토할 공백이다(삼국 3관문 사례).
+// --- 체크 2: sequence 카드가 날짜로 확인되는 사건인가 (D-030 3, D-031) ---
+// D-031(2026-09-16 구현): task.sequenceKind가 있으면 추정하지 않고 그대로 쓴다.
+// - "process"(공정 순서)는 연도가 없는 게 정상이라 경고하지 않는다.
+// - "event"(사건 순서)는 scripts/04가 이미 "카드마다 연도 표지 필수"를 계약으로
+//   강제하므로, 이 스크립트가 다시 실패시키지 않는다. 다만 lint는 04보다 먼저
+//   또는 04 없이 돌 수도 있으므로, event인데 날짜 없는 카드가 남아 있으면 여전히
+//   개별 경고로 낸다(검토 목록이라 이중 확인은 해가 되지 않는다).
+// sequenceKind가 아직 없는 편(라운드 5 이전 데이터, 또는 미래의 새 편)은 라운드 5의
+// 추정 규칙으로 대체(fallback)한다 — 카드 전부에 날짜가 없으면 공정 순서로 보고
+// 한 줄 요약으로 묶고, 일부만 없으면 사건 순서로 보고 개별 경고를 유지한다.
 function checkSequenceDatelessCards(mudId, stageKey, task) {
   const warnings = [];
   const cards = task.cards || [];
   const datelessCards = cards.filter(card => !YEAR_PATTERN.test(`${card.label || ''} ${card.detail || ''}`));
   if (!datelessCards.length) return warnings;
 
+  if (task.sequenceKind === 'process') {
+    return warnings;
+  }
+  if (task.sequenceKind === 'event') {
+    datelessCards.forEach(card => {
+      warnings.push({
+        mudId, stageKey, field: `cards[${card.id}]`,
+        kind: 'event',
+        message: 'sequenceKind: "event"인데 연도 표지가 없습니다 — scripts/04 계약 위반입니다. 연도를 추가하세요.'
+      });
+    });
+    return warnings;
+  }
+
+  // sequenceKind 미지정 — 라운드 5 추정 규칙(fallback)
   if (datelessCards.length === cards.length) {
     warnings.push({
       mudId, stageKey, field: `cards (${cards.length}장 전체)`,
       kind: 'process',
-      message: `카드 전부에 연도 표지가 없습니다 — 공정 순서(무엇을 먼저 해야 다음이 가능한가)로 보입니다. 사건 순서로 의도했다면 확인하세요.`
+      message: `sequenceKind가 없고 카드 전부에 연도 표지도 없습니다 — 공정 순서로 추정됩니다. task.sequenceKind: "process"를 명시하세요(D-031).`
     });
   } else {
     datelessCards.forEach(card => {
       warnings.push({
         mudId, stageKey, field: `cards[${card.id}]`,
         kind: 'event',
-        message: '다른 카드에는 연도가 있는데 이 카드만 없습니다 — 사건 순서 중 날짜 공백으로 보입니다. 연도를 추가할지 검토하세요.'
+        message: 'sequenceKind가 없고 다른 카드에는 연도가 있는데 이 카드만 없습니다 — 사건 순서 중 날짜 공백으로 추정됩니다. task.sequenceKind를 명시하고(D-031) 연도 공백을 검토하세요.'
       });
     });
   }
@@ -281,15 +299,9 @@ function main() {
       '> **라운드 4 지시서와 다른 점**: 지시서(§4-1)는 "기획 세션이 방금 고친 삼국 3관문은 순서 노출 경고가 사라져야 한다"고 했지만, 아래처럼 여전히 남아 있다. `b4dca60`는 `simulator.instruction`의 "영토 확보→교류→기록 순서로"만 지웠고, `meaningQuestion.options[order-random].feedback`의 같은 패턴("영토 확보→순행→기록 사이에는 앞뒤 관계가 있습니다")은 손대지 않았다. `data/mud/regular_three_kingdoms.json`은 조작대 소유가 아니라(관문 설계실) 여기서 고치지 않고 보고만 한다.',
       ''
     ] : []),
-    '## 스키마 제안 (구현하지 않음, §4-1)',
+    '## D-031 구현 (2026-09-16)',
     '',
-    '"날짜 없는 카드" 경고를 공정 순서/사건 순서로 나눈 판단은 지금 이 스크립트가 "카드 전부에 연도가 없는가"로 **추정**한 것이다. 데이터에 직접 표지가 있으면 추정이 필요 없다. `sequence` task에 `task.sequenceKind: "event" | "process"` 필드를 추가하면:',
-    '',
-    '- 관문 설계실이 편을 만들 때 의도를 명시적으로 남길 수 있다(추정이 틀릴 여지가 없어짐).',
-    '- 이 스크립트는 필드가 있으면 그대로 쓰고, 없을 때만 지금의 추정 규칙으로 대체(fallback)하면 된다.',
-    '- 화면 문구·판정 로직에는 영향이 없다 — 감사 스크립트 전용 메타데이터다.',
-    '',
-    '이번 라운드에는 구현하지 않는다. 데이터 스키마 변경은 관문 설계실·기획 세션의 승인이 먼저 필요하다.',
+    '라운드 5에서 제안만 했던 `task.sequenceKind: "event" | "process"` 필드가 사용자 승인을 받아 구현됐다. "날짜 없는 카드" 분류는 더 이상 추정하지 않고 이 필드를 그대로 읽는다 — 파일럿 4편(고려 문화 2관문·신석기 2관문은 `process`, 삼국 3관문·근대 2관문은 `event`) 모두 필드가 있다. 필드가 없는 편(미래의 새 편)은 라운드 5의 추정 규칙으로 대체(fallback)한다. `scripts/04`가 `sequenceKind` 존재·값 범위와, `event`일 때 카드마다 연도 표지를 계약으로 강제한다.',
     '',
     ...lines
   ].join('\n');

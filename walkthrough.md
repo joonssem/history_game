@@ -1856,3 +1856,21 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
   - 3단원 수정 금지 해제(D-032)
   - 수업 관찰 먼저(D-033)
 - 관찰 기록지를 새로 만들었다: `docs/plans/classroom_observation_session_sheet.md`. 차시 전체 기록 A, 추적 학생 B(기존 파일럿 기록지 확장), 라운드 3~5에서 고친 곳을 교실에서 확인하는 표 C를 담았다.
+
+## 2026-09-16 — 조작대(inquiry-console) 라운드 6: 협동 패킷 검증 스크립트 + D-031 sequenceKind 구현
+
+`docs/handoff/claude_four_track_round6_instruction.md` §4.
+
+### 4-1 `scripts/15_validate_cooperative_packet.js` 신설
+
+- 계획서(`implementation_plan_joseon_late_cooperative_live_vertical_slice.md` §4)의 `CooperativeScenario` 계약 관문을 검사: `roleIds`·`evidenceIds` 참조 무결성, 3·4·5인 변형 모두 참여자마다 고유 자료 보유, 3인 변형의 역할 겸임 금지, `minEvidence`/`minDistinctRoleSources` ≥ 2, `limitOptions`에 "알 수 없는 것" 항목 존재, 과잉 단정어("모든 사람"·"전국"·"즉시"·"누구나"·"완전히") 검사(경고).
+- 대상 파일(`data/cooperative/*.json`)이 아직 없어 **건너뛰고 통과**(연결 공방과 병렬 작업). 임시 fixture로 6개 위반 유형이 실제로 걸리는지 직접 확인한 뒤 삭제.
+
+### 4-2 D-031 `sequenceKind` 구현
+
+- `data/mud/regular_goryeo_culture.json` 2관문, `regular_neolithic.json` 2관문 → `sequenceKind: "process"`. `regular_three_kingdoms.json` 3관문, `regular_modern_open.json` 2관문 → `sequenceKind: "event"`.
+- **부수 발견·수정**: `event`로 표시한 삼국 3관문의 `erect-bukhansan-monument` 카드에 연도 표지가 없어 D-031 규칙 2("event는 모든 카드에 연도 필요")를 어겼다. 기존 데이터에 이미 "건립 연대는 학자마다 다르다"는 주석이 있어 임의로 연도를 지어내지 않고, 우리역사넷(국사편찬위원회) 원문을 직접 열어 확인 — "비문의 지명 '남천주'를 근거로 568년 10월 이후로 추정"한다고 명시함을 확인하고, 라벨에 "(568년경)"을 추가·`detail`에 555~568년 학설 대립을 함께 적었다. `sources`에 확인 날짜(2026-09-16)와 근거를 새 항목으로 추가(기존 항목은 수정하지 않음).
+- `scripts/04_validate_mud_contract.py`: `sequenceKind`가 `event`/`process` 중 하나인지, `event`면 카드마다 연도 표지(YEAR_PATTERN, `scripts/14`와 동일 정규식)가 있는지 계약으로 강제.
+- `scripts/14_lint_inquiry_semantics.js`: 추정 대신 `task.sequenceKind`를 그대로 읽어 분류. 필드가 없는 미래 편을 위해 라운드 5의 추정 규칙을 fallback으로 유지. 파일럿 4편 모두 필드가 채워져 경고 0건(허용됨 12건은 그대로 보존).
+- 검증: `04`·`05`·`11`·`13`·`14`·`15` 전부 통과. `inquiry-console`(8804)에서 삼국 3관문 카드 라벨·설명이 화면에 정상 표시되는지, 정답 순서 제출이 여전히 통과하는지 확인. 콘솔 오류 0건.
+- 확인 불가 항목 없음(우리역사넷 원문을 직접 열어 확인함).
