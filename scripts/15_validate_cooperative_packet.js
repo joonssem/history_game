@@ -23,6 +23,23 @@ const ROLE_CARD_DOC = path.join(__dirname, '..', 'docs', 'handoff', 'claude_jose
 const OVERCLAIM_WORDS = ['모든 사람', '전국', '즉시', '누구나', '완전히'];
 const PLACEHOLDER_MARKER = '[PLACEHOLDER';
 const IS_FINAL = process.argv.includes('--final');
+const IS_CARDS = process.argv.includes('--cards');
+
+// 라운드 7 2단계 §3: 아이패드 가독성 기준값. 전부 제안값이며, 실패로
+// 막지 않고 경고만 낸다 — 수업 리허설(10/12~16)에서 실측하며 조정한다.
+const LENGTH_LIMITS = {
+  privateInfoSentenceMin: 3,
+  privateInfoSentenceMax: 5,
+  privateInfoRecommended: 40,
+  privateInfoWarn: 60,
+  singleSentenceWarn: 80,
+  shortLabelWarn: 30,
+  limitTextWarn: 60
+};
+
+function isPlaceholder(text) {
+  return typeof text === 'string' && text.includes(PLACEHOLDER_MARKER);
+}
 
 // D-034(라운드 7 확정값). "확정값"과 다르면 라운드 6에서 벌어진 것과 같은
 // 어긋남(역할 id·5인 역할·3인 구성이 문서마다 달랐던 문제)이므로 실패로 낸다.
@@ -86,7 +103,7 @@ function collectStudentFacingTexts(packet) {
 // 충분하다는 지시(§4 2) 그대로, 본문 서술은 파싱하지 않는다.
 function extractRoleIdsFromDoc(docPath) {
   if (!fs.existsSync(docPath)) return null;
-  const lines = fs.readFileSync(docPath, 'utf-8').split('\n');
+  const lines = fs.readFileSync(docPath, 'utf-8').split(/\r?\n/);
   const headingRe = /^#{2,6}\s+.*?\(`([a-z][a-z0-9_-]*)`\)/;
   const evidenceRe = /\*\*evidenceId\*\*:\s*`([a-z][a-z0-9_-]*)`/;
   const pairs = [];
@@ -101,6 +118,86 @@ function extractRoleIdsFromDoc(docPath) {
     }
   }
   return pairs;
+}
+
+// --cards용: 역할 카드 문서의 "- **privateInfo**(...):" 아래 번호 목록
+// 항목을 역할별로 뽑는다. 각 항목이 이미 문장 하나이므로 다시 나누지
+// 않는다. 항목 끝의 `[출처 후보: ...]` 같은 인라인 코드(백틱) 표기는
+// 학생 화면에 나가지 않는 메모라 길이 계산에서 뺀다.
+function extractPrivateInfoFromDoc(docPath) {
+  if (!fs.existsSync(docPath)) return null;
+  const lines = fs.readFileSync(docPath, 'utf-8').split(/\r?\n/);
+  const headingRe = /^#{2,6}\s+.*?\(`([a-z][a-z0-9_-]*)`\)/;
+  const fieldLineRe = /^-\s+\*\*(\w+)\*\*/;
+  const listItemRe = /^\s*\d+\.\s+(.*)$/;
+  const cardsByRole = new Map();
+  let currentId = null;
+  let collecting = false;
+  for (const line of lines) {
+    const heading = line.match(headingRe);
+    if (heading) { currentId = heading[1]; collecting = false; continue; }
+    const field = line.match(fieldLineRe);
+    if (field) {
+      collecting = field[1] === 'privateInfo';
+      if (collecting && currentId && !cardsByRole.has(currentId)) cardsByRole.set(currentId, []);
+      continue;
+    }
+    if (!collecting || !currentId) continue;
+    const item = line.match(listItemRe);
+    if (!item) continue;
+    const text = item[1].replace(/`[^`]*`/g, '').trim();
+    if (text) cardsByRole.get(currentId).push(text);
+  }
+  return cardsByRole;
+}
+
+function checkPrivateInfoLength(label, sentences, warnings) {
+  if (!sentences.length) return;
+  if (sentences.length < LENGTH_LIMITS.privateInfoSentenceMin || sentences.length > LENGTH_LIMITS.privateInfoSentenceMax) {
+    warnings.push(`${label}: 문장 ${sentences.length}개 — 권장 ${LENGTH_LIMITS.privateInfoSentenceMin}~${LENGTH_LIMITS.privateInfoSentenceMax}문장(제안값)`);
+  }
+  sentences.forEach((sentence, index) => {
+    const length = sentence.length;
+    if (length > LENGTH_LIMITS.privateInfoWarn) {
+      warnings.push(`${label}[${index + 1}]: ${length}자 — 권장 ${LENGTH_LIMITS.privateInfoRecommended}자 안팎, ${LENGTH_LIMITS.privateInfoWarn}자 초과(제안값): "${sentence}"`);
+    }
+  });
+}
+
+function checkSingleSentenceLength(label, text, limit, warnings) {
+  if (!text) return;
+  if (text.length > limit) {
+    warnings.push(`${label}: ${text.length}자 — ${limit}자 초과(제안값): "${text}"`);
+  }
+}
+
+function checkReadability(packet) {
+  const warnings = [];
+  (packet.roles || []).forEach(role => {
+    if (!isPlaceholder(role.privateInfo)) {
+      checkPrivateInfoLength(`roles[${role.id}].privateInfo`, splitSentences(role.privateInfo), warnings);
+    }
+    if (!isPlaceholder(role.sharePrompt)) {
+      checkSingleSentenceLength(`roles[${role.id}].sharePrompt`, role.sharePrompt, LENGTH_LIMITS.singleSentenceWarn, warnings);
+    }
+    if (!isPlaceholder(role.interest)) {
+      checkSingleSentenceLength(`roles[${role.id}].interest`, role.interest, LENGTH_LIMITS.singleSentenceWarn, warnings);
+    }
+  });
+  if (packet.firstJudgment && !isPlaceholder(packet.firstJudgment.prompt)) {
+    checkSingleSentenceLength('firstJudgment.prompt', packet.firstJudgment.prompt, LENGTH_LIMITS.singleSentenceWarn, warnings);
+  }
+  (packet.synthesis?.evidenceOptions || []).forEach(o => {
+    if (!isPlaceholder(o.shortLabel)) {
+      checkSingleSentenceLength(`synthesis.evidenceOptions[${o.id}].shortLabel`, o.shortLabel, LENGTH_LIMITS.shortLabelWarn, warnings);
+    }
+  });
+  (packet.synthesis?.limitOptions || []).forEach(o => {
+    if (!isPlaceholder(o.text)) {
+      checkSingleSentenceLength(`synthesis.limitOptions[${o.id}].text`, o.text, LENGTH_LIMITS.limitTextWarn, warnings);
+    }
+  });
+  return warnings;
 }
 
 function checkOverclaimWords(packet) {
@@ -269,6 +366,8 @@ function validatePacket(fileName, packet, docPairs) {
   errors.push(...checkCrossReferences(packet, docPairs));
   warnings.push(...checkUnknownTopLevelFields(packet));
   warnings.push(...checkOverclaimWords(packet));
+  // 라운드 7 2단계: 글 길이·가독성(제안값, 실패로 막지 않음)
+  warnings.push(...checkReadability(packet));
 
   const placeholderCount = countPlaceholders(packet);
   if (placeholderCount > 0) {
@@ -280,7 +379,39 @@ function validatePacket(fileName, packet, docPairs) {
   return { fileName, errors, warnings, placeholderCount };
 }
 
+// --cards: 패킷 JSON 없이 역할 카드 문서(claude_joseon_late_role_cards.md)의
+// privateInfo 목록만 같은 길이 기준으로 검사한다. 관문 설계실이 문서를
+// 확정하는 동안(2단계 §1) 바로 쓸 수 있게 하기 위함이다. 경고만 내고
+// 실패시키지 않는다 — 기준값 자체가 제안값이라서다.
+function runCardsMode() {
+  const cardsByRole = extractPrivateInfoFromDoc(ROLE_CARD_DOC);
+  if (cardsByRole === null) {
+    console.log(`SKIP: ${path.relative(process.cwd(), ROLE_CARD_DOC)}가 없습니다.`);
+    return;
+  }
+  if (!cardsByRole.size) {
+    console.log('SKIP: 역할 카드 문서에서 privateInfo 목록을 찾지 못했습니다.');
+    return;
+  }
+  let total = 0;
+  for (const [roleId, sentences] of cardsByRole) {
+    const warnings = [];
+    checkPrivateInfoLength(`${roleId}.privateInfo`, sentences, warnings);
+    if (!warnings.length) {
+      console.log(`OK ${roleId}: 문장 ${sentences.length}개, 길이 기준 통과`);
+    } else {
+      warnings.forEach(w => console.log(`  [경고] ${w}`));
+      total += warnings.length;
+    }
+  }
+  console.log(`\n총 경고 ${total}건 (제안값 기준 — 수업 리허설(10/12~16)에서 실측하며 조정한다).`);
+}
+
 function main() {
+  if (IS_CARDS) {
+    runCardsMode();
+    return;
+  }
   if (!fs.existsSync(PACKET_DIR)) {
     console.log(`SKIP: ${path.relative(process.cwd(), PACKET_DIR)}가 아직 없습니다 — 연결 공방 작업 전이라 건너뛰고 통과합니다.`);
     return;

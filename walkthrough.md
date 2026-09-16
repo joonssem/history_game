@@ -1935,3 +1935,14 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - **검증**: 빈 규칙 확인용 fixture(완전 위반본 6종, D-034 완전 합치본)를 임시로 만들어 각 검사가 정확히 걸리고/통과하는지 직접 확인한 뒤 삭제, 실제 파일은 복원(`git status --short`로 조작대 소유 파일만 바뀐 것 확인).
 - **현재 상태(예상된 실패)**: 내 워크트리의 `data/cooperative/joseon_late_packet.draft.json`·`claude_joseon_late_role_cards.md`는 아직 라운드 6 산출물(`nongmin`/`artisan`/`rokgwan`/`pumpali`/`gongin`)이라 `scripts/15`가 실패한다 — 지시서 §4 1단계 주의대로 **예상된 것**이며, 통합본(연결 공방·관문 설계실의 라운드 7 §1·§3 반영 후)에서 다시 확인해야 한다.
 - `04`·`05`·`13`·`14`는 모두 통과.
+
+## 2026-09-16 — 조작대(inquiry-console) 라운드 7 2단계: scripts/15 글 길이·가독성 검사 + --cards 옵션
+
+`docs/handoff/claude_four_track_round7_stage2_instruction.md` §3.
+
+- **길이·가독성 검사 추가**(`checkReadability`): `privateInfo`는 문장 수 3~5·문장당 60자 초과 경고(권장 40자 안팎), `sharePrompt`·`interest`·`firstJudgment.prompt`는 80자 초과 경고, `evidenceOptions[].shortLabel`은 30자 초과 경고, `limitOptions[].text`는 60자 초과 경고. `[PLACEHOLDER`가 남은 문자열은 아직 실제 문안이 아니므로 검사에서 제외한다.
+- **기준값은 제안값**이라고 스크립트 주석과 이 기록에 명시한다 — 수업 리허설(10/12~16)에서 실측하며 조정한다. 경고만 내고 실패로 막지 않는다(`--final`도 이 검사에는 영향 없음, 자리표시자 개수만 실패로 전환).
+- **`--cards` 옵션 신설**: 패킷 JSON 없이 역할 카드 문서(`claude_joseon_late_role_cards.md`)의 `privateInfo` 번호 목록만 같은 기준으로 검사한다. 관문 설계실이 2단계 §1에서 바로 쓸 수 있다.
+- **버그 수정**: 문서 파싱 정규식이 `$` 앵커를 썼는데 파일이 CRLF(`\r\n`)라 모든 줄 끝에 `\r`이 남아 있어 어떤 줄도 매칭되지 않았다(`--cards`가 항상 "문장 0개"만 보고). `split('\n')`을 `split(/\r?\n/)`로 바꿔 고쳤고, 실제 파일로 재현·수정 확인.
+- 실행 결과: 현재 패킷은 `evidenceOptions` 7곳과 `firstJudgment.prompt`가 30자/80자를 넘어 경고. 역할 카드 문서는 `farmer`·`craftsman`·`recordkeeper`·`laborer`의 문장 하나씩(총 5건)이 60자를 넘어 경고 — 관문 설계실이 참고할 수 있게 그대로 남겨 둠(내가 직접 고치지 않음, 남의 파일).
+- 검증: `04`·`05`·`13`·`14` 통과. `15`(정상/`--final`/`--cards` 세 모드) 모두 의도대로 동작 확인. `git status --short`로 조작대 소유 파일만 바뀐 것 확인.
