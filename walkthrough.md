@@ -1901,3 +1901,11 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - 미실행: 4~8대 성인·교사 기기 리허설, 학교 Wi-Fi·iPad QR·실제 WebSocket 재접속, 실제 학생 시험. 이 항목들은 완료로 간주하지 않고 `EXP-009`에 결과를 기록한다.
 - 기준 커밋 `39df640` 읽기 전용 감사에서 확인 화면의 초안 내용 누락과 동시 편집 revision 경쟁 결함을 발견했다. 자기 역할 자료의 판단·말하기 단계 유지, 공유 n/N, 서버의 정책·역할 근거 정확히 2개 검증까지 함께 보정하고 revision 1 확인→revision 2 수정→0/N 초기화→구 revision 거부 회귀를 추가했다. 상세는 `docs/audits/early_goryeo_cooperative_live_review.md`.
 - 수정 커밋 `c21e74b` 최종 재감사는 병합 차단 결함 없음으로 판정했다. 비차단 지적에 따라 21명 통합 테스트가 고조선을 명시하도록 고치고, 여러 학생이 대기실에서 함께 쓰는 QR을 “일회 입장키”라고 부르던 README 표현을 정정해 `bd67371`에 기록했다. 기술 Preview·성인 리허설은 Go, 실제 학생 Production은 No-go다.
+
+## 2026-09-16 — 고려 초기 실시간 활동 main 통합·push 전 검증
+
+- 기능 브랜치를 최신 `origin/main` 위로 재배치하고 `main`에 fast-forward 통합했다. 작업 중 원격에 추가된 `16d28bf`도 merge commit `9a01416`으로 합쳐 조선 후기 라운드 7 문서를 보존했다.
+- main에 남아 있던 중단된 대안 `apps/cooperative-live/shared/scenario.ts`는 삭제하지 않고 `preserve interrupted early-goryeo alternative before integration 2026-09-16` 이름의 stash로 보존했다. 최종 구현은 비공개 역할 본문을 서버 전용 파일로 분리하므로 이 대안은 적용하지 않는다.
+- main의 의존성을 `npm ci`로 lockfile과 맞춘 뒤 `npm run check`를 재실행했다. lint, TypeScript, 단위 테스트 17건, Convex 통합 테스트 2건, production build가 모두 통과했다.
+- 최신 main의 `python scripts/04_validate_mud_contract.py`와 `node scripts/15_validate_cooperative_packet.js`도 통과했다. 조선 후기 패킷의 “전국” 표현 경고 3건은 기존 라운드 7 검토 항목이며 이번 고려 구현의 실패가 아니다.
+- 판정은 기술 Preview·성인 4~8대 리허설 Go, 실제 학생 Production No-go를 유지한다.

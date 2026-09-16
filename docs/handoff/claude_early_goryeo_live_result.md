@@ -57,3 +57,7 @@
 기준 커밋 `39df640`의 읽기 전용 감사에서 공동 초안 내용 미표시, 편집 시작 revision 미고정, 판단·말하기 단계의 자기 역할 자료 미표시가 발견됐다. 서버의 정확히 2개 검증도 함께 강화했다. 수정 내용과 회귀 근거는 [`early_goryeo_cooperative_live_review.md`](../audits/early_goryeo_cooperative_live_review.md)에 기록했다.
 
 수정 커밋 `c21e74b` 이후 최종 재감사에서는 병합 차단 결함이 없었다. 21명 테스트의 고조선 시나리오 미명시와 QR “일회” 표현을 추가로 바로잡아 `bd67371`에 기록했다. 판정은 기술 Preview·성인 리허설용 main 병합 Go, 실제 학생 Production No-go다.
+
+## main 통합
+
+2026-09-16 최신 원격 문서 커밋 `16d28bf`와 고려 초기 기능을 main에 함께 통합했다. main 체크아웃에서 `npm ci` 뒤 `npm run check`, `scripts/04_validate_mud_contract.py`, `scripts/15_validate_cooperative_packet.js`를 다시 통과했다. 중단된 대안 시나리오 파일은 삭제하지 않고 이름 있는 stash로 보존했으며 최종 코드에는 포함하지 않았다.
