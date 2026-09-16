@@ -177,6 +177,15 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
   - **렌더링 확인**: `artifact-site`(8802)에서 `cmp_crown_1`·`cmp_ceramics_1`을 실제로 플레이해 정정된 연대가 화면에 그대로 나오는지, `art_deep_2` 도감 상세 모달에서 정정된 desc가 뜨는지 확인. 콘솔 에러 0건.
   - 검증: `python -c` JSON 파싱(11+36개), `01_validate_game_data.py`·`04_validate_mud_contract.py`·`node 05_test_simulator_runtime.js`·`11_audit_artifacts.py`(0건)·`node 13`·`node 14` 전부 통과. `git status --short`로 최종 커밋 범위가 `data/artifactComparisons.json`·`data/artifacts.json`·`BACKLOG.md`·`docs/audits/artifacts_fact_check.md` 넷뿐임을 확인. main 체크아웃은 열지도 않았다.
   - **판단이 갈린 지점**: 없음 — Codex T2의 기존 정정(cmp_folk_paintings_1/paleo_neo_1/metal_tech_1, art_12 보고)은 지시대로 되돌리지 않았다.
+- **2026-09-16 라운드 6 「대조실」 — 조선 후기 공개수업(10/28) 출처 검토표**: `docs/handoff/claude_four_track_round6_instruction.md` §2를 받아 진행. 이번 라운드는 기존 데이터 정정이 아니라 **다른 창(관문 설계실·연결 공방)이 새 협동 학습 콘텐츠를 쓸 때 참고할 신규 문서**를 만드는 작업이었다 — `data/artifactComparisons.json`·`data/artifacts.json`은 건드리지 않았다. main 체크아웃은 열지 않았고, push도 안 했다(§0-2).
+  - **산출물**: `docs/audits/joseon_late_source_review.md` 신규 작성. 장시·화폐(상평통보)·농업 생산(이앙법)·수공업·광업·생활·서민 문화 5개 주제를 우리역사넷 원문(전부 WebFetch로 직접 열람, 2026-09-16)을 근거로 "말하는 것/말하지 않는 것/지역·신분·시기 차이/출처"로 정리했다. 위키백과·나무위키는 검색 결과에 섞여 있어도 근거로 쓰지 않았다. 다섯 주제와 자주 엮이는 배경지식(신분제 동요·양반 인구 증가)도 부록으로 추가했다.
+  - **주요 발견**: 장시는 18세기 **말**에야 전국 1,000곳(그 이전 시기에 "전국"이라고 쓰면 시기 오류), 상평통보는 초기엔 서울·각 아문 중심이었고 영조대엔 오히려 '전황'(돈 부족)이 있었다, 이앙법은 삼남지방이 먼저였고 전국 균일 확산이 아니었다(수리시설이 조건), 광업 민영화는 연·은 생산지에 한정된 서술이고 금 등 다른 광물까지 일반화할 근거가 없다, "서민 문화"의 실제 향유층은 서민뿐 아니라 중인·상공업 계층·부농층까지 포함된다(오히려 "서민만"이라고 쓰면 원문과 어긋남), 신분제는 "해체되어 **가던**"(진행형) 것이지 "사라졌다/폐지됐다"가 아니다.
+  - **과잉 단정 점검표**: 지시서 §0-2-4의 5개 금지어("모든 사람"·"전국"·"즉시"·"누구나"·"완전히")가 각 주제에서 왜 위험한지 한 줄씩 표로 정리해 다른 창이 문안 작성 시 체크리스트로 쓰게 했다.
+  - **§2-4(역할 카드 대조)는 대기**: 관문 설계실의 `docs/handoff/claude_joseon_late_role_cards.md`가 이 라운드 작성 시점까지 아직 없어(`ls`로 확인), 대조·수정 요청 목록 작성은 문서 끝에 빈 자리(관리 마커)만 만들어 두고 다음에 이어가기로 했다. 남의 파일은 만들지도 고치지도 않았다.
+  - **확인 불가로 남긴 것**: 이앙법 확산에서 지주-소작농 신분차, 수공업·광업의 지역차(개별 광산 단위), 서민 문화 향유의 도시-농촌 지역차 — 세 항목 모두 오류로 단정하지 않고 "확인 불가"로 표시했다.
+  - **부수 확인**: `node scripts/13`·`14`를 실행하면 조작대 소유 보고서 2개가 재생성되는데, 이번에도 실제 내용 변화(타임스탬프성 2줄)만 있어 `git checkout --`으로 되돌렸다. `14`의 총 경고가 지난 라운드(20건)에서 **3건**으로 줄어든 것을 확인했는데, 이건 내가 고친 게 아니라 다른 창(조작대)이 D-031 `sequenceKind`를 이미 구현해 반영된 결과로 보인다 — 내 커밋 범위에는 포함하지 않았다.
+  - 검증: `python scripts/04_validate_mud_contract.py`·`node scripts/05_test_simulator_runtime.js`·`python scripts/11_audit_artifacts.py`(0건)·`node scripts/13`·`node scripts/14` 전부 통과(이번 라운드는 `data/*.json`을 안 고쳐서 `01_validate_game_data.py`는 참고용으로만 확인). `git status --short`로 최종 커밋 범위가 `BACKLOG.md`·`docs/audits/joseon_late_source_review.md` 둘뿐임을 확인.
+  - **판단이 갈린 지점**: 없음.
 
 ## P1-COLLAB-EARLY-GORYEO — 실시간 협동 MUD 첫 실제 활동
 
