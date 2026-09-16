@@ -1856,3 +1856,15 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
   - 3단원 수정 금지 해제(D-032)
   - 수업 관찰 먼저(D-033)
 - 관찰 기록지를 새로 만들었다: `docs/plans/classroom_observation_session_sheet.md`. 차시 전체 기록 A, 추적 학생 B(기존 파일럿 기록지 확장), 라운드 3~5에서 고친 곳을 교실에서 확인하는 표 C를 담았다.
+
+## 2026-09-16 — 「관문 설계실」(gate-grammar) Round 6 §1: 조선 후기 역할별 자료 카드 (10월 28일 공개수업 C1)
+
+`TASK-20260916-GATE-R6 | 조선 후기 협동 활동 4/3/5인 역할 카드 초안 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- 지시서 `docs/handoff/claude_four_track_round6_instruction.md` §0·§1. `data/mud/`·`apps/**`·`js/*.js` 미접촉, main 체크아웃 미접촉, 이 브랜치에만 커밋(push 없음).
+- 산출물: `docs/handoff/claude_joseon_late_role_cards.md`. 4인 역할(농민·보부상·장시 주민·수공업자·기록관)의 `privateInfo`(역할 간 내용 비중복)·`sharePrompt`·`interest`, 3인 변형(겸임 없음 + 공통 자료 보충), 5인 변형(다섯째 역할 `공인` — 고유 근거 보유, 서기 아님), `commonPrompt`, 정답 없는 `firstJudgment`, `synthesis` 옵션(근거 8개, `minEvidence:2`·`minDistinctRoleSources:2`), 질문 틀 3종, 교사 개입 문구, sticky-wall 형식을 계획서 §4 `CooperativeScenario` 타입에 맞춰 초안으로 작성했다.
+- 지시서의 핵심 제약("자료 한 장만 봐도 답이 나오면 안 됨", "역할끼리 이해관계가 부딪혀야 함")을 직접 점검해 문서 §2에 4가지 갈등축(농민↔보부상 가격, 보부상↔수공업자 경쟁, 농민 본인↔이웃 광작 격차, 공인↔소상인 물량 선점)을 명시했다.
+- 사실 문장마다 `[출처 후보]` 표기로 이미 검증된 것과 대조실이 확인할 것을 구분했다 — 원문 대조는 직접 하지 않고 대조실에 넘겼다.
+- 검증: `04/05/11/13/14` 전부 통과(데이터 불변, 회귀 없음). `scripts/15`는 아직 없어(조작대 신설 예정) 건너뜀. 부수 갱신된 보고서 2개(내 소유 아님)는 되돌렸다.
+- 커밋 직전 `git status --short`로 새 문서 1개만 추가됐는지 확인했다.
+- 대조실·연결 공방·조작대에 넘길 요청을 문서 §9에 남겼다(남의 파일은 고치지 않음).

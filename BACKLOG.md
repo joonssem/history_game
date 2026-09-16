@@ -734,3 +734,16 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - [ ] 3단원 사실 대조 (D-032)
 - [ ] 수원 화성 공사 기간(10년 예정 → 2년 9개월) 원문 확인
 - [ ] 대기 유지: 설계 문서 4종, 캔버스 A/B, `art_12` 시대, deep-prehistoric 7커밋
+
+### 2026-09-16 「관문 설계실」(gate-grammar) Round 6 — §1: 조선 후기 역할별 자료 카드 (C1)
+
+- 지시서: `docs/handoff/claude_four_track_round6_instruction.md` §0·§1. 10월 28일 공개수업 콘텐츠 패킷 중 관문 설계실 몫. `data/mud/`·`apps/**`·`js/*.js`는 건드리지 않았다(§0 그대로). main 체크아웃 미접촉, 이 브랜치에만 커밋 — push 없음.
+- 산출물: `docs/handoff/claude_joseon_late_role_cards.md`. 4인 역할(농민·보부상·장시 주민·수공업자·기록관) `privateInfo`(3~5문장, 역할 간 내용 겹침 없음)·`sharePrompt`·`interest`, 3인 변형(겸임 없이 3역할 + 공통 자료 보충)·5인 변형(다섯째 역할 `공인` — 대동법 이후 관청 납품 상인, 단순 서기 아님), `commonPrompt`, `firstJudgment`(정답 없는 3지선다 + 이유는 기기 저장), `synthesis`(대상·근거 8개·한계 옵션, `minEvidence:2`/`minDistinctRoleSources:2`), 질문 틀 3종(대상·근거·한계), 교사 개입 문구, sticky-wall 문자열 형식을 초안으로 작성했다.
+- **판단 기준 자체 점검**: 지시서가 요구한 "자료 한 장만 봐도 답이 나오면 안 된다"를 직접 확인 — 농민 카드만으로는 "땅을 넓힌 사람은 좋아졌다"까지만 알 수 있고 화폐 불편·경쟁·기록 공백은 다른 역할 카드에만 있다.
+- **이해관계 충돌 설계**: 농민(제값 받고 싶음)↔보부상(쌀 때 사고 싶음), 보부상(타 지역 물건 유통)↔수공업자(그 물건과 경쟁), 농민 본인(광작 성공)↔농민의 이웃(땅을 구하지 못해 품팔이), 5인 변형의 공인(대량 확보로 안정적 이익)↔수공업자·보부상(물건 구하기 어려워짐) — 4가지 갈등축을 문서 §2에 명시했다.
+- 각 사실 문장 옆에 `[출처 후보: …]` 표기로 이미 검증된 것(라운드 5에서 대조 완료된 모내기법·상평통보)과 **대조실이 확인해야 할 것**(광작-품팔이 관계, 전황, 관영→민간 수공업 전환, 호적 누락, 대동법·공인 성립 범위)을 구분해 넘겼다. 원문 대조는 직접 하지 않았다(대조실 소관).
+- 검증: `04_validate_mud_contract.py`, `05_test_simulator_runtime.js`, `11_audit_artifacts.py`, `13_audit_inquiry_combinatorics.js`, `14_lint_inquiry_semantics.js` 전부 통과(데이터 불변, 회귀 없음). `scripts/15_validate_cooperative_packet.js`는 아직 없음(조작대 신설 예정) — 건너뜀. `13`·`14`가 부수적으로 갱신한 보고서 2개(내 소유 아님)는 `git checkout --`으로 되돌렸다.
+- 커밋 직전 `git status --short`로 새 문서 1개만 추가됐는지 확인했다.
+- **확인 불가 항목**: §10에 정리. 광작-품팔이 인과, 전황 시기, 관영→민간 수공업 전환 폭, 호적 누락 범위, 대동법·공인 성립 연도 — 전부 대조실 원문 대조 요청.
+- **다른 창에 넘긴 요청**: 대조실에 6곳 원문 대조 요청(문서 §9), 연결 공방에 `evidenceId` 문자열을 그대로 써서 `data/cooperative/joseon_late_packet.draft.json`에 옮겨 달라는 요청, 조작대에 `scripts/15`의 "역할별 고유 자료" 검사 기준으로 이 문서의 `evidenceId` 목록을 참고하라는 요청을 문서 끝에 남겼다. 남의 파일은 고치지 않았다.
+- **3단원 관련 발견**: 없음.
