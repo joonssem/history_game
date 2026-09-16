@@ -78,7 +78,7 @@
 - 작은 실험: 1단원 13차시 고려 건국 과정과 연결한 “새 고려의 첫 회의”를 실시간 협동 MUD의 첫 실제 활동으로 구현하고, 교사 1명+학생 4~8명으로 먼저 리허설한다. 역할 자료 비공개, 최초 판단 내용 비저장, 공유·확인 n/N, pause/resume, 새로고침 복구, 종료 삭제를 확인한다. 통과 뒤 실제 학생 소규모 시험과 21명 학급 시험 여부를 차례로 결정한다.
 - 관찰 지표: QR 입장 시간, 역할별 발화 여부, 최초 판단 전 공유 발생 여부, 공동 설명에 사용한 서로 다른 역할 근거 수, `더 이야기 필요` 사용, 단계별 소요 시간, 교사 개입 횟수, 복구·삭제 성공 여부.
 - 안전 조건: 학생 이름·학번·계정·개인 선택·이유·대화 원문을 서버에 저장하지 않는다. 실제 학생 접속 전 `P1-COLLAB-PRIVACY`의 근거 문서와 운영 환경 체크리스트가 완료 상태인지 재확인한다.
-- 상태: 첫 실제 활동 구현 계획 작성, 콘텐츠·구현 미착수. Claude가 구현을 단독 소유하고 Codex는 읽기 전용 감사를 맡는다. 상세는 [`구현 계획`](./docs/plans/implementation_plan_early_goryeo_cooperative_live_first_activity.md)과 [`러프 스케치`](./docs/plans/early_goryeo_cooperative_live_pilot_rough_sketch.md)를 참조한다.
+- 상태: 코드·자동 검증 완료, 4~8대 성인·교사 기기 리허설 대기. 역할 비공개, 개인 판단 로컬 보존, 공유 관문, 공동 초안 revision, 전원 확인, pause/resume, 종료 삭제를 자동 검증했다. 실제 기기·학교 네트워크·학생 반응은 아직 관찰하지 않았다. 상세는 [`구현 계획`](./docs/plans/implementation_plan_early_goryeo_cooperative_live_first_activity.md), [`운영 체크리스트`](./apps/cooperative-live/TEACHING_EARLY_GORYEO.md), [`러프 스케치`](./docs/plans/early_goryeo_cooperative_live_pilot_rough_sketch.md)를 참조한다.
 - 결과: (관찰 전 — 비워 둠)
 - 다음 결정: 4~8명 리허설 결과로 21명 시험 여부, 5인 역할 적합성, 조선 후기 공개수업에 포함할 실시간 관문 범위를 정한다.
 

@@ -4,6 +4,7 @@
 
 ## 🔶 지금 판단이 필요한 것 (2026-09-11 4트랙 세션 마무리)
 
+- 작업 claim: `TASK-20260916-01 | apps/cooperative-live 및 고려 초기 활동 | implementation/content agent | 상태: DONE` — `npm run check`, production build, client bundle 비공개 본문 검사 통과. 실제 기기 리허설은 별도 대기.
 - 작업 claim: `TASK-20260915-T2 | 벽란도 순서 및 원문 미대조 유물 페어 공식 출처 대조 | audit agent(Codex) | 상태: DONE`
 - 작업 claim: `TASK-20260915-T3 | art_12 판옥선 시대 라벨 및 연표 영향 조사 | audit agent(Codex) | 상태: DONE`
 - 작업 claim: `TASK-20260915-T4 | claude-deep-prehistoric 브랜치 미반영 작업 분석 | audit agent(Codex) | 상태: DONE`
@@ -190,9 +191,9 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 ## P1-COLLAB-EARLY-GORYEO — 실시간 협동 MUD 첫 실제 활동
 
 - 작업 claim: `TASK-20260915-08 | 고려 초기 첫 실시간 활동 계획·Claude 단일 구현 소유권 정리 | 기획·점검 에이전트 | 상태: DONE`
-- 상태: `planned` — [`구현 계획`](./docs/plans/implementation_plan_early_goryeo_cooperative_live_first_activity.md) 작성 완료. 사용자 승인과 Claude 구현 claim 전 코드·시나리오 데이터는 수정하지 않는다.
+- 상태: `implemented / rehearsal-needed` — [`구현 계획`](./docs/plans/implementation_plan_early_goryeo_cooperative_live_first_activity.md)의 T0~T5 코드·자동 검증을 완료했다. 실제 학생에게 열지 않고 교사 1명+성인·교사 역할 참가자 4~8명의 실제 기기 리허설을 기다린다.
 - 활동: 1단원 13차시 “새 고려의 첫 회의 — 서로 다른 사람들을 어떻게 한 나라로 묶을까?”를 `apps/cooperative-live`의 첫 실제 학생 활동으로 만든다. 고조선은 기술 데모·회귀 기준으로 남긴다.
-- 작업 경계: Claude가 `apps/cooperative-live/**`, 고려 활동 데이터·화면·테스트와 필요 시 정적 폴백을 단독 구현한다. Codex는 계획 문서, Claude 커밋 이후 읽기 전용 감사, 통합 Go/No-go만 맡고 앱 코드를 수정하지 않는다.
+- 작업 경계: 별도 worktree의 implementation/content agent가 `apps/cooperative-live/**`와 고려 활동 데이터·화면·테스트를 구현했다. 구현 에이전트 시도 실패 뒤 Codex가 같은 implementation 역할을 인계했고, 통합 전 별도 audit agent가 읽기 전용 감사를 수행한다.
 - 검증 순서: 자동 회귀 → 교사 1명+4~8명 실제 기기 리허설 → 실제 학생 소규모 시험 → 21명 시험 판단. 결과는 [`EXP-009`](./EXPERIMENTS.md)에 기록한다.
 
 ## P1-COLLAB-JOSEON-LATE — 10월 28일 공개수업용 조선 후기 실시간 수직 슬라이스

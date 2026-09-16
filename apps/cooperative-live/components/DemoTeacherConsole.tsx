@@ -5,17 +5,22 @@ import { useMemo, useState, useSyncExternalStore } from "react";
 
 import { clearCooperativeSessionStorage } from "@/lib/runtime";
 import {
-  INTERVENTIONS,
-  SCENARIO_TITLE,
   STAGE_LABELS,
   STUDENT_STAGE_ORDER,
   assignGroups,
+  getPublicScenario,
   nextStudentStage,
   pickUniqueAliases,
-  roleById,
+  publicRoleById,
   type InterventionKind,
   type Stage,
 } from "@/shared/scenario";
+
+const DEMO_SCENARIO = getPublicScenario("early-goryeo-unity", 1)!;
+const DEMO_INTERVENTIONS: Record<InterventionKind, string> = {
+  hint: "아직 말하지 않은 친구가 있나요? 내 역할 자료에서 한 가지 근거를 말해 보세요.",
+  deepen: "선택한 정책은 누구에게 도움이 되고, 무엇을 더 확인해야 할까요?",
+};
 
 type DemoStudent = {
   key: string;
@@ -76,6 +81,8 @@ export function DemoTeacherConsole() {
     const assignments = assignGroups(
       students.map((student) => student.key),
       4,
+      Math.random,
+      DEMO_SCENARIO,
     );
     const byStudent = new Map(
       assignments.map((assignment) => [assignment.participantKey, assignment]),
@@ -147,7 +154,7 @@ export function DemoTeacherConsole() {
       {status === "empty" && (
         <section className="panel">
           <p className="eyebrow" style={{ color: "#92400e" }}>첫 수직 슬라이스</p>
-          <h2>{SCENARIO_TITLE}</h2>
+          <h2>{DEMO_SCENARIO.publicMeta.title}</h2>
           <p>교사 1명, 가상 학생 8명, 4인 모둠 2개로 시작합니다.</p>
           <button className="button primary" onClick={createSession}>새 활동 만들기</button>
         </section>
@@ -225,7 +232,7 @@ export function DemoTeacherConsole() {
             <div className="topbar">
               <div>
                 <span className="badge">진행 중</span>
-                <h2>{SCENARIO_TITLE}</h2>
+                <h2>{DEMO_SCENARIO.publicMeta.title}</h2>
                 <p>개인 답은 보이지 않고 호·모둠·역할·진행 단계만 표시됩니다.</p>
               </div>
               <button className="button danger" onClick={endSession}>활동 종료·삭제</button>
@@ -250,12 +257,16 @@ export function DemoTeacherConsole() {
                   {intervention && (
                     <div className="intervention">
                       <strong>{intervention === "hint" ? "힌트" : "심화 상황"}</strong><br />
-                      {INTERVENTIONS[intervention]}
+                      {DEMO_INTERVENTIONS[intervention]}
                     </div>
                   )}
                   <ul className="player-list">
                     {groupStudents.map((student) => {
-                      const role = roleById(student.roleId);
+                      const role = publicRoleById(
+                        student.roleId,
+                        DEMO_SCENARIO.id,
+                        DEMO_SCENARIO.version,
+                      );
                       return (
                         <li className="player-row" key={student.key}>
                           <strong>{student.alias}</strong>

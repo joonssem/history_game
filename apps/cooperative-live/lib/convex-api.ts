@@ -6,8 +6,16 @@ import type { InterventionKind, Stage } from "@/shared/scenario";
 export type Dashboard = {
   session: {
     _id: Id<"sessions">;
+    scenarioId: string;
+    scenarioVersion: number;
+    scenario: {
+      title: string;
+      lesson: string;
+      recommendedMinutes: number;
+    } | null;
     code: string;
     status: "lobby" | "preview" | "active";
+    paused: boolean;
     codeExpiresAt?: number;
     entryKeyExpiresAt?: number;
     hasEntryKey: boolean;
@@ -20,8 +28,12 @@ export type Dashboard = {
     alias: string;
     groupNumber?: number;
     roleId?: string;
+    roleName?: string;
+    roleIcon?: string;
     stage: Stage;
     submittedAt?: number;
+    sharedAt?: number;
+    confirmedRevision?: number;
     isSynthetic: boolean;
   }>;
   rooms: Array<{
@@ -29,6 +41,10 @@ export type Dashboard = {
     groupNumber: number;
     stage: Stage;
     updatedAt: number;
+    completed: number;
+    total: number;
+    confirmed: number;
+    revision?: number;
   }>;
   interventions: Array<{
     _id: Id<"interventions">;
@@ -37,19 +53,50 @@ export type Dashboard = {
     message: string;
     createdAt: number;
   }>;
+  drafts: Array<{ groupNumber: number; revision: number }>;
+  helpRequests: Array<{ groupNumber: number; requestedAt: number; resolvedAt?: number }>;
 };
 
 export type StudentView = {
   sessionStatus: "lobby" | "preview" | "active";
+  paused: boolean;
+  scenario: { title: string; lesson: string; recommendedMinutes: number };
+  sharedPrompt: {
+    question: string;
+    policies: readonly { id: string; label: string }[];
+    limitations: readonly { id: string; label: string }[];
+    connections: readonly { id: string; label: string }[];
+    whyTogetherStem: string;
+  };
+  commonEvidence: Array<{ id: string; label: string }>;
+  evidenceRoles: Array<{
+    id: string;
+    name: string;
+    evidence: Array<{ id: string; label: string }>;
+  }>;
   alias?: string;
   groupNumber?: number;
   stage: Stage;
+  firstSubmitted: boolean;
+  sharedAt: boolean;
+  draft: {
+    policyIds: string[];
+    evidenceRoleIds: string[];
+    limitationId: string;
+    connectionId: string;
+    revision: number;
+  } | null;
+  confirmation: { confirmed: number; total: number } | null;
+  confirmedRevision?: number;
+  helpRequested: boolean;
   role: {
     id: string;
     icon: string;
     name: string;
     privateInfo: string;
     interest: string;
+    firstChoices: Array<{ id: string; label: string }>;
+    evidence: Array<{ id: string; label: string }>;
   } | null;
   intervention: { kind: InterventionKind; message: string } | null;
 } | null;
@@ -58,7 +105,7 @@ export const convexApi = {
   sessions: {
     create: makeFunctionReference<
       "mutation",
-      Record<string, never>,
+      { scenarioId?: string; scenarioVersion?: number },
       {
         sessionId: Id<"sessions">;
         code: string;
@@ -103,6 +150,13 @@ export const convexApi = {
       { sessionId: Id<"sessions"> },
       { entryKey: string; entryKeyExpiresAt: number; codeExpiresAt: number }
     >("sessions:cancelPreview"),
+    togglePause: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; paused: boolean }, { paused: boolean }>("sessions:togglePause"),
+    advanceStage: makeFunctionReference<
+      "mutation",
+      { sessionId: Id<"sessions"> },
+      { stage: Stage }
+    >("sessions:advanceStage"),
+    resolveHelp: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; groupNumber: number }, { resolved: boolean }>("sessions:resolveHelp"),
     dashboard: makeFunctionReference<
       "query",
       { sessionId: Id<"sessions"> },
@@ -146,6 +200,19 @@ export const convexApi = {
       { sessionId: Id<"sessions">; token: string },
       Stage
     >("students:advance"),
+    completeFirst: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; token: string }, { complete: boolean }>("students:completeFirst"),
+    markShared: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; token: string }, { complete: boolean }>("students:markShared"),
+    saveDraft: makeFunctionReference<"mutation", {
+      sessionId: Id<"sessions">;
+      token: string;
+      policyIds: string[];
+      evidenceRoleIds: string[];
+      limitationId: string;
+      connectionId: string;
+      expectedRevision?: number;
+    }, { revision: number }>("students:saveDraft"),
+    confirmDraft: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; token: string; revision: number }, { complete: boolean }>("students:confirmDraft"),
+    requestHelp: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; token: string }, { requested: boolean }>("students:requestHelp"),
   },
   interventions: {
     send: makeFunctionReference<

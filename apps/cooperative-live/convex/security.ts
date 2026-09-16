@@ -9,6 +9,8 @@ import { STUDENT_TOKEN_TTL_MS, sha256Hex } from "../shared/join-security";
 
 type SessionRecord = {
   _id: GenericId<"sessions">;
+  scenarioId: string;
+  scenarioVersion: number;
   ownerSub: string;
   status: "lobby" | "preview" | "active";
   code: string;
@@ -17,6 +19,7 @@ type SessionRecord = {
   entryKeyExpiresAt?: number;
   createdAt: number;
   startedAt?: number;
+  pausedAt?: number;
   deleteAfter: number;
 };
 
@@ -30,6 +33,8 @@ export type StudentRecord = {
   roleId?: string;
   stage: string;
   submittedAt?: number;
+  sharedAt?: number;
+  confirmedRevision?: number;
   isSynthetic: boolean;
 };
 

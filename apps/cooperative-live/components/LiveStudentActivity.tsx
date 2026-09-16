@@ -15,20 +15,13 @@ import {
   type Stage,
 } from "@/shared/scenario";
 
-const CHOICES = [
-  "훔친 곡식만 돌려준다",
-  "훔친 것보다 더 많이 갚게 한다",
-  "마을에서 내쫓는다",
-  "피해와 사정을 살핀 뒤 마을 회의에서 결정한다",
-];
-
 const STAGE_GUIDE: Record<Stage, { title: string; body: string }> = {
   lobby: { title: "친구들을 기다리고 있어요", body: "교사가 시작하면 모둠과 역할이 나타납니다." },
   role: { title: "나만의 역할 자료", body: "내 자료에서 모둠에 꼭 말할 내용을 한 가지 찾으세요." },
   first: { title: "혼자 먼저 판단하기", body: "아직 친구 답은 보지 말고 내 자료를 근거로 판단하세요." },
   share: { title: "자료를 말로 공유하기", body: "‘내 자료에는…’으로 시작해 한 사람씩 설명하세요." },
-  law: { title: "우리 마을의 법 만들기", body: "서로 다른 처지 두 가지를 반영해 모둠 문장을 만드세요." },
-  history: { title: "실제 역사 자료와 비교하기", body: "고조선의 법은 사회 질서와 재산을 중요하게 여겼음을 보여 줍니다." },
+  draft: { title: "공동 초안 만들기", body: "서로 다른 역할의 근거 두 가지와 정책 두 가지를 고르세요." },
+  confirm: { title: "같은 초안 확인하기", body: "초안이 바뀌면 모두가 새 revision을 다시 확인해야 합니다." },
   finished: { title: "활동을 마쳤어요", body: "교사가 활동을 종료하면 이 기기의 세션 기록도 삭제됩니다." },
 };
 
@@ -70,8 +63,18 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
   const [choice, setChoice] = useSessionValue(`${storageKey}:choice`);
   const [reason, setReason] = useSessionValue(`${storageKey}:reason`);
   const [error, setError] = useState("");
+  const [policyIds, setPolicyIds] = useState<string[]>([]);
+  const [evidenceRoleIds, setEvidenceRoleIds] = useState<string[]>([]);
+  const [limitationId, setLimitationId] = useState("");
+  const [connectionId, setConnectionId] = useState("");
+  const [editingDraft, setEditingDraft] = useState(false);
   const selectAlias = useMutation(convexApi.students.selectAlias);
   const advance = useMutation(convexApi.students.advance);
+  const completeFirst = useMutation(convexApi.students.completeFirst);
+  const markShared = useMutation(convexApi.students.markShared);
+  const saveDraft = useMutation(convexApi.students.saveDraft);
+  const confirmDraft = useMutation(convexApi.students.confirmDraft);
+  const requestHelp = useMutation(convexApi.students.requestHelp);
   const view = useQuery(
     convexApi.students.view,
     stored?.token ? { sessionId: typedSessionId, token: stored.token } : "skip",
@@ -118,10 +121,36 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
     }
     setError("");
     try {
+      if (view?.stage === "first" && !view.firstSubmitted) await completeFirst({ sessionId: typedSessionId, token: stored.token });
+      if (view?.stage === "share" && !view.sharedAt) await markShared({ sessionId: typedSessionId, token: stored.token });
       await advance({ sessionId: typedSessionId, token: stored.token });
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "다음 단계로 이동하지 못했습니다.");
     }
+  }
+
+  async function saveSharedDraft() {
+    if (!stored || !view) return;
+    setError("");
+    try {
+      await saveDraft({
+        sessionId: typedSessionId,
+        token: stored.token,
+        policyIds,
+        evidenceRoleIds,
+        limitationId,
+        connectionId,
+        expectedRevision: view.draft?.revision,
+      });
+      setEditingDraft(false);
+    } catch (caught) { setError(caught instanceof Error ? caught.message : "공동 초안을 저장하지 못했습니다."); }
+  }
+
+  async function confirmSharedDraft() {
+    if (!stored || !view?.draft) return;
+    setError("");
+    try { await confirmDraft({ sessionId: typedSessionId, token: stored.token, revision: view.draft.revision }); }
+    catch (caught) { setError(caught instanceof Error ? caught.message : "초안을 확인하지 못했습니다."); }
   }
 
   if (view.sessionStatus === "preview") {
@@ -171,26 +200,28 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
 
       <h2>{guide.title}</h2>
       <p>{guide.body}</p>
+      {view.paused && <p className="notice error">선생님이 잠시 멈췄습니다. 안내를 기다려 주세요.</p>}
 
       {view.stage === "role" && view.role && (
         <div className="role-card">
           <h3>{view.role.icon} {view.role.name}</h3>
           <p><strong>나만 알고 있는 정보</strong><br />{view.role.privateInfo}</p>
           <p><strong>나의 이해관계</strong><br />{view.role.interest}</p>
+          <p><strong>내가 가져갈 근거</strong><br />{view.role.evidence[0]?.label}</p>
         </div>
       )}
 
       {view.stage === "first" && (
         <div className="form">
           <div className="choice-grid">
-            {CHOICES.map((item) => (
+            {view.role?.firstChoices.map((item) => (
               <button
-                className={`choice${choice === item ? " selected" : ""}`}
-                key={item}
+                className={`choice${choice === item.id ? " selected" : ""}`}
+                key={item.id}
                 onClick={() => {
-                  setChoice(item);
+                  setChoice(item.id);
                 }}
-              >{item}</button>
+              >{item.label}</button>
             ))}
           </div>
           <label className="label">그렇게 생각한 까닭
@@ -206,10 +237,62 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
         </div>
       )}
 
-      {error && <p className="notice error" role="alert">{error}</p>}
-      {view.sessionStatus === "active" && view.stage !== "finished" && (
-        <button className="button primary" onClick={goNext}>이 단계 마치기</button>
+      {(view.stage === "draft" || editingDraft) && (
+        <div className="form">
+          <strong>{view.sharedPrompt.question}</strong>
+          <p>우선할 정책 2개를 고르세요.</p>
+          <div className="choice-grid">{view.sharedPrompt.policies.map((item) => <button key={item.id} className={`choice${policyIds.includes(item.id) ? " selected" : ""}`} onClick={() => setPolicyIds((current) => current.includes(item.id) ? current.filter((id) => id !== item.id) : current.length < 2 ? [...current, item.id] : current)}>{item.label}</button>)}</div>
+          <p>모둠의 서로 다른 역할 근거 2개를 고르세요.</p>
+          <div className="choice-grid">{view.evidenceRoles.map((role) => <button key={role.id} className={`choice${evidenceRoleIds.includes(role.id) ? " selected" : ""}`} onClick={() => setEvidenceRoleIds((current) => current.includes(role.id) ? current.filter((id) => id !== role.id) : current.length < 2 ? [...current, role.id] : current)}>{role.name}: {role.evidence[0]?.label}</button>)}</div>
+          <p className="notice">다른 친구가 말한 역할 근거는 모둠에서 고른 뒤 이 화면에 함께 선택하세요.</p>
+          {view.commonEvidence.length > 0 && (
+            <div className="notice">
+              <strong>빠진 관점을 보충하는 공통 자료</strong>
+              {view.commonEvidence.map((item) => <p key={item.id}>{item.label}</p>)}
+            </div>
+          )}
+          <p>{view.sharedPrompt.whyTogetherStem}…</p>
+          <div className="choice-grid">{view.sharedPrompt.connections.map((item) => <button key={item.id} className={`choice${connectionId === item.id ? " selected" : ""}`} onClick={() => setConnectionId(item.id)}>{item.label}</button>)}</div>
+          <p>이 자료만으로 알 수 없는 점을 고르세요.</p>
+          <div className="choice-grid">{view.sharedPrompt.limitations.map((item) => <button key={item.id} className={`choice${limitationId === item.id ? " selected" : ""}`} onClick={() => setLimitationId(item.id)}>{item.label}</button>)}</div>
+          <button className="button primary" onClick={saveSharedDraft} disabled={view.paused}>공동 초안 저장</button>
+        </div>
       )}
+      {view.stage === "confirm" && view.draft && (
+        <div className="form">
+          <p className="notice">
+            공동 초안 revision {view.draft.revision} · 확인 {view.confirmation?.confirmed ?? 0}/{view.confirmation?.total ?? 0}. 새 초안이 저장되면 이전 확인은 취소됩니다.
+          </p>
+          {!editingDraft && (
+            <button
+              className="button ghost"
+              onClick={() => {
+                setPolicyIds(view.draft?.policyIds ?? []);
+                setEvidenceRoleIds(view.draft?.evidenceRoleIds ?? []);
+                setLimitationId(view.draft?.limitationId ?? "");
+                setConnectionId(view.draft?.connectionId ?? "");
+                setEditingDraft(true);
+              }}
+              disabled={view.paused}
+            >초안 수정하기</button>
+          )}
+          <button className="button primary" onClick={confirmSharedDraft} disabled={view.paused || editingDraft || view.confirmedRevision === view.draft.revision}>이 revision 확인</button>
+        </div>
+      )}
+      {view.stage === "finished" && view.draft && (
+        <div className="notice">
+          <strong>발표용 공동 문장</strong>
+          <p>
+            {view.sharedPrompt.policies.filter((item) => view.draft?.policyIds.includes(item.id)).map((item) => item.label).join(" + ")}가 필요합니다. {view.sharedPrompt.whyTogetherStem} {view.sharedPrompt.connections.find((item) => item.id === view.draft?.connectionId)?.label}. 다만 {view.sharedPrompt.limitations.find((item) => item.id === view.draft?.limitationId)?.label}.
+          </p>
+        </div>
+      )}
+
+      {error && <p className="notice error" role="alert">{error}</p>}
+      {view.sessionStatus === "active" && view.stage !== "finished" && !["draft", "confirm"].includes(view.stage) && (
+        <button className="button primary" onClick={goNext} disabled={view.paused}>{view.stage === "share" ? "설명했어요" : "이 단계 마치기"}</button>
+      )}
+      {view.sessionStatus === "active" && view.groupNumber && !view.helpRequested && <button className="button ghost" onClick={() => requestHelp({ sessionId: typedSessionId, token: stored.token }).catch(() => setError("도움 요청을 보내지 못했습니다."))} disabled={view.paused}>선생님께 도움 요청</button>}
     </section>
   );
 }

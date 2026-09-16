@@ -1,8 +1,8 @@
 import { mutationGeneric } from "convex/server";
 import { v } from "convex/values";
 
-import { INTERVENTIONS } from "../shared/scenario";
 import { requireOwnedSession, requireTeacher } from "./security";
+import { getScenario } from "./scenarios";
 
 export const send = mutationGeneric({
   args: {
@@ -14,6 +14,8 @@ export const send = mutationGeneric({
     const teacherSub = await requireTeacher(ctx);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     if (session.status !== "active") throw new Error("진행 중인 활동에서만 보낼 수 있습니다.");
+    const scenario = getScenario(session.scenarioId, session.scenarioVersion);
+    if (!scenario) throw new Error("활동 버전을 찾을 수 없습니다.");
     const room = await ctx.db
       .query("rooms")
       .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
@@ -24,7 +26,7 @@ export const send = mutationGeneric({
       sessionId: args.sessionId,
       groupNumber: args.groupNumber,
       kind: args.kind,
-      message: INTERVENTIONS[args.kind],
+      message: scenario.interventions[args.kind],
       teacherSub,
       createdAt: Date.now(),
     });

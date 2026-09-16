@@ -1,12 +1,20 @@
-import { makeFunctionReference, mutationGeneric, queryGeneric } from "convex/server";
+import {
+  makeFunctionReference,
+  mutationGeneric,
+  queryGeneric,
+  type GenericDataModel,
+  type GenericMutationCtx,
+} from "convex/server";
 import { v } from "convex/values";
 import type { GenericId } from "convex/values";
 
 import {
   ALIASES,
-  SCENARIO_ID,
+  DEFAULT_SCENARIO_ID,
+  STUDENT_STAGE_ORDER,
   assignGroups,
   pickUniqueAliases,
+  type Stage,
 } from "../shared/scenario";
 import {
   ENTRY_CREDENTIAL_TTL_MS,
@@ -15,6 +23,7 @@ import {
   sha256Hex,
 } from "../shared/join-security";
 import { deleteSessionData } from "./data";
+import { getScenario, roleById } from "./scenarios";
 import { hashStudentToken, requireOwnedSession, requireTeacher } from "./security";
 
 const EXPIRES_AFTER_MS = 2 * 60 * 60 * 1000;
@@ -37,7 +46,10 @@ async function scheduleEntryCredentialExpiry(
     runAt: (
       timestamp: number,
       reference: ReturnType<typeof makeFunctionReference<"mutation">>,
-      args: { sessionId: GenericId<"sessions">; expectedEntryKeyExpiresAt: number },
+      args: {
+        sessionId: GenericId<"sessions">;
+        expectedEntryKeyExpiresAt: number;
+      },
     ) => Promise<unknown>;
   },
   sessionId: GenericId<"sessions">,
@@ -52,6 +64,8 @@ async function scheduleEntryCredentialExpiry(
 
 function publicSession(session: {
   _id: GenericId<"sessions">;
+  scenarioId: string;
+  scenarioVersion: number;
   code: string;
   status: "lobby" | "preview" | "active";
   codeExpiresAt?: number;
@@ -59,12 +73,18 @@ function publicSession(session: {
   entryKeyExpiresAt?: number;
   createdAt: number;
   startedAt?: number;
+  pausedAt?: number;
   deleteAfter: number;
 }) {
+  const scenario = getScenario(session.scenarioId, session.scenarioVersion);
   return {
     _id: session._id,
+    scenarioId: session.scenarioId,
+    scenarioVersion: session.scenarioVersion,
+    scenario: scenario?.publicMeta ?? null,
     code: session.code,
     status: session.status,
+    paused: Boolean(session.pausedAt),
     codeExpiresAt: session.codeExpiresAt,
     entryKeyExpiresAt: session.entryKeyExpiresAt,
     hasEntryKey: Boolean(session.entryKeyHash),
@@ -75,10 +95,19 @@ function publicSession(session: {
 }
 
 export const create = mutationGeneric({
-  args: {},
-  handler: async (ctx) => {
+  args: {
+    scenarioId: v.optional(v.string()),
+    scenarioVersion: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
     const ownerSub = await requireTeacher(ctx);
     const now = Date.now();
+    const scenarioId = args.scenarioId ?? DEFAULT_SCENARIO_ID;
+    const scenarioVersion = args.scenarioVersion ?? 1;
+    if (!getScenario(scenarioId, scenarioVersion)) {
+      throw new Error("선택한 활동 또는 버전을 찾을 수 없습니다.");
+    }
+
     const currentSession = await ctx.db
       .query("sessions")
       .withIndex("by_owner", (query) => query.eq("ownerSub", ownerSub))
@@ -107,13 +136,20 @@ export const create = mutationGeneric({
         break;
       }
     }
-    if (!code) throw new Error("수업 코드를 만들지 못했습니다. 다시 시도해 주세요.");
+    if (!code) {
+      throw new Error("수업 코드를 만들지 못했습니다. 다시 시도해 주세요.");
+    }
 
     const deleteAfter = now + EXPIRES_AFTER_MS;
-    const codeExpiresAt = expiresAt(now, deleteAfter, ENTRY_CREDENTIAL_TTL_MS);
+    const codeExpiresAt = expiresAt(
+      now,
+      deleteAfter,
+      ENTRY_CREDENTIAL_TTL_MS,
+    );
     const entryCredential = await createEntryCredential(now, deleteAfter);
     const sessionId = await ctx.db.insert("sessions", {
-      scenarioId: SCENARIO_ID,
+      scenarioId,
+      scenarioVersion,
       ownerSub,
       code,
       status: "lobby",
@@ -146,6 +182,20 @@ export const create = mutationGeneric({
   },
 });
 
+export const current = queryGeneric({
+  args: {},
+  handler: async (ctx) => {
+    const ownerSub = await requireTeacher(ctx);
+    const session = await ctx.db
+      .query("sessions")
+      .withIndex("by_owner", (query) => query.eq("ownerSub", ownerSub))
+      .order("desc")
+      .filter((query) => query.gt(query.field("deleteAfter"), Date.now()))
+      .first();
+    return session ? publicSession(session) : null;
+  },
+});
+
 export const rotateEntryKey = mutationGeneric({
   args: { sessionId: v.id("sessions") },
   handler: async (ctx, args) => {
@@ -156,7 +206,11 @@ export const rotateEntryKey = mutationGeneric({
     }
     const now = Date.now();
     const credential = await createEntryCredential(now, session.deleteAfter);
-    const codeExpiresAt = expiresAt(now, session.deleteAfter, ENTRY_CREDENTIAL_TTL_MS);
+    const codeExpiresAt = expiresAt(
+      now,
+      session.deleteAfter,
+      ENTRY_CREDENTIAL_TTL_MS,
+    );
     await ctx.db.patch(args.sessionId, {
       codeExpiresAt,
       entryKeyHash: credential.entryKeyHash,
@@ -175,27 +229,14 @@ export const rotateEntryKey = mutationGeneric({
   },
 });
 
-export const current = queryGeneric({
-  args: {},
-  handler: async (ctx) => {
-    const ownerSub = await requireTeacher(ctx);
-    const session = await ctx.db
-      .query("sessions")
-      .withIndex("by_owner", (query) => query.eq("ownerSub", ownerSub))
-      .order("desc")
-      .filter((query) => query.gt(query.field("deleteAfter"), Date.now()))
-      .first();
-    return session ? publicSession(session) : null;
-  },
-});
-
 export const seedSyntheticStudents = mutationGeneric({
   args: { sessionId: v.id("sessions"), count: v.optional(v.number()) },
   handler: async (ctx, args) => {
     const teacherSub = await requireTeacher(ctx);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
-    if (session.status !== "lobby") throw new Error("대기 중인 활동만 채울 수 있습니다.");
-
+    if (session.status !== "lobby") {
+      throw new Error("대기 중인 활동만 채울 수 있습니다.");
+    }
     const existing = await ctx.db
       .query("players")
       .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
@@ -223,6 +264,53 @@ export const seedSyntheticStudents = mutationGeneric({
   },
 });
 
+async function assignSessionGroups(
+  ctx: GenericMutationCtx<GenericDataModel>,
+  sessionId: GenericId<"sessions">,
+  scenarioId: string,
+  scenarioVersion: number,
+) {
+  const scenario = getScenario(scenarioId, scenarioVersion);
+  if (!scenario) throw new Error("활동 버전을 찾을 수 없습니다.");
+  const players = await ctx.db
+    .query("players")
+    .withIndex("by_session", (query) => query.eq("sessionId", sessionId))
+    .collect();
+  if (players.length < 3) throw new Error("학생이 3명 이상 입장해야 합니다.");
+
+  const usedAliases = new Set(
+    players.map((player) => player.alias).filter(Boolean),
+  );
+  const remainingAliases = pickUniqueAliases(ALIASES.length).filter(
+    (alias) => !usedAliases.has(alias),
+  );
+  const assignments = assignGroups(
+    players.map((player) =>
+      (player._id as GenericId<"players">).toString()
+    ),
+    4,
+    Math.random,
+    scenario,
+  );
+  const byPlayer = new Map(
+    assignments.map((assignment) => [assignment.participantKey, assignment]),
+  );
+  let aliasIndex = 0;
+  const now = Date.now();
+  for (const player of players) {
+    const playerId = player._id as GenericId<"players">;
+    const assignment = byPlayer.get(playerId.toString());
+    if (!assignment) throw new Error("모둠 배정에 실패했습니다.");
+    await ctx.db.patch(playerId, {
+      alias: player.alias ?? remainingAliases[aliasIndex++],
+      groupNumber: assignment.groupNumber,
+      roleId: assignment.roleId,
+      updatedAt: now,
+    });
+  }
+  return assignments;
+}
+
 export const previewGroups = mutationGeneric({
   args: { sessionId: v.id("sessions") },
   handler: async (ctx, args) => {
@@ -231,46 +319,23 @@ export const previewGroups = mutationGeneric({
     if (session.status !== "lobby") {
       throw new Error("입장 대기 중인 활동만 미리 볼 수 있습니다.");
     }
-
-    const players = await ctx.db
-      .query("players")
-      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
-      .collect();
-    if (players.length < 3) throw new Error("학생이 3명 이상 입장해야 합니다.");
-
-    const usedAliases = new Set(players.map((player) => player.alias).filter(Boolean));
-    const remainingAliases = pickUniqueAliases(ALIASES.length).filter(
-      (alias) => !usedAliases.has(alias),
-    );
-    let aliasIndex = 0;
-    const assignments = assignGroups(
-      players.map((player) => player._id.toString()),
-      4,
-    );
-    const byPlayer = new Map(
-      assignments.map((assignment) => [assignment.participantKey, assignment]),
+    const assignments = await assignSessionGroups(
+      ctx,
+      args.sessionId,
+      session.scenarioId,
+      session.scenarioVersion,
     );
     const now = Date.now();
-
-    for (const player of players) {
-      const assignment = byPlayer.get(player._id.toString());
-      if (!assignment) throw new Error("모둠 배정에 실패했습니다.");
-      await ctx.db.patch(player._id, {
-        alias: player.alias ?? remainingAliases[aliasIndex++],
-        groupNumber: assignment.groupNumber,
-        roleId: assignment.roleId,
-        updatedAt: now,
-      });
-    }
-
-    const groupNumbers = [...new Set(assignments.map((item) => item.groupNumber))];
     await ctx.db.patch(args.sessionId, {
       status: "preview",
       codeExpiresAt: now,
       entryKeyHash: undefined,
       entryKeyExpiresAt: undefined,
     });
-    return { groups: groupNumbers.length, players: players.length };
+    return {
+      groups: new Set(assignments.map((item) => item.groupNumber)).size,
+      players: assignments.length,
+    };
   },
 });
 
@@ -282,33 +347,15 @@ export const reshuffleGroups = mutationGeneric({
     if (session.status !== "preview") {
       throw new Error("모둠 미리보기 중에만 다시 섞을 수 있습니다.");
     }
-
-    const players = await ctx.db
-      .query("players")
-      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
-      .collect();
-    const assignments = assignGroups(
-      players.map((player) => player._id.toString()),
-      4,
+    const assignments = await assignSessionGroups(
+      ctx,
+      args.sessionId,
+      session.scenarioId,
+      session.scenarioVersion,
     );
-    const byPlayer = new Map(
-      assignments.map((assignment) => [assignment.participantKey, assignment]),
-    );
-    const now = Date.now();
-
-    for (const player of players) {
-      const assignment = byPlayer.get(player._id.toString());
-      if (!assignment) throw new Error("모둠 재배정에 실패했습니다.");
-      await ctx.db.patch(player._id, {
-        groupNumber: assignment.groupNumber,
-        roleId: assignment.roleId,
-        updatedAt: now,
-      });
-    }
-
     return {
       groups: new Set(assignments.map((item) => item.groupNumber)).size,
-      players: players.length,
+      players: assignments.length,
     };
   },
 });
@@ -321,24 +368,26 @@ export const confirmStart = mutationGeneric({
     if (session.status !== "preview") {
       throw new Error("모둠 미리보기를 먼저 확인해 주세요.");
     }
-
+    if (!getScenario(session.scenarioId, session.scenarioVersion)) {
+      throw new Error("활동 버전을 찾을 수 없습니다.");
+    }
     const players = await ctx.db
       .query("players")
       .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
       .collect();
     if (
-      players.length < 3 ||
-      players.some((player) => !player.groupNumber || !player.roleId)
+      players.length < 3
+      || players.some((player) => !player.groupNumber || !player.roleId)
     ) {
       throw new Error("모둠 배정 정보가 완전하지 않습니다. 다시 미리 봐 주세요.");
     }
-    const groupNumbers = [...new Set(players.map((player) => player.groupNumber!))];
+    const groupNumbers = [...new Set(
+      players.map((player) => player.groupNumber!),
+    )];
     const now = Date.now();
-
     for (const player of players) {
       await ctx.db.patch(player._id, { stage: "role", updatedAt: now });
     }
-
     for (const groupNumber of groupNumbers) {
       await ctx.db.insert("rooms", {
         sessionId: args.sessionId,
@@ -347,7 +396,6 @@ export const confirmStart = mutationGeneric({
         updatedAt: now,
       });
     }
-
     await ctx.db.patch(args.sessionId, {
       status: "active",
       startedAt: now,
@@ -367,7 +415,6 @@ export const cancelPreview = mutationGeneric({
     if (session.status !== "preview") {
       throw new Error("모둠 미리보기 중에만 대기로 돌아갈 수 있습니다.");
     }
-
     const players = await ctx.db
       .query("players")
       .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
@@ -381,7 +428,11 @@ export const cancelPreview = mutationGeneric({
       });
     }
     const credential = await createEntryCredential(now, session.deleteAfter);
-    const codeExpiresAt = expiresAt(now, session.deleteAfter, ENTRY_CREDENTIAL_TTL_MS);
+    const codeExpiresAt = expiresAt(
+      now,
+      session.deleteAfter,
+      ENTRY_CREDENTIAL_TTL_MS,
+    );
     await ctx.db.patch(args.sessionId, {
       status: "lobby",
       codeExpiresAt,
@@ -401,40 +452,175 @@ export const cancelPreview = mutationGeneric({
   },
 });
 
+export const togglePause = mutationGeneric({
+  args: { sessionId: v.id("sessions"), paused: v.boolean() },
+  handler: async (ctx, args) => {
+    const teacherSub = await requireTeacher(ctx);
+    const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
+    if (session.status !== "active") {
+      throw new Error("진행 중인 활동에서만 멈출 수 있습니다.");
+    }
+    await ctx.db.patch(args.sessionId, {
+      pausedAt: args.paused ? Date.now() : undefined,
+    });
+    return { paused: args.paused };
+  },
+});
+
+export const advanceStage = mutationGeneric({
+  args: { sessionId: v.id("sessions") },
+  handler: async (ctx, args) => {
+    const teacherSub = await requireTeacher(ctx);
+    const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
+    if (session.status !== "active" || session.pausedAt) {
+      throw new Error("진행 중이며 멈추지 않은 활동에서만 단계를 진행할 수 있습니다.");
+    }
+    const players = await ctx.db
+      .query("players")
+      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+      .collect();
+    const earliest = players.reduce<Stage>((minimum, player) => {
+      const stage = player.stage as Stage;
+      return STUDENT_STAGE_ORDER.indexOf(stage)
+          < STUDENT_STAGE_ORDER.indexOf(minimum)
+        ? stage
+        : minimum;
+    }, "finished");
+    if (!["role", "first", "share"].includes(earliest)) {
+      throw new Error("공동 초안 이후는 학생 전원 확인으로 진행합니다.");
+    }
+    if (earliest === "first" && players.some((player) => !player.submittedAt)) {
+      throw new Error("모든 학생의 최초 판단 완료를 기다려 주세요.");
+    }
+    if (earliest === "share" && players.some((player) => !player.sharedAt)) {
+      throw new Error("모든 학생의 자료 설명 완료를 기다려 주세요.");
+    }
+    const nextStage = STUDENT_STAGE_ORDER[
+      STUDENT_STAGE_ORDER.indexOf(earliest) + 1
+    ];
+    const now = Date.now();
+    for (const player of players) {
+      if (player.stage === earliest) {
+        await ctx.db.patch(player._id, { stage: nextStage, updatedAt: now });
+      }
+    }
+    const rooms = await ctx.db
+      .query("rooms")
+      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+      .collect();
+    for (const room of rooms) {
+      if (room.stage === earliest) {
+        await ctx.db.patch(room._id, { stage: nextStage, updatedAt: now });
+      }
+    }
+    return { stage: nextStage };
+  },
+});
+
 export const dashboard = queryGeneric({
   args: { sessionId: v.id("sessions") },
   handler: async (ctx, args) => {
     const teacherSub = await requireTeacher(ctx);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
-    const [players, rooms, interventions] = await Promise.all([
-      ctx.db
-        .query("players")
-        .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
-        .collect(),
-      ctx.db
-        .query("rooms")
-        .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
-        .collect(),
-      ctx.db
-        .query("interventions")
-        .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
-        .collect(),
-    ]);
+    const scenario = getScenario(session.scenarioId, session.scenarioVersion);
+    if (!scenario) throw new Error("활동 버전을 찾을 수 없습니다.");
+    const [players, rooms, interventions, drafts, helpRequests] =
+      await Promise.all([
+        ctx.db
+          .query("players")
+          .withIndex("by_session", (query) =>
+            query.eq("sessionId", args.sessionId),
+          )
+          .collect(),
+        ctx.db
+          .query("rooms")
+          .withIndex("by_session", (query) =>
+            query.eq("sessionId", args.sessionId),
+          )
+          .collect(),
+        ctx.db
+          .query("interventions")
+          .withIndex("by_session", (query) =>
+            query.eq("sessionId", args.sessionId),
+          )
+          .collect(),
+        ctx.db
+          .query("drafts")
+          .withIndex("by_session", (query) =>
+            query.eq("sessionId", args.sessionId),
+          )
+          .collect(),
+        ctx.db
+          .query("helpRequests")
+          .withIndex("by_session", (query) =>
+            query.eq("sessionId", args.sessionId),
+          )
+          .collect(),
+      ]);
 
     return {
       session: publicSession(session),
-      players: players.map((player) => ({
-        id: player._id,
-        alias: player.alias ?? "호 미선택",
-        groupNumber: player.groupNumber,
-        roleId: player.roleId,
-        stage: player.stage,
-        submittedAt: player.submittedAt,
-        isSynthetic: player.isSynthetic,
-      })),
-      rooms,
+      players: players.map((player) => {
+        const role = roleById(scenario, player.roleId);
+        return {
+          id: player._id,
+          alias: player.alias ?? "호 미선택",
+          groupNumber: player.groupNumber,
+          roleId: player.roleId,
+          roleName: role?.name,
+          roleIcon: role?.icon,
+          stage: player.stage,
+          submittedAt: player.submittedAt,
+          sharedAt: player.sharedAt,
+          confirmedRevision: player.confirmedRevision,
+          isSynthetic: player.isSynthetic,
+        };
+      }),
+      rooms: rooms.map((room) => {
+        const members = players.filter(
+          (player) => player.groupNumber === room.groupNumber,
+        );
+        const draft = drafts.find(
+          (item) => item.groupNumber === room.groupNumber,
+        );
+        return {
+          ...room,
+          completed: members.filter((member) => member.stage === "finished").length,
+          total: members.length,
+          confirmed: draft
+            ? members.filter(
+                (member) => member.confirmedRevision === draft.revision,
+              ).length
+            : 0,
+          revision: draft?.revision,
+        };
+      }),
       interventions,
+      drafts: drafts.map((draft) => ({
+        groupNumber: draft.groupNumber,
+        revision: draft.revision,
+      })),
+      helpRequests,
     };
+  },
+});
+
+export const resolveHelp = mutationGeneric({
+  args: { sessionId: v.id("sessions"), groupNumber: v.number() },
+  handler: async (ctx, args) => {
+    const teacherSub = await requireTeacher(ctx);
+    await requireOwnedSession(ctx, args.sessionId, teacherSub);
+    const request = await ctx.db
+      .query("helpRequests")
+      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+      .filter((query) => query.and(
+        query.eq(query.field("groupNumber"), args.groupNumber),
+        query.eq(query.field("resolvedAt"), undefined),
+      ))
+      .first();
+    if (!request) return { resolved: false };
+    await ctx.db.patch(request._id, { resolvedAt: Date.now() });
+    return { resolved: true };
   },
 });
 

@@ -10,13 +10,18 @@ import {
   clearCooperativeSessionStorage,
   teacherEntryKeyStorageKey,
 } from "@/lib/runtime";
-import { roleById, STAGE_LABELS, type InterventionKind } from "@/shared/scenario";
+import {
+  PUBLIC_SCENARIOS,
+  STAGE_LABELS,
+  type InterventionKind,
+} from "@/shared/scenario";
 
 export function LiveTeacherConsole() {
   const { loginWithRedirect, logout } = useAuth0();
   const { isLoading, isAuthenticated } = useConvexAuth();
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [scenarioId, setScenarioId] = useState("early-goryeo-unity");
   const createSession = useMutation(convexApi.sessions.create);
   const rotateEntryKey = useMutation(convexApi.sessions.rotateEntryKey);
   const seedStudents = useMutation(convexApi.sessions.seedSyntheticStudents);
@@ -26,6 +31,9 @@ export function LiveTeacherConsole() {
   const cancelPreview = useMutation(convexApi.sessions.cancelPreview);
   const endSession = useMutation(convexApi.sessions.end);
   const sendIntervention = useMutation(convexApi.interventions.send);
+  const togglePause = useMutation(convexApi.sessions.togglePause);
+  const advanceStage = useMutation(convexApi.sessions.advanceStage);
+  const resolveHelp = useMutation(convexApi.sessions.resolveHelp);
   const currentSession = useQuery(
     convexApi.sessions.current,
     isAuthenticated ? {} : "skip",
@@ -104,13 +112,32 @@ export function LiveTeacherConsole() {
   if (!sessionId) {
     return (
       <section className="panel">
-        <h2>새 고조선 활동</h2>
-        <p>실제 Convex 개발 배포에 가상 학생 8명 세션을 만듭니다.</p>
+        <h2>새 실시간 협동 활동</h2>
+        <p>시나리오와 버전은 세션을 만들 때 고정됩니다.</p>
+        <label className="label">활동 선택
+          <select
+            className="input"
+            value={scenarioId}
+            onChange={(event) => setScenarioId(event.target.value)}
+          >
+            {PUBLIC_SCENARIOS.map((scenario) => (
+              <option
+                key={`${scenario.id}:${scenario.version}`}
+                value={scenario.id}
+              >
+                {scenario.publicMeta.title} · v{scenario.version}
+              </option>
+            ))}
+          </select>
+        </label>
         <div className="actions">
           <button
             className="button primary"
             onClick={() => run(async () => {
-              const created = await createSession({});
+              const scenario = PUBLIC_SCENARIOS.find(
+                (item) => item.id === scenarioId,
+              )!;
+              const created = await createSession({ scenarioId: scenario.id, scenarioVersion: scenario.version });
               if (created.entryKey) {
                 rememberEntryKey(created.sessionId, created.entryKey);
               }
@@ -145,6 +172,7 @@ export function LiveTeacherConsole() {
             </span>
             <h2>수업 코드</h2>
             <div className="code">{dashboard.session.code}</div>
+            <p><strong>{dashboard.session.scenario?.title}</strong></p>
             <p>{dashboard.players.length}명 접속</p>
           </div>
           {dashboard.session.status === "lobby" && (
@@ -211,6 +239,36 @@ export function LiveTeacherConsole() {
               >취소하고 대기로 돌아가기</button>
             </>
           )}
+          {dashboard.session.status === "active" && (
+            <>
+              <button
+                className="button secondary"
+                onClick={() => run(async () => {
+                  await togglePause({
+                    sessionId,
+                    paused: !dashboard.session.paused,
+                  });
+                  setMessage(
+                    dashboard.session.paused
+                      ? "활동을 다시 시작했습니다."
+                      : "학생 입력을 잠시 멈췄습니다.",
+                  );
+                })}
+              >
+                {dashboard.session.paused ? "계속 진행" : "잠시 멈춤"}
+              </button>
+              <button
+                className="button ghost"
+                disabled={dashboard.session.paused}
+                onClick={() => run(async () => {
+                  const result = await advanceStage({ sessionId });
+                  setMessage(`전체 활동을 ${STAGE_LABELS[result.stage]} 단계로 진행했습니다.`);
+                })}
+              >
+                전체 다음 단계
+              </button>
+            </>
+          )}
           <button
             className="button danger"
             onClick={() => run(async () => {
@@ -230,14 +288,15 @@ export function LiveTeacherConsole() {
               <header><h2>{groupNumber}모둠</h2><span className="badge">{players.length}명</span></header>
               <ul className="player-list">
                 {players.map((player) => {
-                  const role = roleById(player.roleId);
                   return (
                     <li className="player-row" key={player.id}>
                       <strong>{player.alias}</strong>
                       {dashboard.session.status === "preview" ? (
                         <small>학생 화면에는 아직 모둠·역할이 공개되지 않습니다.</small>
                       ) : (
-                        <small>{role?.icon} {role?.name} · {STAGE_LABELS[player.stage]}</small>
+                        <small>
+                          {player.roleIcon} {player.roleName} · {STAGE_LABELS[player.stage]}
+                        </small>
                       )}
                     </li>
                   );
@@ -245,6 +304,15 @@ export function LiveTeacherConsole() {
               </ul>
               {dashboard.session.status === "active" && (
                 <div className="actions">
+                  <span className="badge">
+                    완료 {dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.completed ?? 0}/{players.length}
+                  </span>
+                  {dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.revision && (
+                    <span className="badge">
+                      확인 {dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.confirmed ?? 0}/{players.length}
+                    </span>
+                  )}
+                  {dashboard.helpRequests.some((request) => request.groupNumber === groupNumber && !request.resolvedAt) && <button className="button primary" onClick={() => run(async () => { await resolveHelp({ sessionId, groupNumber }); setMessage(`${groupNumber}모둠 도움 요청을 확인했습니다.`); })}>도움 요청 확인</button>}
                   {(["hint", "deepen"] as InterventionKind[]).map((kind) => (
                     <button
                       key={kind}

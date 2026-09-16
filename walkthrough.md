@@ -1886,3 +1886,16 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - `scripts/14_lint_inquiry_semantics.js`: 추정 대신 `task.sequenceKind`를 그대로 읽어 분류. 필드가 없는 미래 편을 위해 라운드 5의 추정 규칙을 fallback으로 유지. 파일럿 4편 모두 필드가 채워져 경고 0건(허용됨 12건은 그대로 보존).
 - 검증: `04`·`05`·`11`·`13`·`14`·`15` 전부 통과. `inquiry-console`(8804)에서 삼국 3관문 카드 라벨·설명이 화면에 정상 표시되는지, 정답 순서 제출이 여전히 통과하는지 확인. 콘솔 오류 0건.
 - 확인 불가 항목 없음(우리역사넷 원문을 직접 열어 확인함).
+## 2026-09-16 — 고려 초기 실시간 협동 활동 T0~T5 구현
+
+`TASK-20260916-01 | apps/cooperative-live 및 고려 초기 활동 | implementation/content agent | 상태: DONE`
+
+- 별도 worktree와 `feat/cooperative-live-early-goryeo` 브랜치에서 기존 고조선 기술 회귀를 유지한 채 1단원 13차시 “새 고려의 첫 회의”를 두 번째 서버 검증형 시나리오로 추가했다.
+- 공개 시나리오 메타데이터와 서버 전용 역할 본문·근거·출처를 분리했다. 학생 조회는 자기 역할의 비공개 자료만 반환하고, 다른 역할은 전원 말하기 완료 뒤 공동 초안에 필요한 근거 요약만 반환한다.
+- 개인 최초 판단의 선택·까닭은 현재 탭 `sessionStorage`에만 저장한다. 서버에는 완료 시각만 기록한다.
+- 전원 공유 관문, 정책 2개·서로 다른 역할 근거 2개·연결 설명·한계의 서버 검증, 단조 증가 revision, 수정 시 확인 무효화, 같은 revision 전원 확인을 구현했다.
+- 교사 pause/resume, 단계 이동, 도움 요청·해제, 모둠별 완료·확인 n/N, 새 테이블을 포함한 종료·TTL 삭제를 구현했다.
+- 3·4·5인 역할 배치, 고려 4명 전체 흐름, 기존 고조선 21명 병렬 흐름을 자동 검증했다. production client bundle에서 고려 비공개 역할 본문과 출처 URL이 포함되지 않은 것도 확인했다.
+- 교사용 1장 체크리스트와 장애 시 교사 읽기·화이트보드 대체 절차를 `apps/cooperative-live/TEACHING_EARLY_GORYEO.md`에 기록했다.
+- 검증: `npm run check` 전체 통과 — lint, TypeScript, 단위 테스트 17건, Convex 통합 테스트 2건, production build. `git diff --check` 통과, production client bundle의 고려 역할 비공개 문장과 우리역사넷 URL 미검출.
+- 미실행: 4~8대 성인·교사 기기 리허설, 학교 Wi-Fi·iPad QR·실제 WebSocket 재접속, 실제 학생 시험. 이 항목들은 완료로 간주하지 않고 `EXP-009`에 결과를 기록한다.

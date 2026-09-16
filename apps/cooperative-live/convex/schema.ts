@@ -4,6 +4,7 @@ import { v } from "convex/values";
 export default defineSchema({
   sessions: defineTable({
     scenarioId: v.string(),
+    scenarioVersion: v.number(),
     ownerSub: v.string(),
     code: v.string(),
     status: v.union(
@@ -16,6 +17,7 @@ export default defineSchema({
     entryKeyExpiresAt: v.optional(v.number()),
     createdAt: v.number(),
     startedAt: v.optional(v.number()),
+    pausedAt: v.optional(v.number()),
     deleteAfter: v.number(),
   })
     .index("by_code", ["code"])
@@ -30,6 +32,8 @@ export default defineSchema({
     roleId: v.optional(v.string()),
     stage: v.string(),
     submittedAt: v.optional(v.number()),
+    sharedAt: v.optional(v.number()),
+    confirmedRevision: v.optional(v.number()),
     joinedAt: v.number(),
     updatedAt: v.number(),
     isSynthetic: v.boolean(),
@@ -41,7 +45,25 @@ export default defineSchema({
     groupNumber: v.number(),
     stage: v.string(),
     updatedAt: v.number(),
-  }).index("by_session", ["sessionId"]),
+  })
+    .index("by_session", ["sessionId"])
+    .index("by_session_group", ["sessionId", "groupNumber"]),
+  drafts: defineTable({
+    sessionId: v.id("sessions"),
+    groupNumber: v.number(),
+    policyIds: v.array(v.string()),
+    evidenceRoleIds: v.array(v.string()),
+    limitationId: v.string(),
+    connectionId: v.string(),
+    revision: v.number(),
+    updatedAt: v.number(),
+  }).index("by_session", ["sessionId"]).index("by_session_group", ["sessionId", "groupNumber"]),
+  helpRequests: defineTable({
+    sessionId: v.id("sessions"),
+    groupNumber: v.number(),
+    requestedAt: v.number(),
+    resolvedAt: v.optional(v.number()),
+  }).index("by_session", ["sessionId"]).index("by_session_group", ["sessionId", "groupNumber"]),
   interventions: defineTable({
     sessionId: v.id("sessions"),
     groupNumber: v.number(),

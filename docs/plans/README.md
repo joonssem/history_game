@@ -27,7 +27,7 @@
 | 문서 | 상태 | 다음 행동 |
 |---|---|---|
 | [`early_goryeo_cooperative_live_pilot_rough_sketch.md`](./early_goryeo_cooperative_live_pilot_rough_sketch.md) | `구현 계획으로 승격` | 1단원 13차시 “새 고려의 첫 회의”를 첫 실제 학생 활동으로 확정. 상세 실행은 아래 구현 계획 기준 |
-| [`implementation_plan_early_goryeo_cooperative_live_first_activity.md`](./implementation_plan_early_goryeo_cooperative_live_first_activity.md) | `제안` | Claude가 앱·콘텐츠를 단독 구현하고 Codex가 읽기 전용 감사·통합 판정. 사용자 승인과 Claude claim 전 코드 수정 금지 |
+| [`implementation_plan_early_goryeo_cooperative_live_first_activity.md`](./implementation_plan_early_goryeo_cooperative_live_first_activity.md) | `구현 완료·리허설 대기` | 별도 worktree에서 T0~T5 코드·자동 검증 완료. 읽기 전용 감사 뒤 교사 1명+성인·교사 역할 4~8대 기기 리허설이 다음 관문이며 실제 학생 접속은 아직 열지 않음 |
 | [`implementation_plan_joseon_late_cooperative_live_vertical_slice.md`](./implementation_plan_joseon_late_cooperative_live_vertical_slice.md) | `제안·후속 활동` | 고려 첫 활동에서 검증한 엔진에 Claude가 조선 후기를 이식. Codex는 계획·읽기 전용 감사·통합 판정만 담당 |
 | [`COLLABORATIVE_MUD_PLAN.md`](./COLLABORATIVE_MUD_PLAN.md) | `검토안` | 전체 계획·모둠 구성·배치 방식. 첫 수직 슬라이스 착수 승인 대기 |
 | [`COLLABORATIVE_MUD_ARCHITECTURE.md`](./COLLABORATIVE_MUD_ARCHITECTURE.md) | `검토안` | Convex 스키마·권한·상태 전이. 백엔드는 [D-019](../../DECISIONS.md)로 확정 |

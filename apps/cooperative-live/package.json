@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "npm run test:unit && npm run test:convex",
-    "test:unit": "node --test --test-isolation=none shared/scenario.test.ts shared/join-security.test.ts",
+    "test:unit": "node --test --test-isolation=none shared/scenario.test.ts shared/join-security.test.ts shared/scenario-registry.test.ts",
     "test:convex": "vitest run",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build",
     "convex:dev": "convex dev",

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { SCENARIO_TITLE } from "@/shared/scenario";
+import { PUBLIC_SCENARIOS } from "@/shared/scenario";
 
 export default function HomePage() {
   return (
@@ -10,7 +10,7 @@ export default function HomePage() {
         <h1>친구들과 함께 결정하는 역사 이야기</h1>
         <p>
           서로 다른 역할의 자료를 말로 나누고, 모둠의 판단을 만들어 보세요. 이번
-          수직 슬라이스는 <strong>{SCENARIO_TITLE}</strong>을 사용합니다.
+          교사가 <strong>{PUBLIC_SCENARIOS.map((scenario) => scenario.publicMeta.title).join(" 또는 ")}</strong>을 선택해 진행합니다.
         </p>
       </section>
       <section className="entry-grid" aria-label="접속 방법">
