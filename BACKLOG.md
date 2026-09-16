@@ -187,6 +187,16 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
   - **부수 확인**: `node scripts/13`·`14`를 실행하면 조작대 소유 보고서 2개가 재생성되는데, 이번에도 실제 내용 변화(타임스탬프성 2줄)만 있어 `git checkout --`으로 되돌렸다. `14`의 총 경고가 지난 라운드(20건)에서 **3건**으로 줄어든 것을 확인했는데, 이건 내가 고친 게 아니라 다른 창(조작대)이 D-031 `sequenceKind`를 이미 구현해 반영된 결과로 보인다 — 내 커밋 범위에는 포함하지 않았다.
   - 검증: `python scripts/04_validate_mud_contract.py`·`node scripts/05_test_simulator_runtime.js`·`python scripts/11_audit_artifacts.py`(0건)·`node scripts/13`·`node scripts/14` 전부 통과(이번 라운드는 `data/*.json`을 안 고쳐서 `01_validate_game_data.py`는 참고용으로만 확인). `git status --short`로 최종 커밋 범위가 `BACKLOG.md`·`docs/audits/joseon_late_source_review.md` 둘뿐임을 확인.
   - **판단이 갈린 지점**: 없음.
+- **2026-09-16 라운드 7 「대조실」 — 역할 카드 문장 대조 + 품팔이 근거 사전 정리**: `docs/handoff/claude_four_track_round7_instruction.md` §2를 받아 진행. 라운드 6에서 비워 뒀던 `docs/audits/joseon_late_source_review.md`의 `ROLE_CARD_REVIEW` 절을 채웠다. **`claude_joseon_late_role_cards.md`(관문 설계실 소유)는 읽기만 하고 직접 고치지 않았다.** main 체크아웃은 안 열었고 push도 안 했다.
+  - **확인 필요 6곳 우선 처리**: 광작-품팔이 인과(우리역사넷 「광작과 광작농」이 직접 인과 명시 — 맞음), 전황(영조대 초반 — 맞음, 라운드 6에서 이미 확인), 관영→민간 수공업(숙종 33년/1707 비변사등록 사료 + 정조 때/18세기 말 공장안 폐지 — 맞음), 호적 누락(박일원 1788년 30% 추정 + 유리민 증가 확인, "품팔이"를 콕 집은 문장은 못 찾아 "맞음(근사)"), 대동법·공인(1608년 경기 시작→1708년 전국 완료, 100년 걸림 — 카드는 D-034로 폐기돼 대조 생략, 사실관계만 참고용 기록), 지역차 전반(라운드 6 표로 이미 커버).
+  - **역할 카드 4개 + 공통 자료 + 3인 공통 자료 문장별 전수 판정**: 총 22개 문장/구절을 표로 정리(맞음/범위 초과/확인 불가/기존 대조 확인/해당 없음). 대부분 맞음이었고, 경미한 수정 제안 1건("혼자 힘으로" → "예전보다 적은 일손으로", 농민 #2 — 광작농도 농번기엔 고용 노동을 함께 썼다는 원문 근거).
+  - **품팔이(`laborer`) 카드용 근거 사전 정리**: 관문 설계실이 2단계에서 쓸 수 있게, 우리역사넷 「임노동자」·「광작과 광작농」을 근거로 "말하는 것"(임노동자=고공, 농업·도성 세곡 하역 등 복수 경로)·"말하지 않는 것"(모든 몰락 농민이 품팔이가 됐다는 단정 없음)·구체적 privateInfo 문장 방향까지 제안했다.
+  - **패킷(`joseon_late_packet.draft.json`) evidenceOptions 8개 전수 대조**: 2건에서 범위 초과 발견 — `ev3_market_spread`의 "전국 곳곳에"(18세기 말 기준 수치를 시기 없이 씀), `ev6_mining`의 "개인도 광산을 운영할 수 있었다"(설점수세제는 연·은 생산지 한정 서술인데 "광산"으로 일반화 + "개인도 운영"이 정부 허가·세금 구조를 축소 표현). 둘 다 구체적 대체 문장을 제안했다. 이 파일은 연결 공방 소유라 **직접 고치지 않았다.**
+  - **자동 검사와 교차 확인**: `node scripts/15_validate_cooperative_packet.js`를 실행해 봤더니(조작대 소유, 실행만 함) `ev3_market_spread`의 "전국"을 자동으로도 잡아내 사람 판정과 정확히 일치했다. `limitOptions[limit_scope]`의 "전국"도 걸렸는데 이건 한계 서술이라 지시대로 고치지 않을 자리 — 조작대가 §4에서 부정문 오탐 제거로 처리할 예정임을 문서에 남겼다.
+  - **부수 확인**: `node scripts/13`·`14` 실행이 조작대 소유 보고서 2개를 재생성했는데, `14`의 총 경고가 지난 라운드 3건→**0건**으로 더 줄어든 걸 확인했다(내가 한 게 아니라 조작대 작업 결과로 보임, 커밋 범위엔 미포함, `git checkout --`으로 되돌림).
+  - 검증: `python scripts/04_validate_mud_contract.py`·`node scripts/05_test_simulator_runtime.js`·`node scripts/15_validate_cooperative_packet.js`(위 경고 재현 확인)·`node scripts/13`·`node scripts/14` 전부 통과. `git status --short`로 최종 커밋 범위가 `BACKLOG.md`·`docs/audits/joseon_late_source_review.md` 둘뿐임을 확인 — 역할 카드 파일·패킷 파일은 건드리지 않았다.
+  - **판단이 갈린 지점**: 없음 — 공인 카드는 지시대로 문장별 대조를 생략했다(사실관계만 참고용으로 남김).
+  - **2단계에 넘길 것**: 위 evidenceOptions 2건 수정 제안(연결 공방), 품팔이 privateInfo 문장 방향 제안(관문 설계실), 농민 #2 "혼자 힘으로" 완화 제안(관문 설계실).
 
 ## P1-COLLAB-EARLY-GORYEO — 실시간 협동 MUD 첫 실제 활동
 
