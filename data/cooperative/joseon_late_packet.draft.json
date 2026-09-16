@@ -1,0 +1,132 @@
+{
+  "_draftNote": "라운드6 §3 산출물. implementation_plan_joseon_late_cooperative_live_vertical_slice.md §4 CooperativeScenario 타입을 그대로 따른 초안이다. roles[].privateInfo/sharePrompt/interest는 관문 설계실(claude_joseon_late_role_cards.md) 소유라 자리표시자로 남겨 두었다 — 그 문서가 나오면 이 세 필드만 옮겨 채운다. 이 파일은 아직 apps/**에 연결되지 않았고, 어떤 코드도 이 파일을 읽지 않는다.",
+  "id": "joseon_late_market_v1",
+  "version": 1,
+  "title": "조선 후기, 달라지는 장시와 생활",
+  "lessonLabel": "2단원 · 조선 후기 경제와 사회 변화",
+  "commonPrompt": "18세기 조선, 5일마다 장시가 서고 상평통보로 물건을 사고파는 일이 늘고 있습니다. 농사짓는 방법도 달라지고 있습니다. 여러분은 이 변화를 서로 다른 자리에서 겪고 있는 사람들입니다. 각자 받은 자료는 자기만 볼 수 있습니다.",
+  "roles": [
+    {
+      "id": "nongmin",
+      "icon": "🌾",
+      "name": "농민",
+      "evidenceId": "ev_farming_change",
+      "privateInfo": "[PLACEHOLDER — 관문 설계실 확정 예정] 모내기법(이앙법) 확산으로 수확량이 늘고 필요한 일손이 줄었다는 것, 그리고 논을 크게 짓는 농민(광작)과 땅을 잃는 농민이 함께 생겨났다는 것을 3~5문장·출처 대조 완료 서술로 채운다.",
+      "sharePrompt": "[PLACEHOLDER] 내 논에서 일어난 변화를 한 문장으로 친구들에게 설명해 보세요.",
+      "interest": "[PLACEHOLDER] 수확을 늘리고 일손을 줄이고 싶어 하지만, 세금과 땅을 잃을 걱정도 있다 — 보부상·수공업자와 이해관계가 부딪히는 지점을 구체화할 예정."
+    },
+    {
+      "id": "bobusang",
+      "icon": "🎒",
+      "name": "보부상",
+      "evidenceId": "ev_market_currency",
+      "privateInfo": "[PLACEHOLDER — 관문 설계실 확정 예정] 5일장이 전국에 늘어나 장시를 돌며 물건을 유통했다는 것, 상평통보 사용이 늘어 동전으로 사고파는 일이 많아졌다는 것을 3~5문장·출처 대조 완료 서술로 채운다.",
+      "sharePrompt": "[PLACEHOLDER] 장시를 오가며 본 것 중 가장 크게 달라진 점을 친구들에게 설명해 보세요.",
+      "interest": "[PLACEHOLDER] 장시가 더 자주 열리고 이동이 자유롭기를 바란다 — 농민의 세금 부담과는 다른 방향의 이해관계."
+    },
+    {
+      "id": "artisan",
+      "icon": "🔨",
+      "name": "장시 주민·수공업자",
+      "evidenceId": "ev_artisan_freedom",
+      "privateInfo": "[PLACEHOLDER — 관문 설계실 확정 예정] 관청에 매이지 않고 스스로 물건을 만들어 파는 수공업자가 늘었다는 것, 허가와 세금을 내면 개인도 광산을 운영할 수 있었다는 것(설점수세제)을 3~5문장·출처 대조 완료 서술로 채운다.",
+      "sharePrompt": "[PLACEHOLDER] 내가 만든 물건을 어디서 어떻게 파는지 친구들에게 설명해 보세요.",
+      "interest": "[PLACEHOLDER] 자유롭게 만들어 팔고 싶어 하지만 경쟁이 심해지는 부담도 있다."
+    },
+    {
+      "id": "rokgwan",
+      "icon": "📜",
+      "name": "기록관",
+      "evidenceId": "ev_record_limits",
+      "privateInfo": "[PLACEHOLDER — 관문 설계실 확정 예정] 지금 남아 있는 기록이 주로 어떤 자료(관청 문서 등)에서 온 것인지, 그래서 무엇을 알 수 있고 무엇을 알 수 없는지를 3~5문장으로 채운다.",
+      "sharePrompt": "[PLACEHOLDER] 이 기록들이 누구의 이야기를 잘 담고, 누구의 이야기를 잘 담지 못하는지 설명해 보세요.",
+      "interest": "[PLACEHOLDER] 다른 역할들의 주장이 자료로 충분히 뒷받침되는지 따져 보고 싶어 한다 — 성급한 일반화를 경계."
+    },
+    {
+      "id": "pumpali",
+      "icon": "🧺",
+      "name": "품팔이 임노동자",
+      "evidenceId": "ev_landless_labor",
+      "privateInfo": "[PLACEHOLDER — 관문 설계실 확정 예정, 5인 변형 전용] 광작으로 땅을 잃은 농민 중 일부가 도시나 장시 근처에서 품삯을 받고 일하는 처지가 되었다는 것을 3~5문장·출처 대조 완료 서술로 채운다.",
+      "sharePrompt": "[PLACEHOLDER] 땅을 잃고 나서 지금 어떻게 살아가고 있는지 친구들에게 설명해 보세요.",
+      "interest": "[PLACEHOLDER] 안정적인 일자리와 품삯을 원한다 — 광작으로 이익을 늘리는 부농(농민 역할)과 이해관계가 부딪힌다."
+    }
+  ],
+  "groupVariants": {
+    "3": {
+      "roleIds": ["nongmin", "bobusang", "artisan"],
+      "sharedEvidenceIds": ["ev_record_limits"]
+    },
+    "4": {
+      "roleIds": ["nongmin", "bobusang", "artisan", "rokgwan"],
+      "sharedEvidenceIds": []
+    },
+    "5": {
+      "roleIds": ["nongmin", "bobusang", "artisan", "rokgwan", "pumpali"],
+      "sharedEvidenceIds": []
+    }
+  },
+  "firstJudgment": {
+    "prompt": "장시, 화폐, 새로운 농사법 중에서 조선 후기 사람들의 생활을 가장 크게 바꾼 것은 무엇이라고 생각하나요? 아직 친구들의 자료는 보지 않은 상태에서, 자신의 생각을 먼저 정해 보세요.",
+    "choices": [
+      { "id": "market", "text": "장시(5일장)가 늘어난 것" },
+      { "id": "currency", "text": "화폐(상평통보)를 쓰게 된 것" },
+      { "id": "farming", "text": "농사짓는 방법(모내기법)이 바뀐 것" },
+      { "id": "unsure", "text": "아직 잘 모르겠다" }
+    ],
+    "reasonPrompt": "그렇게 생각한 이유를 한두 문장으로 적어 보세요. (정답은 없어요 — 지금 든 생각을 그대로 적으면 됩니다)"
+  },
+  "synthesis": {
+    "targetOptions": [
+      { "id": "target_rich_farmer", "text": "부유한 농민(땅을 크게 짓는 농민)" },
+      { "id": "target_landless_farmer", "text": "땅을 잃고 품팔이가 된 가난한 농민" },
+      { "id": "target_merchant", "text": "장시를 오가며 장사하는 보부상" },
+      { "id": "target_artisan", "text": "스스로 물건을 만들어 파는 수공업자" },
+      { "id": "target_landlord", "text": "양반 지주" }
+    ],
+    "claimPrompt": "우리 모둠은 이 변화가 [대상]에게 [어떤 영향]을 주었다고 생각합니다. 그렇게 생각한 근거를 2개 이상 골라 보세요.",
+    "evidenceOptions": [
+      { "id": "ev1_yield_up", "shortLabel": "모내기법으로 수확량이 늘고 일손이 줄었다", "roleId": "nongmin" },
+      { "id": "ev2_landless", "shortLabel": "논을 크게 짓는 농민이 생기며 땅을 잃은 농민도 있었다", "roleId": "nongmin" },
+      { "id": "ev3_market_spread", "shortLabel": "5일장이 전국 곳곳에 생겨 보부상이 여러 장시를 오갔다", "roleId": "bobusang" },
+      { "id": "ev4_currency_use", "shortLabel": "상평통보가 널리 퍼져 동전으로 사고파는 일이 늘었다", "roleId": "bobusang" },
+      { "id": "ev5_artisan_free", "shortLabel": "수공업자가 관청에 매이지 않고 스스로 만들어 팔기 시작했다", "roleId": "artisan" },
+      { "id": "ev6_mining", "shortLabel": "허가와 세금을 내면 개인도 광산을 운영할 수 있었다", "roleId": "artisan" },
+      { "id": "ev7_record_bias", "shortLabel": "이 기록들은 주로 관청 문서라 기록에 남지 못한 사람들의 삶은 잘 드러나지 않는다", "roleId": "rokgwan" },
+      { "id": "ev8_wage_labor", "shortLabel": "땅을 잃은 농민 중 일부가 품삯을 받고 일하는 처지가 되었다", "roleId": "pumpali" }
+    ],
+    "minEvidence": 2,
+    "minDistinctRoleSources": 2,
+    "limitOptions": [
+      { "id": "limit_scope", "text": "이 변화가 조선 후기 내내, 전국 모든 지역에서 똑같이 일어났는지는 이 자료만으로 알 수 없다." },
+      { "id": "limit_status", "text": "이 변화로 신분 제도 자체가 사라졌는지는 이 자료만으로 알 수 없다." },
+      { "id": "limit_winner", "text": "이 변화가 이 사람에게 이로웠는지 불리했는지, 각자의 사정은 이 자료만으로 알 수 없다." }
+    ],
+    "claimMaxLength": 140
+  },
+  "questionFrames": [
+    {
+      "id": "qf_target",
+      "label": "대상 질문 틀",
+      "template": "그 해석은 [ ]에게는 좋은 변화라고 했는데, [ ]에게는 어땠을까요?"
+    },
+    {
+      "id": "qf_evidence",
+      "label": "근거 질문 틀",
+      "template": "그렇게 생각한 근거 중 하나를 다시 말해 줄 수 있나요? 그 근거가 왜 그 대상과 연결되나요?"
+    },
+    {
+      "id": "qf_limit",
+      "label": "한계 질문 틀",
+      "template": "이 자료만으로는 알 수 없다고 한 것은 무엇인가요? 왜 알 수 없나요?"
+    }
+  ],
+  "interventions": {
+    "hint": "아직 자기 카드를 다 못 나눴다면, 한 사람씩 돌아가며 자기 자료를 소리 내어 읽어 보세요.",
+    "deepen": "이 변화로 이득을 본 사람과 어려움을 겪은 사람이 각각 있었을까요? 두 사람을 모두 찾아보고, 그 이유도 함께 말해 보세요."
+  },
+  "stickyWall": {
+    "heading": "조선 후기 협동 탐구",
+    "templateVersion": 1
+  }
+}
