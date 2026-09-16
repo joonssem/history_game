@@ -1922,3 +1922,16 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - 검증: `04`·`05`·`13`·`14`·`15`(조작대가 이번 라운드에 신설한 `scripts/15_validate_cooperative_packet.js`) 전부 통과. `15`가 연결 공방 소유 `joseon_late_packet.draft.json`에 낸 "전국" 과잉 단정 경고 3건은 남의 파일이라 손대지 않았다. 부수 갱신된 조작대 소유 보고서 2개는 `git checkout --`으로 되돌렸다.
 - 커밋 직전 `git status --short`로 대상 문서 1개만 바뀌었는지 확인했다.
 - 2단계(대조실 수정 요청 반영)는 기획 세션이 따로 지시할 때까지 착수하지 않는다.
+
+
+## 2026-09-16 — 조작대(inquiry-console) 라운드 7: scripts/15 네 가지 보완
+
+`docs/handoff/claude_four_track_round7_instruction.md` §4.
+
+- **부정문 오탐 제거**: 문장 단위로 나눠 "수(는) 없", "것은 아니", "않았/아니었" 같은 부정·한계 패턴이 같은 문장에 있으면 과잉 단정어 경고를 내지 않는다. `limitOptions.limit_scope`("...전국 모든 지역에서 똑같이 일어났는지는 이 자료만으로 알 수 없다")에서 재현 확인 — "전국"이 있어도 더 이상 경고하지 않음. 처음 정규식(`할\s*수\s*없`)이 "알 수 없다"류를 놓쳐 직접 재현 테스트로 잡아 고침.
+- **D-034 확정값·역할 카드 문서 교차 검사 추가**: `CONFIRMED_ROLES` 상수(역할 id·evidenceId·참여 변형)를 두고 패킷의 `roles[].id`/`evidenceId`, `groupVariants.3`(craftsman·laborer 금지 + 공통 자료 `jangsi-craftsman-summary` 필수), `groupVariants.5`(laborer 필수)를 대조한다. 역할 카드 문서(`claude_joseon_late_role_cards.md`)의 헤딩 백틱 id·`evidenceId` 줄을 정규식으로 뽑아 패킷과도 대조한다. 다르면 실패로 낸다.
+- **타입에 없는 최상위 필드 경고**: `CooperativeScenario`(계획서 §4) 필드 목록에 없는 최상위 키가 있으면 경고(`_`로 시작하는 키는 초안 메모로 보고 넘어감). 현재 `questionFrames`가 걸림 — 지시서 §3이 연결 공방에게 이미 제거를 요청한 필드와 일치.
+- **자리표시자 개수 보고 + `--final` 옵션**: `[PLACEHOLDER`를 문자열 검색으로 세어 보고. 기본은 경고, `--final` 플래그를 주면 실패로 전환.
+- **검증**: 빈 규칙 확인용 fixture(완전 위반본 6종, D-034 완전 합치본)를 임시로 만들어 각 검사가 정확히 걸리고/통과하는지 직접 확인한 뒤 삭제, 실제 파일은 복원(`git status --short`로 조작대 소유 파일만 바뀐 것 확인).
+- **현재 상태(예상된 실패)**: 내 워크트리의 `data/cooperative/joseon_late_packet.draft.json`·`claude_joseon_late_role_cards.md`는 아직 라운드 6 산출물(`nongmin`/`artisan`/`rokgwan`/`pumpali`/`gongin`)이라 `scripts/15`가 실패한다 — 지시서 §4 1단계 주의대로 **예상된 것**이며, 통합본(연결 공방·관문 설계실의 라운드 7 §1·§3 반영 후)에서 다시 확인해야 한다.
+- `04`·`05`·`13`·`14`는 모두 통과.
