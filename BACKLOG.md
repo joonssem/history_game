@@ -219,7 +219,7 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 - 작업 claim: `TASK-20260915-06 | 조선 후기 실시간 협동 MUD 수직 슬라이스 구현 계획 | 기획·점검 에이전트 | 상태: DONE`
 - 상태: `planned-after-early-goryeo` — [`구현 계획`](./docs/plans/implementation_plan_joseon_late_cooperative_live_vertical_slice.md) 작성 완료. 고려 초기 첫 실제 활동에서 공통 엔진을 검증한 뒤 착수하며, 사용자 승인 전 코드·시나리오 데이터는 수정하지 않는다.
 - 원문·일정: [`INBOX.md`](./INBOX.md)의 “2026-09-15 — 10월 28일 공개수업 역산” 항목.
-- 작업 경계: Claude가 `apps/cooperative-live`와 조선 후기 활동 콘텐츠·테스트·정적 폴백을 단독 구현한다. Codex는 계획·읽기 전용 감사·통합 판정만 맡고 앱 파일을 수정하지 않는다. 고려 초기 활동의 소유권과 같은 원칙을 유지한다.
+- 작업 경계(2026-09-17 D-035로 변경): **앱 코드(`apps/cooperative-live/**`) 등록·서버·UI·테스트는 Codex**, 조선 후기 콘텐츠(`docs/handoff/claude_joseon_late_runtime_scenario.json`)·출처·`scripts/15` 검증은 Claude가 맡는다. 이전 문구("Claude가 앱까지 단독 구현")는 폐기. 순서: Claude 라운드 8 2단계 JSON이 main에 들어온 뒤 Codex가 등록한다.
 
 ## P1-COLLAB-PRIVACY — Convex 개인정보·국외 처리 착수 게이트
 
