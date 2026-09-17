@@ -1,6 +1,6 @@
 # inquiry-task 관문별 통과 조합 밀도 감사
 
-생성: `scripts/13_audit_inquiry_combinatorics.js` (2026-09-16)
+생성: `scripts/13_audit_inquiry_combinatorics.js` (2026-09-17)
 
 자동 검증(§8)이 아니라 **의미 검증을 위한 데이터**다. "조건이 구조적으로 성립하는가"만 본다 — 문장의 뜻과 근거가 실제로 맞는지는 `docs/audits/inquiry_pilot_semantic_review.md`에서 사람이 판단한다.
 

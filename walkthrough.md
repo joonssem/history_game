@@ -1974,3 +1974,24 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - 남은 경고 14건은 제안값 기준의 길이 경고와 부정문 오탐 1건이다(`recordkeeper.interest`의 "모든 사람"). 리허설 뒤 조정한다.
 - 교훈: 라운드 6은 id를 먼저 고정하지 않고 동시에 작업해 결과가 갈라졌다. 라운드 7은 2단계 순서로 풀었다(D-034).
 - Codex 읽기 전용 감사 요청: `docs/handoff/codex_joseon_late_packet_audit_request_20260917.md`.
+
+## 2026-09-17 — 조작대(inquiry-console) 라운드 8: scripts/15 문장 분리 수정 + --runtime 앱 계약 검사
+
+`docs/handoff/claude_four_track_round8_instruction.md` §3.
+
+### C1-05 문장 나누기 오탐 수정 + 회귀 fixture
+
+- `splitSentences`가 어중의 "다"·"요" 뒤 공백에서도 문장을 잘라, "내다 팔아"·"다 조사하지는" 같은 문구에서 문장이 잘못 갈라졌다. 마침표·물음표·느낌표·줄바꿈에서만 나누도록 정규식을 좁혔다(`(?<=[.!?])\s+|\n+`).
+- 이 버그가 실제로 낸 오탐: 기록관 `interest`("모든 사람과 모든 고을의 사정을 다 알 수 없다는 것도...")에서 "모든 사람"(과잉 단정어)과 그것을 부정하는 "알 수 없다"가 서로 다른 조각으로 갈라져 부정문 인식이 무력화됐다.
+- `runRegressionFixtures()`를 추가해 `node:assert/strict`로 위 세 문구(내다 팔아·다 조사·기록관 interest)를 매 실행마다 자동 확인한다. 깨지면 스크립트가 즉시 실패한다.
+- `--cards`: 항목 끝 메모가 중첩 백틱(예: 인용 URL 슬러그)을 포함해 "첫 백틱부터 줄 끝까지 자르기"로 바꿨다 — 짝을 맞춰 지우는 이전 방식은 중첩된 안쪽 텍스트를 남겼다.
+
+### `--runtime <파일>` 신설
+
+- `apps/cooperative-live/convex/scenarios.ts`(`CooperativeScenario`)·`shared/scenario.ts`(`PublicScenario`)를 **읽기만** 하고 그 모양을 옮겼다. 필수 필드 존재, `groupSizes`의 역할 참조, 역할당 `evidence`≥1·`firstChoices`≥2, `sharedPrompt.policies`≥3(모둠이 2개를 고름)·`limitations`≥1·`connections`≥1, `commonEvidenceByGroupSize`의 3/4/5 키, `sources`≥1(`claim`/`url`/`accessedAt`)을 검사한다.
+- **앱 계약에 없는 최상위·역할·하위 필드는 실패로 낸다**(C1-01 "버려지는 학생용 필드 0개") — 패킷 초안의 `sharePrompt`(역할별 개별 문구)나 `targetOptions`가 그대로 남아 있으면 걸린다. 과잉 단정어·길이 검사도 패킷과 동일하게 적용.
+- 대상 파일이 없으면(2단계 조립 전) 건너뛰고 통과한다.
+- **검증**: 고려 초기(`earlyGoryeoPublic`) 실제 데이터를 본떠 만든 정상 fixture는 통과, 5가지 위반(계약에 없는 필드 2곳·존재하지 않는 role 참조·policies 부족·sources 누락)을 주입한 fixture는 정확히 5건 모두 실패로 잡히는 것을 확인 후 fixture 삭제.
+- **보고**: `--runtime`은 콘텐츠 모양만 본다. 실제 등록 가능 여부는 Codex의 `validateScenarioRegistry()`와 앱 테스트가 판정한다(스크립트 출력에도 매번 이 문구를 남긴다).
+- 기존 `--final`(패킷 초안 모델)은 대상 파일이 없으면 이미 건너뛰던 동작을 그대로 유지 — 2단계에서 초안이 삭제된 뒤에도 별도 수정 없이 건너뛴다.
+- 검증: `04`·`05`·`13`·`14`·`15`(정상/`--cards`/`--runtime` 세 모드) 전부 통과. `git status --short`로 조작대 소유 파일만 바뀐 것 확인.
