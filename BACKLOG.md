@@ -805,3 +805,17 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - 커밋 직전 `git status --short`로 대상 문서 1개만 바뀌었는지 확인했다.
 - **확인 불가로 계속 남는 항목**(§11에 보존): 이모작 조선 후기 시점·지역 범위, 장시 가격 변동의 구체 사료, 품팔이 인구의 정확한 비율, 수공업자-보부상 간 특정 경쟁 인과.
 - **2-나(연결 공방)에 넘길 것**: 확정된 카드 문장을 `data/cooperative/joseon_late_packet.draft.json` 자리표시자에 옮겨 달라는 요청은 §9에 유지. `--cards`·`--final` 검사는 조작대가 §3 완료 후 알려주면 관문 설계실이 재확인한다.
+
+### 2026-09-17 「관문 설계실」(gate-grammar) Round 8 §1: 역할 본문 확정본 v2(앱 계약)
+
+- 지시서 `docs/handoff/claude_four_track_round8_instruction.md`(D-035) §0·§1. `docs/handoff/claude_joseon_late_role_cards.md` 한 파일만 고쳤다. `apps/**`는 읽기만 했다.
+- **C1-04 반영**: 직접 근거가 없던 추론 문장 세 곳을 역할의 추론·걱정으로 낮췄다. 보부상 interest 첫 문장("이문을 남기고 싶습니다"→"남길 수 있지 않을까 생각합니다"), 수공업자 privateInfo #4("살림이 어려워집니다"→"어려워질까 걱정입니다"), 품팔이 privateInfo #4("벌이가 불안정합니다"→"불안정할 때도 있을 것입니다"). 사실로 단정하는 문장이 남지 않게 했다.
+- **역할마다 대표 근거 1개 확정**: 5개 역할의 evidenceId가 서로 겹치지 않음을 확인하고(`farmer-ipbeop`/`bobusang-currency`/`jangsi-craftsman`/`record-keeper-scope`/`laborer-wage`), 각각 30자 안팎 label과 고른 이유 한 줄을 추가했다. 기록관 근거는 지시서대로 "자료의 한계"(호적에 없는 유리민)를 가리키도록 했다.
+- **학생 문장·편집 메모 분리**(C1-05 대응): 모든 역할 카드의 줄 끝 `[...]` 메모를 목록 항목 아래 들여쓴 "메모:" 줄로 옮겼다. 학생 문장에는 더 이상 대괄호가 남지 않는다.
+- `privateInfo`는 앱에서 한 문자열로 이어지므로 이어 읽어도 자연스러운지 확인했다(3~5문장 유지).
+- 문서 첫머리 상태를 "확정(v2, 앱 계약)"으로 바꿨다.
+- 검증: 조작대가 이번 라운드에 올린 `scripts/15_validate_cooperative_packet.js --cards`를 처음으로 돌렸다. 기록관 privateInfo #4가 71자로 경고가 나 40자 안팎으로 압축(53자)한 뒤 재실행해 경고 0건을 확인했다. `04`·`05`·`13`·`14`도 전부 통과. `--runtime`은 조작대 작업이 이번 라운드에 아직 올라오지 않아 실행하지 못했다(§3.4, 대기).
+- `scripts/15`의 기본 모드(옵션 없음)는 여전히 `data/cooperative/joseon_late_packet.draft.json`(연결 공방 소유) 기준으로 실패를 낸다 — 2-나에서 연결 공방이 패킷을 앱 계약 JSON으로 다시 조립하면 해소될 예상된 실패이며 이 라운드의 내 몫이 아니다.
+- 부수 갱신된 조작대 소유 보고서 2개(`inquiry_combinatorics_audit.md`, `inquiry_semantics_lint.md`)는 `git checkout --`으로 되돌렸다.
+- 커밋 직전 `git status --short`로 대상 문서 1개만 바뀌었는지 확인했다.
+- **2단계(연결 공방)에 넘길 것**: `docs/handoff/claude_joseon_late_runtime_scenario.json` 조립 시 이 문서의 v2 `privateInfo`(메모 제외)·대표 근거(`evidence` id/label)를 그대로 쓰면 된다. `sharePrompt`·질문 틀은 지시서대로 교사용 sticky-wall 문서로 옮겨 달라.

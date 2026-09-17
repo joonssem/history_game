@@ -1955,6 +1955,22 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - **여전히 확인 불가로 §11에 남은 항목**: 이모작의 조선 후기 시점·지역 범위, 장시 가격 변동의 구체 사료, 수공업자-보부상 간 특정 경쟁 인과. 대조실이 근거를 확인하면 다음 라운드에 복원 여부를 판단한다.
 - 2-나(연결 공방이 확정 문장을 패킷 JSON에 옮기는 단계)는 기획 세션이 따로 지시할 때까지 착수하지 않는다.
 
+
+## 2026-09-17 — 「관문 설계실」(gate-grammar) Round 8 §1: 역할 본문 확정본 v2(앱 계약)
+
+`TASK-20260917-GATE-R8 | 역할 카드 v2 확정 — 추론 낮춤·대표 근거 1개·문장/메모 분리 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- 지시서 `docs/handoff/claude_four_track_round8_instruction.md`(D-035) §0·§1. 조선 후기 콘텐츠를 실제 앱 계약(`apps/cooperative-live/convex/scenarios.ts`, 읽기만 함)에 맞춰 옮기는 1단계 작업이다. `docs/handoff/claude_joseon_late_role_cards.md` 한 파일만 고쳤다.
+- **C1-04(직접 근거 없는 추론 문장 낮추기)**: 보부상의 값 변동 이문 문장(interest), 수공업자의 안 팔리는 달 살림 문장(privateInfo #4), 품팔이의 농번기 밖 벌이 불안정 문장(privateInfo #4) 세 곳을 "~할까 걱정입니다", "~일 것입니다" 같은 추론·걱정 표현으로 고쳐, 사실로 단정하는 서술이 남지 않게 했다.
+- **역할당 대표 근거 1개**: 기존에 각 역할에 붙어 있던 단일 `evidenceId`(`farmer-ipbeop`/`bobusang-currency`/`jangsi-craftsman`/`record-keeper-scope`/`laborer-wage`)를 그대로 대표 근거로 확정하고, 각각 30자 안팎 label과 선택 이유를 한 줄씩 추가했다. 5개 id가 서로 겹치지 않음을 확인했고, 기록관은 지시서 요구대로 "자료의 한계"(유리민이 호적에서 빠짐)를 가리키는 근거를 대표로 삼았다.
+- **학생 문장·편집 메모 분리(C1-05)**: 모든 역할 카드에서 줄 끝에 붙어 있던 `[출처: …]`류 대괄호 메모를 목록 항목 아래 들여쓴 "- 메모: …" 줄로 옮겼다. 조작대의 `--cards` 문장 분리 오탐(마침표가 아닌 곳에서 잘리던 문제)의 원인이었던 학생 문장 내 섞인 메모를 제거한 것이다.
+- 문서 첫머리 상태를 "확정(v2, 앱 계약)"으로 바꾸고 라운드 8 v2 정정 안내를 추가했다.
+- **검증**: 조작대가 이번 라운드에 올린 `node scripts/15_validate_cooperative_packet.js --cards`를 처음 돌려, 기록관 privateInfo #4가 71자(60자 초과)라는 경고를 받고 53자로 압축한 뒤 재실행해 경고 0건을 확인했다. `04`·`05`·`13`·`14`도 전부 통과. `--runtime <파일>` 옵션은 조작대의 §3.4 작업이 아직 이 워크트리에 올라오지 않아 실행하지 못했다(대기).
+- `scripts/15`의 기본 모드(옵션 없음)는 여전히 `data/cooperative/joseon_late_packet.draft.json`(연결 공방 소유, 아직 라운드 6 산출물)을 기준으로 실패를 낸다 — 2-나에서 연결 공방이 앱 계약 JSON을 새로 조립하면 해소될 예상된 실패이며 이번 라운드 관문 설계실의 몫이 아니다.
+- 부수 갱신된 조작대 소유 보고서 2개(`inquiry_combinatorics_audit.md`, `inquiry_semantics_lint.md`)는 `git checkout --`으로 되돌렸다.
+- `git status --short`로 대상 문서 1개만 바뀐 것을 커밋 직전 확인했다.
+- 2단계(연결 공방이 `docs/handoff/claude_joseon_late_runtime_scenario.json`을 조립하는 단계)는 기획 세션이 따로 지시할 때까지 착수하지 않는다.
+
 ## 2026-09-16 — 조작대(inquiry-console) 라운드 7 2단계: scripts/15 글 길이·가독성 검사 + --cards 옵션
 
 `docs/handoff/claude_four_track_round7_stage2_instruction.md` §3.
