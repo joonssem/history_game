@@ -1,6 +1,6 @@
 # inquiry-task 의미 lint
 
-생성: `scripts/14_lint_inquiry_semantics.js` (2026-09-16)
+생성: `scripts/14_lint_inquiry_semantics.js` (2026-09-17)
 
 기계가 신호로 잡을 수 있는 것만 본다. **실패가 아니라 검토 목록이다.** 문장의 뜻이 실제로 맞는지는 사람이 판단한다.
 
