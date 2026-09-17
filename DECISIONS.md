@@ -278,3 +278,20 @@
   4. 질문 틀 3종(대상·근거·한계)은 `CooperativeScenario` 앱 데이터에 넣지 않는다. sticky-wall용 교사 자료로 둔다.
   5. 역할 본문은 관문 설계실, 판단·해석 옵션은 연결 공방이 소유한다. 같은 내용을 두 창이 동시에 쓰지 않는다.
 - 교훈: 같은 데이터 구조를 나눠 쓰는 병렬 작업은 **id·구조를 먼저 고정한 뒤** 시작한다.
+
+## D-035 — 조선 후기 협동 활동은 실제 앱 계약에 맞춘다; 앱 코드는 Codex, 콘텐츠는 Claude
+
+- 상태: 채택 (2026-09-17, 사용자 결정)
+- 배경:
+  - Codex 감사(`docs/audits/joseon_late_packet_red_team_audit.md`)가 T1 등록을 NO-GO로 판정했다.
+  - 이유: 계획서 모델(대상–주장–근거–한계)로 만든 패킷이 실제 앱(`apps/cooperative-live/convex/scenarios.ts`) 계약과 다르다. 앱 계약은 정책 2개 + 역할 근거 2개 + 연결 + 한계이고, 역할마다 `firstChoices`·`evidence[]`를 가지며, `sources`가 필수다.
+- 규칙:
+  1. 기준 계약은 **실제 앱의 `CooperativeScenario`**(고려 초기 `early-goryeo-unity`와 같은 모양)다. 계획서 §4 타입은 폐기한다.
+  2. "누구에게" 대상 선택은 앱 필드로 추가하지 않는다. `connections` 문구와 `interventions.deepen`에 녹인다.
+  3. 역할별 `sharePrompt`는 앱에 필드가 없으므로 교사 자료로 옮긴다. `commonPrompt`는 `sharedPrompt.question`이 된다.
+  4. 역할마다 앱 화면에 보이는 근거는 `evidence[0]` 하나다. 역할당 대표 근거 하나를 고른다.
+  5. `target_landlord`처럼 대응하는 역할 근거가 없는 선택지는 두지 않는다.
+  6. **앱 코드(`apps/cooperative-live/**`) 등록·서버·테스트는 Codex가 한다.** Claude는 앱 계약 모양의 콘텐츠 JSON과 출처, 검증 스크립트까지만 만든다.
+- 감사 수용·기록(red team 정책):
+  - 수용: C1-01(계약 불일치), C1-03(대상·공통 근거 미연결), C1-04(추론 문장을 사실처럼 씀), C1-05(`scripts/15` 문장 분리·메모 제거 오탐, 런타임 계약 미검사).
+  - **부분 수용·기록만**: C1-02(Pages 공개). 예측 가능한 URL의 초안 JSON은 정리한다. 그러나 고조선 정적 협동(`cooperative-mud/gojoseon-law/scenario.js`)과 고려 초기 앱(`convex/scenarios.ts`)도 역할 비공개 본문을 공개 저장소에 두고 있다. 공개 저장소에서 "서버 전용"은 **학생 화면에 보내지 않는다**는 뜻이지 비밀 보장이 아니다. 위협 모델은 "학생이 수업 중 다른 역할 자료를 쉽게 보지 못함"으로 둔다. 조선 후기에만 다른 기준을 적용하지 않는다.
