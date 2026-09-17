@@ -197,6 +197,13 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
   - 검증: `python scripts/04_validate_mud_contract.py`·`node scripts/05_test_simulator_runtime.js`·`node scripts/15_validate_cooperative_packet.js`(위 경고 재현 확인)·`node scripts/13`·`node scripts/14` 전부 통과. `git status --short`로 최종 커밋 범위가 `BACKLOG.md`·`docs/audits/joseon_late_source_review.md` 둘뿐임을 확인 — 역할 카드 파일·패킷 파일은 건드리지 않았다.
   - **판단이 갈린 지점**: 없음 — 공인 카드는 지시대로 문장별 대조를 생략했다(사실관계만 참고용으로 남김).
   - **2단계에 넘길 것**: 위 evidenceOptions 2건 수정 제안(연결 공방), 품팔이 privateInfo 문장 방향 제안(관문 설계실), 농민 #2 "혼자 힘으로" 완화 제안(관문 설계실).
+- **2026-09-16 라운드 7 2단계 「대조실」 — 확인 불가 해소 + 품팔이 카드 대조 + ev6_mining 대안**: `docs/handoff/claude_four_track_round7_stage2_instruction.md` §2를 받아 진행. 이번에도 `docs/audits/joseon_late_source_review.md`만 고쳤고 **역할 카드 파일은 직접 고치지 않았다**(관문 설계실이 이미 1단계에서 공인→품팔이 교체를 완료해 둔 걸 읽기만 함). main 체크아웃은 안 열었고 push도 안 했다.
+  - **확인 불가 5건 재조사 결과**: 농민 #3 이모작은 **해소**(우리역사넷 「이모작」 — 16~17세기 시작, 『한정록』 최초 기록, 경상·전라 중심·경기 일부라는 지역차까지 확인 — 관문 설계실에 지역차 추가를 제안). 보부상 #5·수공업자 #3도 **해소**(「장시의 증가와 시장권 형성」의 사상인 30~50리 순회 유통 서술로 뒷받침). 보부상 #2·수공업자 #4·기록관 #3은 **확인 불가 확정** — 특히 보부상 #2는 검색 스니펫에 같은 문장이 반복해서 나왔지만, 그 문장이 있다고 나온 우리역사넷 페이지 2곳을 직접 WebFetch로 열어 봐도 실제로는 없어서 "검색 결과가 틀릴 수 있다"는 걸 다시 확인한 사례로 기록해 뒀다(원문 재확인의 필요성).
+  - **품팔이 카드 5문장 전수 대조**: 4개 맞음(고공=임노동자 개념, 광작→몰락 인과, 농번기 고용 수요, 지역차 hedge), 1개 확인 불가(비수기 불안정 — 상식적 추론). 수정 요청 없음 — 관문 설계실이 1단계에서 이미 "일부" 범위를 잘 지켜 썼다.
+  - **`ev6_mining` 대안 라벨 제안**: "허가와 세금을 내면 개인도 광산을 운영할 수 있었다" → **"정부 허가 받은 사람이 은광 등을 캐고 세금 냈다"**(21자, 조작대의 30자 기준 충족) — 설점수세제가 실제로는 연·은 생산지에 한정된 정부 통제 구조라는 원문 범위를 반영. 연결 공방이 2-나에서 반영할 수 있게 문서에 남겼다.
+  - **부수 발견**: 물가 상승 추세(18세기 후반~19세기 전반, 미가 1석당 10냥→12~15냥, 미곡·면포 중심)를 조사 중 확인했으나 정확한 출처 URL을 못 찾아 "확인 불가"로 분류하고 참고용으로만 남겼다 — 다른 시대 장면에 이 물가를 인용하면 시기 오류가 됨을 함께 적었다.
+  - 검증: `node scripts/15_validate_cooperative_packet.js`(패킷은 아직 자리표시자 15곳 — 조작대의 §4 item4가 이미 개수 보고 기능을 구현해 둔 것을 확인), `python scripts/04_validate_mud_contract.py`·`node scripts/05_test_simulator_runtime.js`·`node scripts/13`·`node scripts/14` 전부 통과. `git status --short`로 커밋 범위가 `docs/audits/joseon_late_source_review.md` 하나뿐임을 확인.
+  - **판단이 갈린 지점**: 없음.
 
 ## P1-COLLAB-EARLY-GORYEO — 실시간 협동 MUD 첫 실제 활동
 
