@@ -805,3 +805,10 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - 커밋 직전 `git status --short`로 대상 문서 1개만 바뀌었는지 확인했다.
 - **확인 불가로 계속 남는 항목**(§11에 보존): 이모작 조선 후기 시점·지역 범위, 장시 가격 변동의 구체 사료, 품팔이 인구의 정확한 비율, 수공업자-보부상 간 특정 경쟁 인과.
 - **2-나(연결 공방)에 넘길 것**: 확정된 카드 문장을 `data/cooperative/joseon_late_packet.draft.json` 자리표시자에 옮겨 달라는 요청은 §9에 유지. `--cards`·`--final` 검사는 조작대가 §3 완료 후 알려주면 관문 설계실이 재확인한다.
+- **2026-09-17 라운드 8 「대조실」 — 앱 `sources` 목록 + connections 범위 기준**: `docs/handoff/claude_four_track_round8_instruction.md` §2를 받아 진행. `docs/audits/joseon_late_source_review.md`만 고쳤다. `apps/cooperative-live/convex/scenarios.ts`는 **읽기만** 했다(D-035·§0 규칙대로 앱 파일에 손대지 않음, 고려 초기 `earlyGoryeo.sources` 형식만 참고). main 체크아웃은 안 열었고 push도 안 했다.
+  - **8-1 앱 `sources` 9건**: 지금까지(라운드 6~7) WebFetch로 실제 열람한 원문 중 역할 카드의 사실 문장을 직접 뒷받침하는 것만 골라 `{claim, url, accessedAt}` 형식으로 정리했다 — 이앙법·광작-몰락 인과·이모작(지역차 포함)·장시 순회 유통·상평통보 유통(1678)·전황(영조대)·관영→민영 수공업(1707 사료+정조대 공장안 폐지)·호적 누락(박일원 1788·30%)·임노동자(고공) 개념. 기록관의 "고을 기록만으로 나라 전체를 알 수 없다"는 방법론적 서술은 고려 초기 record-reviewer 선례처럼 별도 소스를 붙이지 않았다.
+  - **8-2 추론 문장 3건**: C1-04가 지목한 보부상 이문·수공업자 안 팔리는 달·품팔이 비수기 불안정 세 문장을 "추론(출처 없음)"으로 표를 만들어 분리했다. 지시서 예시("~할까 걱정입니다")와 같은 방향의 권장 표현을 같이 제안했다 — 다만 관문 설계실의 §1 문장 확정은 대조실 몫이 아니라 직접 고치지 않았다.
+  - **8-3 connections 범위 기준 5가지**: (1) 대상은 반드시 역할 카드가 있는 인물군이어야 함(지주처럼 근거 없는 집단 금지), (2) 전칭 표현 금지, (3) 이득·어려움을 같은 변화의 양면으로 묶어 씀, (4) 추론으로 낮춘 문장의 결론은 connections에서도 단정하지 않음, (5) 시기·지역 미명시 "전국" 규모로 확장하지 않음.
+  - **8-4 `target_landlord` 잔존 표시**: D-035가 삭제하기로 한 `target_landlord`("양반 지주")가 `data/cooperative/joseon_late_packet.draft.json:85`에 아직 남아 있는 걸 확인 — 지시대로 **표시만 하고 직접 지우지 않았다.** 근거도 §8-3 규칙 1과 같다(지주 역할 카드가 없고, "지주 전체가 이득을 봤다"를 뒷받침하는 원문을 확인 못함 — 일부 지주의 토지 집적 서술만 있음).
+  - 검증: `python scripts/04_validate_mud_contract.py`·`node scripts/05_test_simulator_runtime.js`·`node scripts/15_validate_cooperative_packet.js`(패킷 파일 자체는 안 건드려 회귀 없음 — 다만 실행해 보니 연결 공방이 `ev3_market_spread` 라벨을 이미 "여러 고을에"로 고쳐 둔 걸 확인, 길이 초과 경고 다수는 조작대·연결 공방 몫) 전부 통과. `git status --short`로 커밋 범위가 `docs/audits/joseon_late_source_review.md` 하나뿐임을 확인.
+  - **판단이 갈린 지점**: 없음.
