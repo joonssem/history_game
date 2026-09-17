@@ -1,4 +1,17 @@
-# 조선 후기 협동 패킷 초안 — 연결 공방 작업 노트 (라운드6 §3, 라운드7 §3 갱신, 라운드7 2단계 2-나)
+# 조선 후기 협동 패킷 초안 — 연결 공방 작업 노트 (라운드6 §3, 라운드7 §3 갱신, 라운드7 2단계 2-나, 라운드8 §4에서 초안 폐기)
+
+## -2. 라운드8 §4 — 이 문서가 다루던 패킷 초안은 삭제됨
+
+`data/cooperative/joseon_late_packet.draft.json`은 D-035·라운드8 §4 지시(`git rm`)에 따라 저장소에서 지웠다. 최종 콘텐츠는 이제 실제 앱 계약 모양(`CooperativeScenario`+`PublicScenario`)을 그대로 따르는 **`docs/handoff/claude_joseon_late_runtime_scenario.json`** 한 파일이다 — 등록은 Codex가 한다. 이 노트(§-1 이하)는 그 조립까지 오는 과정(2단계 2-나에서 확정 문장을 반영한 기록)을 남겨 두기 위해 그대로 보존한다. `sharePrompt`·질문 틀 3종은 `docs/handoff/claude_joseon_late_teacher_sticky_wall.md`로 이동했다(§0에 `sharePrompt` 표 추가).
+
+새 런타임 파일에서 패킷 초안과 달라진 점:
+- 필드 이름이 다르다 — `firstJudgment.choices`→역할별 `firstChoices`(모든 역할 동일), `targetOptions`+`claimPrompt`→`sharedPrompt.connections`(대상+영향이 이미 녹아든 완성 문장), `limitOptions`→`sharedPrompt.limitations`, "장시/화폐/농사법" 선택지→`sharedPrompt.policies`.
+- 역할당 근거가 **1개**로 줄었다(역할 카드 v2가 고른 대표 근거). 패킷 초안의 `evidenceOptions` 8개(역할별 1~2개)는 앱에 옮기지 않았다 — 앱은 역할당 `evidence` 배열 1개만 받는다.
+- `target_landlord`("양반 지주")는 옮기지 않았다 — 대조실이 §8-4에서 지주 역할 카드가 없어 근거가 없다고 확인했고, D-035가 삭제를 확정했다.
+- `sources`는 패킷 초안에 없던 필드다. 대조실이 §8-1에서 정리한 9건을 그대로 옮겼다(§8-2 추론 문장은 제외).
+- "아직 잘 모르겠다" 선택지는 앱 `firstChoices`에 넣지 않았다(지시대로) — 이유 입력 필드 자체가 앱에 없어(고려 예시와 동일하게 선택지만 있음) 이유를 요구하는 이 선택지는 애초에 어울리지 않았다.
+
+검증: `node scripts/15_validate_cooperative_packet.js --runtime docs/handoff/claude_joseon_late_runtime_scenario.json` → PASS(길이 제안값 경고 3건, 카드 원문 그대로라 미수정). `--final`은 대상 파일이 없어 SKIP.
 
 ## -1. 라운드7 2단계(2-나) — 확정 문장 반영
 

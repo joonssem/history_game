@@ -2,7 +2,19 @@
 
 - 작성: 연결 공방(activity-loop), 라운드7 §3
 - 근거: `docs/handoff/claude_four_track_round7_instruction.md` §3-3, `implementation_plan_joseon_late_cooperative_live_vertical_slice.md` §6
-- 이 문서는 **앱 데이터가 아니다.** 라운드6 초안에서 `data/cooperative/joseon_late_packet.draft.json`의 `questionFrames` 필드로 들어 있던 내용을, 이번 라운드 지시대로 여기로 옮겼다. sticky-wall은 실시간 앱과 계정·API·세션 ID로 연결되지 않는 별도 물리적(또는 별도 서비스) 게시판이므로, 이 셋(질문 틀·복사 문자열·운영 순서)은 패킷 JSON이 아니라 교사가 손에 들고 쓰는 자료로 존재해야 한다.
+- 이 문서는 **앱 데이터가 아니다.** 라운드6 초안에서 `data/cooperative/joseon_late_packet.draft.json`의 `questionFrames` 필드로 들어 있던 내용을 여기로 옮겼고, 라운드8 §4(D-035)에서 패킷 초안을 지우면서 역할별 `sharePrompt`도 함께 옮겼다. 앱 계약(`docs/handoff/claude_joseon_late_runtime_scenario.json`)에는 `sharePrompt`·질문 틀 필드가 없다 — "자기 자료를 말로 설명했는가"는 앱이 `share` 단계에서 학생의 확인 버튼만으로 판정하고(계획서 §5 `share → synthesis` 관문), 무엇을 말할지 안내하는 문구 자체는 교사가 이 문서를 보고 진행하거나 화면 밖에서 안내한다.
+
+## 0. 역할별 말하기 안내 문구(`sharePrompt`)
+
+한 사람씩 자기 자료를 공유할 때 교사가 (또는 화면 밖 안내지로) 읽어 주는 문장이다. 앱의 `share` 단계 자체에는 이 문구가 표시되지 않으므로, 진행자가 미리 익혀 두거나 인쇄물로 함께 배부한다.
+
+| 역할 | 말하기 안내 |
+|---|---|
+| 농민(`farmer`) | "내가 짓는 농사법이 내 살림과 이웃의 살림을 어떻게 바꾸었는지 설명해 보세요." |
+| 보부상(`bobusang`) | "장시와 화폐가 물건을 사고파는 방식을 어떻게 바꾸었는지 설명해 보세요." |
+| 수공업자(`craftsman`) | "장시에서 물건을 만들고 파는 내 생활이 예전과 어떻게 달라졌는지 설명해 보세요." |
+| 기록관(`recordkeeper`) | "기록에 남아 있는 것과 남아 있지 않은 것을 구분해 설명해 보세요." |
+| 품팔이(`laborer`, 5인만) | "땅을 빌려 농사짓지 못하게 된 뒤 내 생활이 어떻게 달라졌는지 설명해 보세요." |
 
 ## 1. 다른 모둠에게 던질 질문 틀 3종
 
@@ -14,7 +26,7 @@
 | 근거 질문 | "그렇게 생각한 근거 중 하나를 다시 말해 줄 수 있나요? 그 근거가 왜 그 대상과 연결되나요?" |
 | 한계 질문 | "이 자료만으로는 알 수 없다고 한 것은 무엇인가요? 왜 알 수 없나요?" |
 
-- 세 틀은 패킷의 `synthesis.targetOptions`/`evidenceOptions`/`limitOptions`와 각각 짝을 이룬다 — 발표 모둠이 고른 대상·근거·한계를 그대로 두고, 듣는 모둠은 그 선택에 대해서만 되묻는다.
+- 세 틀은 앱 계약(`claude_joseon_late_runtime_scenario.json`)의 `sharedPrompt.connections`(누구에게 어떤 영향)·`sharedPrompt.policies`(어떤 변화를 근거로 골랐는지)·`sharedPrompt.limitations`(자료로 알 수 없는 것)와 각각 짝을 이룬다 — 발표 모둠이 고른 것을 그대로 두고, 듣는 모둠은 그 선택에 대해서만 되묻는다.
 - 진행 순서(계획서 §0-3): `발표 → 대상 질문 1개 이상 → 근거 질문 1개 이상 → 한계 질문 1개 이상 → 발표 모둠이 필요하면 해석 수정`.
 
 ## 2. sticky-wall 인계 문자열 형식
@@ -30,13 +42,13 @@
 ```
 
 - `N모둠`만 식별자로 쓴다. 학생 이름·학번·역할 배정·세션 ID·수업 코드·토큰은 어떤 형태로도 포함하지 않는다.
-- "처음 해석"은 `synthesis.claimPrompt`로 완성한 문장, "근거"는 고른 `evidenceOptions`의 `shortLabel` 2개 이상, "자료의 한계"는 고른 `limitOptions`의 문장이다.
+- "처음 해석"은 모둠이 고른 `sharedPrompt.connections` 문장(들), "근거"는 고른 `sharedPrompt.policies`의 `label` 2개 이상, "자료의 한계"는 고른 `sharedPrompt.limitations`의 `label`이다.
 - 마지막 줄의 세 물음표는 위 §1의 질문 틀 세 가지를 요약해 보여 주는 것으로, 다른 모둠이 이 포스트잇을 보고 바로 질문을 떠올리게 하는 역할이다.
 
 ## 3. 운영 순서 (한 모둠 기준)
 
-1. 역할별 비공개 자료 확인 → 개인 최초 판단(혼자, `firstJudgment`) → 한 사람씩 말로 자료 공유
-2. 모둠 공동 해석 작성(`synthesis`: 대상 1개 + 근거 2개 이상 + 한계 1개) → 모둠원 전원 확인
+1. 역할별 비공개 자료 확인 → 개인 최초 판단(혼자, 역할별 `firstChoices`) → 한 사람씩 말로 자료 공유(§0 안내 문구 참고)
+2. 모둠 공동 해석 작성(`sharedPrompt`: 정책 2개 + 연결 문장 1개 이상 + 한계 1개 이상) → 모둠원 전원 확인
 3. 위 §2 형식으로 sticky-wall 문자열을 만들어 게시판에 붙인다
 4. 다른 모둠을 순회하며 §1의 질문 틀로 질문·반론을 남긴다(포스트잇 옆에 붙이거나 구두로 전달)
 5. 발표 모둠은 질문을 반영해 필요하면 해석을 수정하고 다시 게시한다

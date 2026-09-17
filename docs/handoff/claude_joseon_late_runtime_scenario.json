@@ -1,0 +1,169 @@
+{
+  "id": "joseon-late-market",
+  "version": 1,
+  "publicMeta": {
+    "title": "달라지는 조선 후기 — 장시·화폐·농사법의 변화는 누구에게 어땠을까?",
+    "lesson": "2단원 8~10차시 조선 후기 사회 변화",
+    "recommendedMinutes": 10
+  },
+  "groupSizes": {
+    "3": ["farmer", "bobusang", "recordkeeper"],
+    "4": ["farmer", "bobusang", "craftsman", "recordkeeper"],
+    "5": ["farmer", "bobusang", "craftsman", "recordkeeper", "laborer"]
+  },
+  "roles": [
+    {
+      "id": "farmer",
+      "icon": "🌾",
+      "name": "농민",
+      "privateInfo": "저는 모내기법(이앙법)으로 벼농사를 짓습니다. 잡초 뽑는 일손이 줄어 예전보다 적은 일손으로 넓은 논을 지을 수 있게 되었습니다(광작). 남는 곡식은 장시에 내다 팔아 돈을 마련합니다. 저처럼 넓은 땅을 짓는 사람이 늘면서, 품삯을 받는 이웃도 생겼습니다.",
+      "interest": "적은 일손으로 넓은 땅을 지어 곡식을 많이 거두고, 남는 곡식을 좋은 값에 팔고 싶습니다. 다만 저처럼 땅을 넓힌 사람이 많아지면 땅을 구하지 못하는 이웃이 생긴다는 것도 알고 있습니다.",
+      "firstChoices": [
+        { "id": "improved", "label": "많은 사람의 살림이 전반적으로 나아졌을 것이다" },
+        { "id": "mixed", "label": "사람에 따라 좋아진 점과 어려워진 점이 함께 있었을 것이다" },
+        { "id": "unchanged", "label": "예전과 크게 달라지지 않았을 것이다" }
+      ],
+      "evidence": [
+        { "id": "farmer-ipbeop", "label": "모내기법으로 넓은 땅을 지음(광작)" }
+      ]
+    },
+    {
+      "id": "bobusang",
+      "icon": "🎒",
+      "name": "보부상",
+      "privateInfo": "저는 등짐과 봇짐을 지고 5일마다 서는 장시를 오가며 물건을 사고팝니다. 상평통보로 거래하는 사람이 늘어 무거운 곡식을 직접 지지 않아도 됩니다. 그런데 가끔 동전이 귀해지는 때가 있어(전황), 그럴 때는 물건을 팔아도 돈으로 받기가 어렵습니다. 저는 여러 장시를 돌아다니며 이 고을 물건을 저 고을에 가져가 팔기도 합니다.",
+      "interest": "곡식과 물건 값에는 오르내리는 때가 있을 것 같아, 그 차이를 이용하면 이문을 남길 수 있지 않을까 생각합니다. 곡식값이 쌀 때 사고 싶은 저와, 제값에 팔고 싶은 농민의 생각이 다를 때가 있습니다.",
+      "firstChoices": [
+        { "id": "improved", "label": "많은 사람의 살림이 전반적으로 나아졌을 것이다" },
+        { "id": "mixed", "label": "사람에 따라 좋아진 점과 어려워진 점이 함께 있었을 것이다" },
+        { "id": "unchanged", "label": "예전과 크게 달라지지 않았을 것이다" }
+      ],
+      "evidence": [
+        { "id": "bobusang-currency", "label": "상평통보 유통과 전황(동전 부족)" }
+      ]
+    },
+    {
+      "id": "craftsman",
+      "icon": "🔨",
+      "name": "장시 주민·수공업자",
+      "privateInfo": "저는 장시 근처에 살며 무명(면포)을 짜서 내다 파는 수공업자입니다. 예전에는 나라의 명령을 받아 만들었지만, 요즘은 스스로 만들어 파는 사람도 늘었습니다. 장이 크게 서는 날에는 물건이 잘 팔리지만, 다른 지역 물건과 겨루어야 할 때도 있습니다. 제가 만든 물건이 안 팔리는 달에는 살림이 어려워질까 걱정입니다. 보부상이 제 물건을 다른 장시로 가져가 대신 팔아 주기도 합니다.",
+      "interest": "제가 만든 물건을 제값에, 꾸준히 팔고 싶습니다. 다른 지역 물건과 경쟁하거나 장사가 안 되는 달에는 살림이 불안정해질까 걱정입니다.",
+      "firstChoices": [
+        { "id": "improved", "label": "많은 사람의 살림이 전반적으로 나아졌을 것이다" },
+        { "id": "mixed", "label": "사람에 따라 좋아진 점과 어려워진 점이 함께 있었을 것이다" },
+        { "id": "unchanged", "label": "예전과 크게 달라지지 않았을 것이다" }
+      ],
+      "evidence": [
+        { "id": "jangsi-craftsman", "label": "관영 수공업 쇠퇴, 스스로 만들어 파는 수공업자 증가" }
+      ]
+    },
+    {
+      "id": "recordkeeper",
+      "icon": "📜",
+      "name": "기록관",
+      "privateInfo": "저는 고을의 호적과 장시 왕래를 기록하는 일을 돕습니다. 호적에는 사람 수와 신분을 적지만, 떠돌아다니는 유리민은 빠지기도 합니다. 장시가 서는 날짜와 파는 물건 종류는 고을마다 기록이 다르고, 먼 지역까지 다 조사하지는 못합니다. 상평통보를 쓰는 사람이 늘었다지만, 저희 고을 기록만으로는 나라 전체 사정까지 알 수 없습니다. 저는 기록에 있는 것과 기록에 없는 것을 구분해서 알려 드릴 수 있습니다.",
+      "interest": "정확하게 기록하고 싶지만, 제가 가진 기록만으로는 모든 사람과 모든 고을의 사정을 다 알 수 없다는 것도 분명히 밝히고 싶습니다.",
+      "firstChoices": [
+        { "id": "improved", "label": "많은 사람의 살림이 전반적으로 나아졌을 것이다" },
+        { "id": "mixed", "label": "사람에 따라 좋아진 점과 어려워진 점이 함께 있었을 것이다" },
+        { "id": "unchanged", "label": "예전과 크게 달라지지 않았을 것이다" }
+      ],
+      "evidence": [
+        { "id": "record-keeper-scope", "label": "호적에 없는 유리민, 기록의 한계" }
+      ]
+    },
+    {
+      "id": "laborer",
+      "icon": "🧺",
+      "name": "품팔이",
+      "privateInfo": "저는 남의 논밭 일을 도와주고 품삯을 받아 살아가는 고공(雇工)입니다. 넓은 땅을 짓는 사람이 늘며, 몰락 농민 중 일부가 저처럼 됩니다. 농촌에 남아 품삯을 받기도 하고, 도성 근처로 가 세곡을 나르기도 합니다. 모내기·김매기 철엔 일이 많지만, 그 외엔 벌이가 불안정할 때도 있을 것입니다. 몰락한 농민 모두가 저와 같은 길을 걷진 않으며, 사정은 각자 다릅니다.",
+      "interest": "품삯을 받을 수 있는 일자리가 꾸준히 있으면 좋겠습니다. 넓은 땅을 짓는 사람들 덕분에 일거리가 생기기도 하지만, 저는 제 땅이 없어 늘 불안정하다는 점이 다릅니다.",
+      "firstChoices": [
+        { "id": "improved", "label": "많은 사람의 살림이 전반적으로 나아졌을 것이다" },
+        { "id": "mixed", "label": "사람에 따라 좋아진 점과 어려워진 점이 함께 있었을 것이다" },
+        { "id": "unchanged", "label": "예전과 크게 달라지지 않았을 것이다" }
+      ],
+      "evidence": [
+        { "id": "laborer-wage", "label": "품삯으로 사는 고공, 세곡 하역 임노동" }
+      ]
+    }
+  ],
+  "sharedPrompt": {
+    "question": "장시·화폐·농사법의 변화는 조선 후기 사람들의 삶을 누구에게 어떻게 바꾸었을까?",
+    "policies": [
+      { "id": "market", "label": "장시(5일장)가 늘어난 변화" },
+      { "id": "currency", "label": "화폐(상평통보)를 쓰게 된 변화" },
+      { "id": "farming", "label": "농사짓는 방법(모내기법)이 바뀐 변화" }
+    ],
+    "limitations": [
+      { "id": "scope-all", "label": "우리 이야기만으로 조선 후기 모든 지역·사람이 똑같이 달라졌다고 말할 수 없다" },
+      { "id": "local-case", "label": "우리 자료는 한 고을·한 장시의 사례이며 다른 지역은 달랐을 수 있다" },
+      { "id": "exact-timing", "label": "화폐와 장시가 퍼진 정확한 시기는 이 자료만으로 알 수 없다" }
+    ],
+    "connections": [
+      { "id": "land-vs-labor", "label": "광작으로 땅을 넓힌 농민은 수확이 늘었지만, 땅을 구하지 못한 이웃은 품팔이로 생계를 이어야 했다" },
+      { "id": "currency-tradeoff", "label": "보부상은 상평통보 덕분에 여러 장시를 오가며 거래하기 편해졌지만, 전황이 심할 때는 돈을 받기 어려웠다" },
+      { "id": "craft-tradeoff", "label": "수공업자는 스스로 만들어 파는 자유를 얻었지만, 장이 안 서는 달에는 살림이 불안정해질까 걱정했다" }
+    ],
+    "whyTogetherStem": "서로 다른 처지의 자료를 함께 보면"
+  },
+  "commonEvidenceByGroupSize": {
+    "3": [
+      { "id": "common-craftsman", "label": "장시에 물건 만들어 파는 사람도 있었다" }
+    ],
+    "4": [],
+    "5": []
+  },
+  "teacherStages": ["role", "first", "share", "draft", "confirm", "finished"],
+  "interventions": {
+    "hint": "각자 자료에서 '좋아진 점'과 '어려워진 점'을 하나씩 짧게 말해 볼까요?",
+    "deepen": "농민과 보부상의 생각이 같은 곳과 다른 곳은 어디인가요? 왜 다를까요?"
+  },
+  "sources": [
+    {
+      "claim": "모내기법(이앙법)이 17세기 이후 빠르게 보급되어 17세기 후반 삼남지방에서 대세를 이룬 일",
+      "url": "https://contents.history.go.kr/mobile/nh/view.do?levelId=nh_033_0020_0020_0010_0010",
+      "accessedAt": "2026-09-16"
+    },
+    {
+      "claim": "광작농이 경작지를 넓혀 감에 따라 자작농·작인층 일부가 경작지를 확보하지 못해 몰락한 일",
+      "url": "https://contents.history.go.kr/mobile/nh/view.do?levelId=nh_033_0020_0030_0010_0010",
+      "accessedAt": "2026-09-16"
+    },
+    {
+      "claim": "벼-보리 이모작이 16~17세기부터 경상·전라 지역을 중심으로 퍼진 일",
+      "url": "https://contents.history.go.kr/mobile/tg/view.do?subjectCode=tg_ty_010&tabId=02&levelId=tg_003_0520&ganada=&pageUnit=10",
+      "accessedAt": "2026-09-16"
+    },
+    {
+      "claim": "5일마다 장이 서고 상인이 30~50리 거리를 두고 여러 장시를 돌며 물건을 유통한 일",
+      "url": "https://contents.history.go.kr/front/km/view.do?levelId=km_016_0030_0020_0020",
+      "accessedAt": "2026-09-16"
+    },
+    {
+      "claim": "1678년(숙종 4)부터 상평통보를 법정 화폐로 주조·유통하기 시작한 일",
+      "url": "https://contents.history.go.kr/front/hm/view.do?treeId=010602&tabId=01&levelId=hm_106_0060",
+      "accessedAt": "2026-09-16"
+    },
+    {
+      "claim": "영조대 초반 동전이 부족해지는 '전황' 현상이 나타난 일",
+      "url": "https://contents.history.go.kr/front/hm/view.do?treeId=010602&tabId=01&levelId=hm_106_0060",
+      "accessedAt": "2026-09-16"
+    },
+    {
+      "claim": "관영 수공업이 쇠퇴하고 스스로 만들어 파는 민영 수공업자가 늘어난 일(숙종 33년/1707년 사료, 정조 때 장인 등록제 폐지)",
+      "url": "https://contents.history.go.kr/mobile/hm/view.do?levelId=hm_105_0020",
+      "accessedAt": "2026-09-16"
+    },
+    {
+      "claim": "1788년(정조 12) 호조정랑 박일원이 호적대장에 등재되지 않은 인구를 30%로 추정한 일",
+      "url": "https://contents.history.go.kr/mobile/nh/view.do?levelId=nh_033_0020_0010_0010",
+      "accessedAt": "2026-09-16"
+    },
+    {
+      "claim": "토지에서 벗어난 농민이 품삯을 받는 임노동자(고공)가 되어 농업이나 도성 근처 세곡 하역 등으로 살아간 일",
+      "url": "https://contents.history.go.kr/front/tg/view.do?treeId=0201&levelId=tg_003_2130&pageUnit=10",
+      "accessedAt": "2026-09-16"
+    }
+  ]
+}
