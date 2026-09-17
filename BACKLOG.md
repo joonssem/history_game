@@ -10,6 +10,7 @@
 - 작업 claim: `TASK-20260915-T4 | claude-deep-prehistoric 브랜치 미반영 작업 분석 | audit agent(Codex) | 상태: DONE`
 - 작업 claim: `TASK-20260915-T5-PLAN | 고조선 정적 협동 MUD 최초 판단 순서 교정 계획 | planning agent(Codex) | 상태: DONE`
 - 작업 claim: `TASK-20260915-T5-1 | 고조선 정적 협동 MUD 최초 판단 순서 교정 | implementation agent(Codex) | 상태: DONE | 검증: node --check ×3, 06_validate_static_assets.py, git diff --check, 브라우저 3인·5분형/5인·10분형`
+- 작업 claim: `TASK-20260917-JOSEON-LATE-C1-AUDIT | 조선 후기 협동 패킷 C1 읽기 전용 감사 | audit agent(Codex) | 상태: DONE | 판정: T1 착수 NO-GO(실제 런타임 계약 정렬·공개 경로 차단 전) | 검증: scripts/15 --final/--cards, 04/05/13/14, apps/cooperative-live npm run check`
 
 상세와 근거는 [`claude_four_track_session_close_20260911.md`](./docs/handoff/claude_four_track_session_close_20260911.md).
 
