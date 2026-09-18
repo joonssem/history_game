@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "정규 28편만. 심화·협동·확장 활동은 넣지 않는다(D-036). 지시서(라운드 9)는 '정규 32편'이라 했지만 data/mud/_index.json에서 tier가 regular인 항목은 28개뿐이다 — §5 완료 보고에 확인 불가 항목으로 남긴다. eraRange는 모두 초안(eraRangeDraft)이며 대조실이 docs/audits/lesson_track_era_review.md에서 검증한 값으로 2단계에 맞춘다.",
+  "note": "정규 28편만. 심화·협동·확장 활동은 넣지 않는다(D-036, 라운드 9 2단계에서 '32편'은 기획 세션 착오였고 실제 28편임을 확정). eraRange는 docs/audits/lesson_track_era_review.md의 검증값을 반영해 확정했다(eraRangeDraft 표시 제거, 라운드 9 2단계 §1). 발해와 통일신라는 실제로 228년 겹치는 동시대라 연대를 억지로 쪼개지 않았다 — balhae 항목의 eraOverlapNote 참고.",
   "entries": [
     {
       "order": 1,
@@ -8,8 +8,7 @@
       "unitId": 1,
       "lessonNumbers": [2],
       "eraLabel": "구석기",
-      "eraRange": "수십만 년 전~약 1만 년 전",
-      "eraRangeDraft": true,
+      "eraRange": "수십만 년 전~",
       "shortTitle": "주먹도끼"
     },
     {
@@ -18,8 +17,7 @@
       "unitId": 1,
       "lessonNumbers": [3],
       "eraLabel": "신석기",
-      "eraRange": "약 8000년 전~",
-      "eraRangeDraft": true,
+      "eraRange": "기원전 8000년경~",
       "shortTitle": "빗살무늬토기"
     },
     {
@@ -29,7 +27,6 @@
       "lessonNumbers": [4, 5],
       "eraLabel": "청동기",
       "eraRange": "기원전 2000년경~",
-      "eraRangeDraft": true,
       "shortTitle": "고인돌 축조"
     },
     {
@@ -38,8 +35,7 @@
       "unitId": 1,
       "lessonNumbers": [6],
       "eraLabel": "고조선",
-      "eraRange": "기원전 2333년~기원전 108년",
-      "eraRangeDraft": true,
+      "eraRange": "기원전 2333년(전한다)~기원전 108년",
       "shortTitle": "단군과 8조법"
     },
     {
@@ -49,7 +45,6 @@
       "lessonNumbers": [7, 8],
       "eraLabel": "삼국",
       "eraRange": "기원전 57년~668년",
-      "eraRangeDraft": true,
       "shortTitle": "한강 쟁탈전"
     },
     {
@@ -59,7 +54,6 @@
       "lessonNumbers": [9, 10],
       "eraLabel": "삼국",
       "eraRange": "기원전 57년~668년",
-      "eraRangeDraft": true,
       "shortTitle": "고분 벽화"
     },
     {
@@ -69,7 +63,6 @@
       "lessonNumbers": [11],
       "eraLabel": "통일신라",
       "eraRange": "676년~935년",
-      "eraRangeDraft": true,
       "shortTitle": "불국사"
     },
     {
@@ -79,8 +72,8 @@
       "lessonNumbers": [12],
       "eraLabel": "발해",
       "eraRange": "698년~926년",
-      "eraRangeDraft": true,
-      "shortTitle": "해동성국 발해"
+      "shortTitle": "해동성국 발해",
+      "eraOverlapNote": "발해(698~926)는 통일신라(676~935)와 228년간 같은 시기에 있었다(남북국시대). 띠의 순서는 실제 연표가 아니라 차시 진행 순서이며, 발해가 통일신라 다음에 시작한 것처럼 보이지 않도록 화면에 '통일신라와 같은 시대' 같은 짧은 안내가 필요하다 — docs/audits/lesson_track_era_review.md §2-1, 연결 공방 UI 사양서에서 처리."
     },
     {
       "order": 9,
@@ -89,7 +82,6 @@
       "lessonNumbers": [13],
       "eraLabel": "고려",
       "eraRange": "918년~1392년",
-      "eraRangeDraft": true,
       "shortTitle": "고려 건국"
     },
     {
@@ -99,7 +91,6 @@
       "lessonNumbers": [14],
       "eraLabel": "고려",
       "eraRange": "918년~1392년",
-      "eraRangeDraft": true,
       "shortTitle": "손변의 재판"
     },
     {
@@ -109,7 +100,6 @@
       "lessonNumbers": [15, 16],
       "eraLabel": "고려",
       "eraRange": "918년~1392년",
-      "eraRangeDraft": true,
       "shortTitle": "귀주대첩"
     },
     {
@@ -119,7 +109,6 @@
       "lessonNumbers": [17, 18],
       "eraLabel": "고려",
       "eraRange": "918년~1392년",
-      "eraRangeDraft": true,
       "shortTitle": "팔만대장경"
     },
     {
@@ -128,8 +117,7 @@
       "unitId": 2,
       "lessonNumbers": [2, 3],
       "eraLabel": "조선 전기",
-      "eraRange": "1392년~17세기 중반",
-      "eraRangeDraft": true,
+      "eraRange": "1392년~1592년경",
       "shortTitle": "한양 도읍"
     },
     {
@@ -138,8 +126,7 @@
       "unitId": 2,
       "lessonNumbers": [4, 5],
       "eraLabel": "조선 전기",
-      "eraRange": "1392년~17세기 중반",
-      "eraRangeDraft": true,
+      "eraRange": "1392년~1592년경",
       "shortTitle": "훈민정음"
     },
     {
@@ -148,8 +135,7 @@
       "unitId": 2,
       "lessonNumbers": [6],
       "eraLabel": "조선 전기",
-      "eraRange": "1392년~17세기 중반",
-      "eraRangeDraft": true,
+      "eraRange": "1392년~1592년경",
       "shortTitle": "조선 신분제"
     },
     {
@@ -158,10 +144,10 @@
       "unitId": 2,
       "lessonNumbers": [7],
       "eraLabel": "조선 전기",
-      "eraRange": "1392년~17세기 중반",
-      "eraRangeDraft": true,
+      "eraRange": "1597년",
       "shortTitle": "명량해전",
-      "orderNote": "2단원 7차시 동률(regular_myeongnyang·regular_joseon_diplomacy) tie-break: 명량대첩(정유재란, 1597년)이 병자호란(1636년)보다 먼저 일어난 사건이라 연대표(실제 역사 순서 표시가 목적)에서 이 편을 먼저 둔다. 교과서 차시 번호는 둘 다 7차시로 같다."
+      "orderNote": "2단원 7차시 동률(regular_myeongnyang·regular_joseon_diplomacy) tie-break: 명량대첩(정유재란, 1597년)이 병자호란(1636년)보다 먼저 일어난 사건이라 연대표(실제 역사 순서 표시가 목적)에서 이 편을 먼저 둔다. 교과서 차시 번호는 둘 다 7차시로 같다.",
+      "eraRangeNote": "eraLabel은 앞뒤 편과 같은 '조선 전기'를 쓰되(교과서 흐름상 후기 경제·실학 편 앞에 배치), 이 편의 사건 자체는 조선 전기 공통 범위(1392~1592년경)보다 뒤라 편별 실제 연도(1597년)를 그대로 썼다."
     },
     {
       "order": 17,
@@ -169,10 +155,10 @@
       "unitId": 2,
       "lessonNumbers": [7],
       "eraLabel": "조선 전기",
-      "eraRange": "1392년~17세기 중반",
-      "eraRangeDraft": true,
+      "eraRange": "1636년~1637년",
       "shortTitle": "병자호란",
-      "orderNote": "2단원 7차시 동률 tie-break: 이 편의 중심 사건인 병자호란(1636년)이 regular_myeongnyang의 명량대첩(1597년)보다 뒤에 일어나 순서상 뒤에 둔다."
+      "orderNote": "2단원 7차시 동률 tie-break: 이 편의 중심 사건인 병자호란(1636년)이 regular_myeongnyang의 명량대첩(1597년)보다 뒤에 일어나 순서상 뒤에 둔다.",
+      "eraRangeNote": "eraLabel은 앞뒤 편과 같은 '조선 전기'를 쓰되, 이 편의 사건 자체는 조선 전기 공통 범위(1392~1592년경)보다 뒤라 편별 실제 연도(병자호란 1636~1637년)를 그대로 썼다."
     },
     {
       "order": 18,
@@ -180,8 +166,7 @@
       "unitId": 2,
       "lessonNumbers": [8],
       "eraLabel": "조선 후기",
-      "eraRange": "17세기~19세기",
-      "eraRangeDraft": true,
+      "eraRange": "1592년경~1876년경",
       "shortTitle": "장시와 모내기"
     },
     {
@@ -190,8 +175,7 @@
       "unitId": 2,
       "lessonNumbers": [9],
       "eraLabel": "조선 후기",
-      "eraRange": "17세기~19세기",
-      "eraRangeDraft": true,
+      "eraRange": "1592년경~1876년경",
       "shortTitle": "실학자들"
     },
     {
@@ -200,8 +184,7 @@
       "unitId": 2,
       "lessonNumbers": [10],
       "eraLabel": "조선 후기",
-      "eraRange": "17세기~19세기",
-      "eraRangeDraft": true,
+      "eraRange": "1592년경~1876년경",
       "shortTitle": "탈춤과 풍속화"
     },
     {
@@ -210,8 +193,7 @@
       "unitId": 2,
       "lessonNumbers": [11, 12],
       "eraLabel": "개항기",
-      "eraRange": "1876년~1910년",
-      "eraRangeDraft": true,
+      "eraRange": "1876년~",
       "shortTitle": "강화도 조약"
     },
     {
@@ -220,8 +202,7 @@
       "unitId": 3,
       "lessonNumbers": [2],
       "eraLabel": "개항기",
-      "eraRange": "1876년~1910년",
-      "eraRangeDraft": true,
+      "eraRange": "1876년~",
       "shortTitle": "의병과 안중근"
     },
     {
@@ -231,7 +212,6 @@
       "lessonNumbers": [3],
       "eraLabel": "일제강점기",
       "eraRange": "1910년~1945년",
-      "eraRangeDraft": true,
       "shortTitle": "무단 통치"
     },
     {
@@ -241,7 +221,6 @@
       "lessonNumbers": [4, 5],
       "eraLabel": "일제강점기",
       "eraRange": "1910년~1945년",
-      "eraRangeDraft": true,
       "shortTitle": "3·1 운동"
     },
     {
@@ -251,7 +230,6 @@
       "lessonNumbers": [6, 7],
       "eraLabel": "일제강점기",
       "eraRange": "1910년~1945년",
-      "eraRangeDraft": true,
       "shortTitle": "민족 말살 통치"
     },
     {
@@ -261,7 +239,6 @@
       "lessonNumbers": [8, 9],
       "eraLabel": "광복·대한민국",
       "eraRange": "1945년~",
-      "eraRangeDraft": true,
       "shortTitle": "8·15 광복"
     },
     {
@@ -271,7 +248,6 @@
       "lessonNumbers": [10, 11, 12],
       "eraLabel": "광복·대한민국",
       "eraRange": "1950년~1953년",
-      "eraRangeDraft": true,
       "shortTitle": "6·25 전쟁"
     },
     {
@@ -281,7 +257,6 @@
       "lessonNumbers": [12],
       "eraLabel": "광복·대한민국",
       "eraRange": "1953년~",
-      "eraRangeDraft": true,
       "shortTitle": "전쟁 이후 사회"
     }
   ]
