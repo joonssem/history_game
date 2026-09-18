@@ -2108,3 +2108,13 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
   - 발해(698~926)와 통일신라(676~935)는 실제로 겹치므로 연대를 조정하지 않고, 띠가 연표가 아니라 차시 순서임을 문구로 알리기로 했다.
 - 검증: 01·04·05·16 통과. 조작대의 브라우저 확인은 1단계 임시 데이터 기준이며, **실제 28편 데이터로의 재확인은 남아 있다**(라운드 9 2-§4).
 - 남은 일: 조작대 2단계(사양 반영, 실제 데이터 브라우저 확인, `scripts/16` 경고 문구 정리).
+
+## 2026-09-18 — Codex 작업 기록 및 다른 PC 이전 안전성 확인
+
+`TASK-20260918-CODEX-HANDOFF-SAFETY | Codex 문서·조선 후기 작업의 원격 보존 확인 | integration agent(Codex) | 상태: DONE`
+
+- 역사 여정 연결 관점 3종(개별 MUD의 여정 연결, 유물을 증거로 활용, 개인 증거에서 공동 해석으로 확장)과 교사 제작 역사 웹앱 사례 메모를 `INBOX.md` 및 `docs/handoff/claude_history_journey_connection_followup_20260918.md`에 기록한 커밋 `e07c831`이 `origin/main`에 포함됐음을 확인했다.
+- 조선 후기 실시간 협동 MUD 앱 등록 커밋 `39f4fd8`과 감사 커밋 `45404d7`도 `origin/main`의 조상임을 확인했다. 따라서 별도 Codex worktree 폴더가 새 PC에 복사되지 않아도 원격 `main`에서 내용과 이력을 복구할 수 있다.
+- `audit/joseon-late-packet-20260917`이라는 별도 원격 브랜치는 없지만 감사 커밋 자체는 원격 `main`에 포함되어 유실 위험이 없다. 새 PC에서는 필요할 때 해당 커밋이나 `origin/main`을 기준으로 worktree를 다시 만든다.
+- 원격 갱신 후 로컬 `main`과 `origin/main`이 모두 `1ef85a6`을 가리키며 작업 트리가 깨끗한 상태임을 확인했다.
+- 확인 명령: `git fetch origin --prune`, `git status --short --branch`, `git merge-base --is-ancestor <commit> origin/main`, `git ls-tree -r --name-only origin/main -- <path>`.
