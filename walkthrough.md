@@ -2063,3 +2063,18 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 ### 검증
 
 `01`·`04`·`05`·`06`·`08`·`16` 전부 통과. `git status --short`로 조작대 소유 파일(`js/lessonTrack.js`, `js/mudEngine.js`, `css/style.css`, `index.html`, `scripts/16_validate_lesson_track.js`)만 바뀐 것 확인.
+
+
+## 2026-09-18 — 「관문 설계실」(gate-grammar) Round 9 2단계 §1: 연대 표기 확정
+
+`TASK-20260918-GATE-R9-2 | 대조실 검증값 반영, eraRangeDraft 제거 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
+
+- 지시서 `docs/handoff/claude_four_track_round9_instruction.md` "라운드 9 — 2단계" §1. 1단계에서 초안으로 남겨 둔 `data/lesson_track.json`의 `eraRange`를 대조실 `docs/audits/lesson_track_era_review.md` 제안표대로 확정하고 `eraRangeDraft` 표시를 뗐다. 이 파일 하나만 고쳤다.
+- **연대 값 정정**(지시서가 명시한 항목): 통일신라는 이미 "676~935"로 맞아 있던 값을 유지(936은 고려의 후삼국 통일 완성이지 신라 멸망 연도가 아님), 구석기는 "수십만 년 전~약 1만 년 전"에서 끝 연도를 빼 "수십만 년 전~"으로(라운드 5·6의 "70만 년 전은 원문에 없다" 판단과 일치), 고조선은 "기원전 2333년(전한다)~기원전 108년"으로 전승 기록임을 드러냈다, 개항기는 "1876년~1910년"에서 끝 연도를 빼 "1876년~"으로, 청동기는 이미 시작만("기원전 2000년경~") 쓰고 있어 그대로 두었다.
+- **나머지 표도 함께 반영**: 신석기 표기를 "기원전 8000년경~"으로 통일, 조선 전기(founding·sejong·status)는 "1392년~1592년경", 조선 후기(economy·silhak·folk)는 "1592년경~1876년경"으로 대조실 구분을 그대로 썼다.
+- **설계 판단(지시서에 없어 직접 결정)**: 조선 전기의 새 표준 범위(~1592년경)를 명량해전(1597)·병자호란(1636~1637) 두 편에 그대로 적용하면 각 편의 실제 사건이 자기 `eraRange` 밖에 있게 되는 모순이 생긴다. `eraLabel`은 교과서 흐름(조선 후기 경제 편 앞)을 지키려고 그대로 "조선 전기"를 쓰되, `eraRange`만 편별 실제 연도(1597년 / 1636~1637년)로 바꾸고 `eraRangeNote`에 이유를 적었다. 1단계에서 정한 `orderNote`(동률 tie-break 근거)는 그대로 유지했다.
+- **발해–통일신라 228년 겹침**: 대조실이 "연대를 억지로 쪼개지 말고 UI 안내로 해결"하라고 제안한 대로 `eraRange`는 그대로 두고, 발해 항목에 `eraOverlapNote` 필드를 새로 추가해 겹침 사실과 연결 공방 UI 사양서로의 위임을 데이터에도 남겼다.
+- **자체 검증**: order 1~28 연속, 28편 1:1 대응, `eraRangeDraft` 잔존 0건을 node 스크립트로 재확인했다.
+- **검증(스크립트)**: 조작대가 이번 1단계에서 만든 `scripts/16_validate_lesson_track.js`를 처음 돌려 PASS를 확인했다 — 다만 "_index.json 기준 28편"과 지시서 "32편"이 다르다는 경고는 계속 뜬다(2-§4에서 조작대가 문구를 다듬기로 했으므로 내가 손대지 않았다). `01`·`04`·`05`·`06`·`08`도 전부 통과.
+- `git status --short`로 커밋 직전 대상 파일 1개(`data/lesson_track.json`)만 바뀐 것을 확인했다.
+- **연결 공방에 넘길 것**: 발해 `eraOverlapNote`("통일신라와 같은 시대") 안내 문구를 화면에 반영해 달라 — 대조실 §2-1과 같은 요청이다.
