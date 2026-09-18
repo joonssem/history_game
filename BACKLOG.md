@@ -874,3 +874,13 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
   - **정직하게 남긴 한계**: 시간 제약상 대부분 항목을 WebSearch 결과 종합(우리역사넷 도메인만 채택)으로 확인했고, 가장 중요한 정정(통일신라 935년)만 WebFetch로 원문을 직접 열어 재확인했다 — 나머지는 "검색 확인"으로 정직하게 표시하고, 다음 라운드에 개별 URL을 WebFetch로 재확인할 것을 제안해 뒀다.
   - 검증: `python scripts/01_validate_game_data.py`·`04_validate_mud_contract.py`·`node scripts/05_test_simulator_runtime.js`·`06_validate_static_assets.py`·`08_validate_mud_catalog.py` 전부 통과(데이터 파일을 안 고쳐 회귀 없음). `scripts/16`은 아직 없어(조작대 병렬 작업) 실행하지 못했다. `git status --short`로 커밋 범위가 신규 문서 1개뿐임을 확인.
   - **판단이 갈린 지점**: 없음.
+- **2026-09-18 라운드 9 2단계 「대조실」 — 핵심 4건 WebFetch 직접 확인**: `docs/handoff/claude_four_track_round9_instruction.md`("라운드 9 — 2단계 지시")의 2-§2를 받아 진행. `docs/audits/lesson_track_era_review.md`만 고쳤다 — `data/lesson_track.json`(관문 설계실 소유, 이미 내 1단계 제안을 대부분 반영해 둔 초안 상태 확인함)은 직접 고치지 않았다. main 체크아웃은 안 열었고 push도 안 했다.
+  - **핵심 4건을 WebFetch로 원문 직접 확인**(1단계는 대부분 WebSearch 종합이었던 것을 지시대로 보강):
+    - 통일신라 935년 — 1단계에서 이미 WebFetch 확인한 「기울어지는 신라」를 재검토, 같은 URL·같은 인용문이 유효함을 재확인.
+    - 발해 698년 — 우리역사넷 "대조영 세력은…동모산에 이르러 698년 진국을 건국"(`kc_i100800`) 확인.
+    - 일제강점기 1910~1945 — 시작(조인 8/22·반포 8/29, 연도만 쓰면 "1910"으로 안전)과 끝(1945년 8월 15일 광복, 「민족의 해방」)을 각각 원문으로 확인.
+    - 신석기 기원전 8000년경 — **처음 연 페이지가 한반도가 아니라 중동·아시아 전역의 세계사적 신석기 혁명을 가리키는 문장이었다**(한반도 특정 서술 아님) — 검색 스니펫만 믿었으면 놓쳤을 오독. 다른 페이지(「구석기 시대와 신석기 시대」)를 추가로 열어서야 한반도 맥락의 "기원전 8000년경부터 신석기 시대가 시작되었다"를 확인했다.
+  - 나머지 항목(청동기·고조선·삼국·고려·조선 전기후기·개항기·광복)은 지시대로 "검색 확인"으로 그대로 남겼다.
+  - **부수 확인**: `data/lesson_track.json`이 이미 있었고(관문 설계실이 §1을 병행 진행 중), 내 1단계 제안(구석기 "수십만 년 전~약 1만 년 전", 신석기 "약 8000년 전~", 청동기 "기원전 2000년경~")을 이미 반영해 초안(`eraRangeDraft: true`)으로 담고 있었다 — 이번 2단계 결과가 나오길 기다리는 상태라 이 문서 갱신이 곧 그 최종 확정에 쓰인다.
+  - 검증: `python scripts/01_validate_game_data.py`·`04_validate_mud_contract.py`·`node scripts/05_test_simulator_runtime.js` 통과(데이터 미변경, 회귀 없음). `node scripts/16_validate_lesson_track.js`(조작대가 이미 만들어 둠) 실행해 `data/lesson_track.json` 28개 entries가 order 1~28 연속·regular 28편과 1:1 대응함을 확인 — 32편 경고는 조작대 스크립트 자체의 알려진 안내 문구라 내 범위 밖. `git status --short`로 커밋 범위가 문서 1개뿐임을 확인(직접 실행만 하고 결과 파일은 생성 안 됨).
+  - **판단이 갈린 지점**: 없음.
