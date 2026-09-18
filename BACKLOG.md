@@ -217,7 +217,8 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 ## P1-COLLAB-JOSEON-LATE — 10월 28일 공개수업용 조선 후기 실시간 수직 슬라이스
 
 - 작업 claim: `TASK-20260915-06 | 조선 후기 실시간 협동 MUD 수직 슬라이스 구현 계획 | 기획·점검 에이전트 | 상태: DONE`
-- 상태: `planned-after-early-goryeo` — [`구현 계획`](./docs/plans/implementation_plan_joseon_late_cooperative_live_vertical_slice.md) 작성 완료. 고려 초기 첫 실제 활동에서 공통 엔진을 검증한 뒤 착수하며, 사용자 승인 전 코드·시나리오 데이터는 수정하지 않는다.
+- 작업 claim: `TASK-20260918-CODEX-JOSEON-LATE | 확정 런타임 JSON의 실제 앱 등록·3·4·5인 회귀 | implementation agent(Codex) | 상태: DONE`
+- 상태: `registered / rehearsal-needed` — Claude가 확정한 런타임 JSON을 공개·서버 레지스트리에 문안 변경 없이 등록하고 3·4·5인 역할 편성, 3인 공통 수공업자 자료, 다른 역할 비공개 본문 차단, 기존 고조선·고려 회귀, production build를 검증했다. 실제 Preview 배포와 물리 기기 리허설은 별도 관문으로 남긴다.
 - 원문·일정: [`INBOX.md`](./INBOX.md)의 “2026-09-15 — 10월 28일 공개수업 역산” 항목.
 - 작업 경계(2026-09-17 D-035로 변경): **앱 코드(`apps/cooperative-live/**`) 등록·서버·UI·테스트는 Codex**, 조선 후기 콘텐츠(`docs/handoff/claude_joseon_late_runtime_scenario.json`)·출처·`scripts/15` 검증은 Claude가 맡는다. 이전 문구("Claude가 앱까지 단독 구현")는 폐기. 순서: Claude 라운드 8 2단계 JSON이 main에 들어온 뒤 Codex가 등록한다.
 

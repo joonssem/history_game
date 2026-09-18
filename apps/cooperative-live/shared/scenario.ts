@@ -87,7 +87,33 @@ const earlyGoryeoPublic: PublicScenario = {
   },
 };
 
-export const PUBLIC_SCENARIOS = [gojoseonPublic, earlyGoryeoPublic] as const;
+const joseonLatePublic: PublicScenario = {
+  id: "joseon-late-market",
+  version: 1,
+  publicMeta: {
+    title: "달라지는 조선 후기 — 장시·화폐·농사법의 변화는 누구에게 어땠을까?",
+    lesson: "2단원 8~10차시 조선 후기 사회 변화",
+    recommendedMinutes: 10,
+  },
+  roles: [
+    { id: "farmer", icon: "🌾", name: "농민" },
+    { id: "bobusang", icon: "🎒", name: "보부상" },
+    { id: "craftsman", icon: "🔨", name: "장시 주민·수공업자" },
+    { id: "recordkeeper", icon: "📜", name: "기록관" },
+    { id: "laborer", icon: "🧺", name: "품팔이" },
+  ],
+  groupSizes: {
+    3: ["farmer", "bobusang", "recordkeeper"],
+    4: ["farmer", "bobusang", "craftsman", "recordkeeper"],
+    5: ["farmer", "bobusang", "craftsman", "recordkeeper", "laborer"],
+  },
+};
+
+export const PUBLIC_SCENARIOS = [
+  gojoseonPublic,
+  earlyGoryeoPublic,
+  joseonLatePublic,
+] as const;
 export const DEFAULT_SCENARIO_ID = earlyGoryeoPublic.id;
 export const SCENARIO_ID = gojoseonPublic.id;
 export const SCENARIO_TITLE = gojoseonPublic.publicMeta.title;

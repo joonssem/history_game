@@ -11,6 +11,96 @@ const TEACHER_SUB = "auth0|virtual-load-teacher";
 const STUDENT_COUNT = 21;
 
 describe("실시간 협동 MUD 가상 학급", () => {
+  it("조선 후기 3·4·5인 모둠을 서버에서 편성하고 역할 비공개·공통 자료를 지킨다", async () => {
+    process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
+    process.env.JOIN_ATTEMPT_HMAC_SECRET =
+      "virtual-load-test-secret-32-bytes-minimum";
+
+    const scenario = getScenario("joseon-late-market", 1)!;
+    for (const size of [3, 4, 5] as const) {
+      const testBackend = convexTest(schema, modules);
+      const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+      const created = await teacher.mutation(convexApi.sessions.create, {
+        scenarioId: scenario.id,
+        scenarioVersion: scenario.version,
+      });
+      const students = await Promise.all(
+        Array.from({ length: size }, () =>
+          testBackend.mutation(convexApi.students.joinWithEntryKey, {
+            entryKey: created.entryKey!,
+          }),
+        ),
+      );
+      await Promise.all(students.map((student, index) =>
+        testBackend.mutation(convexApi.students.selectAlias, {
+          sessionId: student.sessionId,
+          token: student.token,
+          alias: ALIASES[index],
+        })
+      ));
+      await teacher.mutation(convexApi.sessions.previewGroups, {
+        sessionId: created.sessionId,
+      });
+      await teacher.mutation(convexApi.sessions.confirmStart, {
+        sessionId: created.sessionId,
+      });
+
+      const views = await Promise.all(students.map((student) =>
+        testBackend.query(convexApi.students.view, {
+          sessionId: student.sessionId,
+          token: student.token,
+        })
+      ));
+      expect(new Set(views.map((view) => view?.role?.id))).toEqual(
+        new Set(scenario.groupSizes[size]),
+      );
+      for (const view of views) {
+        expect(view?.role).toBeTruthy();
+        expect(view?.commonEvidence).toEqual([]);
+        const serialized = JSON.stringify(view);
+        for (const role of scenario.roles) {
+          if (role.id !== view?.role?.id) {
+            expect(serialized).not.toContain(role.privateInfo);
+          }
+        }
+      }
+
+      await teacher.mutation(convexApi.sessions.advanceStage, {
+        sessionId: created.sessionId,
+      });
+      await Promise.all(students.map((student) =>
+        testBackend.mutation(convexApi.students.completeFirst, {
+          sessionId: student.sessionId,
+          token: student.token,
+        })
+      ));
+      await teacher.mutation(convexApi.sessions.advanceStage, {
+        sessionId: created.sessionId,
+      });
+      await Promise.all(students.map((student) =>
+        testBackend.mutation(convexApi.students.markShared, {
+          sessionId: student.sessionId,
+          token: student.token,
+        })
+      ));
+      await teacher.mutation(convexApi.sessions.advanceStage, {
+        sessionId: created.sessionId,
+      });
+      const draftView = await testBackend.query(convexApi.students.view, {
+        sessionId: students[0].sessionId,
+        token: students[0].token,
+      });
+      expect(draftView?.stage).toBe("draft");
+      expect(draftView?.commonEvidence).toEqual(
+        scenario.commonEvidenceByGroupSize[size],
+      );
+
+      await teacher.mutation(convexApi.sessions.end, {
+        sessionId: created.sessionId,
+      });
+    }
+  });
+
   it("고조선에서 교사 1명과 학생 21명의 입장부터 종료 삭제까지 관통한다", async () => {
     process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
     process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";

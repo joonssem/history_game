@@ -22,4 +22,13 @@ describe("서버 전용 협동 시나리오 레지스트리", () => {
     assert.equal(scenario.commonEvidenceByGroupSize[3].length > 0, true);
     assert.equal(scenario.commonEvidenceByGroupSize[4].length, 0);
   });
+
+  it("조선 후기 3인 편성에는 빠진 수공업자 관점을 공통 자료로 보충한다", () => {
+    const scenario = getScenario("joseon-late-market", 1);
+    assert.ok(scenario);
+    assert.equal(scenario.commonEvidenceByGroupSize[3].length, 1);
+    assert.equal(scenario.commonEvidenceByGroupSize[3][0].id, "common-craftsman");
+    assert.equal(scenario.commonEvidenceByGroupSize[4].length, 0);
+    assert.equal(scenario.commonEvidenceByGroupSize[5].length, 0);
+  });
 });
