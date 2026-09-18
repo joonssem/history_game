@@ -2028,3 +2028,38 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - `git status --short`로 신규 파일 1개(`data/lesson_track.json`)만 있는 것을 커밋 직전 확인했다. `apps/**`·`cooperative-mud/**`는 읽지도 않았다.
 - **대조실에 넘길 것**: 13개 `eraLabel`의 `eraRange` 검증과, 내가 임의로 정한 라벨 배치(의병·안중근→개항기, 왜란·호란 두 편→조선 전기) 재검토.
 - **기획 세션에 넘길 것**: "정규 32편" 전제와 실제 28편의 불일치 확인.
+
+## 2026-09-18 — 조작대(inquiry-console) 라운드 9: 정규 연대표 띠 구현(D-036)
+
+`docs/handoff/claude_four_track_round9_instruction.md` §4.
+
+### 지시서와 다른 사실 발견
+
+- 지시서·D-036은 "정규 32편"이라고 반복해서 적지만, `data/mud/_index.json`을 직접 세면 `tier: "regular"`는 **28편**이고 나머지 4편은 `tier: "deep-dive"`다(32는 전체 MUD 수 — 아마 라운드 앞부분에서 "32 MUD 전체"와 "정규 편 수"를 혼동한 것으로 보임). `scripts/16_validate_lesson_track.js`는 "32"를 하드코딩하지 않고 `_index.json`에서 실제 regular 편 수를 세어 그 값과 대조하도록 만들어, 지시서 숫자가 틀려도 스크립트가 잘못된 기준을 강요하지 않는다 — 대신 실제 개수가 지시서와 다르면 경고로 알린다. 관문 설계실이 `data/lesson_track.json`을 만들 때 이 경고를 참고할 수 있다.
+
+### `scripts/16_validate_lesson_track.js` 신설(먼저 만듦)
+
+- 형식(필수 필드, order/unitId/lessonNumbers 정수, eraRangeDraft boolean), regular 편과 entries의 1:1 대응(빠짐·중복·유령 id·심화 편 혼입), order 1~N 연속, unitId·lessonNumbers 오름차순(같은 차시 두 편은 허용, 역순만 오류), shortTitle의 번호식 이름("N차시" 등) 금지를 검사한다.
+- 대상 파일이 없으면 건너뛰고 통과. 임시로 실제 28편 fixture를 만들어 정상 통과와 5가지 위반(심화 편 혼입·order 불연속·번호식 이름·필수 필드 누락·mudId 중복)이 각각 정확히 잡히는 것을 확인한 뒤 삭제.
+
+### `js/lessonTrack.js` 신설
+
+- `data/lesson_track.json`을 읽어 완료/현재/미완료 세 상태(✓/●/○ — 색만으로 구분하지 않음)를 가로 띠로 그린다. 완료 여부는 **새 저장 키를 만들지 않고** 기존 `window.encyclopedia`(localStorage `history_explorer_save_v1`)의 `unlockedArtifacts`와 각 편 `data/mud/<id>.json`의 `rewards`를 대조해서 판단한다(보상 유물이 도감에 있으면 완료로 봄).
+- 띠 항목을 누르면 `MudEngine.openMUD()`로 그 편으로 바로 이동한다.
+
+### `js/mudEngine.js` 완료 화면에 앞뒤 이동 추가
+
+- `renderFinalReflection`에 이전/다음 차시 버튼과, 접어 둔(`<details>`) 전체 진도 띠를 넣었다. 기존 "전체 탐구 진도표로 돌아가기" 버튼은 그대로 두고 그 위에 배치했다. 연결 공방의 화면 사양서(§3)가 아직 없어 기본 동작(완료 화면 배치, 접힘 기본값 닫힘)으로 먼저 구현 — 사양서가 나오면 맞춘다.
+
+### 브라우저 확인 (`inquiry-console`, 8804)
+
+임시 fixture(실제 28편)로 실제 플레이 경로를 확인했다.
+
+- **1180×820**: 완료 화면에 "다음 차시 →" 버튼과 "▶ 전체 진도 띠 보기" 정상 표시. 클릭해 펼치면 28칸 띠가 가로 스크롤 컨테이너(`scrollWidth 2280px` vs `clientWidth 394px`)로 넘치지 않고 담김.
+- **390×844**: 이전/다음 버튼 높이 71px·너비 132px, 띠 항목 52×78px — 최소 터치 목표 44px를 모두 넘음. 페이지 자체의 가로 스크롤은 발생하지 않음(`document.documentElement.scrollWidth <= window.innerWidth` 확인). 스크린샷으로 완료(✓, 초록)/현재(●, 빨강 테두리)/미완료(○) 세 상태가 색+기호로 함께 구분되는 것을 육안 확인.
+- 두 크기 모두 콘솔 error/warning 0건.
+- 띠 항목 클릭 시 `MudEngine.openMUD()`로 실제 이동하는 것, `window.encyclopedia.data.unlockedArtifacts`를 읽어 완료 상태가 정확히 반영되는 것(`regular_paleolithic` 완료 후 `isCompleted: true` 확인)을 스크립트로 확인.
+
+### 검증
+
+`01`·`04`·`05`·`06`·`08`·`16` 전부 통과. `git status --short`로 조작대 소유 파일(`js/lessonTrack.js`, `js/mudEngine.js`, `css/style.css`, `index.html`, `scripts/16_validate_lesson_track.js`)만 바뀐 것 확인.

@@ -672,3 +672,117 @@
   background: #B7791F;
   color: #14110F;
 }
+
+/* 정규 32(실제 28)편 연대표 띠 (D-036, 라운드 9). 완료 화면의 이전/다음
+   차시 이동 + 전체 진도 띠. 세 상태(완료/현재/미완료)는 색뿐 아니라
+   기호(✓/●/○)로도 구분해 색각 이상에서도 읽히게 한다. */
+.lesson-track-nav {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.lesson-track-nav-btn {
+  flex: 1 1 0;
+  min-height: 44px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--card-sub);
+  color: var(--text-main);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.lesson-track-nav-btn.is-disabled {
+  visibility: hidden;
+}
+
+.lesson-track-nav-sub {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #665F59;
+}
+
+.lesson-track-details {
+  margin-top: 10px;
+}
+
+.lesson-track-details summary {
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent-teal);
+  padding: 6px 0;
+}
+
+.lesson-track-head {
+  margin-bottom: 6px;
+}
+
+.lesson-track-heading {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.lesson-track-strip {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.lesson-track-item {
+  flex: 0 0 auto;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border-color);
+  background: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--text-main);
+}
+
+.lesson-track-item.is-done {
+  border-color: #047857;
+  background: #dff5e8;
+  color: #174c36;
+}
+
+.lesson-track-item.is-current {
+  border-color: var(--accent-red);
+  background: rgba(138, 59, 41, 0.1);
+  color: var(--accent-red);
+  box-shadow: 0 0 0 2px var(--accent-red) inset;
+}
+
+.lesson-track-item.is-todo {
+  opacity: 0.72;
+}
+
+.lesson-track-mark {
+  font-size: 0.85rem;
+}
+
+.lesson-track-title {
+  max-width: 64px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
