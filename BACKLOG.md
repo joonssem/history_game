@@ -827,3 +827,10 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
   - **8-4 `target_landlord` 잔존 표시**: D-035가 삭제하기로 한 `target_landlord`("양반 지주")가 `data/cooperative/joseon_late_packet.draft.json:85`에 아직 남아 있는 걸 확인 — 지시대로 **표시만 하고 직접 지우지 않았다.** 근거도 §8-3 규칙 1과 같다(지주 역할 카드가 없고, "지주 전체가 이득을 봤다"를 뒷받침하는 원문을 확인 못함 — 일부 지주의 토지 집적 서술만 있음).
   - 검증: `python scripts/04_validate_mud_contract.py`·`node scripts/05_test_simulator_runtime.js`·`node scripts/15_validate_cooperative_packet.js`(패킷 파일 자체는 안 건드려 회귀 없음 — 다만 실행해 보니 연결 공방이 `ev3_market_spread` 라벨을 이미 "여러 고을에"로 고쳐 둔 걸 확인, 길이 초과 경고 다수는 조작대·연결 공방 몫) 전부 통과. `git status --short`로 커밋 범위가 `docs/audits/joseon_late_source_review.md` 하나뿐임을 확인.
   - **판단이 갈린 지점**: 없음.
+
+## 2026-09-18 후속 제품 방향 점검 (구현 아님)
+- 메모: `docs/handoff/claude_round8_product_link_memo_20260918.md`(Codex 메모 `claude_history_journey_connection_followup_20260918.md` §6 요청)
+- 점검 결과: 조선 후기 `evidence`·`limitations`·`connections`는 세 관점과 충돌하지 않는다. 관점 B(유물을 증거로)는 아직 연결되지 않았다.
+- [ ] 최소 검증 후보: 고려 편 한 차시로 개인 MUD(`regular_goryeo_culture`) → 유물 카드 → 실시간 협동(`early-goryeo-unity`)을 이어 관찰. 새 코드 없음. 관찰 3항목은 메모 §4
+- [ ] (판단 대기) 역할 `evidence`에 유물 식별자를 붙일지 — 앱 데이터 구조 변경이라 수업 관찰 뒤 별도 승인
+- 기록: L-1 공동 해석이 고르기 방식, L-2 최초 판단은 서버 미저장(관찰은 종이), L-3 역할 근거 화면 1개 제한
