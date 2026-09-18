@@ -772,7 +772,8 @@ const MudEngine = {
               📋 과제 일기 복사하기 (클립보드)
             </button>
           </div>
-          <button onclick="showPortalView()" class="btn secondary" style="width: 100%; font-size: 0.9rem; padding: 10px;">
+          <div id="lesson-track-completion-nav"></div>
+          <button onclick="showPortalView()" class="btn secondary" style="width: 100%; font-size: 0.9rem; padding: 10px; margin-top: 8px;">
             <i class="fas fa-arrow-left"></i> 전체 탐구 진도표로 돌아가기
           </button>
           ${window.FEEDBACK_FORM_URL ? `
@@ -782,6 +783,21 @@ const MudEngine = {
           <div id="artifact-comparison-offer">${window.ArtifactComparisonEngine ? window.ArtifactComparisonEngine.getOfferHtml(currentEraGroup) : ''}</div>
         </div>
       `;
+    }
+
+    // 정규 32(실제 28)편 연대표 띠(D-036): 완료 화면에 이전/다음 차시
+    // 이동과 전체 진도 띠를 넣는다. 목록을 비동기로 읽으므로 위 content가
+    // 이미 그려진 뒤 이어서 채운다. 심화·협동 편처럼 트랙에 없는 MUD는
+    // 조용히 건너뛴다(neighbors가 null을 주면 nav 자체를 렌더하지 않음).
+    if (window.LessonTrack && this.currentMudData?.mudId) {
+      const mudId = this.currentMudData.mudId;
+      window.LessonTrack.renderCompletionNav(mudId).then(html => {
+        const nav = document.getElementById('lesson-track-completion-nav');
+        if (nav) {
+          nav.innerHTML = html;
+          window.LessonTrack.bindCompletionDetails(mudId);
+        }
+      });
     }
   },
 
