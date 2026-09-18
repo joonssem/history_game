@@ -111,6 +111,25 @@ describe("협동 MUD 공개 시나리오와 편성", () => {
     }
   });
 
+  it("조선 후기 3·4·5인 역할 배치를 고유하게 만든다", () => {
+    const scenario = getPublicScenario("joseon-late-market", 1);
+    assert.ok(scenario);
+    for (const size of [3, 4, 5] as const) {
+      const participants = Array.from(
+        { length: size },
+        (_, index) => `joseon-${index + 1}`,
+      );
+      const assignments = assignGroups(
+        participants,
+        size,
+        seededRandom(size),
+        scenario,
+      );
+      assert.equal(assignments.length, size);
+      assert.equal(new Set(assignments.map((item) => item.roleId)).size, size);
+    }
+  });
+
   it("클라이언트 공개 카탈로그에는 비공개 역할 본문이 없다", () => {
     for (const scenario of PUBLIC_SCENARIOS) {
       for (const role of scenario.roles) {

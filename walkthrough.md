@@ -2063,3 +2063,21 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 ### 검증
 
 `01`·`04`·`05`·`06`·`08`·`16` 전부 통과. `git status --short`로 조작대 소유 파일(`js/lessonTrack.js`, `js/mudEngine.js`, `css/style.css`, `index.html`, `scripts/16_validate_lesson_track.js`)만 바뀐 것 확인.
+
+## 2026-09-18 — Codex: 조선 후기 실시간 협동 MUD 앱 등록
+
+`TASK-20260918-CODEX-JOSEON-LATE | 확정 런타임 JSON의 실제 앱 등록·3·4·5인 회귀 | implementation agent(Codex) | 상태: DONE`
+
+- D-035의 파일 소유권에 따라 Claude가 확정한 `docs/handoff/claude_joseon_late_runtime_scenario.json`은 수정하지 않고, `apps/cooperative-live`의 공개·서버 레지스트리에 `joseon-late-market` version 1을 등록했다.
+- 공개 레지스트리에는 제목·차시·권장 시간·역할 id/icon/name·3/4/5인 배치만 넣었다. 역할별 `privateInfo`·`interest`·`evidence`, 공동 질문, 자료 한계, 연결 문장, 개입 문구, 출처 8건은 서버 레지스트리에만 넣었다.
+- 3인 모둠은 농민·보부상·기록관을 배치하고, 빠진 수공업자 관점을 `common-craftsman` 읽기 전용 공통 자료로 보충한다. 4인과 5인 모둠에는 공통 자료를 추가하지 않는다.
+- 공개·서버 레지스트리 단위 테스트에 조선 후기 3·4·5인 고유 역할 배치와 3인 공통 자료 검사를 추가했다.
+- Convex 가상 학급 테스트에 조선 후기 3·4·5인 각각의 실제 세션 생성→입장→편성→역할 확인→최초 판단 완료→자료 공유→공동 초안 단계→종료 삭제 흐름을 추가했다. 역할 단계에서는 자기 역할 외의 비공개 본문이 응답에 없는지, 공동 초안 단계에서 모둠 크기에 맞는 공통 자료가 나타나는지 확인한다.
+- production 화면에서 공개 첫 화면에 고조선·고려 초기·조선 후기 세 활동이 함께 표시되는 것을 확인했다. 로컬 가상 교사 화면은 기존 설계대로 고려 초기 데모를 고정 표시하므로, 실제 시나리오 선택 UI는 Convex/Auth0 연결 Preview에서 후속 확인한다.
+- production client bundle을 역할별 비공개 본문 고유 문구 5개로 검색해 0건임을 확인했다. 공개 제목·역할명·배치만 client bundle에 포함된다.
+- 검증:
+  - `node scripts/15_validate_cooperative_packet.js --runtime docs/handoff/claude_joseon_late_runtime_scenario.json` PASS(Claude가 기록한 interest 길이 제안 경고 3건만 유지)
+  - `npm run check` PASS: ESLint, TypeScript, 공개 레지스트리·입장 보안 단위 테스트 19개, Convex 기존 테스트, Next.js production build
+  - 추가 후 `npm run test:convex` PASS: 3개 테스트(조선 후기 3·4·5인 서버 회귀 포함)
+  - `git diff --check` PASS
+- 이번 범위에서 하지 않은 것: 콘텐츠 문안 수정, Preview/Production 배포, 실제 계정·학생 접속, 물리 기기 리허설, Claude 라운드 9 연대표 작업 수정.
