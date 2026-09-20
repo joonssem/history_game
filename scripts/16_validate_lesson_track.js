@@ -4,9 +4,9 @@
 // 지키는지 검사한다. 관문 설계실과 병렬 작업이므로, 대상 파일이 아직
 // 없으면 건너뛰고 통과한다.
 //
-// 참고: 지시서·D-036은 "정규 32편"이라고 적었지만, data/mud/_index.json을
+// 참고: 라운드 9 지시서는 "정규 32편"이라고 적었으나 실제 정규 편은 28편이다(32는
 // 직접 세어 보면 tier: "regular"는 28편이고 나머지 4편은 tier: "deep-dive"
-// 다(32는 전체 MUD 수). 이 스크립트는 "32"를 하드코딩하지 않고
+// 심화 4편을 포함한 수). D-036에 정정했다. 이 스크립트는 개수를 고정하지 않고
 // _index.json에서 실제 regular 편 수를 세어 그 값과 대조한다 — 지시서의
 // 숫자가 바뀌어도, 또는 실제로는 28인 채로 남아도 스크립트가 잘못된
 // 값을 강요하지 않는다.
@@ -41,9 +41,8 @@ function main() {
   const regularIdSet = new Set(regularMuds.map(m => m.mudId));
   const nonRegularIdSet = new Set((mudIndex.muds || []).filter(m => m.tier !== 'regular').map(m => m.mudId));
 
-  if (regularMuds.length !== 32) {
-    warnings.push(`_index.json 기준 tier: "regular"는 ${regularMuds.length}편입니다 — 지시서·D-036의 "32편"과 다릅니다. data/lesson_track.json은 이 실제 개수(${regularMuds.length})와 맞춰야 합니다.`);
-  }
+  // 편 수는 데이터에서 센다. 값을 코드에 고정하지 않는다 — D-036 정정(2026-09-18)에서
+  // 지시서의 "정규 32편"이 실제 28편이었던 착오를 잡아낸 방식이 이것이다.
 
   if (!Array.isArray(track.entries)) {
     console.error('FAIL: entries가 배열이 아닙니다.');
@@ -74,7 +73,7 @@ function main() {
     }
   });
 
-  // 32(실제 regular 개수)개와 1:1 대응 — 빠짐·중복·유령 id
+  // 정규 편과 1:1 대응 — 빠짐·중복·유령 id
   const mudIdCounts = new Map();
   entries.forEach(e => mudIdCounts.set(e.mudId, (mudIdCounts.get(e.mudId) || 0) + 1));
 

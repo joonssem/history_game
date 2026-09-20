@@ -90,6 +90,7 @@ function switchUnitTab(unitId) {
     activeBtn.style.color = '#ffffff';
   }
   renderCurriculum(unitId);
+  if (window.LessonTrack) window.LessonTrack.renderPortal();
 }
 
 // 확장 역사 활동: 타임머신 스토리 / 역사 미니게임 토글 전환

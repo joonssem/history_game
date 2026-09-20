@@ -73,37 +73,80 @@ const LessonTrack = {
   },
 
   // --- 렌더링 ---
+  // 사양서(docs/plans/implementation_plan_lesson_track_ui.md) §1~§4·§7을 따른다.
+  // 상태는 색이 아니라 아이콘·테두리 종류·글자 라벨 세 채널로 구분한다(색각 이상 고려).
+  statusMark(status) {
+    return status === 'done' ? '✓' : status === 'current' ? '📍' : '';
+  },
+
+  statusLabel(status) {
+    return status === 'done' ? '완료' : status === 'current' ? '지금' : '';
+  },
+
+  // 띠는 배운 순서이지 연대순이 아니다. 같은 시기에 있던 두 시대는 칸 설명에서 서로를 가리킨다(§7-2).
+  overlapNote(entry) {
+    if (entry.eraLabel === '통일신라') return ', 발해와 같은 시기가 있었어요';
+    if (entry.eraLabel === '발해') return ', 통일신라와 같은 시기가 있었어요';
+    return '';
+  },
+
+  // order 순서에서 완료하지 않은 것 중 가장 앞선 편이 "지금"이다(§2-1).
+  async computeStatuses(entries, currentMudId) {
+    const done = await Promise.all(entries.map(async entry => {
+      const keys = await this.rewardKeys(entry.mudId);
+      return this.isCompleted(keys);
+    }));
+    let currentIndex = currentMudId
+      ? entries.findIndex(e => e.mudId === currentMudId)
+      : -1;
+    if (currentIndex < 0) currentIndex = done.findIndex(v => !v);
+    return entries.map((entry, i) => {
+      if (i === currentIndex) return 'current';
+      return done[i] ? 'done' : 'todo';
+    });
+  },
+
+  itemHtml(entry, status) {
+    const mark = this.statusMark(status);
+    const stateLabel = this.statusLabel(status);
+    const range = entry.eraRange ? ` (${entry.eraRange}${this.overlapNote(entry)})` : '';
+    const label = `${entry.eraLabel} · ${entry.shortTitle}${range}${stateLabel ? ` — ${stateLabel}` : ''}`;
+    return `<button type="button" class="lesson-track-item is-${status}" role="listitem" data-mud-id="${entry.mudId}" aria-label="${label}" title="${label}">
+      <span class="lesson-track-mark" aria-hidden="true">${mark}</span>
+      <span class="lesson-track-era">${entry.eraLabel}</span>
+      <span class="lesson-track-title">${entry.shortTitle}</span>
+      <span class="lesson-track-state" aria-hidden="true">${stateLabel}</span>
+    </button>`;
+  },
+
+  // 단원별로 한 줄씩 나눈다. 한 줄 28칸은 태블릿에서도 터치 목표 44px을 못 지킨다(§4-1).
   async renderStrip(containerId, currentMudId) {
     const container = document.getElementById(containerId);
     if (!container) return;
     const entries = await this.load();
     if (!entries.length) { container.innerHTML = ''; return; }
 
-    const statuses = await Promise.all(entries.map(async entry => {
-      if (entry.mudId === currentMudId) return 'current';
-      const keys = await this.rewardKeys(entry.mudId);
-      return this.isCompleted(keys) ? 'done' : 'todo';
-    }));
+    const statuses = await this.computeStatuses(entries, currentMudId);
+    const byUnit = new Map();
+    entries.forEach((entry, i) => {
+      if (!byUnit.has(entry.unitId)) byUnit.set(entry.unitId, []);
+      byUnit.get(entry.unitId).push({ entry, status: statuses[i] });
+    });
 
-    const doneCount = statuses.filter(s => s === 'done' || s === 'current').length;
-    const items = entries.map((entry, i) => {
-      const status = statuses[i];
-      // 색만으로 구분하지 않는다: 상태마다 다른 기호(✓/●/○)를 함께 쓴다.
-      const mark = status === 'done' ? '✓' : status === 'current' ? '●' : '○';
-      const label = status === 'todo'
-        ? `${entry.eraLabel} · ${entry.shortTitle} (아직 하지 않음)`
-        : `${entry.eraLabel} · ${entry.shortTitle}`;
-      return `<button type="button" class="lesson-track-item is-${status}" data-mud-id="${entry.mudId}" aria-label="${label}" title="${label}">
-        <span class="lesson-track-mark" aria-hidden="true">${mark}</span>
-        <span class="lesson-track-title">${entry.shortTitle}</span>
-      </button>`;
-    }).join('');
+    const rows = [...byUnit.entries()].sort((a, b) => a[0] - b[0]).map(([unitId, list]) => `
+      <div class="lesson-track-row">
+        <span class="lesson-track-unit">${unitId}단원</span>
+        <div class="lesson-track-strip" role="list" aria-label="${unitId}단원 탐구 편">
+          ${list.map(({ entry, status }) => this.itemHtml(entry, status)).join('')}
+        </div>
+      </div>`).join('');
 
     container.innerHTML = `
       <div class="lesson-track-head">
-        <span class="lesson-track-heading">전체 탐구 진도 (${doneCount}/${entries.length})</span>
+        <span class="lesson-track-heading">🧭 나의 역사 탐구 순서</span>
+        <p class="lesson-track-caption">이 띠는 배운 순서예요. 실제 연대순은 아니에요 — 예를 들어 통일신라와 발해는 같은 시대에 함께 있었어요. 완료한 차시는 다시 볼 수 있고, 아직 하지 않은 차시를 눌러 바로 시작할 수 있어요.</p>
       </div>
-      <div class="lesson-track-strip" role="list" aria-label="정규 탐구 편 전체 진도 띠">${items}</div>
+      ${rows}
     `;
 
     container.querySelectorAll('.lesson-track-item').forEach(btn => {
@@ -112,6 +155,15 @@ const LessonTrack = {
         if (window.MudEngine) window.MudEngine.openMUD(mudId);
       });
     });
+
+    // "지금" 칸이 보이도록 한 번만 맞춘다. 애니메이션 없이 즉시 이동한다(§1-2, §4-3).
+    const current = container.querySelector('.lesson-track-item.is-current');
+    if (current) {
+      const strip = current.closest('.lesson-track-strip');
+      if (strip && strip.scrollWidth > strip.clientWidth) {
+        strip.scrollLeft = Math.max(0, current.offsetLeft - strip.clientWidth / 2 + current.offsetWidth / 2);
+      }
+    }
   },
 
   // 완료 화면의 이전/다음 차시 이동 버튼.
@@ -121,13 +173,14 @@ const LessonTrack = {
     const { prev, next } = this.neighbors(currentMudId);
     if (!prev && !next) return '';
 
+    // 없는 방향은 자리표시자도 남기지 않는다. 누를 수 없는 버튼을 보여 주지 않기 위해서다(§1-3).
     const navButton = (entry, direction) => {
-      if (!entry) return `<span class="lesson-track-nav-btn is-disabled" aria-hidden="true"></span>`;
-      const arrow = direction === 'prev' ? '←' : '→';
+      if (!entry) return '';
+      const text = direction === 'prev' ? '◀ 이전 차시로' : '다음 차시로 ▶';
       const dirLabel = direction === 'prev' ? '이전 차시' : '다음 차시';
       const label = `${dirLabel}: ${entry.eraLabel} · ${entry.shortTitle}`;
       return `<button type="button" class="lesson-track-nav-btn" onclick="window.MudEngine.openMUD('${entry.mudId}')" aria-label="${label}">
-        ${direction === 'prev' ? `${arrow} ${dirLabel}` : `${dirLabel} ${arrow}`}
+        ${text}
         <span class="lesson-track-nav-sub">${entry.eraLabel} · ${entry.shortTitle}</span>
       </button>`;
     };
@@ -137,24 +190,12 @@ const LessonTrack = {
         ${navButton(prev, 'prev')}
         ${navButton(next, 'next')}
       </div>
-      <details class="lesson-track-details">
-        <summary>전체 진도 띠 보기</summary>
-        <div id="lesson-track-completion-strip"></div>
-      </details>
     `;
   },
 
-  // renderCompletionNav가 만든 <details> 안의 띠는 열릴 때만 그린다(초기 렌더 비용 절감).
-  bindCompletionDetails(currentMudId) {
-    const details = document.querySelector('.lesson-track-details');
-    if (!details) return;
-    let rendered = false;
-    details.addEventListener('toggle', () => {
-      if (details.open && !rendered) {
-        rendered = true;
-        this.renderStrip('lesson-track-completion-strip', currentMudId);
-      }
-    });
+  // 포털(진도표) 화면의 상시 띠. 단원 탭을 바꿔도 28편 전체를 그대로 보여 준다(§1-2).
+  renderPortal() {
+    return this.renderStrip('lesson-track-portal', null);
   }
 };
 

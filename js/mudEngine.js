@@ -795,7 +795,6 @@ const MudEngine = {
         const nav = document.getElementById('lesson-track-completion-nav');
         if (nav) {
           nav.innerHTML = html;
-          window.LessonTrack.bindCompletionDetails(mudId);
         }
       });
     }

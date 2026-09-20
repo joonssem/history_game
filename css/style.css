@@ -786,3 +786,101 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* --- 연대표 띠 2단계(사양서 반영, 2026-09-21) --------------------------
+   상태 구분은 색이 아니라 아이콘·테두리 종류·글자 라벨로 한다.
+   '아직' 칸을 흐리게 하지 않는다(저시력 학생이 못 읽는다). */
+.lesson-track-portal {
+  margin: 0 0 22px;
+}
+
+.lesson-track-head {
+  margin-bottom: 8px;
+}
+
+.lesson-track-heading {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.lesson-track-caption {
+  margin: 4px 0 0;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--text-sub, #5b5348);
+}
+
+.lesson-track-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.lesson-track-unit {
+  flex: 0 0 auto;
+  margin-top: 10px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--text-sub, #5b5348);
+}
+
+.lesson-track-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  overflow-x: visible;
+  padding-bottom: 2px;
+}
+
+.lesson-track-item {
+  flex: 0 0 auto;
+  min-width: 60px;
+  min-height: 52px;
+  gap: 1px;
+  padding: 6px 8px;
+  border: 1.5px solid var(--border-color);
+  background: #ffffff;
+  color: var(--text-main);
+  line-height: 1.25;
+}
+
+.lesson-track-item.is-todo {
+  opacity: 1;
+  border-color: #cfc7ba;
+}
+
+.lesson-track-item.is-current {
+  border: 2px dashed var(--accent-red);
+  background: rgba(138, 59, 41, 0.08);
+  color: var(--accent-red);
+  box-shadow: none;
+}
+
+.lesson-track-era {
+  font-size: 0.64rem;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.lesson-track-state {
+  font-size: 0.58rem;
+  font-weight: 700;
+}
+
+.lesson-track-item.is-todo .lesson-track-state {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .lesson-track-row {
+    display: block;
+  }
+  .lesson-track-strip {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
