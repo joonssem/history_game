@@ -2194,3 +2194,24 @@ Codex 읽기 전용 감사(`docs/audits/lesson_track_red_team_audit.md`, 기준 
 - 검증: `01`·`04`·`05`·`11`·`16` 전부 통과. `scripts/17_lint_sensitive_wording.js`는 조작대가 이번 라운드에 아직 올리지 않아 실행하지 못했다.
 - `git status --short`로 대상 6개 파일(데이터 5개 + `docs/audits/unit3_regular_fact_check.md` 신규)만 바뀐 것을 커밋 직전 확인했다. `apps/**`는 읽지 않았다.
 - 판단을 기획 세션에 넘길 항목은 없다.
+
+## 2026-09-21 — 조작대(inquiry-console) 라운드 10: 3단원 민감 주제 표현 lint
+
+`docs/handoff/claude_four_track_round10_instruction.md` §4.
+
+### `scripts/17_lint_sensitive_wording.js` 신설
+
+- D-032 §0-2가 조심하라고 정한 5개 신호(전칭 표현, 확정 수치, 인과 단정, 감정 자극어, 인물 평가어)를 3단원 데이터에서만 모은다. `scripts/14`와 같은 철학 — 실패가 아니라 검토 목록이며, 허용 목록(`ALLOWLIST`)으로 사람이 확인한 문구를 다음 실행부터 조용하게 만든다(현재는 비어 있음, 실제 검토가 나오면 채운다).
+- 대상은 `_index.json`에서 `tier: "regular" && unitId: 3`으로 **동적으로** 뽑은 7편(regular_gwangbok·independence·korean_war·independence_army·japanese_rule_1·japanese_rule_2·post_war) — 라운드 9에서 "32"를 하드코딩하지 않은 것과 같은 이유로, 여기서도 단원 소속을 데이터에서 직접 센다. 그 외 `data/quizzes.json`(`unit: "일제강점기 및 근현대"`), `data/artifacts.json`(지정 9종), `stories*.json`·`causeEffectChains.json`(단원 필드가 없어 제목·chasi 키워드로 3단원을 추정 — 사람이 재확인해야 함을 보고서에 명시).
+- **자기 회귀 테스트에서 실제 버그 발견**: "아니다"의 존댓말 활용형 "아닙니다"는 "니"+"ㅂ"이 "닙"으로 합쳐져 문자열 "아니"를 포함하지 않는다 — `NEGATION_PATTERN`의 "것은 아니" 조건만으로는 "것은 아닙니다"(교육용 문장에서 더 흔한 존댓말체)를 부정문으로 인식하지 못했다. `runSelfTests()`가 이 사례를 넣자마자 즉시 실패해 잡았고, "아닙니다"를 별도 패턴으로 추가해 고쳤다. `scripts/15`의 C1-05(문장 분리 오탐)와 같은 계열의 함정이라 같은 자기 검증 방식을 그대로 적용한 것이 유효했다.
+- 3단원 7편 실행 결과: 신호 5건(인과 단정 4건 — "때문에"·"덕분에"가 정책·희생과 결과를 잇는 문장, 인물 평가어 1건 — "매국"), 허용됨 0건. 원문 대조는 관문 설계실 몫이라 이 스크립트는 고치지 않고 목록만 낸다.
+- 1·2단원 확대는 **제안만** 하고 구현하지 않았다(§4 주의) — 이미 검증된 문장이 무더기로 걸리는 것을 막기 위해서다. 절차 제안을 보고서 끝에 남겼다.
+
+### 검증
+
+`01`·`04`·`05`·`11`·`16`·`17` 전부 통과. `16`은 이번 라운드부터 관문 설계실이 만든 실제 `data/lesson_track.json`(28편, `eraRange` 확정값 반영)이 들어와 처음으로 **실제 파일 기준 PASS**를 확인했다 — 지난 라운드에 내가 보고한 "32→28" 정정이 그대로 반영된 것도 `note` 필드에서 확인. `git status --short`로 조작대 소유 파일(`scripts/17_lint_sensitive_wording.js`, `docs/audits/sensitive_wording_lint.md`)만 새로 생긴 것 확인 — 다른 파일은 건드리지 않음.
+
+### 확인 불가·판단을 넘길 항목
+
+- `causeEffectChains.json`·`stories*.json`은 단원 구분 필드가 없어 제목 키워드로 3단원 여부를 추정했다. 정확한 소속은 연결 공방이 확인해야 한다.
+- 5건의 신호가 실제 과잉 단정인지는 원문 대조가 필요하다 — 관문 설계실(`unit3_regular_fact_check.md`)에 넘긴다.
