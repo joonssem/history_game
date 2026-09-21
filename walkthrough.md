@@ -2144,3 +2144,13 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 - 검증: 01·04·05·06·08·09·11·13·14·16 통과.
 - 남은 일: `.claude/launch.json`에 통합 worktree용 포트(8805)를 추가하려다 되돌렸다 — 메인 체크아웃의 설정을 앱이 읽기 때문에 이 파일은 Codex와 함께 쓰는 main에서만 의미가 있다. 필요하면 별도로 정리한다.
+
+## 2026-09-21 — Codex 요청 A 재검증 및 연대표 띠 읽기 전용 감사
+
+`TASK-20260921-CODEX-LESSON-TRACK-AUDIT | 조선 후기 등록 재검증·연대표 띠 읽기 전용 감사 | integration/audit agent(Codex) | 상태: DONE`
+
+- `main`을 `git pull --ff-only`로 `2982c77`까지 fast-forward한 뒤 인계 문서를 확인했다.
+- 요청 A는 이미 `fbe3e82`에 병합돼 있었다. 런타임 콘텐츠 계약 검사와 `apps/cooperative-live`의 전체 `npm run check`를 다시 실행해 공개·서버 레지스트리, 3·4·5인 역할 배치, 3인 공통 자료, 클라이언트 비공개 본문 미노출, lint·typecheck·unit/Convex tests·production build를 모두 통과했다. 콘텐츠 원문의 `interest` 길이 제안 경고 3건은 기존 예상값이며 문안을 수정하지 않았다.
+- 요청 B는 코드 변경 없이 읽기 전용으로 수행해 [`lesson_track_red_team_audit.md`](./docs/audits/lesson_track_red_team_audit.md)에 10개 발견 사항과 수용 기준을 기록했다. 높은 심각도는 보상 유물 기반 완료 오판 가능성과 `<button role="listitem">`의 버튼 의미 손실이다.
+- Claude가 작업 중인 3단원 데이터 파일은 열거나 수정하지 않았다.
+- 검증: `node scripts/15_validate_cooperative_packet.js --runtime docs/handoff/claude_joseon_late_runtime_scenario.json`, `npm run check`(`apps/cooperative-live`), `node scripts/16_validate_lesson_track.js` 통과.
