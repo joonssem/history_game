@@ -21,13 +21,17 @@
 
 이미 "~것은 아니다", "~수 없다"처럼 한계를 밝히는 문장은 신호에서 뺐다(부정문 오탐 제거, scripts/15 C1-05와 같은 기준).
 
-| 종류 | 출처 | 필드 | 문장 | 내용 |
+검토 신호 없음.
+
+<details><summary>허용됨(3건) — 사람이 검토해 문제없다고 판단, 재검토 불필요</summary>
+
+| 종류 | 출처 | 필드 | 문장 | 허용 사유 |
 |---|---|---|---|---|
-| 인과 단정 | regular_korean_war | regular_korean_war.stages.4.glossary[0].definition | 전쟁과 분단 때문에 서로 만나지 못하게 된 가족 | 인과 단정 표현 "때문에"이(가) 있습니다 — 원문이 이 인과를 그대로 말하는지 확인하세요. |
-| 인과 단정 | regular_japanese_rule_1 | regular_japanese_rule_1.stages.3.narrative | <b>1910년대에는 강한 감시와 탄압 때문에 여러 형태의 민족 운동이 비밀리에 이루어졌습니다.</b><br><br>비밀 결사와 여성 단체, 군자금 모금 등은 서로 방식이 달랐습니다. | 인과 단정 표현 "때문에"이(가) 있습니다 — 원문이 이 인과를 그대로 말하는지 확인하세요. |
-| 인과 단정 | regular_japanese_rule_1 | regular_japanese_rule_1.stages.3.choices[0].feedback | 강한 탄압 때문에 공개 활동이 어려웠고, 여러 사람이 서로 다른 방식으로 독립운동을 이어 갔습니다. | 인과 단정 표현 "때문에"이(가) 있습니다 — 원문이 이 인과를 그대로 말하는지 확인하세요. |
-| 인물 평가어 | regular_japanese_rule_1 | regular_japanese_rule_1.stages.3.choices[1].feedback | 동지를 배신한 밀고는 민족 독립운동을 파괴하는 매국 행위입니다. | 인물 평가어 "매국"가 있습니다 — 공식 출처의 표현을 넘지 않는지 확인하세요. |
-| 인과 단정 | regular_japanese_rule_2 | regular_japanese_rule_2.stages.3.simulator.infoText | 조선어학회 학자들의 숭고한 희생 덕분에 우리는 오늘날 아름다운 한글을 자유롭게 쓰고 있습니다. | 인과 단정 표현 "덕분에"이(가) 있습니다 — 원문이 이 인과를 그대로 말하는지 확인하세요. |
+| 인과 단정 | regular_korean_war | regular_korean_war.stages.4.glossary[0].definition | 전쟁과 분단 때문에 서로 만나지 못하게 된 가족 | 이산가족 정의문. 인과가 정의 자체다(2026-09-21 기획 세션) |
+| 인과 단정 | regular_japanese_rule_1 | regular_japanese_rule_1.stages.3.narrative | <b>1910년대에는 강한 감시와 탄압 때문에 여러 형태의 민족 운동이 비밀리에 이루어졌습니다.</b><br><br>비밀 결사와 여성 단체, 군자금 모금 등은 서로 방식이 달랐습니다. | 1910년대 무단 통치와 비밀 결사의 관계는 교과서 표준 서술(2026-09-21 기획 세션) |
+| 인과 단정 | regular_japanese_rule_1 | regular_japanese_rule_1.stages.3.choices[0].feedback | 강한 탄압 때문에 공개 활동이 어려웠고, 여러 사람이 서로 다른 방식으로 독립운동을 이어 갔습니다. | 위와 같은 근거(2026-09-21 기획 세션) |
+
+</details>
 
 ## 확장 제안 (구현하지 않음)
 
