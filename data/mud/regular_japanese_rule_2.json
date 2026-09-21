@@ -69,7 +69,7 @@
         },
         {
           "term": "창씨개명",
-          "definition": "1939년 일제가 한국인의 성과 이름을 일본식으로 강제로 고치게 한 민족 말살 정책"
+          "definition": "1939년 공포해 1940년부터 일제가 한국인의 성과 이름을 일본식으로 강제로 고치게 한 민족 말살 정책"
         }
       ],
       "choices": [
@@ -245,7 +245,7 @@
           { "id": "spelling", "label": "맞춤법 통일", "x": 0.5, "y": 0.65, "feedback": "맞춤법 통일 활동은 사람들이 우리말을 기록하고 가르칠 공통 기준을 마련하려는 노력이었습니다." },
           { "id": "language-life", "label": "언어생활", "x": 0.78, "y": 0.48, "feedback": "언어 운동은 억압 속에서도 사람들이 자신의 언어를 배우고 사용하는 삶과 연결됩니다." }
         ],
-        "infoText": "조선어학회 학자들의 숭고한 희생 덕분에 우리는 오늘날 아름다운 한글을 자유롭게 쓰고 있습니다.",
+        "infoText": "조선어학회 학자들의 노력은 오늘날 우리가 한글을 지키고 쓰는 데 중요한 밑거름이 되었습니다.",
         "instruction": "📚 <b>사전 원고·맞춤법·언어생활 자료를 모두 확인하세요.</b>",
         "feedback": "우리말 사전 편찬에 쓰인 원고의 이동 경로를 확인했습니다!",
         "required": true,
@@ -402,6 +402,20 @@
       "url": "https://contents.history.go.kr/front/ta/print.do?levelId=ta_m71_0100_0010_0030_0010&whereStr=",
       "checkedAt": "2026-08-27",
       "claimScope": "황국신민화·언어 통제·전시 동원 관련 1~4단계 서술"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "창씨개명",
+      "url": "https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_i403280",
+      "checkedAt": "2026-09-21",
+      "claimScope": "창씨개명은 1939년 11월 공포, 1940년 2월부터 시행됐다는 서술 — 라운드 10, 기존 '1939년'만 표기한 것을 공포·시행 연도로 구분"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "조선어학회",
+      "url": "https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_o403300",
+      "checkedAt": "2026-09-21",
+      "claimScope": "우리말 큰사전 편찬이 1929년 조선어사전편찬회 결성부터 1942년 조선어학회 사건까지 13년이라는 서술 — 라운드 10"
     }
   ]
 }
