@@ -191,7 +191,7 @@
       "unitId": 2,
       "lessonNumbers": [11, 12],
       "eraLabel": "개항기",
-      "eraRange": "1876년 이후",
+      "eraRange": "1876년~1910년",
       "shortTitle": "강화도 조약"
     },
     {
@@ -200,7 +200,7 @@
       "unitId": 3,
       "lessonNumbers": [2],
       "eraLabel": "개항기",
-      "eraRange": "1876년 이후",
+      "eraRange": "1876년~1910년",
       "shortTitle": "의병과 안중근"
     },
     {
