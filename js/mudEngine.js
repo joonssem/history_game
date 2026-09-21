@@ -705,6 +705,12 @@ const MudEngine = {
       });
     }
 
+    // 편 완료 자체를 mudId로 기록한다(LT-01). 보상 유물이 없거나 이름이 바뀌어도
+    // 연대표 띠의 완료 표시가 흔들리지 않는다.
+    if (window.encyclopedia && this.currentMudData?.mudId) {
+      window.encyclopedia.markMudCompleted(this.currentMudData.mudId);
+    }
+
     // 2026-09-10: 방금 끝낸 MUD가 어느 시대인지(이 MUD가 실제로 준 보상
     // 유물의 era 값 기준) 계산해, 유물 비교 활동이 전혀 다른 시대에
     // 튀어나오지 않도록 ArtifactComparisonEngine.getOfferHtml에 넘긴다.

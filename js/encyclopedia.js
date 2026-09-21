@@ -26,6 +26,9 @@ class EncyclopediaManager {
         const parsed = JSON.parse(saved);
         // 이전 버전 저장 데이터 호환: 새 필드가 없으면 기본값 채움
         if (!Array.isArray(parsed.seenArtifactComparisons)) parsed.seenArtifactComparisons = [];
+        // LT-01(2026-09-21 Codex 감사): 편 완료를 보상 유물 보유로 추정하던 것을
+        // mudId 기록으로 바꾼다. 기존 저장에는 이 배열이 없으므로 여기서 채운다.
+        if (!Array.isArray(parsed.completedMuds)) parsed.completedMuds = [];
         return parsed;
       }
     } catch (e) {
@@ -39,8 +42,18 @@ class EncyclopediaManager {
       quizHighScore: 0,
       cardGameBestMoves: null,
       timelineClearedStages: [],
-      seenArtifactComparisons: []
+      seenArtifactComparisons: [],
+      completedMuds: []
     };
+  }
+
+  // 편을 끝까지 마쳤다는 사실 자체를 기록한다(LT-01). 보상 유물과 독립적이다.
+  markMudCompleted(mudId) {
+    if (!mudId) return;
+    if (!Array.isArray(this.data.completedMuds)) this.data.completedMuds = [];
+    if (this.data.completedMuds.includes(mudId)) return;
+    this.data.completedMuds.push(mudId);
+    this.saveData();
   }
 
   saveData() {

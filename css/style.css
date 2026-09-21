@@ -884,3 +884,22 @@
   }
 }
 
+/* --- 연대표 띠 접근성 보강 (Codex 감사 LT-02·LT-04·LT-05, 2026-09-21) --- */
+.lesson-track-cell {
+  display: inline-flex;
+}
+
+/* 완료한 편을 다시 열었을 때: 점선(지금)과 초록(완료)을 함께 보여 준다. */
+.lesson-track-item.is-current-done {
+  border: 2px dashed #047857;
+  background: #dff5e8;
+  color: #174c36;
+}
+
+/* 키보드 포커스를 브라우저 기본 외곽선에만 맡기지 않는다. */
+.lesson-track-item:focus-visible,
+.lesson-track-nav-btn:focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 2px;
+}
+
