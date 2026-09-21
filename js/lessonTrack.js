@@ -67,20 +67,41 @@ const LessonTrack = {
     return keys;
   },
 
-  isCompleted(keys) {
-    const unlocked = window.encyclopedia?.data?.unlockedArtifacts || [];
+  // LT-01(Codex 감사 2026-09-21): 완료는 mudId 기록으로 판정한다.
+  // 그 기록이 없던 시절의 저장본을 위해 보상 유물 보유를 보조 근거로만 쓴다.
+  isCompleted(mudId, keys) {
+    const data = window.encyclopedia?.data || {};
+    const completed = Array.isArray(data.completedMuds) ? data.completedMuds : [];
+    if (completed.includes(mudId)) return true;
+    const unlocked = data.unlockedArtifacts || [];
     return keys.some(key => unlocked.includes(key));
   },
 
   // --- 렌더링 ---
   // 사양서(docs/plans/implementation_plan_lesson_track_ui.md) §1~§4·§7을 따른다.
   // 상태는 색이 아니라 아이콘·테두리 종류·글자 라벨 세 채널로 구분한다(색각 이상 고려).
-  statusMark(status) {
-    return status === 'done' ? '✓' : status === 'current' ? '📍' : '';
+  isCurrentStatus(status) {
+    return status === 'current' || status === 'current-done';
   },
 
+  statusMark(status) {
+    if (status === 'done') return '✓';
+    if (status === 'current-done') return '📍✓';
+    if (status === 'current') return '📍';
+    return '';
+  },
+
+  // 화면에 보이는 라벨. '아직'은 글자로 쓰지 않는다(사양서 §2).
   statusLabel(status) {
-    return status === 'done' ? '완료' : status === 'current' ? '지금' : '';
+    if (status === 'done') return '완료';
+    if (status === 'current-done') return '지금 · 완료';
+    if (status === 'current') return '지금';
+    return '';
+  },
+
+  // LT-06: 스크린리더에는 '아직'도 읽어 준다.
+  statusAriaLabel(status) {
+    return status === 'todo' ? '아직' : this.statusLabel(status);
   },
 
   // 띠는 배운 순서이지 연대순이 아니다. 같은 시기에 있던 두 시대는 칸 설명에서 서로를 가리킨다(§7-2).
@@ -94,14 +115,16 @@ const LessonTrack = {
   async computeStatuses(entries, currentMudId) {
     const done = await Promise.all(entries.map(async entry => {
       const keys = await this.rewardKeys(entry.mudId);
-      return this.isCompleted(keys);
+      return this.isCompleted(entry.mudId, keys);
     }));
     let currentIndex = currentMudId
       ? entries.findIndex(e => e.mudId === currentMudId)
       : -1;
     if (currentIndex < 0) currentIndex = done.findIndex(v => !v);
+    // LT-02: 완료한 편을 다시 열면 '지금'이 '완료'를 덮어 버렸다.
+    // 이제 둘이 겹치면 'current-done'으로 두어 완료 사실을 유지한다.
     return entries.map((entry, i) => {
-      if (i === currentIndex) return 'current';
+      if (i === currentIndex) return done[i] ? 'current-done' : 'current';
       return done[i] ? 'done' : 'todo';
     });
   },
@@ -110,13 +133,19 @@ const LessonTrack = {
     const mark = this.statusMark(status);
     const stateLabel = this.statusLabel(status);
     const range = entry.eraRange ? ` (${entry.eraRange}${this.overlapNote(entry)})` : '';
-    const label = `${entry.eraLabel} · ${entry.shortTitle}${range}${stateLabel ? ` — ${stateLabel}` : ''}`;
-    return `<button type="button" class="lesson-track-item is-${status}" role="listitem" data-mud-id="${entry.mudId}" aria-label="${label}" title="${label}">
-      <span class="lesson-track-mark" aria-hidden="true">${mark}</span>
-      <span class="lesson-track-era">${entry.eraLabel}</span>
-      <span class="lesson-track-title">${entry.shortTitle}</span>
-      <span class="lesson-track-state" aria-hidden="true">${stateLabel}</span>
-    </button>`;
+    // LT-06: 시각 라벨이 없는 '아직'도 읽히도록 aria 이름에는 상태를 항상 넣는다.
+    const label = `${entry.eraLabel} · ${entry.shortTitle}${range} — ${this.statusAriaLabel(status)}`;
+    const currentAttr = this.isCurrentStatus(status) ? ' aria-current="step"' : '';
+    // LT-04: <button>에 role="listitem"을 씌우면 버튼이라는 사실이 가려진다.
+    // 목록 의미는 감싸는 요소가 맡고, 버튼은 자기 역할을 유지한다.
+    return `<span role="listitem" class="lesson-track-cell">
+      <button type="button" class="lesson-track-item is-${status}" data-mud-id="${entry.mudId}" aria-label="${label}" title="${label}"${currentAttr}>
+        <span class="lesson-track-mark" aria-hidden="true">${mark}</span>
+        <span class="lesson-track-era">${entry.eraLabel}</span>
+        <span class="lesson-track-title">${entry.shortTitle}</span>
+        <span class="lesson-track-state" aria-hidden="true">${stateLabel}</span>
+      </button>
+    </span>`;
   },
 
   // 단원별로 한 줄씩 나눈다. 한 줄 28칸은 태블릿에서도 터치 목표 44px을 못 지킨다(§4-1).
@@ -157,7 +186,7 @@ const LessonTrack = {
     });
 
     // "지금" 칸이 보이도록 한 번만 맞춘다. 애니메이션 없이 즉시 이동한다(§1-2, §4-3).
-    const current = container.querySelector('.lesson-track-item.is-current');
+    const current = container.querySelector('.lesson-track-item[aria-current="step"]');
     if (current) {
       const strip = current.closest('.lesson-track-strip');
       if (strip && strip.scrollWidth > strip.clientWidth) {
