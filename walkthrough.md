@@ -2184,6 +2184,17 @@ Codex 읽기 전용 감사(`docs/audits/lesson_track_red_team_audit.md`, 기준 
 - `.claude/launch.json`에 통합 worktree 확인용 `integration`(8805)을 추가했다. 메인 체크아웃의 설정 파일이라 Codex와 공유한다.
 - 검증: 05·06·16 통과.
 
+## 2026-09-21 — Codex Round 11 조작대: 연대표 검증기 보강(LT-03·LT-10)
+
+`TASK-20260921-CODEX-LT03-LT10 | 연대표 띠 3자 계약·연대 회귀 검증 강화 | implementation agent(Codex) | 상태: DONE`
+
+- 별도 worktree `feat/codex-lesson-track-validator`에서 `scripts/16_validate_lesson_track.js`만 구현했다. `data/lesson_track.json`과 3단원 콘텐츠 데이터는 수정하지 않았다.
+- LT-03: mudId별 `unitId`·`lessonNumbers`를 `_index.json`과 exact 비교하고, index가 가리키는 실제 JSON의 존재·내부 mudId, `regular_*.json` 파일과 index regular 목록의 양방향 누락을 검사한다. `--ci`에서는 `lesson_track.json` 부재를 실패로 처리하고 기본 실행은 기존처럼 SKIP한다.
+- LT-10: 같은 `eraLabel`의 `eraRange` 일치, 끝이 열린 `~` 금지(`~현재`는 허용), 검증 문서 기반 `EXPECTED_ERA_RANGES` 변경 경고를 추가했다.
+- `--self-test`에 정상 계약과 의도적 실패 fixture 6종(unitId, lessonNumbers, index 등록 누락, 내부 mudId, 같은 시대 다른 범위, 열린 범위), 파일 부재의 CI/기본 실행 차이를 넣었다. 전부 예상대로 통과했다.
+- **통합 요청**: 현재 Round 9 데이터에 엄격 규칙을 적용하면 9건이 실패한다. Round 11 §1의 조선 전기·광복·개항기 변경 외에도 `구석기`, `신석기`, `청동기`가 열린 `~`로 끝난다. D-037 규칙을 그대로 적용하려면 각각 `수십만 년 전 이후`, `기원전 8000년경 이후`, `기원전 2000년경 이후`처럼 관문 설계실·대조실이 표기를 확정해야 한다.
+- 검증: `node --check scripts/16_validate_lesson_track.js`, `node scripts/16_validate_lesson_track.js --self-test` 통과. 현재 데이터의 `node scripts/16_validate_lesson_track.js --ci`는 위 9건을 검출해 의도대로 실패한다. 통합본에서는 관문 설계실 데이터 반영 후 PASS가 수용 기준이다.
+
 
 ## 2026-09-21 — 「관문 설계실」(gate-grammar) Round 10 §1: 3단원 정규 7편 사실 대조
 

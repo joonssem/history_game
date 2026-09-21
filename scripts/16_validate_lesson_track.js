@@ -1,58 +1,74 @@
-// =========================================================
 // scripts/16_validate_lesson_track.js
-// data/lesson_track.json(D-036, 라운드 9 §0-2 확정 형식)이 규칙을
-// 지키는지 검사한다. 관문 설계실과 병렬 작업이므로, 대상 파일이 아직
-// 없으면 건너뛰고 통과한다.
-//
-// 참고: 라운드 9 지시서는 "정규 32편"이라고 적었으나 실제 정규 편은 28편이다(32는
-// 직접 세어 보면 tier: "regular"는 28편이고 나머지 4편은 tier: "deep-dive"
-// 심화 4편을 포함한 수). D-036에 정정했다. 이 스크립트는 개수를 고정하지 않고
-// _index.json에서 실제 regular 편 수를 세어 그 값과 대조한다 — 지시서의
-// 숫자가 바뀌어도, 또는 실제로는 28인 채로 남아도 스크립트가 잘못된
-// 값을 강요하지 않는다.
-// =========================================================
+// 정규 MUD 인덱스·실제 JSON·연대표 띠의 3자 계약과 D-037 연대 표기를 검사한다.
+// 사용: node scripts/16_validate_lesson_track.js [--ci|--self-test]
 
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 
-const LESSON_TRACK_PATH = path.join(__dirname, '..', 'data', 'lesson_track.json');
-const MUD_INDEX_PATH = path.join(__dirname, '..', 'data', 'mud', '_index.json');
-const REQUIRED_ENTRY_FIELDS = ['order', 'mudId', 'unitId', 'lessonNumbers', 'eraLabel', 'eraRange', 'shortTitle'];
+const REPO_ROOT = path.join(__dirname, '..');
+const DEFAULT_TRACK_PATH = path.join(REPO_ROOT, 'data', 'lesson_track.json');
+const DEFAULT_INDEX_PATH = path.join(REPO_ROOT, 'data', 'mud', '_index.json');
+const DEFAULT_MUD_DIR = path.join(REPO_ROOT, 'data', 'mud');
+const REQUIRED_FIELDS = ['order', 'mudId', 'unitId', 'lessonNumbers', 'eraLabel', 'eraRange', 'shortTitle'];
 
-function main() {
-  if (!fs.existsSync(LESSON_TRACK_PATH)) {
-    console.log(`SKIP: ${path.relative(process.cwd(), LESSON_TRACK_PATH)}가 아직 없습니다 — 관문 설계실 작업 전이라 건너뛰고 통과합니다.`);
-    return;
+// docs/audits/lesson_track_era_review.md의 검증값과 D-037 표기 규칙을 합친 기대값.
+// 변경 시 검증 문서와 함께 갱신한다. 불일치는 경고, 구조 규칙 위반은 오류다.
+const EXPECTED_ERA_RANGES = Object.freeze({
+  '구석기': '수십만 년 전 이후',
+  '신석기': '기원전 8000년경 이후',
+  '청동기': '기원전 2000년경 이후',
+  '고조선': '기원전 2333년(전한다)~기원전 108년',
+  '삼국': '기원전 57년~668년',
+  '통일신라': '676년~935년',
+  '발해': '698년~926년',
+  '고려': '918년~1392년',
+  '조선 전기': '1392년~1592년경',
+  '조선 후기': '1592년경~1876년경',
+  '개항기': '1876년 이후',
+  '일제강점기': '1910년~1945년',
+  '광복·대한민국': '1945년~현재'
+});
+
+function sameIntegerArray(a, b) {
+  return Array.isArray(a) && Array.isArray(b) && a.length === b.length
+    && a.every((value, index) => Number.isInteger(value) && value === b[index]);
+}
+
+function readJson(filePath, errors, label) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch (error) {
+    errors.push(`${label} JSON을 읽지 못했습니다: ${error.message}`);
+    return null;
   }
+}
 
+function validate({ trackPath, indexPath, mudDir, ci = false }) {
   const errors = [];
   const warnings = [];
-
-  let track;
-  try {
-    track = JSON.parse(fs.readFileSync(LESSON_TRACK_PATH, 'utf-8'));
-  } catch (e) {
-    console.error(`FAIL: JSON 파싱 실패 — ${e.message}`);
-    process.exit(1);
+  if (!fs.existsSync(trackPath)) {
+    if (ci) errors.push(`${path.relative(process.cwd(), trackPath)}가 없습니다(--ci에서는 필수).`);
+    return { errors, warnings, skipped: !ci, entryCount: 0 };
   }
 
-  const mudIndex = JSON.parse(fs.readFileSync(MUD_INDEX_PATH, 'utf-8'));
-  const regularMuds = (mudIndex.muds || []).filter(m => m.tier === 'regular');
-  const regularIdSet = new Set(regularMuds.map(m => m.mudId));
-  const nonRegularIdSet = new Set((mudIndex.muds || []).filter(m => m.tier !== 'regular').map(m => m.mudId));
-
-  // 편 수는 데이터에서 센다. 값을 코드에 고정하지 않는다 — D-036 정정(2026-09-18)에서
-  // 지시서의 "정규 32편"이 실제 28편이었던 착오를 잡아낸 방식이 이것이다.
-
+  const track = readJson(trackPath, errors, 'lesson_track');
+  const mudIndex = readJson(indexPath, errors, '_index');
+  if (!track || !mudIndex) return { errors, warnings, skipped: false, entryCount: 0 };
   if (!Array.isArray(track.entries)) {
-    console.error('FAIL: entries가 배열이 아닙니다.');
-    process.exit(1);
+    errors.push('lesson_track의 entries가 배열이 아닙니다.');
+    return { errors, warnings, skipped: false, entryCount: 0 };
   }
-  const entries = track.entries;
 
-  // 형식 검사
+  const entries = track.entries;
+  const allIndexMuds = Array.isArray(mudIndex.muds) ? mudIndex.muds : [];
+  const regularMuds = allIndexMuds.filter(mud => mud.tier === 'regular');
+  const regularById = new Map(regularMuds.map(mud => [mud.mudId, mud]));
+  const nonRegularIds = new Set(allIndexMuds.filter(mud => mud.tier !== 'regular').map(mud => mud.mudId));
+  const mudIdCounts = new Map();
+
   entries.forEach((entry, index) => {
-    REQUIRED_ENTRY_FIELDS.forEach(field => {
+    REQUIRED_FIELDS.forEach(field => {
       if (entry[field] === undefined || entry[field] === null || entry[field] === '') {
         errors.push(`entries[${index}](mudId: ${entry.mudId ?? '?'})에 "${field}" 필드가 없습니다.`);
       }
@@ -66,66 +82,183 @@ function main() {
       errors.push(`entries[${index}]: eraRangeDraft는 boolean이어야 합니다.`);
     }
     if (typeof entry.shortTitle === 'string' && entry.shortTitle.length > 10) {
-      warnings.push(`entries[${index}](${entry.mudId}): shortTitle이 ${entry.shortTitle.length}자 — "6자 안팎" 기준을 크게 넘습니다: "${entry.shortTitle}"`);
+      warnings.push(`entries[${index}](${entry.mudId}): shortTitle이 ${entry.shortTitle.length}자입니다: "${entry.shortTitle}"`);
     }
     if (/^\d+차시$|^MUD\s*\d+$/.test(String(entry.shortTitle || '').trim())) {
-      errors.push(`entries[${index}](${entry.mudId}): shortTitle이 번호식 이름("N차시", "MUD N")입니다 — 지시서 §1이 금지합니다: "${entry.shortTitle}"`);
+      errors.push(`entries[${index}](${entry.mudId}): shortTitle이 금지된 번호식 이름입니다: "${entry.shortTitle}"`);
+    }
+    if (typeof entry.eraRange === 'string' && /~\s*$/.test(entry.eraRange)) {
+      errors.push(`entries[${index}](${entry.mudId}): eraRange "${entry.eraRange}"가 열린 '~'로 끝납니다. '이후' 또는 '~현재'처럼 뜻을 명시하세요.`);
+    }
+
+    mudIdCounts.set(entry.mudId, (mudIdCounts.get(entry.mudId) || 0) + 1);
+    const indexed = regularById.get(entry.mudId);
+    if (nonRegularIds.has(entry.mudId)) {
+      errors.push(`mudId "${entry.mudId}"는 regular 편이 아닙니다.`);
+    } else if (!indexed) {
+      errors.push(`mudId "${entry.mudId}"는 _index.json regular 목록에 없습니다.`);
+    } else {
+      if (entry.unitId !== indexed.unitId) {
+        errors.push(`${entry.mudId}: lesson_track unitId(${entry.unitId})와 _index unitId(${indexed.unitId})가 다릅니다.`);
+      }
+      if (!sameIntegerArray(entry.lessonNumbers, indexed.lessonNumbers)) {
+        errors.push(`${entry.mudId}: lesson_track lessonNumbers(${JSON.stringify(entry.lessonNumbers)})와 _index lessonNumbers(${JSON.stringify(indexed.lessonNumbers)})가 다릅니다.`);
+      }
     }
   });
-
-  // 정규 편과 1:1 대응 — 빠짐·중복·유령 id
-  const mudIdCounts = new Map();
-  entries.forEach(e => mudIdCounts.set(e.mudId, (mudIdCounts.get(e.mudId) || 0) + 1));
 
   mudIdCounts.forEach((count, mudId) => {
     if (count > 1) errors.push(`mudId "${mudId}"가 entries에 ${count}번 중복됩니다.`);
   });
-  entries.forEach(e => {
-    if (nonRegularIdSet.has(e.mudId)) {
-      errors.push(`mudId "${e.mudId}"는 tier: "regular"가 아닙니다(심화·협동 편이 섞였습니다) — 이 트랙은 정규 편만 담습니다.`);
-    } else if (!regularIdSet.has(e.mudId)) {
-      errors.push(`mudId "${e.mudId}"는 data/mud/_index.json에 없는 유령 id입니다.`);
+  regularById.forEach((_mud, mudId) => {
+    if (!mudIdCounts.has(mudId)) errors.push(`regular 편 "${mudId}"가 lesson_track entries에 빠져 있습니다.`);
+  });
+  if (entries.length !== regularMuds.length) {
+    errors.push(`entries 개수(${entries.length})가 _index regular 편 수(${regularMuds.length})와 다릅니다.`);
+  }
+
+  const indexedRegularFiles = new Set();
+  regularMuds.forEach(indexed => {
+    if (typeof indexed.file !== 'string' || !indexed.file) {
+      errors.push(`_index regular 편 "${indexed.mudId}"에 file이 없습니다.`);
+      return;
+    }
+    indexedRegularFiles.add(indexed.file);
+    const filePath = path.join(mudDir, indexed.file);
+    if (!fs.existsSync(filePath)) {
+      errors.push(`_index regular 편 "${indexed.mudId}"가 가리키는 파일이 없습니다: ${indexed.file}`);
+      return;
+    }
+    const mudData = readJson(filePath, errors, indexed.file);
+    if (mudData && mudData.mudId !== indexed.mudId) {
+      errors.push(`${indexed.file}: 내부 mudId "${mudData.mudId}"가 _index의 "${indexed.mudId}"와 다릅니다.`);
     }
   });
-  regularIdSet.forEach(mudId => {
-    if (!mudIdCounts.has(mudId)) errors.push(`regular 편 "${mudId}"가 entries에 빠져 있습니다.`);
+
+  const diskRegularFiles = fs.readdirSync(mudDir).filter(fileName => /^regular_.*\.json$/.test(fileName));
+  diskRegularFiles.forEach(fileName => {
+    if (!indexedRegularFiles.has(fileName)) errors.push(`정규 파일 "${fileName}"가 _index.json regular 목록에 등록되지 않았습니다.`);
+  });
+  indexedRegularFiles.forEach(fileName => {
+    if (!diskRegularFiles.includes(fileName)) errors.push(`_index regular 파일 "${fileName}"가 data/mud의 regular_*.json 목록에 없습니다.`);
   });
 
-  if (entries.length !== regularMuds.length) {
-    errors.push(`entries 개수(${entries.length})가 _index.json의 regular 편 수(${regularMuds.length})와 다릅니다.`);
-  }
-
-  // order 1..N 연속
-  const orders = entries.map(e => e.order).filter(Number.isInteger).sort((a, b) => a - b);
-  const expectedOrders = Array.from({ length: entries.length }, (_, i) => i + 1);
+  const orders = entries.map(entry => entry.order).filter(Number.isInteger).sort((a, b) => a - b);
+  const expectedOrders = Array.from({ length: entries.length }, (_, index) => index + 1);
   if (JSON.stringify(orders) !== JSON.stringify(expectedOrders)) {
-    errors.push(`order 값이 1~${entries.length}까지 빈틈없이 이어지지 않습니다 — 실제: [${orders.join(', ')}]`);
+    errors.push(`order 값이 1~${entries.length}까지 이어지지 않습니다: [${orders.join(', ')}]`);
   }
-
-  // unitId·lessonNumbers 오름차순(같은 차시 두 편은 허용, 역순만 오류)
-  const byOrder = [...entries].filter(e => Number.isInteger(e.order)).sort((a, b) => a.order - b.order);
-  for (let i = 1; i < byOrder.length; i += 1) {
-    const prev = byOrder[i - 1];
-    const curr = byOrder[i];
+  const byOrder = [...entries].filter(entry => Number.isInteger(entry.order)).sort((a, b) => a.order - b.order);
+  for (let index = 1; index < byOrder.length; index += 1) {
+    const prev = byOrder[index - 1];
+    const curr = byOrder[index];
     const prevLesson = Math.min(...(prev.lessonNumbers || [Infinity]));
     const currLesson = Math.min(...(curr.lessonNumbers || [Infinity]));
-    const prevKey = [prev.unitId, prevLesson];
-    const currKey = [curr.unitId, currLesson];
-    const isBackwards = currKey[0] < prevKey[0] || (currKey[0] === prevKey[0] && currKey[1] < prevKey[1]);
-    if (isBackwards) {
-      errors.push(`order ${prev.order}(${prev.mudId}, 단원${prev.unitId} ${prevLesson}차시) 다음 order ${curr.order}(${curr.mudId}, 단원${curr.unitId} ${currLesson}차시)가 앞 편보다 앞선 차시입니다 — 오름차순이 아닙니다.`);
+    if (curr.unitId < prev.unitId || (curr.unitId === prev.unitId && currLesson < prevLesson)) {
+      errors.push(`order ${prev.order}(${prev.mudId}) 다음 ${curr.order}(${curr.mudId})가 차시 오름차순이 아닙니다.`);
     }
   }
 
-  if (errors.length) {
-    console.error(`FAIL: data/lesson_track.json 검사 실패(${errors.length}건)`);
-    errors.forEach(e => console.error(`  - ${e}`));
-    warnings.forEach(w => console.log(`  [경고] ${w}`));
-    process.exit(1);
-  }
+  const rangesByEra = new Map();
+  entries.forEach(entry => {
+    if (!rangesByEra.has(entry.eraLabel)) rangesByEra.set(entry.eraLabel, new Set());
+    rangesByEra.get(entry.eraLabel).add(entry.eraRange);
+  });
+  rangesByEra.forEach((ranges, eraLabel) => {
+    if (ranges.size > 1) errors.push(`eraLabel "${eraLabel}"의 eraRange가 서로 다릅니다: ${[...ranges].map(value => `"${value}"`).join(', ')}`);
+    const actual = [...ranges][0];
+    const expected = EXPECTED_ERA_RANGES[eraLabel];
+    if (!expected) {
+      warnings.push(`eraLabel "${eraLabel}"가 기대값 표에 없습니다. lesson_track_era_review.md와 함께 검토하세요.`);
+    } else if (actual !== expected) {
+      warnings.push(`eraLabel "${eraLabel}"의 eraRange는 "${actual}"이고 검증 기대값은 "${expected}"입니다. lesson_track_era_review.md와 EXPECTED_ERA_RANGES를 함께 갱신하세요.`);
+    }
+  });
 
-  warnings.forEach(w => console.log(`  [경고] ${w}`));
-  console.log(`PASS: data/lesson_track.json — entries ${entries.length}개, order 1~${entries.length} 연속, regular 편과 1:1 대응 확인`);
+  return { errors, warnings, skipped: false, entryCount: entries.length };
 }
 
-main();
+function writeJson(filePath, value) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
+}
+
+function runSelfTest() {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'lesson-track-validator-'));
+  const mudDir = path.join(root, 'data', 'mud');
+  const trackPath = path.join(root, 'data', 'lesson_track.json');
+  const indexPath = path.join(mudDir, '_index.json');
+  const baseTrack = { entries: [
+    { order: 1, mudId: 'regular_one', unitId: 1, lessonNumbers: [2], eraLabel: '고려', eraRange: '918년~1392년', shortTitle: '첫 편' },
+    { order: 2, mudId: 'regular_two', unitId: 1, lessonNumbers: [3], eraLabel: '고려', eraRange: '918년~1392년', shortTitle: '둘째 편' }
+  ] };
+  const baseIndex = { muds: [
+    { mudId: 'regular_one', tier: 'regular', unitId: 1, lessonNumbers: [2], file: 'regular_one.json' },
+    { mudId: 'regular_two', tier: 'regular', unitId: 1, lessonNumbers: [3], file: 'regular_two.json' }
+  ] };
+  const reset = () => {
+    writeJson(trackPath, baseTrack);
+    writeJson(indexPath, baseIndex);
+    writeJson(path.join(mudDir, 'regular_one.json'), { mudId: 'regular_one' });
+    writeJson(path.join(mudDir, 'regular_two.json'), { mudId: 'regular_two' });
+    const extra = path.join(mudDir, 'regular_unregistered.json');
+    if (fs.existsSync(extra)) fs.unlinkSync(extra);
+  };
+  const expectFailure = (name, mutate, pattern) => {
+    reset();
+    mutate();
+    const result = validate({ trackPath, indexPath, mudDir, ci: true });
+    if (!result.errors.some(error => pattern.test(error))) throw new Error(`${name}: 예상 오류 없음 — ${result.errors.join(' | ')}`);
+    console.log(`PASS fixture: ${name}`);
+  };
+
+  try {
+    reset();
+    const baseline = validate({ trackPath, indexPath, mudDir, ci: true });
+    if (baseline.errors.length) throw new Error(`정상 fixture 실패: ${baseline.errors.join(' | ')}`);
+    console.log('PASS fixture: 정상 3자 계약');
+    expectFailure('unitId 메타데이터 불일치', () => {
+      const track = JSON.parse(fs.readFileSync(trackPath, 'utf8')); track.entries[0].unitId = 2; writeJson(trackPath, track);
+    }, /unitId/);
+    expectFailure('lessonNumbers 메타데이터 불일치', () => {
+      const track = JSON.parse(fs.readFileSync(trackPath, 'utf8')); track.entries[0].lessonNumbers = [9]; writeJson(trackPath, track);
+    }, /lessonNumbers/);
+    expectFailure('정규 파일 index 등록 누락', () => {
+      writeJson(path.join(mudDir, 'regular_unregistered.json'), { mudId: 'regular_unregistered' });
+    }, /등록되지 않았습니다/);
+    expectFailure('실제 JSON 내부 mudId 불일치', () => {
+      writeJson(path.join(mudDir, 'regular_one.json'), { mudId: 'regular_wrong' });
+    }, /내부 mudId/);
+    expectFailure('같은 시대 다른 범위', () => {
+      const track = JSON.parse(fs.readFileSync(trackPath, 'utf8')); track.entries[1].eraRange = '919년~1392년'; writeJson(trackPath, track);
+    }, /서로 다릅니다/);
+    expectFailure('끝이 열린 범위', () => {
+      const track = JSON.parse(fs.readFileSync(trackPath, 'utf8')); track.entries[0].eraRange = '918년~'; writeJson(trackPath, track);
+    }, /열린 '~'/);
+    const missing = path.join(root, 'missing.json');
+    if (!validate({ trackPath: missing, indexPath, mudDir, ci: true }).errors.length) throw new Error('--ci 부재 실패 없음');
+    const devMissing = validate({ trackPath: missing, indexPath, mudDir, ci: false });
+    if (!devMissing.skipped || devMissing.errors.length) throw new Error('기본 부재 SKIP 실패');
+    console.log('PASS fixture: --ci 부재 실패 / 기본 실행 SKIP');
+    console.log('PASS: lesson track validator self-test');
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+}
+
+function runMain() {
+  const args = new Set(process.argv.slice(2));
+  if (args.has('--self-test')) return runSelfTest();
+  const result = validate({ trackPath: DEFAULT_TRACK_PATH, indexPath: DEFAULT_INDEX_PATH, mudDir: DEFAULT_MUD_DIR, ci: args.has('--ci') });
+  if (result.skipped) return console.log(`SKIP: ${path.relative(process.cwd(), DEFAULT_TRACK_PATH)}가 아직 없습니다.`);
+  result.warnings.forEach(warning => console.log(`  [경고] ${warning}`));
+  if (result.errors.length) {
+    console.error(`FAIL: data/lesson_track.json 검사 실패(${result.errors.length}건)`);
+    result.errors.forEach(error => console.error(`  - ${error}`));
+    process.exitCode = 1;
+    return;
+  }
+  console.log(`PASS: data/lesson_track.json — entries ${result.entryCount}개, index·실제 JSON과 1:1 대응, D-037 표기 확인`);
+}
+
+runMain();
