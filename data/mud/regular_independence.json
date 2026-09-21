@@ -65,7 +65,7 @@
       "glossary": [
         {
           "term": "기미독립선언서",
-          "definition": "최남선이 기초하고 한용운 등이 검토한 3·1 운동의 독립선언문"
+          "definition": "최남선이 기초한 3·1 운동의 독립선언문"
         },
         {
           "term": "비폭력 평화 시위",
@@ -215,7 +215,7 @@
         ],
         "infoText": "유관순 열사의 아우내 장터 만세 운동은 3·1 운동의 대표적인 상징입니다.",
         "instruction": "🇰🇷 <b>학생·주민의 참여와 시위 방법을 차례로 확인하세요.</b>",
-        "feedback": "아우내 장터에 3천 명의 함성이 가득 찼습니다.",
+        "feedback": "아우내 장터에 약 3천여 명의 함성이 가득 찼습니다.",
         "required": true,
         "completion": {
           "target": 3,
@@ -462,6 +462,27 @@
       "url": "https://contents.history.go.kr/mobile/hm/view.do?levelId=hm_123_0060",
       "checkedAt": "2026-08-27",
       "claimScope": "임시 헌장의 민주공화제·대의제·기본권 관련 3~4단계 서술"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "유관순",
+      "url": "https://contents.history.go.kr/mobile/eh/view.do?levelId=eh_n0860_0010&code=eh_age_40",
+      "checkedAt": "2026-09-21",
+      "claimScope": "아우내 장터 참여 인원 '약 3천여 명' 표기(원문은 확정 수치가 아닌 '약 ~에 가까운 많은 사람'으로 서술) — 라운드 10"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "3·1 독립 선언서",
+      "url": "https://contents.history.go.kr/front/hm/view.do?levelId=hm_123_0040",
+      "checkedAt": "2026-09-21",
+      "claimScope": "최남선이 기초했다는 사실만 확정 서술. 공약 3장을 누가 썼는지는 원문이 학설 대립을 명시해 이 문서에서는 다루지 않음 — 라운드 10"
+    },
+    {
+      "institution": "국사편찬위원회",
+      "title": "민주 국가의 출현과 국호, 대한민국",
+      "url": "https://contents.history.go.kr/mobile/km/view.do?levelId=km_023_0030_0010_0040",
+      "checkedAt": "2026-09-21",
+      "claimScope": "국호 '대한민국'이 신석우의 동의(이영근 재청)로 가결되었다는 서술 — 라운드 10"
     }
   ]
 }

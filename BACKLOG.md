@@ -906,3 +906,27 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
   - **부수 확인**: `data/lesson_track.json`이 이미 있었고(관문 설계실이 §1을 병행 진행 중), 내 1단계 제안(구석기 "수십만 년 전~약 1만 년 전", 신석기 "약 8000년 전~", 청동기 "기원전 2000년경~")을 이미 반영해 초안(`eraRangeDraft: true`)으로 담고 있었다 — 이번 2단계 결과가 나오길 기다리는 상태라 이 문서 갱신이 곧 그 최종 확정에 쓰인다.
   - 검증: `python scripts/01_validate_game_data.py`·`04_validate_mud_contract.py`·`node scripts/05_test_simulator_runtime.js` 통과(데이터 미변경, 회귀 없음). `node scripts/16_validate_lesson_track.js`(조작대가 이미 만들어 둠) 실행해 `data/lesson_track.json` 28개 entries가 order 1~28 연속·regular 28편과 1:1 대응함을 확인 — 32편 경고는 조작대 스크립트 자체의 알려진 안내 문구라 내 범위 밖. `git status --short`로 커밋 범위가 문서 1개뿐임을 확인(직접 실행만 하고 결과 파일은 생성 안 됨).
   - **판단이 갈린 지점**: 없음.
+
+### 2026-09-21 「관문 설계실」(gate-grammar) Round 10 §1: 3단원 정규 7편 사실 대조
+
+- 지시서 `docs/handoff/claude_four_track_round10_instruction.md`(D-032 해제) §0·§0-2·§1. 산출물 `docs/audits/unit3_regular_fact_check.md`. 대상 7편 중 확인된 오류가 있는 5편만 데이터를 고쳤다: `regular_independence.json`, `regular_japanese_rule_1.json`, `regular_japanese_rule_2.json`, `regular_gwangbok.json`, `regular_post_war.json`. `regular_independence_army.json`·`regular_korean_war.json`은 대조 결과 이미 잘 되어 있어 손대지 않았다. `apps/**`는 읽지 않았다.
+- **WebFetch 원문 직접 확인 4건**(나머지는 검색 종합, 문서에 구분 표시): 아우내 장터 참여 인원(우리역사넷 「유관순」— "약 3천여 명"), 기미독립선언서 저자 논쟁(우리역사넷 「3·1 독립 선언서」— 공약 3장 저자는 학설 대립), 국호 '대한민국' 제안자(우리역사넷 — 신석우 동의·이영근 재청, 기존 서술 정확), 대한광복회 결성자·김좌진 가입 시점(우리역사넷 — 1915년 박상진 주도 결성, 김좌진은 1916년 이후 가입).
+- **확인된 오류 9건을 고쳤다**: (1) 아우내 장터 "3천 명"→"약 3천여 명"(확정 수치처럼 쓴 추정치를 원문 표현대로 되돌림), (2) 기미독립선언서 "한용운 등이 검토" 삭제(논쟁 있는 서술을 확정처럼 씀), (3)(4) `regular_japanese_rule_1`의 로드맵/배지 라벨 "독립의군부"를 실제 관문 내용(대한광복회·송죽회)에 맞게 정정 — 라운드 5 삼국생활 편과 같은 유형의 라벨-내용 불일치, (5) 대한광복회 "박상진, 김좌진 등이 결성"→"박상진이 주도해 결성하고 김좌진 등이 참여"(김좌진은 1915년 결성 당시 멤버가 아니라 1916년 이후 가입), (6) 창씨개명 "1939년"→"1939년 공포해 1940년부터"(공포·시행 연도 구분), (7) 조선어학회 "덕분에 자유롭게 쓰고 있다" 인과 완화, (8)(9) `regular_post_war`의 "교육열"(한국인의 유별난 열정/경제 성장의 원동력이라는 일반화·과잉 인과), "유네스코와 전 세계가 감동"(출처 미확인 감정 서술), "천막 교실→산업화·민주화를 이끌었다"(과잉 인과)를 각각 완화·삭제.
+- **IF 단계(오답 선택지)는 대조 대상에서 제외**했다(지시서 §1 명시) — "밀고하여 배신", "독재자 지명" 같은 표현은 잘못된 선택지의 극단적 예시일 뿐 서술 단정이 아니라고 판단.
+- **이미 잘 되어 있던 것**: `regular_japanese_rule_1`의 토지 조사 사업 서술은 이미 "결과를 한 숫자로 단정하기보다 자료를 연결해 살펴봅시다"라고 특정 비율을 피하고 있었다(지시서가 특히 우려한 항목). `regular_japanese_rule_2`는 강제 동원 규모에 구체 수치를 전혀 쓰지 않았다. `regular_korean_war`는 사상자 수 없이 남북 어느 한쪽에 치우치지 않게 서술되어 있었다 — 세 파일 모두 수정하지 않았다.
+- **확인 불가로 남김**: `regular_gwangbok`의 조선건국준비위원회(여운형·안재홍) — 통상 알려진 사실이나 이번 WebFetch 열람 페이지엔 이름이 없어 원문 직접 확인은 다음 라운드로 남김. `regular_post_war`의 badge "천만 이산가족" — 대중적 표현이나 공식 출처로 수치 자체를 확인하지 못함(본문 서술이 아니라 고치지는 않음).
+- `regular_gwangbok`의 `sources`에 광복·정부수립을 직접 다루는 공식 출처가 없이 "6·25 전쟁" 링크만 있던 것을 이번에 보강했다(사실 오류는 아니고 문서 정비).
+- 각 수정에 대응하는 `sources` 항목을 5개 파일에 추가해 `claimScope`와 확인 방식(원문 직접 열람/검색 종합)을 남겼다.
+- 검증: `01`·`04`·`05`·`11`·`16` 전부 통과. `17_lint_sensitive_wording.js`는 조작대가 이번 라운드에 아직 올리지 않아 실행하지 못했다.
+- 커밋 직전 `git status --short`로 대상 6개 파일(데이터 5개 + 신규 감사 문서 1개)만 바뀌었는지 확인했다.
+- **판단을 기획 세션에 넘길 항목**: 없음.
+
+- **2026-09-21 라운드 10 「대조실」 — 3단원 유물 9종 재검토 (D-032 해제 뒤)**: `docs/handoff/claude_four_track_round10_instruction.md`의 §0/§0-2/§2를 받아 진행. `data/artifacts.json`과 `docs/audits/artifacts_fact_check.md`(라운드 10 절 추가)만 고쳤다. `data/artifactComparisons.json`은 지시대로 손대지 않았고(3단원 쌍 새로 만들지 않음), main 체크아웃은 안 열었고 push도 안 했다.
+  - **먼저 라운드 5 보고를 재확인**: `artifacts_fact_check.md`의 "3단원(수정 금지, 보고만)" 절에서 "art_15~art_20, art_24, art_independence, art_korean_war 8종"이라 적혀 있었으나, 실제로 `art_19`(남한산성·효종 북벌)는 `hint`가 이미 "2단원 7차시"로 되어 있어 3단원이 아니었다 — 라운드 5 보고의 카운트 표현이 부정확했던 것으로 보인다. 이번 지시서가 준 9종 목록(`art_deep_4` 포함)이 맞는 최종 목록이었다.
+  - **실물 vs 상징적 표현 판정** (근거는 `artifacts_fact_check.md` 라운드 10 절 표에 상세): 실물이 있는 유물 4종(`art_16` 제헌헌법 원본, `art_18` 조선말 큰사전 원고, `art_24` 안중근 단지 태극기·유묵, `art_independence` 기미독립선언서·임시헌장), 완전히 상징적 표현으로 바꾼 것 2종(`art_15` 투표함, `art_17` 대한광복회 포고문·서명록), 절반만 실물 2종(`art_20` 이산가족 기록물은 실물·천막 교실 몽당연필은 상징, `art_korean_war` 무공훈장은 실물·수복 서울 태극기는 상징), 기존 판정 유지 1종(`art_deep_4`, 라운드 5 그대로).
+  - **WebFetch로 원문 직접 확인한 것은 2건**(`art_18` 조선말 큰사전 원고 — 국가유산포털, 2012.12.24 국가등록문화유산·독립기념관 5책 소장 확인 / `art_24` 안중근 유묵 — 국가유산포털, 보물·1972.08.16·동국대 박물관 소장 확인). 나머지는 WebSearch 종합이며 각 `sourceNote`에 구분해 적었다.
+  - **뜻밖의 발견 — `hint` 차시 번호 오류 2건, MUD 파일 자체의 문제**: `art_independence`(3단원 38~39차시)와 `art_korean_war`(3단원 44~46차시)의 `hint`가 `data/lesson_track.json`(order 24 lessonNumbers [4,5], order 27 lessonNumbers [10,11,12])과 맞지 않았다. `artifacts.json`의 `hint`를 각각 "4~5차시"·"10~12차시"로 고쳤는데, 원인을 따라가 보니 **`data/mud/regular_independence.json`·`regular_korean_war.json`의 `header.tag` 필드 자체가 같은 잘못된 숫자(38~39, 44~46)를 담고 있었다** — 3단원은 14차시뿐이라 명백히 범위 밖. 이 두 MUD 파일은 내 소유가 아니라 고치지 않았다 — **관문 설계실에 §1 "로드맵 라벨 대조" 작업의 일부로 넘긴다.**
+  - **확인 불가로 남긴 것**: 대한광복회 포고문·서명록 실물 존재 여부, 천막 교실 몽당연필 구체 소장품, 임시헌장(1919) 개별 실물 소장처, 단지 태극기 소장 사실(원문 재확인 필요), 조선말 큰사전 원고의 2020년 국보 승격 여부(실물 존재 자체는 확인됨, 승격 시점만 검색 종합).
+  - 검증: `python scripts/01_validate_game_data.py`·`04_validate_mud_contract.py`·`11_audit_artifacts.py`(0건, 모든 desc 150자 이내)·`node scripts/05_test_simulator_runtime.js`·`node scripts/16_validate_lesson_track.js`(3단원 7편 order 22~28 연속, hint 수정의 근거로 사용) 전부 통과. `git status --short`로 `data/artifacts.json` 한 파일만 바뀌었음을 커밋 직전 확인했다.
+  - **관문 설계실에 넘길 것**: `data/mud/regular_independence.json`·`regular_korean_war.json`의 `header.tag` 차시 번호 오류(위 항목).
+  - **판단이 갈린 지점**: 없음.
