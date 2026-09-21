@@ -70,6 +70,18 @@
         "8804"
       ],
       "port": 8804
+    },
+    {
+      "name": "integration",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "--directory",
+        "D:/codexwork/history_game/.worktrees/claude-r3-fix",
+        "8805"
+      ],
+      "port": 8805
     }
   ]
 }
