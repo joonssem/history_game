@@ -930,3 +930,16 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
   - 검증: `python scripts/01_validate_game_data.py`·`04_validate_mud_contract.py`·`11_audit_artifacts.py`(0건, 모든 desc 150자 이내)·`node scripts/05_test_simulator_runtime.js`·`node scripts/16_validate_lesson_track.js`(3단원 7편 order 22~28 연속, hint 수정의 근거로 사용) 전부 통과. `git status --short`로 `data/artifacts.json` 한 파일만 바뀌었음을 커밋 직전 확인했다.
   - **관문 설계실에 넘길 것**: `data/mud/regular_independence.json`·`regular_korean_war.json`의 `header.tag` 차시 번호 오류(위 항목).
   - **판단이 갈린 지점**: 없음.
+
+### 2026-09-21 「관문 설계실」(gate-grammar) Round 11 §1: D-037 연대 표기 시대 단위 통일
+
+- 지시서 `docs/handoff/claude_four_track_round11_instruction.md`(D-037, Codex 감사 LT-08·LT-09 대응) §0·§1. `data/lesson_track.json` 한 파일만 고쳤다. `apps/**`는 읽지 않았다.
+- **명량·병자호란을 "조선 후기"로 이동**: `regular_myeongnyang`·`regular_joseon_diplomacy`의 `eraLabel`을 "조선 전기"→"조선 후기"로 바꾸고 `eraRange`를 다른 조선 후기 칸과 같은 "1592년경~1876년경"으로 맞췄다. 라운드 9 2단계에서 자기모순을 피하려 편별로 넣었던 `eraRangeNote`(1597년 / 1636~1637년)는 모순이 사라져 지웠다. `orderNote`(2단원 7차시 동률 tie-break 근거)는 그대로 남겼다 — 순서 문제와는 무관하기 때문이다.
+- **같은 eraLabel은 같은 eraRange로 통일**(D-037 1): "광복·대한민국" 3편(gwangbok/korean_war/post_war)이 각각 "1945년~"/"1950년~1953년"/"1953년~"으로 갈려 있던 것을 전부 "1945년~현재"로 맞췄다.
+- **끝이 열린 표기 정리**(D-037 3): "광복·대한민국"은 "1945년~현재"(현재 진행 중인 시대라 "현재" 명시), "개항기"는 기본값 "1876년 이후"(끝 연도 미확인 — 대조실이 원문으로 확인하면 다음 라운드에 기획 세션이 "1876년~1910년"으로 바꾸기로 함).
+- **지시서에 없던 확장(직접 판단)**: 구석기·신석기·청동기가 기존에 bare "~"로 끝나는 표기("수십만 년 전~" 등)를 쓰고 있었는데, D-037 3의 "끝을 확인하지 못한 시대는 '○○년 이후'로 쓴다"는 원칙이 일반 규칙이고, 조작대가 이번 라운드에 추가할 LT-10 검사("~로 끝나는 열린 표기가 있으면 실패, '~현재'만 허용")가 이 세 칸에도 그대로 적용될 것이므로 함께 "○○ 이후"로 통일했다(예: "수십만 년 전 이후"). 지시서 §1이 명시한 두 사례(광복·개항기) 외의 확장이라 `note`에 이유를 남겼다.
+- **자체 검증**: node 스크립트로 같은 eraLabel의 eraRange가 모두 일치하는지, "~현재"가 아닌 열린 표기가 남아 있지 않은지, order 1~28 연속을 재확인했다.
+- 검증(스크립트): `node scripts/16_validate_lesson_track.js`(기존 형식 검사) PASS. `01`·`04`·`05` 전부 통과. 조작대의 LT-10(같은 eraLabel 검사, 열린 표기 실패 검사)은 이 워크트리에 아직 없어 실행하지 못했다 — §4에서 조작대가 올리면 재확인한다.
+- `git status --short`로 커밋 직전 대상 파일 1개만 바뀐 것을 확인했다.
+- **이어받은 확인 사항(이번 라운드 범위 밖, 손대지 않음)**: 대조실이 라운드 10~11 사이에 도감 감사 중 발견한 `data/mud/regular_independence.json`·`regular_korean_war.json`의 `header.tag` 차시 번호 오류(각각 "38~39차시"/"44~46차시"라고 잘못 적혀 있고, 실제는 4~5차시/10~12차시 — 3단원은 14차시뿐이라 원래 숫자가 범위 밖)를 관문 설계실에 넘긴다고 로그에 남겼다. 이번 라운드는 지시서가 `data/lesson_track.json`만 고치라고 명시해 손대지 않았다 — **다음 라운드 지시서에 반영을 요청한다.**
+- **대조실에 넘길 것**: 개항기 끝 연도(1910년, 국권 피탈)를 원문으로 확인해 달라(§2-1). 확인되면 다음 라운드에 "1876년~1910년"으로 바꿀 수 있다.
