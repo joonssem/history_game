@@ -82,6 +82,16 @@ const MudEngine = {
     // 전역 스토리 ID 설정 (도감 및 회고록 연동)
     window.currentActiveStoryId = this.currentMudData.storyId;
 
+    // 좁은 화면이면 단서(시뮬레이터)를 선택지 위로 옮긴 뒤 캔버스 크기를 맞춘다.
+    this.syncMudLayout();
+    if (!this.layoutResizeHandler) {
+      this.layoutResizeHandler = () => {
+        clearTimeout(this.layoutResizeTimer);
+        this.layoutResizeTimer = setTimeout(() => this.syncMudLayout(), 150);
+      };
+      window.addEventListener('resize', this.layoutResizeHandler);
+    }
+
     // 캔버스 크기 조정 및 첫 스테이지 시작
     this.resizeCanvas();
     this.renderStage("1");
@@ -244,6 +254,7 @@ const MudEngine = {
     const choices = [...(stage.choices || [])];
     const choiceTitle = document.getElementById('mn-choice-title');
     if (choiceTitle) {
+      choiceTitle.style.display = '';
       choiceTitle.innerHTML = choices.length === 1
         ? '<i class="fas fa-arrow-right"></i> 다음 단계'
         : '<i class="fas fa-scroll"></i> 사생결단: 당신의 선택은 무엇입니까?';
@@ -286,6 +297,15 @@ const MudEngine = {
       };
       grid.appendChild(btn);
     });
+    this.updateChoiceLockHint();
+  },
+
+  // 선택지가 잠겨 있을 때 무엇을 먼저 해야 하는지 알려 준다.
+  updateChoiceLockHint() {
+    const hint = document.getElementById('mn-choice-lock-hint');
+    if (!hint) return;
+    const locked = Boolean(this.currentSimulator?.required && !this.simulatorComplete);
+    hint.style.display = locked ? 'block' : 'none';
   },
 
   // === 필수 시뮬레이터 진행 계약 ===
@@ -360,6 +380,7 @@ const MudEngine = {
           btn.style.cursor = '';
         });
       }
+      this.updateChoiceLockHint();
     }
   },
 
@@ -580,6 +601,30 @@ const MudEngine = {
   },
 
   // === 캔버스 크기 반응형 조절 ===
+  // === 좁은 화면 배치: 단서(시뮬레이터)를 선택지 위로 ===
+  // 그리드가 한 칸으로 쌓이면 이야기 카드 안의 선택지가 시뮬레이터보다 위에 와서,
+  // 학생이 잠긴 선택지를 먼저 누르고 멈춘다. 한 칸일 때만 시뮬레이터 카드를
+  // 선택지 바로 위로 옮기고, 두 칸으로 돌아오면 오른쪽 열로 되돌린다.
+  syncMudLayout() {
+    const layout = document.getElementById('mn-layout');
+    const card = document.getElementById('mn-interactive-card');
+    const choiceArea = document.getElementById('mn-choice-area');
+    const aside = document.getElementById('mn-aside');
+    if (!layout || !card || !choiceArea || !aside || layout.offsetParent === null) return;
+    const stacked = getComputedStyle(layout).gridTemplateColumns.trim().split(/\s+/).length < 2;
+    const inline = card.parentElement === choiceArea.parentElement;
+    if (stacked && !inline) {
+      choiceArea.before(card);
+      card.classList.add('mn-interactive-inline');
+    } else if (!stacked && inline) {
+      aside.prepend(card);
+      card.classList.remove('mn-interactive-inline');
+    } else {
+      return;
+    }
+    this.resizeCanvas();
+  },
+
   resizeCanvas() {
     const canvas = document.getElementById('mn-canvas');
     if (!canvas) return;
@@ -761,6 +806,16 @@ const MudEngine = {
 
     const grid = document.getElementById('mn-choices-grid');
     if (grid) grid.innerHTML = '';
+
+    // 완료 뒤에는 고를 선택지와 풀 단서가 없으므로, 빈 선택지 제목·잠금 안내·
+    // 마지막 단계 상태로 남은 시뮬레이터 카드를 숨긴다. 다음 MUD를 열면
+    // renderStage·setupSimulator가 다시 보이게 한다.
+    const choiceTitle = document.getElementById('mn-choice-title');
+    if (choiceTitle) choiceTitle.style.display = 'none';
+    const lockHint = document.getElementById('mn-choice-lock-hint');
+    if (lockHint) lockHint.style.display = 'none';
+    const interactiveCard = document.getElementById('mn-interactive-card');
+    if (interactiveCard) interactiveCard.style.display = 'none';
 
     const content = document.getElementById('mn-story-content');
     if (content) {

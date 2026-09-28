@@ -2464,3 +2464,24 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 검증 절에 CI 워크플로, `16 --ci`, 보고서 재생성 검사(07·10·11)와 커밋 필요성, 보조 감사(12·14·17·18), 브라우저 확인 원칙을 적었다.
 - 관련 문서에 관찰 기록지, 감사·전달 문서 폴더를 추가했다.
 - 검증: `scripts/08` PASS(자동 목록 마커 미변경), README 상대 링크 전부 존재 확인, `git diff --check` 통과.
+
+## 2026-09-28 — 웹사이트 구성 정비 P1 5건 (tasks_site_structure.md 1장)
+
+- 근거: `docs/audits/site_structure_review_20260928.md`, 체크리스트 `docs/plans/tasks_site_structure.md`. 사용자가 우선순위대로 진행을 승인했다.
+- **1-1 휴대폰 MUD 순서** (`js/mudEngine.js`, `index.html`)
+  - 그리드가 한 칸으로 쌓이면 `syncMudLayout()`이 시뮬레이터 카드를 선택지 영역(`#mn-choice-area`) 바로 위로 옮기고, 두 칸이 되면 오른쪽 열(`#mn-aside`)로 되돌린다.
+  - MUD를 열 때와 창 크기가 바뀔 때(150ms 지연) 실행하며, 옮긴 뒤 캔버스 크기를 다시 맞춘다. 이전에는 창 크기 변경 처리가 아예 없었다.
+  - 선택지가 잠겨 있으면 "🔎 탐구 도구의 단서를 모두 확인하면 선택지가 열려요." 안내를 표시하고, 열리면 숨긴다(`updateChoiceLockHint`).
+- **1-2 안 보이는 제목** (`css/style.css`, `index.html`, `js/encyclopedia.js`)
+  - 확장 활동 카드: `.card h2 { color: … !important }`가 인라인 밝은 색을 덮어 명암비가 1.09:1이었다. `card-dark` 클래스와 전용 규칙으로 제목 13.26:1, 설명 8.61:1이 됐다.
+  - 도감 "역사 유물 카드" 제목도 어두운 배경에 먹색이어서 밝은 색으로 바꿨다.
+- **1-3 완료 화면** (`js/mudEngine.js` `renderFinalReflection`): 시뮬레이터 카드, 빈 "사생결단" 제목, 잠금 안내를 숨긴다. 다음 MUD를 열면 `renderStage`·`setupSimulator`가 다시 보이게 한다.
+- **1-4 단원 탭** (`css/style.css`)
+  - 621px 이상에서는 세 탭을 한 줄에 나눠 담고 긴 이름은 줄바꿈한다. 3단원 탭 오른쪽 끝이 1251px에서 1080px로 컨테이너 안에 들어왔다.
+  - 620px 이하에서는 가로 스크롤을 유지하고 오른쪽을 흐리게 해 더 있음을 알린다.
+- **1-5 골든벨** (`index.html`, `css/style.css`): 탭 줄(`#quiz-unit-tabs`)을 36px 내려 오른쪽 위 닫기 버튼과 겹치지 않게 했다.
+- 캐시버스터: `style.css`·`encyclopedia.js`·`mudEngine.js`를 `20260928-site1`로 올렸다.
+- 검증
+  - 로컬 서버에서 Edge + Playwright로 태블릿 1180×820·휴대폰 390×844 확인 31/31 PASS. 대상은 Regular·탐구형 파일럿·Deep-dive, 명암비, 요소 위치·겹침, 폭 변경 시 배치 전환이다.
+  - 회귀: 10개 장면 흐름, 용어 말풍선 121단계 0건, 콘솔 오류 0건
+  - 저장소 검사 01·03·04·05·06·07·08·09·10·11·16(`--ci`) 통과, `node --check js/*.js`·`git diff --check` 통과

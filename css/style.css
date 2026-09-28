@@ -903,3 +903,54 @@
   outline-offset: 2px;
 }
 
+
+/* === 2026-09-28 웹사이트 구성 정비 P1 (docs/plans/tasks_site_structure.md) === */
+
+/* 1-2. 어두운 카드의 제목·설명. `.card h2`의 !important 먹색이 어두운 배경 위에서
+   제목을 지워 버렸다(명암비 1.09:1). */
+.card.card-dark h2 {
+  color: #F7E7CE !important;
+}
+.card.card-dark p {
+  color: #D9D0C7;
+}
+
+/* 1-1. 선택지가 잠겨 있을 때 먼저 할 일을 알려 준다. */
+.choice-lock-hint {
+  margin: 0 0 8px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  background: var(--card-sub);
+  border: 1px dashed var(--border-color);
+  font-size: 0.85rem;
+  color: var(--text-main);
+}
+
+/* 1-1. 좁은 화면에서 선택지 위로 옮겨진 시뮬레이터 카드(카드 안의 카드). */
+#mn-interactive-card.mn-interactive-inline {
+  margin: 14px 0;
+  padding: 12px;
+  box-shadow: none;
+}
+
+/* 1-4. 단원 탭: 넓은 화면에서는 세 탭을 한 줄에 나눠 담고 긴 이름은 줄바꿈한다. */
+@media (min-width: 621px) {
+  .unit-nav .unit-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    white-space: normal;
+    line-height: 1.35;
+  }
+}
+/* 좁은 화면에서는 가로 스크롤을 유지하되, 오른쪽이 흐려져 더 있음을 알린다. */
+@media (max-width: 620px) {
+  .unit-nav {
+    -webkit-mask-image: linear-gradient(to right, #000 82%, transparent);
+    mask-image: linear-gradient(to right, #000 82%, transparent);
+  }
+}
+
+/* 1-5. 골든벨 창의 닫기 버튼(오른쪽 위 고정)이 단원 탭과 겹치지 않게 탭을 내린다. */
+#quiz-unit-tabs {
+  margin-top: 36px;
+}
