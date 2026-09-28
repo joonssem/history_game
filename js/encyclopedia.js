@@ -19,21 +19,7 @@ class EncyclopediaManager {
     ];
   }
 
-  loadData() {
-    try {
-      const saved = localStorage.getItem(this.storageKey);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        // 이전 버전 저장 데이터 호환: 새 필드가 없으면 기본값 채움
-        if (!Array.isArray(parsed.seenArtifactComparisons)) parsed.seenArtifactComparisons = [];
-        // LT-01(2026-09-21 Codex 감사): 편 완료를 보상 유물 보유로 추정하던 것을
-        // mudId 기록으로 바꾼다. 기존 저장에는 이 배열이 없으므로 여기서 채운다.
-        if (!Array.isArray(parsed.completedMuds)) parsed.completedMuds = [];
-        return parsed;
-      }
-    } catch (e) {
-      console.warn('LocalStorage access error, using memory fallback:', e);
-    }
+  defaultData() {
     return {
       studentName: '꿈꾸는 역사탐험가',
       completedStories: [],
@@ -45,6 +31,34 @@ class EncyclopediaManager {
       seenArtifactComparisons: [],
       completedMuds: []
     };
+  }
+
+  // 저장값을 기본 형식에 맞춘다. JSON 문법은 맞아도 칸 형식이 깨진 저장
+  // (배열 자리에 문자열·객체, 숫자 자리에 글자)이 연대표·비교 목록·도감을
+  // 멈추지 않게 한다(Codex 검토 2026-09-28 §4). 이전 버전 저장에 없던 칸
+  // (seenArtifactComparisons, LT-01의 completedMuds)도 여기서 채운다.
+  normalizeData(parsed) {
+    const base = this.defaultData();
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return base;
+    const data = { ...base, ...parsed };
+    const idList = value => (Array.isArray(value) ? value.filter(v => typeof v === 'string') : []);
+    ['completedStories', 'unlockedArtifacts', 'unlockedBadges', 'seenArtifactComparisons', 'completedMuds']
+      .forEach(key => { data[key] = idList(parsed[key]); });
+    data.timelineClearedStages = Array.isArray(parsed.timelineClearedStages) ? parsed.timelineClearedStages : [];
+    data.quizHighScore = Number.isFinite(parsed.quizHighScore) ? parsed.quizHighScore : 0;
+    data.cardGameBestMoves = Number.isFinite(parsed.cardGameBestMoves) ? parsed.cardGameBestMoves : null;
+    data.studentName = typeof parsed.studentName === 'string' && parsed.studentName ? parsed.studentName : base.studentName;
+    return data;
+  }
+
+  loadData() {
+    try {
+      const saved = localStorage.getItem(this.storageKey);
+      if (saved) return this.normalizeData(JSON.parse(saved));
+    } catch (e) {
+      console.warn('LocalStorage access error, using memory fallback:', e);
+    }
+    return this.defaultData();
   }
 
   // 편을 끝까지 마쳤다는 사실 자체를 기록한다(LT-01). 보상 유물과 독립적이다.

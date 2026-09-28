@@ -152,6 +152,13 @@ const ArtifactComparisonEngine = {
     this.prepareStandaloneView(comparisonId);
     this.start(comparisonId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    // 누른 버튼은 숨겨진 포털·도감에 남으므로, 화면이 바뀐 것을 스크린리더가
+    // 바로 알 수 있게 새 화면의 제목으로 포커스를 옮긴다(Codex 검토 §5).
+    const heading = document.getElementById('mn-header-title');
+    if (heading) {
+      heading.setAttribute('tabindex', '-1');
+      heading.focus({ preventScroll: true });
+    }
   },
 
   // 포털 "더 탐구하기 → 유물·유적 비교"에서 시작(P2-SITE-STRUCTURE 2-3). 도감 경로와 같다.

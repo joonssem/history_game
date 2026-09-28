@@ -52,30 +52,33 @@ const LessonTrack = {
   },
 
   // 편의 보상 유물 id·이름을 읽어 온다(각 편 JSON을 한 번씩만 읽고 캐시).
-  async rewardKeys(mudId) {
-    if (this.rewardKeysByMudId.has(mudId)) return this.rewardKeysByMudId.get(mudId);
-    let keys = [];
-    try {
-      const res = await fetch(`data/mud/${mudId}.json`, { cache: 'no-store' });
-      if (res.ok) {
-        const mudData = await res.json();
-        keys = (mudData.rewards || []).flatMap(r => [r.name, r.artifactId].filter(Boolean));
-        if (mudData.title) this.titleByMudId.set(mudId, String(mudData.title).replace(/^MUD\s*/, ''));
-      }
-    } catch (err) {
-      console.warn(`LessonTrack: ${mudId} 보상 정보를 불러오지 못했습니다.`, err);
+  // 요청이 끝나기 전에 다른 렌더(연대표 띠·이어서 하기)가 같은 편을 물어도 다시
+  // 받지 않도록, 결과가 아니라 진행 중인 Promise를 곧바로 캐시에 넣는다.
+  rewardKeys(mudId) {
+    if (!this.rewardKeysByMudId.has(mudId)) {
+      this.rewardKeysByMudId.set(mudId, fetch(`data/mud/${mudId}.json`, { cache: 'no-store' })
+        .then(res => (res.ok ? res.json() : null))
+        .then(mudData => {
+          if (!mudData) return [];
+          if (mudData.title) this.titleByMudId.set(mudId, String(mudData.title).replace(/^MUD\s*/, ''));
+          return (mudData.rewards || []).flatMap(r => [r.name, r.artifactId].filter(Boolean));
+        })
+        .catch(err => {
+          console.warn(`LessonTrack: ${mudId} 보상 정보를 불러오지 못했습니다.`, err);
+          return [];
+        }));
     }
-    this.rewardKeysByMudId.set(mudId, keys);
-    return keys;
+    return this.rewardKeysByMudId.get(mudId);
   },
 
   // LT-01(Codex 감사 2026-09-21): 완료는 mudId 기록으로 판정한다.
   // 그 기록이 없던 시절의 저장본을 위해 보상 유물 보유를 보조 근거로만 쓴다.
+  // 저장 데이터 형식이 깨져도 예외가 나지 않게 배열인지 확인한다.
   isCompleted(mudId, keys) {
     const data = window.encyclopedia?.data || {};
     const completed = Array.isArray(data.completedMuds) ? data.completedMuds : [];
     if (completed.includes(mudId)) return true;
-    const unlocked = data.unlockedArtifacts || [];
+    const unlocked = Array.isArray(data.unlockedArtifacts) ? data.unlockedArtifacts : [];
     return keys.some(key => unlocked.includes(key));
   },
 

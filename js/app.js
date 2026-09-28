@@ -119,16 +119,40 @@ function switchUnitTab(unitId) {
 
 // 더 탐구하기: 유물·유적 비교 / 타임머신 스토리 / 역사 미니게임 토글 전환.
 // 한 번에 한 활동만 전체 너비로 보여 준다.
-function switchExpandedActivityTab(tab) {
+// ARIA 탭 규칙(role="tab"·aria-selected·aria-controls, 선택된 탭만 tabindex 0)을 지킨다.
+const EXPANDED_ACTIVITY_TABS = ['compare', 'story', 'minigame'];
+
+function switchExpandedActivityTab(tab, { focus = false } = {}) {
   if (window.sounds) window.sounds.playClick();
-  ['compare', 'story', 'minigame'].forEach(name => {
+  EXPANDED_ACTIVITY_TABS.forEach(name => {
     const panel = document.getElementById(`activity-panel-${name}`);
     const button = document.getElementById(`activity-tab-${name}`);
     const active = name === tab;
     if (panel) panel.style.display = active ? '' : 'none';
-    if (button) button.classList.toggle('active', active);
+    if (button) {
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-selected', String(active));
+      button.tabIndex = active ? 0 : -1;
+      if (active && focus) button.focus();
+    }
   });
   if (tab === 'compare') refreshPortalProgress({ includeTrack: false });
+}
+
+// 탭 사이는 좌우 화살표·Home·End로 옮기고, 옮긴 탭을 바로 연다.
+function handleActivityTabKeydown(event) {
+  const current = EXPANDED_ACTIVITY_TABS.findIndex(name => document.getElementById(`activity-tab-${name}`) === event.target);
+  if (current < 0) return;
+  const last = EXPANDED_ACTIVITY_TABS.length - 1;
+  const next = {
+    ArrowRight: current === last ? 0 : current + 1,
+    ArrowLeft: current === 0 ? last : current - 1,
+    Home: 0,
+    End: last,
+  }[event.key];
+  if (next === undefined) return;
+  event.preventDefault();
+  switchExpandedActivityTab(EXPANDED_ACTIVITY_TABS[next], { focus: true });
 }
 
 // 커리큘럼 카드 렌더링

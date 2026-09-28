@@ -79,24 +79,24 @@
       </div>
 
       <!-- 활동 토글 스위치: 아이패드 가로 화면에서 한 번에 하나의 활동만 전체 너비로 표시 -->
-      <div class="activity-toggle" role="tablist" aria-label="더 탐구하기 활동 전환">
-        <button type="button" id="activity-tab-compare" class="activity-toggle-btn" onclick="switchExpandedActivityTab('compare')">🏛️ 유물·유적 비교</button>
-        <button type="button" id="activity-tab-story" class="activity-toggle-btn active" onclick="switchExpandedActivityTab('story')">⏳ 타임머신 스토리</button>
-        <button type="button" id="activity-tab-minigame" class="activity-toggle-btn" onclick="switchExpandedActivityTab('minigame')">🎮 역사 미니게임</button>
+      <div class="activity-toggle" role="tablist" aria-label="더 탐구하기 활동 전환" onkeydown="handleActivityTabKeydown(event)">
+        <button type="button" id="activity-tab-compare" class="activity-toggle-btn" role="tab" aria-selected="false" aria-controls="activity-panel-compare" tabindex="-1" onclick="switchExpandedActivityTab('compare')">🏛️ 유물·유적 비교</button>
+        <button type="button" id="activity-tab-story" class="activity-toggle-btn active" role="tab" aria-selected="true" aria-controls="activity-panel-story" tabindex="0" onclick="switchExpandedActivityTab('story')">⏳ 타임머신 스토리</button>
+        <button type="button" id="activity-tab-minigame" class="activity-toggle-btn" role="tab" aria-selected="false" aria-controls="activity-panel-minigame" tabindex="-1" onclick="switchExpandedActivityTab('minigame')">🎮 역사 미니게임</button>
       </div>
 
-      <div id="activity-panel-compare" style="display: none; background: #1F1B19; border: 1px solid #5A4E46; border-radius: 10px; padding: 14px;">
+      <div id="activity-panel-compare" role="tabpanel" aria-labelledby="activity-tab-compare" tabindex="0" style="display: none; background: #1F1B19; border: 1px solid #5A4E46; border-radius: 10px; padding: 14px;">
         <div id="comparison-portal-list"></div>
       </div>
 
-      <div id="activity-panel-story" style="background: #1F1B19; border: 1px solid #5A4E46; border-radius: 10px; padding: 14px;">
+      <div id="activity-panel-story" role="tabpanel" aria-labelledby="activity-tab-story" tabindex="0" style="background: #1F1B19; border: 1px solid #5A4E46; border-radius: 10px; padding: 14px;">
         <div id="story-select-view">
           <div id="story-episodes-container"></div>
         </div>
         <div id="story-play-view" style="display: none;"></div>
       </div>
 
-      <div id="activity-panel-minigame" style="display: none; background: #1F1B19; border: 1px solid #5A4E46; border-radius: 10px; padding: 14px;">
+      <div id="activity-panel-minigame" role="tabpanel" aria-labelledby="activity-tab-minigame" tabindex="0" style="display: none; background: #1F1B19; border: 1px solid #5A4E46; border-radius: 10px; padding: 14px;">
         <div id="card-game-stats"></div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;">
           <button onclick="window.miniGames.startCardGame()" class="btn" style="width: auto; flex: 1 1 200px; background: #B7791F;">🎴 유물 카드 짝맞추기</button>
@@ -274,15 +274,15 @@
 
   <!-- 스크립트 모듈 -->
   <script src="js/soundEffects.js"></script>
-  <script src="js/encyclopedia.js?v=20260928-site2"></script>
-  <script src="js/artifactComparison.js?v=20260928-site2"></script>
+  <script src="js/encyclopedia.js?v=20260928-site3"></script>
+  <script src="js/artifactComparison.js?v=20260928-site3"></script>
   <script src="js/storyEngine.js"></script>
   <script src="js/quizGame.js"></script>
   <script src="js/miniGames.js?v=20260928-site2"></script>
-  <script src="js/lessonTrack.js?v=20260928-site2"></script>
+  <script src="js/lessonTrack.js?v=20260928-site3"></script>
   <script src="js/mudEngine.js?v=20260928-site2"></script>
   <script src="js/mudInquiry.js?v=20260915-r3fix1"></script>
   <script src="js/mudSimulators.js?v=20260911-mapcanvas1"></script>
-  <script src="js/app.js?v=20260928-site2"></script>
+  <script src="js/app.js?v=20260928-site3"></script>
 </body>
 </html>

@@ -3,11 +3,16 @@
 from __future__ import annotations
 
 import json
+import re
 from collections import deque
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+# 재시도(오답) 단계 id. js/mudEngine.js의 연대기는 id에 "-"가 있으면 오답 분기로
+# 보고 들어가기 전까지 숨긴다(isRoadmapBranch). 그 판별이 조용히 틀리지 않도록
+# "-"는 재시도 단계("N-1", Deep-dive는 "N-fail")에만 쓰게 한다(Codex 검토 2026-09-28 §3).
+RETRY_STAGE_ID = re.compile(r"(\d+)-(?:1|fail)")
 MUD_DIR = ROOT / "data" / "mud"
 ARTIFACTS = ROOT / "data" / "artifacts.json"
 STORIES = ROOT / "data" / "stories.json"
@@ -193,6 +198,24 @@ def main() -> int:
                         )
                 if not completion.get("successText"):
                     fail(errors, f"{path.name}:{stage_id} required simulator missing successText")
+
+        for stage_id, stage in stages.items():
+            if "-" not in stage_id:
+                continue
+            match = RETRY_STAGE_ID.fullmatch(stage_id)
+            if not match:
+                fail(errors, f"{path.name}:{stage_id} '-' is reserved for retry stages named N-1 or N-fail")
+                continue
+            base_id = match.group(1)
+            choices = stage.get("choices", [])
+            if base_id not in stages:
+                fail(errors, f"{path.name}:{stage_id} retry stage has no base stage {base_id}")
+            elif len(choices) != 1 or str(choices[0].get("next")) != base_id:
+                fail(errors, f"{path.name}:{stage_id} retry stage must have exactly one choice returning to {base_id}")
+        for node in data.get("roadmap", []):
+            node_id = str(node.get("id", ""))
+            if "-" in node_id and not (RETRY_STAGE_ID.fullmatch(node_id) and node_id in stages):
+                fail(errors, f"{path.name}: roadmap id {node_id} uses '-' but is not a retry stage")
 
         reachable: set[str] = set()
         queue: deque[str] = deque(["1"])

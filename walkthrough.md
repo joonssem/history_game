@@ -2519,3 +2519,30 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
   - Edge + Playwright, 태블릿·휴대폰: P2 확인 43/43 PASS(두 번 반복), P1 회귀 31/31, 10개 장면 흐름·용어 121단계 0건, 페이지 오류 0건
   - 저장소 검사 01·03·04·05·06·07·08·09·10·11·16(`--ci`), `node --check`, `git diff --check` 통과
   - 테스트 서버는 기본 `http.server`의 대기열(5) 때문에 동시 요청이 거부되는 문제가 있어, 대기열 128인 스크래치 서버를 썼다.
+
+## 2026-09-28 — Codex P1·P2 검토 보완 6건
+
+- 근거: `docs/audits/site_structure_p1_p2_review_20260928.md`(Codex, 조건부 수용)
+- **1. 첫 포털 중복 요청** (`js/lessonTrack.js` `rewardKeys`)
+  - 연대표 띠와 이어서 하기가 동시에 `computeStatuses`를 부르면 편별 JSON 28개를 두 번 받을 수 있었다.
+  - 결과가 아니라 진행 중인 Promise를 곧바로 캐시에 넣어 공유한다.
+  - 확인: 첫 로드 요청 28개·고유 28개, 포털 복귀 시 추가 요청 0개
+- **2. 깨진 저장 데이터** (`js/encyclopedia.js` `normalizeData`)
+  - JSON 문법은 맞아도 칸 형식이 틀린 저장(배열 자리에 문자열·객체, 숫자 자리에 글자)을 불러올 때 기본 형식으로 맞춘다.
+  - `LessonTrack.isCompleted`도 배열인지 확인한다.
+  - 확인: 문법 오류 저장·형식 오류 저장 두 경우 모두 이어서 하기와 비교 목록이 오류 없이 표시됐다.
+- **3. 활동 탭 ARIA** (`index.html`, `js/app.js`)
+  - 비교·스토리·미니게임 버튼에 `role="tab"`·`aria-selected`·`aria-controls`를, 패널에 `role="tabpanel"`·`aria-labelledby`를 붙였다.
+  - 선택된 탭만 `tabindex="0"`이고, 좌우 화살표·Home·End로 탭을 옮기면 바로 열린다(`handleActivityTabKeydown`).
+- **4. 오답 분기 id 계약** (`scripts/03_validate_mud_integrity.py`)
+  - 연대기의 `isRoadmapBranch`(id에 "-")가 조용히 틀리지 않도록 규칙을 정했다. "-"는 재시도 단계(`N-1`, Deep-dive는 `N-fail`)에만 쓰고, 그 단계는 선택지 하나로 원래 단계 N에 돌아가야 한다. 로드맵에서 "-"가 든 id도 실제 재시도 단계여야 한다.
+  - 현재 32편 모두 통과한다. 일부러 `1-a`를 넣으면 실패하는 것을 확인했다.
+  - 처음 조사에서 Deep-dive의 `N-fail` 형식을 놓쳤다가 검사 실행으로 발견해 규칙에 넣었다.
+- **5. 비교 시작 포커스** (`js/artifactComparison.js`): 포털·도감에서 비교를 시작하면 새 화면 제목(`#mn-header-title`)으로 포커스를 옮긴다.
+- **6. 브라우저 회귀 보존** (`scripts/manual/site_regression.js`, 신규)
+  - Codex 권고대로 핵심 18개 확인을 수동 회귀 스크립트로 남겼다.
+  - 대상: 휴대폰 배치·대체 버튼, 폭 왕복과 resize 리스너 1개, 첫 로드 요청 수, 이어서 하기, 완료 화면, 비교 시작·복구·포커스, 연대기 분기, 개발 용어, 탭 키보드, 3단원 탭, 깨진 저장 2종, 용어 말풍선 121단계
+  - 저장 상태는 정해진 예시로 시작하고, Node 정적 서버를 직접 띄운다(파이썬 서버의 동시 연결 거부 회피).
+  - 실행 방법은 파일 머리말에 있고, 설치 폴더 `.tmp-playwright/`는 `.gitignore`에 넣었다. CI 편입은 두세 번 사용한 뒤 따로 정한다.
+- 캐시버스터: `encyclopedia.js`·`artifactComparison.js`·`lessonTrack.js`·`app.js`를 `20260928-site3`으로 올렸다.
+- 검증: `scripts/manual/site_regression.js` 로컬 18/18 PASS, `scripts/03` PASS

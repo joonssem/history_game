@@ -12,3 +12,6 @@ apps/*/tsconfig.tsbuildinfo
 # 커밋해 클론이 깨질 뻔했다. 같은 실수를 반복하지 않도록 막는다.
 .worktrees/
 debug.log
+
+# scripts/manual/site_regression.js 실행용 playwright-core 설치 폴더
+.tmp-playwright/
