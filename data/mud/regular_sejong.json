@@ -15,7 +15,7 @@
   "header": {
     "tag": "2단원 4~5차시 · 세종대왕과 조선의 과학 기술",
     "title": "👑 세종대왕과 집현전 학사들의 결단",
-    "interactiveTitle": "<i class=\"fas fa-book-open\" style=\"color: #1E3A8A;\"></i> 훈민정음 28자 시뮬레이터",
+    "interactiveTitle": "<i class=\"fas fa-book-open\" style=\"color: #1E3A8A;\"></i> 세종 때의 문자·천문·과학 기술 탐구",
     "roadmapTitle": "애민과 과학 연대기"
   },
   "roadmap": [
@@ -137,8 +137,8 @@
       "location": "경복궁 간의대 (1444년)",
       "badge": "🌌 제2관문: 자주적 역법 칠정산",
       "character": {
-        "name": "학사 이순지 & 정인지",
-        "role": "집현전 천문학자",
+        "name": "이순지와 김담",
+        "role": "천문·역법 연구자",
         "emoji": "🔭"
       },
       "narrative": "<b>칠정산은 조선의 관측 환경을 반영해 만든 역법서입니다.</b><br><br>천문 관측과 계산은 농사·행정에 필요한 정보를 얻으려는 시도였지만, 과학 기술을 한 사람의 능력만으로 설명할 수는 없습니다. 어떤 자료를 살피겠습니까?",

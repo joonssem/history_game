@@ -72,7 +72,7 @@
 | `regular_neolithic.json` | 1-1 | ❌ 자료 해석 (실패) | 149 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_neolithic.json` | 2-1 | ❌ 자료 해석 (실패) | 164 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_neolithic.json` | 3-1 | ❌ 자료 해석 (실패) | 165 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_paleolithic.json` | 1-1 | ❌ 자료 해석 (실패) | 151 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_paleolithic.json` | 1-1 | ❌ 자료 해석 (실패) | 134 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_paleolithic.json` | 2-1 | ❌ 자료 해석 (실패) | 147 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_paleolithic.json` | 3-1 | ❌ 자료 해석 (실패) | 138 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_paleolithic.json` | 4-1 | ❌ 자료 해석 (실패) | 95 | 살펴 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
