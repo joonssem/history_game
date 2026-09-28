@@ -136,7 +136,10 @@
 
 ## P2-SITE-STRUCTURE — 활동이 늘어난 뒤의 웹사이트 구성 정비 (2026-09-28 등록)
 
-- 상태: `documented` — 우선순위는 제안값이며 정기 검토에서 확정한다.
+- 상태: `in-progress` — A(P1 5건)·P2 7건·Codex 검토 보완 6건 완료·배포(2026-09-28). B 구조 개편(체크리스트 P3)은 수업 관찰 대기, D 정리(P4) 4건 대기.
+  - 완료 커밋: `496835b3`(P1), `3aa7571c`(P2), `67b726b2`(검토 보완). Codex 검토 `docs/audits/site_structure_p1_p2_review_20260928.md` 조건부 수용 → 보완 반영.
+  - 확인: `scripts/manual/site_regression.js` 배포 사이트 18/18. 진행 기록은 `docs/plans/tasks_site_structure.md` 끝 표.
+  - 남은 판단: 정규 MUD 선택지 `feedback` 표시 여부(P1-STAGE-COHERENCE 브라우저 확인 절), 완료 화면에서 시작한 비교를 후속 활동으로 보일지 독립 활동으로 보일지(Codex 검토 §2), 수동 회귀의 CI 편입 시점.
 - 근거 문서: [`site_structure_review_20260928.md`](./docs/audits/site_structure_review_20260928.md). 태블릿·휴대폰 실측과 스크린숏 6장이 있다.
 - 실행 체크리스트: [`tasks_site_structure.md`](./docs/plans/tasks_site_structure.md) — P1(바로) 5건 · P2(판단 뒤) 7건 · P3(관찰 뒤) 6건 · P4 5건
 - 문제: 차시 카드에서 MUD를 여는 처음 뼈대는 여전히 맞다. 그러나 연대표 띠·비교 11페어·스토리·미니게임·협동이 각자 들어온 자리에 붙어, 포털이 긴 한 장짜리 목록이 됐다.

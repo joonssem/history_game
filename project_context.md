@@ -1,6 +1,6 @@
 ﻿# PROJECT_CONTEXT.md
 
-> **작성일**: 2026-09-01 | **최종 갱신**: 2026-09-16 | **버전**: v4.1 | **인수자**: OpenAI Codex
+> **작성일**: 2026-09-01 | **최종 갱신**: 2026-09-28 | **버전**: v4.2 | **인수자**: OpenAI Codex
 > **라이브 URL**: https://joonssem.github.io/history_game/
 
 이 문서는 새 개발자가 프로젝트를 빠르게 파악하고 작업을 이어갈 수 있도록 작성한 인수인계 문서다.
@@ -152,8 +152,8 @@ history_game/
 - **유물 도감 수집 시스템**: 국보·보물 36종, MUD·스토리 ID 연동, localStorage 영구 저장, 탐험가 레벨
 - **골든벨 퀴즈**: `data/quizzes.json` 기반 단원별 랜덤 퀴즈, 15초 타이머, 점수 기록
 - **확장 역사 활동**: 타임머신 스토리 3종, 유물 카드 게임, 역사 연표 게임
-- **성찰 일기**: MUD 완료 후 textarea 작성 → 클립보드 복사 제출
-- **용어 돋보기(Glossary)**: narrative 내 핵심 용어를 tooltip으로 자동 변환
+- **성찰 일기**: MUD 완료 후 textarea 작성 → 클립보드 복사 제출. 실사용이 없어(2026-09-08 확인) 축소 후보다(`docs/plans/tasks_site_structure.md` 5-1).
+- **용어 돋보기(Glossary)**: narrative 내 핵심 용어를 tooltip으로 자동 변환. 2026-09-28부터 모든 용어를 한 번에(긴 용어 우선) 치환하고 설명을 속성용으로 이스케이프한다. 예전에는 차례로 치환하다 한 용어의 설명 속 다른 용어까지 바꿔 3·1 운동·병자호란 2단계에서 HTML 조각이 글자로 보였다.
 - **시대별 컬러 테마**: MUD별 themeColor를 CSS 변수(`--current-mud-color`)로 동적 적용
 - **Phase 38 근현대 장면**: 5종 MUD의 15개 고유 scene과 전체 97개 JSON↔JS scene 연결을 완료했다.
 - **유물 아이콘·보상 토스트 정합성**: 불일치 아이콘 7종을 교체하고 MUD 완료 토스트에 유물명을 표시한다.
@@ -166,12 +166,16 @@ history_game/
   - 마지막 관문 주장은 말하는 요소마다 근거를 요구한다(`requiredCategories` any-of, `requiredEvidenceIds`). 근대 개항 편은 자료의 한계 선택이 필수(`requireLimit`). 2026-09-14 Codex red team 감사 반영, `DECISIONS.md` D-030.
 - **근거 인벤토리·sticky 제출 버튼**: inquiry-task 패널이 내부 스크롤 영역이고 "판단 확인"이 하단에 고정된다. 모은 근거는 접기/펼치기 칩 목록으로 볼 수 있다(기본 접힘).
 - **유물·유적 대조실**: 비교 페어 11개. `pairType`으로 유물↔유물 / 유물↔유적 / 유적↔유적 세 유형을 구분하고, 유적은 `kind: "site"`와 유적 전용 `traits`(규모·배치·주변환경·함께나온것)를 쓴다. 도감에서도 직접 시작할 수 있다.
+- **포털 구성(2026-09-28 정비)**: 첫 화면에 "이어서 하기" 카드(연대표 '지금' 편, 완료 k/28)와 구역 이동 버튼(차시 탐험·더 탐구하기·모둠 탐험)이 있다. "더 탐구하기"는 유물·유적 비교·타임머신 스토리·미니게임 세 탭(ARIA 탭, 화살표·Home·End)이다. 포털로 돌아올 때 이어서 하기·연대표 띠·비교 목록을 다시 그린다(`refreshPortalProgress`). 근거: `docs/audits/site_structure_review_20260928.md`, 체크리스트 `docs/plans/tasks_site_structure.md`(P1·P2 완료, P3 관찰 대기).
+- **학생 화면 용어**: "MUD"→"역사 탐험", "Deep-dive"→"대단원 도전", "SIMULATOR"→"탐구 도구", "협동 MUD"→"모둠 역사 탐험". 파일명·`mudId`·데이터의 `title`은 그대로 두고 표시할 때만 뗀다(`MudEngine.displayTitle`). 단원 이름은 `curriculum_standards_2022.json` 기준이다.
+- **MUD 화면 배치**: 좁은 화면(그리드 1열)에서는 시뮬레이터 카드를 선택지 위로 옮기고(`syncMudLayout`, 창 크기 변경 대응), 잠긴 선택지에 안내를 띄운다. 완료 화면에서는 시뮬레이터·빈 선택지 제목을 숨긴다. 연대기의 오답 분기(`N-1`, Deep-dive `N-fail`)는 들어갔을 때만 "↩ 다시 생각하기"로 보인다.
+- **저장 데이터 정규화**: `EncyclopediaManager.normalizeData`가 형식이 깨진 저장(배열 자리에 문자열 등)을 기본 형식으로 맞춘다.
 - **확장 역사 활동 정렬**: 미니게임 4종과 스토리가 "MUD에서 얻은 것을 다시 쓰는 곳"으로 정렬됐다. 카드 짝맞추기·유물 탐정은 해금 유물 기반, 역사 연표는 "나의 연표"(해금 유물을 `era`별 기간으로 판정, 기간이 겹치는 유물끼리는 순서를 묻지 않음)와 "기본 연표"(고정 2세트) 토글, 원인과 결과는 1·2·3단원 4세트.
 
 ### 부분적으로 구현된 기능
 
 - **_index.json 활용**: Regular MUD는 인덱스 기반 매핑을 우선 사용하며, 기존 조건문은 인덱스 로드 실패 시 호환성을 위한 fallback으로 남아 있음. 2단원 7차시와 3단원 12차시는 primary/supplementary 계약으로 중복을 해결했다. 보조 MUD 별도 노출은 후속 검토 대상이다.
-- **브라우저 회귀 점검**: 실제 화면·터치·접근성 확인 순서는 [`BROWSER_REGRESSION_CHECKLIST.md`](./BROWSER_REGRESSION_CHECKLIST.md)에 기록함
+- **브라우저 회귀 점검**: 실제 화면·터치·접근성 확인 순서는 [`BROWSER_REGRESSION_CHECKLIST.md`](./BROWSER_REGRESSION_CHECKLIST.md)에 기록함. 자동화된 수동 회귀 `scripts/manual/site_regression.js`(Playwright, 18개 확인)가 있으나 CI에는 아직 넣지 않았다.
 
 ---
 
@@ -296,7 +300,14 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 - 2026-08-31에 반복되던 "결단 ➔" 뱃지를 위치별 A/B/C/D 식별자 + 서로 다른 색상·모양(원형·둥근 사각형·비대칭) 마커로 교체함(`js/mudEngine.js` `choice-marker`, `css/style.css` `.choice-marker-0/1/2`)
 - 2026-09-08 재확인: 실제 렌더링(태블릿 뷰포트 900×1000)에서 세 선택지가 색상·모양·글자로 뚜렷이 구분되는 것을 확인, 코드 전체에 "결단 ➔" 잔존 없음
 
+#### 한 단계 안 칸끼리의 주제 불일치 (2026-09-28 20편 해결)
+- 여러 작업이 한 단계의 칸을 나눠 고치면서 이야기·선택지와 장소·안내·재시도 버튼·피드백이 서로 다른 주제를 말하던 곳을 고려 사회(1단원 14차시)~3단원 끝 20편에서 사람이 점검해 고쳤다.
+- 재발 방지: `scripts/16`의 화면 차시 표시(`header.tag`) 대조(CI), `scripts/18`의 단계 일관성 경고(검토 목록), `scripts/03`의 재시도 id 계약.
+- 선사~발해 9편은 같은 기준으로 아직 점검하지 않았다. 상세는 `BACKLOG.md` `P1-STAGE-COHERENCE`.
+
 ### 미완성 기능
+
+- **정규 MUD 선택지 피드백 미표시**: `choices[].feedback`은 데이터에는 있지만 `mudEngine.js`가 표시하지 않는다(`mudInquiry.js`의 탐구형 과제만 표시). 표시할지 계약에서 정리할지 판단 대기(`BACKLOG.md` `P1-STAGE-COHERENCE` 브라우저 확인 절).
 
 - **MUD 콘텐츠 품질 확장**: 일부 자동 생성 IF 스테이지와 유물 설명은 추가 교육적 검수가 필요함. IF 구조 선별 결과는 `docs/audits/if_stage_audit.md`에서 확인함
 - **실제 활동 시간 검증**: 2026-09-01 학생들이 1단원 2·3차시 Regular 활동을 연속으로 4분 이내에 완료했다. 빠른 학습자용 선택형 확장 활동과 전체 학생 표본 측정은 후속 검토 대상이다.
@@ -318,6 +329,13 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 ---
 
 ## 7. 다음 작업 후보
+
+### 2026-09-28 기준 남은 일
+
+- **웹사이트 구성 P3(구조 개편 6건)**: 수업 관찰 뒤 순서 결정. P4 정리 4건(성찰 일기 축소, 도감 초기화 위치, 골든벨 입구 이름, 헤더·로드맵 라벨)은 대기. `docs/plans/tasks_site_structure.md`.
+- **수업 관찰(D-033)**: 아직 0회. 고려 문화(17~18차시) 탐구형 편이 첫 관찰 후보이고, 포털 구성 관찰 질문 5개가 체크리스트 4장에 있다.
+- **단계 정합성**: 선사~발해 9편 점검, `scripts/18` 재설계(Codex 권고: 반복 템플릿 경고 분리, 실제 오류 16곳 고정 fixture, 선택지 피드백·헤더·로드맵 라벨 포함), 세종 편 영웅화 어조 검토.
+- **실시간 협동(Codex)**: 조선 후기 활동 Preview 배포 완료, 합성 리허설 세션 삭제와 교사 1명+기기 4~8대 실측 대기.
 
 ### 지금 대기 중인 것 (2026-09-09 기준)
 
@@ -410,6 +428,26 @@ python scripts/10_audit_if_stages.py
 python scripts/11_audit_artifacts.py
 node scripts/05_test_simulator_runtime.js
 ```
+
+추가 검사:
+
+```bash
+node scripts/16_validate_lesson_track.js --ci   # 연대표 띠·화면 차시 표시(header.tag) 대조
+python scripts/07_audit_activity_duration.py    # 보고서 재생성, 변경분은 커밋한다(CI가 diff로 비교)
+node scripts/18_audit_stage_coherence.js        # 한 단계 안 칸끼리의 주제 불일치 경고(검토 목록)
+```
+
+GitHub `Static quality gate`(`.github/workflows/quality-gate.yml`)가 push마다 01·03·04·08·09·05·16·06·07·10·11과 JS 문법·공백을 검사한다.
+
+### 브라우저 수동 회귀
+
+```bash
+npm install --no-save --prefix .tmp-playwright playwright-core
+NODE_PATH=.tmp-playwright/node_modules node scripts/manual/site_regression.js
+# 배포 사이트: BASE=https://joonssem.github.io/history_game/ 를 앞에 붙인다
+```
+
+PC의 Edge를 쓰며(Chrome은 `BROWSER_CHANNEL=chrome`), 태블릿 1180×820·휴대폰 390×844에서 포털·MUD·비교·저장 데이터 예외·용어 말풍선을 확인한다. 기대 결과는 마지막 줄 `N/N PASS`.
 
 ### 협동 MUD 문법 검사
 

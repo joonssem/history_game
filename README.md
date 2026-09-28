@@ -30,7 +30,7 @@
 | Regular MUD (1계층) | **28종** | 단원별 차시에 1:1로 연결된 약 9분 복습 활동 |
 | └ 탐구형 관문 파일럿 | **4종** | 신석기·삼국 한강·고려 문화·개항. 첫 판단→자료 확인→판단 수정, 순서 배열, 지도 근거, 주장·근거·한계 연결 |
 | Deep-dive MUD (2계층) | **4종** | 대단원 종합 통사 롤플레이 (3대 멀티 엔딩) |
-| 정규 편 연대표 띠 | **28칸** | 포털과 MUD 완료 화면에서 선사~현대의 현재 위치·완료 편을 보여 줌 |
+| 정규 편 연대표 띠 | **28칸** | 포털과 MUD 완료 화면에서 선사~현대의 현재 위치·완료 편을 보여 줌. 포털 첫 화면 "이어서 하기" 카드가 다음 편을 바로 연다 |
 | 정적 협동 MUD | **3편** | 고조선 8조법·시조 설화·한강 유역, 대면 정보 공유 중심 |
 | 수집형 유물 도감 | **36종** | MUD·스토리 클리어 시 자동 언락 및 탐험가 레벨 |
 | 유물·유적 비교 추론 | **11페어** | 관찰→근거 선택→주장 완성→학계 관점 비교. 유적을 비교 대상으로 쓰는 페어 포함 |
@@ -251,6 +251,15 @@ node scripts/18_audit_stage_coherence.js       # 한 단계 안 칸끼리의 주
 ```
 
 자동 검사는 문구의 뜻이 맞는지까지 보지 못한다. MUD 문구를 고쳤다면 브라우저에서 해당 단계의 정답·오답·재시도 화면까지 직접 확인한다([`BROWSER_REGRESSION_CHECKLIST.md`](./BROWSER_REGRESSION_CHECKLIST.md)).
+
+포털·MUD 화면 배치를 바꿨다면 브라우저 수동 회귀를 돌린다(Playwright, PC의 Edge 사용, 태블릿·휴대폰 크기 18개 확인):
+
+```powershell
+npm install --no-save --prefix .tmp-playwright playwright-core
+$env:NODE_PATH=".tmp-playwright/node_modules"; node scripts/manual/site_regression.js
+```
+
+학생 화면에는 개발 용어를 쓰지 않는다. MUD는 "역사 탐험", Deep-dive는 "대단원 도전", 협동 MUD는 "모둠 역사 탐험"으로 보인다. 이 README와 파일명·데이터 id는 개발 용어를 그대로 쓴다.
 
 실시간 협동 앱은 Node.js 20.9 이상이 필요하다.
 

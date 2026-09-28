@@ -2546,3 +2546,11 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
   - 실행 방법은 파일 머리말에 있고, 설치 폴더 `.tmp-playwright/`는 `.gitignore`에 넣었다. CI 편입은 두세 번 사용한 뒤 따로 정한다.
 - 캐시버스터: `encyclopedia.js`·`artifactComparison.js`·`lessonTrack.js`·`app.js`를 `20260928-site3`으로 올렸다.
 - 검증: `scripts/manual/site_regression.js` 로컬 18/18 PASS, `scripts/03` PASS
+
+## 2026-09-28 — 세션 마감 문서화
+
+- `docs/handoff/claude_session_close_20260928.md`를 새로 썼다. 오늘의 흐름(12단계), 바뀐 규칙·도구, 남은 일(담당·조건), 배운 점을 담았다.
+- `project_context.md` v4.2로 갱신했다. 반영 내용: 포털 구성·학생 용어·MUD 배치·저장 정규화·용어 말풍선 한 번 치환, 단계 정합성 해결 기록, 선택지 피드백 미표시, 2026-09-28 기준 남은 일, 추가 검사와 브라우저 수동 회귀 실행법.
+- `BACKLOG.md` `P2-SITE-STRUCTURE` 상태를 `in-progress`로 바꾸고 완료 커밋과 남은 판단을 적었다.
+- `README.md`에 이어서 하기, 수동 회귀 실행법, 학생 화면 용어 원칙을 넣었다.
+- 확인: `scripts/08` PASS(README 목록 마커 미변경), `git diff --check` 통과. 코드·데이터 변경은 없다.
