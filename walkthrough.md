@@ -2397,3 +2397,18 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - `regular_post_war` 2단계 오답 피드백: "배움을 멈추었다면 … 선진국으로 도약할 수 없었습니다"라는 단일 원인·반사실 단정을, 천막 교실 기록과 교육 조건을 살피게 하는 문장으로 바꿨다.
 - `regular_post_war` 2-1 버튼: "배움의 촛불을 다시 켠다" → "천막 교실 자료와 교육 조건을 다시 살펴본다."
 - 검증: 01·03·04·05·06·07·08·09·10·11·12·14·16(`--ci`)·17 통과, `git diff --check` 통과. 감사 보고서 재생성 결과 변화가 없었다.
+
+## 2026-09-28 — 재발 방지 검사: 차시 표시 대조(scripts/16)와 단계 일관성 경고(scripts/18)
+
+- 작업 claim: `TASK-20260928-STAGE-COHERENCE-A | 차시 표시 대조·단계 일관성 경고 검사 | implementation agent(Claude) | 상태: DONE`
+- `scripts/16_validate_lesson_track.js`
+  - mud 파일의 `header.tag`에서 "N단원 M~K차시"를 읽어 `lesson_track`의 `unitId`·`lessonNumbers`와 대조한다. 형식을 읽을 수 없어도 실패로 처리한다.
+  - 자기 테스트 fixture를 8건에서 10건으로 늘렸다(통산 번호, 형식 없음).
+  - 수정 전 데이터(`29379c64`)에서는 세종·3·1 운동·6·25를 실패로 잡고, 현재 데이터는 통과한다.
+- `.github/workflows/quality-gate.yml`: `scripts/16`이 `--ci` 옵션을 갖고도 워크플로에 빠져 있었다. `Validate lesson track and header lesson numbers` 단계를 추가했다.
+- `scripts/18_audit_stage_coherence.js`(신규, 경고 전용)와 결과 `docs/audits/stage_coherence_audit.md`
+  - 한 단계의 주변 필드와 재시도 버튼·해설이 이야기·선택지·단서와 낱말 조각을 나누지 않으면 경고한다. 이야기와 정답 선택지의 주제 불일치도 경고한다.
+  - 수정 전 데이터(`261964cf`)에서 오늘 사람이 찾은 불일치 16곳을 잡는다. 현재는 71건이며 대부분 오탐이다.
+  - 같은 낱말을 쓰며 뜻만 어긋난 곳은 잡지 못한다. 상세와 후보는 BACKLOG `P1-STAGE-COHERENCE-A`에 있다.
+  - CI 실패 조건에는 넣지 않았다. 보고서에 날짜를 넣지 않아 같은 데이터면 같은 결과가 나온다.
+- 검증: `node --check` ×2, `scripts/16 --ci` PASS(자기 테스트 10건), `scripts/18` 자기 테스트 PASS, 01·04·05 통과, `git diff --check` 통과.

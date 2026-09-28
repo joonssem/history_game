@@ -54,6 +54,13 @@
 - 성격: 실패가 아닌 **경고 목록**부터 시작한다. 한국어 낱말 겹침은 오탐이 있으므로, 결과를 사람이 확인해 허용 목록을 만든 뒤 CI 편입 여부를 판단한다.
 - 수용 기준: 수정 전 `regular_goryeo_society`(`261964cf` 기준)의 1단계·1-1을 경고로 잡고, 수정 후(`907f66ac`)에는 경고가 없어야 한다.
 - 예상 변경: 신규 `scripts/18_audit_stage_coherence.js`(또는 `.py`)와 결과 문서 `docs/audits/stage_coherence_audit.md`. 데이터는 바꾸지 않는다.
+- **2026-09-28 구현(상태: `implemented / warning-only`)**: `scripts/18_audit_stage_coherence.js`와 `docs/audits/stage_coherence_audit.md`를 추가했다.
+  - 방법: 한글 낱말의 어미를 떼고 두 글자 조각으로 비교한다. 전체 단계의 8% 이상에 나오는 일반 어휘, 3곳 이상에 똑같이 쓰인 틀 문구, 마지막 종합 단계의 주변 필드, 인물 이름은 판단에서 뺐다. 인물 이름은 신호가 약하고 오탐이 많았다.
+  - 수용 기준 충족: 수정 전 데이터(`261964cf`)에서 고려 사회 1단계·1-1을 경고로 잡고, 현재 데이터에서는 잡지 않는다. 오늘 사람이 찾은 불일치 16곳도 검출한다(조선 건국 3단계, 경제 2단계, 신분제 3단계, 무단 통치·전후 사회 재시도 버튼 등).
+  - 한계: 같은 낱말을 쓰면서 뜻만 어긋난 곳은 잡지 못한다(고려 전쟁 2단계, 서민 문화 3단계, 광복·실학·명량 재시도 해설). B 항목의 사람 점검을 대체하지 않는다.
+  - 현재 경고 71건: 대부분 장소 이름이나 "자료마다 범위가 다르다" 같은 방법 안내 문장이다. 사람이 볼 만한 후보는 이미 수업이 지난 1단원 편에 있다. 대상은 `regular_gojoseon:1·2`, `regular_goryeo_founding:2·3`, `regular_three_kingdoms:1`, `regular_bronze_age:2`, `regular_paleolithic:2`의 이야기↔정답이다. 다음 학년도 수업 전 점검 때 본다.
+  - CI 편입: 하지 않았다. 허용 목록 없이 넣으면 71건이 매번 실패가 된다. 보고서에 날짜를 넣지 않아, 나중에 CI에 넣을 때 `git diff --exit-code` 방식을 그대로 쓸 수 있다.
+- **같은 날 함께 한 것**: `scripts/16`에 화면 차시 표시(`header.tag`)와 `lesson_track`의 단원·차시 대조를 추가했다. 자기 테스트 fixture 10건이 통과하고, 수정 전 데이터에서 세종·3·1 운동·6·25를 실패로 잡는다. 확인해 보니 `scripts/16`은 `--ci` 옵션이 있는데도 `.github/workflows/quality-gate.yml`에 빠져 있었다. 그래서 `node scripts/16_validate_lesson_track.js --ci` 단계를 추가했다. 이제 연대표 3중 대조·연대 회귀·차시 표시 검사가 push마다 돈다.
 
 ### P1-STAGE-COHERENCE-B — 수업 순서대로 Regular 편 실플레이 점검 (제안 P1)
 
