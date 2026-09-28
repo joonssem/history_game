@@ -304,7 +304,7 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 
 - 작업 claim: `TASK-20260915-06 | 조선 후기 실시간 협동 MUD 수직 슬라이스 구현 계획 | 기획·점검 에이전트 | 상태: DONE`
 - 작업 claim: `TASK-20260918-CODEX-JOSEON-LATE | 확정 런타임 JSON의 실제 앱 등록·3·4·5인 회귀 | implementation agent(Codex) | 상태: DONE`
-- 작업 claim: `TASK-20260928-CODEX-JOSEON-LATE-REHEARSAL | Preview 배포·자동 회귀·성인/교사 4~8대 실기기 리허설 | integration agent(Codex) | 상태: DOING (자동 회귀·Preview 배포 검증 완료, 물리 기기 현장 실측 대기)`
+- 작업 claim: `TASK-20260928-CODEX-JOSEON-LATE-REHEARSAL | Preview 배포·자동 회귀·성인/교사 4~8대 실기기 리허설 | integration agent(Codex) | 상태: DOING (고정 주소 Convex 함수·스키마 동기화 및 교사 세션 생성·가상 학생 8명 입장 복구 완료, 고정 주소 기준 물리 기기 현장 실측 대기)`
 - 상태: `preview-ready / rehearsal-needed` — Claude가 확정한 런타임 JSON을 공개·서버 레지스트리에 문안 변경 없이 등록하고 3·4·5인 역할 편성, 3인 공통 수공업자 자료, 다른 역할 비공개 본문 차단, 기존 고조선·고려 회귀, production build를 검증했다. 2026-09-28 `npm run check`를 다시 통과했고 새 Vercel Preview `https://history-game-ec09i4dg5-joon0noh-3339.vercel.app`(`dpl_jMT8PdAWMc3mobd88zm9JEg3es7Q`)을 배포했다. 배포는 `target: preview / Ready`, `/teacher` HTTP 200이며 공개 번들에 `joseon-late-market` v1이 포함돼 있다. 교사 1명+성인·교사 역할 4~8대의 학교 Wi-Fi·WebSocket·재접속·iPad QR·revision 실측은 계속 대기한다.
 - 원문·일정: [`INBOX.md`](./INBOX.md)의 “2026-09-15 — 10월 28일 공개수업 역산” 항목.
 - 작업 경계(2026-09-17 D-035로 변경): **앱 코드(`apps/cooperative-live/**`) 등록·서버·UI·테스트는 Codex**, 조선 후기 콘텐츠(`docs/handoff/claude_joseon_late_runtime_scenario.json`)·출처·`scripts/15` 검증은 Claude가 맡는다. 이전 문구("Claude가 앱까지 단독 구현")는 폐기. 순서: Claude 라운드 8 2단계 JSON이 main에 들어온 뒤 Codex가 등록한다.

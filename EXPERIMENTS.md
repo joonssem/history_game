@@ -88,7 +88,7 @@
 - 가설: 자동 회귀를 통과한 동일 빌드를 학교 Wi-Fi의 교사 1대와 iPad 등 4~8대에서 실행하면 WebSocket 동시 접속, QR 입장, 새로고침·탭 복귀, 공동 초안 revision 초기화가 실제 수업 조건에서도 유지된다.
 - 작은 실험: `apps/cooperative-live` 전체 회귀와 production build를 먼저 실행하고, 공개 Vercel 배포의 시나리오 등록을 확인한 뒤 실제 기기에서 QR·수동 코드 입장, 역할 비공개, pause/resume, 재접속, 초안 수정 뒤 확인 0/N 초기화, 종료 삭제를 순서대로 점검한다. 실제 학생은 이번 범위에 포함하지 않는다.
 - 결과(부분): 2026-09-28 `npm run check`에서 lint, typecheck, 단위 테스트 19건, Convex 통합 테스트 3건, production build가 모두 통과했다. 이어 Vercel Preview `https://history-game-ec09i4dg5-joon0noh-3339.vercel.app`(`dpl_jMT8PdAWMc3mobd88zm9JEg3es7Q`)을 새로 배포했다. Vercel 검사 결과 `target: preview / Ready`, `/teacher` HTTP 200이고 공개 클라이언트 번들에 `joseon-late-market` v1과 조선 후기 제목이 포함돼 있다. 첫 업로드 1건은 프로젝트 Root Directory를 중복 적용해 실패했으며, 저장소 루트에서 재배포해 해결했다. 물리 기기·학교 Wi-Fi·QR 거리·WebSocket 재접속은 아직 관찰하지 않았다.
-- 상태: 자동 회귀·새 Preview 배포 검증 완료 / 교사 1명+4~8대 현장 리허설 대기.
+- 상태: 자동 회귀·새 Preview 정적 등록 검증 완료. 실제 브라우저에서 찾은 새 Preview Auth0 callback 불일치는 임시 URL을 운영 경로에서 제외하고 고정 주소를 사용해 해소했다. 고정 주소의 구형 Convex 함수는 현재 함수·스키마로 동기화했으며, 교사 로그인→조선 후기 세션 생성→가상 학생 8명 입장→4명씩 2모둠 진행 화면을 재검증했다. 교사 1명+4~8대 현장 리허설은 대기 중이다. 상세: [`배포 리허설 점검`](./docs/audits/cooperative_live_deployment_rehearsal_20260928.md).
 - 다음 결정: 위 Preview에서 교사 1명+4~8대 리허설 결과를 같은 항목에 추가한다. 학교망·재접속·revision 중 하나라도 실패하면 공개수업 실시간 경로는 확정하지 않고 정적 폴백을 사용한다.
 
 ## 완료된 실험
