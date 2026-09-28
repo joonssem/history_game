@@ -160,14 +160,26 @@ function validateOrder(entries) {
 // ---- 화면 차시 표시(header.tag) 대조 -----------------------------------------
 //
 // "2단원 4~5차시 · 제목"에서 단원과 차시 범위를 읽어 lesson_track과 비교한다.
-// 차시 범위는 lessonNumbers의 처음~끝과 같아야 한다(한 차시면 "M차시").
+// 허용 형식은 "N단원 M차시"와 "N단원 M~K차시" 두 가지뿐이다("7·8차시"처럼 다른
+// 구분자나 단원 없는 표기는 지원하지 않고 실패로 알린다). 한 태그에 차시 표기가
+// 두 번 있으면 어느 쪽이 맞는지 알 수 없으므로 실패로 처리한다. 범위 표기는
+// 연속 차시만 나타낼 수 있으므로 lessonNumbers가 연속이 아니면 실패로 처리한다.
+const TAG_FORMAT_HELP = '허용 형식: "N단원 M차시" 또는 "N단원 M~K차시"';
 function checkHeaderTag(entry, mudFile, fileName) {
   const tag = mudFile.header && mudFile.header.tag;
-  const match = typeof tag === 'string' && tag.match(/(\d+)단원\s*(\d+)(?:~(\d+))?차시/);
-  if (!match) {
-    return `mudId "${entry.mudId}": data/mud/${fileName}의 header.tag("${tag}")에서 "N단원 M차시"를 읽을 수 없습니다.`;
+  const matches = typeof tag === 'string' ? [...tag.matchAll(/(\d+)단원\s*(\d+)(?:~(\d+))?차시/g)] : [];
+  if (matches.length === 0) {
+    return `mudId "${entry.mudId}": data/mud/${fileName}의 header.tag("${tag}")에서 단원·차시를 읽을 수 없습니다 — ${TAG_FORMAT_HELP}.`;
   }
+  if (matches.length > 1) {
+    return `mudId "${entry.mudId}": data/mud/${fileName}의 header.tag("${tag}")에 단원·차시 표기가 ${matches.length}번 있습니다 — 하나만 쓰세요.`;
+  }
+  const match = matches[0];
   const lessons = entry.lessonNumbers || [];
+  const contiguous = lessons.every((n, i) => i === 0 || n === lessons[i - 1] + 1);
+  if (!lessons.length || !contiguous) {
+    return `mudId "${entry.mudId}": lesson_track의 lessonNumbers(${JSON.stringify(lessons)})가 비어 있거나 연속된 차시가 아닙니다 — 화면의 "M~K차시" 표기와 대조할 수 없습니다.`;
+  }
   const first = lessons[0];
   const last = lessons[lessons.length - 1];
   const tagUnit = Number(match[1]);
@@ -371,6 +383,19 @@ function runSelfTests() {
     assert.ok(errors.some(e => e.includes('regular_a') && e.includes('읽을 수 없습니다')), '자기 테스트: 형식이 없는 차시 표시를 잡아내지 못했습니다.');
   }
 
+  // 차시 표시 회귀 3~8: checkHeaderTag 단위 검사
+  {
+    const entry = (unitId, lessonNumbers) => ({ mudId: 'regular_t', unitId, lessonNumbers });
+    const mud = tag => ({ mudId: 'regular_t', header: { tag } });
+    const check = (e, tag) => checkHeaderTag(e, mud(tag), 'regular_t.json');
+    assert.equal(check(entry(2, [7, 8]), '2단원 7~8차시 · 보기'), null, '자기 테스트: 정상 범위 표기 "7~8차시"를 오류로 잡았습니다.');
+    assert.ok(check(entry(2, [7, 8]), '3단원 7~8차시 · 보기'), '자기 테스트: 단원 불일치를 잡아내지 못했습니다.');
+    assert.ok(check(entry(2, [7, 8]), '2단원 7~9차시 · 보기'), '자기 테스트: 끝 차시 불일치를 잡아내지 못했습니다.');
+    assert.ok((check(entry(2, [7]), '수업 2단원 7차시 / 실제 2단원 8차시') || '').includes('번 있습니다'), '자기 테스트: 한 태그의 차시 표기 두 개를 잡아내지 못했습니다.');
+    assert.ok((check(entry(2, [7, 9]), '2단원 7~9차시 · 보기') || '').includes('연속된 차시가 아닙니다'), '자기 테스트: 비연속 lessonNumbers를 범위로 오인했습니다.');
+    assert.ok((check(entry(2, [7, 8]), '2단원 7·8차시 · 보기') || '').includes('허용 형식'), '자기 테스트: 지원하지 않는 "7·8차시" 표기에 허용 형식 안내가 없습니다.');
+  }
+
   // LT-10 회귀 1: 같은 eraLabel인데 eraRange가 다름
   {
     const badEntries = [
@@ -402,7 +427,7 @@ function runSelfTests() {
     assert.ok(warnings.some(w => w.includes('기대값과 다릅니다')), '자기 테스트: 기대값 변경을 경고로 잡아내지 못했습니다.');
   }
 
-  console.log('자기 테스트 통과: LT-03·LT-10·차시 표시 회귀 fixture 10건 확인.');
+  console.log('자기 테스트 통과: LT-03·LT-10·차시 표시 회귀 fixture 16건 확인.');
 }
 
 function main() {

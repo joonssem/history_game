@@ -8,7 +8,7 @@
 
 <!-- STAGE_COHERENCE:START -->
 - 대상: Regular 28편
-- 경고: 71건 (23편)
+- 경고: 72건 (23편)
 
 | 편 | 단계 | 필드 | 문구 |
 |---|---|---|---|
@@ -50,6 +50,7 @@
 | `regular_myeongnyang` | 3 | location | 울돌목 결전 해역 |
 | `regular_joseon_economy` | 1 | location | 삼남 지방 논두렁 |
 | `regular_joseon_economy` | 1 | badge | 🌾 농업의 혁명 |
+| `regular_joseon_economy` | 1 | simulator.feedback | 벼농사 생산량 증대를 확인하세요! |
 | `regular_joseon_economy` | 3 | location | 송파 5일장 장터 |
 | `regular_joseon_silhak` | 1 | location | 담헌 홍대용의 서재 |
 | `regular_joseon_silhak` | 1 | simulator.feedback | 새로운 세계관을 확인하세요! |

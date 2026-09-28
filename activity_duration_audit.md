@@ -19,7 +19,7 @@
 | `regular_three_kingdoms_life` | 5-10min | 4 | 4 | 4 | 4 | 6.9분 | 반복 탭 조기 종료 위험 |
 | `regular_goryeo_society` | 5-10min | 4 | 4 | 2 | 4 | 7.4분 | 반복 탭 조기 종료 위험 |
 | `regular_joseon_economy` | 10min | 4 | 4 | 4 | 4 | 7.4분 | 반복 탭 조기 종료 위험 |
-| `regular_myeongnyang` | 5-10min | 4 | 4 | 4 | 4 | 7.5분 | 반복 탭 조기 종료 위험 |
+| `regular_myeongnyang` | 5-10min | 4 | 4 | 4 | 4 | 7.4분 | 반복 탭 조기 종료 위험 |
 | `regular_joseon_silhak` | 10min | 4 | 4 | 3 | 4 | 7.7분 | 반복 탭 조기 종료 위험 |
 | `regular_goryeo_culture` | 5-10min | 4 | 4 | 3 | 4 | 5.7분 | 기준 충족 추정 |
 | `regular_neolithic` | 5-10min | 4 | 4 | 4 | 4 | 6.0분 | 기준 충족 추정 |
