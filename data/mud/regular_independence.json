@@ -13,7 +13,7 @@
   "themeColor": "#0047A0",
   "accentColor": "#CD2E3A",
   "header": {
-    "tag": "3단원 38~39차시 · 3·1 운동과 임시정부의 투쟁",
+    "tag": "3단원 4~5차시 · 3·1 운동과 임시정부의 투쟁",
     "title": "🇰🇷 3·1 만세 운동과 상하이 임시정부",
     "interactiveTitle": "<i class=\"fas fa-flag\" style=\"color: #CD2E3A;\"></i> 독립 만세 시뮬레이터",
     "roadmapTitle": "독립 투쟁 연대기"
@@ -237,7 +237,7 @@
       "narrative": "<b>❌ [자료 다시 보기: 지역의 참여]</b><br>역사적 운동은 한 사람의 용기뿐 아니라 여러 참여자의 선택과 행동으로 이루어집니다.<br><br>지역 주민과 학생의 참여를 함께 살펴보세요.",
       "choices": [
         {
-          "text": "🔄 불굴의 용기로 다시 만세 대열을 이끈다.",
+          "text": "🔄 학생과 주민의 참여를 다시 살펴본다.",
           "next": "2",
           "correct": true
         }

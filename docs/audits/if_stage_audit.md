@@ -17,7 +17,7 @@
 
 <!-- IF_STAGE_SIGNALS:START -->
 - 감사 대상: Regular 재시도 단계 전체
-- 보완 검토 신호: 78개
+- 보완 검토 신호: 71개
 - 최소 기준: 근거 설명 120자 이상, 자료·비교 단서 2개 이상, 원 단계 복귀 선택지 1개
 
 | 파일 | 단계 | 표지 | 설명 글자 수 | 단서 | 신호 |
@@ -30,9 +30,6 @@
 | `regular_bronze_age.json` | 2-1 | ❌ 자료 해석 (실패) | 166 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_bronze_age.json` | 3-1 | ❌ 자료 해석 (실패) | 157 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_gojoseon.json` | 2-1 | ❌ 자료 해석 (실패) | 162 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_goryeo_culture.json` | 1-1 | ❌ 자료 해석 (문화유산 상실) | 105 | 자료, 살펴 | 근거 설명 120자 미만 |
-| `regular_goryeo_culture.json` | 2-1 | ❌ 자료 해석 (인쇄술 발전 지체) | 60 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
-| `regular_goryeo_culture.json` | 3-1 | ❌ 자료 해석 (국제 고립) | 58 | 자료, 기록 | 근거 설명 120자 미만 |
 | `regular_goryeo_founding.json` | 1-1 | ❌ 자료 해석 (실패) | 141 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_goryeo_founding.json` | 2-1 | ❌ 자료 해석 (실패) | 167 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_goryeo_founding.json` | 3-1 | ❌ 자료 해석 (실패) | 172 | 자료 | 자료·비교 단서 2개 미만 |
@@ -42,7 +39,6 @@
 | `regular_goryeo_war.json` | 2-1 | ❌ 자료 해석 (선봉 기습 실패) | 62 | 자료, 살펴 | 근거 설명 120자 미만 |
 | `regular_goryeo_war.json` | 3-1 | ❌ 자료 해석 (적의 재침략) | 62 | 자료, 살펴 | 근거 설명 120자 미만 |
 | `regular_gwangbok.json` | 2-1 | ❌ 자료 해석 (실패) | 148 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_gwangbok.json` | 3-1 | ❌ 자료 해석 (실패) | 165 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_independence.json` | 1-1 | ❌ 자료 해석 (독립 선포 포기) | 71 | 자료, 비교 | 근거 설명 120자 미만 |
 | `regular_independence.json` | 2-1 | ❌ 자료 해석 (굴복과 체념) | 70 | 자료, 살펴 | 근거 설명 120자 미만 |
 | `regular_independence.json` | 3-1 | ❌ 자료 해석 (군주제 회귀) | 68 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
@@ -56,14 +52,11 @@
 | `regular_joseon_diplomacy.json` | 1-1 | 🔄 자료를 다시 비교해 보세요 | 116 | 자료, 살펴, 단서 | 근거 설명 120자 미만 |
 | `regular_joseon_diplomacy.json` | 2-1 | 🔄 자료를 다시 비교해 보세요 | 117 | 자료, 기록, 비교, 살펴 | 근거 설명 120자 미만 |
 | `regular_joseon_diplomacy.json` | 4-1 | 🔄 자료를 다시 비교해 보세요 | 50 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
-| `regular_joseon_economy.json` | 2-1 | ❌ 자료 해석 (실패) | 182 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_joseon_economy.json` | 3-1 | ❌ 자료 해석 (실패) | 184 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_joseon_folk.json` | 1-1 | ❌ 자료 해석 (서민 풍속화 부재) | 94 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
 | `regular_joseon_folk.json` | 2-1 | ❌ 자료 해석 (민중 소리의 단절) | 84 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
-| `regular_joseon_founding.json` | 1-1 | ❌ 자료 해석 (실패) | 175 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_joseon_founding.json` | 3-1 | ❌ 자료 해석 (실패) | 189 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_joseon_founding.json` | 1-1 | ❌ 자료 해석 (실패) | 178 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_joseon_silhak.json` | 1-1 | ❌ 자료 해석 (실패) | 173 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_joseon_silhak.json` | 2-1 | ❌ 자료 해석 (실패) | 165 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_joseon_status.json` | 1-1 | ❌ 자료 해석 (신분증 미소지) | 78 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
 | `regular_joseon_status.json` | 2-1 | ❌ 자료 해석 (기술 천대) | 119 | 자료, 비교, 살펴 | 근거 설명 120자 미만 |
 | `regular_joseon_status.json` | 3-1 | ❌ 자료 해석 (민중 멸시) | 106 | 자료, 살펴 | 근거 설명 120자 미만 |
@@ -75,7 +68,7 @@
 | `regular_modern_open.json` | 2-1 | ❌ 자료 해석 (문물 거부의 참상) | 105 | 자료, 비교, 살펴 | 근거 설명 120자 미만 |
 | `regular_modern_open.json` | 3-1 | ❌ 자료 해석 (교통 발전 정체) | 106 | 자료, 살펴 | 근거 설명 120자 미만 |
 | `regular_myeongnyang.json` | 1-1 | ❌ 자료 해석 (실패) | 132 | 살펴 | 자료·비교 단서 2개 미만 |
-| `regular_myeongnyang.json` | 2-1 | ❌ 자료 해석 (실패) | 180 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_myeongnyang.json` | 2-1 | ❌ 자료 해석 (실패) | 239 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_myeongnyang.json` | 3-1 | ❌ 자료 해석 (실패) | 117 | 자료, 비교 | 근거 설명 120자 미만 |
 | `regular_neolithic.json` | 1-1 | ❌ 자료 해석 (실패) | 149 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_neolithic.json` | 2-1 | ❌ 자료 해석 (실패) | 164 | 자료 | 자료·비교 단서 2개 미만 |
