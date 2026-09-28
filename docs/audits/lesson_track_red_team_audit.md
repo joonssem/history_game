@@ -97,3 +97,29 @@
 node scripts/16_validate_lesson_track.js  # PASS
 git status --short --branch               # 감사 전 clean
 ```
+
+## 2026-09-28 — 라운드 11 통합본 후속 확인 (`261964cf`)
+
+코드는 수정하지 않고 `data/lesson_track.json`, `scripts/16_validate_lesson_track.js`, `origin/feat/codex-lesson-track-validator`를 읽기 전용으로 대조했다.
+
+| ID | 상태 | 확인 결과 |
+|---|---|---|
+| LT-03 | **부분 해결** | `unitId`·`lessonNumbers` exact 비교, index가 가리키는 파일 존재, 파일 내부 `mudId`, 디스크의 미등록 `regular_*.json`, `--ci`에서 track 부재 실패가 구현됐고 fixture도 통과한다. 그러나 원 수용 기준의 실제 MUD `rewards` 검증은 구현되지 않았다. |
+| LT-08 | **해결** | 명량·병자호란이 모두 `조선 후기 / 1592년경~1876년경`으로 바뀌어 학생 노출 문자열의 모순이 해소됐다. D-037과 시대 검토 근거도 함께 갱신돼 있다. |
+| LT-09 | **해결** | 개항기는 `1876년~1910년`, 광복·대한민국은 `1945년~현재`로 통일됐다. 사건 연도를 시대 범위처럼 섞던 표기와 의미가 불명확한 열린 `~`가 없어졌다. |
+| LT-10 | **부분 해결** | 같은 `eraLabel`의 범위 불일치와 `~현재`가 아닌 열린 `~`는 오류로 실패하고, 13개 canonical 기대값 표와 회귀 fixture가 추가됐다. 다만 canonical 값 자체가 달라지면 경고만 내고 종료 코드는 성공이므로, `935~676` 같은 핵심 값 회귀를 실패시키라는 원 수용 기준을 완전히 닫지는 못한다. |
+
+### `feat/codex-lesson-track-validator`에만 있는 검사
+
+- `_index.json`의 regular 항목이 가리키는 파일명이 실제 디스크의 `regular_*.json` 집합에도 속하는지 역방향으로 확인한다. 통합본은 파일 존재와 내부 `mudId`는 확인하지만, 존재하는 비정규 파일명을 regular 항목이 가리키는 경우까지는 거부하지 않는다.
+- canonical 기대값 표에 없는 새 `eraLabel`을 경고한다. 통합본은 알려진 label의 값 변경만 경고하고, 새 label은 조용히 통과한다.
+- 자기 테스트에서 `--ci`일 때 track 부재가 실패하고 기본 실행에서는 SKIP되는 분기를 직접 fixture로 확인한다. 통합본은 동작 자체는 구현했지만 이 분기의 자기 테스트가 없다.
+- JSON 파싱 오류를 검증 결과로 모아 보고한다. 통합본도 비정상 JSON에서 실패하지만 예외로 즉시 중단하므로, 이는 수용 기준 추가라기보다 진단 품질 차이다.
+
+검증 결과:
+
+```text
+node scripts/16_validate_lesson_track.js --ci
+# 자기 테스트 8건 통과
+# PASS: entries 28개, order 1~28, regular 1:1·3중 대조·연대 회귀 검사 통과
+```

@@ -2336,3 +2336,8 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
   - **B가 약 50줄로 A4 한 장을 넘는다**고 스스로 확인해, 뺄 항목(7번 편별 포인트 축약, 2·6번 병합)을 표시했다.
 - **Codex 중복 작업 기록**: Codex도 같은 LT-03·LT-10을 `feat/codex-lesson-track-validator`(`3fcccc4`)에 따로 구현했다. 통합 데이터에서 두 구현 모두 통과했다. 이미 병합된 조작대 구현(기대값 표와 자기 테스트 포함)을 기준으로 두고, **Codex 브랜치는 병합하지 않고 참고로 남긴다.** 중복의 원인은 기획 세션이 라운드 11 착수를 Codex에게 알리지 않은 것이다. 이후 Claude 소유 파일의 구현 착수는 Codex 전달 문서에 명시한다.
 - 검증: 01·04·05·06·08·16(`--ci`)·17 통과.
+## 2026-09-28 — 조선 후기 리허설 선행 확인·라운드 11 연대표 후속 감사
+
+- `TASK-20260928-CODEX-JOSEON-LATE-REHEARSAL`: `apps/cooperative-live`의 `npm run check`에서 lint, typecheck, 단위 테스트 19건, Convex 통합 테스트 3건, production build를 통과했다. Vercel Preview `https://history-game-ec09i4dg5-joon0noh-3339.vercel.app`(`dpl_jMT8PdAWMc3mobd88zm9JEg3es7Q`)을 새로 배포하고 `target: preview / Ready`, `/teacher` HTTP 200, 공개 번들의 `joseon-late-market` v1 포함을 확인했다. 첫 배포의 Root Directory 중복 실패는 저장소 루트 재배포로 해결했다. 물리 기기 리허설은 현장 기기 부재로 계속 대기한다. 부분 결과는 `EXPERIMENTS.md` EXP-010과 `BACKLOG.md`에 기록했다.
+- `TASK-20260928-CODEX-LT-R11-AUDIT`: `261964cf`의 `data/lesson_track.json`·`scripts/16_validate_lesson_track.js`와 `origin/feat/codex-lesson-track-validator`를 읽기 전용으로 대조했다. LT-08·09는 해결, LT-03·10은 원 수용 기준 대비 부분 해결로 판정했으며 브랜치에만 있는 검사 목록을 `docs/audits/lesson_track_red_team_audit.md`에 덧붙였다. 코드는 수정하지 않았다.
+- 검증: `node scripts/16_validate_lesson_track.js --ci`, `git diff --check`. `data/mud/regular_independence.json`, `data/mud/regular_korean_war.json`은 열거나 수정하지 않았다.

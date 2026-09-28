@@ -82,6 +82,15 @@
 - 결과: (관찰 전 — 비워 둠)
 - 다음 결정: 4~8명 리허설 결과로 21명 시험 여부, 5인 역할 적합성, 조선 후기 공개수업에 포함할 실시간 관문 범위를 정한다.
 
+### EXP-010 — 조선 후기 실시간 활동 공개수업 전 리허설 (진행 중, 2026-09-28)
+
+- 관찰: 10월 28일 공개수업용 `joseon-late-market` v1의 앱 등록은 완료됐지만, 새 Preview 재배포와 교사 1명+성인·교사 역할 참가자 4~8명의 물리 기기 리허설은 남아 있었다.
+- 가설: 자동 회귀를 통과한 동일 빌드를 학교 Wi-Fi의 교사 1대와 iPad 등 4~8대에서 실행하면 WebSocket 동시 접속, QR 입장, 새로고침·탭 복귀, 공동 초안 revision 초기화가 실제 수업 조건에서도 유지된다.
+- 작은 실험: `apps/cooperative-live` 전체 회귀와 production build를 먼저 실행하고, 공개 Vercel 배포의 시나리오 등록을 확인한 뒤 실제 기기에서 QR·수동 코드 입장, 역할 비공개, pause/resume, 재접속, 초안 수정 뒤 확인 0/N 초기화, 종료 삭제를 순서대로 점검한다. 실제 학생은 이번 범위에 포함하지 않는다.
+- 결과(부분): 2026-09-28 `npm run check`에서 lint, typecheck, 단위 테스트 19건, Convex 통합 테스트 3건, production build가 모두 통과했다. 이어 Vercel Preview `https://history-game-ec09i4dg5-joon0noh-3339.vercel.app`(`dpl_jMT8PdAWMc3mobd88zm9JEg3es7Q`)을 새로 배포했다. Vercel 검사 결과 `target: preview / Ready`, `/teacher` HTTP 200이고 공개 클라이언트 번들에 `joseon-late-market` v1과 조선 후기 제목이 포함돼 있다. 첫 업로드 1건은 프로젝트 Root Directory를 중복 적용해 실패했으며, 저장소 루트에서 재배포해 해결했다. 물리 기기·학교 Wi-Fi·QR 거리·WebSocket 재접속은 아직 관찰하지 않았다.
+- 상태: 자동 회귀·새 Preview 배포 검증 완료 / 교사 1명+4~8대 현장 리허설 대기.
+- 다음 결정: 위 Preview에서 교사 1명+4~8대 리허설 결과를 같은 항목에 추가한다. 학교망·재접속·revision 중 하나라도 실패하면 공개수업 실시간 경로는 확정하지 않고 정적 폴백을 사용한다.
+
 ## 완료된 실험
 
 ### EXP-006 — 고조선 8조법 협동 MUD v0.1 실제 수업 (2026-09-04)
