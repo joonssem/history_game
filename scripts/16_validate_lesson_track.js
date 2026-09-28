@@ -20,6 +20,11 @@
 //     기본 실행(옵션 없음)은 지금처럼 건너뛴다 — 관문 설계실과 병렬 작업 중에는
 //     아직 파일이 없을 수 있기 때문이다. 통합 파이프라인(CI)에서는 반드시
 //     파일이 있어야 하므로 --ci로 강제한다.
+//
+// 2026-09-28 추가(BACKLOG P1-STAGE-COHERENCE):
+//   - 화면 상단 차시 표시(mud 파일 header.tag)의 "N단원 M~K차시"가 lesson_track의
+//     unitId·lessonNumbers와 같은지 대조한다. 세종·3·1 운동·6·25 편이 예전
+//     48차시 통산 번호로 적혀 있던 오류를 다시 막기 위한 것이다.
 // =========================================================
 
 const fs = require('node:fs');
@@ -152,6 +157,29 @@ function validateOrder(entries) {
   return { errors };
 }
 
+// ---- 화면 차시 표시(header.tag) 대조 -----------------------------------------
+//
+// "2단원 4~5차시 · 제목"에서 단원과 차시 범위를 읽어 lesson_track과 비교한다.
+// 차시 범위는 lessonNumbers의 처음~끝과 같아야 한다(한 차시면 "M차시").
+function checkHeaderTag(entry, mudFile, fileName) {
+  const tag = mudFile.header && mudFile.header.tag;
+  const match = typeof tag === 'string' && tag.match(/(\d+)단원\s*(\d+)(?:~(\d+))?차시/);
+  if (!match) {
+    return `mudId "${entry.mudId}": data/mud/${fileName}의 header.tag("${tag}")에서 "N단원 M차시"를 읽을 수 없습니다.`;
+  }
+  const lessons = entry.lessonNumbers || [];
+  const first = lessons[0];
+  const last = lessons[lessons.length - 1];
+  const tagUnit = Number(match[1]);
+  const tagFirst = Number(match[2]);
+  const tagLast = match[3] === undefined ? tagFirst : Number(match[3]);
+  if (tagUnit !== entry.unitId || tagFirst !== first || tagLast !== last) {
+    const want = first === last ? `${first}차시` : `${first}~${last}차시`;
+    return `mudId "${entry.mudId}": 화면 차시 표시 header.tag("${tag}")가 lesson_track(${entry.unitId}단원 ${want})과 다릅니다.`;
+  }
+  return null;
+}
+
 // ---- LT-03: lesson_track ↔ _index ↔ 실제 mud 파일 3중 대조 ----------------
 //
 // readMudFileFn(fileName) -> 파싱된 JSON 또는 null(파일 없음). listMudFilesFn() ->
@@ -187,6 +215,8 @@ function validateMudCrossReference(entries, mudIndex, readMudFileFn, listMudFile
     if (mudFile.mudId !== entry.mudId) {
       errors.push(`mudId "${entry.mudId}": _index.json이 가리키는 파일 "data/mud/${indexEntry.file}" 안의 mudId("${mudFile.mudId}")가 다릅니다.`);
     }
+    const tagError = checkHeaderTag(entry, mudFile, indexEntry.file);
+    if (tagError) errors.push(tagError);
   });
 
   // 등록 누락 탐지: 디스크에 있는 regular_*.json 파일이 _index.json regular 목록에 없는 경우
@@ -265,7 +295,7 @@ function runSelfTests() {
     const { errors } = validateMudCrossReference(
       goodEntries,
       baseIndex,
-      (file) => (file === 'regular_a.json' ? { mudId: 'regular_a' } : file === 'regular_b.json' ? { mudId: 'regular_b' } : null),
+      (file) => (file === 'regular_a.json' ? { mudId: 'regular_a', header: { tag: '1단원 2차시 · 보기1' } } : file === 'regular_b.json' ? { mudId: 'regular_b', header: { tag: '1단원 3차시 · 보기2' } } : null),
       () => ['regular_a.json', 'regular_b.json']
     );
     assert.equal(errors.length, 0, `자기 테스트: 정상 fixture인데 LT-03 오류가 났습니다 — ${JSON.stringify(errors)}`);
@@ -284,7 +314,7 @@ function runSelfTests() {
     const { errors } = validateMudCrossReference(
       badEntries,
       baseIndex,
-      (file) => (file === 'regular_a.json' ? { mudId: 'regular_a' } : file === 'regular_b.json' ? { mudId: 'regular_b' } : null),
+      (file) => (file === 'regular_a.json' ? { mudId: 'regular_a', header: { tag: '1단원 2차시 · 보기1' } } : file === 'regular_b.json' ? { mudId: 'regular_b', header: { tag: '1단원 3차시 · 보기2' } } : null),
       () => ['regular_a.json', 'regular_b.json']
     );
     assert.ok(errors.some(e => e.includes('unitId')), '자기 테스트: unitId 불일치를 잡아내지 못했습니다.');
@@ -308,10 +338,37 @@ function runSelfTests() {
     const { errors } = validateMudCrossReference(
       goodEntries,
       baseIndex,
-      (file) => (file === 'regular_a.json' ? { mudId: 'regular_a' } : file === 'regular_b.json' ? { mudId: 'regular_b' } : null),
+      (file) => (file === 'regular_a.json' ? { mudId: 'regular_a', header: { tag: '1단원 2차시 · 보기1' } } : file === 'regular_b.json' ? { mudId: 'regular_b', header: { tag: '1단원 3차시 · 보기2' } } : null),
       () => ['regular_a.json', 'regular_b.json', 'regular_forgotten.json']
     );
     assert.ok(errors.some(e => e.includes('regular_forgotten.json') && e.includes('등록되어 있지 않습니다')), '자기 테스트: 등록 누락 파일을 잡아내지 못했습니다.');
+  }
+
+  // 차시 표시 회귀 1: header.tag가 48차시 통산 번호로 적힘(세종 편 "2단원 24~25차시" 유형)
+  {
+    const { errors } = validateMudCrossReference(
+      goodEntries,
+      baseIndex,
+      (file) => (file === 'regular_a.json'
+        ? { mudId: 'regular_a', header: { tag: '1단원 24~25차시 · 보기1' } }
+        : { mudId: 'regular_b', header: { tag: '1단원 3차시 · 보기2' } }),
+      () => ['regular_a.json', 'regular_b.json']
+    );
+    assert.ok(errors.some(e => e.includes('regular_a') && e.includes('화면 차시 표시')), '자기 테스트: 통산 번호 차시 표시를 잡아내지 못했습니다.');
+    assert.ok(!errors.some(e => e.includes('regular_b')), '자기 테스트: 맞는 차시 표시를 오류로 잡았습니다.');
+  }
+
+  // 차시 표시 회귀 2: header.tag에서 단원·차시를 읽을 수 없음
+  {
+    const { errors } = validateMudCrossReference(
+      goodEntries,
+      baseIndex,
+      (file) => (file === 'regular_a.json'
+        ? { mudId: 'regular_a', header: { tag: '고려 사회' } }
+        : { mudId: 'regular_b', header: { tag: '1단원 3차시 · 보기2' } }),
+      () => ['regular_a.json', 'regular_b.json']
+    );
+    assert.ok(errors.some(e => e.includes('regular_a') && e.includes('읽을 수 없습니다')), '자기 테스트: 형식이 없는 차시 표시를 잡아내지 못했습니다.');
   }
 
   // LT-10 회귀 1: 같은 eraLabel인데 eraRange가 다름
@@ -345,7 +402,7 @@ function runSelfTests() {
     assert.ok(warnings.some(w => w.includes('기대값과 다릅니다')), '자기 테스트: 기대값 변경을 경고로 잡아내지 못했습니다.');
   }
 
-  console.log('자기 테스트 통과: LT-03·LT-10 회귀 fixture 8건 확인.');
+  console.log('자기 테스트 통과: LT-03·LT-10·차시 표시 회귀 fixture 10건 확인.');
 }
 
 function main() {
@@ -415,7 +472,7 @@ function main() {
   }
 
   warnings.forEach(w => console.log(`  [경고] ${w}`));
-  console.log(`PASS: data/lesson_track.json — entries ${entries.length}개, order 1~${entries.length} 연속, regular 편과 1:1 대응·_index.json 3중 대조·연대 회귀 검사 통과`);
+  console.log(`PASS: data/lesson_track.json — entries ${entries.length}개, order 1~${entries.length} 연속, regular 편과 1:1 대응·_index.json 3중 대조·화면 차시 표시·연대 회귀 검사 통과`);
 }
 
 main();
