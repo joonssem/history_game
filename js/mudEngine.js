@@ -223,11 +223,16 @@ const MudEngine = {
 
     // 서술문 렌더링 (용어 돋보기 tooltip 자동 변환)
     let narrativeHtml = stage.narrative;
-    if (stage.glossary && stage.glossary.length > 0) {
-      stage.glossary.forEach(g => {
-        const tooltip = `<span class="glossary-term" title="${g.definition}" style="border-bottom: 2px dotted ${this.themeColor}; cursor: help; font-weight: 700; color: ${this.themeColor};">${g.term}</span>`;
-        narrativeHtml = narrativeHtml.split(g.term).join(tooltip);
-      });
+    // 용어는 한 번에 바꾼다. 하나씩 차례로 바꾸면, 앞 용어 말풍선의 title 속성 안에
+    // 들어간 다른 용어("유관순" 설명 속 "아우내 장터")까지 다시 바뀌어 HTML이 깨진다.
+    const glossary = (stage.glossary || []).filter(g => g && g.term);
+    if (glossary.length > 0) {
+      const definitions = new Map(glossary.map(g => [g.term, g.definition || '']));
+      const escapeRegExp = text => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const escapeAttr = text => String(text).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const pattern = new RegExp([...definitions.keys()].sort((a, b) => b.length - a.length).map(escapeRegExp).join('|'), 'g');
+      narrativeHtml = narrativeHtml.replace(pattern, term =>
+        `<span class="glossary-term" title="${escapeAttr(definitions.get(term))}" style="border-bottom: 2px dotted ${this.themeColor}; cursor: help; font-weight: 700; color: ${this.themeColor};">${term}</span>`);
     }
     document.getElementById('mn-story-content').innerHTML = narrativeHtml;
 

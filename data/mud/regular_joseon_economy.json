@@ -217,7 +217,7 @@
           }
         ],
         "infoText": "상품 작물 재배와 장시의 발달은 농촌과 도시의 상품 교류를 늘렸습니다.",
-        "instruction": "🌿 <b>상품 작물 재배와 화폐 유통 확인</b>",
+        "instruction": "🌿 <b>상품 작물 재배와 장시 확인</b>",
         "feedback": "인삼과 담배의 시장 가치를 확인하세요!",
         "required": true,
         "completion": {
