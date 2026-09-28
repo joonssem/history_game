@@ -161,7 +161,7 @@ class EncyclopediaManager {
               ✨ 나의 국보 유물 컬렉션 북
             </h3>
             <p style="font-size: 0.9rem; color: #C5BCB3; margin: 0;">
-              MUD 역사 탐험을 완수하고 전설의 ${totalArts}대 유물을 모두 수집해보세요!
+              역사 탐험을 완수하고 전설의 ${totalArts}대 유물을 모두 수집해보세요!
             </p>
           </div>
 
@@ -184,10 +184,10 @@ class EncyclopediaManager {
 
       <!-- 2. 게임 카드 컬렉션 그리드 -->
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-        <h4 style="font-family: 'SchoolSafetyNotification', sans-serif; font-size: 1.15rem; color: var(--text-main); margin: 0;">
+        <h4 style="font-family: 'SchoolSafetyNotification', sans-serif; font-size: 1.15rem; color: #F7E7CE; margin: 0;">
           🎴 역사 유물 카드 (${totalArts}종)
         </h4>
-        <span style="font-size: 0.8rem; color: #887E75;">카드를 클릭하면 상세 해설을 볼 수 있습니다.</span>
+        <span style="font-size: 0.8rem; color: #C5BCB3;">카드를 클릭하면 상세 해설을 볼 수 있습니다.</span>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; margin-bottom: 30px;">
@@ -244,7 +244,7 @@ class EncyclopediaManager {
                 ???
               </h5>
               <div style="font-size: 0.68rem; color: #D4AF37; background: rgba(212,175,55,0.08); padding: 4px 6px; border-radius: 4px; line-height: 1.3;">
-                💡 ${art.hint || 'MUD 퀘스트 클리어 시 획득'}
+                💡 ${art.hint || '역사 탐험을 마치면 획득'}
               </div>
             </div>
           </div>
@@ -318,7 +318,7 @@ class EncyclopediaManager {
           </div>
           
           <div style="font-size: 0.78rem; color: #10B981; font-weight: 700;">
-            ✓ MUD 역사 탐험을 통해 정식 등록된 유물입니다.
+            ✓ 역사 탐험을 통해 정식 등록된 유물입니다.
           </div>
         </div>
       </div>

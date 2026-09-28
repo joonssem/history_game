@@ -131,10 +131,10 @@ const ArtifactComparisonEngine = {
       </div>
     `).join('');
     return `
-      <h4 style="font-family: 'SchoolSafetyNotification', sans-serif; font-size: 1.15rem; color: var(--text-main); margin: 24px 0 10px;">
+      <h4 style="font-family: 'SchoolSafetyNotification', sans-serif; font-size: 1.15rem; color: #F7E7CE; margin: 24px 0 10px;">
         🏛️ 대조실 — 지금 바로 비교해 보기
       </h4>
-      <p style="font-size:0.8rem; color:#887E75; margin: 0 0 10px;">모은 유물·유적 중 아직 안 해 본 대조가 ${list.length}개 있어요. 원할 때 바로 시작할 수 있습니다.</p>
+      <p style="font-size:0.8rem; color:#C5BCB3; margin: 0 0 10px;">모은 유물·유적 중 아직 안 해 본 대조가 ${list.length}개 있어요. 원할 때 바로 시작할 수 있습니다.</p>
       <div style="margin-bottom: 20px;">${cardsHtml}</div>
     `;
   },
@@ -149,8 +149,80 @@ const ArtifactComparisonEngine = {
     const sim = document.getElementById('view-myeongnyang');
     if (portal) portal.style.display = 'none';
     if (sim) sim.style.display = 'block';
+    this.prepareStandaloneView(comparisonId);
     this.start(comparisonId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+
+  // 포털 "더 탐구하기 → 유물·유적 비교"에서 시작(P2-SITE-STRUCTURE 2-3). 도감 경로와 같다.
+  startFromPortal(comparisonId) {
+    this.startFromEncyclopedia(comparisonId);
+  },
+
+  // MUD를 거치지 않고 비교만 할 때는 MUD 화면을 빌려 쓴다. 직전에 연 MUD의 머리글·
+  // 시뮬레이터·연대기가 남지 않게 비교용으로 바꾼다. 다음에 MUD를 열면
+  // openMUD·renderStage가 모두 되돌린다.
+  prepareStandaloneView(comparisonId) {
+    const cmp = this.comparisons.find(c => c.id === comparisonId);
+    const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+    setText('mn-header-tag', '유물·유적 비교');
+    setText('mn-header-title', cmp ? cmp.title : '유물·유적 비교');
+    setText('mn-stage-badge', '🏛️ 대조실');
+    const location = document.getElementById('mn-stage-location');
+    if (location) location.textContent = '';
+    ['mn-character-card', 'mn-aside', 'mn-interactive-card', 'mn-choice-title', 'mn-choice-lock-hint'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+  },
+
+  // 비교 페어가 열렸는지(유물 해금 조건). 이미 해 본 것인지는 따지지 않는다.
+  isUnlocked(cmp, unlocked) {
+    if (unlocked.length < 2) return false;
+    const required = cmp.requiredArtifactNames;
+    if (required && required.length > 0) return required.some(name => unlocked.includes(name));
+    return unlocked.length >= (cmp.unlockThreshold || 2);
+  },
+
+  // 포털 "더 탐구하기 → 유물·유적 비교" 목록(P2-SITE-STRUCTURE 2-3). 모든 페어를
+  // 보여 주되, 열린 것은 바로 시작하고 잠긴 것은 여는 조건을 알려 준다.
+  portalListHtml() {
+    if (!this.comparisons.length) {
+      return '<p style="font-size:0.85rem; color:#C5BCB3; margin:0;">비교 활동을 불러오는 중이에요.</p>';
+    }
+    const unlocked = window.encyclopedia?.data?.unlockedArtifacts || [];
+    const typeLabel = { artifact_vs_artifact: '유물 vs 유물', site_vs_site: '유적 vs 유적', artifact_vs_site: '유물 ↔ 유적' };
+    const openCount = this.comparisons.filter(cmp => this.isUnlocked(cmp, unlocked)).length;
+    // 지금 할 수 있는 것(열렸고 아직 안 해 본 것) → 다시 할 수 있는 것 → 잠긴 것 순서.
+    const rank = cmp => {
+      if (!this.isUnlocked(cmp, unlocked)) return 2;
+      return window.encyclopedia?.hasSeenArtifactComparison(cmp.id) ? 1 : 0;
+    };
+    const ordered = this.comparisons.map((cmp, i) => ({ cmp, i })).sort((x, y) => rank(x.cmp) - rank(y.cmp) || x.i - y.i).map(x => x.cmp);
+    const rows = ordered.map(cmp => {
+      const open = this.isUnlocked(cmp, unlocked);
+      const seen = window.encyclopedia?.hasSeenArtifactComparison(cmp.id);
+      let action;
+      if (open) {
+        action = `<button type="button" onclick="ArtifactComparisonEngine.startFromPortal('${cmp.id}')" class="btn" style="width:auto; background:${this.themeColor}; font-size:0.82rem; padding:8px 14px;">${seen ? '다시 하기' : '시작하기'}</button>`;
+      } else {
+        const need = cmp.requiredArtifactNames && cmp.requiredArtifactNames.length
+          ? '관련 시대 탐험에서 유물을 모으면 열려요'
+          : `유물 ${Math.max(cmp.unlockThreshold || 2, 2)}개를 모으면 열려요`;
+        action = `<span style="font-size:0.78rem; color:#C5BCB3;">🔒 ${need}</span>`;
+      }
+      return `
+        <div style="background:#2A2522; border:1px solid #443C37; border-radius:10px; padding:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+          <div>
+            <span style="font-size:0.68rem; font-weight:700; color:#E9D5FF; background:${this.themeColor}55; padding:2px 8px; border-radius:10px;">${typeLabel[cmp.pairType] || typeLabel.artifact_vs_artifact}</span>
+            <div style="font-size:0.92rem; font-weight:700; color:#F7E7CE; margin-top:4px;">${cmp.artifactA.icon} ${cmp.title} ${cmp.artifactB.icon}${seen ? ' <span style="font-size:0.75rem; color:#A7F3D0;">✓ 해 봄</span>' : ''}</div>
+          </div>
+          ${action}
+        </div>`;
+    }).join('');
+    return `
+      <p style="font-size:0.85rem; color:#D9D0C7; margin:0 0 10px;">두 유물·유적을 관찰하고 근거를 골라 주장을 완성한 뒤 학자들의 생각과 비교해요. 모은 유물 ${unlocked.length}개 · 열린 비교 ${openCount} / ${this.comparisons.length}</p>
+      ${rows}`;
   },
 
   skip(comparisonId) {

@@ -903,3 +903,145 @@
   outline-offset: 2px;
 }
 
+
+/* === 2026-09-28 웹사이트 구성 정비 P1 (docs/plans/tasks_site_structure.md) === */
+
+/* 1-2. 어두운 카드의 제목·설명. `.card h2`의 !important 먹색이 어두운 배경 위에서
+   제목을 지워 버렸다(명암비 1.09:1). */
+.card.card-dark h2 {
+  color: #F7E7CE !important;
+}
+.card.card-dark p {
+  color: #D9D0C7;
+}
+
+/* 1-1. 선택지가 잠겨 있을 때 먼저 할 일을 알려 준다. */
+.choice-lock-hint {
+  margin: 0 0 8px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  background: var(--card-sub);
+  border: 1px dashed var(--border-color);
+  font-size: 0.85rem;
+  color: var(--text-main);
+}
+
+/* 1-1. 좁은 화면에서 선택지 위로 옮겨진 시뮬레이터 카드(카드 안의 카드). */
+#mn-interactive-card.mn-interactive-inline {
+  margin: 14px 0;
+  padding: 12px;
+  box-shadow: none;
+}
+
+/* 1-4. 단원 탭: 넓은 화면에서는 세 탭을 한 줄에 나눠 담고 긴 이름은 줄바꿈한다. */
+@media (min-width: 621px) {
+  .unit-nav .unit-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    white-space: normal;
+    line-height: 1.35;
+  }
+}
+/* 좁은 화면에서는 가로 스크롤을 유지하되, 오른쪽이 흐려져 더 있음을 알린다. */
+@media (max-width: 620px) {
+  .unit-nav {
+    -webkit-mask-image: linear-gradient(to right, #000 82%, transparent);
+    mask-image: linear-gradient(to right, #000 82%, transparent);
+  }
+}
+
+/* 1-5. 골든벨 창의 닫기 버튼(오른쪽 위 고정)이 단원 탭과 겹치지 않게 탭을 내린다. */
+#quiz-unit-tabs {
+  margin-top: 36px;
+}
+
+/* === 2026-09-28 웹사이트 구성 정비 P2 === */
+
+/* 2-1. 이어서 하기 카드: 고정 문장 과제 상자를 대신한다. */
+.continue-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding: 16px 20px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-left: 6px solid var(--accent-teal);
+  border-radius: var(--radius);
+}
+.continue-card:empty {
+  display: none;
+}
+.continue-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1 1 320px;
+}
+.continue-card-heading {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--accent-teal);
+}
+.continue-card-meta {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.continue-card-title {
+  font-size: 1.12rem;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+.continue-card-progress {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.continue-card .continue-card-btn {
+  width: auto;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 10px 22px;
+  background: var(--accent-teal);
+  text-decoration: none;
+}
+
+/* 2-2. 포털 구역 이동 버튼 */
+.section-jump {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.section-jump-link {
+  flex: 1 1 140px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+.section-jump-link:hover,
+.section-jump-link:focus-visible {
+  border-color: var(--accent-teal);
+  color: var(--accent-teal);
+}
+#section-lessons,
+#section-more,
+#section-cooperative {
+  scroll-margin-top: 12px;
+}
+@media (max-width: 620px) {
+  .continue-card .continue-card-btn {
+    width: 100%;
+  }
+}

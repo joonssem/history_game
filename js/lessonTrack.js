@@ -13,6 +13,7 @@ const LessonTrack = {
   entries: null,
   loadPromise: null,
   rewardKeysByMudId: new Map(),
+  titleByMudId: new Map(),
 
   async load() {
     if (this.entries) return this.entries;
@@ -59,6 +60,7 @@ const LessonTrack = {
       if (res.ok) {
         const mudData = await res.json();
         keys = (mudData.rewards || []).flatMap(r => [r.name, r.artifactId].filter(Boolean));
+        if (mudData.title) this.titleByMudId.set(mudId, String(mudData.title).replace(/^MUD\s*/, ''));
       }
     } catch (err) {
       console.warn(`LessonTrack: ${mudId} 보상 정보를 불러오지 못했습니다.`, err);
@@ -220,6 +222,51 @@ const LessonTrack = {
         ${navButton(next, 'next')}
       </div>
     `;
+  },
+
+  // 포털 첫 화면의 "이어서 하기" 카드(P2-SITE-STRUCTURE 2-1). 띠의 '지금' 칸,
+  // 곧 아직 하지 않은 가장 앞 편을 크게 보여 주고 바로 시작하게 한다.
+  // 진도 기록은 띠와 같은 것(computeStatuses)을 쓰며 새 저장 키를 만들지 않는다.
+  async renderContinueCard(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const entries = await this.load();
+    if (!entries.length) { container.innerHTML = ''; container.style.display = 'none'; return; }
+    container.style.display = '';
+
+    const statuses = await this.computeStatuses(entries, null);
+    const doneCount = statuses.filter(s => s === 'done' || s === 'current-done').length;
+    const index = statuses.findIndex(s => this.isCurrentStatus(s));
+    const progress = `<span class="continue-card-progress">정규 탐험 ${doneCount} / ${entries.length}편 완료</span>`;
+
+    if (index < 0) {
+      container.innerHTML = `
+        <div class="continue-card-body">
+          <span class="continue-card-heading">🎉 정규 탐험을 모두 마쳤어요</span>
+          <strong class="continue-card-title">다시 보고 싶은 편은 아래 연대표에서 고를 수 있어요.</strong>
+          ${progress}
+        </div>
+        <a class="btn continue-card-btn" href="#section-more">더 탐구하기 ▶</a>`;
+      return;
+    }
+
+    const entry = entries[index];
+    await this.rewardKeys(entry.mudId);
+    const title = this.titleByMudId.get(entry.mudId) || entry.shortTitle;
+    const ln = entry.lessonNumbers || [];
+    const lesson = ln.length > 1 ? `${ln[0]}~${ln[ln.length - 1]}차시` : `${ln[0]}차시`;
+    const heading = doneCount === 0 ? '▶ 여기서 시작해요' : '▶ 이어서 하기';
+    container.innerHTML = `
+      <div class="continue-card-body">
+        <span class="continue-card-heading">${heading}</span>
+        <span class="continue-card-meta">${entry.unitId}단원 ${lesson} · ${entry.eraLabel}</span>
+        <strong class="continue-card-title">${title}</strong>
+        ${progress}
+      </div>
+      <button type="button" class="btn continue-card-btn" aria-label="${heading.replace('▶ ', '')}: ${title}">탐험 시작 ▶</button>`;
+    container.querySelector('.continue-card-btn').addEventListener('click', () => {
+      if (window.MudEngine) window.MudEngine.openMUD(entry.mudId);
+    });
   },
 
   // 포털(진도표) 화면의 상시 띠. 단원 탭을 바꿔도 28편 전체를 그대로 보여 준다(§1-2).
