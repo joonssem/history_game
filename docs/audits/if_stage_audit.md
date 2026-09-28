@@ -17,7 +17,7 @@
 
 <!-- IF_STAGE_SIGNALS:START -->
 - 감사 대상: Regular 재시도 단계 전체
-- 보완 검토 신호: 78개
+- 보완 검토 신호: 75개
 - 최소 기준: 근거 설명 120자 이상, 자료·비교 단서 2개 이상, 원 단계 복귀 선택지 1개
 
 | 파일 | 단계 | 표지 | 설명 글자 수 | 단서 | 신호 |
@@ -30,9 +30,6 @@
 | `regular_bronze_age.json` | 2-1 | ❌ 자료 해석 (실패) | 166 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_bronze_age.json` | 3-1 | ❌ 자료 해석 (실패) | 157 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_gojoseon.json` | 2-1 | ❌ 자료 해석 (실패) | 162 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_goryeo_culture.json` | 1-1 | ❌ 자료 해석 (문화유산 상실) | 105 | 자료, 살펴 | 근거 설명 120자 미만 |
-| `regular_goryeo_culture.json` | 2-1 | ❌ 자료 해석 (인쇄술 발전 지체) | 60 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
-| `regular_goryeo_culture.json` | 3-1 | ❌ 자료 해석 (국제 고립) | 58 | 자료, 기록 | 근거 설명 120자 미만 |
 | `regular_goryeo_founding.json` | 1-1 | ❌ 자료 해석 (실패) | 141 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_goryeo_founding.json` | 2-1 | ❌ 자료 해석 (실패) | 167 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_goryeo_founding.json` | 3-1 | ❌ 자료 해석 (실패) | 172 | 자료 | 자료·비교 단서 2개 미만 |
