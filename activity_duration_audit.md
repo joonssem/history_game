@@ -18,7 +18,7 @@
 | `regular_goryeo_founding` | 5-10min | 4 | 4 | 2 | 4 | 6.9분 | 반복 탭 조기 종료 위험 |
 | `regular_three_kingdoms_life` | 5-10min | 4 | 4 | 4 | 4 | 6.9분 | 반복 탭 조기 종료 위험 |
 | `regular_goryeo_society` | 5-10min | 4 | 4 | 2 | 4 | 7.4분 | 반복 탭 조기 종료 위험 |
-| `regular_joseon_economy` | 10min | 4 | 4 | 4 | 4 | 7.5분 | 반복 탭 조기 종료 위험 |
+| `regular_joseon_economy` | 10min | 4 | 4 | 4 | 4 | 7.4분 | 반복 탭 조기 종료 위험 |
 | `regular_myeongnyang` | 5-10min | 4 | 4 | 4 | 4 | 7.5분 | 반복 탭 조기 종료 위험 |
 | `regular_joseon_silhak` | 10min | 4 | 4 | 3 | 4 | 7.7분 | 반복 탭 조기 종료 위험 |
 | `regular_goryeo_culture` | 5-10min | 4 | 4 | 3 | 4 | 5.7분 | 기준 충족 추정 |
@@ -27,11 +27,11 @@
 | `regular_three_kingdoms` | 5-10min | 4 | 4 | 4 | 4 | 6.2분 | 기준 충족 추정 |
 | `regular_bronze_age` | 5-10min | 4 | 4 | 4 | 4 | 7.2분 | 기준 충족 추정 |
 | `regular_gwangbok` | 5-10min | 4 | 4 | 4 | 3 | 7.4분 | 기준 충족 추정 |
+| `regular_joseon_founding` | 5-10min | 4 | 4 | 4 | 4 | 7.4분 | 기준 충족 추정 |
 | `regular_post_war` | 5-10min | 4 | 4 | 3 | 4 | 7.4분 | 기준 충족 추정 |
 | `regular_japanese_rule_2` | 5-10min | 4 | 4 | 3 | 4 | 7.5분 | 기준 충족 추정 |
-| `regular_joseon_founding` | 5-10min | 4 | 4 | 4 | 4 | 7.5분 | 기준 충족 추정 |
 | `regular_joseon_folk` | 5-10min | 4 | 4 | 4 | 4 | 7.6분 | 기준 충족 추정 |
-| `regular_joseon_status` | 5-10min | 4 | 4 | 3 | 4 | 7.8분 | 기준 충족 추정 |
+| `regular_joseon_status` | 5-10min | 4 | 4 | 3 | 4 | 7.7분 | 기준 충족 추정 |
 | `regular_korean_war` | 5-10min | 4 | 4 | 4 | 4 | 7.8분 | 기준 충족 추정 |
 | `regular_gojoseon` | 5-10min | 4 | 4 | 4 | 4 | 7.9분 | 기준 충족 추정 |
 | `regular_goryeo_war` | 5-10min | 4 | 4 | 3 | 4 | 7.9분 | 기준 충족 추정 |
