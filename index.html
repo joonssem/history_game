@@ -9,7 +9,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧭</text></svg>">
   
   
-    <link rel="stylesheet" href="css/style.css?v=20260928-site1">
+    <link rel="stylesheet" href="css/style.css?v=20260928-site2">
 </head>
 <body>
 
@@ -34,32 +34,36 @@
       </div>
     </header>
 
-    <!-- 오늘의 학습 미션 안내 박스 -->
-    <div class="mission-box">
-      <strong>🎯 오늘의 역사 탐구 과제</strong><br>
-      차시별 핵심 사건의 주인공이 되어 <strong>MUD 스토리 결단</strong>을 내리고, 인터랙티브 활동을 통해 역사의 중요한 지혜를 탐구해 봅시다.
-    </div>
+    <!-- 이어서 하기: 연대표 띠에서 아직 하지 않은 가장 앞 편(LessonTrack.renderContinueCard) -->
+    <section id="continue-card" class="continue-card" aria-label="이어서 하기"></section>
 
-    <!-- 협동 MUD 파일럿 진입점 -->
-    <section class="cooperative-entry" aria-labelledby="cooperative-entry-title">
+    <!-- 포털 구역 이동 -->
+    <nav class="section-jump" aria-label="포털 구역 이동">
+      <a href="#section-lessons" class="section-jump-link">📚 차시 탐험</a>
+      <a href="#section-more" class="section-jump-link">🧭 더 탐구하기</a>
+      <a href="#section-cooperative" class="section-jump-link">🤝 모둠 탐험</a>
+    </nav>
+
+    <!-- 모둠 역사 탐험(정적 협동) 진입점 -->
+    <section id="section-cooperative" class="cooperative-entry" aria-labelledby="cooperative-entry-title">
       <div>
-        <span class="cooperative-entry-tag">🤝 협동 MUD 파일럿</span>
+        <span class="cooperative-entry-tag">🤝 모둠 역사 탐험 (시범)</span>
         <h2 id="cooperative-entry-title">친구들과 함께 결정하는 역사 이야기</h2>
-        <p>고조선 8조법·삼국 시조 설화·한강 유역 다툼, 3편의 협동 MUD에서 서로 다른 정보를 나누고 모둠의 결정을 만들어 보세요.</p>
+        <p>고조선 8조법·삼국 시조 설화·한강 유역 다툼, 3편의 모둠 탐험에서 서로 다른 정보를 나누고 모둠의 결정을 만들어 보세요.</p>
       </div>
-      <a class="cooperative-entry-link" href="cooperative-mud/" aria-label="협동 MUD 허브 열기">협동 MUD 허브 열기 <span aria-hidden="true">→</span></a>
+      <a class="cooperative-entry-link" href="cooperative-mud/" aria-label="모둠 역사 탐험 열기">모둠 탐험 열기 <span aria-hidden="true">→</span></a>
     </section>
 
-    <!-- 단원 탭 메뉴 -->
-    <nav class="unit-nav">
+    <!-- 단원 탭 메뉴 (단원 이름: data/curriculum_standards_2022.json) -->
+    <nav id="section-lessons" class="unit-nav">
       <button onclick="switchUnitTab(1)" id="tab-unit-1" class="unit-btn active" style="background-color: #2D6A4F;">
-        📜 1단원. 옛 사람들의 삶과 문화 (20차시)
+        📜 1단원. 유적과 유물로 살펴본 옛 사람들의 생활 (20차시)
       </button>
       <button onclick="switchUnitTab(2)" id="tab-unit-2" class="unit-btn">
         ⚔️ 2단원. 달라지는 시대, 변화하는 생활 모습 (14차시)
       </button>
       <button onclick="switchUnitTab(3)" id="tab-unit-3" class="unit-btn">
-        🇰🇷 3단원. 식민 통치와 저항, 전쟁이 바꾼 사회 (14차시)
+        🇰🇷 3단원. 식민 통치와 저항, 전쟁이 바꾼 사회와 생활 (14차시)
       </button>
     </nav>
 
@@ -67,17 +71,22 @@
     <div id="lesson-track-portal" class="lesson-track-portal"></div>
     <div id="curriculum-container"></div>
 
-    <!-- 확장 역사 활동 -->
-    <section class="card card-dark" style="margin-top: 30px; background: #25201D; color: #FFFFFF; border-color: #5A4E46;">
+    <!-- 더 탐구하기(확장 역사 활동) -->
+    <section id="section-more" class="card card-dark" style="margin-top: 30px; background: #25201D; color: #FFFFFF; border-color: #5A4E46;">
       <div style="border-bottom: 1px solid #5A4E46; padding-bottom: 10px; margin-bottom: 16px;">
-        <h2 style="font-size: 1.25rem; color: #F7E7CE; margin-bottom: 4px;">🧭 확장 역사 활동</h2>
-        <p style="font-size: 0.88rem; color: #C5BCB3;">MUD 탐험을 마친 뒤 타임머신 스토리와 역사 미니게임에 도전해 보세요.</p>
+        <h2 style="font-size: 1.25rem; color: #F7E7CE; margin-bottom: 4px;">🧭 더 탐구하기</h2>
+        <p style="font-size: 0.88rem; color: #C5BCB3;">역사 탐험을 마친 뒤 유물·유적 비교, 타임머신 스토리, 역사 미니게임에 도전해 보세요.</p>
       </div>
 
       <!-- 활동 토글 스위치: 아이패드 가로 화면에서 한 번에 하나의 활동만 전체 너비로 표시 -->
-      <div class="activity-toggle" role="tablist" aria-label="확장 역사 활동 전환">
+      <div class="activity-toggle" role="tablist" aria-label="더 탐구하기 활동 전환">
+        <button type="button" id="activity-tab-compare" class="activity-toggle-btn" onclick="switchExpandedActivityTab('compare')">🏛️ 유물·유적 비교</button>
         <button type="button" id="activity-tab-story" class="activity-toggle-btn active" onclick="switchExpandedActivityTab('story')">⏳ 타임머신 스토리</button>
         <button type="button" id="activity-tab-minigame" class="activity-toggle-btn" onclick="switchExpandedActivityTab('minigame')">🎮 역사 미니게임</button>
+      </div>
+
+      <div id="activity-panel-compare" style="display: none; background: #1F1B19; border: 1px solid #5A4E46; border-radius: 10px; padding: 14px;">
+        <div id="comparison-portal-list"></div>
       </div>
 
       <div id="activity-panel-story" style="background: #1F1B19; border: 1px solid #5A4E46; border-radius: 10px; padding: 14px;">
@@ -112,8 +121,8 @@
   <div id="view-myeongnyang" class="container" style="display: none;">
     <header class="main-header">
       <div>
-        <span id="mn-header-tag" class="lesson-tag">역사 MUD 시뮬레이션</span>
-        <h1 id="mn-header-title" class="main-title" style="font-size: 1.5rem;">MUD 역사 탐험</h1>
+        <span id="mn-header-tag" class="lesson-tag">역사 탐험</span>
+        <h1 id="mn-header-title" class="main-title" style="font-size: 1.5rem;">역사 탐험</h1>
       </div>
       <button onclick="showPortalView()" class="btn secondary" style="width: auto;">
         <i class="fas fa-arrow-left"></i> 전체 진도표로 나가기
@@ -160,7 +169,7 @@
               <i class="fas fa-magic" style="color: var(--accent-red);"></i> 역사 인터랙티브 체험
             </h2>
             <span id="interactive-mode-badge" style="font-size: 0.75rem; background: var(--card-sub); padding: 2px 8px; border-radius: 6px; font-weight: 700; color: var(--accent-teal);">
-              SIMULATOR
+              탐구 도구
             </span>
           </div>
 
@@ -260,20 +269,20 @@
 
   <!-- 푸터 -->
   <footer style="border-top: 1px solid var(--border-color); padding: 20px; text-align: center; font-size: 0.85rem; color: #776F66; background: var(--card-sub); margin-top: 40px;">
-    <p>초등 5학년 사회(역사) 탐구 교실 • 지도안 연계 MUD 시뮬레이션 포털 • GitHub Pages <span id="app-version"></span></p>
+    <p>초등 5학년 사회(역사) 탐구 교실 • 지도안 연계 역사 탐험 포털 • GitHub Pages <span id="app-version"></span></p>
   </footer>
 
   <!-- 스크립트 모듈 -->
   <script src="js/soundEffects.js"></script>
-  <script src="js/encyclopedia.js?v=20260928-site1"></script>
-  <script src="js/artifactComparison.js?v=20260910-artifactsite1"></script>
+  <script src="js/encyclopedia.js?v=20260928-site2"></script>
+  <script src="js/artifactComparison.js?v=20260928-site2"></script>
   <script src="js/storyEngine.js"></script>
   <script src="js/quizGame.js"></script>
-  <script src="js/miniGames.js?v=20260914-redteam1"></script>
-  <script src="js/lessonTrack.js?v=20260921-lt1"></script>
-  <script src="js/mudEngine.js?v=20260928-site1"></script>
+  <script src="js/miniGames.js?v=20260928-site2"></script>
+  <script src="js/lessonTrack.js?v=20260928-site2"></script>
+  <script src="js/mudEngine.js?v=20260928-site2"></script>
   <script src="js/mudInquiry.js?v=20260915-r3fix1"></script>
   <script src="js/mudSimulators.js?v=20260911-mapcanvas1"></script>
-  <script src="js/app.js?v=20260921-track2"></script>
+  <script src="js/app.js?v=20260928-site2"></script>
 </body>
 </html>

@@ -72,7 +72,10 @@ const MudEngine = {
 
     // 헤더 텍스트 설정
     document.getElementById('mn-header-tag').textContent = this.currentMudData.header.tag;
-    document.getElementById('mn-header-title').textContent = this.currentMudData.header.title;
+    document.getElementById('mn-header-title').textContent = this.displayTitle(this.currentMudData.header.title);
+    // 도감·포털에서 비교 활동만 했을 때 숨긴 오른쪽 열을 되살린다(artifactComparison.prepareStandaloneView).
+    const aside = document.getElementById('mn-aside');
+    if (aside) aside.style.display = '';
     document.getElementById('interactive-title').innerHTML = this.currentMudData.header.interactiveTitle;
     document.getElementById('roadmap-title').innerHTML = this.currentMudData.header.roadmapTitle;
 
@@ -168,12 +171,33 @@ const MudEngine = {
   },
 
   // === 로드맵 노드 생성 ===
+  // 학생 화면의 제목에는 개발 용어 "MUD"를 붙이지 않는다(P2-SITE-STRUCTURE 2-5). 데이터는 그대로 둔다.
+  displayTitle(title) {
+    return String(title || '').replace(/^MUD\s*/, '');
+  },
+
+  // 재시도(오답) 분기는 id에 "-"가 있다(예: 1-1). 처음부터 보이면 정답 경로가
+  // 드러나고 [실패]가 반복되므로, 실제로 들어간 분기만 보이게 하고 이름도
+  // "다시 생각하기"로 바꿔 보여 준다(P2-SITE-STRUCTURE 2-4).
+  isRoadmapBranch(id) {
+    return String(id).includes('-');
+  },
+
+  roadmapLabel(node) {
+    if (!this.isRoadmapBranch(node.id)) return node.label;
+    const match = String(node.label).match(/^(\S+\.)\s*(.*)$/);
+    const number = match ? match[1] : '';
+    const rest = (match ? match[2] : node.label).replace(/\s*\[실패\]\s*$/, '').replace(/\s+실패\s*$/, '').trim();
+    return `↩ ${number} 다시 생각하기${rest ? ` · ${rest}` : ''}`;
+  },
+
   renderRoadmap(nodes) {
     const grid = document.getElementById('roadmap-grid');
     if (!grid) return;
     let html = '';
     nodes.forEach(n => {
-      html += `<div id="mn-node-${n.id}" style="padding: 6px; border-radius: 6px; background: var(--card-sub); font-size: 0.8rem; border: 1px solid var(--border-color);">${n.label}</div>`;
+      const hidden = this.isRoadmapBranch(n.id) ? ' display: none;' : '';
+      html += `<div id="mn-node-${n.id}" style="padding: 6px; border-radius: 6px; background: var(--card-sub); font-size: 0.8rem; border: 1px solid var(--border-color);${hidden}">${this.roadmapLabel(n)}</div>`;
     });
     grid.innerHTML = html;
   },
@@ -182,6 +206,7 @@ const MudEngine = {
   updateRoadmap() {
     const currentEl = document.getElementById(`mn-node-${this.currentStage}`);
     if (currentEl) {
+      currentEl.style.display = '';
       currentEl.style.border = `2px solid ${this.themeColor}`;
       currentEl.style.backgroundColor = `${this.themeColor}22`;
       currentEl.style.color = this.themeColor;
@@ -777,7 +802,7 @@ const MudEngine = {
       }
     }
 
-    const title = this.currentMudData ? this.currentMudData.title : '역사 탐구';
+    const title = this.currentMudData ? this.displayTitle(this.currentMudData.title) : '역사 탐구';
     const tag = this.currentMudData ? this.currentMudData.header.tag : '역사 탐험';
 
     let endingHtml = '';

@@ -954,3 +954,94 @@
 #quiz-unit-tabs {
   margin-top: 36px;
 }
+
+/* === 2026-09-28 웹사이트 구성 정비 P2 === */
+
+/* 2-1. 이어서 하기 카드: 고정 문장 과제 상자를 대신한다. */
+.continue-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding: 16px 20px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-left: 6px solid var(--accent-teal);
+  border-radius: var(--radius);
+}
+.continue-card:empty {
+  display: none;
+}
+.continue-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1 1 320px;
+}
+.continue-card-heading {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--accent-teal);
+}
+.continue-card-meta {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.continue-card-title {
+  font-size: 1.12rem;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+.continue-card-progress {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.continue-card .continue-card-btn {
+  width: auto;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 10px 22px;
+  background: var(--accent-teal);
+  text-decoration: none;
+}
+
+/* 2-2. 포털 구역 이동 버튼 */
+.section-jump {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.section-jump-link {
+  flex: 1 1 140px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+.section-jump-link:hover,
+.section-jump-link:focus-visible {
+  border-color: var(--accent-teal);
+  color: var(--accent-teal);
+}
+#section-lessons,
+#section-more,
+#section-cooperative {
+  scroll-margin-top: 12px;
+}
+@media (max-width: 620px) {
+  .continue-card .continue-card-btn {
+    width: 100%;
+  }
+}

@@ -161,7 +161,7 @@ class EncyclopediaManager {
               ✨ 나의 국보 유물 컬렉션 북
             </h3>
             <p style="font-size: 0.9rem; color: #C5BCB3; margin: 0;">
-              MUD 역사 탐험을 완수하고 전설의 ${totalArts}대 유물을 모두 수집해보세요!
+              역사 탐험을 완수하고 전설의 ${totalArts}대 유물을 모두 수집해보세요!
             </p>
           </div>
 
@@ -244,7 +244,7 @@ class EncyclopediaManager {
                 ???
               </h5>
               <div style="font-size: 0.68rem; color: #D4AF37; background: rgba(212,175,55,0.08); padding: 4px 6px; border-radius: 4px; line-height: 1.3;">
-                💡 ${art.hint || 'MUD 퀘스트 클리어 시 획득'}
+                💡 ${art.hint || '역사 탐험을 마치면 획득'}
               </div>
             </div>
           </div>
@@ -318,7 +318,7 @@ class EncyclopediaManager {
           </div>
           
           <div style="font-size: 0.78rem; color: #10B981; font-weight: 700;">
-            ✓ MUD 역사 탐험을 통해 정식 등록된 유물입니다.
+            ✓ 역사 탐험을 통해 정식 등록된 유물입니다.
           </div>
         </div>
       </div>

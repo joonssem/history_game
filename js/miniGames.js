@@ -97,7 +97,7 @@ class MiniGameEngine {
       document.getElementById('card-game-stats').innerHTML = '';
       container.innerHTML = `
         <div style="max-width: 520px; margin: 0 auto; padding: 16px; border-radius: 12px; background: #1F1B19; border: 1px solid #5A4E46; text-align: center; color: #C5BCB3; font-size: 0.85rem;">
-          🎴 유물 카드 짝맞추기는 <strong style="color: #F0C987;">해금한 유물이 3개 이상</strong>일 때 도전할 수 있어요. MUD를 몇 개 더 클리어하고 다시 와 봐!
+          🎴 유물 카드 짝맞추기는 <strong style="color: #F0C987;">해금한 유물이 3개 이상</strong>일 때 도전할 수 있어요. 역사 탐험을 몇 개 더 클리어하고 다시 와 봐!
         </div>
       `;
       return;
@@ -480,7 +480,7 @@ class MiniGameEngine {
           <span style="font-size: 0.72rem; color: #9B9088;">카드를 눌러 위치를 교환하세요!</span>
         </div>
 
-        <p style="color: #C5BCB3; font-size: 0.8rem; margin-bottom: 16px;">MUD를 클리어하고 얻은 유물들이에요. 정확한 연도는 몰라도 괜찮아요 — 어느 시대가 먼저인지 순서로 맞춰 보세요!</p>
+        <p style="color: #C5BCB3; font-size: 0.8rem; margin-bottom: 16px;">역사 탐험을 클리어하고 얻은 유물들이에요. 정확한 연도는 몰라도 괜찮아요 — 어느 시대가 먼저인지 순서로 맞춰 보세요!</p>
 
         <div id="personal-timeline-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; margin-bottom: 16px;">
           ${this.personalTimelineEvents
@@ -558,7 +558,7 @@ class MiniGameEngine {
       fbEl.style.cssText = 'display: block; margin-top: 16px; padding: 14px; border-radius: 12px; background: rgba(138, 59, 41, 0.2); border: 1px solid #8A3B29; color: #F1B9A8; text-align: center;';
       fbEl.innerHTML = `
         <h4 style="font-weight: 800; font-size: 0.95rem; margin-bottom: 4px;">💡 아직 순서가 맞지 않은 곳이 있어요!</h4>
-        <p style="font-size: 0.76rem; color: #C5BCB3;">어느 유물을 얻은 MUD가 더 먼저 일어난 일인지 다시 생각하며 카드를 교환해 보세요.</p>
+        <p style="font-size: 0.76rem; color: #C5BCB3;">어느 유물을 얻은 탐험 속 사건이 더 먼저 일어났는지 다시 생각하며 카드를 교환해 보세요.</p>
       `;
     }
   }
@@ -716,7 +716,7 @@ class MiniGameEngine {
     if (pool.length < 4) {
       container.innerHTML = `
         <div style="max-width: 520px; margin: 0 auto; padding: 16px; border-radius: 12px; background: #1F1B19; border: 1px solid #5A4E46; text-align: center; color: #C5BCB3; font-size: 0.85rem;">
-          🕵️ 유물 탐정은 <strong style="color: #F0C987;">해금한 유물이 4개 이상</strong>일 때 도전할 수 있어요. MUD를 몇 개 더 클리어하고 다시 와 봐!
+          🕵️ 유물 탐정은 <strong style="color: #F0C987;">해금한 유물이 4개 이상</strong>일 때 도전할 수 있어요. 역사 탐험을 몇 개 더 클리어하고 다시 와 봐!
         </div>
       `;
       return;
