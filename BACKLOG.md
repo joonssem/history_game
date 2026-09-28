@@ -81,6 +81,16 @@
   - `regular_independence`: "3단원 38~39차시" → 4~5차시
   - `regular_korean_war`: "3단원 44~46차시" → 10~12차시
   - 뒤의 둘은 라운드 10 대조실이 먼저 발견해 넘긴 항목이다(Codex 전달 문서 `codex_status_and_requests_20260928.md` §4). 세 편의 JSON `lessonNumbers`는 이미 맞다. 이 대조를 `scripts/16`에 넣으면 재발을 막을 수 있다.
+- **2026-09-28 점검 5 — 2단원 나머지·3단원 전체 14편**: 칸끼리 맞아 수정할 필요가 없는 편은 `regular_joseon_diplomacy`, `regular_independence_army`, `regular_korean_war`(차시 표시 제외), `regular_modern_open`("Canvas" 제외)이다. 나머지 편의 불일치는 다음과 같다.
+  - 이야기는 신중하게 다시 썼는데 정답·안내·피드백·재시도 버튼은 옛 구호형으로 남은 곳: `joseon_status:3`, `joseon_folk:3`, `japanese_rule_1:1~3`, `post_war:2`, `independence:2-1`
+  - 재시도 해설이 오답과 다른 내용을 설명하는 곳: `myeongnyang:2-1`, `joseon_silhak:2-1`, `gwangbok:3-1`
+  - 한 단계에 두 주제가 섞인 곳: `joseon_economy:2`(보리 이모작과 상품 작물)
+  - 옛 조작 안내가 남은 곳: `gwangbok:1-1`(태극기 색칠), `joseon_folk:2`(터치해 추임새)
+  - 사실 오류 가능성: `japanese_rule_2:3`(원고를 "목숨 걸고 지켜내어" — 실제로는 압수 뒤 광복 후 발견)
+- **처리 결과(2026-09-28)**: 점검 3·5의 불일치, 차시 표시 3편, "Canvas" 4편을 사용자 요청("점검 후 수정")에 따라 `b72c7a26`에서 한 번에 고쳐 배포했다(`walkthrough.md` 같은 날 절). 남은 것은 두 가지다.
+  - "숙정문(智)" 대응: 대조실 확인 필요
+  - 3단원 수정 문구: 다음 대조실 라운드에서 재확인 권고
+  - A 항목(자동 경고 검사)과 `header.tag`↔`lesson_track` 대조의 `scripts/16` 편입은 아직 하지 않았다.
 - 작업 규칙 보완 제안: 콘텐츠 데이터 수정은 문서 커밋에 섞지 않고 별도 커밋으로 한다. 한 필드를 고칠 때는 같은 단계의 나머지 필드도 함께 본다(`agents.md` 반영 여부는 정기 검토 때 결정).
 
 ## P1 실험 — Regular MUD 상호작용 다양성 수업 검증
