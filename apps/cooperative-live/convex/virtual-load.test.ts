@@ -420,6 +420,23 @@ describe("실시간 협동 MUD 가상 학급", () => {
       token: groupOneStudent.token,
     });
     expect(groupOneView?.intervention?.kind).toBe("hint");
+    expect(groupOneView?.intervention?.acknowledged).toBe(false);
+    await testBackend.mutation(convexApi.students.acknowledgeIntervention, {
+      sessionId: groupOneStudent.sessionId,
+      token: groupOneStudent.token,
+      interventionId: groupOneView!.intervention!.id,
+    });
+    const acknowledgedView = await testBackend.query(convexApi.students.view, {
+      sessionId: groupOneStudent.sessionId,
+      token: groupOneStudent.token,
+    });
+    expect(acknowledgedView?.intervention?.acknowledged).toBe(true);
+    const acknowledgedDashboard = await teacher.query(convexApi.sessions.dashboard, {
+      sessionId: created.sessionId,
+    });
+    expect(
+      acknowledgedDashboard.rooms.find((room) => room.groupNumber === 1)?.latestIntervention,
+    ).toMatchObject({ kind: "hint", acknowledged: 1 });
 
     const firstStudent = students[0];
     const firstStage = await testBackend.mutation(convexApi.students.advance, {

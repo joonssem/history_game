@@ -41,6 +41,7 @@ export type StudentRecord = {
   removedBy?: string;
   recoveryTokenHash?: string;
   recoveryTokenExpiresAt?: number;
+  acknowledgedInterventionId?: GenericId<"interventions">;
   isSynthetic: boolean;
 };
 

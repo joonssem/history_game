@@ -49,6 +49,13 @@ export type Dashboard = {
     confirmed: number;
     revision?: number;
     gate: { stage: Stage; ready: boolean; reason: string | null };
+    latestIntervention: {
+      id: Id<"interventions">;
+      kind: InterventionKind;
+      createdAt: number;
+      acknowledged: number;
+      total: number;
+    } | null;
   }>;
   interventions: Array<{
     _id: Id<"interventions">;
@@ -103,7 +110,12 @@ export type StudentView = {
     firstChoices: Array<{ id: string; label: string }>;
     evidence: Array<{ id: string; label: string }>;
   } | null;
-  intervention: { kind: InterventionKind; message: string } | null;
+  intervention: {
+    id: Id<"interventions">;
+    kind: InterventionKind;
+    message: string;
+    acknowledged: boolean;
+  } | null;
 } | null;
 
 export const convexApi = {
@@ -228,6 +240,11 @@ export const convexApi = {
       { code: string; recoveryCode: string },
       { sessionId: Id<"sessions">; token: string; aliasCandidates: string[] }
     >("students:recoverSeat"),
+    acknowledgeIntervention: makeFunctionReference<
+      "mutation",
+      { sessionId: Id<"sessions">; token: string; interventionId: Id<"interventions"> },
+      { acknowledged: boolean }
+    >("students:acknowledgeIntervention"),
     saveDraft: makeFunctionReference<"mutation", {
       sessionId: Id<"sessions">;
       token: string;
