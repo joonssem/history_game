@@ -69,6 +69,7 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
   const [connectionId, setConnectionId] = useState("");
   const [editingDraft, setEditingDraft] = useState(false);
   const [editingRevision, setEditingRevision] = useState<number | null>(null);
+  const [advancing, setAdvancing] = useState(false);
   const selectAlias = useMutation(convexApi.students.selectAlias);
   const advance = useMutation(convexApi.students.advance);
   const completeFirst = useMutation(convexApi.students.completeFirst);
@@ -76,6 +77,7 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
   const saveDraft = useMutation(convexApi.students.saveDraft);
   const confirmDraft = useMutation(convexApi.students.confirmDraft);
   const requestHelp = useMutation(convexApi.students.requestHelp);
+  const heartbeat = useMutation(convexApi.students.heartbeat);
   const view = useQuery(
     convexApi.students.view,
     stored?.token ? { sessionId: typedSessionId, token: stored.token } : "skip",
@@ -86,6 +88,17 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
       clearCooperativeSessionStorage();
     }
   }, [view]);
+
+  useEffect(() => {
+    if (!stored?.token) return;
+    const send = () => void heartbeat({
+      sessionId: typedSessionId,
+      token: stored.token,
+    }).catch(() => undefined);
+    send();
+    const timer = window.setInterval(send, 30_000);
+    return () => window.clearInterval(timer);
+  }, [heartbeat, stored?.token, typedSessionId]);
 
   const progress = useMemo(() => {
     if (!view) return 0;
@@ -126,7 +139,16 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
       if (view?.stage === "share" && !view.sharedAt) await markShared({ sessionId: typedSessionId, token: stored.token });
       await advance({ sessionId: typedSessionId, token: stored.token });
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "다음 단계로 이동하지 못했습니다.");
+      const message = caught instanceof Error ? caught.message : "";
+      if (message.includes("만료") || message.includes("제외")) {
+        setError("접속 정보를 복구해야 해요. 선생님께 자리 다시 연결을 요청하세요.");
+      } else if (message.includes("단계")) {
+        setError("활동 단계가 바뀌었어요. 화면을 새로 확인해 주세요.");
+      } else {
+        setError("연결이 잠시 끊겼어요. 다시 눌러 주세요.");
+      }
+    } finally {
+      setAdvancing(false);
     }
   }
 
@@ -340,7 +362,9 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
 
       {error && <p className="notice error" role="alert">{error}</p>}
       {view.sessionStatus === "active" && view.stage !== "finished" && !["draft", "confirm"].includes(view.stage) && (
-        <button className="button primary" onClick={goNext} disabled={view.paused}>{view.stage === "share" ? "설명했어요" : "이 단계 마치기"}</button>
+        <button className="button primary" onClick={goNext} disabled={view.paused || advancing}>
+          {advancing ? "저장 중…" : view.stage === "share" && view.sharedAt ? "설명 완료" : view.stage === "share" ? "설명했어요" : "이 단계 마치기"}
+        </button>
       )}
       {view.sessionStatus === "active" && view.groupNumber && !view.helpRequested && <button className="button ghost" onClick={() => requestHelp({ sessionId: typedSessionId, token: stored.token }).catch(() => setError("도움 요청을 보내지 못했습니다."))} disabled={view.paused}>선생님께 도움 요청</button>}
     </section>

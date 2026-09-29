@@ -34,6 +34,9 @@ export type Dashboard = {
     submittedAt?: number;
     sharedAt?: number;
     confirmedRevision?: number;
+    participationStatus: "active" | "removed";
+    lastSeenAt?: number;
+    connectionStatus: "unknown" | "online" | "delayed" | "disconnected";
     isSynthetic: boolean;
   }>;
   rooms: Array<{
@@ -45,6 +48,7 @@ export type Dashboard = {
     total: number;
     confirmed: number;
     revision?: number;
+    gate: { stage: Stage; ready: boolean; reason: string | null };
   }>;
   interventions: Array<{
     _id: Id<"interventions">;
@@ -157,6 +161,21 @@ export const convexApi = {
       { sessionId: Id<"sessions"> },
       { stage: Stage }
     >("sessions:advanceStage"),
+    advanceGroupStage: makeFunctionReference<
+      "mutation",
+      { sessionId: Id<"sessions">; groupNumber: number },
+      { stage: Stage }
+    >("sessions:advanceGroupStage"),
+    setParticipantStatus: makeFunctionReference<
+      "mutation",
+      { sessionId: Id<"sessions">; playerId: Id<"players">; status: "active" | "removed" },
+      { status: "active" | "removed" }
+    >("sessions:setParticipantStatus"),
+    issueRecoveryCode: makeFunctionReference<
+      "mutation",
+      { sessionId: Id<"sessions">; playerId: Id<"players"> },
+      { recoveryCode: string; expiresAt: number }
+    >("sessions:issueRecoveryCode"),
     resolveHelp: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; groupNumber: number }, { resolved: boolean }>("sessions:resolveHelp"),
     dashboard: makeFunctionReference<
       "query",
@@ -203,6 +222,12 @@ export const convexApi = {
     >("students:advance"),
     completeFirst: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; token: string }, { complete: boolean }>("students:completeFirst"),
     markShared: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; token: string }, { complete: boolean }>("students:markShared"),
+    heartbeat: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; token: string }, { lastSeenAt: number }>("students:heartbeat"),
+    recoverSeat: makeFunctionReference<
+      "mutation",
+      { code: string; recoveryCode: string },
+      { sessionId: Id<"sessions">; token: string; aliasCandidates: string[] }
+    >("students:recoverSeat"),
     saveDraft: makeFunctionReference<"mutation", {
       sessionId: Id<"sessions">;
       token: string;

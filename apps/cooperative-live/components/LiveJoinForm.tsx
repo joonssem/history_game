@@ -25,7 +25,9 @@ export function LiveJoinForm() {
   const router = useRouter();
   const joinWithEntryKey = useMutation(convexApi.students.joinWithEntryKey);
   const joinWithCode = useMutation(convexApi.students.joinWithCode);
+  const recoverSeat = useMutation(convexApi.students.recoverSeat);
   const [code, setCode] = useState("");
+  const [recoveryCode, setRecoveryCode] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const handledEntryKey = useRef(false);
@@ -96,7 +98,25 @@ export function LiveJoinForm() {
     }
   }
 
+  async function submitRecovery(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+    setBusy(true);
+    try {
+      const result = await recoverSeat({
+        code: code.trim(),
+        recoveryCode: recoveryCode.trim().toUpperCase(),
+      });
+      rememberSession(result, code.trim());
+    } catch {
+      setError("재연결 정보를 확인할 수 없습니다. 선생님께 새 코드를 요청하세요.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
+    <>
     <form className="form" onSubmit={submit}>
       {busy && !code && <p className="notice">QR 입장 정보를 확인하고 있습니다.</p>}
       <label className="label">
@@ -117,5 +137,23 @@ export function LiveJoinForm() {
       </button>
       {error && <p className="notice error" role="alert">{error}</p>}
     </form>
+    <form className="form" onSubmit={submitRecovery}>
+      <h2>기존 자리 다시 연결</h2>
+      <p>활동 중 탭이나 기기를 잃었을 때만 선생님이 알려 준 코드를 입력하세요.</p>
+      <label className="label">
+        재연결 코드
+        <input
+          className="input"
+          autoComplete="off"
+          maxLength={12}
+          value={recoveryCode}
+          onChange={(event) => setRecoveryCode(event.target.value.replace(/[^a-fA-F0-9]/g, "").slice(0, 12).toUpperCase())}
+        />
+      </label>
+      <button className="button secondary" disabled={busy || code.length !== 6 || recoveryCode.length !== 12}>
+        {busy ? "재연결 확인 중…" : "같은 자리로 돌아가기"}
+      </button>
+    </form>
+    </>
   );
 }

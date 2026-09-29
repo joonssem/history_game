@@ -35,8 +35,18 @@ export type StudentRecord = {
   submittedAt?: number;
   sharedAt?: number;
   confirmedRevision?: number;
+  participationStatus?: "active" | "removed";
+  lastSeenAt?: number;
+  removedAt?: number;
+  removedBy?: string;
+  recoveryTokenHash?: string;
+  recoveryTokenExpiresAt?: number;
   isSynthetic: boolean;
 };
+
+export function isActiveStudent(player: { participationStatus?: string }) {
+  return player.participationStatus !== "removed";
+}
 
 type ReadCtx =
   | GenericQueryCtx<GenericDataModel>
@@ -101,5 +111,8 @@ export async function requireStudent(
 ) {
   const player = await findStudent(ctx, sessionId, token);
   if (!player) throw new Error("학생 접속 정보가 만료되었습니다.");
+  if (!isActiveStudent(player)) {
+    throw new Error("이 자리는 수업에서 제외되었습니다. 선생님께 자리 다시 연결을 요청하세요.");
+  }
   return player;
 }

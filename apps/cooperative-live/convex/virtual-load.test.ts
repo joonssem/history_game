@@ -11,6 +11,239 @@ const TEACHER_SUB = "auth0|virtual-load-teacher";
 const STUDENT_COUNT = 21;
 
 describe("실시간 협동 MUD 가상 학급", () => {
+  it("21명 혼합 단계에서 5인 모둠을 3인으로 복구하고 다른 네 모둠을 보존한다", async () => {
+    process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
+    process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
+    const testBackend = convexTest(schema, modules);
+    const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+    const created = await teacher.mutation(convexApi.sessions.create, {
+      scenarioId: "early-goryeo-unity",
+      scenarioVersion: 1,
+    });
+    const students = await Promise.all(Array.from({ length: 21 }, () =>
+      testBackend.mutation(convexApi.students.joinWithEntryKey, { entryKey: created.entryKey! })
+    ));
+    await Promise.all(students.map((student, index) =>
+      testBackend.mutation(convexApi.students.selectAlias, {
+        sessionId: student.sessionId,
+        token: student.token,
+        alias: ALIASES[index],
+      })
+    ));
+    await teacher.mutation(convexApi.sessions.previewGroups, { sessionId: created.sessionId });
+    await teacher.mutation(convexApi.sessions.confirmStart, { sessionId: created.sessionId });
+    let dashboard = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    const targetRoom = dashboard.rooms.find((room) => room.total === 5)!;
+    const targetPlayers = dashboard.players.filter((player) => player.groupNumber === targetRoom.groupNumber);
+    await teacher.mutation(convexApi.sessions.advanceGroupStage, {
+      sessionId: created.sessionId,
+      groupNumber: targetRoom.groupNumber,
+    });
+    const tokenByAlias = new Map<string, string>(
+      ALIASES.slice(0, 21).map((alias, index) => [alias, students[index].token]),
+    );
+    for (const player of targetPlayers.slice(0, 3)) {
+      await testBackend.mutation(convexApi.students.completeFirst, {
+        sessionId: created.sessionId,
+        token: tokenByAlias.get(player.alias)!,
+      });
+    }
+    for (const player of targetPlayers.slice(3)) {
+      await teacher.mutation(convexApi.sessions.setParticipantStatus, {
+        sessionId: created.sessionId,
+        playerId: player.id,
+        status: "removed",
+      });
+    }
+    await teacher.mutation(convexApi.sessions.advanceGroupStage, {
+      sessionId: created.sessionId,
+      groupNumber: targetRoom.groupNumber,
+    });
+    dashboard = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    expect(dashboard.rooms.find((room) => room.groupNumber === targetRoom.groupNumber)).toMatchObject({
+      total: 3,
+      stage: "share",
+    });
+    expect(dashboard.rooms.filter((room) => room.groupNumber !== targetRoom.groupNumber).every((room) => room.stage === "role")).toBe(true);
+    expect(dashboard.players.filter((player) => player.participationStatus === "active")).toHaveLength(19);
+  });
+
+  it("준비된 모둠만 진행하고 다른 모둠과 전체 진행은 건드리지 않는다", async () => {
+    process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
+    process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
+    const testBackend = convexTest(schema, modules);
+    const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+    const created = await teacher.mutation(convexApi.sessions.create, {
+      scenarioId: "early-goryeo-unity",
+      scenarioVersion: 1,
+    });
+    const students = await Promise.all(Array.from({ length: 8 }, () =>
+      testBackend.mutation(convexApi.students.joinWithEntryKey, { entryKey: created.entryKey! })
+    ));
+    await Promise.all(students.map((student, index) =>
+      testBackend.mutation(convexApi.students.selectAlias, {
+        sessionId: student.sessionId,
+        token: student.token,
+        alias: ALIASES[index],
+      })
+    ));
+    await teacher.mutation(convexApi.sessions.previewGroups, { sessionId: created.sessionId });
+    await teacher.mutation(convexApi.sessions.confirmStart, { sessionId: created.sessionId });
+    await teacher.mutation(convexApi.sessions.advanceGroupStage, {
+      sessionId: created.sessionId,
+      groupNumber: 1,
+    });
+    const dashboard = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    expect(dashboard.rooms.find((room) => room.groupNumber === 1)?.stage).toBe("first");
+    expect(dashboard.rooms.find((room) => room.groupNumber === 2)?.stage).toBe("role");
+    await expect(teacher.mutation(convexApi.sessions.advanceStage, {
+      sessionId: created.sessionId,
+    })).rejects.toThrow("모둠별 단계가 다릅니다");
+  });
+
+  it("참가자 재연결·제외와 모둠별 관문을 다른 모둠 없이 안전하게 복구한다", async () => {
+    const otherTeacherSub = "auth0|recovery-other-teacher";
+    process.env.TEACHER_AUTH0_SUBS = `${TEACHER_SUB},${otherTeacherSub}`;
+    process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
+    const testBackend = convexTest(schema, modules);
+    const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+    const created = await teacher.mutation(convexApi.sessions.create, {
+      scenarioId: "early-goryeo-unity",
+      scenarioVersion: 1,
+    });
+    const students = await Promise.all(Array.from({ length: 5 }, () =>
+      testBackend.mutation(convexApi.students.joinWithEntryKey, { entryKey: created.entryKey! })
+    ));
+    await Promise.all(students.map((student, index) =>
+      testBackend.mutation(convexApi.students.selectAlias, {
+        sessionId: student.sessionId,
+        token: student.token,
+        alias: ALIASES[index],
+      })
+    ));
+    await teacher.mutation(convexApi.sessions.previewGroups, { sessionId: created.sessionId });
+    await teacher.mutation(convexApi.sessions.confirmStart, { sessionId: created.sessionId });
+    let dashboard = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    const firstPlayer = dashboard.players.find((player) => player.alias === ALIASES[0])!;
+    const recovery = await teacher.mutation(convexApi.sessions.issueRecoveryCode, {
+      sessionId: created.sessionId,
+      playerId: firstPlayer.id,
+    });
+    const storedRecovery = await testBackend.run(async (ctx) => ctx.db.get(firstPlayer.id));
+    expect(storedRecovery?.recoveryTokenHash).toMatch(/^[0-9a-f]{64}$/);
+    expect(JSON.stringify(storedRecovery)).not.toContain(recovery.recoveryCode);
+    const otherTeacher = testBackend.withIdentity({ subject: otherTeacherSub });
+    const otherSession = await otherTeacher.mutation(convexApi.sessions.create, {
+      scenarioId: "early-goryeo-unity",
+      scenarioVersion: 1,
+    });
+    await expect(testBackend.mutation(convexApi.students.recoverSeat, {
+      code: otherSession.code,
+      recoveryCode: recovery.recoveryCode,
+    })).rejects.toThrow("확인할 수 없습니다");
+    const expiringPlayer = dashboard.players.find((player) => player.alias === ALIASES[1])!;
+    const expiredRecovery = await teacher.mutation(convexApi.sessions.issueRecoveryCode, {
+      sessionId: created.sessionId,
+      playerId: expiringPlayer.id,
+    });
+    await testBackend.run(async (ctx) => {
+      await ctx.db.patch(expiringPlayer.id, { recoveryTokenExpiresAt: 0 });
+    });
+    await expect(testBackend.mutation(convexApi.students.recoverSeat, {
+      code: created.code,
+      recoveryCode: expiredRecovery.recoveryCode,
+    })).rejects.toThrow("확인할 수 없습니다");
+    const recovered = await testBackend.mutation(convexApi.students.recoverSeat, {
+      code: created.code,
+      recoveryCode: recovery.recoveryCode,
+    });
+    await expect(testBackend.query(convexApi.students.view, {
+      sessionId: created.sessionId,
+      token: students[0].token,
+    })).resolves.toBeNull();
+    await expect(testBackend.mutation(convexApi.students.recoverSeat, {
+      code: created.code,
+      recoveryCode: recovery.recoveryCode,
+    })).rejects.toThrow("확인할 수 없습니다");
+
+    await teacher.mutation(convexApi.sessions.advanceGroupStage, {
+      sessionId: created.sessionId,
+      groupNumber: 1,
+    });
+    const activeTokens = [recovered.token, students[1].token, students[2].token, students[3].token];
+    await Promise.all(activeTokens.map((token) =>
+      testBackend.mutation(convexApi.students.completeFirst, { sessionId: created.sessionId, token })
+    ));
+    await expect(teacher.mutation(convexApi.sessions.advanceGroupStage, {
+      sessionId: created.sessionId,
+      groupNumber: 1,
+    })).rejects.toThrow("최초 판단 1명 남음");
+    dashboard = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    const blockedPlayer = dashboard.players.find((player) => player.alias === ALIASES[4])!;
+    await teacher.mutation(convexApi.sessions.setParticipantStatus, {
+      sessionId: created.sessionId,
+      playerId: blockedPlayer.id,
+      status: "removed",
+    });
+    await teacher.mutation(convexApi.sessions.advanceGroupStage, {
+      sessionId: created.sessionId,
+      groupNumber: 1,
+    });
+    for (const token of activeTokens) {
+      await testBackend.mutation(convexApi.students.markShared, { sessionId: created.sessionId, token });
+      await expect(testBackend.mutation(convexApi.students.markShared, {
+        sessionId: created.sessionId,
+        token,
+      })).resolves.toEqual({ complete: true });
+    }
+    await teacher.mutation(convexApi.sessions.advanceGroupStage, {
+      sessionId: created.sessionId,
+      groupNumber: 1,
+    });
+    dashboard = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    expect(dashboard.rooms[0].total).toBe(4);
+    expect(dashboard.rooms[0].stage).toBe("draft");
+    expect(dashboard.players.find((player) => player.id === blockedPlayer.id)?.participationStatus).toBe("removed");
+    const draftView = await testBackend.query(convexApi.students.view, {
+      sessionId: created.sessionId,
+      token: activeTokens[0],
+    });
+    const evidenceRoleIds = draftView!.evidenceRoles.slice(0, 2).map((role) => role.id);
+    await testBackend.mutation(convexApi.students.saveDraft, {
+      sessionId: created.sessionId,
+      token: activeTokens[0],
+      policyIds: draftView!.sharedPrompt.policies.slice(0, 2).map((item) => item.id),
+      evidenceRoleIds,
+      limitationId: draftView!.sharedPrompt.limitations[0].id,
+      connectionId: draftView!.sharedPrompt.connections[0].id,
+      expectedRevision: 0,
+    });
+    const evidencePlayer = dashboard.players.find((player) => player.roleId === evidenceRoleIds[0])!;
+    await teacher.mutation(convexApi.sessions.setParticipantStatus, {
+      sessionId: created.sessionId,
+      playerId: evidencePlayer.id,
+      status: "removed",
+    });
+    dashboard = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    expect(dashboard.rooms[0].total).toBe(3);
+    expect(dashboard.drafts).toEqual([]);
+    const survivingViews = await Promise.all(activeTokens.map((token) =>
+      testBackend.query(convexApi.students.view, { sessionId: created.sessionId, token })
+    ));
+    const threePersonView = survivingViews.find(Boolean);
+    expect(threePersonView?.commonEvidence).toEqual(
+      getScenario("early-goryeo-unity", 1)!.commonEvidenceByGroupSize[3],
+    );
+    await teacher.mutation(convexApi.sessions.setParticipantStatus, {
+      sessionId: created.sessionId,
+      playerId: evidencePlayer.id,
+      status: "active",
+    });
+    dashboard = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    expect(dashboard.rooms[0].total).toBe(4);
+    expect(dashboard.rooms[0].confirmed).toBe(0);
+  });
+
   it("조선 후기 3·4·5인 모둠을 서버에서 편성하고 역할 비공개·공통 자료를 지킨다", async () => {
     process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
     process.env.JOIN_ATTEMPT_HMAC_SECRET =
