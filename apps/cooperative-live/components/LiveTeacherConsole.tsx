@@ -3,7 +3,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useConvexAuth, useMutation, useQuery } from "convex/react";
 import { QRCodeSVG } from "qrcode.react";
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 
 import { convexApi } from "@/lib/convex-api";
 import {
@@ -23,6 +23,9 @@ export function LiveTeacherConsole() {
   const [error, setError] = useState("");
   const [scenarioId, setScenarioId] = useState("early-goryeo-unity");
   const [clock, setClock] = useState(0);
+  const [qrExpanded, setQrExpanded] = useState(false);
+  const [sendingIntervention, setSendingIntervention] = useState("");
+  const qrTriggerRef = useRef<HTMLButtonElement>(null);
   const createSession = useMutation(convexApi.sessions.create);
   const rotateEntryKey = useMutation(convexApi.sessions.rotateEntryKey);
   const seedStudents = useMutation(convexApi.sessions.seedSyntheticStudents);
@@ -95,6 +98,18 @@ export function LiveTeacherConsole() {
     const timer = window.setInterval(() => setClock(Date.now()), 30_000);
     return () => window.clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (!qrExpanded) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setQrExpanded(false);
+        qrTriggerRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [qrExpanded]);
 
   function connectionLabel(
     lastSeenAt: number | undefined,
@@ -210,7 +225,14 @@ export function LiveTeacherConsole() {
           </div>
           {dashboard.session.status === "lobby" && (
             joinUrl
-              ? <div className="qr"><QRCodeSVG value={joinUrl} size={152} level="M" /></div>
+              ? <div className="qr">
+                  <QRCodeSVG value={joinUrl} size={152} level="M" />
+                  <button
+                    ref={qrTriggerRef}
+                    className="button secondary"
+                    onClick={() => setQrExpanded(true)}
+                  >QR 크게 보기</button>
+                </div>
               : <div className="notice">QR 입장키를 새로 만들어 주세요.</div>
           )}
         </div>
@@ -382,6 +404,16 @@ export function LiveTeacherConsole() {
                       </>
                     ) : null;
                   })()}
+                  {(() => {
+                    const latest = dashboard.rooms.find((item) => item.groupNumber === groupNumber)?.latestIntervention;
+                    return latest ? (
+                      <span className="notice">
+                        최근 개입: {latest.kind === "hint" ? "힌트" : "심화 상황"}
+                        {` · ${new Date(latest.createdAt).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}`}
+                        {` · 확인 ${latest.acknowledged}/${latest.total}`}
+                      </span>
+                    ) : null;
+                  })()}
                   {dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.revision && (
                     <span className="badge">
                       확인 {dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.confirmed ?? 0}/{dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.total ?? players.length}
@@ -392,17 +424,52 @@ export function LiveTeacherConsole() {
                     <button
                       key={kind}
                       className={kind === "hint" ? "button secondary" : "button ghost"}
+                      disabled={sendingIntervention === `${groupNumber}:${kind}`}
                       onClick={() => run(async () => {
-                        await sendIntervention({ sessionId, groupNumber, kind });
-                        setMessage(`${groupNumber}모둠에 ${kind === "hint" ? "힌트" : "심화 상황"}을 보냈습니다.`);
+                        const latest = dashboard.rooms.find((item) => item.groupNumber === groupNumber)?.latestIntervention;
+                        if (latest?.kind === kind && !window.confirm("같은 종류의 개입을 다시 보낼까요?")) return;
+                        setSendingIntervention(`${groupNumber}:${kind}`);
+                        try {
+                          await sendIntervention({ sessionId, groupNumber, kind });
+                          setMessage(`${groupNumber}모둠에 ${kind === "hint" ? "힌트" : "심화 상황"}을 보냈습니다.`);
+                        } finally {
+                          setSendingIntervention("");
+                        }
                       })}
-                    >{kind === "hint" ? "힌트" : "심화 상황"}</button>
+                    >{sendingIntervention === `${groupNumber}:${kind}` ? "전송 중…" : kind === "hint" ? "힌트" : "심화 상황"}</button>
                   ))}
                 </div>
               )}
             </article>
           ))}
         </section>
+      )}
+      {qrExpanded && joinUrl && (
+        <div
+          className="qr-modal-backdrop"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setQrExpanded(false);
+              qrTriggerRef.current?.focus();
+            }
+          }}
+        >
+          <section className="qr-modal" role="dialog" aria-modal="true" aria-labelledby="qr-modal-title">
+            <button
+              className="button ghost qr-modal-close"
+              autoFocus
+              onClick={() => {
+                setQrExpanded(false);
+                qrTriggerRef.current?.focus();
+              }}
+            >닫기</button>
+            <h2 id="qr-modal-title">{dashboard.session.scenario?.title}</h2>
+            <div className="qr-large"><QRCodeSVG value={joinUrl} size={360} level="M" /></div>
+            <div className="code">{dashboard.session.code}</div>
+            <p>QR을 읽지 못하면 입장 화면에서 위 여섯 자리 코드를 입력하세요.</p>
+          </section>
+        </div>
       )}
     </>
   );

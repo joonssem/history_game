@@ -107,6 +107,30 @@ a { color: inherit; }
 .code { font-size: clamp(2rem, 8vw, 4.5rem); font-weight: 900; letter-spacing: 0.16em; color: var(--navy); }
 .session-head { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
 .qr { padding: 10px; border-radius: 14px; background: white; border: 1px solid var(--line); }
+.qr { display: grid; gap: 10px; justify-items: center; }
+.qr-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.78);
+}
+.qr-modal {
+  position: relative;
+  width: min(680px, 100%);
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+  padding: clamp(22px, 4vw, 36px);
+  border-radius: 24px;
+  text-align: center;
+  background: white;
+}
+.qr-modal h2 { padding: 0 72px; }
+.qr-modal-close { position: absolute; top: 16px; right: 16px; }
+.qr-large { display: grid; place-items: center; margin: 18px auto; }
+.qr-large svg { width: min(360px, 72vw); height: auto; }
 
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 18px 0; }
 .stat { padding: 14px; border-radius: 15px; background: var(--surface); }
@@ -155,6 +179,7 @@ a { color: inherit; }
   .entry-card p { min-height: auto; }
   .topbar, .session-head { display: grid; grid-template-columns: 1fr; }
   .qr { width: fit-content; }
+  .qr-modal h2 { padding: 48px 0 0; }
   .player-row { grid-template-columns: 0.8fr 1.2fr; }
   .player-row .button { grid-column: 1 / -1; }
 }

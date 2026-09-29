@@ -754,6 +754,9 @@ export const dashboard = queryGeneric({
         const draft = drafts.find(
           (item) => item.groupNumber === room.groupNumber,
         );
+        const latestIntervention = interventions
+          .filter((item) => item.groupNumber === room.groupNumber)
+          .sort((left, right) => right.createdAt - left.createdAt)[0];
         return {
           ...room,
           completed: members.filter((member) => member.stage === "finished").length,
@@ -765,6 +768,17 @@ export const dashboard = queryGeneric({
             : 0,
           revision: draft?.revision,
           gate: gateForPlayers(members),
+          latestIntervention: latestIntervention
+            ? {
+                id: latestIntervention._id,
+                kind: latestIntervention.kind,
+                createdAt: latestIntervention.createdAt,
+                acknowledged: members.filter(
+                  (member) => member.acknowledgedInterventionId === latestIntervention._id,
+                ).length,
+                total: members.length,
+              }
+            : null,
         };
       }),
       interventions,

@@ -78,6 +78,7 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
   const confirmDraft = useMutation(convexApi.students.confirmDraft);
   const requestHelp = useMutation(convexApi.students.requestHelp);
   const heartbeat = useMutation(convexApi.students.heartbeat);
+  const acknowledgeIntervention = useMutation(convexApi.students.acknowledgeIntervention);
   const view = useQuery(
     convexApi.students.view,
     stored?.token ? { sessionId: typedSessionId, token: stored.token } : "skip",
@@ -248,6 +249,20 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
         <div className="intervention">
           <strong>{view.intervention.kind === "hint" ? "교사 힌트" : "교사 심화 상황"}</strong><br />
           {view.intervention.message}
+          <div className="actions">
+            <button
+              className="button secondary"
+              disabled={view.intervention.acknowledged}
+              onClick={() => {
+                if (!stored) return;
+                void acknowledgeIntervention({
+                  sessionId: typedSessionId,
+                  token: stored.token,
+                  interventionId: view.intervention!.id,
+                }).catch(() => setError("교사 안내 확인을 저장하지 못했습니다. 다시 눌러 주세요."));
+              }}
+            >{view.intervention.acknowledged ? "확인 완료" : "확인했어요"}</button>
+          </div>
         </div>
       )}
 

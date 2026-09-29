@@ -437,7 +437,12 @@ export const view = queryGeneric({
       confirmedRevision: player.confirmedRevision,
       helpRequested: Boolean(helpRequest),
       intervention: intervention
-        ? { kind: intervention.kind, message: intervention.message }
+        ? {
+            id: intervention._id,
+            kind: intervention.kind,
+            message: intervention.message,
+            acknowledged: player.acknowledgedInterventionId === intervention._id,
+          }
         : null,
     };
   },
@@ -543,6 +548,30 @@ export const heartbeat = mutationGeneric({
     const now = Date.now();
     await ctx.db.patch(player._id, { lastSeenAt: now, updatedAt: now });
     return { lastSeenAt: now };
+  },
+});
+
+export const acknowledgeIntervention = mutationGeneric({
+  args: {
+    sessionId: v.id("sessions"),
+    token: v.string(),
+    interventionId: v.id("interventions"),
+  },
+  handler: async (ctx, args) => {
+    const player = await requireStudent(ctx, args.sessionId, args.token);
+    const intervention = await ctx.db.get(args.interventionId);
+    if (
+      !intervention
+      || intervention.sessionId !== args.sessionId
+      || intervention.groupNumber !== player.groupNumber
+    ) {
+      throw new Error("확인할 교사 개입을 찾을 수 없습니다.");
+    }
+    await ctx.db.patch(player._id, {
+      acknowledgedInterventionId: intervention._id,
+      updatedAt: Date.now(),
+    });
+    return { acknowledged: true };
   },
 });
 

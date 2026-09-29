@@ -40,6 +40,7 @@ export default defineSchema({
     removedBy: v.optional(v.string()),
     recoveryTokenHash: v.optional(v.string()),
     recoveryTokenExpiresAt: v.optional(v.number()),
+    acknowledgedInterventionId: v.optional(v.id("interventions")),
     joinedAt: v.number(),
     updatedAt: v.number(),
     isSynthetic: v.boolean(),
