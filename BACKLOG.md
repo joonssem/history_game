@@ -17,6 +17,17 @@
 - 작업 claim: `TASK-20260929-COLLAB-RECOVERY-TASKS | 복구 구현 우선순위와 실행 체크리스트 작성 | planning agent(Codex) | 상태: DONE | 검증: P0~P2 의존성·완료 기준·검증 명령·중단 조건 문서화, git diff --check`
 - 작업 claim: `TASK-20260929-COLLAB-RECOVERY-P0 | apps/cooperative-live P0-0~P0-5 | implementation agent(Codex) | 상태: DOING(P0-5 Auth0 Preview callback·실제 기기 리허설 대기) | 브랜치: feat/cooperative-classroom-recovery-p0 | 커밋: 0cbc90d | 검증: npm run check, 단위 19건, Convex 6건, 21명 신규 복구 회귀, production build, git diff --check, Convex dev functions ready, Vercel Preview Ready(dpl_4YeiHEfWc8M2FhoQCGkyQVqxDw9a) | 배포 관문: Auth0가 새 Preview /teacher redirect_uri를 허용하지 않아 Callback URL mismatch`
 - 작업 claim: `TASK-20260929-COLLAB-RECOVERY-P1P2 | 개입 이력·확인 표시와 교실용 QR 확대 | implementation agent(Codex) | 상태: DONE(자동 검증)·현장 검증 대기 | 브랜치: feat/cooperative-classroom-recovery-p0 | 커밋: f71ca7d | 검증: npm run check, 단위 19건, Convex 6건, production build, git diff --check`
+- 작업 claim: `TASK-20260929-GORYEO-RELATIONS-CULTURE-PLAN | 고려 후속 실시간 협동 활동 2종 계획 | planning agent(Codex) | 상태: DONE | 범위: 15~16차시 주변 나라 관계, 17~18차시 문화·생활 | 검증: 기존 정규 MUD·48차시·협동 시나리오 계약 대조, git diff --check`
+- 작업 claim: `TASK-20260929-GORYEO-RELATIONS-CULTURE-TASKS | 고려 후속 활동 우선순위·실행 체크리스트 | planning agent(Codex) | 상태: DONE | 순서: P0 선행 관문 → P1-A 주변 나라 관계 → P1-B 문화와 생활 → 통합 리허설 | 검증: 의존성·완료 기준·중단 조건·검증 명령 문서화, git diff --check`
+
+## P1-COLLAB-GORYEO-RELATIONS-CULTURE — 고려 후속 협동 활동 2종
+
+- 상태: `planned / checklist-ready / implementation-approval-needed` — [구현 계획](./docs/plans/implementation_plan_goryeo_relations_culture_cooperative_live.md) · [실행 체크리스트](./docs/plans/tasks_goryeo_relations_culture_cooperative_live.md)
+- 목적: 13차시 고려 건국 협동 활동 뒤에 15~16차시 `고려와 주변 나라들의 관계`와 17~18차시 `고려의 문화와 사람들의 생활`을 같은 실시간 협동 엔진으로 연결한다.
+- 현행 자산: 정규 MUD `regular_goryeo_war`와 `regular_goryeo_culture`가 있으므로 사실·자료 후보는 재사용하되, 정규 MUD의 개인 관문을 그대로 복제하지 않는다.
+- 핵심 보완: 기존 `regular_goryeo_culture`는 팔만대장경·직지·벽란도 중심이어서 `6사04-03`의 사회 모습과 사람들의 생활 추론을 충분히 다루지 못한다는 기존 감사 결과가 있다. 새 협동 활동은 고려청자 제작·사용, 가족·상속, 신분과 생업 등 생활 근거를 포함하되 한 사례를 고려인 전체로 일반화하지 않는다.
+- 구현 전 관문: 복구 기능 브랜치의 통합 여부, Auth0 Preview callback, 4~8대 실제 기기 리허설 결과를 확인한다. 공통 엔진 결함이 남은 상태에서 시나리오 수만 늘리지 않는다.
+- 예상 범위: `apps/cooperative-live/shared/scenario.ts`, `apps/cooperative-live/convex/scenarios.ts`, 시나리오 레지스트리·서버 검증 테스트, 교사 운영 문서. 정규 MUD JSON 변경은 별도 감사에서 필요성이 확인될 때만 분리한다.
 
 상세와 근거는 [`claude_four_track_session_close_20260911.md`](./docs/handoff/claude_four_track_session_close_20260911.md).
 

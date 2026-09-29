@@ -18,6 +18,27 @@
 
 ---
 
+## 2026-09-29 — 고려 후속 협동 활동 다음 관문 진행 승인
+
+`TASK-20260929-GORYEO-RELATIONS-CULTURE-TASKS | 고려 후속 활동 우선순위·실행 체크리스트 | planning agent(Codex) | 상태: DONE`
+
+- 사용자 원문: "다음 관문 진행"
+- 상태: `promoted`
+- 해석: 계획서의 네 가지 결정안과 `주변 나라 관계 → 문화와 생활` 순차 구현 방향을 승인한 것으로 처리한다.
+- 산출물: [`docs/plans/tasks_goryeo_relations_culture_cooperative_live.md`](./docs/plans/tasks_goryeo_relations_culture_cooperative_live.md)
+- 경계: 체크리스트 작성까지 승인된 것이며, 코드·콘텐츠 구현 착수는 다음 관문에서 별도로 claim한다.
+
+## 2026-09-29 — 고려와 주변 나라들·고려 문화와 생활 협동 활동 계획 요청
+
+`TASK-20260929-GORYEO-RELATIONS-CULTURE-PLAN | 고려 후속 실시간 협동 활동 2종 계획 | planning agent(Codex) | 상태: DONE`
+
+- 사용자 원문: "고려와 주변 나라달의 관계, 고려의 문화와 사람들의 생활 모습도 만들어보자. 계획서 작성 시작"
+- 표기 정리: 문맥상 `나라달`은 `나라들`로 해석하되 원문은 위에 그대로 보존한다.
+- 상태: `planned-and-prioritized`
+- 분류: 13차시 `새 고려의 첫 회의` 다음에 이어지는 15~16차시와 17~18차시의 실시간 협동 활동 확장 제안이다.
+- 경계: 이번 작업은 현행 정규 MUD·실시간 협동 계약을 대조해 계획과 수용 기준을 정하는 단계다. 역사 콘텐츠·코드·배포는 사용자 확인 뒤 별도 구현 묶음으로 진행한다.
+- 산출물: [`docs/plans/implementation_plan_goryeo_relations_culture_cooperative_live.md`](./docs/plans/implementation_plan_goryeo_relations_culture_cooperative_live.md)
+
 ## 2026-09-29 — 실시간 협동 복구 계획 우선순위·체크리스트 작성 요청
 
 `TASK-20260929-COLLAB-RECOVERY-TASKS | 복구 구현 우선순위와 실행 체크리스트 작성 | planning agent(Codex) | 상태: DONE`
