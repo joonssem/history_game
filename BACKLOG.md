@@ -12,8 +12,72 @@
 - 작업 claim: `TASK-20260915-T5-1 | 고조선 정적 협동 MUD 최초 판단 순서 교정 | implementation agent(Codex) | 상태: DONE | 검증: node --check ×3, 06_validate_static_assets.py, git diff --check, 브라우저 3인·5분형/5인·10분형`
 - 작업 claim: `TASK-20260917-JOSEON-LATE-C1-AUDIT | 조선 후기 협동 패킷 C1 읽기 전용 감사 | audit agent(Codex) | 상태: DONE | 판정: T1 착수 NO-GO(실제 런타임 계약 정렬·공개 경로 차단 전) | 검증: scripts/15 --final/--cards, 04/05/13/14, apps/cooperative-live npm run check`
 - 작업 claim: `TASK-20260928-CODEX-LT-R11-AUDIT | 라운드 11 연대표 통합본·validator 브랜치 읽기 전용 대조 | audit agent(Codex) | 상태: DONE | 판정: LT-08·09 해결, LT-03·10 부분 해결 | 검증: node scripts/16_validate_lesson_track.js --ci, origin/feat/codex-lesson-track-validator 읽기 전용 diff`
+- 작업 claim: `TASK-20260929-COLLAB-QR-DISPLAY | 실시간 협동 교사용 QR 확대 요구 문서화 | planning agent(Codex) | 상태: DONE | 검증: INBOX 원문 보존, P2-COLLAB-06 목적·기능·범위·수용 기준 등록, git diff --check`
+- 작업 claim: `TASK-20260929-COLLAB-CLASSROOM-RECOVERY-PLAN | 유령 참가자·진행 관문·교사 운영 UX 해결 계획 | planning agent(Codex) | 상태: DONE | 검증: 현행 Convex/UI 계약 대조, 구현 순서·수용 기준·회귀 시나리오 문서화, git diff --check`
+- 작업 claim: `TASK-20260929-COLLAB-RECOVERY-TASKS | 복구 구현 우선순위와 실행 체크리스트 작성 | planning agent(Codex) | 상태: DONE | 검증: P0~P2 의존성·완료 기준·검증 명령·중단 조건 문서화, git diff --check`
+- 작업 claim: `TASK-20260929-COLLAB-RECOVERY-P0 | apps/cooperative-live P0-0~P0-5 | implementation agent(Codex) | 상태: DOING(P0-5 Auth0 Preview callback·실제 기기 리허설 대기) | 브랜치: feat/cooperative-classroom-recovery-p0 | 커밋: 0cbc90d | 검증: npm run check, 단위 19건, Convex 6건, 21명 신규 복구 회귀, production build, git diff --check, Convex dev functions ready, Vercel Preview Ready(dpl_4YeiHEfWc8M2FhoQCGkyQVqxDw9a) | 배포 관문: Auth0가 새 Preview /teacher redirect_uri를 허용하지 않아 Callback URL mismatch`
+- 작업 claim: `TASK-20260929-COLLAB-RECOVERY-P1P2 | 개입 이력·확인 표시와 교실용 QR 확대 | implementation agent(Codex) | 상태: DONE(자동 검증)·현장 검증 대기 | 브랜치: feat/cooperative-classroom-recovery-p0 | 커밋: f71ca7d | 검증: npm run check, 단위 19건, Convex 6건, production build, git diff --check`
+- 작업 claim: `TASK-20260929-GORYEO-RELATIONS-CULTURE-PLAN | 고려 후속 실시간 협동 활동 2종 계획 | planning agent(Codex) | 상태: DONE | 범위: 15~16차시 주변 나라 관계, 17~18차시 문화·생활 | 검증: 기존 정규 MUD·48차시·협동 시나리오 계약 대조, git diff --check`
+- 작업 claim: `TASK-20260929-GORYEO-RELATIONS-CULTURE-TASKS | 고려 후속 활동 우선순위·실행 체크리스트 | planning agent(Codex) | 상태: DONE | 순서: P0 선행 관문 → P1-A 주변 나라 관계 → P1-B 문화와 생활 → 통합 리허설 | 검증: 의존성·완료 기준·중단 조건·검증 명령 문서화, git diff --check`
+
+## P1-COLLAB-GORYEO-RELATIONS-CULTURE — 고려 후속 협동 활동 2종
+
+- 상태: `planned / checklist-ready / implementation-approval-needed` — [구현 계획](./docs/plans/implementation_plan_goryeo_relations_culture_cooperative_live.md) · [실행 체크리스트](./docs/plans/tasks_goryeo_relations_culture_cooperative_live.md)
+- 목적: 13차시 고려 건국 협동 활동 뒤에 15~16차시 `고려와 주변 나라들의 관계`와 17~18차시 `고려의 문화와 사람들의 생활`을 같은 실시간 협동 엔진으로 연결한다.
+- 현행 자산: 정규 MUD `regular_goryeo_war`와 `regular_goryeo_culture`가 있으므로 사실·자료 후보는 재사용하되, 정규 MUD의 개인 관문을 그대로 복제하지 않는다.
+- 핵심 보완: 기존 `regular_goryeo_culture`는 팔만대장경·직지·벽란도 중심이어서 `6사04-03`의 사회 모습과 사람들의 생활 추론을 충분히 다루지 못한다는 기존 감사 결과가 있다. 새 협동 활동은 고려청자 제작·사용, 가족·상속, 신분과 생업 등 생활 근거를 포함하되 한 사례를 고려인 전체로 일반화하지 않는다.
+- 구현 전 관문: 복구 기능 브랜치의 통합 여부, Auth0 Preview callback, 4~8대 실제 기기 리허설 결과를 확인한다. 공통 엔진 결함이 남은 상태에서 시나리오 수만 늘리지 않는다.
+- 예상 범위: `apps/cooperative-live/shared/scenario.ts`, `apps/cooperative-live/convex/scenarios.ts`, 시나리오 레지스트리·서버 검증 테스트, 교사 운영 문서. 정규 MUD JSON 변경은 별도 감사에서 필요성이 확인될 때만 분리한다.
 
 상세와 근거는 [`claude_four_track_session_close_20260911.md`](./docs/handoff/claude_four_track_session_close_20260911.md).
+
+## P0-COLLAB-GHOST-PLAYER — 유령 참가자 제거·자리 복구 부재
+
+- 작업 claim: `TASK-20260929-COLLAB-GHOST-PLAYER | 21명 실제 수업 입장 실패·전원 관문 차단 감사 | audit agent(Codex) | 상태: DONE | 검증: 라이브 교사 대시보드 21명·5/4/4/4/4 편성 확인, 세션·학생 관문 코드 읽기 전용 확인`
+- 상태: `P0 / planned / checklist-ready / implementation-approval-needed` — [해결 계획](./docs/plans/implementation_plan_cooperative_live_classroom_recovery.md) · [실행 체크리스트](./docs/plans/tasks_cooperative_live_classroom_recovery.md)
+- 실제 수업 관찰(2026-09-29): 실제 학생 21명 중 2명이 활동 화면에 들어가지 못했지만 교사 대시보드는 21명 접속으로 표시했다. 이전 시도에서는 22명 접속이 표시되어 중복·복구 불가 참가자 레코드가 편성 인원에 포함될 가능성이 확인됐다.
+- 원인 범위: 서버 참가자 레코드는 세션 토큰을 잃은 기기와 연결이 끊겨도 접속 인원과 모둠 구성에 남는다. 교사 화면에는 개별 참가자 제거·자리 재연결·활성 상태 표시가 없다.
+- 영향: 복구 불가 참가자가 `최초 판단`, `자료 말하기`, `공동 초안 확인`을 수행할 수 없다. 교사의 `전체 다음 단계`도 최초 판단·자료 공유 전원 완료를 요구하며, 공동 초안 이후에는 모든 모둠원의 같은 revision 확인을 요구하므로 해당 모둠 또는 전체 활동이 멈출 수 있다.
+- 구분: 3인 모둠은 `early-goryeo-unity`의 공식 지원 크기이며 발해 관점 공통 자료가 제공된다. 이 결함은 3인 역할 구성 문제가 아니라 **실제 기기와 참가자 레코드의 불일치** 문제다.
+- 필요한 기능 후보:
+  1. 교사가 시작 전·진행 중 특정 참가자를 확인 후 제거할 수 있는 기능.
+  2. 제거된 자리를 같은 학생이 새 토큰으로 다시 입장하거나 기존 역할에 재연결하는 복구 흐름.
+  3. 최근 heartbeat를 바탕으로 `접속 중 / 연결 끊김`을 구분하되 일시적인 탭 전환만으로 자동 삭제하지 않는 상태 표시.
+  4. 시작 전 실제 출석 인원과 서버 참가자 수가 다를 때 경고하고, 교사가 정리하기 전 편성을 확정하지 않도록 하는 관문.
+  5. 제거·재연결 뒤 모둠 인원, 역할 중복, 공통 자료, confirmation 합계가 다시 계산되는 회귀 검사.
+- 즉시 운영 폴백: 최초 입장 탭 새로고침으로 세션 토큰 복구 → 실패하면 세션 종료·삭제 후 한 기기·한 탭 재입장. 유령 참가자가 있는 상태에서 `전체 다음 단계` 또는 편성 확정을 강행하지 않는다.
+- 예상 변경 범위: `apps/cooperative-live`의 참가자 세션·교사 대시보드·Convex mutations/schema 및 통합 테스트. 정규 MUD 28편·`js/mudEngine.js`·`scripts/18*`·조선 후기 콘텐츠 원본은 범위 밖이다.
+
+## P0-COLLAB-LIVE-CONTROLS — 교사 개입 흔적·설명 완료 오류·모둠별 진행 부재
+
+- 작업 claim: `TASK-20260929-COLLAB-LIVE-CONTROLS | 실제 수업 중 교사·학생 진행 결함 기록 | audit agent(Codex) | 상태: DONE | 검증: 사용자 현장 관찰 원문 보존, 현행 교사 전체 진행·학생 공유 관문 코드 읽기 전용 확인`
+- 상태: `P0 / planned / checklist-ready / implementation-approval-needed` — [해결 계획](./docs/plans/implementation_plan_cooperative_live_classroom_recovery.md) · [실행 체크리스트](./docs/plans/tasks_cooperative_live_classroom_recovery.md)
+- 문제·영향:
+  1. `힌트`·`심화 상황`을 보낸 뒤 교사 대시보드에서 적용 여부와 최근 전송 이력이 분명하지 않아 중복 전송하거나 개입한 모둠을 놓칠 수 있다.
+  2. 학생의 `설명했어요` 탭에서 빨간 오류 문구가 나타나는 경우가 있어 공유 완료 관문이 막힐 수 있다. 현행 전체 진행은 모든 참가자의 `sharedAt`을 요구하므로 한 명의 실패가 전체 활동을 멈출 수 있다.
+  3. `전체 다음 단계`만 있고 모둠별 진행 제어가 없어, 정상 완료한 모둠과 복구가 필요한 모둠을 분리해 운영하기 어렵다.
+- 재현에 필요한 추가 기록: 빨간 오류 문구 전문, 수업 코드·모둠·역할, 탭 시점의 학생 단계, 단일/연속 탭 여부, 네트워크 상태, 새로고침 뒤 복구 여부. 학생 이름·학번은 기록하지 않는다.
+- 필요한 기능 후보:
+  1. 각 모둠 카드에 `최근 개입: 힌트/심화 · 시각 · 확인 여부`를 표시하고, 버튼을 누른 직후 명확한 성공 상태를 남긴다.
+  2. 동일 개입 재전송 여부를 교사가 구분할 수 있게 하며, 학생 화면에서도 새 개입과 이미 본 개입을 구별한다.
+  3. `설명했어요` mutation 실패 시 서버 오류 원문 대신 학생이 할 행동을 알려 주는 메시지와 `다시 시도`를 제공하고, 중복 탭은 멱등적으로 성공 처리한다.
+  4. 모둠 카드에 `이 모둠 다음 단계`를 제공하되, 기본값은 그 모둠 구성원이 현재 관문의 필수 행동을 모두 마쳤을 때만 활성화한다.
+  5. 연결 끊김 등 예외를 교사가 강제로 넘길 수 있게 할지는 별도 결정으로 남기고, 허용한다면 확인창·사유·대시보드 흔적과 공동 초안 confirmation 재계산을 필수로 한다.
+  6. 전체 진행과 모둠별 진행이 섞여도 다른 모둠의 단계·초안·확인 상태가 바뀌지 않는 통합 회귀를 추가한다.
+- 예상 변경 범위: `apps/cooperative-live/components/LiveTeacherConsole.tsx`, `LiveStudentActivity.tsx`, 개입·학생 진행 Convex mutation/query, 관련 통합 테스트. 정규 MUD 28편·`js/mudEngine.js`·`scripts/18*`·조선 후기 콘텐츠 원본은 범위 밖이다.
+- **2026-09-29 라이브 재현 — `전체 다음 단계` 작동 불능**: 수업 코드 `859220`, 서버 표시 21명에서 1모둠은 공동 초안, 2·3모둠은 자료 말하기 중 각각 1명이 개인 최초 판단, 4모둠은 전원 확인, 5모둠은 활동 마침 상태였다. 버튼은 활성화돼 있었지만 `sessions.advanceStage`는 전체 참가자의 가장 이른 단계를 기준으로 잡고, `first` 단계 참가자 중 한 명이라도 `submittedAt`이 없으면 전체 요청을 거부한다. 따라서 서로 다른 단계가 섞인 실제 수업에서 두 참가자의 탭·토큰이 복구되지 않으면 교사가 정상 모둠만 진행시키거나 문제 참가자를 우회할 방법이 없다.
+  - 판정: 단순 버튼 비활성화 표시 문제가 아니라 `P0-COLLAB-GHOST-PLAYER`와 결합된 전체 수업 진행 차단이다.
+  - 추가 수용 기준: 전체 진행 버튼은 실행 전 차단 사유와 미완료 인원·모둠을 보여 주고, 조건이 안 되면 비활성화한다. 모둠별 진행은 해당 모둠의 필수 행동만 검사하며 다른 모둠의 느린 참가자 때문에 차단되지 않는다. 복구 불가 참가자는 교사 제거·재연결 절차로 confirmation 분모에서 안전하게 정리돼야 한다.
+
+## P1-COLLAB-EARLY-GORYEO-COMPREHENSION — 고려 초기 활동 내용 이해도
+
+- 작업 claim: `TASK-20260929-EARLY-GORYEO-CLASS-RESULT | 첫 21명 실제 수업 장단점·이해도 관찰 정리 | audit agent(Codex) | 상태: DONE | 검증: 사용자 원문 보존, EXP-009 결과·다음 결정 반영`
+- 상태: `classroom-observed / localization-needed`
+- 관찰: 첫 21명 수업에서 교사는 내용이 전반적으로 나쁘지 않다고 평가했지만, 학생 반응으로 "내용이 어려움(무슨 소리 하는지 모르겠음)"이 보고됐다.
+- 영향: 역사 내용의 사실성만으로는 5학년 학생이 역할 자료를 이해하고 친구에게 설명할 수 있다는 수용 기준을 충족하지 못한다. 이해되지 않은 채 버튼만 누르면 협동 활동의 근거 공유 목적이 약해진다.
+- 다음 작은 실험: 학생 3~5명에게 같은 활동을 다시 보여 주고 역할 자료, 최초 판단 질문, 공동 초안, 자료의 한계 중 막힌 화면을 표시한다. 모르는 단어와 자기 말로 바꾸어 설명한 문장을 익명으로 기록한다.
+- 수정 후보는 관찰 뒤 결정한다: 문장 분할, 핵심어 한 줄 풀이, 역할별 `내가 말할 한 문장` 예시, 교사 도입 설명. 역사 의미를 없애는 일괄 축약이나 정답 문장 제공은 하지 않는다.
+- 유지할 요소: 편리함, 빠른 진행, 자동 모둠 구성, 내용의 기본 방향은 첫 수업의 긍정 관찰로 보존한다.
 
 1. **수업 관찰로 전환할 시점이다.** 라운드 1·2에서 만든 것(파일럿 4편, 유물 비교 11페어, 미니게임 5종 정렬) 전부가 **학생 관찰 0회** 상태다. 이 프로젝트가 스스로 세운 "관찰 없이 확장하지 않는다" 원칙이 적용될 지점.
 2. **승인 대기 설계 문서 4건** — `perspective` 새 문법, 단계 진행형 전환(파일럿 4편 16관문 전제가 바뀜), 스토리 관계 정의, map-evidence 캔버스 옵션 B. 넷 다 큰 변경이라 관찰 결과가 우선순위를 뒤집을 수 있다.
@@ -424,7 +488,17 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
   - 질문 1: 학생 이름·학번·계정을 수집하지 않고 수업 중에만 모둠 번호와 제출 여부만 서버에 두었다가 수업 종료 시 즉시 삭제하는 경우에도 사전 신고나 보호자 동의가 필요한가?
   - 질문 2: 외부 웹서비스를 수업에 활용할 때 따라야 할 학교·교육청 지침이 있는가?
   - 질문 3: 서버가 국외(Convex 미국 동부 또는 아일랜드)에 있는 서비스 사용에 제한이 있는가? → "불가" 답이면 국내 리전 또는 기관 승인 백엔드로 전환한다.
-- **P2-COLLAB-06 — 네트워크·QR 실측 (Vercel 첫 배포 직후)**: 개인정보 게이트 해제 뒤 Preview를 배포해 교실 아이패드에서 여는 것까지 확인한다. `vercel.app` 도메인과 WebSocket이 학교 MDM·방화벽에서 열리는지, 앞 화면 QR을 뒷자리에서 읽을 수 있는지, 아이패드에서 탭을 닫았다 돌아올 때 복구되는지 실제 학생 적용 전에 검사한다. (2026-09-08 기준 로컬 구현만 완료)
+- **P2-COLLAB-06 — 네트워크·QR 실측 및 교실용 QR 확대 (수업 관찰 반영·구현 대기)**: 개인정보 게이트 해제 뒤 Preview를 배포해 교실 아이패드에서 여는 것까지 확인한다. `vercel.app` 도메인과 WebSocket이 학교 MDM·방화벽에서 열리는지, 앞 화면 QR을 뒷자리에서 읽을 수 있는지, 아이패드에서 탭을 닫았다 돌아올 때 복구되는지 실제 학생 적용 전에 검사한다.
+  - **2026-09-29 실제 운영 요구**: 교사 1명·학생 21명의 “새 고려의 첫 회의” 입장 과정에서, 교사 화면의 QR을 대형 화면과 교실 뒤쪽에서도 읽기 쉽게 확대할 기능이 필요하다는 사용자 관찰이 있었다. 원문은 [`INBOX.md`](./INBOX.md)에 보존한다.
+  - **목적·사용자 영향**: 학생이 교사 기기 앞으로 몰리거나 수동 코드 입력으로 우회하는 일을 줄이고, 21명 입장 시간을 단축한다. 확대 화면에서도 수업 코드와 활동 제목을 함께 보여 교사가 잘못된 세션을 배포하지 않게 한다.
+  - **필요 기능 후보**:
+    1. 교사 대시보드의 QR 옆에 `QR 크게 보기` 버튼을 둔다.
+    2. 전체 화면에 가까운 오버레이에서 QR, 6자리 수업 코드, 활동 제목, 닫기 버튼을 표시한다.
+    3. 확대는 현재 QR 이미지만 재표시하며 입장 토큰을 재발급하지 않는다. `QR 새로 만들기`와 시각적으로 분리한다.
+    4. 프로젝터·전자칠판·태블릿 가로 화면에서 잘리지 않고, 키보드 `Esc`와 터치 닫기를 모두 지원한다.
+    5. QR을 읽지 못하는 학생을 위해 같은 화면에 수동 입장 주소와 6자리 코드를 유지한다.
+  - **예상 변경 범위**: `apps/cooperative-live`의 교사 대시보드 QR 표시 컴포넌트와 스타일, 관련 단위/UI 검사. 정규 MUD 28편·`js/mudEngine.js`·`scripts/18*`·조선 후기 콘텐츠 원본은 범위 밖이다.
+  - **수용 기준 후보**: 확대 전후 QR 내용이 같고 새 토큰이 생기지 않는다. 1366×768 프로젝터와 iPad 가로에서 QR 전체·코드·제목·닫기가 한 화면에 보인다. 실제 교실 뒤쪽 스캔 거리는 다음 실측에서 기록한다.
 - **미확보 입력**: 사용자가 Claude와 별도로 만들던 "다른 활동 아이디어" 문서를 찾지 못했다. 이 저장소, 발행 아티팩트 3건, 다른 Claude Code 세션 어디에도 없다. claude.ai 웹 대화로 추정되며 원문을 받으면 INBOX로 분류한다.
 
 ## 2026-09-01 기획 기준선 (기존 기록)
