@@ -24,7 +24,7 @@ import {
 } from "../shared/join-security";
 import { deleteSessionData } from "./data";
 import { getScenario, roleById } from "./scenarios";
-import { hashStudentToken, requireOwnedSession, requireTeacher } from "./security";
+import { hashStudentToken, isActiveStudent, requireOwnedSession, requireTeacher } from "./security";
 
 const EXPIRES_AFTER_MS = 2 * 60 * 60 * 1000;
 
@@ -255,6 +255,8 @@ export const seedSyntheticStudents = mutationGeneric({
         tokenHash,
         alias: aliases[index],
         stage: "lobby",
+        participationStatus: "active",
+        lastSeenAt: now,
         joinedAt: now + index,
         updatedAt: now + index,
         isSynthetic: true,
@@ -371,10 +373,11 @@ export const confirmStart = mutationGeneric({
     if (!getScenario(session.scenarioId, session.scenarioVersion)) {
       throw new Error("활동 버전을 찾을 수 없습니다.");
     }
-    const players = await ctx.db
+    const allPlayers = await ctx.db
       .query("players")
       .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
       .collect();
+    const players = allPlayers.filter(isActiveStudent);
     if (
       players.length < 3
       || players.some((player) => !player.groupNumber || !player.roleId)
@@ -475,10 +478,25 @@ export const advanceStage = mutationGeneric({
     if (session.status !== "active" || session.pausedAt) {
       throw new Error("진행 중이며 멈추지 않은 활동에서만 단계를 진행할 수 있습니다.");
     }
-    const players = await ctx.db
+    const allPlayers = await ctx.db
       .query("players")
       .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
       .collect();
+    const players = allPlayers.filter(isActiveStudent);
+    const groupNumbers = [...new Set(players.map((player) => player.groupNumber).filter(Boolean))] as number[];
+    if (groupNumbers.length === 0) throw new Error("진행할 활성 모둠이 없습니다.");
+    const groupStages = groupNumbers.map((groupNumber) => {
+      const members = players.filter((player) => player.groupNumber === groupNumber);
+      return members.reduce<Stage>((minimum, player) => {
+        const stage = player.stage as Stage;
+        return STUDENT_STAGE_ORDER.indexOf(stage) < STUDENT_STAGE_ORDER.indexOf(minimum)
+          ? stage
+          : minimum;
+      }, "finished");
+    });
+    if (new Set(groupStages).size !== 1) {
+      throw new Error("모둠별 단계가 다릅니다. 각 모둠의 다음 단계 버튼을 사용해 주세요.");
+    }
     const earliest = players.reduce<Stage>((minimum, player) => {
       const stage = player.stage as Stage;
       return STUDENT_STAGE_ORDER.indexOf(stage)
@@ -514,6 +532,149 @@ export const advanceStage = mutationGeneric({
       }
     }
     return { stage: nextStage };
+  },
+});
+
+function gateForPlayers(players: Array<{ stage: string; submittedAt?: number; sharedAt?: number }>) {
+  const stage = players.reduce<Stage>((minimum, player) => {
+    const current = player.stage as Stage;
+    return STUDENT_STAGE_ORDER.indexOf(current) < STUDENT_STAGE_ORDER.indexOf(minimum)
+      ? current
+      : minimum;
+  }, "finished");
+  if (!["role", "first", "share"].includes(stage)) {
+    return { stage, ready: false, reason: "공동 초안 이후는 학생 전원 확인으로 진행합니다." };
+  }
+  if (stage === "first") {
+    const remaining = players.filter((player) => !player.submittedAt).length;
+    if (remaining) return { stage, ready: false, reason: `최초 판단 ${remaining}명 남음` };
+  }
+  if (stage === "share") {
+    const remaining = players.filter((player) => !player.sharedAt).length;
+    if (remaining) return { stage, ready: false, reason: `자료 설명 ${remaining}명 남음` };
+  }
+  return { stage, ready: true, reason: null };
+}
+
+export const advanceGroupStage = mutationGeneric({
+  args: { sessionId: v.id("sessions"), groupNumber: v.number() },
+  handler: async (ctx, args) => {
+    const teacherSub = await requireTeacher(ctx);
+    const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
+    if (session.status !== "active" || session.pausedAt) {
+      throw new Error("진행 중이며 멈추지 않은 활동에서만 단계를 진행할 수 있습니다.");
+    }
+    const allPlayers = await ctx.db
+      .query("players")
+      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+      .collect();
+    const players = allPlayers.filter((player) =>
+      isActiveStudent(player) && player.groupNumber === args.groupNumber
+    );
+    if (players.length < 3) throw new Error("활성 학생이 3명 이상이어야 합니다.");
+    const gate = gateForPlayers(players);
+    if (!gate.ready) throw new Error(gate.reason ?? "아직 다음 단계로 갈 수 없습니다.");
+    const nextStage = STUDENT_STAGE_ORDER[STUDENT_STAGE_ORDER.indexOf(gate.stage) + 1];
+    const now = Date.now();
+    for (const player of players) {
+      if (player.stage === gate.stage) {
+        await ctx.db.patch(player._id, { stage: nextStage, updatedAt: now });
+      }
+    }
+    const room = await ctx.db
+      .query("rooms")
+      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+      .filter((query) => query.eq(query.field("groupNumber"), args.groupNumber))
+      .unique();
+    if (room) await ctx.db.patch(room._id, { stage: nextStage, updatedAt: now });
+    return { stage: nextStage };
+  },
+});
+
+export const setParticipantStatus = mutationGeneric({
+  args: { sessionId: v.id("sessions"), playerId: v.id("players"), status: v.union(v.literal("active"), v.literal("removed")) },
+  handler: async (ctx, args) => {
+    const teacherSub = await requireTeacher(ctx);
+    await requireOwnedSession(ctx, args.sessionId, teacherSub);
+    const player = await ctx.db.get(args.playerId);
+    if (!player || player.sessionId !== args.sessionId) throw new Error("참가자를 찾을 수 없습니다.");
+    if (!player.groupNumber) throw new Error("모둠 배정 뒤 참가자 상태를 바꿀 수 있습니다.");
+    const allPlayers = await ctx.db
+      .query("players")
+      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+      .collect();
+    if (args.status === "removed") {
+      const remaining = allPlayers.filter((member) =>
+        member.groupNumber === player.groupNumber && member._id !== player._id && isActiveStudent(member)
+      );
+      if (remaining.length < 3) throw new Error("모둠은 활성 학생 3명 이상을 유지해야 합니다.");
+      const draft = await ctx.db
+        .query("drafts")
+        .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+        .filter((query) => query.eq(query.field("groupNumber"), player.groupNumber!))
+        .unique();
+      if (draft && player.roleId && draft.evidenceRoleIds.includes(player.roleId)) {
+        await ctx.db.delete(draft._id);
+        for (const member of remaining) {
+          await ctx.db.patch(member._id, { stage: "draft", confirmedRevision: undefined, updatedAt: Date.now() });
+        }
+      }
+      await ctx.db.patch(player._id, {
+        participationStatus: "removed",
+        removedAt: Date.now(),
+        removedBy: teacherSub,
+        recoveryTokenHash: undefined,
+        recoveryTokenExpiresAt: undefined,
+        updatedAt: Date.now(),
+      });
+    } else {
+      await ctx.db.patch(player._id, {
+        participationStatus: "active",
+        removedAt: undefined,
+        removedBy: undefined,
+        confirmedRevision: undefined,
+        updatedAt: Date.now(),
+      });
+    }
+    const refreshedPlayers = await ctx.db
+      .query("players")
+      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+      .collect();
+    const activeMembers = refreshedPlayers.filter((member) =>
+      member.groupNumber === player.groupNumber && isActiveStudent(member)
+    );
+    const roomStage = activeMembers.reduce<Stage>((minimum, member) => {
+      const stage = member.stage as Stage;
+      return STUDENT_STAGE_ORDER.indexOf(stage) < STUDENT_STAGE_ORDER.indexOf(minimum)
+        ? stage
+        : minimum;
+    }, "finished");
+    const room = await ctx.db
+      .query("rooms")
+      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+      .filter((query) => query.eq(query.field("groupNumber"), player.groupNumber!))
+      .unique();
+    if (room) await ctx.db.patch(room._id, { stage: roomStage, updatedAt: Date.now() });
+    return { status: args.status };
+  },
+});
+
+export const issueRecoveryCode = mutationGeneric({
+  args: { sessionId: v.id("sessions"), playerId: v.id("players") },
+  handler: async (ctx, args) => {
+    const teacherSub = await requireTeacher(ctx);
+    const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
+    if (session.status !== "active") throw new Error("진행 중인 활동에서만 자리를 다시 연결할 수 있습니다.");
+    const player = await ctx.db.get(args.playerId);
+    if (!player || player.sessionId !== args.sessionId) throw new Error("참가자를 찾을 수 없습니다.");
+    const recoveryCode = createOpaqueToken().slice(0, 12).toUpperCase();
+    const expiresAt = Math.min(Date.now() + 5 * 60 * 1000, session.deleteAfter);
+    await ctx.db.patch(player._id, {
+      recoveryTokenHash: await sha256Hex(recoveryCode),
+      recoveryTokenExpiresAt: expiresAt,
+      updatedAt: Date.now(),
+    });
+    return { recoveryCode, expiresAt };
   },
 });
 
@@ -558,6 +719,7 @@ export const dashboard = queryGeneric({
           .collect(),
       ]);
 
+    const dashboardNow = Date.now();
     return {
       session: publicSession(session),
       players: players.map((player) => {
@@ -573,12 +735,21 @@ export const dashboard = queryGeneric({
           submittedAt: player.submittedAt,
           sharedAt: player.sharedAt,
           confirmedRevision: player.confirmedRevision,
+          participationStatus: player.participationStatus ?? "active",
+          lastSeenAt: player.lastSeenAt,
+          connectionStatus: !player.lastSeenAt
+            ? "unknown"
+            : dashboardNow - player.lastSeenAt <= 60_000
+              ? "online"
+              : dashboardNow - player.lastSeenAt <= 180_000
+                ? "delayed"
+                : "disconnected",
           isSynthetic: player.isSynthetic,
         };
       }),
       rooms: rooms.map((room) => {
         const members = players.filter(
-          (player) => player.groupNumber === room.groupNumber,
+          (player) => player.groupNumber === room.groupNumber && isActiveStudent(player),
         );
         const draft = drafts.find(
           (item) => item.groupNumber === room.groupNumber,
@@ -593,6 +764,7 @@ export const dashboard = queryGeneric({
               ).length
             : 0,
           revision: draft?.revision,
+          gate: gateForPlayers(members),
         };
       }),
       interventions,

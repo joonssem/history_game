@@ -30,7 +30,7 @@ import {
   type AttemptState,
 } from "../shared/join-security";
 import { getScenario, roleById } from "./scenarios";
-import { findStudent, hashStudentToken, requireStudent } from "./security";
+import { findStudent, hashStudentToken, isActiveStudent, requireStudent } from "./security";
 
 const JOIN_ERROR =
   "입장 정보를 확인할 수 없습니다. QR을 다시 찍거나 수업 코드를 확인해 주세요.";
@@ -115,6 +115,8 @@ async function admitStudent(ctx: MutationCtx, session: SessionRecord) {
     tokenHash: await hashStudentToken(token),
     tokenExpiresAt: expiresAt(now, session.deleteAfter, STUDENT_TOKEN_TTL_MS),
     stage: "lobby",
+    participationStatus: "active",
+    lastSeenAt: now,
     joinedAt: now,
     updatedAt: now,
     isSynthetic: false,
@@ -155,11 +157,12 @@ async function groupPlayers(
   sessionId: GenericId<"sessions">,
   groupNumber: number,
 ) {
-  return await ctx.db
+  const players = await ctx.db
     .query("players")
     .withIndex("by_session", (query) => query.eq("sessionId", sessionId))
     .filter((query) => query.eq(query.field("groupNumber"), groupNumber))
     .collect();
+  return players.filter(isActiveStudent);
 }
 
 async function updateRoomStage(
@@ -315,7 +318,7 @@ export const view = queryGeneric({
     const session = await ctx.db.get(args.sessionId);
     if (!session || session.deleteAfter <= Date.now()) return null;
     const player = await findStudent(ctx, args.sessionId, args.token);
-    if (!player) return null;
+    if (!player || !isActiveStudent(player)) return null;
     const scenario = getScenario(session.scenarioId, session.scenarioVersion);
     if (!scenario) return null;
 
@@ -329,7 +332,7 @@ export const view = queryGeneric({
           .filter((query) =>
             query.eq(query.field("groupNumber"), groupNumber),
           )
-          .collect()
+          .collect().then((members) => members.filter(isActiveStudent))
       : [];
     const [intervention, draft, helpRequest] = groupNumber
       ? await Promise.all([
@@ -508,6 +511,7 @@ export const completeFirst = mutationGeneric({
   handler: async (ctx, args) => {
     await requireActiveSession(ctx, args.sessionId);
     const player = await requireStudent(ctx, args.sessionId, args.token);
+    if (player.submittedAt) return { complete: true };
     if (player.stage !== "first") {
       throw new Error("최초 판단 단계에서만 확인할 수 있습니다.");
     }
@@ -522,12 +526,61 @@ export const markShared = mutationGeneric({
   handler: async (ctx, args) => {
     await requireActiveSession(ctx, args.sessionId);
     const player = await requireStudent(ctx, args.sessionId, args.token);
+    if (player.sharedAt) return { complete: true };
     if (player.stage !== "share") {
       throw new Error("자료 말하기 단계에서만 확인할 수 있습니다.");
     }
     const now = Date.now();
     await ctx.db.patch(player._id, { sharedAt: now, updatedAt: now });
     return { complete: true };
+  },
+});
+
+export const heartbeat = mutationGeneric({
+  args: { sessionId: v.id("sessions"), token: v.string() },
+  handler: async (ctx, args) => {
+    const player = await requireStudent(ctx, args.sessionId, args.token);
+    const now = Date.now();
+    await ctx.db.patch(player._id, { lastSeenAt: now, updatedAt: now });
+    return { lastSeenAt: now };
+  },
+});
+
+export const recoverSeat = mutationGeneric({
+  args: { code: v.string(), recoveryCode: v.string() },
+  handler: async (ctx, args) => {
+    const session = await ctx.db
+      .query("sessions")
+      .withIndex("by_code", (query) => query.eq("code", args.code))
+      .unique();
+    if (!session || session.status !== "active" || session.deleteAfter <= Date.now()) {
+      throw new Error("재연결 정보를 확인할 수 없습니다.");
+    }
+    const recoveryTokenHash = await sha256Hex(args.recoveryCode.trim().toUpperCase());
+    const players = await ctx.db
+      .query("players")
+      .withIndex("by_session", (query) => query.eq("sessionId", session._id))
+      .collect();
+    const player = players.find((candidate) =>
+      candidate.recoveryTokenHash === recoveryTokenHash
+      && Boolean(candidate.recoveryTokenExpiresAt)
+      && candidate.recoveryTokenExpiresAt! > Date.now()
+    );
+    if (!player) throw new Error("재연결 정보를 확인할 수 없습니다.");
+    const token = createOpaqueToken();
+    const now = Date.now();
+    await ctx.db.patch(player._id, {
+      tokenHash: await hashStudentToken(token),
+      tokenExpiresAt: expiresAt(now, session.deleteAfter, STUDENT_TOKEN_TTL_MS),
+      participationStatus: "active",
+      removedAt: undefined,
+      removedBy: undefined,
+      recoveryTokenHash: undefined,
+      recoveryTokenExpiresAt: undefined,
+      lastSeenAt: now,
+      updatedAt: now,
+    });
+    return { sessionId: session._id, token, aliasCandidates: [] as string[] };
   },
 });
 

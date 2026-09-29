@@ -3,7 +3,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useConvexAuth, useMutation, useQuery } from "convex/react";
 import { QRCodeSVG } from "qrcode.react";
-import { useCallback, useMemo, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 
 import { convexApi } from "@/lib/convex-api";
 import {
@@ -22,6 +22,7 @@ export function LiveTeacherConsole() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [scenarioId, setScenarioId] = useState("early-goryeo-unity");
+  const [clock, setClock] = useState(0);
   const createSession = useMutation(convexApi.sessions.create);
   const rotateEntryKey = useMutation(convexApi.sessions.rotateEntryKey);
   const seedStudents = useMutation(convexApi.sessions.seedSyntheticStudents);
@@ -33,6 +34,9 @@ export function LiveTeacherConsole() {
   const sendIntervention = useMutation(convexApi.interventions.send);
   const togglePause = useMutation(convexApi.sessions.togglePause);
   const advanceStage = useMutation(convexApi.sessions.advanceStage);
+  const advanceGroupStage = useMutation(convexApi.sessions.advanceGroupStage);
+  const setParticipantStatus = useMutation(convexApi.sessions.setParticipantStatus);
+  const issueRecoveryCode = useMutation(convexApi.sessions.issueRecoveryCode);
   const resolveHelp = useMutation(convexApi.sessions.resolveHelp);
   const currentSession = useQuery(
     convexApi.sessions.current,
@@ -82,6 +86,32 @@ export function LiveTeacherConsole() {
     });
     return [...result.entries()].sort(([left], [right]) => left - right);
   }, [dashboard]);
+  const allGroupsReady = Boolean(dashboard)
+    && dashboard!.rooms.length > 0
+    && dashboard!.rooms.every((room) => room.gate.ready)
+    && new Set(dashboard!.rooms.map((room) => room.gate.stage)).size === 1;
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setClock(Date.now()), 30_000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  function connectionLabel(
+    lastSeenAt: number | undefined,
+    initialStatus: "unknown" | "online" | "delayed" | "disconnected",
+  ) {
+    if (!clock) {
+      return initialStatus === "online" ? "접속 중"
+        : initialStatus === "delayed" ? "응답 지연"
+          : initialStatus === "disconnected" ? "연결 끊김 가능"
+            : "연결 확인 전";
+    }
+    if (!lastSeenAt) return "연결 확인 전";
+    const age = clock - lastSeenAt;
+    if (age <= 60_000) return "접속 중";
+    if (age <= 180_000) return "응답 지연";
+    return "연결 끊김 가능";
+  }
 
   async function run(action: () => Promise<void>) {
     setError("");
@@ -173,7 +203,10 @@ export function LiveTeacherConsole() {
             <h2>수업 코드</h2>
             <div className="code">{dashboard.session.code}</div>
             <p><strong>{dashboard.session.scenario?.title}</strong></p>
-            <p>{dashboard.players.length}명 접속</p>
+            <p>
+              {dashboard.players.filter((player) => player.participationStatus === "active").length}명 활성
+              {dashboard.players.some((player) => player.participationStatus === "removed") && ` · ${dashboard.players.filter((player) => player.participationStatus === "removed").length}명 제외`}
+            </p>
           </div>
           {dashboard.session.status === "lobby" && (
             joinUrl
@@ -259,7 +292,7 @@ export function LiveTeacherConsole() {
               </button>
               <button
                 className="button ghost"
-                disabled={dashboard.session.paused}
+                disabled={dashboard.session.paused || !allGroupsReady}
                 onClick={() => run(async () => {
                   const result = await advanceStage({ sessionId });
                   setMessage(`전체 활동을 ${STAGE_LABELS[result.stage]} 단계로 진행했습니다.`);
@@ -267,6 +300,11 @@ export function LiveTeacherConsole() {
               >
                 전체 다음 단계
               </button>
+              {!allGroupsReady && (
+                <span className="notice">
+                  모둠별 단계 또는 완료 조건이 달라 전체 진행할 수 없습니다.
+                </span>
+              )}
             </>
           )}
           <button
@@ -296,7 +334,28 @@ export function LiveTeacherConsole() {
                       ) : (
                         <small>
                           {player.roleIcon} {player.roleName} · {STAGE_LABELS[player.stage]}
+                          {` · ${player.participationStatus === "removed" ? "제외됨" : connectionLabel(player.lastSeenAt, player.connectionStatus)}`}
                         </small>
+                      )}
+                      {dashboard.session.status !== "lobby" && !player.isSynthetic && (
+                        <div className="actions">
+                          <button
+                            className="button ghost"
+                            onClick={() => run(async () => {
+                              const next = player.participationStatus === "removed" ? "active" : "removed";
+                              if (next === "removed" && !window.confirm(`${player.alias} 학생을 관문 인원에서 제외할까요?`)) return;
+                              await setParticipantStatus({ sessionId, playerId: player.id, status: next });
+                              setMessage(`${player.alias} 학생을 ${next === "removed" ? "제외했습니다" : "복원했습니다"}.`);
+                            })}
+                          >{player.participationStatus === "removed" ? "제외 취소" : "참가자 제외"}</button>
+                          <button
+                            className="button secondary"
+                            onClick={() => run(async () => {
+                              const result = await issueRecoveryCode({ sessionId, playerId: player.id });
+                              setMessage(`${player.alias} 재연결 코드: ${result.recoveryCode} (5분)`);
+                            })}
+                          >자리 다시 연결</button>
+                        </div>
                       )}
                     </li>
                   );
@@ -305,11 +364,27 @@ export function LiveTeacherConsole() {
               {dashboard.session.status === "active" && (
                 <div className="actions">
                   <span className="badge">
-                    완료 {dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.completed ?? 0}/{players.length}
+                    완료 {dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.completed ?? 0}/{dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.total ?? players.length}
                   </span>
+                  {(() => {
+                    const room = dashboard.rooms.find((item) => item.groupNumber === groupNumber);
+                    return room ? (
+                      <>
+                        <button
+                          className="button primary"
+                          disabled={dashboard.session.paused || !room.gate.ready}
+                          onClick={() => run(async () => {
+                            const result = await advanceGroupStage({ sessionId, groupNumber });
+                            setMessage(`${groupNumber}모둠을 ${STAGE_LABELS[result.stage]} 단계로 진행했습니다.`);
+                          })}
+                        >이 모둠 다음 단계</button>
+                        {!room.gate.ready && <span className="notice">{room.gate.reason}</span>}
+                      </>
+                    ) : null;
+                  })()}
                   {dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.revision && (
                     <span className="badge">
-                      확인 {dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.confirmed ?? 0}/{players.length}
+                      확인 {dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.confirmed ?? 0}/{dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.total ?? players.length}
                     </span>
                   )}
                   {dashboard.helpRequests.some((request) => request.groupNumber === groupNumber && !request.resolvedAt) && <button className="button primary" onClick={() => run(async () => { await resolveHelp({ sessionId, groupNumber }); setMessage(`${groupNumber}모둠 도움 요청을 확인했습니다.`); })}>도움 요청 확인</button>}
