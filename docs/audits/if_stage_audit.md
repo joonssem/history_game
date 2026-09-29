@@ -17,22 +17,22 @@
 
 <!-- IF_STAGE_SIGNALS:START -->
 - 감사 대상: Regular 재시도 단계 전체
-- 보완 검토 신호: 70개
+- 보완 검토 신호: 67개
 - 최소 기준: 근거 설명 120자 이상, 자료·비교 단서 2개 이상, 원 단계 복귀 선택지 1개
 
 | 파일 | 단계 | 표지 | 설명 글자 수 | 단서 | 신호 |
 |---|---:|---|---:|---|---|
 | `regular_balhae.json` | 1-1 | ❌ 자료 해석 (건국 좌절) | 80 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
 | `regular_balhae.json` | 2-1 | ❌ 자료 해석 (국력 약화) | 77 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
-| `regular_balhae.json` | 3-1 | ❌ 자료 해석 (역사 왜곡) | 78 | 자료, 비교 | 근거 설명 120자 미만 |
+| `regular_balhae.json` | 3-1 | ❌ 자료 해석 (자료 하나의 한계) | 78 | 자료, 비교 | 근거 설명 120자 미만 |
 | `regular_balhae.json` | 4-1 | ↩️ 근거 보완: 단정 대신 비교 | 68 | 자료, 기록 | 근거 설명 120자 미만 |
-| `regular_bronze_age.json` | 1-1 | ❌ 자료 해석 (실패) | 171 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_bronze_age.json` | 2-1 | ❌ 자료 해석 (실패) | 166 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_bronze_age.json` | 3-1 | ❌ 자료 해석 (실패) | 157 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_bronze_age.json` | 1-1 | ❌ 자료 해석 (실패) | 169 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_bronze_age.json` | 2-1 | ❌ 자료 해석 (실패) | 112 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
+| `regular_bronze_age.json` | 3-1 | ❌ 자료 해석 (실패) | 179 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_gojoseon.json` | 2-1 | ❌ 자료 해석 (실패) | 162 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_goryeo_founding.json` | 1-1 | ❌ 자료 해석 (실패) | 141 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_goryeo_founding.json` | 2-1 | ❌ 자료 해석 (실패) | 167 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_goryeo_founding.json` | 3-1 | ❌ 자료 해석 (실패) | 172 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_goryeo_founding.json` | 1-1 | ❌ 자료 해석 (실패) | 122 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_goryeo_founding.json` | 2-1 | ❌ 자료 해석 (실패) | 148 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_goryeo_founding.json` | 3-1 | ❌ 자료 해석 (실패) | 160 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_goryeo_society.json` | 1-1 | ❌ 자료 해석 (실패) | 165 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_goryeo_society.json` | 2-1 | ❌ 자료 해석 (실패) | 153 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_goryeo_war.json` | 1-1 | ❌ 자료 해석 (굴욕적 영토 상실) | 59 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
@@ -69,29 +69,26 @@
 | `regular_myeongnyang.json` | 1-1 | ❌ 자료 해석 (실패) | 132 | 살펴 | 자료·비교 단서 2개 미만 |
 | `regular_myeongnyang.json` | 2-1 | ❌ 자료 해석 (실패) | 239 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_myeongnyang.json` | 3-1 | ❌ 자료 해석 (실패) | 117 | 자료, 비교 | 근거 설명 120자 미만 |
-| `regular_neolithic.json` | 1-1 | ❌ 자료 해석 (실패) | 149 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_neolithic.json` | 2-1 | ❌ 자료 해석 (실패) | 164 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_neolithic.json` | 1-1 | ❌ 자료 해석 (실패) | 153 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_neolithic.json` | 2-1 | ❌ 자료 해석 (실패) | 131 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_neolithic.json` | 3-1 | ❌ 자료 해석 (실패) | 165 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_paleolithic.json` | 1-1 | ❌ 자료 해석 (실패) | 134 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_paleolithic.json` | 2-1 | ❌ 자료 해석 (실패) | 147 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_paleolithic.json` | 3-1 | ❌ 자료 해석 (실패) | 138 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_paleolithic.json` | 3-1 | ❌ 자료 해석 (실패) | 112 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
 | `regular_paleolithic.json` | 4-1 | ❌ 자료 해석 (실패) | 95 | 살펴 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
 | `regular_paleolithic.json` | 5-1 | ❌ 자료 해석 (실패) | 89 | 없음 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
 | `regular_post_war.json` | 1-1 | ❌ 자료 해석 (재건 포기) | 106 | 자료, 살펴 | 근거 설명 120자 미만 |
 | `regular_post_war.json` | 2-1 | ❌ 자료 해석 (인재 양성 실패) | 108 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
-| `regular_sejong.json` | 1-1 | ❌ 자료 해석 (문자 소외) | 105 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
+| `regular_sejong.json` | 1-1 | ❌ 자료 해석 (문자 소외) | 123 | 자료 | 자료·비교 단서 2개 미만 |
 | `regular_sejong.json` | 2-1 | ❌ 자료 해석 (자주 역법 부재) | 135 | 살펴 | 자료·비교 단서 2개 미만 |
-| `regular_sejong.json` | 3-1 | ❌ 자료 해석 (과학의 독점) | 108 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
 | `regular_silla.json` | 1-1 | ❌ 자료 해석 (개혁 실패) | 89 | 자료, 비교 | 근거 설명 120자 미만 |
-| `regular_silla.json` | 2-1 | ❌ 자료 해석 (문화유산 부재) | 84 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
-| `regular_silla.json` | 3-1 | ❌ 자료 해석 (과학적 설계 결여) | 84 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
+| `regular_silla.json` | 2-1 | ❌ 자료 다시 보기 (불국사의 탑과 다리) | 108 | 자료, 비교 | 근거 설명 120자 미만 |
+| `regular_silla.json` | 3-1 | ❌ 자료 다시 보기 (구조와 배치) | 84 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
 | `regular_silla.json` | 4-1 | ↩️ 근거 보완: 자료 하나의 한계 | 76 | 자료, 살펴 | 근거 설명 120자 미만 |
-| `regular_three_kingdoms.json` | 1-1 | ❌ 자료 해석 (실패) | 156 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_three_kingdoms.json` | 2-1 | ❌ 자료 해석 (실패) | 170 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_three_kingdoms.json` | 3-1 | ❌ 자료 해석 (실패) | 182 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_three_kingdoms_life.json` | 1-1 | ❌ 자료 해석 (실패) | 157 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_three_kingdoms_life.json` | 2-1 | ❌ 자료 해석 (실패) | 140 | 자료 | 자료·비교 단서 2개 미만 |
-| `regular_three_kingdoms_life.json` | 3-1 | ❌ 자료 해석 (실패) | 158 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_three_kingdoms.json` | 1-1 | ❌ 자료 해석 (실패) | 140 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_three_kingdoms.json` | 2-1 | ❌ 자료 해석 (실패) | 160 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_three_kingdoms_life.json` | 1-1 | ❌ 자료 해석 (실패) | 110 | 자료 | 근거 설명 120자 미만, 자료·비교 단서 2개 미만 |
+| `regular_three_kingdoms_life.json` | 2-1 | ❌ 자료 해석 (실패) | 135 | 자료 | 자료·비교 단서 2개 미만 |
+| `regular_three_kingdoms_life.json` | 3-1 | ❌ 자료 해석 (실패) | 122 | 자료 | 자료·비교 단서 2개 미만 |
 <!-- IF_STAGE_SIGNALS:END -->
 
 ## 적용 원칙
