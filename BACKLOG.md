@@ -19,6 +19,7 @@
 - 작업 claim: `TASK-20260929-COLLAB-RECOVERY-P1P2 | 개입 이력·확인 표시와 교실용 QR 확대 | implementation agent(Codex) | 상태: DONE(자동 검증)·현장 검증 대기 | 브랜치: feat/cooperative-classroom-recovery-p0 | 커밋: f71ca7d | 검증: npm run check, 단위 19건, Convex 6건, production build, git diff --check`
 - 작업 claim: `TASK-20260929-GORYEO-RELATIONS-CULTURE-PLAN | 고려 후속 실시간 협동 활동 2종 계획 | planning agent(Codex) | 상태: DONE | 범위: 15~16차시 주변 나라 관계, 17~18차시 문화·생활 | 검증: 기존 정규 MUD·48차시·협동 시나리오 계약 대조, git diff --check`
 - 작업 claim: `TASK-20260929-GORYEO-RELATIONS-CULTURE-TASKS | 고려 후속 활동 우선순위·실행 체크리스트 | planning agent(Codex) | 상태: DONE | 순서: P0 선행 관문 → P1-A 주변 나라 관계 → P1-B 문화와 생활 → 통합 리허설 | 검증: 의존성·완료 기준·중단 조건·검증 명령 문서화, git diff --check`
+- 작업 claim: `TASK-20260929-GORYEO-RELATIONS-P0-GATE | 고려 후속 활동 구현 선행 관문 | integration agent(Codex) | 상태: DOING(Auth0 callback·실기기 대기) | 브랜치: feat/goryeo-relations-cooperative | 기준: f71ca7d 복구 구현 + f32e4fd 계획 | 검증: npm run check, 단위 19건, Convex 6건, production build`
 
 ## P1-COLLAB-GORYEO-RELATIONS-CULTURE — 고려 후속 협동 활동 2종
 

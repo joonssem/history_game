@@ -21,9 +21,9 @@ P0-GATE가 열리지 않으면 콘텐츠 파일을 만들지 않는다. P1-A의 
 
 ## 2. 공통 작업 규칙
 
-- [ ] 작업 시작 전 `git status --short`와 `git branch --show-current`를 확인한다.
-- [ ] 구현 전용 branch/worktree를 만들고 기준 SHA를 기록한다.
-- [ ] `TASK-번호 | 대상 | 담당 역할 | 상태: DOING` 형식으로 `BACKLOG.md`에 claim한다.
+- [x] 작업 시작 전 `git status --short`와 `git branch --show-current`를 확인한다. — 2026-09-29
+- [x] 구현 전용 branch/worktree를 만들고 기준 SHA를 기록한다. — `feat/goryeo-relations-cooperative`, 복구 구현 `f71ca7d` + 계획 `f32e4fd`
+- [x] `TASK-번호 | 대상 | 담당 역할 | 상태: DOING` 형식으로 `BACKLOG.md`에 claim한다. — `TASK-20260929-GORYEO-RELATIONS-P0-GATE`
 - [ ] implementation agent와 content agent가 같은 파일을 동시에 수정하지 않는다.
 - [ ] 감사 역할은 구현 파일을 고치지 않고 문제·재현·심각도·수용 기준만 기록한다.
 - [ ] 구현 중 발견한 정규 MUD 문제는 현재 활동에 섞지 않고 `BACKLOG.md`에 별도 등록한다.
@@ -40,6 +40,8 @@ P0-GATE가 열리지 않으면 콘텐츠 파일을 만들지 않는다. P1-A의 
 - [ ] 모둠별 진행이 다른 모둠의 단계·초안·확인을 바꾸지 않는지 확인한다.
 - [ ] 초안 revision 변경과 근거 역할 제외 시 기존 확인이 무효가 되는지 확인한다.
 - [ ] 최근 개입과 학생 확인 수가 세션·모둠 경계를 넘지 않는지 확인한다.
+
+자동 기준선(2026-09-29): `npm run check` 통과 — lint, typecheck, 단위 테스트 19건, Convex 통합 테스트 6건, production build.
 
 ### 3-2. Preview·인증
 
@@ -222,6 +224,6 @@ P2는 P1-A·B의 학생 관찰 없이 구현하지 않는다.
 |---|---|---|---|
 | 2026-09-29 | 계획 | 15~16차시 관계 활동과 17~18차시 문화·생활 활동을 기존 협동 엔진으로 순차 구현하기로 결정 | 완료 |
 | 2026-09-29 | 우선순위·체크리스트 | P0 선행 관문, P1-A, P1-B, P1-C의 의존성·완료 기준·중단 조건 작성 | 완료 |
-| 대기 | P0-GATE | Auth0 callback과 기존 고려 건국 실제 기기 리허설 | 미착수 |
+| 2026-09-29 | P0-GATE | 전용 worktree 생성, 복구 구현과 계획 기준선 병합, `npm run check` 통과. Auth0 callback과 기존 고려 건국 실제 기기 리허설 대기 | 진행 중 |
 | 대기 | P1-A | 고려와 주변 나라들의 관계 | 미착수 |
 | 대기 | P1-B | 고려의 문화와 사람들의 생활 | 미착수 |
