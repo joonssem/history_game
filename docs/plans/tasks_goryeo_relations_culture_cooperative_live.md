@@ -6,6 +6,7 @@
 - 구현 계획: [`implementation_plan_goryeo_relations_culture_cooperative_live.md`](./implementation_plan_goryeo_relations_culture_cooperative_live.md)
 - 구현 순서: `P0-GATE → P1-A 주변 나라 관계 → P1-B 문화와 생활 → P1-C 통합 리허설`
 - 기본 원칙: 한 번에 한 활동만 구현하고 검증한다.
+- 제작 착수 인계: [`../handoff/goryeo_relations_cooperative_start_20260929.md`](../handoff/goryeo_relations_cooperative_start_20260929.md)
 
 ## 1. 우선순위
 
