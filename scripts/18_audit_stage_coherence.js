@@ -168,6 +168,23 @@ function auditMud(data, ignore, templates = new Set()) {
       }
     });
   });
+
+  // 편 공통 활동 제목이 일부 단계의 활동만 가리키는데, 다른 단계에 단계별 제목(interactiveTitle)이 없는 경우.
+  // 엔진은 단계에 interactiveTitle이 없으면 편 공통 제목을 그대로 보여 준다.
+  const headerTitle = data.header && data.header.interactiveTitle;
+  if (headerTitle) {
+    const titleGrams = meaningful(headerTitle, ignore);
+    // 재시도 단계(N-1)는 본 단계와 같은 활동이라 본 단계만 본다.
+    const stageEntries = Object.entries(stages).filter(([key]) => !key.includes('-'));
+    const cores = stageEntries.map(([key, stage]) => [key, stage, meaningful(stageCore(stage), ignore)]);
+    const matches = cores.filter(([, stage, core]) => stage.interactiveTitle || overlaps(titleGrams, core));
+    if (titleGrams.size && matches.length && matches.length < cores.length) {
+      cores.forEach(([key, stage, core]) => {
+        if (stage.interactiveTitle || overlaps(titleGrams, core)) return;
+        findings.push({ stage: key, field: 'header.interactiveTitle(단계별 제목 없음)', text: strip(headerTitle).trim() });
+      });
+    }
+  }
   return findings;
 }
 
@@ -233,7 +250,19 @@ function runSelfTests() {
   const f3 = auditMud(coherent, ALWAYS_IGNORE);
   assert.equal(f3.length, 0, `자기 테스트: 맞는 단계를 경고했습니다 — ${JSON.stringify(f3)}`);
 
-  console.log('자기 테스트 통과: 과거제 잔존·재시도 버튼·이야기↔정답 불일치 검출, 정상 단계 통과.');
+  const titled = {
+    header: { interactiveTitle: '한양 4대문 배치 시뮬레이터' },
+    stages: {
+      1: { narrative: '한양 4대문 이름에 덕목을 담습니다.', choices: [{ text: '4대문 이름을 짓는다.', correct: true, next: '2' }], simulator: {} },
+      2: { narrative: '근정전 박석을 고릅니다.', choices: [{ text: '거친 박석', correct: true, next: '3' }], simulator: {} },
+    },
+  };
+  const f4 = auditMud(titled, ALWAYS_IGNORE);
+  assert.ok(f4.some(f => f.stage === '2' && f.field.startsWith('header.interactiveTitle')), '자기 테스트: 단계별 제목이 없는 단계의 공통 제목 불일치를 잡지 못했습니다.');
+  titled.stages[2].interactiveTitle = '근정전 박석 고르기';
+  assert.ok(!auditMud(titled, ALWAYS_IGNORE).some(f => f.field.startsWith('header.interactiveTitle')), '자기 테스트: 단계별 제목이 있는데 경고했습니다.');
+
+  console.log('자기 테스트 통과: 과거제 잔존·재시도 버튼·이야기↔정답 불일치 검출, 정상 단계 통과, 단계별 제목 누락 검출.');
 }
 
 function main() {

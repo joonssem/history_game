@@ -56,6 +56,7 @@
     "1": {
       "location": "조선 태조 3년, 한양",
       "badge": "🗺️ 도읍의 선택",
+      "interactiveTitle": "<i class=\"fas fa-landmark\" style=\"color: #8A3B29;\"></i> 새 도읍의 조건 살펴보기",
       "character": {
         "name": "태조 이성계",
         "subtitle": "조선의 개국 국왕",
@@ -126,6 +127,7 @@
     "1-1": {
       "location": "고립된 산악 지대",
       "badge": "❌ 자료 해석 (실패)",
+      "interactiveTitle": "<i class=\"fas fa-landmark\" style=\"color: #8A3B29;\"></i> 도읍의 조건 다시 살펴보기",
       "character": {
         "name": "시간 안내원 '타미'",
         "subtitle": "지리적 조건 착오",
@@ -151,6 +153,7 @@
     "2": {
       "location": "한양 도성 설계소",
       "badge": "🏛️ 4대문의 유교 덕목",
+      "interactiveTitle": "<i class=\"fas fa-landmark\" style=\"color: #8A3B29;\"></i> 한양 4대문(인·의·예·지) 이름 짓기",
       "character": {
         "name": "삼봉 정도전",
         "subtitle": "한양 도성의 총설계자",
@@ -231,6 +234,7 @@
     "2-1": {
       "location": "사상 혼선 발생",
       "badge": "❌ 자료 해석 (실패)",
+      "interactiveTitle": "<i class=\"fas fa-landmark\" style=\"color: #8A3B29;\"></i> 4대문 이름 다시 짓기",
       "character": {
         "name": "시간 안내원 '타미'",
         "subtitle": "유교 통치 이념 부재",
@@ -256,6 +260,7 @@
     "3": {
       "location": "경복궁 근정전 앞마당",
       "badge": "🏛️ 근정전 박석의 비밀",
+      "interactiveTitle": "<i class=\"fas fa-landmark\" style=\"color: #8A3B29;\"></i> 근정전 앞마당 박석 깔기",
       "character": {
         "name": "궁궐 석공 장인",
         "subtitle": "근정전 뜰을 까는 장인",
@@ -332,6 +337,7 @@
     "3-1": {
       "location": "눈이 부신 대궐 마당",
       "badge": "❌ 자료 해석 (실패)",
+      "interactiveTitle": "<i class=\"fas fa-landmark\" style=\"color: #8A3B29;\"></i> 박석 다시 깔아 보기",
       "character": {
         "name": "시간 안내원 '타미'",
         "subtitle": "과학적 배려 부재",
@@ -357,6 +363,7 @@
     "4": {
       "location": "성균관 명륜당",
       "badge": "👑 MISSION ACCOMPLISHED",
+      "interactiveTitle": "<i class=\"fas fa-landmark\" style=\"color: #8A3B29;\"></i> 한양의 단서 연결하기",
       "character": {
         "name": "조선 유학자",
         "subtitle": "유교 교육의 확산",

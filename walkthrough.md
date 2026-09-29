@@ -2564,3 +2564,26 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 고려 건국 3·3-1을 훈요 10조가 아니라 혼인·사성·관직 수여·기인 제도를 통한 호족 포섭과 견제로 통일했다.
 - 세종 공통 활동 제목을 문자·천문·과학 기술 전체를 포괄하도록 바꾸고, 칠정산 인물을 이순지·김담으로 바로잡았다.
 - 검증: `01`, `03`, `04`, `05`, `06`, `08`, `09`, `10`, `12`, `13`, `14`, `16 --ci`, `17` 통과. `git diff --check` 통과.
+
+## 2026-09-29 — 조작대(inquiry-console) 라운드 12: 단계별 활동 제목(`interactiveTitle`)
+
+`docs/handoff/claude_four_track_round12_instruction.md` §4.
+
+- **엔진**: `js/mudEngine.js` `renderStage()`가 단계의 `interactiveTitle`을 우선 표시하고, 없으면 `header.interactiveTitle`을 쓴다. 단계가 바뀔 때마다 갱신한다. `index.html`의 `mudEngine.js` 캐시버스터를 `20260929-r12title`로 올렸다.
+- **데이터**: `regular_joseon_founding` 7개 단계(본 4 + 재시도 3), `regular_joseon_folk` 8개 단계(본 4 + 재시도 4)에 단계별 제목을 넣었다. 재시도 단계는 "… 다시 살펴보기"처럼 그 단계의 활동을 가리킨다.
+- **계약**: `scripts/04`에 선택 필드 검사 추가 — `interactiveTitle`은 비어 있지 않은 문자열이어야 하고 MUD·SIMULATOR·Deep-dive를 쓰면 실패. 일부러 `"MUD ..."`를 넣어 실패하는 것을 확인 후 원복.
+- **`scripts/18`**: 편 공통 제목이 일부 본 단계의 낱말만 나누고 다른 본 단계에는 단계별 제목이 없으면 `header.interactiveTitle(단계별 제목 없음)` 경고. 재시도 단계는 본 단계와 함께 본다. 자기 테스트 추가(제목 없음 검출, 제목을 달면 통과).
+- **브라우저 확인(1180×820)**: 조선 건국 1→4단계 제목이 "새 도읍의 조건 살펴보기 → 한양 4대문(인·의·예·지) 이름 짓기 → 근정전 앞마당 박석 깔기 → 한양의 단서 연결하기", 서민 문화는 "풍속화 → 판소리 → 탈춤 → 비교하기"로 실제 선택지 클릭으로 바뀜. 오답을 눌러 재시도 1-1로 가면 "도읍의 조건 다시 살펴보기". 단계별 제목이 없는 `regular_sejong`은 모든 단계에서 기존 공통 제목 그대로. 콘솔 오류 없음.
+
+### 의심 목록(다음 라운드에서 소유 창이 채운다 — 이번엔 고치지 않음)
+
+`scripts/18` 신호가 잡은 본 단계(편: 단계). 상세는 `docs/audits/stage_coherence_audit.md`.
+
+balhae: 1·2 / bronze_age: 2 / goryeo_culture: 1·2·3 / goryeo_founding: 2 / independence: 3 / independence_army: 1·2·3 / japanese_rule_1: 1·3 / japanese_rule_2: 2 / joseon_diplomacy: 1 / joseon_economy: 1 / joseon_silhak: 2 / joseon_status: 2·3 / korean_war: 3 / modern_open: 1·2 / neolithic: 3 / paleolithic: 4·5 / post_war: 1·3 / sejong: 3 / silla: 1·2 / three_kingdoms_life: 2
+
+낱말 겹침 기준의 신호라 오탐이 있을 수 있다(편 공통 제목이 일반적이면 걸린다). 사람이 화면에서 판단한다.
+
+### 확인 불가·넘길 항목
+
+- 보고서 재생성: 07·10·11은 이번 변경으로 산출물이 바뀌지 않았고, `stage_coherence_audit.md`만 갱신(브랜치의 이전 보고서가 데이터와 어긋나 있던 4행도 함께 정리됨).
+- `apps/**`(협동 MUD)는 `stage.interactiveTitle`을 읽지 않는다 — Codex가 필요하면 반영.

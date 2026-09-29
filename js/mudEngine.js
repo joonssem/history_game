@@ -235,6 +235,10 @@ const MudEngine = {
     this.visited.add(this.currentStage);
     this.updateRoadmap();
 
+    // 활동 제목: 단계에 interactiveTitle이 있으면 그것을, 없으면 편 공통 제목을 보여 준다.
+    const titleEl = document.getElementById('interactive-title');
+    if (titleEl) titleEl.innerHTML = stage.interactiveTitle || this.currentMudData.header.interactiveTitle;
+
     // 위치 & 뱃지 갱신
     document.getElementById('mn-stage-location').innerHTML =
       `<i class="fas fa-compass" style="color: var(--accent-red);"></i> ${stage.location}`;

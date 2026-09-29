@@ -55,6 +55,7 @@
     "1": {
       "location": "도화서 화원 단원 김홍도의 화실 (18세기 후반)",
       "badge": "🎨 제1관문: 백성의 삶을 그린 풍속화",
+      "interactiveTitle": "<i class=\"fas fa-theater-masks\" style=\"color: #D97706;\"></i> 김홍도 풍속화 속 백성의 삶 살펴보기",
       "character": {
         "name": "풍속화가 김홍도",
         "role": "조선 최고의 화원",
@@ -129,6 +130,7 @@
     "1-1": {
       "location": "생기 잃은 화실",
       "badge": "❌ 자료 해석 (서민 풍속화 부재)",
+      "interactiveTitle": "<i class=\"fas fa-theater-masks\" style=\"color: #D97706;\"></i> 풍속화 다시 살펴보기",
       "character": {
         "name": "시간 안내원 '타미'",
         "role": "역사 해설자",
@@ -146,6 +148,7 @@
     "2": {
       "location": "삼남대로 장터 판소리 판 (18세기)",
       "badge": "🎶 제2관문: 소리꾼과 고수의 판소리",
+      "interactiveTitle": "<i class=\"fas fa-theater-masks\" style=\"color: #D97706;\"></i> 판소리 판의 소리꾼·고수·관객 살펴보기",
       "character": {
         "name": "명창 소리꾼 & 고수",
         "role": "장터 예술가",
@@ -220,6 +223,7 @@
     "2-1": {
       "location": "적막한 장터",
       "badge": "❌ 자료 해석 (민중 소리의 단절)",
+      "interactiveTitle": "<i class=\"fas fa-theater-masks\" style=\"color: #D97706;\"></i> 판소리 판 다시 살펴보기",
       "character": {
         "name": "시간 안내원 '타미'",
         "role": "역사 해설자",
@@ -237,6 +241,7 @@
     "3": {
       "location": "마을 공터 탈춤 놀이판 (황해도 봉산)",
       "badge": "🎭 제3관문: 말뚝이의 양반 풍자 탈춤",
+      "interactiveTitle": "<i class=\"fas fa-theater-masks\" style=\"color: #D97706;\"></i> 탈춤의 지역·풍자·관객 살펴보기",
       "character": {
         "name": "하인 말뚝이 & 양반 3형제",
         "role": "탈춤의 주역",
@@ -311,6 +316,7 @@
     "3-1": {
       "location": "얼어붙은 탈춤판",
       "badge": "❌ 자료 해석 (풍자와 해학의 상실)",
+      "interactiveTitle": "<i class=\"fas fa-theater-masks\" style=\"color: #D97706;\"></i> 탈춤 다시 살펴보기",
       "character": {
         "name": "시간 안내원 '타미'",
         "role": "역사 해설자",
@@ -328,6 +334,7 @@
     "4": {
       "location": "조선 자료 연구실",
       "badge": "🔎 제4관문: 자료를 연결해 설명하기",
+      "interactiveTitle": "<i class=\"fas fa-theater-masks\" style=\"color: #D97706;\"></i> 풍속화·판소리·탈춤 비교하기",
       "character": {
         "name": "어린이 역사 연구원",
         "role": "자료 종합 담당",
@@ -403,6 +410,7 @@
     "4-1": {
       "location": "조선 자료 연구실",
       "badge": "↩️ 근거 보완: 자료 비교",
+      "interactiveTitle": "<i class=\"fas fa-theater-masks\" style=\"color: #D97706;\"></i> 세 자료 다시 비교하기",
       "character": {
         "name": "시간 안내원 타미",
         "role": "역사 해설자",

@@ -384,6 +384,12 @@ def main() -> int:
                     inquiry_award_categories,
                     inquiry_claim_checks,
                 )
+            stage_title = stage.get("interactiveTitle")
+            if stage_title is not None:
+                if not isinstance(stage_title, str) or not stage_title.strip():
+                    errors.append(f"{path.name}:{stage_id}: interactiveTitle must be a non-empty string")
+                elif re.search(r"(?<![A-Za-z])(MUD|SIMULATOR|Deep-?dive)(?![A-Za-z])", stage_title, re.IGNORECASE):
+                    errors.append(f"{path.name}:{stage_id}: interactiveTitle must not use developer terms (MUD/SIMULATOR/Deep-dive)")
             if "buttonsHtml" in simulator:
                 errors.append(f"{path.name}:{stage_id}: executable buttonsHtml is not allowed")
             actions = simulator.get("actions")
