@@ -8,18 +8,29 @@ import type { GenericId as Id } from "convex/values";
 import { convexApi } from "@/lib/convex-api";
 import {
   manualJoinAttemptStorageKey,
+  studentPendingEntryKeyStorageKey,
   studentJoinStorageKey,
+  studentJoinTokenStorageKey,
   studentStorageKey,
 } from "@/lib/runtime";
 import { createOpaqueToken } from "@/shared/join-security";
 
-const SAFE_JOIN_ERROR = "입장 정보를 확인할 수 없습니다. QR을 다시 찍거나 수업 코드를 확인해 주세요.";
+const SAFE_JOIN_ERROR = "입장 확인이 안 됐어요. 같은 탭에서 같은 QR 또는 수업 코드로 다시 시도해 주세요. 계속 안 되면 선생님께 재연결 코드를 요청하세요.";
 
 type JoinResult = {
   sessionId: Id<"sessions">;
   token: string;
   aliasCandidates: string[];
 };
+
+function getStudentToken() {
+  const key = studentJoinTokenStorageKey();
+  const saved = sessionStorage.getItem(key);
+  if (saved && /^[0-9a-f]{64}$/.test(saved)) return saved;
+  const token = createOpaqueToken();
+  sessionStorage.setItem(key, token);
+  return token;
+}
 
 export function LiveJoinForm() {
   const router = useRouter();
@@ -30,9 +41,12 @@ export function LiveJoinForm() {
   const [recoveryCode, setRecoveryCode] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [pendingEntryKey, setPendingEntryKey] = useState("");
   const handledEntryKey = useRef(false);
 
   const rememberSession = useCallback((result: JoinResult, manualCode?: string) => {
+    sessionStorage.removeItem(studentPendingEntryKeyStorageKey());
+    sessionStorage.setItem(studentJoinTokenStorageKey(), result.token);
     sessionStorage.setItem(
       studentStorageKey(result.sessionId),
       JSON.stringify({
@@ -47,22 +61,57 @@ export function LiveJoinForm() {
   }, [router]);
 
   useEffect(() => {
-    if (handledEntryKey.current || !window.location.hash) return;
-    const entryKey = new URLSearchParams(window.location.hash.slice(1)).get("entry");
-    window.history.replaceState(
-      null,
-      "",
-      `${window.location.pathname}${window.location.search}`,
-    );
-    if (!entryKey) return;
+    if (handledEntryKey.current) return;
+    const entryKeyFromUrl = window.location.hash
+      ? new URLSearchParams(window.location.hash.slice(1)).get("entry")
+      : null;
+    if (window.location.hash) {
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${window.location.search}`,
+      );
+    }
+    const pendingEntryKeyStorageKey = studentPendingEntryKeyStorageKey();
+    const entryKey = entryKeyFromUrl
+      ?? sessionStorage.getItem(pendingEntryKeyStorageKey);
+    if (!entryKey || !/^[0-9a-f]{64}$/.test(entryKey)) {
+      sessionStorage.removeItem(pendingEntryKeyStorageKey);
+      return;
+    }
 
     handledEntryKey.current = true;
-    queueMicrotask(() => setBusy(true));
-    void joinWithEntryKey({ entryKey })
-      .then((result) => rememberSession(result))
+    sessionStorage.setItem(pendingEntryKeyStorageKey, entryKey);
+    queueMicrotask(() => {
+      setPendingEntryKey(entryKey);
+      setBusy(true);
+    });
+    void joinWithEntryKey({ entryKey, studentToken: getStudentToken() })
+      .then((result) => {
+        setPendingEntryKey("");
+        rememberSession(result);
+      })
       .catch(() => setError(SAFE_JOIN_ERROR))
       .finally(() => setBusy(false));
   }, [joinWithEntryKey, rememberSession]);
+
+  async function retryQrEntry() {
+    if (!pendingEntryKey) return;
+    setError("");
+    setBusy(true);
+    try {
+      const result = await joinWithEntryKey({
+        entryKey: pendingEntryKey,
+        studentToken: getStudentToken(),
+      });
+      setPendingEntryKey("");
+      rememberSession(result);
+    } catch {
+      setError(SAFE_JOIN_ERROR);
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -85,7 +134,11 @@ export function LiveJoinForm() {
       const attemptStorageKey = manualJoinAttemptStorageKey();
       const attemptId = sessionStorage.getItem(attemptStorageKey) ?? createOpaqueToken();
       sessionStorage.setItem(attemptStorageKey, attemptId);
-      const result = await joinWithCode({ code: normalizedCode, attemptId });
+      const result = await joinWithCode({
+        code: normalizedCode,
+        attemptId,
+        studentToken: getStudentToken(),
+      });
       if (!result.ok) {
         setError(result.error);
         return;
@@ -133,10 +186,17 @@ export function LiveJoinForm() {
         />
       </label>
       <button className="button primary" disabled={busy || code.length !== 6}>
-        {busy ? "입장 확인 중…" : "활동에 입장"}
+        {busy ? "입장 확인 중…" : error ? "수업 코드로 다시 시도" : "활동에 입장"}
       </button>
       {error && <p className="notice error" role="alert">{error}</p>}
     </form>
+    {pendingEntryKey && error && (
+      <div className="form">
+        <button className="button secondary" type="button" disabled={busy} onClick={retryQrEntry}>
+          {busy ? "QR 입장 다시 확인 중…" : "같은 QR로 다시 시도"}
+        </button>
+      </div>
+    )}
     <form className="form" onSubmit={submitRecovery}>
       <h2>기존 자리 다시 연결</h2>
       <p>활동 중 탭이나 기기를 잃었을 때만 선생님이 알려 준 코드를 입력하세요.</p>

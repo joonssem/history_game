@@ -30,7 +30,13 @@ import {
   type AttemptState,
 } from "../shared/join-security";
 import { getScenario, roleById } from "./scenarios";
-import { findStudent, hashStudentToken, isActiveStudent, requireStudent } from "./security";
+import {
+  findStudent,
+  hashStudentToken,
+  isActiveStudent,
+  requireStudent,
+  type StudentRecord,
+} from "./security";
 
 const JOIN_ERROR =
   "입장 정보를 확인할 수 없습니다. QR을 다시 찍거나 수업 코드를 확인해 주세요.";
@@ -54,6 +60,8 @@ type JoinAttempt = AttemptState & {
   sessionId?: GenericId<"sessions">;
 };
 
+type JoinedStudentRecord = StudentRecord & { joinedAt: number };
+
 function joinAttemptSecret() {
   const secret = process.env.JOIN_ATTEMPT_HMAC_SECRET ?? "";
   if (secret.length < 32) {
@@ -67,6 +75,18 @@ async function findAttempt(ctx: MutationCtx, bucketHash: string) {
     .query("joinAttempts")
     .withIndex("by_bucket_hash", (query) => query.eq("bucketHash", bucketHash))
     .unique() as JoinAttempt | null;
+}
+
+async function findStudentByToken(
+  ctx: MutationCtx,
+  sessionId: GenericId<"sessions">,
+  tokenHash: string,
+) {
+  return await ctx.db
+    .query("players")
+    .withIndex("by_session", (query) => query.eq("sessionId", sessionId))
+    .filter((query) => query.eq(query.field("tokenHash"), tokenHash))
+    .unique() as JoinedStudentRecord | null;
 }
 
 async function recordFailure(
@@ -101,18 +121,37 @@ async function recordFailure(
   );
 }
 
-async function admitStudent(ctx: MutationCtx, session: SessionRecord) {
+async function admitStudent(ctx: MutationCtx, session: SessionRecord, token: string) {
+  const tokenHash = await hashStudentToken(token);
   const currentPlayers = await ctx.db
     .query("players")
     .withIndex("by_session", (query) => query.eq("sessionId", session._id))
     .collect();
+  const existingPlayer = await findStudentByToken(ctx, session._id, tokenHash);
+  if (existingPlayer) {
+    const tokenExpiresAt = existingPlayer.tokenExpiresAt
+      ?? existingPlayer.joinedAt + STUDENT_TOKEN_TTL_MS;
+    if (tokenExpiresAt <= Date.now() || !isActiveStudent(existingPlayer)) {
+      throw new Error(JOIN_ERROR);
+    }
+    const used = new Set(
+      currentPlayers
+        .filter((player) => player._id !== existingPlayer._id)
+        .map((player) => player.alias)
+        .filter(Boolean),
+    );
+    return {
+      sessionId: session._id,
+      token,
+      aliasCandidates: shuffle(ALIASES.filter((alias) => !used.has(alias))).slice(0, 4),
+    };
+  }
   if (currentPlayers.length >= ALIASES.length) throw new Error(JOIN_ERROR);
 
-  const token = createOpaqueToken();
   const now = Date.now();
   await ctx.db.insert("players", {
     sessionId: session._id,
-    tokenHash: await hashStudentToken(token),
+    tokenHash,
     tokenExpiresAt: expiresAt(now, session.deleteAfter, STUDENT_TOKEN_TTL_MS),
     stage: "lobby",
     participationStatus: "active",
@@ -185,10 +224,16 @@ async function updateRoomStage(
 }
 
 export const joinWithEntryKey = mutationGeneric({
-  args: { entryKey: v.string() },
+  args: { entryKey: v.string(), studentToken: v.string() },
   handler: async (ctx, args) => {
-    if (!/^[0-9a-f]{64}$/.test(args.entryKey)) throw new Error(JOIN_ERROR);
-    const entryKeyHash = await sha256Hex(args.entryKey);
+    if (
+      !/^[0-9a-f]{64}$/.test(args.entryKey)
+      || !/^[0-9a-f]{64}$/.test(args.studentToken)
+    ) throw new Error(JOIN_ERROR);
+    const [entryKeyHash, studentTokenHash] = await Promise.all([
+      sha256Hex(args.entryKey),
+      hashStudentToken(args.studentToken),
+    ]);
     const session = await ctx.db
       .query("sessions")
       .withIndex("by_entry_key_hash", (query) =>
@@ -196,6 +241,12 @@ export const joinWithEntryKey = mutationGeneric({
       )
       .unique();
     const now = Date.now();
+    if (session && session.deleteAfter > now) {
+      const existingPlayer = await findStudentByToken(ctx, session._id, studentTokenHash);
+      if (existingPlayer) {
+        return await admitStudent(ctx, session as SessionRecord, args.studentToken);
+      }
+    }
     if (
       !session
       || session.deleteAfter <= now
@@ -204,17 +255,21 @@ export const joinWithEntryKey = mutationGeneric({
     ) {
       throw new Error(JOIN_ERROR);
     }
-    return await admitStudent(ctx, session as SessionRecord);
+    return await admitStudent(ctx, session as SessionRecord, args.studentToken);
   },
 });
 
 export const joinWithCode = mutationGeneric({
-  args: { code: v.string(), attemptId: v.string() },
+  args: { code: v.string(), attemptId: v.string(), studentToken: v.string() },
   handler: async (ctx, args) => {
     const now = Date.now();
     const code = args.code.trim();
     const hasValidCodeShape = /^[0-9]{6}$/.test(code);
     const hasValidAttemptShape = /^[0-9a-f]{64}$/.test(args.attemptId);
+    const hasValidStudentTokenShape = /^[0-9a-f]{64}$/.test(args.studentToken);
+    if (!hasValidStudentTokenShape) {
+      return { ok: false as const, error: JOIN_ERROR };
+    }
     const secret = joinAttemptSecret();
     const [browserBucketHash, codeBucketHash] = await Promise.all([
       hmacSha256Hex(
@@ -228,6 +283,26 @@ export const joinWithCode = mutationGeneric({
       findAttempt(ctx, browserBucketHash),
       findAttempt(ctx, codeBucketHash),
     ]);
+    const session = hasValidCodeShape && hasValidAttemptShape
+      ? await ctx.db
+          .query("sessions")
+          .withIndex("by_code", (query) => query.eq("code", code))
+          .unique()
+      : null;
+    if (session && session.deleteAfter > now) {
+      const tokenHash = await hashStudentToken(args.studentToken);
+      const existingPlayer = await findStudentByToken(ctx, session._id, tokenHash);
+      if (existingPlayer) {
+        try {
+          return {
+            ok: true as const,
+            ...(await admitStudent(ctx, session as SessionRecord, args.studentToken)),
+          };
+        } catch {
+          return { ok: false as const, error: JOIN_ERROR };
+        }
+      }
+    }
     if (
       isAttemptBlocked(browserAttempt, now)
       || isAttemptBlocked(codeAttempt, now)
@@ -235,12 +310,6 @@ export const joinWithCode = mutationGeneric({
       return { ok: false as const, error: JOIN_ERROR };
     }
 
-    const session = hasValidCodeShape && hasValidAttemptShape
-      ? await ctx.db
-          .query("sessions")
-          .withIndex("by_code", (query) => query.eq("code", code))
-          .unique()
-      : null;
     const codeExpiresAt = session?.codeExpiresAt
       ?? (session
         ? Math.min(
@@ -271,11 +340,13 @@ export const joinWithCode = mutationGeneric({
       return { ok: false as const, error: JOIN_ERROR };
     }
 
-    if (browserAttempt) await ctx.db.delete(browserAttempt._id);
-    return {
-      ok: true as const,
-      ...(await admitStudent(ctx, session as SessionRecord)),
-    };
+    try {
+      const result = await admitStudent(ctx, session as SessionRecord, args.studentToken);
+      if (browserAttempt) await ctx.db.delete(browserAttempt._id);
+      return { ok: true as const, ...result };
+    } catch {
+      return { ok: false as const, error: JOIN_ERROR };
+    }
   },
 });
 

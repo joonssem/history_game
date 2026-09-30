@@ -203,12 +203,12 @@ export const convexApi = {
   students: {
     joinWithEntryKey: makeFunctionReference<
       "mutation",
-      { entryKey: string },
+      { entryKey: string; studentToken: string },
       { sessionId: Id<"sessions">; token: string; aliasCandidates: string[] }
     >("students:joinWithEntryKey"),
     joinWithCode: makeFunctionReference<
       "mutation",
-      { code: string; attemptId: string },
+      { code: string; attemptId: string; studentToken: string },
       | { ok: false; error: string }
       | {
           ok: true;
