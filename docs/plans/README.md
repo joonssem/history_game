@@ -2,7 +2,7 @@
 
 이 폴더의 계획서가 각각 어떤 상태이고 다음 행동이 무엇인지 한눈에 보기 위한 색인이다. 개별 문서의 내용은 복제하지 않는다.
 
-- 갱신: 2026-09-15
+- 갱신: 2026-09-30
 - 완료 이력은 [`walkthrough.md`](../../walkthrough.md), 현재 상태는 [`project_context.md`](../../project_context.md), 미완료 항목은 [`BACKLOG.md`](../../BACKLOG.md)에서 확인한다.
 - 계획서의 상태를 바꾸면 이 표도 같이 갱신한다.
 
@@ -47,6 +47,7 @@
 
 | 문서 | 상태 | 다음 행동 |
 |---|---|---|
+| [`implementation_plan_cooperative_inquiry_design_alignment.md`](./implementation_plan_cooperative_inquiry_design_alignment.md) · [`tasks_cooperative_inquiry_design_alignment.md`](./tasks_cooperative_inquiry_design_alignment.md) | `P2 제안 · 구현 승인 대기` | 정적 협동 MUD와 역사 탐구 패널의 공통 스타일·터치·반응형 기준을 맞춤 |
 | [`implementation_plan_evidence_notebook_interface.md`](./implementation_plan_evidence_notebook_interface.md) | `제안` | 착수 전 인터페이스 확정 대기 |
 
 ## 3. 진행 중 (남은 확인 항목 있음)

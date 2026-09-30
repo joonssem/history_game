@@ -2434,3 +2434,13 @@ TASK-20260910-07 | `audit/interaction-diversity` main 병합·GitHub Pages 배�
 - 상태: `triaged`
 - 사용자 원문: "t3 진행"
 - 분류: 인계서의 T3 보고 전용 조사. `art_12`와 연표 코드는 수정하지 않고, 교육과정·앱 내부 분류·연표 판정 영향을 대조해 판단 자료를 작성한다.
+## 2026-09-30 — 협동 활동·역사 탐구 디자인 정렬 우선순위·체크리스트 요청
+
+`TASK-20260930-COOP-INQUIRY-DESIGN-PLAN | 우선순위·계획·체크리스트 문서화 | planning agent(Codex) | 상태: DONE`
+
+- 사용자 원문: "진행하기 전에 우선순위와 체크리스트 형식으로 작업 문서화하기."
+- 문맥: 정적 협동 활동 CSS와 역사 탐구 패널 CSS·레이아웃 비교 뒤, 해결안 실행 전 우선순위와 체크리스트를 작성해 달라는 요청이다.
+- 분류: P2 시각 일관성·터치 조작·반응형 정렬 제안. 수업 차단 증거가 없어 P0/P1이 아니며, 구현은 별도 사용자 승인 뒤 시작한다.
+- 산출물: [`docs/plans/implementation_plan_cooperative_inquiry_design_alignment.md`](./docs/plans/implementation_plan_cooperative_inquiry_design_alignment.md), [`docs/plans/tasks_cooperative_inquiry_design_alignment.md`](./docs/plans/tasks_cooperative_inquiry_design_alignment.md)
+- 상태: `triaged` — BACKLOG에 미완료 구현 후보로 등록했다.
+- 경계: 계획·체크리스트만 작성했다. CSS·HTML·실시간 협동 앱은 수정하지 않았다.

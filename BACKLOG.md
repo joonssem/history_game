@@ -237,6 +237,17 @@
   - `header.interactiveTitle`·로드맵 라벨을 `scripts/18` 비교 대상에 추가
 - 수업 관찰 질문 5개는 근거 문서 §5에 있다. 관찰 기록지(`docs/plans/classroom_observation_inquiry_pilot.md`)에 넣을지는 연결 공방이 판단한다.
 
+## P2-UI-COOP-INQUIRY-DESIGN — 정적 협동 활동·역사 탐구 디자인 기준 정렬
+
+- 작업 문서 claim: `TASK-20260930-COOP-INQUIRY-DESIGN-PLAN | 우선순위·계획·체크리스트 문서화 | planning agent(Codex) | 상태: DONE`
+- 상태: `planned / implementation-approval-needed` — [구현 계획](./docs/plans/implementation_plan_cooperative_inquiry_design_alignment.md) · [체크리스트](./docs/plans/tasks_cooperative_inquiry_design_alignment.md)
+- 근거: 소스 구조 비교에서 정적 협동 MUD와 역사 탐구 패널은 포털의 따뜻한 역사 색상을 대체로 공유한다. 다만 자체/공통 CSS 변수, 주요 조작부 48px/44px, 모바일 분기 600px/620px가 다르다. 브라우저 화면은 URL 판별 제한으로 아직 확인하지 못했다.
+- 우선순위 판단: P0/P1 진행 장애 근거는 없고, 교실 사용성을 해치지 않는 수준의 일관성·터치 기준 개선이므로 P2로 둔다.
+- 최소 변경 범위: `cooperative-mud/cooperative.css`와 `css/style.css`의 탐구 패널 규칙만 검토한다. 독립 단계형 협동 화면과 MUD 안의 임베디드 탐구 패널 배치는 각각 유지한다.
+- 제외: `apps/cooperative-live`의 별도 남색 테마, 활동 문구·역사 콘텐츠, 진행 로직, 새 프레임워크, 배포. 필요하면 별도 작업으로 검토한다.
+- 다음 순서: 지정 화면 크기 기준선 확인 → 팔레트·버튼 규칙 결정 → 반응형 경계 정리 → 시각 확인 및 기록.
+- 착수 조건: 사용자의 별도 구현 승인. 현재는 문서만 준비했으며 CSS는 수정하지 않았다.
+
 ## P1 실험 — Regular MUD 상호작용 다양성 수업 검증
 
 - 작업 claim: `TASK-20260910-01 | Regular MUD 핫스팟 반복 구조·시대별 조작 다양성 감사 | 기획·점검 에이전트(Codex) | 상태: DONE`
