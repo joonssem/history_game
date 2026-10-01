@@ -15,6 +15,14 @@ export function studentJoinStorageKey(code: string) {
   return `cooperative-live:join:${code}`;
 }
 
+export function studentJoinTokenStorageKey() {
+  return "cooperative-live:pending-student-token";
+}
+
+export function studentPendingEntryKeyStorageKey() {
+  return "cooperative-live:pending-entry-key";
+}
+
 export function manualJoinAttemptStorageKey() {
   return "cooperative-live:manual-attempt";
 }

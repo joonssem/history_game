@@ -269,6 +269,12 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
       <h2>{guide.title}</h2>
       <p>{guide.body}</p>
       {view.paused && <p className="notice error">선생님이 잠시 멈췄습니다. 안내를 기다려 주세요.</p>}
+      {view.progressBlocked && <p className="notice error">{view.progressBlocked} 선생님께 도움을 요청하세요.</p>}
+      {view.recoveryEnabled && <p className="notice">선생님이 부족 인원 복구 모드를 켰습니다. 빠진 역할의 근거 요약도 함께 살펴보세요.</p>}
+      {view.teacherFinished && <p className="notice">선생님이 활동을 마침 단계로 진행했습니다. 하지 않은 개인 판단·설명·초안 확인은 완료로 기록되지 않습니다.</p>}
+      {view.stage === "finished" && !view.teacherFinished
+        && (!view.firstSubmitted || !view.sharedAt || view.confirmedRevision !== view.draft?.revision)
+        && <p className="notice">모둠 활동은 마침 단계입니다. 이 기기에 남지 않은 개인 판단·설명·초안 확인은 완료로 기록되지 않습니다.</p>}
 
       {["role", "first", "share"].includes(view.stage) && view.role && (
         <div className="role-card">
@@ -317,7 +323,7 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
           <p>우선할 정책 2개를 고르세요.</p>
           <div className="choice-grid">{view.sharedPrompt.policies.map((item) => <button key={item.id} className={`choice${policyIds.includes(item.id) ? " selected" : ""}`} onClick={() => setPolicyIds((current) => current.includes(item.id) ? current.filter((id) => id !== item.id) : current.length < 2 ? [...current, item.id] : current)}>{item.label}</button>)}</div>
           <p>모둠의 서로 다른 역할 근거 2개를 고르세요.</p>
-          <div className="choice-grid">{view.evidenceRoles.map((role) => <button key={role.id} className={`choice${evidenceRoleIds.includes(role.id) ? " selected" : ""}`} onClick={() => setEvidenceRoleIds((current) => current.includes(role.id) ? current.filter((id) => id !== role.id) : current.length < 2 ? [...current, role.id] : current)}>{role.name}: {role.evidence[0]?.label}</button>)}</div>
+          <div className="choice-grid">{view.evidenceRoles.map((role) => <button key={role.id} className={`choice${evidenceRoleIds.includes(role.id) ? " selected" : ""}`} onClick={() => setEvidenceRoleIds((current) => current.includes(role.id) ? current.filter((id) => id !== role.id) : current.length < 2 ? [...current, role.id] : current)}>{role.recoverySummary ? "공통 근거 요약 · " : ""}{role.name}: {role.evidence[0]?.label}</button>)}</div>
           <p className="notice">다른 친구가 말한 역할 근거는 모둠에서 고른 뒤 이 화면에 함께 선택하세요.</p>
           {view.commonEvidence.length > 0 && (
             <div className="notice">

@@ -1,10 +1,12 @@
 ﻿# PROJECT_CONTEXT.md
 
-> **작성일**: 2026-09-01 | **최종 갱신**: 2026-09-28 | **버전**: v4.2 | **인수자**: OpenAI Codex
+> **작성일**: 2026-09-01 | **최종 갱신**: 2026-09-30 | **버전**: v4.3 | **인수자**: OpenAI Codex
 > **라이브 URL**: https://joonssem.github.io/history_game/
 
 이 문서는 새 개발자가 프로젝트를 빠르게 파악하고 작업을 이어갈 수 있도록 작성한 인수인계 문서다.
 코드로 확인할 수 없는 내용은 `확인 필요`로 표시했다.
+
+2026-10-01 격리 브랜치 추가 상태: `feat/goryeo-classroom-activities`에는 문화 시나리오와 최신 입장 멱등 처리, 교사 사유·동의가 있는 선택 모둠 한 단계 진행, 1~2인 명시 복구, 도움 요청 대응이 함께 구현됐다. `apps/cooperative-live`의 `npm run check` 통과(단위 21개·Convex 24개·build), 로컬 가상 UI 검증 완료. main 통합·실제 Preview·현장 기기 확인은 별도 대기다. 상세는 [통합 계획](./docs/plans/implementation_plan_classroom_recovery_integration.md)과 [교사 복구 안내](./apps/cooperative-live/TEACHING_CLASSROOM_RECOVERY.md)를 확인한다.
 
 ---
 
@@ -82,7 +84,7 @@ history_game/
 │   ├── gojoseon-law/                   # 6차시. 법 만들기 전용 자체 app.js
 │   ├── founding-myths/                 # 7차시. scenario.js + index.html
 │   └── han-river/                      # 8차시. scenario.js + index.html
-├── apps/cooperative-live/               # Next.js + Convex 실시간 협동 앱(고조선 회귀 + 고려 초기 첫 활동)
+├── apps/cooperative-live/               # Next.js + Convex 실시간 협동 앱(고조선 회귀 + 고려 건국·문화; 문화 신규 활동은 격리 브랜치)
 ├── data/
 │   ├── history_curriculum_48_lessons.json  # 48차시 커리큘럼 DB (단원·차시·색상·키개념)
 │   ├── artifacts.json                  # 유물 도감 36종 DB (id, name, tier, desc 등)
@@ -337,13 +339,14 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 - **단계 정합성**: 선사~발해 9편 점검, `scripts/18` 재설계(Codex 권고: 반복 템플릿 경고 분리, 실제 오류 16곳 고정 fixture, 선택지 피드백·헤더·로드맵 라벨 포함), 세종 편 영웅화 어조 검토.
 - **실시간 협동(Codex)**: 조선 후기 활동 Preview 배포 완료, 합성 리허설 세션 삭제와 교사 1명+기기 4~8대 실측 대기.
 
-### 지금 대기 중인 것 (2026-09-09 기준)
+### 협동 활동 수업 상태 (2026-09-30 기준)
 
-실시간 확장에는 개인정보·국외 처리 절차가 차단 게이트다. 이 프로젝트는 교사 제작 교육용 저작물로 분류하므로 학습지원 소프트웨어 선정·학교운영위원회 심의 게이트는 적용하지 않는다. 현재 정적 협동 MUD의 수업 검증은 개인정보 게이트와 별도로 진행할 수 있다.
+실시간 확장에는 개인정보·국외 처리 절차가 차단 게이트다. 이 프로젝트는 교사 제작 교육용 저작물로 분류하므로 학습지원 소프트웨어 선정·학교운영위원회 심의 게이트는 적용하지 않는다. 개인정보 운영 환경은 학생 재접속 전에 근거 문서와 실제 Convex·Vercel 환경이 같은지 다시 확인한다. [BACKLOG P1-COLLAB-PRIVACY](./BACKLOG.md), [감사 문서](./docs/audits/convex_elementary_school_privacy_audit.md)를 참조한다.
 
-1. **고려 초기 실시간 활동 4~8대 리허설** — 코드와 자동 회귀는 완료했다. 교사 1명+성인·교사 역할 참가자 4~8명으로 입장, 역할 비공개, pause/resume, 새로고침 복구, 공동 초안 revision, 전원 확인, 종료 삭제를 실제 수업 네트워크에서 확인한다. 결과는 `EXP-009`에 기록한다.
-2. **실제 배포 환경 개인정보 조건 재확인** — 사용자가 국외 처리 조건을 처리했다고 확인했으나, 실제 학생 접속 직전에는 근거 문서와 사용할 Convex·Vercel 환경이 같은지 운영 체크리스트로 확인해야 한다. [BACKLOG P1-COLLAB-PRIVACY](./BACKLOG.md), [감사 문서](./docs/audits/convex_elementary_school_privacy_audit.md) 참조.
-3. **8차시 정적 협동 MUD 실제 수업 운영** — 7차시 시조 설화는 2026-09-08 수업 운영을 마쳐 `EXPERIMENTS.md`의 `EXP-007`에 기록했다. 8차시 한강 유역은 제작·브라우저 검증만 끝난 상태다. 볼 것: 네 자료가 모두 발화되는가, 공유 전 최초 판단이 서로 다른가, 타이머 배지가 너무 자주/드물게 뜨지 않는가.
+1. **고려 초기 실시간 활동** — 2026-09-29 21명으로 1차 운영했다. 자동 편성·일부 모둠의 진행은 작동했으나 학생 로그인·자리 복구, 유령 참가자, 전체 다음 단계 차단이 확인됐다. 복구 변경은 `feat/cooperative-classroom-recovery-p0`의 `f71ca7d`를 기준으로 문화 시나리오와 함께 `feat/goryeo-classroom-activities`에 들어 있고 `npm run check`를 통과했다. Auth0 callback과 4~8대 실기기 리허설은 남아 있어 다음 학생 수업 전에는 이를 통과해야 한다. 21명 재시험도 해당 게이트 뒤에 한다. 상세는 [`EXP-009`](./EXPERIMENTS.md)와 [복구 계획](./docs/plans/implementation_plan_cooperative_live_classroom_recovery.md).
+2. **고려 건국·문화 교사 진행 대체 흐름** — 실시간판이 현장 승인되기 전에는 교사 진행형 관점 공유와 기록지를 사용한다. 고려 문화는 기존 개인형 `regular_goryeo_culture`를 근거 탐색에 쓸 수 있다. 활동별 15분 계획값은 실측값이 아니다. [운영 대체안](./docs/plans/implementation_plan_goryeo_classroom_readiness.md)과 [체크리스트](./docs/plans/tasks_goryeo_classroom_readiness.md)를 참조한다.
+3. **고려 문화 실시간 협동 활동** — 17~18차시 `goryeo-culture-life` v1을 격리 브랜치에 추가했고 공개·서버 역할, 3/4/5인 배치, 비공개 자료, 공통 직지 근거와 교사용 안내를 구현했다. lint·타입·21개 단위·7개 Convex 통합 테스트·production build가 통과했다. 아직 통합·배포·기기 리허설·학생 파일럿 전이므로 수업 사용은 미승인이다. 상세는 [구현 계획](./docs/plans/implementation_plan_goryeo_classroom_activities.md)과 [`TEACHING_GORYEO_CULTURE.md`](./apps/cooperative-live/TEACHING_GORYEO_CULTURE.md).
+4. **정적 협동 MUD** — 6차시 고조선과 7차시 시조 설화는 실제 수업 운영 기록이 있다. 8차시 한강 유역은 제작·브라우저 검증만 끝나 실제 수업을 기다린다. 관찰은 자료 발화, 최초 판단, 타이머 페이싱, 발화 편차를 본다.
 
 ### Deep-dive 트랙 현황 (2026-09-09 확정·완료)
 
@@ -358,7 +361,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 3. **타이머 예산 조정** — 화면별 목표 시간은 추정치다. 2번 관찰 뒤 `scenario.pacing.budgets`를 고친다. 감도는 `pacing.tuning`으로 시나리오별로 덮어쓸 수 있다.
 4. **네 번째 협동 시나리오** — 진도에 맞춰 후보 풀에서 고른다. 새 편은 `scenario.js`와 `index.html` 둘만 만들면 된다.
-5. **실시간 확장 현장 검증** — 고조선 21명 회귀와 고려 초기 4명 전체 흐름 자동 검증까지 완료했다. 다음은 교사 1명+성인·교사 역할 4~8대에서 실제 WebSocket 동시접속, 재접속, 학교 Wi-Fi, 아이패드 QR 인식, revision 재확인을 검사한다. 실제 학생 접속은 그 뒤 별도 Go 판정 대상이다.
+5. **실시간 확장 현장 검증** — 고려 초기 21명 운영에서 확인된 복구·진행 결함을 고치는 변경은 별도 브랜치에 있다. Auth0 교사 로그인, QR·학교 Wi-Fi 재접속, 자리 복구, 모둠별 진행, revision 재확인을 교사 1명+성인·교사 역할 4~8대에서 먼저 검사한다. 통과 뒤 학생 소규모 재시험과 Go 판정을 거쳐 21명 운영을 다시 연다.
 
 ### 감사 스크립트 (2026-09-07~08 완료)
 
@@ -387,7 +390,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
   - 공통 파일: `cooperative-mud/episode.js`(화면 흐름 엔진), `pacing.js`(타이머 페이싱), `cooperative.css`. 시나리오는 각 폴더의 `scenario.js`가 소유하고 엔진에는 역사 내용을 넣지 않는다. 고조선은 법 만들기 화면 때문에 자체 `app.js`를 쓰지만, 세 활동 모두 `역할 확인 → 최초 판단 → 정보 공유 → 추가 자료 → 재판단` 순서를 따른다.
   - 선사시대 협동 MUD는 종이 리허설 단계를 2026-09-06에 폐기하고 정적 웹 제작 대상으로 전환했다 — 1인 1기기 화면이 곧 역할 카드다.
   - 수업 운영 방법은 [`cooperative-mud/TEACHING.md`](./cooperative-mud/TEACHING.md)에 있다. 교실에서 바로 보는 문서다.
-  - 실시간 확장(Vercel + Convex)은 `apps/cooperative-live/`에 있다. 고조선 기술 회귀에 더해 고려 초기 “새 고려의 첫 회의”를 다중 시나리오로 구현했고, 역할 비공개·개인 판단 로컬 보존·공동 초안 revision·전원 확인·pause/resume·도움 요청·종료 삭제를 자동 검증했다. 4~8대 성인·교사 리허설과 실제 배포 환경 재확인 전에는 실제 학생에게 열지 않는다. `apps/cooperative-live/README.md`, `apps/cooperative-live/TEACHING_EARLY_GORYEO.md`, `docs/plans/implementation_plan_early_goryeo_cooperative_live_first_activity.md` 참조.
+  - 실시간 확장(Vercel + Convex)은 `apps/cooperative-live/`에 있다. 고려 초기 “새 고려의 첫 회의”는 2026-09-29 21명 수업에서 입장·참가자 복구 문제가 확인됐다. 복구와 고려 문화 시나리오 변경은 `feat/goryeo-classroom-activities`에 있으며 자동 검증을 마쳤지만 아직 통합·배포되지 않았다. Auth0 로그인과 4~8대 현장 리허설, 학생 소규모 파일럿은 미통과다. 최신 상태는 `apps/cooperative-live/TEACHING_EARLY_GORYEO.md`, `apps/cooperative-live/TEACHING_GORYEO_CULTURE.md`, `docs/plans/implementation_plan_goryeo_classroom_activities.md` 참조.
 
 ## 8. 실행 및 테스트 방법
 

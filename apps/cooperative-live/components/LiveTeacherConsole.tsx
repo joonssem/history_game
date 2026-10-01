@@ -6,6 +6,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 
 import { convexApi } from "@/lib/convex-api";
+import { TeacherGroupControls } from "@/components/TeacherGroupControls";
 import {
   clearCooperativeSessionStorage,
   teacherEntryKeyStorageKey,
@@ -40,7 +41,6 @@ export function LiveTeacherConsole() {
   const advanceGroupStage = useMutation(convexApi.sessions.advanceGroupStage);
   const setParticipantStatus = useMutation(convexApi.sessions.setParticipantStatus);
   const issueRecoveryCode = useMutation(convexApi.sessions.issueRecoveryCode);
-  const resolveHelp = useMutation(convexApi.sessions.resolveHelp);
   const currentSession = useQuery(
     convexApi.sessions.current,
     isAuthenticated ? {} : "skip",
@@ -345,7 +345,12 @@ export function LiveTeacherConsole() {
         <section className="rooms">
           {groups.map(([groupNumber, players]) => (
             <article className="room-card" key={groupNumber}>
-              <header><h2>{groupNumber}모둠</h2><span className="badge">{players.length}명</span></header>
+              <header><h2>{groupNumber}모둠</h2><span className="badge">{players.filter((player) => player.participationStatus === "active").length}명 활성</span></header>
+              {dashboard.session.status === "active" && (() => {
+                const room = dashboard.rooms.find((item) => item.groupNumber === groupNumber);
+                return room ? <TeacherGroupControls sessionId={sessionId} room={room} paused={dashboard.session.paused}
+                  helpRequested={dashboard.helpRequests.some((request) => request.groupNumber === groupNumber && !request.resolvedAt)} /> : null;
+              })()}
               <ul className="player-list">
                 {players.map((player) => {
                   return (
@@ -419,7 +424,6 @@ export function LiveTeacherConsole() {
                       확인 {dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.confirmed ?? 0}/{dashboard.rooms.find((room) => room.groupNumber === groupNumber)?.total ?? players.length}
                     </span>
                   )}
-                  {dashboard.helpRequests.some((request) => request.groupNumber === groupNumber && !request.resolvedAt) && <button className="button primary" onClick={() => run(async () => { await resolveHelp({ sessionId, groupNumber }); setMessage(`${groupNumber}모둠 도움 요청을 확인했습니다.`); })}>도움 요청 확인</button>}
                   {(["hint", "deepen"] as InterventionKind[]).map((kind) => (
                     <button
                       key={kind}

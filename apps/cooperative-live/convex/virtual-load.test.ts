@@ -10,7 +10,125 @@ import { getScenario } from "./scenarios";
 const TEACHER_SUB = "auth0|virtual-load-teacher";
 const STUDENT_COUNT = 21;
 
+function studentTokenFor(index: number) {
+  return index.toString(16).padStart(64, "0");
+}
+
 describe("실시간 협동 MUD 가상 학급", () => {
+  it("동일 QR 토큰 재시도는 같은 좌석을 돌려주고 진행 중 수업에서도 재연결한다", async () => {
+    process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
+    process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
+    const testBackend = convexTest(schema, modules);
+    const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+    const created = await teacher.mutation(convexApi.sessions.create, {
+      scenarioId: "early-goryeo-unity",
+      scenarioVersion: 1,
+    });
+    const sameStudentToken = studentTokenFor(0);
+    const [firstJoin, duplicateJoin] = await Promise.all([
+      testBackend.mutation(convexApi.students.joinWithEntryKey, {
+        entryKey: created.entryKey!,
+        studentToken: sameStudentToken,
+      }),
+      testBackend.mutation(convexApi.students.joinWithEntryKey, {
+        entryKey: created.entryKey!,
+        studentToken: sameStudentToken,
+      }),
+    ]);
+    expect(firstJoin.sessionId).toBe(duplicateJoin.sessionId);
+    expect(firstJoin.token).toBe(duplicateJoin.token);
+    expect(await testBackend.run(async (ctx) => ctx.db.query("players").collect())).toHaveLength(1);
+
+    const otherStudents = await Promise.all([1, 2].map((index) =>
+      testBackend.mutation(convexApi.students.joinWithEntryKey, {
+        entryKey: created.entryKey!,
+        studentToken: studentTokenFor(index),
+      })
+    ));
+    const allStudents = [firstJoin, ...otherStudents];
+    await Promise.all(allStudents.map((student, index) =>
+      testBackend.mutation(convexApi.students.selectAlias, {
+        sessionId: student.sessionId,
+        token: student.token,
+        alias: ALIASES[index],
+      })
+    ));
+    await teacher.mutation(convexApi.sessions.previewGroups, { sessionId: created.sessionId });
+    await teacher.mutation(convexApi.sessions.confirmStart, { sessionId: created.sessionId });
+
+    const resumed = await testBackend.mutation(convexApi.students.joinWithCode, {
+      code: created.code,
+      attemptId: studentTokenFor(100),
+      studentToken: sameStudentToken,
+    });
+    expect(resumed).toMatchObject({ ok: true, sessionId: created.sessionId, token: firstJoin.token });
+    const attemptedNewSeat = await testBackend.mutation(convexApi.students.joinWithCode, {
+      code: created.code,
+      attemptId: studentTokenFor(101),
+      studentToken: studentTokenFor(3),
+    });
+    expect(attemptedNewSeat).toMatchObject({ ok: false });
+    expect(await testBackend.run(async (ctx) => ctx.db.query("players").collect())).toHaveLength(3);
+  });
+
+  it("정원이 찬 뒤의 동일 토큰 재시도는 성공하고 새 좌석은 거부한다", async () => {
+    process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
+    process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
+    const testBackend = convexTest(schema, modules);
+    const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+    const created = await teacher.mutation(convexApi.sessions.create, {
+      scenarioId: "early-goryeo-unity",
+      scenarioVersion: 1,
+    });
+    const students = await Promise.all(Array.from({ length: ALIASES.length }, (_, index) =>
+      testBackend.mutation(convexApi.students.joinWithEntryKey, {
+        entryKey: created.entryKey!,
+        studentToken: studentTokenFor(index),
+      })
+    ));
+    expect(students).toHaveLength(ALIASES.length);
+    const repeated = await testBackend.mutation(convexApi.students.joinWithEntryKey, {
+      entryKey: created.entryKey!,
+      studentToken: studentTokenFor(0),
+    });
+    expect(repeated.token).toBe(students[0].token);
+    await expect(testBackend.mutation(convexApi.students.joinWithEntryKey, {
+      entryKey: created.entryKey!,
+      studentToken: studentTokenFor(ALIASES.length),
+    })).rejects.toThrow();
+    expect(await testBackend.run(async (ctx) => ctx.db.query("players").collect())).toHaveLength(ALIASES.length);
+  });
+
+  it("같은 수업 코드와 좌석 토큰의 반복 입장은 참가자 한 명으로 수렴한다", async () => {
+    process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
+    process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
+    const testBackend = convexTest(schema, modules);
+    const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+    const created = await teacher.mutation(convexApi.sessions.create, {
+      scenarioId: "early-goryeo-unity",
+      scenarioVersion: 1,
+    });
+    const studentToken = studentTokenFor(0);
+    const [firstJoin, repeatedJoin] = await Promise.all([
+      testBackend.mutation(convexApi.students.joinWithCode, {
+        code: created.code,
+        attemptId: studentTokenFor(100),
+        studentToken,
+      }),
+      testBackend.mutation(convexApi.students.joinWithCode, {
+        code: created.code,
+        attemptId: studentTokenFor(100),
+        studentToken,
+      }),
+    ]);
+    expect(firstJoin).toMatchObject({ ok: true });
+    expect(repeatedJoin).toMatchObject({ ok: true });
+    if (!firstJoin.ok || !repeatedJoin.ok) throw new Error("수업 코드 입장 실패");
+    expect(firstJoin.sessionId).toBe(repeatedJoin.sessionId);
+    expect(firstJoin.token).toBe(repeatedJoin.token);
+    expect(await testBackend.run(async (ctx) => ctx.db.query("players").collect())).toHaveLength(1);
+  });
+
   it("21명 혼합 단계에서 5인 모둠을 3인으로 복구하고 다른 네 모둠을 보존한다", async () => {
     process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
     process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
@@ -20,8 +138,11 @@ describe("실시간 협동 MUD 가상 학급", () => {
       scenarioId: "early-goryeo-unity",
       scenarioVersion: 1,
     });
-    const students = await Promise.all(Array.from({ length: 21 }, () =>
-      testBackend.mutation(convexApi.students.joinWithEntryKey, { entryKey: created.entryKey! })
+    const students = await Promise.all(Array.from({ length: 21 }, (_, index) =>
+      testBackend.mutation(convexApi.students.joinWithEntryKey, {
+        entryKey: created.entryKey!,
+        studentToken: studentTokenFor(index),
+      })
     ));
     await Promise.all(students.map((student, index) =>
       testBackend.mutation(convexApi.students.selectAlias, {
@@ -77,8 +198,11 @@ describe("실시간 협동 MUD 가상 학급", () => {
       scenarioId: "early-goryeo-unity",
       scenarioVersion: 1,
     });
-    const students = await Promise.all(Array.from({ length: 8 }, () =>
-      testBackend.mutation(convexApi.students.joinWithEntryKey, { entryKey: created.entryKey! })
+    const students = await Promise.all(Array.from({ length: 8 }, (_, index) =>
+      testBackend.mutation(convexApi.students.joinWithEntryKey, {
+        entryKey: created.entryKey!,
+        studentToken: studentTokenFor(index),
+      })
     ));
     await Promise.all(students.map((student, index) =>
       testBackend.mutation(convexApi.students.selectAlias, {
@@ -111,8 +235,11 @@ describe("실시간 협동 MUD 가상 학급", () => {
       scenarioId: "early-goryeo-unity",
       scenarioVersion: 1,
     });
-    const students = await Promise.all(Array.from({ length: 5 }, () =>
-      testBackend.mutation(convexApi.students.joinWithEntryKey, { entryKey: created.entryKey! })
+    const students = await Promise.all(Array.from({ length: 5 }, (_, index) =>
+      testBackend.mutation(convexApi.students.joinWithEntryKey, {
+        entryKey: created.entryKey!,
+        studentToken: studentTokenFor(index),
+      })
     ));
     await Promise.all(students.map((student, index) =>
       testBackend.mutation(convexApi.students.selectAlias, {
@@ -185,6 +312,12 @@ describe("실시간 협동 MUD 가상 학급", () => {
       playerId: blockedPlayer.id,
       status: "removed",
     });
+    await expect(testBackend.mutation(convexApi.students.joinWithCode, {
+      code: created.code,
+      attemptId: studentTokenFor(101),
+      studentToken: students[4].token,
+    })).resolves.toMatchObject({ ok: false });
+    expect(await testBackend.run(async (ctx) => ctx.db.query("players").collect())).toHaveLength(5);
     await teacher.mutation(convexApi.sessions.advanceGroupStage, {
       sessionId: created.sessionId,
       groupNumber: 1,
@@ -258,9 +391,10 @@ describe("실시간 협동 MUD 가상 학급", () => {
         scenarioVersion: scenario.version,
       });
       const students = await Promise.all(
-        Array.from({ length: size }, () =>
+        Array.from({ length: size }, (_, index) =>
           testBackend.mutation(convexApi.students.joinWithEntryKey, {
             entryKey: created.entryKey!,
+            studentToken: studentTokenFor(index),
           }),
         ),
       );
@@ -334,6 +468,97 @@ describe("실시간 협동 MUD 가상 학급", () => {
     }
   });
 
+  it("고려 문화 3·4·5인 모둠의 역할 자료를 분리하고 빠진 관점을 보충한다", async () => {
+    process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
+    process.env.JOIN_ATTEMPT_HMAC_SECRET =
+      "virtual-load-test-secret-32-bytes-minimum";
+
+    const scenario = getScenario("goryeo-culture-life", 1)!;
+    for (const size of [3, 4, 5] as const) {
+      const testBackend = convexTest(schema, modules);
+      const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+      const created = await teacher.mutation(convexApi.sessions.create, {
+        scenarioId: scenario.id,
+        scenarioVersion: scenario.version,
+      });
+      const students = await Promise.all(
+        Array.from({ length: size }, (_, index) =>
+          testBackend.mutation(convexApi.students.joinWithEntryKey, {
+            entryKey: created.entryKey!,
+            studentToken: studentTokenFor(200 + index),
+          }),
+        ),
+      );
+      await Promise.all(students.map((student, index) =>
+        testBackend.mutation(convexApi.students.selectAlias, {
+          sessionId: student.sessionId,
+          token: student.token,
+          alias: ALIASES[index],
+        })
+      ));
+      await teacher.mutation(convexApi.sessions.previewGroups, {
+        sessionId: created.sessionId,
+      });
+      await teacher.mutation(convexApi.sessions.confirmStart, {
+        sessionId: created.sessionId,
+      });
+
+      const views = await Promise.all(students.map((student) =>
+        testBackend.query(convexApi.students.view, {
+          sessionId: student.sessionId,
+          token: student.token,
+        })
+      ));
+      expect(new Set(views.map((view) => view?.role?.id)).size).toBe(size);
+      expect(new Set(views.map((view) => view?.role?.id))).toEqual(
+        new Set(scenario.groupSizes[size]),
+      );
+      for (const view of views) {
+        expect(view?.commonEvidence).toEqual([]);
+        const serialized = JSON.stringify(view);
+        for (const role of scenario.roles) {
+          if (role.id !== view?.role?.id) {
+            expect(serialized).not.toContain(role.privateInfo);
+          }
+        }
+      }
+
+      await teacher.mutation(convexApi.sessions.advanceStage, {
+        sessionId: created.sessionId,
+      });
+      await Promise.all(students.map((student) =>
+        testBackend.mutation(convexApi.students.completeFirst, {
+          sessionId: student.sessionId,
+          token: student.token,
+        })
+      ));
+      await teacher.mutation(convexApi.sessions.advanceStage, {
+        sessionId: created.sessionId,
+      });
+      await Promise.all(students.map((student) =>
+        testBackend.mutation(convexApi.students.markShared, {
+          sessionId: student.sessionId,
+          token: student.token,
+        })
+      ));
+      await teacher.mutation(convexApi.sessions.advanceStage, {
+        sessionId: created.sessionId,
+      });
+      const draftView = await testBackend.query(convexApi.students.view, {
+        sessionId: students[0].sessionId,
+        token: students[0].token,
+      });
+      expect(draftView?.stage).toBe("draft");
+      expect(draftView?.commonEvidence).toEqual(
+        scenario.commonEvidenceByGroupSize[size],
+      );
+
+      await teacher.mutation(convexApi.sessions.end, {
+        sessionId: created.sessionId,
+      });
+    }
+  });
+
   it("고조선에서 교사 1명과 학생 21명의 입장부터 종료 삭제까지 관통한다", async () => {
     process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
     process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
@@ -347,9 +572,10 @@ describe("실시간 협동 MUD 가상 학급", () => {
 
     expect(created.entryKey).toMatch(/^[0-9a-f]{64}$/);
     const students = await Promise.all(
-      Array.from({ length: STUDENT_COUNT }, () =>
+      Array.from({ length: STUDENT_COUNT }, (_, index) =>
         testBackend.mutation(convexApi.students.joinWithEntryKey, {
           entryKey: created.entryKey!,
+          studentToken: studentTokenFor(index),
         }),
       ),
     );
@@ -500,9 +726,10 @@ describe("실시간 협동 MUD 가상 학급", () => {
     })).rejects.toThrow("찾을 수 없습니다");
 
     const students = await Promise.all(
-      Array.from({ length: 4 }, () =>
+      Array.from({ length: 4 }, (_, index) =>
         testBackend.mutation(convexApi.students.joinWithEntryKey, {
           entryKey: created.entryKey!,
+          studentToken: studentTokenFor(index),
         }),
       ),
     );

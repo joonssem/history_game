@@ -2,6 +2,7 @@ import { makeFunctionReference } from "convex/server";
 import type { GenericId as Id } from "convex/values";
 
 import type { InterventionKind, Stage } from "@/shared/scenario";
+import type { TeacherProgressReason } from "@/shared/teacher-recovery";
 
 export type Dashboard = {
   session: {
@@ -48,6 +49,17 @@ export type Dashboard = {
     total: number;
     confirmed: number;
     revision?: number;
+    recoveryEnabled?: boolean;
+    teacherFinishedAt?: number;
+    firstCompleted: number;
+    sharedCompleted: number;
+    teacherActions: Array<{
+      kind: "advance" | "recovery";
+      fromStage: Stage;
+      toStage: Stage;
+      reason: TeacherProgressReason;
+      createdAt: number;
+    }>;
     gate: { stage: Stage; ready: boolean; reason: string | null };
     latestIntervention: {
       id: Id<"interventions">;
@@ -71,6 +83,9 @@ export type Dashboard = {
 export type StudentView = {
   sessionStatus: "lobby" | "preview" | "active";
   paused: boolean;
+  recoveryEnabled: boolean;
+  teacherFinished: boolean;
+  progressBlocked: string | null;
   scenario: { title: string; lesson: string; recommendedMinutes: number };
   sharedPrompt: {
     question: string;
@@ -83,6 +98,7 @@ export type StudentView = {
   evidenceRoles: Array<{
     id: string;
     name: string;
+    recoverySummary: boolean;
     evidence: Array<{ id: string; label: string }>;
   }>;
   alias?: string;
@@ -178,6 +194,15 @@ export const convexApi = {
       { sessionId: Id<"sessions">; groupNumber: number },
       { stage: Stage }
     >("sessions:advanceGroupStage"),
+    teacherGroupAction: makeFunctionReference<"mutation", {
+      sessionId: Id<"sessions">;
+      groupNumber: number;
+      kind: "advance" | "recovery";
+      expectedStage: Stage;
+      expectedRevision?: number;
+      reason: TeacherProgressReason;
+      studentsAgreed: boolean;
+    }, { stage: Stage }>("sessions:teacherGroupAction"),
     setParticipantStatus: makeFunctionReference<
       "mutation",
       { sessionId: Id<"sessions">; playerId: Id<"players">; status: "active" | "removed" },
@@ -203,12 +228,12 @@ export const convexApi = {
   students: {
     joinWithEntryKey: makeFunctionReference<
       "mutation",
-      { entryKey: string },
+      { entryKey: string; studentToken: string },
       { sessionId: Id<"sessions">; token: string; aliasCandidates: string[] }
     >("students:joinWithEntryKey"),
     joinWithCode: makeFunctionReference<
       "mutation",
-      { code: string; attemptId: string },
+      { code: string; attemptId: string; studentToken: string },
       | { ok: false; error: string }
       | {
           ok: true;

@@ -31,4 +31,16 @@ describe("서버 전용 협동 시나리오 레지스트리", () => {
     assert.equal(scenario.commonEvidenceByGroupSize[4].length, 0);
     assert.equal(scenario.commonEvidenceByGroupSize[5].length, 0);
   });
+
+  it("고려 문화 활동은 빠진 인쇄 기술 관점을 공통 자료로 보충하고 출처를 갖춘다", () => {
+    const scenario = getScenario("goryeo-culture-life", 1);
+    assert.ok(scenario);
+    assert.equal(scenario.roles.length, 5);
+    assert.equal(scenario.commonEvidenceByGroupSize[3][0].id, "common-jikji");
+    assert.equal(scenario.commonEvidenceByGroupSize[4].length, 0);
+    assert.equal(scenario.commonEvidenceByGroupSize[5].length, 0);
+    assert.equal(scenario.sources.length, 4);
+    assert.ok(scenario.roles.some((role) => role.id === "family-record-reader"));
+    assert.ok(scenario.sharedPrompt.limitations.length >= 2);
+  });
 });

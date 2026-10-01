@@ -52,6 +52,9 @@ export default defineSchema({
     groupNumber: v.number(),
     stage: v.string(),
     updatedAt: v.number(),
+    recoveryEnabled: v.optional(v.boolean()),
+    teacherEvidenceOpenedAt: v.optional(v.number()),
+    teacherFinishedAt: v.optional(v.number()),
   })
     .index("by_session", ["sessionId"])
     .index("by_session_group", ["sessionId", "groupNumber"]),
@@ -65,6 +68,15 @@ export default defineSchema({
     revision: v.number(),
     updatedAt: v.number(),
   }).index("by_session", ["sessionId"]).index("by_session_group", ["sessionId", "groupNumber"]),
+  teacherActions: defineTable({
+    sessionId: v.id("sessions"),
+    groupNumber: v.number(),
+    kind: v.union(v.literal("advance"), v.literal("recovery")),
+    fromStage: v.string(),
+    toStage: v.string(),
+    reason: v.union(v.literal("connection"), v.literal("discussion"), v.literal("classroom")),
+    createdAt: v.number(),
+  }).index("by_session", ["sessionId"]),
   helpRequests: defineTable({
     sessionId: v.id("sessions"),
     groupNumber: v.number(),

@@ -30,7 +30,14 @@ import {
   type AttemptState,
 } from "../shared/join-security";
 import { getScenario, roleById } from "./scenarios";
-import { findStudent, hashStudentToken, isActiveStudent, requireStudent } from "./security";
+import { groupContext, groupEvidence, groupProgressError, minimumStage } from "./group-state";
+import {
+  findStudent,
+  hashStudentToken,
+  isActiveStudent,
+  requireStudent,
+  type StudentRecord,
+} from "./security";
 
 const JOIN_ERROR =
   "입장 정보를 확인할 수 없습니다. QR을 다시 찍거나 수업 코드를 확인해 주세요.";
@@ -54,6 +61,8 @@ type JoinAttempt = AttemptState & {
   sessionId?: GenericId<"sessions">;
 };
 
+type JoinedStudentRecord = StudentRecord & { joinedAt: number };
+
 function joinAttemptSecret() {
   const secret = process.env.JOIN_ATTEMPT_HMAC_SECRET ?? "";
   if (secret.length < 32) {
@@ -67,6 +76,18 @@ async function findAttempt(ctx: MutationCtx, bucketHash: string) {
     .query("joinAttempts")
     .withIndex("by_bucket_hash", (query) => query.eq("bucketHash", bucketHash))
     .unique() as JoinAttempt | null;
+}
+
+async function findStudentByToken(
+  ctx: MutationCtx,
+  sessionId: GenericId<"sessions">,
+  tokenHash: string,
+) {
+  return await ctx.db
+    .query("players")
+    .withIndex("by_session", (query) => query.eq("sessionId", sessionId))
+    .filter((query) => query.eq(query.field("tokenHash"), tokenHash))
+    .unique() as JoinedStudentRecord | null;
 }
 
 async function recordFailure(
@@ -101,18 +122,37 @@ async function recordFailure(
   );
 }
 
-async function admitStudent(ctx: MutationCtx, session: SessionRecord) {
+async function admitStudent(ctx: MutationCtx, session: SessionRecord, token: string) {
+  const tokenHash = await hashStudentToken(token);
   const currentPlayers = await ctx.db
     .query("players")
     .withIndex("by_session", (query) => query.eq("sessionId", session._id))
     .collect();
+  const existingPlayer = await findStudentByToken(ctx, session._id, tokenHash);
+  if (existingPlayer) {
+    const tokenExpiresAt = existingPlayer.tokenExpiresAt
+      ?? existingPlayer.joinedAt + STUDENT_TOKEN_TTL_MS;
+    if (tokenExpiresAt <= Date.now() || !isActiveStudent(existingPlayer)) {
+      throw new Error(JOIN_ERROR);
+    }
+    const used = new Set(
+      currentPlayers
+        .filter((player) => player._id !== existingPlayer._id)
+        .map((player) => player.alias)
+        .filter(Boolean),
+    );
+    return {
+      sessionId: session._id,
+      token,
+      aliasCandidates: shuffle(ALIASES.filter((alias) => !used.has(alias))).slice(0, 4),
+    };
+  }
   if (currentPlayers.length >= ALIASES.length) throw new Error(JOIN_ERROR);
 
-  const token = createOpaqueToken();
   const now = Date.now();
   await ctx.db.insert("players", {
     sessionId: session._id,
-    tokenHash: await hashStudentToken(token),
+    tokenHash,
     tokenExpiresAt: expiresAt(now, session.deleteAfter, STUDENT_TOKEN_TTL_MS),
     stage: "lobby",
     participationStatus: "active",
@@ -185,10 +225,16 @@ async function updateRoomStage(
 }
 
 export const joinWithEntryKey = mutationGeneric({
-  args: { entryKey: v.string() },
+  args: { entryKey: v.string(), studentToken: v.string() },
   handler: async (ctx, args) => {
-    if (!/^[0-9a-f]{64}$/.test(args.entryKey)) throw new Error(JOIN_ERROR);
-    const entryKeyHash = await sha256Hex(args.entryKey);
+    if (
+      !/^[0-9a-f]{64}$/.test(args.entryKey)
+      || !/^[0-9a-f]{64}$/.test(args.studentToken)
+    ) throw new Error(JOIN_ERROR);
+    const [entryKeyHash, studentTokenHash] = await Promise.all([
+      sha256Hex(args.entryKey),
+      hashStudentToken(args.studentToken),
+    ]);
     const session = await ctx.db
       .query("sessions")
       .withIndex("by_entry_key_hash", (query) =>
@@ -196,6 +242,12 @@ export const joinWithEntryKey = mutationGeneric({
       )
       .unique();
     const now = Date.now();
+    if (session && session.deleteAfter > now) {
+      const existingPlayer = await findStudentByToken(ctx, session._id, studentTokenHash);
+      if (existingPlayer) {
+        return await admitStudent(ctx, session as SessionRecord, args.studentToken);
+      }
+    }
     if (
       !session
       || session.deleteAfter <= now
@@ -204,17 +256,21 @@ export const joinWithEntryKey = mutationGeneric({
     ) {
       throw new Error(JOIN_ERROR);
     }
-    return await admitStudent(ctx, session as SessionRecord);
+    return await admitStudent(ctx, session as SessionRecord, args.studentToken);
   },
 });
 
 export const joinWithCode = mutationGeneric({
-  args: { code: v.string(), attemptId: v.string() },
+  args: { code: v.string(), attemptId: v.string(), studentToken: v.string() },
   handler: async (ctx, args) => {
     const now = Date.now();
     const code = args.code.trim();
     const hasValidCodeShape = /^[0-9]{6}$/.test(code);
     const hasValidAttemptShape = /^[0-9a-f]{64}$/.test(args.attemptId);
+    const hasValidStudentTokenShape = /^[0-9a-f]{64}$/.test(args.studentToken);
+    if (!hasValidStudentTokenShape) {
+      return { ok: false as const, error: JOIN_ERROR };
+    }
     const secret = joinAttemptSecret();
     const [browserBucketHash, codeBucketHash] = await Promise.all([
       hmacSha256Hex(
@@ -228,6 +284,26 @@ export const joinWithCode = mutationGeneric({
       findAttempt(ctx, browserBucketHash),
       findAttempt(ctx, codeBucketHash),
     ]);
+    const session = hasValidCodeShape && hasValidAttemptShape
+      ? await ctx.db
+          .query("sessions")
+          .withIndex("by_code", (query) => query.eq("code", code))
+          .unique()
+      : null;
+    if (session && session.deleteAfter > now) {
+      const tokenHash = await hashStudentToken(args.studentToken);
+      const existingPlayer = await findStudentByToken(ctx, session._id, tokenHash);
+      if (existingPlayer) {
+        try {
+          return {
+            ok: true as const,
+            ...(await admitStudent(ctx, session as SessionRecord, args.studentToken)),
+          };
+        } catch {
+          return { ok: false as const, error: JOIN_ERROR };
+        }
+      }
+    }
     if (
       isAttemptBlocked(browserAttempt, now)
       || isAttemptBlocked(codeAttempt, now)
@@ -235,12 +311,6 @@ export const joinWithCode = mutationGeneric({
       return { ok: false as const, error: JOIN_ERROR };
     }
 
-    const session = hasValidCodeShape && hasValidAttemptShape
-      ? await ctx.db
-          .query("sessions")
-          .withIndex("by_code", (query) => query.eq("code", code))
-          .unique()
-      : null;
     const codeExpiresAt = session?.codeExpiresAt
       ?? (session
         ? Math.min(
@@ -271,11 +341,13 @@ export const joinWithCode = mutationGeneric({
       return { ok: false as const, error: JOIN_ERROR };
     }
 
-    if (browserAttempt) await ctx.db.delete(browserAttempt._id);
-    return {
-      ok: true as const,
-      ...(await admitStudent(ctx, session as SessionRecord)),
-    };
+    try {
+      const result = await admitStudent(ctx, session as SessionRecord, args.studentToken);
+      if (browserAttempt) await ctx.db.delete(browserAttempt._id);
+      return { ok: true as const, ...result };
+    } catch {
+      return { ok: false as const, error: JOIN_ERROR };
+    }
   },
 });
 
@@ -323,17 +395,8 @@ export const view = queryGeneric({
     if (!scenario) return null;
 
     const groupNumber = player.groupNumber;
-    const groupMembers = groupNumber
-      ? await ctx.db
-          .query("players")
-          .withIndex("by_session", (query) =>
-            query.eq("sessionId", args.sessionId),
-          )
-          .filter((query) =>
-            query.eq(query.field("groupNumber"), groupNumber),
-          )
-          .collect().then((members) => members.filter(isActiveStudent))
-      : [];
+    const group = groupNumber ? await groupContext(ctx, args.sessionId, groupNumber) : null;
+    const groupMembers = group?.members ?? [];
     const [intervention, draft, helpRequest] = groupNumber
       ? await Promise.all([
           ctx.db
@@ -371,24 +434,19 @@ export const view = queryGeneric({
     const ownRole = roleById(scenario, player.roleId);
     const canSeeSharedEvidence = ["draft", "confirm", "finished"].includes(
       player.stage,
-    ) && groupMembers.every((member) => Boolean(member.sharedAt));
-    const groupSize = groupMembers.length as 3 | 4 | 5;
-    const evidenceRoles = canSeeSharedEvidence
-      ? groupMembers.flatMap((member) => {
-          const role = roleById(scenario, member.roleId);
-          return role
-            ? [{
-                id: role.id,
-                name: role.name,
-                evidence: role.evidence.map((item) => ({ ...item })),
-              }]
-            : [];
-        })
-      : [];
+    ) && !groupProgressError(groupMembers.length, Boolean(group?.room?.recoveryEnabled))
+      && (Boolean(group?.room?.teacherEvidenceOpenedAt)
+        || groupMembers.every((member) => Boolean(member.sharedAt)));
+    const groupSize = (group?.room?.recoveryEnabled ? group.allMembers.length : groupMembers.length) as 3 | 4 | 5;
+    const evidenceRoles = canSeeSharedEvidence && group ? groupEvidence(scenario, group) : [];
 
     return {
       sessionStatus: session.status,
       paused: Boolean(session.pausedAt),
+      recoveryEnabled: Boolean(group?.room?.recoveryEnabled),
+      teacherFinished: Boolean(group?.room?.teacherFinishedAt),
+      progressBlocked: groupNumber
+        ? groupProgressError(groupMembers.length, Boolean(group?.room?.recoveryEnabled)) : null,
       scenario: scenario.publicMeta,
       sharedPrompt: scenario.sharedPrompt,
       commonEvidence: canSeeSharedEvidence && [3, 4, 5].includes(groupSize)
@@ -454,6 +512,11 @@ export const advance = mutationGeneric({
     await requireActiveSession(ctx, args.sessionId);
     const player = await requireStudent(ctx, args.sessionId, args.token);
     const stage = player.stage as Stage;
+    if (player.groupNumber) {
+      const group = await groupContext(ctx, args.sessionId, player.groupNumber);
+      const error = groupProgressError(group.members.length, Boolean(group.room?.recoveryEnabled));
+      if (error) throw new Error(error);
+    }
     if (!STUDENT_STAGE_ORDER.includes(stage)) {
       throw new Error("학생 단계가 올바르지 않습니다.");
     }
@@ -609,6 +672,20 @@ export const recoverSeat = mutationGeneric({
       lastSeenAt: now,
       updatedAt: now,
     });
+    if (player.groupNumber && !isActiveStudent(player)) {
+      const group = await groupContext(ctx, session._id, player.groupNumber);
+      const draft = await ctx.db.query("drafts").withIndex("by_session", (q) => q.eq("sessionId", session._id))
+        .filter((q) => q.eq(q.field("groupNumber"), player.groupNumber!)).unique();
+      if (draft) {
+        for (const member of group.members) {
+          await ctx.db.patch(member._id, { stage: "draft", confirmedRevision: undefined, updatedAt: now });
+        }
+      }
+      if (group.room) await ctx.db.patch(group.room._id, {
+        stage: draft ? "draft" : minimumStage(group.members),
+        teacherFinishedAt: undefined, updatedAt: now,
+      });
+    }
     return { sessionId: session._id, token, aliasCandidates: [] as string[] };
   },
 });
@@ -633,8 +710,11 @@ export const saveDraft = mutationGeneric({
       throw new Error("공동 초안 단계에서만 저장할 수 있습니다.");
     }
 
-    const members = await groupPlayers(ctx, args.sessionId, player.groupNumber);
-    if (members.some((member) => !member.sharedAt)) {
+    const group = await groupContext(ctx, args.sessionId, player.groupNumber);
+    const members = group.members;
+    const countError = groupProgressError(members.length, Boolean(group.room?.recoveryEnabled));
+    if (countError) throw new Error(countError);
+    if (!group.room?.teacherEvidenceOpenedAt && members.some((member) => !member.sharedAt)) {
       throw new Error("모둠 친구 모두가 자료를 설명한 뒤 초안을 만들 수 있습니다.");
     }
     if (
@@ -650,7 +730,7 @@ export const saveDraft = mutationGeneric({
       args.evidenceRoleIds.length !== 2
       || new Set(args.evidenceRoleIds).size !== 2
       || !args.evidenceRoleIds.every((roleId) =>
-        members.some((member) => member.roleId === roleId)
+        groupEvidence(scenario, group).some((role) => role.id === roleId)
       )
     ) {
       throw new Error("이 모둠의 서로 다른 역할 근거 두 가지를 선택해 주세요.");
@@ -725,6 +805,9 @@ export const confirmDraft = mutationGeneric({
     if (!player.groupNumber || player.stage !== "confirm") {
       throw new Error("전원 확인 단계에서만 할 수 있습니다.");
     }
+    const group = await groupContext(ctx, args.sessionId, player.groupNumber);
+    const countError = groupProgressError(group.members.length, Boolean(group.room?.recoveryEnabled));
+    if (countError) throw new Error(countError);
     const draft = await ctx.db
       .query("drafts")
       .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))

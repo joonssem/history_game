@@ -2,9 +2,11 @@
 
 이 폴더의 계획서가 각각 어떤 상태이고 다음 행동이 무엇인지 한눈에 보기 위한 색인이다. 개별 문서의 내용은 복제하지 않는다.
 
-- 갱신: 2026-09-15
+- 갱신: 2026-09-30
 - 완료 이력은 [`walkthrough.md`](../../walkthrough.md), 현재 상태는 [`project_context.md`](../../project_context.md), 미완료 항목은 [`BACKLOG.md`](../../BACKLOG.md)에서 확인한다.
 - 계획서의 상태를 바꾸면 이 표도 같이 갱신한다.
+
+- [고려 문화·입장 복구·교사 진행 통합](./implementation_plan_classroom_recovery_integration.md) — 격리 브랜치 구현·자동 검증 완료, 실제 Preview·현장 리허설 대기.
 
 ## 상태 표기
 
@@ -22,12 +24,15 @@
 
 ## 1. 협동 MUD 계열
 
-이 계열은 문서가 여러 개라 관계를 먼저 본다. **현재 실행 기준은 아래 제작 파이프라인이다** — 기존 고조선 실시간 구현은 기술 데모·회귀 기준으로 유지하고, 고려 초기 활동을 첫 실제 학생 활동으로 검증한 뒤 같은 공통 엔진에 조선 후기 공개수업 활동을 이식한다. 정적 협동 MUD는 실시간 장애 시 폴백으로 유지한다.
+이 계열은 문서가 여러 개라 관계를 먼저 본다. **현재 실행 기준은 아래 제작 파이프라인이다** — 고조선 실시간 구현은 기술 회귀 기준으로 유지하며, 고려 초기 활동은 2026-09-29 21명 수업에서 1차 운영했다. 복구 변경과 고려 문화 활동은 격리된 구현 브랜치에서 자동 검증하고, Auth0 callback 및 4~8대 실기기 리허설과 학생 파일럿이 끝나기 전까지 다음 실시간 학급 운영에 쓰지 않는다. 정적 협동 MUD는 다른 차시의 콘텐츠이며 고려 건국·문화 실시간 활동을 대신하지 않는다.
 
 | 문서 | 상태 | 다음 행동 |
 |---|---|---|
 | [`early_goryeo_cooperative_live_pilot_rough_sketch.md`](./early_goryeo_cooperative_live_pilot_rough_sketch.md) | `구현 계획으로 승격` | 1단원 13차시 “새 고려의 첫 회의”를 첫 실제 학생 활동으로 확정. 상세 실행은 아래 구현 계획 기준 |
-| [`implementation_plan_early_goryeo_cooperative_live_first_activity.md`](./implementation_plan_early_goryeo_cooperative_live_first_activity.md) | `구현 완료·리허설 대기` | 별도 worktree에서 T0~T5 코드·자동 검증 완료. 읽기 전용 감사 뒤 교사 1명+성인·교사 역할 4~8대 기기 리허설이 다음 관문이며 실제 학생 접속은 아직 열지 않음 |
+| [`implementation_plan_early_goryeo_cooperative_live_first_activity.md`](./implementation_plan_early_goryeo_cooperative_live_first_activity.md) | `21명 실제 수업 1차 운영·복구 검증 대기` | 실제 운영에서 로그인·유령 참가자·전체 진행 차단이 확인됨. 복구 브랜치 인증·4~8대 리허설 뒤 소규모 학생 재시험 |
+| [`implementation_plan_goryeo_classroom_readiness.md`](./implementation_plan_goryeo_classroom_readiness.md) | `대체 운영안·체크리스트 및 자동 검증 완료 · 현장 사용 대기` | 인증·개인정보·기기 리허설 전에는 교사 진행형 대체를 사용 |
+| [`implementation_plan_goryeo_classroom_activities.md`](./implementation_plan_goryeo_classroom_activities.md) | `격리 브랜치 구현·자동 검증 완료 · 교실 사용 대기` | 고려 건국 복구 기반과 고려 문화 협동 시나리오를 만들고 자동 검사. 주변 나라 관계 활동은 제외 |
+| [`implementation_plan_goryeo_relations_culture_cooperative_live.md`](./implementation_plan_goryeo_relations_culture_cooperative_live.md) | `원래 계획 유지 · 문화 별도 구현·검증 완료 · 주변 나라 관계 미착수` | 이번 작업 범위는 하위 링크 [고려 교실 활동 구현 계획](./implementation_plan_goryeo_classroom_activities.md) 참조 |
 | [`implementation_plan_joseon_late_cooperative_live_vertical_slice.md`](./implementation_plan_joseon_late_cooperative_live_vertical_slice.md) | `제안·후속 활동` | 고려 첫 활동에서 검증한 엔진에 Claude가 조선 후기를 이식. Codex는 계획·읽기 전용 감사·통합 판정만 담당 |
 | [`COLLABORATIVE_MUD_PLAN.md`](./COLLABORATIVE_MUD_PLAN.md) | `검토안` | 전체 계획·모둠 구성·배치 방식. 첫 수직 슬라이스 착수 승인 대기 |
 | [`COLLABORATIVE_MUD_ARCHITECTURE.md`](./COLLABORATIVE_MUD_ARCHITECTURE.md) | `검토안` | Convex 스키마·권한·상태 전이. 백엔드는 [D-019](../../DECISIONS.md)로 확정 |
