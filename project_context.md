@@ -510,3 +510,12 @@ Regular MUD는 `_index.json`의 primary 등록을 기준으로 포털 버튼이 
 `showPortalView()`로 뷰가 숨겨지면 루프가 자동 중단된다.
 새 MUD를 열 때 `openMUD()`에서 `startAnimLoop()`가 다시 호출되므로
 중복 루프에 주의 (현재 `cancelAnimationFrame(this.animFrameId)`로 보호되어 있음).
+
+## 2026-10-01 통합 기술 Preview 업데이트
+
+- 전용 개발 서버: https://fiery-cobra-795.convex.cloud (dev/classroom-recovery-20261001).
+- Vercel Preview: https://history-game-91dvkb68v-joon0noh-3339.vercel.app (READY, 배포 소스 e326e1b).
+- 별도 worktree .worktrees/codex-goryeo-classroom-activities에서 변경·검증했다. main 및 기존 Production 유지.
+- npm run check 45개 검사·lint·typecheck·build와 실제 전용 서버 가상 8명/종료 삭제 통과.
+- 실제 교사 로그인은 새 주소의 Auth0 callback 등록과 기존 관리 계정 로그인 대기. 실제 수업 사용 승인 아님.
+- 다음 작업과 정확한 설정값: docs/plans/tasks_classroom_recovery_preview.md.

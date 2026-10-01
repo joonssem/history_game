@@ -2602,3 +2602,12 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 기존 목록 API의 암호화된 환경변수 값을 비교한 판단을 정정한다. 공식 개별 환경변수 조회 API로 확인한 기존 로컬 서버 glorious-guanaco-616은 Vercel Preview/Production과 공유 중이다. 해당 서버 코드·설정은 수정하지 않았다.
 - 실제 Convex push에서 드러난 P0 두 건을 최소 수정했다. 허용되지 않는 모듈명 group-state.ts를 groupState.ts로 바꾸고 두 import를 갱신했다. Convex 별도 tsconfig에서도 해석되도록 lib/convex-api.ts의 공유 타입 import 두 곳을 상대 경로로 바꿨다. 로직 변경 없음.
 - 검증: 실제 전용 서버 convex dev --once --typecheck enable 배포 성공, npm run check 통과(단위 21/21·Convex 24/24·lint·typecheck·production build). 실제 서버에서 미인증 교사 접근·잘못된 입장키 거부를 확인했다. Vercel Preview와 실제 Auth0 화면 검증은 다음 단계다.
+
+## 2026-10-01 — 전용 서버와 Vercel 통합 Preview 배포 확인
+
+- 사용자 “진행시켜” 승인으로 소스 e326e1b를 전용 Convex 개발 배포 fiery-cobra-795와 Vercel Preview history-game-91dvkb68v-joon0noh-3339.vercel.app에 적용했다. 배포 dpl_FceMyjfHKeB7snSrtCd2HhwqXKQ4는 READY다. 기존 Production dpl_8Df7yhpPYCDBgpq1ST1yh8DRq78H와 main·공통 서버 설정은 유지했다.
+- 실제 서버에서 발견한 Convex 모듈명/공유 타입 import 배포 차단 두 건을 기능 변경 없이 수정했다. 전체 npm run check 통과: 단위 21/21·Convex 24/24·lint·typecheck·build.
+- 실제 Preview 학생 화면의 잘못된 코드 거부·재시도 안내와 전용 서버 요청 도착을 확인했다. 미인증 교사 접근·잘못된 QR 키도 차단됐다. 관리용 테스트 identity로 가상 8명의 QR/코드·중복 좌석, 교사 동의/사유·stale/pause, 2인 복구·요약 비공개 경계·다른 모둠 보존, 초안 revision·정확한 개인 완료 수, 제외 학생 원래 자리 복구를 통과했다. 이 방법은 실제 Auth0 로그인 검증이 아니다.
+- 테스트 세션 종료 뒤 sessions/players/rooms/drafts/teacherActions/helpRequests/interventions가 모두 0임을 확인했다. 신원·학생 토큰·QR 원문·보호 키를 문서나 출력에 남기지 않았다.
+- Auth0에서 새 Preview callback이 미등록인 문제를 재현했다. 관리 설정의 기존 계정 로그인 필요로 사용자에게 로그인 요청을 보냈다. 현재 Google 로그인은 신규 계정 정보 화면으로 이어져 등록을 완료하지 않고 로그아웃했으며, 기존 관리 로그인 탭을 열어 두었다. P1-PREVIEW-AUTH0-CALLBACK으로 다음 작업을 남겼다.
+- 실제 Auth0 교사·학생 브라우저 흐름 및 학교 기기 리허설은 미완료다. 상세 대상·검증·남은 설정은 docs/plans/tasks_classroom_recovery_preview.md에 기록했다. 화면 증거: 저장소 루트 .worktrees/preview-diagnostics-20261001/deployed-preview.png.

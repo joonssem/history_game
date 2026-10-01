@@ -1,8 +1,10 @@
 # BACKLOG
 
+- `P1-PREVIEW-AUTH0-CALLBACK`: 새 통합 Preview 주소의 callback이 Auth0 허용 목록에 없어 교사 로그인 차단. 기존 관리 계정 로그인 후 해당 주소의 callback/logout/origin만 기존 값에 추가하고 실제 교사·학생 브라우저 흐름을 검증한다. 서버 검사·배포 완료와 구분. 대상·증거: `docs/plans/tasks_classroom_recovery_preview.md`.
 
 
-- 작업 claim: `TASK-20261001-COOP-PREVIEW-DEPLOY | 별도 Convex 개발 서버·통합 Vercel Preview 배포 및 확인 | integration agent(Codex) | 상태: DOING`
+
+- 작업 claim: `TASK-20261001-COOP-PREVIEW-DEPLOY | 별도 Convex 개발 서버·통합 Vercel Preview 배포 및 확인 | integration agent(Codex) | 상태: DONE | npm run check·실제 서버 가상 8명·종료 삭제·Vercel READY 통과; 실제 Auth0 연결은 P1-PREVIEW-AUTH0-CALLBACK 대기`
 
 - 작업 claim: `TASK-20261001-COOP-PREVIEW-PREP | 통합 커밋·Vercel/Convex 연결·Preview 준비 | integration agent(Codex) | 상태: DONE | 배포 목록/API 조회·git diff --check 성공; 실제 배포 확인 대기 | 체크리스트: docs/plans/tasks_classroom_recovery_preview.md`
 
