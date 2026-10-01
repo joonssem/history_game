@@ -1,6 +1,6 @@
 # BACKLOG
 
-- 작업 claim: `TASK-20261001-COOP-PREVIEW-PREP | 통합 커밋·Vercel/Convex 연결·Preview 준비 | integration agent(Codex) | 상태: DOING | 체크리스트: docs/plans/tasks_classroom_recovery_preview.md`
+- 작업 claim: `TASK-20261001-COOP-PREVIEW-PREP | 통합 커밋·Vercel/Convex 연결·Preview 준비 | integration agent(Codex) | 상태: DONE | 배포 목록/API 조회·git diff --check 성공; 실제 배포 확인 대기 | 체크리스트: docs/plans/tasks_classroom_recovery_preview.md`
 
 - 작업 claim: `TASK-20261001-CLASSROOM-RECOVERY-INTEGRATION | 고려 문화·입장 멱등·교사 진행·부족 인원 복구 | implementation/integration agent(Codex), 읽기 전용 audit agent | 상태: DONE(격리 브랜치 구현·검증)·Preview/현장 대기 | 검증: npm run check(단위 21/21·Convex 24/24·build), 로컬 가상 UI·390/1024 반응형, git diff --check | 계획: docs/plans/implementation_plan_classroom_recovery_integration.md`
 

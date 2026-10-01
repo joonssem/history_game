@@ -2587,3 +2587,10 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 별도 읽기 전용 감사 권고(개인 미완료 안내, 복귀·mixed stage 검사)를 반영했다. 최종 `npm run check` 통과: 단위 21/21, Convex 통합 24/24, ESLint, TypeScript, production build. `git diff --check` 통과.
 - 실제 컴포넌트와 가상 응답을 묶은 로컬 Chrome 화면에서 사유만으로 실행 불가, 동의 뒤 한 단계 이동, 도움 해결, 일시정지 차단, 복구 활성화를 확인했다. 지정 viewport 390×844와 1024×768에서 가로 넘침 없음. 화면 증거: 저장소 루트 `.worktrees/teacher-recovery-ui-20261001/teacher-recovery-ui.png`.
 - 운영 절차는 `TEACHING_CLASSROOM_RECOVERY.md`에 기록했다. merge·배포·Auth0/Convex 실제 연결·학교 Wi-Fi·물리 기기 4~8대·학생 수업 검증은 수행하지 않았다.
+
+## 2026-10-01 ???듯빀 而ㅻ컠怨??ㅼ젣 Preview 以鍮?
+- ?듯빀 援ы쁽? 寃⑸━ 釉뚮옖移섏쓽 `13dbaa6`??蹂댁〈?덈떎. ?좏뻾 ?⑥쐞 21/21쨌Convex 24/24쨌lint쨌typecheck쨌build ?듦낵. main??誘몄빱諛?蹂寃쎄낵 釉뚮옖移섎뒗 ?좎??덈떎.
+- Vercel CLI 61.0.0???쒓? hostname User-Agent ?ㅻ쪟瑜??ㅽ뻾 ?쒖젙 ?명솚 泥섎━?섍퀬, Node `--use-system-ca`濡?TLS 寃利앹쓣 ?좎??섏뿬 諛고룷 紐⑸줉/API 議고쉶???깃났?덈떎. ??λ맂 ?몄쬆媛뮻룹떆?ㅽ뀥 ?ㅼ젙쨌?ㅼ튂 CLI??蹂寃쏀븯吏 ?딆븯??
+- 湲곗〈 READY Preview??`387dabe`濡??대쾲 ?듯빀 肄붾뱶媛 ?꾨땲?? Vercel history-game????猷⑦듃??apps/cooperative-live?대떎. Preview/Production??Convex ?곌껐? 媛숈? ?ㅼ젙?대ŉ 蹂꾨룄 濡쒖뺄 媛쒕컻 ?쒕쾭? ?ㅻ쫫??媛??몄텧 ?놁씠 ?뺤씤?덈떎.
+- ?ㅼ쓬 ?곸슜 ??곸? `13dbaa6` 肄붾뱶??蹂꾨룄 Convex 媛쒕컻 ?쒕쾭? ?대떦 URL??紐낆떆??Vercel Preview?? 湲곗〈 怨꾪쉷??蹂꾨룄 諛고룷 愿臾몄뿉 ?곕씪 ?ㅼ젣 ?쒕쾭 ?곸슜? ?뺤씤 ?湲? ?꾩쭅 ?ㅼ젣 ?몄쬆쨌?쒕쾭 ?먮쫫 寃利앹? ?섑뻾?섏? ?딆븯??
+- ?곸꽭 泥댄겕由ъ뒪?? docs/plans/tasks_classroom_recovery_preview.md. 議고쉶 ?ㅽ겕由쏀듃??臾댁떆??.worktrees/preview-diagnostics-20261001??蹂닿??덈떎.
