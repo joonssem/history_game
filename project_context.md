@@ -6,7 +6,7 @@
 이 문서는 새 개발자가 프로젝트를 빠르게 파악하고 작업을 이어갈 수 있도록 작성한 인수인계 문서다.
 코드로 확인할 수 없는 내용은 `확인 필요`로 표시했다.
 
-2026-10-01 격리 브랜치 추가 상태: `feat/goryeo-classroom-activities`에는 문화 시나리오와 최신 입장 멱등 처리, 교사 사유·동의가 있는 선택 모둠 한 단계 진행, 1~2인 명시 복구, 도움 요청 대응이 함께 구현됐다. `apps/cooperative-live`의 `npm run check` 통과(단위 21개·Convex 24개·build), 로컬 가상 UI 검증 완료. main 통합·실제 Preview·현장 기기 확인은 별도 대기다. 상세는 [통합 계획](./docs/plans/implementation_plan_classroom_recovery_integration.md)과 [교사 복구 안내](./apps/cooperative-live/TEACHING_CLASSROOM_RECOVERY.md)를 확인한다.
+2026-10-01 격리 브랜치 추가 상태: `feat/goryeo-classroom-activities`에 고려 문화·입장 멱등·교사 진행·부족 인원 복구를 통합했다. 단위 21개·Convex 24개·lint·typecheck·build 및 전용 개발 서버 가상 8명 검사를 통과했다. 소스 `e326e1b`는 전용 Convex `fiery-cobra-795`와 Vercel Preview `https://history-game-91dvkb68v-joon0noh-3339.vercel.app`에 배포되어 READY다. 교사 OAuth는 callback 미등록으로 미완료다. 현재 관리 가능한 Google 계정에 Preview 전용 SPA를 구성하기로 선택했으나 생성 직전 확인에서 오늘 종료했다. main 병합·Production 변경·실제 학교 기기/학생 검증은 미실행이다. 다음 작업과 근거는 [세션 인수인계](./docs/handoff/codex_session_close_20261001.md), [인증 계획](./docs/plans/implementation_plan_preview_owned_auth.md), [Preview 체크리스트](./docs/plans/tasks_classroom_recovery_preview.md)를 확인한다.
 
 ---
 

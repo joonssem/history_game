@@ -59,3 +59,16 @@
   - Allowed Logout URLs 및 Allowed Web Origins: `https://history-game-91dvkb68v-joon0noh-3339.vercel.app`
 - 관리 설정: `https://manage.auth0.com/#/applications/MIr6v4nHaVnvuHZN8VJqtq2P4uq4vuGp/settings`. 기존 관리 계정 로그인 필요. 현재 Google 계정으로는 신규 가입 정보 화면이 나와 등록을 진행하지 않고 로그아웃했다. 사용자에게 기존 관리 계정 로그인을 요청하고 해당 탭을 열어 두었다.
 - 실제 교사 로그인·callback·학생 기기 브라우저 흐름·학교 네트워크·물리 기기 4~8대 리허설은 미완료다. 배포 READY와 관리용 서버 검사 통과로 수업 Go를 판단하지 않는다.
+
+## Google 관리 로그인 뒤 확인
+
+- 사용자 “구글 로그인 완료.” 후 실제 관리 화면 로그인을 확인했다. 현재 테넌트 메뉴에는 `dev-52nfryf51dbtiepi` 하나만 표시되며, 앱에서 사용하는 `dev-d6pye3nwy6ng5at8`과 다르다. 기존 애플리케이션의 직접 Settings 링크도 현재 테넌트로 연결돼 설정 내용이 표시되지 않았다.
+- 기존 관리 계정 로그인 또는 새 테넌트로 Preview 전용 인증 구성 중 선택을 요청했다. 선택 전 Auth0 애플리케이션·callback·Convex 인증 값·Vercel 설정은 변경하지 않았다.
+- 화면 증거: 저장소 루트 `.worktrees/preview-diagnostics-20261001/auth0-account-tenant.png`. 다음 작업은 여전히 `P1-PREVIEW-AUTH0-CALLBACK`이며 실제 교사 로그인 검증은 미완료다.
+
+## 2026-10-01 마감·선택 확정
+
+- 현재 관리 가능한 Google 계정의 Preview 전용 SPA 경로로 선택했다. 기존 계정 로그인 경로는 오늘의 실행 경로에서 제외한다.
+- 사용자 요청으로 오늘 작업 종료. 인증 경로 선택·SPA 생성 양식 준비까지만 완료했다. Create를 누르지 않았으며 새 앱·Google 연결·고정 alias·새 인증 환경변수 적용은 미실행이다. 브라우저 정책에 따른 새 인증 접근 생성 직전 확인도 아직 받지 않았다.
+- 다음 작업: 새 앱 생성 직전 확인 → Google 연결 및 정확한 callback/origin → 전용 Convex 인증 값 → 배포별 Auth0 build/runtime 값 → 새 Preview 및 고정 alias → 실제 교사 OAuth/학생 흐름 검증.
+- 상세 계획: [Preview 전용 인증](./implementation_plan_preview_owned_auth.md).

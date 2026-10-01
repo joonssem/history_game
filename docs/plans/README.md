@@ -90,3 +90,9 @@
 - 파일명은 `implementation_plan_<주제>.md` 소문자 스네이크 케이스를 기본으로 한다.
 - `COLLABORATIVE_MUD_*.md` 3종은 대문자 명명으로 먼저 작성됐다. 이름을 바꾸면 이미 기록된 문서 간 링크가 끊기므로 현재는 유지하고, 실시간 앱이 별도 저장소로 분리될 때 함께 정리한다.
 - 한국어 본문에서 이 계열을 부를 때는 `협동 MUD`로 통일한다. 파일명의 `cooperative`/`collaborative` 혼용은 위 사정에 따른 것이며 서로 다른 개념이 아니다.
+
+## 2026-10-01 Preview 진행 상태
+
+- [통합 Preview 체크리스트](./tasks_classroom_recovery_preview.md) — 배포·전용 서버 검사 완료, 실제 OAuth·현장 검증 대기.
+- [Preview 전용 인증 계획](./implementation_plan_preview_owned_auth.md) — 경로 선택 완료, 앱 생성 직전 확인에서 사용자 요청으로 보류.
+- [오늘 세션 인수인계](../handoff/codex_session_close_20261001.md) — 재개 순서와 보존 범위.

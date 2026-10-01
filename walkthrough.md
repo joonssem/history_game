@@ -2611,3 +2611,16 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 테스트 세션 종료 뒤 sessions/players/rooms/drafts/teacherActions/helpRequests/interventions가 모두 0임을 확인했다. 신원·학생 토큰·QR 원문·보호 키를 문서나 출력에 남기지 않았다.
 - Auth0에서 새 Preview callback이 미등록인 문제를 재현했다. 관리 설정의 기존 계정 로그인 필요로 사용자에게 로그인 요청을 보냈다. 현재 Google 로그인은 신규 계정 정보 화면으로 이어져 등록을 완료하지 않고 로그아웃했으며, 기존 관리 로그인 탭을 열어 두었다. P1-PREVIEW-AUTH0-CALLBACK으로 다음 작업을 남겼다.
 - 실제 Auth0 교사·학생 브라우저 흐름 및 학교 기기 리허설은 미완료다. 상세 대상·검증·남은 설정은 docs/plans/tasks_classroom_recovery_preview.md에 기록했다. 화면 증거: 저장소 루트 .worktrees/preview-diagnostics-20261001/deployed-preview.png.
+
+## 2026-10-01 — Google 관리 로그인·테넌트 대조
+
+- 사용자 “구글 로그인 완료.” 후 실제 Auth0 관리 로그인을 확인했다. 테넌트 메뉴에는 새 dev-52nfryf51dbtiepi만 표시돼 기존 Preview 인증 dev-d6pye3nwy6ng5at8과 불일치한다. 기존 Application Settings 링크에서 설정 내용도 표시되지 않았다.
+- 기존 관리 계정으로 로그인할지 새 테넌트로 Preview 전용 인증을 구성할지 사용자에게 선택을 요청했다. 인증/서버/배포 설정은 변경하지 않았다. 실제 교사 로그인 검증은 여전히 미완료다.
+- 증거: 저장소 루트 .worktrees/preview-diagnostics-20261001/auth0-account-tenant.png. 상세 다음 작업은 docs/plans/tasks_classroom_recovery_preview.md의 P1-PREVIEW-AUTH0-CALLBACK이다.
+
+## 2026-10-01 — 관리 가능한 Preview 인증 선택·세션 종료
+
+- 사용자가 유지보수 기준 경로 선택을 위임하여 현재 Google 관리 계정의 테넌트 `dev-52nfryf51dbtiepi`에 Preview 전용 SPA를 구성하는 것으로 계획했다. 기존 운영 인증은 보존하고 고정 Preview 주소로 callback 관리 부담을 줄인다.
+- 현재 테넌트의 Applications 목록과 Default App을 확인하고 `History Game Cooperative Preview` / Single Page Web Application 생성 양식을 준비했다. 사용자 요청으로 오늘 작업 종료. 인증 경로 선택·SPA 생성 양식 준비까지만 완료했다. Create를 누르지 않았으며 새 앱·Google 연결·고정 alias·새 인증 환경변수 적용은 미실행이다. 브라우저 정책에 따른 새 인증 접근 생성 직전 확인도 아직 받지 않았다.
+- 기술 검증은 앞선 21개 단위·24개 Convex 검사, lint·typecheck·build와 실제 전용 서버 가상 8명 검사 결과를 유지한다. 이후 코드 변경은 없으며 오늘 마감은 문서 확인과 git diff --check로 검증한다. 실제 OAuth·학교 기기·학생 파일럿 통과로 간주하지 않는다.
+- 사용자 종료 요청에 따라 후속 외부 설정 작업을 중단하고 격리 브랜치 문서화를 마감한다. 인수인계: `docs/handoff/codex_session_close_20261001.md`. main의 기존 테마·문서 변경은 보존한다.

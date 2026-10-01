@@ -1,6 +1,10 @@
 # BACKLOG
 
-- `P1-PREVIEW-AUTH0-CALLBACK`: 새 통합 Preview 주소의 callback이 Auth0 허용 목록에 없어 교사 로그인 차단. 기존 관리 계정 로그인 후 해당 주소의 callback/logout/origin만 기존 값에 추가하고 실제 교사·학생 브라우저 흐름을 검증한다. 서버 검사·배포 완료와 구분. 대상·증거: `docs/plans/tasks_classroom_recovery_preview.md`.
+- 작업 claim: `TASK-20261001-PREVIEW-OWNED-AUTH | 관리 가능한 Google 계정의 Preview 전용 SPA 인증·고정 주소·실제 로그인 | integration agent(Codex) | 상태: 보류(사용자 오늘 종료 요청; SPA 생성 직전 확인·실제 인증 연결 대기)`
+
+- 작업 claim: `TASK-20261001-AUTH0-ACCOUNT-CHECK | Google 관리 로그인·기존 인증 테넌트 대조 | audit agent(Codex) | 상태: DONE | 실제 테넌트 메뉴·Settings 링크 확인, git diff --check 통과; 인증 경로 선택 대기`
+
+- `P1-PREVIEW-AUTH0-CALLBACK`: 통합 Preview 교사 로그인은 callback 미등록으로 차단된다. 사용자는 현재 Google 관리 계정의 새 테넌트에 Preview 전용 SPA를 구성하는 경로를 선택했다. 생성 양식만 준비했고 앱 생성·Google 연결·고정 alias·인증 환경변수 변경·실제 OAuth 검증은 미실행이다. 다음 세션은 생성 직전 확인부터 재개한다. 상세: `docs/plans/implementation_plan_preview_owned_auth.md`, `docs/plans/tasks_classroom_recovery_preview.md`.
 
 
 

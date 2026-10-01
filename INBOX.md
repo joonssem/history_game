@@ -1,5 +1,19 @@
 # INBOX — 사용자 입력·관찰 원문
 
+## 2026-10-01 — 유지보수 기준 인증 경로 선택 위임
+
+- 사용자 원문: “앞으로 작업 및 유지 보수 측면에서 더 나은 것으로 선택하기”
+- 상태: `triaged / implementation-approved`
+- 결정: 사용자 본인이 접근 가능한 Google 관리 계정에 Preview 전용 Auth0 SPA 앱을 구성한다. 고정 Preview alias를 사용하고 전용 Convex 개발 서버에만 새 issuer/client 설정을 적용한다. 기존 운영 Auth0·Vercel 공통 설정은 보존한다.
+- 근거: 관리권을 확인할 수 있는 계정, 개발/운영 분리, 재배포 시 callback 변경 최소화.
+
+## 2026-10-01 — Google 관리 로그인 완료·테넌트 확인
+
+- 사용자 원문: “구글 로그인 완료.”
+- 상태: `triaged / authentication-path-pending`
+- 확인: 현재 관리 계정의 테넌트 메뉴에는 `dev-52nfryf51dbtiepi`만 표시되며 앱의 기존 인증 테넌트 `dev-d6pye3nwy6ng5at8`과 다르다. 기존 Application Settings도 현재 테넌트로 이동해 설정 내용이 표시되지 않았다.
+- 다음 선택: 기존 관리 계정으로 로그인 또는 새 테넌트의 Preview 전용 인증 구성. 사용자 선택 전 인증 설정 변경은 보류.
+
 ## 2026-10-01 — 별도 개발 서버·Preview 배포 승인
 
 - 사용자 원문: “진행시켜”
@@ -2470,3 +2484,9 @@ TASK-20260910-07 | `audit/interaction-diversity` main 병합·GitHub Pages 배�
 - 결과: 고려 문화 `goryeo-culture-life` v1을 공개·서버 시나리오에 등록했고, 3·4·5인 편성, 역할 비공개, 공통 자료, 교사 안내를 추가했다. 건국 복구는 `feat/cooperative-classroom-recovery-p0`의 `f71ca7d`를 부모로 삼았다.
 - 검증: `npm run check` 통과(lint, TypeScript, 단위 21건, Convex 7건, Next.js production build); `git diff --check` 통과.
 - 경계: 구현 브랜치는 격리 상태이며 아직 통합·배포하지 않았다. Auth0 callback, 4~8대 현장 리허설, 개인정보 운영 확인, 학생 소규모 파일럿과 교사 Go 판정은 남아 있다. 주변국 관계 활동은 이번 범위가 아니다.
+
+## 2026-10-01 — 오늘 작업 종료·문서화·커밋·푸시
+
+- 사용자 원문: “오늘은 여기까지, 지금까지 작업 문서화 하고 커밋 푸시 진행시켜”
+- 상태: `triaged / documentation-and-push-approved`
+- 처리: 오늘 확인한 결과와 인증 미완료 상태를 보존하고 격리 브랜치에 문서 커밋·푸시한다. main의 다른 미커밋 변경은 포함하지 않는다.
