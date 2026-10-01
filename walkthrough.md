@@ -2588,9 +2588,17 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 실제 컴포넌트와 가상 응답을 묶은 로컬 Chrome 화면에서 사유만으로 실행 불가, 동의 뒤 한 단계 이동, 도움 해결, 일시정지 차단, 복구 활성화를 확인했다. 지정 viewport 390×844와 1024×768에서 가로 넘침 없음. 화면 증거: 저장소 루트 `.worktrees/teacher-recovery-ui-20261001/teacher-recovery-ui.png`.
 - 운영 절차는 `TEACHING_CLASSROOM_RECOVERY.md`에 기록했다. merge·배포·Auth0/Convex 실제 연결·학교 Wi-Fi·물리 기기 4~8대·학생 수업 검증은 수행하지 않았다.
 
-## 2026-10-01 ???듯빀 而ㅻ컠怨??ㅼ젣 Preview 以鍮?
-- ?듯빀 援ы쁽? 寃⑸━ 釉뚮옖移섏쓽 `13dbaa6`??蹂댁〈?덈떎. ?좏뻾 ?⑥쐞 21/21쨌Convex 24/24쨌lint쨌typecheck쨌build ?듦낵. main??誘몄빱諛?蹂寃쎄낵 釉뚮옖移섎뒗 ?좎??덈떎.
-- Vercel CLI 61.0.0???쒓? hostname User-Agent ?ㅻ쪟瑜??ㅽ뻾 ?쒖젙 ?명솚 泥섎━?섍퀬, Node `--use-system-ca`濡?TLS 寃利앹쓣 ?좎??섏뿬 諛고룷 紐⑸줉/API 議고쉶???깃났?덈떎. ??λ맂 ?몄쬆媛뮻룹떆?ㅽ뀥 ?ㅼ젙쨌?ㅼ튂 CLI??蹂寃쏀븯吏 ?딆븯??
-- 湲곗〈 READY Preview??`387dabe`濡??대쾲 ?듯빀 肄붾뱶媛 ?꾨땲?? Vercel history-game????猷⑦듃??apps/cooperative-live?대떎. Preview/Production??Convex ?곌껐? 媛숈? ?ㅼ젙?대ŉ 蹂꾨룄 濡쒖뺄 媛쒕컻 ?쒕쾭? ?ㅻ쫫??媛??몄텧 ?놁씠 ?뺤씤?덈떎.
-- ?ㅼ쓬 ?곸슜 ??곸? `13dbaa6` 肄붾뱶??蹂꾨룄 Convex 媛쒕컻 ?쒕쾭? ?대떦 URL??紐낆떆??Vercel Preview?? 湲곗〈 怨꾪쉷??蹂꾨룄 諛고룷 愿臾몄뿉 ?곕씪 ?ㅼ젣 ?쒕쾭 ?곸슜? ?뺤씤 ?湲? ?꾩쭅 ?ㅼ젣 ?몄쬆쨌?쒕쾭 ?먮쫫 寃利앹? ?섑뻾?섏? ?딆븯??
-- ?곸꽭 泥댄겕由ъ뒪?? docs/plans/tasks_classroom_recovery_preview.md. 議고쉶 ?ㅽ겕由쏀듃??臾댁떆??.worktrees/preview-diagnostics-20261001??蹂닿??덈떎.
+## 2026-10-01 — 통합 커밋과 실제 Preview 준비
+
+- 통합 코드는 격리 브랜치 커밋 13dbaa6에 보존했다. 단위 21/21·Convex 24/24·lint·typecheck·build 통과. main의 미커밋 변경과 브랜치를 유지했다.
+- Vercel CLI 61.0.0의 한글 hostname User-Agent 오류를 실행 한정 호환 처리하고 Node --use-system-ca로 Windows 인증서 저장소를 사용해 배포 목록/API 조회에 성공했다. 저장된 인증값·시스템 설정·설치 CLI는 변경하지 않았다.
+- 당시 기존 READY Preview는 387dabe로 통합 코드를 포함하지 않았다. Vercel history-game 앱 루트는 apps/cooperative-live이다. Preview/Production은 Convex 설정을 공유한다. 로컬 서버와 다르다고 한 초기 판단은 목록 API의 암호화된 값 비교 오류였으며, 배포 실행 전 공식 개별 환경변수 조회로 같은 서버임을 확인하여 정정했다.
+- 준비 시점에는 실제 서버 적용이 별도 확인 대기였다. 이후 사용자 “진행시켜” 승인으로 전용 개발 배포를 만들어 진행한다. 준비 단계에서 실제 인증·교사·학생 흐름은 확인하지 않았다.
+- 상세 체크리스트: docs/plans/tasks_classroom_recovery_preview.md. 조회 스크립트는 무시된 .worktrees/preview-diagnostics-20261001에 보관한다.
+
+## 2026-10-01 — 전용 Convex 개발 서버와 배포 차단 수정
+
+- 사용자 “진행시켜” 승인에 따라 기존 공유 서버를 바꾸지 않고 dev/classroom-recovery-20261001 / fiery-cobra-795 개발 배포를 생성했다. 기존 Auth0 정책·교사 허용목록을 동일하게 적용하고 새로운 입장 HMAC 키를 생성했다. 프런트·서버 Auth0 일치와 보호 설정을 값 출력 없이 확인했다.
+- 기존 목록 API의 암호화된 환경변수 값을 비교한 판단을 정정한다. 공식 개별 환경변수 조회 API로 확인한 기존 로컬 서버 glorious-guanaco-616은 Vercel Preview/Production과 공유 중이다. 해당 서버 코드·설정은 수정하지 않았다.
+- 실제 Convex push에서 드러난 P0 두 건을 최소 수정했다. 허용되지 않는 모듈명 group-state.ts를 groupState.ts로 바꾸고 두 import를 갱신했다. Convex 별도 tsconfig에서도 해석되도록 lib/convex-api.ts의 공유 타입 import 두 곳을 상대 경로로 바꿨다. 로직 변경 없음.
+- 검증: 실제 전용 서버 convex dev --once --typecheck enable 배포 성공, npm run check 통과(단위 21/21·Convex 24/24·lint·typecheck·production build). 실제 서버에서 미인증 교사 접근·잘못된 입장키 거부를 확인했다. Vercel Preview와 실제 Auth0 화면 검증은 다음 단계다.

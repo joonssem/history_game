@@ -1,8 +1,8 @@
 import { makeFunctionReference } from "convex/server";
 import type { GenericId as Id } from "convex/values";
 
-import type { InterventionKind, Stage } from "@/shared/scenario";
-import type { TeacherProgressReason } from "@/shared/teacher-recovery";
+import type { InterventionKind, Stage } from "../shared/scenario";
+import type { TeacherProgressReason } from "../shared/teacher-recovery";
 
 export type Dashboard = {
   session: {

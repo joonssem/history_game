@@ -1,5 +1,7 @@
 # BACKLOG
 
+
+
 - 작업 claim: `TASK-20261001-COOP-PREVIEW-DEPLOY | 별도 Convex 개발 서버·통합 Vercel Preview 배포 및 확인 | integration agent(Codex) | 상태: DOING`
 
 - 작업 claim: `TASK-20261001-COOP-PREVIEW-PREP | 통합 커밋·Vercel/Convex 연결·Preview 준비 | integration agent(Codex) | 상태: DONE | 배포 목록/API 조회·git diff --check 성공; 실제 배포 확인 대기 | 체크리스트: docs/plans/tasks_classroom_recovery_preview.md`

@@ -23,7 +23,7 @@ import {
   sha256Hex,
 } from "../shared/join-security";
 import { deleteSessionData } from "./data";
-import { groupContext, groupProgressError, minimumStage } from "./group-state";
+import { groupContext, groupProgressError, minimumStage } from "./groupState";
 import { getScenario, roleById } from "./scenarios";
 import { hashStudentToken, isActiveStudent, requireOwnedSession, requireTeacher } from "./security";
 

@@ -30,7 +30,7 @@ import {
   type AttemptState,
 } from "../shared/join-security";
 import { getScenario, roleById } from "./scenarios";
-import { groupContext, groupEvidence, groupProgressError, minimumStage } from "./group-state";
+import { groupContext, groupEvidence, groupProgressError, minimumStage } from "./groupState";
 import {
   findStudent,
   hashStudentToken,
