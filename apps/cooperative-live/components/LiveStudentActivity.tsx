@@ -47,6 +47,7 @@ function useSessionValue(key: string) {
 export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
   const typedSessionId = sessionId as Id<"sessions">;
   const storageKey = studentStorageKey(sessionId);
+  const [wasKicked, setWasKicked] = useSessionValue(`${storageKey}:kicked`);
   const rawStored = useSyncExternalStore(
     () => () => undefined,
     () => sessionStorage.getItem(storageKey),
@@ -69,6 +70,7 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
   const [connectionId, setConnectionId] = useState("");
   const [editingDraft, setEditingDraft] = useState(false);
   const [editingRevision, setEditingRevision] = useState<number | null>(null);
+  const [advancing, setAdvancing] = useState(false);
   const selectAlias = useMutation(convexApi.students.selectAlias);
   const advance = useMutation(convexApi.students.advance);
   const completeFirst = useMutation(convexApi.students.completeFirst);
@@ -76,16 +78,34 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
   const saveDraft = useMutation(convexApi.students.saveDraft);
   const confirmDraft = useMutation(convexApi.students.confirmDraft);
   const requestHelp = useMutation(convexApi.students.requestHelp);
+  const heartbeat = useMutation(convexApi.students.heartbeat);
+  const acknowledgeIntervention = useMutation(convexApi.students.acknowledgeIntervention);
   const view = useQuery(
     convexApi.students.view,
     stored?.token ? { sessionId: typedSessionId, token: stored.token } : "skip",
   );
+  const accessState = useQuery(
+    convexApi.students.accessState,
+    view === null && stored?.token ? { sessionId: typedSessionId, token: stored.token } : "skip",
+  );
 
   useEffect(() => {
-    if (view === null) {
+    if (view === null && accessState && accessState !== "active") {
       clearCooperativeSessionStorage();
+      if (accessState === "kicked") setWasKicked("true");
     }
-  }, [view]);
+  }, [view, accessState, setWasKicked]);
+
+  useEffect(() => {
+    if (!stored?.token) return;
+    const send = () => void heartbeat({
+      sessionId: typedSessionId,
+      token: stored.token,
+    }).catch(() => undefined);
+    send();
+    const timer = window.setInterval(send, 30_000);
+    return () => window.clearInterval(timer);
+  }, [heartbeat, stored?.token, typedSessionId]);
 
   const progress = useMemo(() => {
     if (!view) return 0;
@@ -93,9 +113,13 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
     return Math.max(0, Math.round(((index + 1) / STUDENT_STAGE_ORDER.length) * 100));
   }, [view]);
 
+  if (wasKicked || accessState === "kicked") {
+    return <section className="student-panel"><h1>자리 정리 안내</h1><p className="notice">선생님이 자리를 정리했어요. QR을 다시 찍어 입장해 주세요.</p></section>;
+  }
   if (!stored) return <div className="notice error">접속 정보가 없습니다. QR을 다시 찍어 입장해 주세요.</div>;
   if (view === undefined) return <div className="notice">실시간 활동 상태를 불러오고 있습니다.</div>;
   if (view === null) {
+    if (accessState === undefined) return <div className="notice">접속 상태를 확인하고 있습니다.</div>;
     return (
       <section className="student-panel">
         <h1>활동이 종료되었습니다</h1>
@@ -126,7 +150,16 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
       if (view?.stage === "share" && !view.sharedAt) await markShared({ sessionId: typedSessionId, token: stored.token });
       await advance({ sessionId: typedSessionId, token: stored.token });
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "다음 단계로 이동하지 못했습니다.");
+      const message = caught instanceof Error ? caught.message : "";
+      if (message.includes("만료") || message.includes("제외")) {
+        setError("접속 정보를 복구해야 해요. 선생님께 자리 다시 연결을 요청하세요.");
+      } else if (message.includes("단계")) {
+        setError("활동 단계가 바뀌었어요. 화면을 새로 확인해 주세요.");
+      } else {
+        setError("연결이 잠시 끊겼어요. 다시 눌러 주세요.");
+      }
+    } finally {
+      setAdvancing(false);
     }
   }
 
@@ -226,6 +259,20 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
         <div className="intervention">
           <strong>{view.intervention.kind === "hint" ? "교사 힌트" : "교사 심화 상황"}</strong><br />
           {view.intervention.message}
+          <div className="actions">
+            <button
+              className="button secondary"
+              disabled={view.intervention.acknowledged}
+              onClick={() => {
+                if (!stored) return;
+                void acknowledgeIntervention({
+                  sessionId: typedSessionId,
+                  token: stored.token,
+                  interventionId: view.intervention!.id,
+                }).catch(() => setError("교사 안내 확인을 저장하지 못했습니다. 다시 눌러 주세요."));
+              }}
+            >{view.intervention.acknowledged ? "확인 완료" : "확인했어요"}</button>
+          </div>
         </div>
       )}
 
@@ -340,7 +387,9 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
 
       {error && <p className="notice error" role="alert">{error}</p>}
       {view.sessionStatus === "active" && view.stage !== "finished" && !["draft", "confirm"].includes(view.stage) && (
-        <button className="button primary" onClick={goNext} disabled={view.paused}>{view.stage === "share" ? "설명했어요" : "이 단계 마치기"}</button>
+        <button className="button primary" onClick={goNext} disabled={view.paused || advancing}>
+          {advancing ? "저장 중…" : view.stage === "share" && view.sharedAt ? "설명 완료" : view.stage === "share" ? "설명했어요" : "이 단계 마치기"}
+        </button>
       )}
       {view.sessionStatus === "active" && view.groupNumber && !view.helpRequested && <button className="button ghost" onClick={() => requestHelp({ sessionId: typedSessionId, token: stored.token }).catch(() => setError("도움 요청을 보내지 못했습니다."))} disabled={view.paused}>선생님께 도움 요청</button>}
     </section>

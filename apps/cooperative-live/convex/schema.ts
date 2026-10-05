@@ -34,6 +34,13 @@ export default defineSchema({
     submittedAt: v.optional(v.number()),
     sharedAt: v.optional(v.number()),
     confirmedRevision: v.optional(v.number()),
+    participationStatus: v.optional(v.union(v.literal("active"), v.literal("removed"))),
+    lastSeenAt: v.optional(v.number()),
+    removedAt: v.optional(v.number()),
+    removedBy: v.optional(v.string()),
+    recoveryTokenHash: v.optional(v.string()),
+    recoveryTokenExpiresAt: v.optional(v.number()),
+    acknowledgedInterventionId: v.optional(v.id("interventions")),
     joinedAt: v.number(),
     updatedAt: v.number(),
     isSynthetic: v.boolean(),
@@ -74,6 +81,14 @@ export default defineSchema({
   })
     .index("by_session", ["sessionId"])
     .index("by_session_group", ["sessionId", "groupNumber"]),
+  teacherLogins: defineTable({
+    tokenHash: v.string(),
+    passcodeHash: v.string(),
+    createdAt: v.number(),
+    expiresAt: v.number(),
+  })
+    .index("by_token_hash", ["tokenHash"])
+    .index("by_expires_at", ["expiresAt"]),
   joinAttempts: defineTable({
     bucketHash: v.string(),
     sessionId: v.optional(v.id("sessions")),

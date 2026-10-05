@@ -29,16 +29,20 @@ npm run dev
 
 `.env.local`의 `NEXT_PUBLIC_DEMO_MODE=true` 상태에서 `/teacher`를 열면 외부 계정 없이 가상 학생 8명 흐름을 확인할 수 있다.
 
-## Convex·Auth0 개발 연결
+## Convex·교사 비밀번호 개발 연결
 
-1. Auth0에서 교사용 Single Page Application을 만들고 Google 연결만 활성화한다.
-2. Callback URL에는 `http://localhost:3000/teacher`와 `https://<vercel-domain>/teacher`, Logout URL과 Allowed Web Origins에는 각각의 기본 origin을 등록한다.
-3. `.env.local`에 `NEXT_PUBLIC_AUTH0_DOMAIN`, `NEXT_PUBLIC_AUTH0_CLIENT_ID`를 설정한다.
-4. `npx convex dev`로 개발 배포를 만들고 `NEXT_PUBLIC_CONVEX_URL`을 받는다.
-5. Convex 개발 배포 환경변수에 `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `TEACHER_AUTH0_SUBS`, 32자 이상의 `JOIN_ATTEMPT_HMAC_SECRET`을 설정한다.
-6. `NEXT_PUBLIC_DEMO_MODE=false`로 바꾸고 개발 서버를 다시 시작한다.
+교사 로그인은 외부 계정 없이 **교사 비밀번호 하나**로 한다. 교사는 한 명이라고 가정하며, 모든 활동은 같은 교사 소유로 저장된다.
 
-학생 토큰은 URL이나 로컬 영구 저장소에 넣지 않는다. Auth0·Convex·Vercel 비밀값과 실제 교사 `sub`도 저장소에 커밋하지 않는다.
+1. `npx convex dev`로 개발 배포를 만들고 `NEXT_PUBLIC_CONVEX_URL`을 받는다.
+2. Convex 배포 환경변수에 8자 이상의 `TEACHER_PASSCODE`와 32자 이상의 `JOIN_ATTEMPT_HMAC_SECRET`을 설정한다. 예: `npx convex env set TEACHER_PASSCODE <비밀번호>`
+3. `NEXT_PUBLIC_DEMO_MODE=false`로 바꾸고 개발 서버를 다시 시작한다.
+
+- 로그인은 12시간 유지된다. 비밀번호를 10번 틀리면 15분 동안 잠긴다.
+- `TEACHER_PASSCODE`를 바꾸면 모든 교사 로그인이 즉시 끊긴다. 비밀번호가 새어 나갔을 때는 이 값을 바꾼다.
+- 서버에는 로그인 토큰의 해시만 저장한다. Preview 주소가 바뀌어도 별도 등록이 필요 없다.
+- 이전 Auth0 계정이 만든 활동은 새 교사 화면에 보이지 않고, 원래 삭제 시각에 정리된다.
+
+학생 토큰은 URL이나 로컬 영구 저장소에 넣지 않는다. 교사 비밀번호와 Convex·Vercel 비밀값은 저장소에 커밋하지 않는다.
 
 교사 QR에는 `/join#entry=...` 형식만 사용한다. `#` 뒤 fragment는 Vercel 요청 경로로 전송되지 않으며, 학생 화면은 값을 읽은 직후 주소창에서 제거한다. 수동 코드는 URL에 넣지 않고 Convex mutation 인자로만 전송한다.
 
@@ -47,8 +51,8 @@ npm run dev
 - Vercel 프로젝트: `history-game`
 - Root Directory: `apps/cooperative-live`
 - 고정 주소: <https://history-game-kappa-gilt.vercel.app>
-- Vercel에는 `NEXT_PUBLIC_CONVEX_URL`, `NEXT_PUBLIC_AUTH0_DOMAIN`, `NEXT_PUBLIC_AUTH0_CLIENT_ID`, `NEXT_PUBLIC_DEMO_MODE=false`만 등록한다.
-- 교사 `sub` 허용목록은 Convex 배포 환경변수에만 두며 Vercel이나 Git 저장소에 복제하지 않는다.
+- Vercel에는 `NEXT_PUBLIC_CONVEX_URL`, `NEXT_PUBLIC_DEMO_MODE=false`만 등록한다.
+- 교사 비밀번호는 Convex 배포 환경변수에만 두며 Vercel이나 Git 저장소에 복제하지 않는다.
 
 Vercel이 고정 production alias를 발급했지만 현재 운영 판정은 **가상 데이터 기술 Preview**다. 실제 학생 접속 허가와는 별개다.
 

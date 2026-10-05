@@ -22,6 +22,14 @@ export const BROWSER_ATTEMPT_POLICY: AttemptPolicy = {
   blockMs: 10 * 60 * 1000,
 };
 
+export const TEACHER_LOGIN_TTL_MS = 12 * 60 * 60 * 1000;
+
+export const TEACHER_LOGIN_ATTEMPT_POLICY: AttemptPolicy = {
+  maxFailures: 10,
+  windowMs: 15 * 60 * 1000,
+  blockMs: 15 * 60 * 1000,
+};
+
 export const CODE_ATTEMPT_POLICY: AttemptPolicy = {
   maxFailures: 30,
   windowMs: 5 * 60 * 1000,

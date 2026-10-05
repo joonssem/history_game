@@ -35,8 +35,19 @@ export type StudentRecord = {
   submittedAt?: number;
   sharedAt?: number;
   confirmedRevision?: number;
+  participationStatus?: "active" | "removed";
+  lastSeenAt?: number;
+  removedAt?: number;
+  removedBy?: string;
+  recoveryTokenHash?: string;
+  recoveryTokenExpiresAt?: number;
+  acknowledgedInterventionId?: GenericId<"interventions">;
   isSynthetic: boolean;
 };
+
+export function isActiveStudent(player: { participationStatus?: string }) {
+  return player.participationStatus !== "removed";
+}
 
 type ReadCtx =
   | GenericQueryCtx<GenericDataModel>
@@ -44,19 +55,36 @@ type ReadCtx =
 
 export const hashStudentToken = sha256Hex;
 
-export async function requireTeacher(ctx: ReadCtx): Promise<string> {
-  const identity = await ctx.auth.getUserIdentity();
-  if (!identity) throw new Error("교사 로그인이 필요합니다.");
+export const TEACHER_OWNER_ID = "passcode-teacher";
+export const TEACHER_LOGIN_REQUIRED = "교사 로그인이 필요합니다.";
 
-  const allowed = (process.env.TEACHER_AUTH0_SUBS ?? "")
-    .split(",")
-    .map((value) => value.trim())
-    .filter(Boolean);
+export function configuredTeacherPasscode() {
+  const passcode = process.env.TEACHER_PASSCODE ?? "";
+  return passcode.length >= 8 ? passcode : null;
+}
 
-  if (!allowed.includes(identity.subject)) {
-    throw new Error("이 계정에는 교사 대시보드 권한이 없습니다.");
+export async function requireTeacher(
+  ctx: ReadCtx,
+  teacherToken: string | undefined,
+): Promise<string> {
+  const passcode = configuredTeacherPasscode();
+  if (!passcode || !teacherToken || teacherToken.length < 32) {
+    throw new Error(TEACHER_LOGIN_REQUIRED);
   }
-  return identity.subject;
+  const tokenHash = await sha256Hex(teacherToken);
+  const login = await ctx.db
+    .query("teacherLogins")
+    .withIndex("by_token_hash", (query) => query.eq("tokenHash", tokenHash))
+    .unique() as { passcodeHash: string; expiresAt: number } | null;
+  // 비밀번호를 바꾸면 이전 로그인은 모두 무효가 된다.
+  if (
+    !login
+    || login.expiresAt <= Date.now()
+    || login.passcodeHash !== await sha256Hex(passcode)
+  ) {
+    throw new Error(TEACHER_LOGIN_REQUIRED);
+  }
+  return TEACHER_OWNER_ID;
 }
 
 export async function requireOwnedSession(
@@ -101,5 +129,8 @@ export async function requireStudent(
 ) {
   const player = await findStudent(ctx, sessionId, token);
   if (!player) throw new Error("학생 접속 정보가 만료되었습니다.");
+  if (!isActiveStudent(player)) {
+    throw new Error("이 자리는 수업에서 제외되었습니다. 선생님께 자리 다시 연결을 요청하세요.");
+  }
   return player;
 }
