@@ -2572,3 +2572,12 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 미리보기 전 호 미선택·연결 끊김 자리를 확인창에 표시한다. `그대로 진행`을 교사가 선택한 경우, 확인창에 보인 호 미선택 자리만 서버에서 대조한 후 삭제한다. 연결 끊김만으로 자동 삭제하지 않는다. 학생의 삭제된 토큰은 곧바로 무효가 되고, 기기에는 QR 재입장 안내가 표시된다.
 - `convex/virtual-load.test.ts`에 내보내기·호 재사용·토큰 거부·재입장, 호 미선택 정리, Preview 재편성·대기실 복귀, 교사 권한 경계, 21명 중 빈자리 2명 정리 후 19명 편성 회귀를 추가했다.
 - 검증: `npm run check` 통과 (lint, typecheck, 단위 19건, Convex 11건, production build). `git diff --check` 통과. 실제 기기 리허설은 Auth0 Preview callback 불일치로 대기한다.
+
+## 2026-10-05 교사 비밀번호 로그인 교체와 운영 반영
+
+- 작업: `TASK-20261005-COLLAB-TEACHER-PASSCODE` (Claude, Codex 사용량 한도로 인계). Auth0 Google 로그인은 Preview callback 등록 문제로 수정·리허설을 막았고, 다른 교사와의 공동 사용 대비 기능이었으므로 제거했다.
+- `/teacher`는 Convex 환경변수 `TEACHER_PASSCODE` 하나로 로그인한다. 로그인 토큰 해시만 서버에 저장하고 12시간 유지, 10회 실패 시 15분 잠금, 비밀번호 변경 시 전체 로그인 무효. 17개 교사 함수와 개입 전송이 `teacherToken`으로 권한을 확인한다. 이전 Auth0 소유 활동은 새 교사 화면에서 보이지 않는다.
+- 복구 P0·P1/P2, 대기실 내보내기와 함께 main에 fast-forward 반영(`b54f80f0`). 위 대기실 항목의 "Auth0 Preview callback 대기"는 해소됐다.
+- 검증: `npm run check` 통과(lint, typecheck, 단위 19건, Convex 15건, production build), `git diff --check`. 사용자가 운영 `/teacher`에서 비밀번호 로그인을 확인했다. 실제 기기 리허설은 남아 있다.
+- 사고와 교훈: Convex 개발 배포에만 함수를 올린다고 판단했으나 Vercel Production·Preview가 같은 Convex 배포를 써서, main 반영 전까지 운영 교사 화면이 새 서버 함수와 맞지 않았다. 수업이 없는 시간이어서 main 반영으로 해소했다. 운영/개발 Convex 분리를 다음 기능 작업 전에 진행한다.
+- Convex 배포 시 `tsc` 검사는 `convex/tsconfig.json`에 `@/*` 경로가 없어 테스트 파일에서 실패했다. 이번 배포는 `--typecheck=disable`로 진행했고 같은 날 경로 설정을 보완했다.

@@ -185,8 +185,10 @@ P0 안에서는 순서를 바꾸지 않는다. 특히 모둠별 진행은 `activ
 - [ ] **8-3. 교사 1명+학생 역할 4~8대 실제 기기 리허설**
   - QR 입장 → 탭 종료 → 연결 상태 확인 → 자리 재연결 → 연속 탭 → 모둠별 진행 → 제외·복원 → 종료 삭제.
   - 학교 Wi-Fi와 iPad 탭 복귀를 포함한다.
+  - 대기실(2026-10-05 추가): 호 선택 전 탭 닫기 → "호 선택 중…"·연결 끊김 표시 → 카드 눌러 내보내기 → 같은 기기 QR 재입장·호 재사용 → 미리보기 전 경고 "그대로 진행" → preview 내보내기 재편성(3명 미만이면 대기실 복귀) → 태블릿 카드 오터치 시 확인창.
   - 배포 준비 상태(2026-09-29): Node `--use-system-ca`로 프록시 인증서를 안전하게 사용해 Convex 개발 함수 배포 완료. 비 ASCII Windows 호스트명으로 인한 Vercel Device Flow `ByteString` 오류는 CLI 프로세스에 ASCII 호스트명을 제공해 해결했고, Preview `dpl_4YeiHEfWc8M2FhoQCGkyQVqxDw9a`는 `Ready`다.
   - 현재 차단(2026-09-29): Preview `/teacher`에서 Auth0 로그인 버튼까지 정상 표시되지만, `https://history-game-eem0w3prh-joon0noh-3339.vercel.app/teacher`가 Auth0 애플리케이션의 허용 Callback URL에 없어 `Callback URL mismatch`가 재현된다. 해당 URL 등록 전에는 교사 로그인 이후 실제 기기 리허설을 진행하지 않는다.
+  - 해소(2026-10-05): Auth0를 제거하고 교사 비밀번호 로그인으로 교체해 운영 주소 `https://history-game-kappa-gilt.vercel.app/teacher`에서 로그인 확인. 복구·대기실 기능이 main에 반영됐으므로 운영 주소에서 리허설한다. Git Preview 배포에는 Vercel 로그인 보호가 걸려 학생 기기 리허설에 쓰지 않는다.
 
 - [ ] **8-4. 개인정보·로그 검사**
   - 학생 이름·학번·개인 판단 내용이 추가되지 않았는지 확인한다.
