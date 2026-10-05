@@ -6,6 +6,8 @@
 이 문서는 새 개발자가 프로젝트를 빠르게 파악하고 작업을 이어갈 수 있도록 작성한 인수인계 문서다.
 코드로 확인할 수 없는 내용은 `확인 필요`로 표시했다.
 
+> **2026-10-02 작업 분담 갱신**: Preview 전용 인증·로그인은 Codex 담당(`TASK-20261002-PREVIEW-AUTH`), 2026-10-29 수업용 협동 교실의 콘텐츠·기능 점검은 Claude 담당(`TASK-20261002-CLASSROOM-OCT29-AUDIT`)이다. 수업 점검 기준은 1단원 15~18차시 계획이며, 실시간 앱은 해당 차시를 아직 구현하지 않았다. 감사 범위·분류는 [`tasks_classroom_oct29_audit.md`](./docs/plans/tasks_classroom_oct29_audit.md), 진행 상태는 `BACKLOG.md`를 기준으로 한다.
+
 ---
 
 ## 1. 프로젝트 목적
@@ -337,13 +339,14 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 - **단계 정합성**: 선사~발해 9편 점검, `scripts/18` 재설계(Codex 권고: 반복 템플릿 경고 분리, 실제 오류 16곳 고정 fixture, 선택지 피드백·헤더·로드맵 라벨 포함), 세종 편 영웅화 어조 검토.
 - **실시간 협동(Codex)**: 조선 후기 활동 Preview 배포 완료, 합성 리허설 세션 삭제와 교사 1명+기기 4~8대 실측 대기.
 
-### 지금 대기 중인 것 (2026-09-09 기준)
+### 협동 활동 수업 상태 (2026-09-30 기준)
 
-실시간 확장에는 개인정보·국외 처리 절차가 차단 게이트다. 이 프로젝트는 교사 제작 교육용 저작물로 분류하므로 학습지원 소프트웨어 선정·학교운영위원회 심의 게이트는 적용하지 않는다. 현재 정적 협동 MUD의 수업 검증은 개인정보 게이트와 별도로 진행할 수 있다.
+실시간 확장에는 개인정보·국외 처리 절차가 차단 게이트다. 이 프로젝트는 교사 제작 교육용 저작물로 분류하므로 학습지원 소프트웨어 선정·학교운영위원회 심의 게이트는 적용하지 않는다. 개인정보 운영 환경은 학생 재접속 전에 근거 문서와 실제 Convex·Vercel 환경이 같은지 다시 확인한다. [BACKLOG P1-COLLAB-PRIVACY](./BACKLOG.md), [감사 문서](./docs/audits/convex_elementary_school_privacy_audit.md)를 참조한다.
 
-1. **고려 초기 실시간 활동 4~8대 리허설** — 코드와 자동 회귀는 완료했다. 교사 1명+성인·교사 역할 참가자 4~8명으로 입장, 역할 비공개, pause/resume, 새로고침 복구, 공동 초안 revision, 전원 확인, 종료 삭제를 실제 수업 네트워크에서 확인한다. 결과는 `EXP-009`에 기록한다.
-2. **실제 배포 환경 개인정보 조건 재확인** — 사용자가 국외 처리 조건을 처리했다고 확인했으나, 실제 학생 접속 직전에는 근거 문서와 사용할 Convex·Vercel 환경이 같은지 운영 체크리스트로 확인해야 한다. [BACKLOG P1-COLLAB-PRIVACY](./BACKLOG.md), [감사 문서](./docs/audits/convex_elementary_school_privacy_audit.md) 참조.
-3. **8차시 정적 협동 MUD 실제 수업 운영** — 7차시 시조 설화는 2026-09-08 수업 운영을 마쳐 `EXPERIMENTS.md`의 `EXP-007`에 기록했다. 8차시 한강 유역은 제작·브라우저 검증만 끝난 상태다. 볼 것: 네 자료가 모두 발화되는가, 공유 전 최초 판단이 서로 다른가, 타이머 배지가 너무 자주/드물게 뜨지 않는가.
+1. **고려 초기 실시간 활동** — 2026-09-29 21명으로 1차 운영했다. 자동 편성·일부 모둠의 진행은 작동했으나 학생 로그인·자리 복구, 유령 참가자, 전체 다음 단계 차단이 확인됐다. 복구 변경은 `feat/cooperative-classroom-recovery-p0`에 구현·자동 검증됐지만 Auth0 callback과 4~8대 실기기 리허설이 남아 있어 다음 학생 수업 전에는 이를 통과해야 한다. 21명 재시험도 해당 게이트 뒤에 한다. 상세는 [`EXP-009`](./EXPERIMENTS.md)와 [복구 계획](./docs/plans/implementation_plan_cooperative_live_classroom_recovery.md).
+2. **오늘의 고려 건국·문화 협동 수업 대체 흐름** — 실시간 건국판 대신 교사 진행형 관점 공유를 쓰고, 고려 문화는 기존 개인형 `regular_goryeo_culture` 자료 탐색과 모둠 공동 종합을 결합한다. 두 활동 모두 수업 현장용 계획은 활동별 15분이지만 실측값이 아니다. [운영 대체안](./docs/plans/implementation_plan_goryeo_classroom_readiness.md)과 [체크리스트](./docs/plans/tasks_goryeo_classroom_readiness.md)를 참조한다.
+3. **고려 문화 실시간 협동 활동** — 17~18차시용 계획·체크리스트만 있으며 시나리오는 미구현이다. 공통 엔진 복구 게이트와 선행 자료 검증 뒤 구현한다. [기존 계획](./docs/plans/implementation_plan_goryeo_relations_culture_cooperative_live.md).
+4. **정적 협동 MUD** — 6차시 고조선과 7차시 시조 설화는 실제 수업 운영 기록이 있다. 8차시 한강 유역은 제작·브라우저 검증만 끝나 실제 수업을 기다린다. 관찰은 자료 발화, 최초 판단, 타이머 페이싱, 발화 편차를 본다.
 
 ### Deep-dive 트랙 현황 (2026-09-09 확정·완료)
 
@@ -358,7 +361,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 3. **타이머 예산 조정** — 화면별 목표 시간은 추정치다. 2번 관찰 뒤 `scenario.pacing.budgets`를 고친다. 감도는 `pacing.tuning`으로 시나리오별로 덮어쓸 수 있다.
 4. **네 번째 협동 시나리오** — 진도에 맞춰 후보 풀에서 고른다. 새 편은 `scenario.js`와 `index.html` 둘만 만들면 된다.
-5. **실시간 확장 현장 검증** — 고조선 21명 회귀와 고려 초기 4명 전체 흐름 자동 검증까지 완료했다. 다음은 교사 1명+성인·교사 역할 4~8대에서 실제 WebSocket 동시접속, 재접속, 학교 Wi-Fi, 아이패드 QR 인식, revision 재확인을 검사한다. 실제 학생 접속은 그 뒤 별도 Go 판정 대상이다.
+5. **실시간 확장 현장 검증** — 고려 초기 21명 운영에서 확인된 복구·진행 결함을 고치는 변경은 별도 브랜치에 있다. Auth0 교사 로그인, QR·학교 Wi-Fi 재접속, 자리 복구, 모둠별 진행, revision 재확인을 교사 1명+성인·교사 역할 4~8대에서 먼저 검사한다. 통과 뒤 학생 소규모 재시험과 Go 판정을 거쳐 21명 운영을 다시 연다.
 
 ### 감사 스크립트 (2026-09-07~08 완료)
 
@@ -387,7 +390,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
   - 공통 파일: `cooperative-mud/episode.js`(화면 흐름 엔진), `pacing.js`(타이머 페이싱), `cooperative.css`. 시나리오는 각 폴더의 `scenario.js`가 소유하고 엔진에는 역사 내용을 넣지 않는다. 고조선은 법 만들기 화면 때문에 자체 `app.js`를 쓰지만, 세 활동 모두 `역할 확인 → 최초 판단 → 정보 공유 → 추가 자료 → 재판단` 순서를 따른다.
   - 선사시대 협동 MUD는 종이 리허설 단계를 2026-09-06에 폐기하고 정적 웹 제작 대상으로 전환했다 — 1인 1기기 화면이 곧 역할 카드다.
   - 수업 운영 방법은 [`cooperative-mud/TEACHING.md`](./cooperative-mud/TEACHING.md)에 있다. 교실에서 바로 보는 문서다.
-  - 실시간 확장(Vercel + Convex)은 `apps/cooperative-live/`에 있다. 고조선 기술 회귀에 더해 고려 초기 “새 고려의 첫 회의”를 다중 시나리오로 구현했고, 역할 비공개·개인 판단 로컬 보존·공동 초안 revision·전원 확인·pause/resume·도움 요청·종료 삭제를 자동 검증했다. 4~8대 성인·교사 리허설과 실제 배포 환경 재확인 전에는 실제 학생에게 열지 않는다. `apps/cooperative-live/README.md`, `apps/cooperative-live/TEACHING_EARLY_GORYEO.md`, `docs/plans/implementation_plan_early_goryeo_cooperative_live_first_activity.md` 참조.
+  - 실시간 확장(Vercel + Convex)은 `apps/cooperative-live/`에 있다. 고려 초기 “새 고려의 첫 회의”는 2026-09-29 21명으로 1차 수업 운영됐으며 입장·참가자 복구 문제가 확인됐다. 복구 변경은 별도 브랜치·Preview 상태로, Auth0 로그인과 4~8대 현장 리허설이 미통과다. 고려 문화 협동 시나리오는 미구현이다. 최신 상태는 `apps/cooperative-live/TEACHING_EARLY_GORYEO.md`, `docs/plans/implementation_plan_goryeo_classroom_readiness.md`, `docs/plans/implementation_plan_cooperative_live_classroom_recovery.md` 참조.
 
 ## 8. 실행 및 테스트 방법
 
@@ -507,3 +510,12 @@ Regular MUD는 `_index.json`의 primary 등록을 기준으로 포털 버튼이 
 `showPortalView()`로 뷰가 숨겨지면 루프가 자동 중단된다.
 새 MUD를 열 때 `openMUD()`에서 `startAnimLoop()`가 다시 호출되므로
 중복 루프에 주의 (현재 `cancelAnimationFrame(this.animFrameId)`로 보호되어 있음).
+
+## 2026-10-01 통합 기술 Preview 업데이트
+
+- 전용 개발 서버: https://fiery-cobra-795.convex.cloud (dev/classroom-recovery-20261001).
+- Vercel Preview: https://history-game-91dvkb68v-joon0noh-3339.vercel.app (READY, 배포 소스 e326e1b).
+- 별도 worktree .worktrees/codex-goryeo-classroom-activities에서 변경·검증했다. main 및 기존 Production 유지.
+- npm run check 45개 검사·lint·typecheck·build와 실제 전용 서버 가상 8명/종료 삭제 통과.
+- 실제 교사 로그인은 새 주소의 Auth0 callback 등록과 기존 관리 계정 로그인 대기. 실제 수업 사용 승인 아님.
+- 다음 작업과 정확한 설정값: docs/plans/tasks_classroom_recovery_preview.md.

@@ -1,4 +1,53 @@
-# INBOX — 사용자 입력·관찰 원문
+﻿﻿﻿# INBOX — 사용자 입력·관찰 원문
+
+## 2026-10-02 — Codex·Claude 작업 역할 분담
+
+- 사용자 원문: “인증 및 로그인은 codex에서 진행하기, claude에서는 10월 29일 수업용 협동 교실 내용 및 기능 검사”
+- 상태: `promoted`
+- 분류: Codex가 Preview 전용 인증·로그인 연결을 진행하고, Claude는 2026-10-29 수업용 협동 교실의 콘텐츠·기능 점검을 맡는다.
+- 실행 항목: [`BACKLOG.md`](./BACKLOG.md)의 `TASK-20261002-PREVIEW-AUTH` 및 `TASK-20261002-CLASSROOM-OCT29-AUDIT`.
+
+## 2026-10-01 — 유지보수 기준 인증 경로 선택 위임
+
+- 사용자 원문: “앞으로 작업 및 유지 보수 측면에서 더 나은 것으로 선택하기”
+- 상태: `triaged / implementation-approved`
+- 결정: 직접 접근 가능한 Google 관리 계정의 Preview 전용 Auth0 SPA 앱과 고정 Preview 주소를 사용한다. 새 인증은 전용 개발 서버·배포에만 적용하고 기존 운영 인증 설정을 보존한다.
+- 계획: `docs/plans/implementation_plan_preview_owned_auth.md`
+
+## 2026-10-01 — Google 관리 로그인 완료·테넌트 확인
+
+- 사용자 원문: “구글 로그인 완료.”
+- 상태: `triaged / authentication-path-pending`
+- 확인: Auth0 관리 로그인은 완료됐으나 현재 선택 가능한 테넌트는 `dev-52nfryf51dbtiepi` 하나다. 기존 Preview 인증 테넌트 `dev-d6pye3nwy6ng5at8`과 다르며 기존 애플리케이션 설정 내용을 읽지 못했다.
+- 다음 선택: 기존 관리 계정으로 로그인하거나, 새 Google 관리 계정의 테넌트로 Preview 전용 인증을 구성한다. 사용자의 선택 전에 기존 인증 설정·서버·배포를 변경하지 않는다.
+
+## 2026-10-01 — 별도 개발 서버·Preview 배포 승인
+
+- 사용자 원문: “진행시켜”
+- 상태: `triaged / deployment-approved`
+- 범위: 통합 코드의 별도 Convex 개발 서버 적용과 해당 서버에 연결된 Vercel Preview 배포·기술 검증. 운영 서버 설정과 main 유지.
+- 실행: `docs/plans/tasks_classroom_recovery_preview.md`
+
+## 2026-10-01 — 통합 구현 다음 작업 진행 요청
+
+- 사용자 원문: “다음 작업 진행하기”
+- 상태: `triaged`
+- 처리: 검증된 통합 브랜치의 변경을 커밋으로 정리하고 실제 Preview 확인을 준비한다. Vercel 조회 오류는 비밀값을 노출하지 않고 인증·환경 파일 구조를 확인한다. 실제 기기·학생 수업 항목은 실행 결과가 있을 때만 완료한다.
+
+
+## 2026-10-01 — 변경 보존·부족 인원 해결·교사 도움 대응 진행 승인
+
+- 사용자 원문: “1. 보존하면서 codex에서 진행하기. 2. 해결해보자, 3.진행하기”
+- 상태: `implemented / isolated-branch / field-verification-needed`
+- 결과: 기존 고려 문화 변경을 보존하고 입장 복구·교사 한 단계 진행·부족 인원 명시 복구·도움 요청 처리를 통합했다. 구현·검증 상세는 `.worktrees/codex-goryeo-classroom-activities/docs/plans/implementation_plan_classroom_recovery_integration.md`와 해당 worktree의 `walkthrough.md`에서 관리한다.
+
+
+## 2026-10-01 — 다음 작업 순차 실행 요청
+
+- 사용자 원문: “할 수 있는 것들을 하나씩 진행하자”
+- 상태: `triaged`
+- 처리: 입장 복구 전용 worktree의 자동 검증·Preview 준비 상태 확인부터 진행한다. 설계 답변과 실제 기기가 필요한 항목은 미완료로 구분한다.
+
 
 이 문서는 사용자가 아이디어, 학생 반응, 수업 관찰, 문제 제보를 자유롭게 기록하는 단일 입력 창구다.
 
@@ -2434,6 +2483,27 @@ TASK-20260910-07 | `audit/interaction-diversity` main 병합·GitHub Pages 배�
 - 상태: `triaged`
 - 사용자 원문: "t3 진행"
 - 분류: 인계서의 T3 보고 전용 조사. `art_12`와 연표 코드는 수정하지 않고, 교육과정·앱 내부 분류·연표 판정 영향을 대조해 판단 자료를 작성한다.
+
+## 2026-09-30 — 고려 건국·고려 문화 협동 수업 운영 해결안 요청
+
+`TASK-20260930-GORYEO-CLASSROOM-READINESS | 두 협동 수업 당일 운영 대체안과 재개 체크리스트 | planning agent(Codex) | 상태: DONE`
+
+- 사용자 원문: "수업을 진행할 수 있도록 하기 위한 해결 방안 구상하고, 체크리스트로 문서화하기"
+- 문맥: 오늘 진행 예정인 협동 수업은 고려의 건국과 고려의 문화 두 가지다. 전날 점검에서 건국 실시간 활동의 복구 게이트 미통과, 고려 문화 협동 활동의 미구현 상태가 확인됐다.
+- 처리: 실시간 접속에 의존하지 않는 교사 진행형 대체 흐름과 두 활동의 시간표·산출물·준비 항목, 실시간 활동 재개 및 고려 문화 협동판 제작 전 검증 관문을 문서화했다.
+- 산출물: [`docs/plans/implementation_plan_goryeo_classroom_readiness.md`](./docs/plans/implementation_plan_goryeo_classroom_readiness.md), [`docs/plans/tasks_goryeo_classroom_readiness.md`](./docs/plans/tasks_goryeo_classroom_readiness.md)
+- 경계: 앱 코드·시나리오·배포는 변경하지 않았다. 교실 현장 실행 여부와 학생 시간 측정은 아직 확인하지 않았다.
+
+## 2026-09-30 — 고려 건국·고려 문화 실시간 협동 활동 구현 승인
+
+`TASK-20260930-GORYEO-COOP-IMPLEMENTATION | 고려 건국 복구와 문화 협동 시나리오 구현 | implementation agent(Codex) | 상태: DOING`
+
+- 사용자 원문: "알겠어. 일단 만들자. 수업은 나중에 할게."
+- 해석: 앞서 합의한 고려 건국·고려 문화 두 협동 활동의 구현을 승인한 것으로 처리한다. 복구 기능을 포함한 별도 브랜치에서 작업하고, 수업·배포는 실기기와 학생 소규모 검증을 마친 뒤 판단한다.
+- 범위: 고려 건국 실시간 활동의 복구 변경을 기준으로 통합·정합화하고, 고려 문화·생활 협동 시나리오를 구현한다. 고려와 주변 나라 관계 활동은 이번 범위에 포함하지 않는다.
+- 구현 worktree: `.worktrees/codex-goryeo-classroom-activities` / 브랜치 `feat/goryeo-classroom-activities`
+- 결과 기록: 구현·자동 검증을 마친 뒤 이 항목과 BACKLOG claim의 상태를 갱신한다. 현장 리허설은 별도 미완료 관문으로 남긴다.
+
 ## 2026-09-30 — 협동 활동·역사 탐구 디자인 정렬 우선순위·체크리스트 요청
 
 `TASK-20260930-COOP-INQUIRY-DESIGN-PLAN | 우선순위·계획·체크리스트 문서화 | planning agent(Codex) | 상태: DONE`
@@ -2444,3 +2514,57 @@ TASK-20260910-07 | `audit/interaction-diversity` main 병합·GitHub Pages 배�
 - 산출물: [`docs/plans/implementation_plan_cooperative_inquiry_design_alignment.md`](./docs/plans/implementation_plan_cooperative_inquiry_design_alignment.md), [`docs/plans/tasks_cooperative_inquiry_design_alignment.md`](./docs/plans/tasks_cooperative_inquiry_design_alignment.md)
 - 상태: `triaged` — BACKLOG에 미완료 구현 후보로 등록했다.
 - 경계: 계획·체크리스트만 작성했다. CSS·HTML·실시간 협동 앱은 수정하지 않았다.
+
+## 2026-09-30 — 실시간 협동 앱 테마 변경 계획 요청
+
+`TASK-20260930-COLLAB-LIVE-THEME-PLAN | 실시간 협동 앱 테마 변경 제안 | planning agent(Codex) | 상태: DONE`
+
+`TASK-20260930-COLLAB-LIVE-THEME-IMPLEMENTATION | 실시간 협동 앱 CSS 테마 정렬 | implementation agent(Codex) | 상태: DONE`
+
+- 사용자 원문: "실시간 협동 앱 테마 변경 계획 보여줘."
+- 문맥: 정적 협동 활동·역사 탐구와 별도인 `apps/cooperative-live`의 남색·파랑·금색 테마 변경 후보를 구체 계획으로 제안해 달라는 요청이다.
+- 분류: 테마 일관성 개선(P2). 사용자가 “계획서대로 진행하기”로 구현을 승인했고, 역사 팔레트와 키보드 포커스 표시를 `app/globals.css`에 적용했다.
+- 처리 경계: 코드 변경은 전역 CSS와 계획 진행 기록으로 제한했다. 시나리오·인증·Convex·배포는 변경하지 않았으며, 기존 고려 수업 미커밋 파일도 보존했다.
+- 산출물: [`docs/plans/implementation_plan_cooperative_live_theme_alignment.md`](./docs/plans/implementation_plan_cooperative_live_theme_alignment.md), [`docs/plans/tasks_cooperative_live_theme_alignment.md`](./docs/plans/tasks_cooperative_live_theme_alignment.md)
+- 상태: `implemented / student-state-visual-check-needed` — `npm run check` 통과, 데모 교사 흐름과 네 라우트의 네 지정 화면 크기를 확인했다. 데모 `/play/[sessionId]`는 실제 학생 활동 UI를 보여 주지 않아 역할·선택·공동 초안 상태는 화면 검증하지 못했다. 상세 결과는 [`walkthrough.md`](./walkthrough.md)와 [체크리스트](./docs/plans/tasks_cooperative_live_theme_alignment.md)에 기록했다.
+
+## 2026-09-30 — 전체 학생 대상 실시간 협동 활동 테스트 관찰
+
+`TASK-20260930-COLLAB-CLASSROOM-RETEST | 전체 학생 테스트 관찰 및 교사 제어 요구 분류 | audit agent(Codex) | 상태: DONE`
+
+- 사용자 원문:
+  > 전체 학생 대상으로 테스트를 진행함. 오류도 설명했어. 중복 접속으로 인한 오류(학생이 접속 못함), 그러한 경우 학생이 부족한 모둠에서는 진행이 불가능함. 모든학생이 동의하는 상황이라 설계 실수, 교사가 대시보드에서 넘겨주는 마스터 기능이 필요함. 교사 대시보드가 보기 힘들다. 모둠에서 어떤 상황이니 파악하기 어렵고 모둠별 힌트 제공과 난이도 높이기 두 개의 버튼만 있는 것이 불편함. 학생이 도움을 요청해도 대시보드에서 내가 할 수 있는 것이 기술적으로 없음.
+- 분류: 실제 수업 관찰로 [`EXPERIMENTS.md`](./EXPERIMENTS.md)의 `EXP-011`에 결과를 기록하고, 접속 실패·진행 차단 및 교사 개입 공백을 기존 P0 [`P0-COLLAB-GHOST-PLAYER`](./BACKLOG.md)·[`P0-COLLAB-LIVE-CONTROLS`](./BACKLOG.md)에 추가했다.
+- 결정 현황: 교사 마스터 진행의 적용 단위·기록 방식은 승인됐다. 2명 이하 잔류 모둠의 진행·자료 처리와 도움 요청에 대한 교사 동작은 인터뷰 답변을 기다린다.
+- 근거 한계: 학급 인원, 중복 접속의 정확한 오류 문구·발생 횟수, 막힌 모둠 수와 단계, 교사가 원하는 구체 동작은 이번 원문에 없다.
+- 인터뷰 응답(2026-09-30): 사용자 승인 — “권장안대로 진행하자, 단계가 많지 않으니 한번에 한 단계씩 넘겨도 될 것같아.” 적용 범위는 선택한 모둠만 한 번에 한 단계다. 교사 확인·사유 기록, 미접속 학생을 완료로 처리하지 않는 조건도 승인된 권장안에 포함한다.
+- 구현 전 남은 결정: 현행 활동은 3~5인 모둠을 전제로 한다. 접속 실패 뒤 2명만 남은 모둠도 계속할 수 있게 할지, 계속한다면 공통 자료·역할 근거를 어떻게 다룰지 확인한다. 학생 도움 요청에 대한 교사 동작도 별도 질문으로 남아 있다.
+
+## 2026-09-30 — 중복 접속 방지와 재접속 복구 수정 요청
+
+`TASK-20260930-COLLAB-JOIN-RECOVERY | 입장 재시도 중복 참가자 방지 및 재접속 안내 | implementation agent(Codex) | 상태: 자동 검증 완료·Preview 대기`
+
+- 사용자 원문: “접속 실패가 없도록 수정하기, 다시 접속할 수 있는 방법을 제안하기”
+- 분류: 전체 학생 테스트에서 보고된 중복 접속·입장 실패의 P0 원인 범위를 수정하고, 복구 경로를 교사·학생 운영 안내로 구체화한다.
+- 코드 감사: 복구 구현 기준 `f71ca7d`에서 QR `joinWithEntryKey`와 수업 코드 `joinWithCode`는 성공 시 항상 새 참가자 행을 만든다. `attemptId`는 실패 요청 제한 키로 쓰이고 성공 응답의 재시도 식별에는 쓰이지 않는다. 응답 유실·연속 제출이 새 좌석을 만들 수 있다.
+- 수정 방향: 브라우저가 입장 전에 만든 좌석 키를 같은 탭에서 보존해 재시도하고, 서버는 같은 세션·키 요청을 같은 좌석으로 멱등 처리한다. 학생 브라우저 저장 정보까지 잃은 경우에는 교사 발급 일회용 자리 재연결 코드를 사용한다.
+- 현장 운영 제안: 같은 탭은 새로고침부터 시도한다. 그래도 복구되지 않으면 교사가 대시보드에서 해당 좌석의 12자리 재연결 코드를 발급하고, 학생은 수업 코드와 재연결 코드를 입력해 같은 모둠·역할·진도로 돌아간다. 코드는 5분 만료·1회용이며 새 토큰 발급 후 이전 토큰은 무효화된다.
+- 한계: 서로 다른 기기에서 독립적으로 처음 입장한 두 요청이 같은 실제 학생인지 서버는 식별할 수 없다. 학생 계정·이름을 새로 수집하지 않고, 동일 브라우저 재시도는 좌석 키로 합치며 다른 기기 분실은 교사 좌석 복구 절차로 처리한다.
+- 기존 승인 범위: 마스터 진행은 별도 설계 결정(2명 잔류 모둠)이 남아 있어 대기한다. 이번 요청은 접속·재접속 안정화에 한정한다.
+- 자동 검증 결과: `npm run check` 통과(ESLint, TypeScript, 단위 19/19, Convex 9/9, 프로덕션 빌드). QR·수업 코드의 동시 같은 토큰 재시도는 각 1개 좌석으로 수렴하고, 정원 초과의 새 좌석은 거부한다. 실제 Preview·기기 리허설은 아직 하지 않았다.
+- 다음 단계: Preview에서 QR 연속 스캔·응답 재시도·교사 발급 복구 코드를 실제 화면으로 확인한 뒤, 4~8대 리허설 관찰을 `EXPERIMENTS.md`에 남긴다.
+
+## 2026-10-01 — 오늘 작업 종료·문서화·커밋·푸시
+
+- 사용자 원문: “오늘은 여기까지, 지금까지 작업 문서화 하고 커밋 푸시 진행시켜”
+- 상태: `triaged / documentation-and-push-approved`
+- 처리: 오늘 확인한 결과와 인증 미완료 상태를 보존하고 격리 브랜치에 문서 커밋·푸시한다. main의 다른 미커밋 변경은 포함하지 않는다.
+
+## 2026-10-02 — 공개수업 일정 변경(10/28 수 → 10/29 목)과 Claude 트랙 방향 전환
+
+- 사용자 원문:
+  - "10월 28일 수요일 수업이 10월 29일 목요일로 일정 변경됨. 주제는 동일함."
+  - "인증 및 로그인은 codex에서 진행하기, claude에서는 10월 29일 수업용 협동 교실 내용 및 기능 검"
+  - "검토할 내용을 보니 다른 내용을 생성하는 것으로 방향을 바꿔야 겠다."
+- 상태: `promoted`
+- 분류 메모: 공개수업은 10/29(목)이다. 주제는 사용자 확인(2026-10-02)에 따라 **1단원 15~18차시(고려와 주변 나라 관계·고려의 문화와 생활)** 이며, 위 조선 후기 기록과 다르므로 기존 항목은 고치지 않고 통합 단계에서 정정 방식을 확인한다. 인증·로그인(Auth0 Preview 전용 SPA)은 Codex가 맡고, Claude는 수업용 협동 교실 내용·기능을 검토하는 대신 새 내용을 생성하는 쪽으로 전환한다. 생성할 내용은 사용자 선택에 따라 ① 15~18차시 보조 정적 카드 자료 ② 질문·수정 활동지와 관찰 기록 항목이다. 계획: `docs/plans/implementation_plan_goryeo_oct29_supplementary_materials.md`(브랜치 `docs/joseon-late-extra-materials`, 승인 대기). 기존 10/28 기준 일정표(2026-09-15 항목)의 날짜 이동 반영은 확인 뒤 별도 처리한다.

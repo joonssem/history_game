@@ -1,8 +1,40 @@
-# BACKLOG
+﻿﻿﻿# BACKLOG
+
+- 작업 claim: `TASK-20261002-PREVIEW-AUTH | Preview 전용 인증·로그인 연결 | integration agent(Codex) | 상태: READY | 기존 승인된 계획 재개. Auth0 SPA·고정 Preview 주소·개발 서버 설정·실제 교사 로그인 검증. 운영 인증·서버 보존. 계획: docs/plans/implementation_plan_preview_owned_auth.md`
+
+- 작업 claim: `TASK-20261002-CLASSROOM-OCT29-AUDIT | 2026-10-29 수업용 협동 교실 콘텐츠·기능 점검 | audit/content agent(Claude) | 상태: READY | 1단원 15~18차시 계획(주변 나라 관계·문화와 생활) 콘텐츠 정합성, 현행 실시간 앱 지원 범위, 교사·학생 공통 기능 회귀를 읽기 전용 점검. 앱은 13차시 고려 건국과 고조선만 구현되어 있어 15~18차시는 미구현 표시·대체 활동 판정 포함. 결과·재현 조건·수업 전 필수 조치 보고. 체크리스트: docs/plans/tasks_classroom_oct29_audit.md`
+
+- `P1-PREVIEW-AUTH0-CALLBACK` 담당 갱신(2026-10-02): 인증·로그인 작업은 Codex가 맡는다. Claude의 10월 29일 수업 준비 점검과 파일 소유권이 겹치지 않도록, 인증 설정·Preview 로그인을 별도 작업 단위로 유지한다.
+
+- 작업 claim: `TASK-20261001-PREVIEW-OWNED-AUTH | 관리 가능한 Google 계정의 Preview 전용 SPA 인증·고정 주소·실제 로그인 | integration agent(Codex) | 상태: 보류(사용자 오늘 종료 요청; SPA 생성 직전 확인·실제 인증 연결 대기)`
+
+- 작업 claim: `TASK-20261001-AUTH0-ACCOUNT-CHECK | Google 관리 로그인·기존 인증 테넌트 대조 | audit agent(Codex) | 상태: DONE | 실제 테넌트 메뉴·Settings 링크 확인, git diff --check 통과; 인증 경로 선택 대기`
+
+- `P1-PREVIEW-AUTH0-CALLBACK`: 통합 Preview 교사 로그인은 callback 미등록으로 차단된다. 사용자는 현재 Google 관리 계정의 새 테넌트에 Preview 전용 SPA를 구성하는 경로를 선택했다. 생성 양식만 준비했고 앱 생성·Google 연결·고정 alias·인증 환경변수 변경·실제 OAuth 검증은 미실행이다. 다음 세션은 생성 직전 확인부터 재개한다. 상세: `docs/plans/implementation_plan_preview_owned_auth.md`, `docs/plans/tasks_classroom_recovery_preview.md`.
+
+- 작업 claim: `TASK-20261001-COOP-PREVIEW-DEPLOY | 별도 Convex 개발 서버·통합 Vercel Preview 배포 및 확인 | integration agent(Codex) | 상태: DONE | npm run check·실제 서버 가상 8명·종료 삭제·Vercel READY 통과; 실제 Auth0 연결은 P1-PREVIEW-AUTH0-CALLBACK 대기`
 
 > 완료된 기능은 이 목록에 넣지 않는다. 완료 이력은 [`walkthrough.md`](./walkthrough.md), 현재 상태는 [`project_context.md`](./project_context.md)에서 확인한다.
 
 ## 🔶 지금 판단이 필요한 것 (2026-09-11 4트랙 세션 마무리)
+
+- 작업 claim: `TASK-20261001-COOP-PREVIEW-PREP | 통합 커밋·Vercel/Convex 연결 조사·Preview 준비 | integration agent(Codex) | 상태: DONE | 배포 목록/API 조회·git diff --check 성공; 실제 배포 확인 대기 | 구현 worktree: .worktrees/codex-goryeo-classroom-activities`
+
+- 작업 claim: `TASK-20261001-CLASSROOM-RECOVERY-INTEGRATION | 고려 문화 변경 보존·입장 복구·교사 진행·부족 인원 복구 | implementation/integration agent(Codex), 읽기 전용 audit agent | 상태: DONE(격리 브랜치 구현·검증)·Preview/현장 대기 | worktree: .worktrees/codex-goryeo-classroom-activities | 검증: npm run check(단위 21/21·Convex 24/24·build), 로컬 가상 UI, git diff --check`
+
+- 작업 claim: `TASK-20261001-JOIN-RECOVERY-VERIFY | 입장 복구 자동 검증·Preview 준비 상태 조사 | integration agent(Codex) | 상태: DONE(조사)·Preview 확인 대기 | 검증: npm run check(단위 19/19·Convex 9/9·build), 브랜치 유지·clean 확인 | 후속: Vercel 계정 조회 ByteString 오류 해결·브라우저·실기기 리허설 | 체크리스트: docs/plans/tasks_student_join_preview_verification.md`
+
+- 작업 claim: `TASK-20260930-GORYEO-CLASSROOM-READINESS | 고려 건국·문화 협동 수업 당일 대체 운영안과 재개 체크리스트 | planning agent(Codex) | 상태: DONE | 결과: 교사 진행형 대체 흐름, 수업 시간표, 체크리스트 문서화`
+- 작업 claim: `TASK-20260930-GORYEO-COOP-IMPLEMENTATION | 고려 건국 복구와 문화 협동 시나리오 | implementation agent(Codex) | 상태: DONE(격리 브랜치 구현·통합 검증)·Preview/현장 대기 | worktree: .worktrees/codex-goryeo-classroom-activities | branch: feat/goryeo-classroom-activities | 검증: npm run check(단위 21/21·Convex 24/24·build)`
+
+## P0-COLLAB-GORYEO-CLASSROOM-READINESS — 고려 건국·문화 수업 운영 및 디지털 활동 준비
+
+- 상태: `대체 운영안·체크리스트 완료 / 실시간 구현 중 / 현장 실행 대기` — [운영 대체안](./docs/plans/implementation_plan_goryeo_classroom_readiness.md) · [실행 체크리스트](./docs/plans/tasks_goryeo_classroom_readiness.md)
+- 배경: 고려 건국 실시간 활동은 2026-09-29 21명 수업에서 입장 실패와 전체 진행 차단을 보였다. 복구 구현은 별도 브랜치·Preview에 있고 Auth0 callback 및 4~8대 실기기 리허설이 남아 있다.
+- 고려 문화 실시간 시나리오는 격리 브랜치에서 구현되고 입장 복구·교사 진행과 통합 검증을 마쳤다. 아직 main 통합·배포·현장 확인은 남아 있다. 기존 `regular_goryeo_culture`는 별도의 개인형 활동이다.
+- 당일 대안: 건국은 기존 교사용 다섯 관점·화이트보드 절차로, 문화는 기존 개인형 자료를 근거 탐색에 쓰고 모둠별 공동 주장·근거·자료 한계를 만드는 교사 진행형 방식으로 운영한다. 활동별 15분은 계획값이며 실측값이 아니다.
+- 재개 관문: 건국 실시간판은 복구 브랜치 통합·인증·실기기 리허설 뒤 소규모 학생 재시험을 한다. 문화 실시간판은 공통 엔진 게이트와 근거 출처 검토 뒤 구현하며, 검증 전에는 전체 학급 실시간 운영을 기본안으로 삼지 않는다.
+- 구현 승인(2026-09-30): 사용자 요청에 따라 별도 worktree에서 건국 복구와 고려 문화 협동 시나리오를 구현한다. 이번 구현은 고려 주변국 관계 활동을 포함하지 않으며, merge·배포·학생 사용은 현장 검증 뒤 별도 판정한다.
 
 - 작업 claim: `TASK-20260916-01 | apps/cooperative-live 및 고려 초기 활동 | implementation/content agent | 상태: DONE` — `npm run check`, production build, client bundle 비공개 본문 검사 통과. 실제 기기 리허설은 별도 대기.
 - 작업 claim: `TASK-20260915-T2 | 벽란도 순서 및 원문 미대조 유물 페어 공식 출처 대조 | audit agent(Codex) | 상태: DONE`
@@ -46,7 +78,12 @@
   4. 시작 전 실제 출석 인원과 서버 참가자 수가 다를 때 경고하고, 교사가 정리하기 전 편성을 확정하지 않도록 하는 관문.
   5. 제거·재연결 뒤 모둠 인원, 역할 중복, 공통 자료, confirmation 합계가 다시 계산되는 회귀 검사.
 - 즉시 운영 폴백: 최초 입장 탭 새로고침으로 세션 토큰 복구 → 실패하면 세션 종료·삭제 후 한 기기·한 탭 재입장. 유령 참가자가 있는 상태에서 `전체 다음 단계` 또는 편성 확정을 강행하지 않는다.
-- 예상 변경 범위: `apps/cooperative-live`의 참가자 세션·교사 대시보드·Convex mutations/schema 및 통합 테스트. 정규 MUD 28편·`js/mudEngine.js`·`scripts/18*`·조선 후기 콘텐츠 원본은 범위 밖이다.
+- **2026-09-30 코드 감사·사용자 요청** ([`INBOX`](./INBOX.md), `TASK-20260930-COLLAB-JOIN-RECOVERY`): 복구 기준 `f71ca7d`의 QR `joinWithEntryKey`와 수업 코드 `joinWithCode`가 매 성공 호출마다 새 `players` 행을 만든다. `attemptId`는 rate-limit 상태에만 쓰여 성공 mutation 재시도를 같은 자리로 묶지 못한다. 응답 유실·연속 탭이 유령 좌석을 만들 수 있는 P0 경로다.
+- 구현 완료(자동 검증): 클라이언트는 요청 전 좌석 토큰을 `sessionStorage`에 저장하고 QR·수업 코드 재시도에서 재사용한다. 서버는 같은 세션·토큰의 활성 자리를 재사용하며, 한도 초과 뒤에도 자기 자리 재시도를 허용한다. QR 실패 시 같은 QR 재시도 버튼을 제공한다. 상세 구현·검증은 worktree의 `docs/plans/implementation_plan_student_join_idempotency.md`와 `walkthrough.md`에 기록했다.
+- 운영 복구안: 동일 탭 새로고침/재시도를 먼저 안내하고, 저장 정보를 잃었을 때는 교사가 대시보드에서 해당 좌석을 선택해 12자리 재연결 코드를 발급한다. 학생은 수업 코드와 코드를 입력해 같은 역할·모둠·진도로 돌아온다. 코드는 개별 전달하고, 5분 만료·1회용으로 운영한다.
+- 한계·수용 기준: 별도 기기 두 개에서 생성한 서로 다른 좌석 키만으로 동일 학생인지 식별할 수 없다. 계정·학생 이름을 수집하지 않는다. 같은 탭·동일 join key 재시도는 서버 행을 1개만 만들고 같은 자리로 응답해야 하며, 예전 자리 복구는 기존의 교사 확인 절차를 유지한다.
+- 작업 claim: `TASK-20260930-COLLAB-JOIN-RECOVERY | apps/cooperative-live 입장 멱등성·재접속 안내 | implementation agent(Codex) | 상태: WAITING-PREVIEW | 기준: f71ca7d | worktree: .worktrees/codex-student-join-idempotency`
+- 검증: `apps/cooperative-live`의 `npm run check` 통과(ESLint, TypeScript, 단위 테스트 19개, Convex 테스트 9개, production build). 남은 일은 Preview의 실제 QR 재시도·교사 재연결과 4~8대 기기 리허설 기록이다. 독립 기기에서 서로 다른 새 토큰으로 들어온 요청은 이름·계정 없이 같은 학생인지 자동 판별하지 않는다.
 
 ## P0-COLLAB-LIVE-CONTROLS — 교사 개입 흔적·설명 완료 오류·모둠별 진행 부재
 
@@ -68,6 +105,10 @@
 - **2026-09-29 라이브 재현 — `전체 다음 단계` 작동 불능**: 수업 코드 `859220`, 서버 표시 21명에서 1모둠은 공동 초안, 2·3모둠은 자료 말하기 중 각각 1명이 개인 최초 판단, 4모둠은 전원 확인, 5모둠은 활동 마침 상태였다. 버튼은 활성화돼 있었지만 `sessions.advanceStage`는 전체 참가자의 가장 이른 단계를 기준으로 잡고, `first` 단계 참가자 중 한 명이라도 `submittedAt`이 없으면 전체 요청을 거부한다. 따라서 서로 다른 단계가 섞인 실제 수업에서 두 참가자의 탭·토큰이 복구되지 않으면 교사가 정상 모둠만 진행시키거나 문제 참가자를 우회할 방법이 없다.
   - 판정: 단순 버튼 비활성화 표시 문제가 아니라 `P0-COLLAB-GHOST-PLAYER`와 결합된 전체 수업 진행 차단이다.
   - 추가 수용 기준: 전체 진행 버튼은 실행 전 차단 사유와 미완료 인원·모둠을 보여 주고, 조건이 안 되면 비활성화한다. 모둠별 진행은 해당 모둠의 필수 행동만 검사하며 다른 모둠의 느린 참가자 때문에 차단되지 않는다. 복구 불가 참가자는 교사 제거·재연결 절차로 confirmation 분모에서 안전하게 정리돼야 한다.
+- **2026-09-30 전체 학생 테스트 관찰** ([`EXP-011`](./EXPERIMENTS.md), 원문은 [`INBOX`](./INBOX.md)): 중복 접속으로 학생이 입장하지 못하는 사례와 인원 부족 모둠의 진행 불가가 보고됐다. 교사는 모든 학생이 동의한 경우에도 설계가 진행을 막는 점을 문제로 지적하며 대시보드 마스터 진행 기능을 요구했다. 모둠별 상황 가시성이 낮고 현재 `힌트`·`난이도 높이기` 두 기능만 있는 것이 불편하며, 도움 요청에 앱으로 조치할 수 없다는 점도 확인됐다. 정확한 인원·오류 문구·발생 횟수는 제공되지 않았다.
+- **승인됨 — 마스터 진행 범위 (2026-09-30)**: 사용자가 선택한 모둠만 한 번에 한 단계씩 넘기는 권장안을 승인했다. 교사 확인·사유를 기록하고 미접속 학생을 완료로 처리하지 않는다. 승인 원문은 `INBOX.md`의 `TASK-20260930-COLLAB-CLASSROOM-RETEST`에 기록했다.
+- 작업 claim: `TASK-20260930-COLLAB-MASTER-ADVANCE | 선택 모둠 교사 마스터 1단계 진행 | implementation agent(Codex) | 상태: DONE(격리 브랜치 구현·자동/가상 UI 검증)·Preview 대기 | 실제 구현: .worktrees/codex-goryeo-classroom-activities / feat/goryeo-classroom-activities` — 2026-10-01 사용자 진행 승인에 따라 문화·입장 복구와 함께 통합했다. 기존 teacher-master worktree는 변경하지 않았다.
+- **2026-10-01 구현 정책 — 부족 인원·도움 요청**: 사용자 진행 승인에 따라 시작 편성 3~5인은 유지하고 활동 중 교사가 명시 복구 모드를 켠 모둠만 1~2인 진행을 허용했다. 빠진 원래 역할의 근거 요약과 공통 자료를 제공하고 개인 완료값은 보존한다. 도움 요청은 단계·미완료 수 확인, 기존 힌트, 사유/동의가 있는 한 단계 진행, 해결 완료로 대응한다. 격리 브랜치의 코드·가상 UI 검증까지 완료했으며 실제 수업 효과·현장 리허설은 대기다.
 
 ## P1-COLLAB-EARLY-GORYEO-COMPREHENSION — 고려 초기 활동 내용 이해도
 
@@ -247,6 +288,18 @@
 - 제외: `apps/cooperative-live`의 별도 남색 테마, 활동 문구·역사 콘텐츠, 진행 로직, 새 프레임워크, 배포. 필요하면 별도 작업으로 검토한다.
 - 다음 순서: 지정 화면 크기 기준선 확인 → 팔레트·버튼 규칙 결정 → 반응형 경계 정리 → 시각 확인 및 기록.
 - 착수 조건: 사용자의 별도 구현 승인. 현재는 문서만 준비했으며 CSS는 수정하지 않았다.
+
+## P2-COLLAB-LIVE-THEME-ALIGNMENT — 실시간 협동 앱 역사 테마 정렬
+
+- 작업 문서 claim: `TASK-20260930-COLLAB-LIVE-THEME-PLAN | 실시간 협동 앱 테마 계획·체크리스트 | planning agent(Codex) | 상태: DONE`
+- 구현 claim: `TASK-20260930-COLLAB-LIVE-THEME-IMPLEMENTATION | apps/cooperative-live/app/globals.css | implementation agent(Codex) | 상태: DONE | branch: main | 검증: npm run check`
+- 상태: `implemented / student-state-visual-check-needed` — [구현 계획](./docs/plans/implementation_plan_cooperative_live_theme_alignment.md) · [체크리스트](./docs/plans/tasks_cooperative_live_theme_alignment.md)
+- 근거: 별도 Next 앱은 남색·파랑·금색 팔레트와 22~30px 카드 모서리를 사용한다. 포털·정적 협동 MUD는 미색·먹색·적토색·청록색 계열이다. 진행 차단 문제라는 현장 증거는 아직 없다.
+- 제안 우선순위: P2. 기존 48px 버튼·760px 반응형 전환·화면 구조는 유지하고 앱 내부 CSS 토큰과 색·포커스 표현을 정렬한다.
+- 결과: `apps/cooperative-live/app/globals.css`에 역사 팔레트·상태 토큰·3px 키보드 포커스 테두리를 적용했다. 가상 교사 흐름에서 QR·모둠·통계를 확인했고, 4개 라우트×4개 화면 크기에서 가로 넘침은 없었다. `npm run check` 통과.
+- 확인 제한: 데모 `/play/[sessionId]`는 실제 역할·선택·공동 초안 화면 대신 Convex 연결 안내를 표시한다. 그 학생 활동 상태는 실제 학생 세션을 만들지 않고는 화면으로 확인할 수 없어, 해당 상태의 시각 확인만 후속 항목으로 남긴다.
+- 범위 제외: 시나리오, 실시간 상태·인증·QR 동작, Convex, 개인정보 설정, 배포. 테마 변경 완료만으로 교실 사용을 승인하지 않는다.
+- 작업 경계: 사용자가 2026-09-30 계획서대로 진행을 승인했다. 고려 수업 관련 기존 미커밋 변경을 보존하기 위해 현재 `main` 체크아웃에서 테마 파일과 이 계획의 진행 기록만 수정하며, 브랜치 전환은 하지 않는다.
 
 ## P1 실험 — Regular MUD 상호작용 다양성 수업 검증
 
@@ -433,6 +486,9 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 - 검증 순서: 자동 회귀 → 교사 1명+4~8명 실제 기기 리허설 → 실제 학생 소규모 시험 → 21명 시험 판단. 결과는 [`EXP-009`](./EXPERIMENTS.md)에 기록한다.
 
 ## P1-COLLAB-JOSEON-LATE — 10월 28일 공개수업용 조선 후기 실시간 수직 슬라이스
+- 작업 claim: `TASK-20261002-OCT29-SUPPLEMENT | 고려 15~18차시 보조 활동·질문·수정 활동지 | content agent(Claude) | 상태: DONE (통합 기록·선택 감사 등록; 카드 출처/난이도 및 수업 관찰 검증은 별도 대기)`
+
+- 공개수업은 2026-10-02 사용자 확인으로 10/29 고려 15~18차시로 변경됨. 조선 후기 슬라이스는 이후 수업·회귀 기준으로 유지.
 
 - 작업 claim: `TASK-20260915-06 | 조선 후기 실시간 협동 MUD 수직 슬라이스 구현 계획 | 기획·점검 에이전트 | 상태: DONE`
 - 작업 claim: `TASK-20260918-CODEX-JOSEON-LATE | 확정 런타임 JSON의 실제 앱 등록·3·4·5인 회귀 | implementation agent(Codex) | 상태: DONE`

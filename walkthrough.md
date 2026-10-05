@@ -1,5 +1,28 @@
 # Walkthrough
 
+## 2026-10-02 고려 15~18차시 보조 자료 전달 통합 기록
+
+`TASK-20261002-OCT29-SUPPLEMENT | docs 계획 색인·수업 감사·일정 메모 통합 | integration/audit agent(Codex) | 상태: DONE (자료 자체 검증 대기)`
+
+- 공개수업 일정과 주제를 사용자 확인에 맞춰 감사 체크리스트에 정정하고, 앱에 15~18차시 시나리오가 없다는 판정과 정적 대체 카드 자료 링크를 기록했다. BACKLOG의 조선 후기 P1 항목은 유지하고 이후 수업·회귀 기준이라는 주석을 달았다.
+- 미커밋 INBOX의 2026-10-02 항목을 `promoted`로 바꾸고, 고려 보조자료 계획과 두 역할 카드의 색인을 추가했다. 전달 브랜치의 변경 경로는 docs/ 아래 문서 8개임을 확인했다. `git fetch`는 `.git/FETCH_HEAD` 권한 오류로 완료되지 않아 기존 원격 ref 객체에서 파일을 읽었다.
+- 읽기 전용 선택 감사: 관계 카드 D/E의 삼별초·복속 문구와 관계 카드 C의 몽골 시기 피해 제한은 source table의 허용 범위와 일치한다. 문화 카드 A/E는 왕실·개경 관료·사찰의 근거와 일반 백성 사용의 미확인을 구분한다. 카드 E의 “농민·장인 같은 평범한 사람들의 이야기가 적다”는 확대 추론 가능성을 체크리스트에 관찰 항목으로 남겼고 Claude 소유 카드 문안은 수정하지 않았다.
+- 미완료 검증: 원문 대조 표의 C8 일부 정보, 카드 난이도 및 실제 학생의 카드 읽기 방식은 아직 확인되지 않았다. 앱 구현·기기 리허설·Auth0 로그인은 수행하지 않았다.
+- 확인: 전달 파일 경로 `git diff --name-only 4f5dcb6..origin/docs/joseon-late-extra-materials` (8개 모두 `docs/`), 변경 문서 핵심 문구 `rg` 확인. 테스트 실행은 하지 않았다.
+
+## 2026-09-30 — 실시간 협동 앱 역사 테마 정렬
+
+`TASK-20260930-COLLAB-LIVE-THEME-IMPLEMENTATION | apps/cooperative-live/app/globals.css | implementation agent(Codex) | 상태: DONE`
+
+- 앱 전역 색 토큰을 미색·아이보리·먹색·적토색·청록색으로 바꾸고 성공·오류·경고 의미 색상은 보존했다. 카드 그림자와 모서리를 낮추고 `:focus-visible`에 3px 청록색 포커스 테두리를 추가했다.
+- 기존 48px 버튼/입력, 54px 선택 카드, 760px 반응형 전환, QR의 흰 바탕을 유지했다. 수업 데이터, 기능, 라우트, 인증, Convex, 배포 동작은 변경하지 않았다.
+- 데모 모드에서 시작 화면과 교사 활동 생성→가상 학생 8명 입장→모둠 미리보기→시작 흐름, QR, 참여 통계, 모둠·개입 상태를 확인했다. 시작·교사·입장·학생 경로의 390×844, 820×1180, 1180×820, 1366×768 뷰포트에서 가로 넘침은 없었다. 교사 활동 중 모둠 카드는 390·820·1366px에서 확인했다.
+- 키보드 Tab으로 주요 링크에 포커스 이동 시 3px 외곽선이 표시됐고, 데모 버튼 높이는 48px였다. QR 배경은 흰색이었다.
+- 확인 제한: 데모 `/play/[sessionId]`는 실시간 역할·선택·공동 초안 UI 대신 Convex 연결 안내를 표시한다. 학생 활동 화면의 상호작용 상태는 실제 학생 세션을 사용하지 않았으므로 브라우저에서 시각 확인하지 않았다.
+- 검증: `npm run check` 통과(lint, typecheck, unit 19건, Convex 3건, Next production build), `git diff --check` 통과. 앱은 데모 모드 로컬 브라우저에서만 확인했으며 운영 배포는 하지 않았다.
+
+---
+
 ## 2026-09-10 — 고려 문화 파일럿 GitHub Pages 운영 배포
 
 `TASK-20260910-07 | main 병합·GitHub Pages 배포 | integration agent(Codex) | 상태: DONE`
@@ -2564,3 +2587,49 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 고려 건국 3·3-1을 훈요 10조가 아니라 혼인·사성·관직 수여·기인 제도를 통한 호족 포섭과 견제로 통일했다.
 - 세종 공통 활동 제목을 문자·천문·과학 기술 전체를 포괄하도록 바꾸고, 칠정산 인물을 이순지·김담으로 바로잡았다.
 - 검증: `01`, `03`, `04`, `05`, `06`, `08`, `09`, `10`, `12`, `13`, `14`, `16 --ci`, `17` 통과. `git diff --check` 통과.
+
+## 2026-10-01 — 입장 복구 자동 재검증·Preview 준비 상태 조사
+
+- 사용자 요청 “할 수 있는 것들을 하나씩 진행하자”에 따라 입장 복구 전용 worktree를 우선 확인했다. 브랜치 `feat/cooperative-student-join-idempotency`, 커밋 `387dabe`, 착수·종료 시 미커밋 변경 없음.
+- `apps/cooperative-live`의 `npm run check` 통과: 단위 19/19, Convex 통합 9/9, ESLint, TypeScript, production build. 기존 코드 변경 없이 동일 토큰 QR·수업 코드 동시 재시도, 정원 경계, 진행 중 기존 자리 복구와 이전 토큰 무효화 회귀를 재확인했다.
+- `.env.local`과 `.vercel` 연결 디렉터리가 없으므로 빌드 결과를 실시간 브라우저 확인으로 승격하지 않았다. Vercel CLI의 기본·명시적 팀 목록 조회는 승인된 외부 실행에서도 계정 조회 ByteString 오류로 실패했다. 배포·Auth0·Convex 설정은 변경하지 않았다.
+- `docs/plans/tasks_student_join_preview_verification.md`에 코드·서버 계약 대조, QR 응답 실패·새로고침, 교사 재연결, 만료·재사용 거부, revision·종료 정리와 4~8대 리허설 순서를 남겼다. 실제 브라우저·물리 기기 실행은 미완료다.
+- 고려 문화 worktree의 기존 미커밋 구현을 발견해 보존했다. 해당 worktree 작업 소유권과 마스터 진행의 부족 인원·도움 요청 정책을 사용자 질문으로 남겼다.
+- 읽기 전용 확인으로 고려 문화 시나리오와 자동 검증 완료 체크리스트가 이미 있음을 확인했다. 다만 문화 worktree는 `f71ca7d` 기준이며 신규 입장 멱등 처리 `387dabe`를 포함하지 않는다. 다음 코드 작업은 이 두 변경을 보존하는 통합 회귀다. 실제 통합은 아직 하지 않았다.
+
+## 2026-10-01 — 고려 문화 변경 보존·교사 복구 구현 완료
+
+- 사용자의 보존·진행 승인에 따라 `.worktrees/codex-goryeo-classroom-activities`에서 입장 멱등 처리, 선택 모둠 교사 한 단계 진행, 1~2인 명시 복구 모드와 도움 요청 대응을 통합했다. 실제 개인 판단·공유·확인 기록은 대신 완료하지 않으며, 빠진 원래 역할의 근거 요약만 제공한다.
+- 수정 전 기존 21개 파일을 복사해 보존했다. 문화 시나리오·자료·기존 단위 검사·문화 교사 안내 5개 파일은 수정 전 해시와 동일하다. 정상 재접속은 진행·확인을 보존하며 제외 학생 복귀는 초안을 다시 열어 모두 재확인한다.
+- 최종 `npm run check` 통과: 단위 21/21, Convex 24/24, lint, TypeScript, production build. 읽기 전용 별도 감사와 가상 응답 로컬 Chrome UI 검사(사유·동의·한 단계·도움 해결·일시정지·복구), 390/1024 viewport 가로 넘침 없음. `git diff --check` 통과.
+- 상세 계획·교사 안내·검증 기록은 해당 worktree에서 관리한다. main 코드·기존 테마 변경은 보존했고 merge·배포·실제 인증/서버 연결·물리 기기 리허설은 수행하지 않았다.
+
+## 2026-10-01 — 통합 커밋과 실제 Preview 준비
+
+- 통합 코드는 격리 브랜치 커밋 13dbaa6에 보존했다. 단위 21/21·Convex 24/24·lint·typecheck·build 통과. main의 미커밋 변경과 브랜치를 유지했다.
+- Vercel CLI 61.0.0의 한글 hostname User-Agent 오류를 실행 한정 호환 처리하고 Node --use-system-ca로 Windows 인증서 저장소를 사용해 배포 목록/API 조회에 성공했다. 저장된 인증값·시스템 설정·설치 CLI는 변경하지 않았다.
+- 당시 기존 READY Preview는 387dabe로 통합 코드를 포함하지 않았다. Vercel history-game 앱 루트는 apps/cooperative-live이다. Preview/Production은 Convex 설정을 공유한다. 로컬 서버와 다르다고 한 초기 판단은 목록 API의 암호화된 값 비교 오류였으며, 배포 실행 전 공식 개별 환경변수 조회로 같은 서버임을 확인하여 정정했다.
+- 준비 시점에는 실제 서버 적용이 별도 확인 대기였다. 이후 사용자 “진행시켜” 승인으로 전용 개발 배포를 만들어 진행한다. 준비 단계에서 실제 인증·교사·학생 흐름은 확인하지 않았다.
+- 상세 체크리스트: docs/plans/tasks_classroom_recovery_preview.md. 조회 스크립트는 무시된 .worktrees/preview-diagnostics-20261001에 보관한다.
+
+## 2026-10-01 — 전용 서버와 Vercel 통합 Preview 배포 확인
+
+- 사용자 “진행시켜” 승인으로 소스 e326e1b를 전용 Convex 개발 배포 fiery-cobra-795와 Vercel Preview history-game-91dvkb68v-joon0noh-3339.vercel.app에 적용했다. 배포 dpl_FceMyjfHKeB7snSrtCd2HhwqXKQ4는 READY다. 기존 Production dpl_8Df7yhpPYCDBgpq1ST1yh8DRq78H와 main·공통 서버 설정은 유지했다.
+- 실제 서버에서 발견한 Convex 모듈명/공유 타입 import 배포 차단 두 건을 기능 변경 없이 수정했다. 전체 npm run check 통과: 단위 21/21·Convex 24/24·lint·typecheck·build.
+- 실제 Preview 학생 화면의 잘못된 코드 거부·재시도 안내와 전용 서버 요청 도착을 확인했다. 미인증 교사 접근·잘못된 QR 키도 차단됐다. 관리용 테스트 identity로 가상 8명의 QR/코드·중복 좌석, 교사 동의/사유·stale/pause, 2인 복구·요약 비공개 경계·다른 모둠 보존, 초안 revision·정확한 개인 완료 수, 제외 학생 원래 자리 복구를 통과했다. 이 방법은 실제 Auth0 로그인 검증이 아니다.
+- 테스트 세션 종료 뒤 sessions/players/rooms/drafts/teacherActions/helpRequests/interventions가 모두 0임을 확인했다. 신원·학생 토큰·QR 원문·보호 키를 문서나 출력에 남기지 않았다.
+- Auth0에서 새 Preview callback이 미등록인 문제를 재현했다. 관리 설정의 기존 계정 로그인 필요로 사용자에게 로그인 요청을 보냈다. 현재 Google 로그인은 신규 계정 정보 화면으로 이어져 등록을 완료하지 않고 로그아웃했으며, 기존 관리 로그인 탭을 열어 두었다. P1-PREVIEW-AUTH0-CALLBACK으로 다음 작업을 남겼다.
+- 실제 Auth0 교사·학생 브라우저 흐름 및 학교 기기 리허설은 미완료다. 상세 대상·검증·남은 설정은 docs/plans/tasks_classroom_recovery_preview.md에 기록했다. 화면 증거: 저장소 루트 .worktrees/preview-diagnostics-20261001/deployed-preview.png.
+
+## 2026-10-01 — Google 관리 로그인·테넌트 대조
+
+- 사용자 “구글 로그인 완료.” 후 실제 Auth0 관리 로그인을 확인했다. 테넌트 메뉴에는 새 dev-52nfryf51dbtiepi만 표시돼 기존 Preview 인증 dev-d6pye3nwy6ng5at8과 불일치한다. 기존 Application Settings 링크에서 설정 내용도 표시되지 않았다.
+- 기존 관리 계정으로 로그인할지 새 테넌트로 Preview 전용 인증을 구성할지 사용자에게 선택을 요청했다. 인증/서버/배포 설정은 변경하지 않았다. 실제 교사 로그인 검증은 여전히 미완료다.
+- 증거: 저장소 루트 .worktrees/preview-diagnostics-20261001/auth0-account-tenant.png. 상세 다음 작업은 docs/plans/tasks_classroom_recovery_preview.md의 P1-PREVIEW-AUTH0-CALLBACK이다.
+
+## 2026-10-01 — 관리 가능한 Preview 인증 선택·세션 종료
+
+- 사용자가 유지보수 기준 경로 선택을 위임하여 현재 Google 관리 계정의 테넌트 `dev-52nfryf51dbtiepi`에 Preview 전용 SPA를 구성하는 것으로 계획했다. 기존 운영 인증은 보존하고 고정 Preview 주소로 callback 관리 부담을 줄인다.
+- 현재 테넌트의 Applications 목록과 Default App을 확인하고 `History Game Cooperative Preview` / Single Page Web Application 생성 양식을 준비했다. 사용자 요청으로 오늘 작업 종료. 인증 경로 선택·SPA 생성 양식 준비까지만 완료했다. Create를 누르지 않았으며 새 앱·Google 연결·고정 alias·새 인증 환경변수 적용은 미실행이다. 브라우저 정책에 따른 새 인증 접근 생성 직전 확인도 아직 받지 않았다.
+- 기술 검증은 앞선 21개 단위·24개 Convex 검사, lint·typecheck·build와 실제 전용 서버 가상 8명 검사 결과를 유지한다. 이후 코드 변경은 없으며 오늘 마감은 문서 확인과 git diff --check로 검증한다. 실제 OAuth·학교 기기·학생 파일럿 통과로 간주하지 않는다.
+- 사용자 종료 요청에 따라 후속 외부 설정 작업을 중단하고 격리 브랜치 문서화를 마감한다. 인수인계: `docs/handoff/codex_session_close_20261001.md`. main의 기존 테마·문서 변경은 보존한다.
