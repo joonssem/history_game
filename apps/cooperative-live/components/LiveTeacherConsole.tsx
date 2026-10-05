@@ -24,8 +24,10 @@ export function LiveTeacherConsole() {
   const [scenarioId, setScenarioId] = useState("early-goryeo-unity");
   const [clock, setClock] = useState(0);
   const [qrExpanded, setQrExpanded] = useState(false);
+  const [previewWarningOpen, setPreviewWarningOpen] = useState(false);
   const [sendingIntervention, setSendingIntervention] = useState("");
   const qrTriggerRef = useRef<HTMLButtonElement>(null);
+  const previewChoiceRef = useRef<HTMLButtonElement>(null);
   const createSession = useMutation(convexApi.sessions.create);
   const rotateEntryKey = useMutation(convexApi.sessions.rotateEntryKey);
   const seedStudents = useMutation(convexApi.sessions.seedSyntheticStudents);
@@ -39,6 +41,7 @@ export function LiveTeacherConsole() {
   const advanceStage = useMutation(convexApi.sessions.advanceStage);
   const advanceGroupStage = useMutation(convexApi.sessions.advanceGroupStage);
   const setParticipantStatus = useMutation(convexApi.sessions.setParticipantStatus);
+  const kickBeforeStart = useMutation(convexApi.sessions.kickBeforeStart);
   const issueRecoveryCode = useMutation(convexApi.sessions.issueRecoveryCode);
   const resolveHelp = useMutation(convexApi.sessions.resolveHelp);
   const currentSession = useQuery(
@@ -93,6 +96,11 @@ export function LiveTeacherConsole() {
     && dashboard!.rooms.length > 0
     && dashboard!.rooms.every((room) => room.gate.ready)
     && new Set(dashboard!.rooms.map((room) => room.gate.stage)).size === 1;
+  const lobbyPlayers = dashboard?.players.filter((player) => player.participationStatus === "active") ?? [];
+  const unselectedPlayers = lobbyPlayers.filter((player) => !player.aliasSelected);
+  const disconnectedPlayers = lobbyPlayers.filter((player) =>
+    connectionLabel(player.lastSeenAt, player.connectionStatus) === "연결 끊김 가능"
+  );
 
   useEffect(() => {
     const timer = window.setInterval(() => setClock(Date.now()), 30_000);
@@ -110,6 +118,16 @@ export function LiveTeacherConsole() {
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [qrExpanded]);
+
+  useEffect(() => {
+    if (!previewWarningOpen) return;
+    previewChoiceRef.current?.focus();
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setPreviewWarningOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [previewWarningOpen]);
 
   function connectionLabel(
     lastSeenAt: number | undefined,
@@ -135,6 +153,31 @@ export function LiveTeacherConsole() {
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "요청을 처리하지 못했습니다.");
     }
+  }
+
+  async function makePreview(removeUnselectedIds: typeof unselectedPlayers[number]["id"][]) {
+    if (!sessionId) return;
+    setPreviewWarningOpen(false);
+    await run(async () => {
+      await previewGroups({ sessionId, removeUnselectedIds });
+      forgetEntryKey(sessionId);
+      setMessage(removeUnselectedIds.length
+        ? `호 선택 중이던 ${removeUnselectedIds.length}자리를 정리하고 모둠 배정안을 만들었습니다.`
+        : "모둠 배정안을 만들었습니다. 확인한 뒤 시작해 주세요.");
+    });
+  }
+
+  async function kickPlayer(player: NonNullable<typeof dashboard>["players"][number]) {
+    if (!sessionId || !window.confirm(`${player.alias} 자리를 내보낼까요? 학생 기기의 접속 정보가 무효가 됩니다.`)) return;
+    await run(async () => {
+      const result = await kickBeforeStart({ sessionId, playerId: player.id });
+      if (result.entryKey) rememberEntryKey(sessionId, result.entryKey);
+      setMessage(result.removed
+        ? result.status === "lobby"
+          ? `${player.alias} 자리를 정리했습니다. 입장 대기 중입니다.`
+          : `${player.alias} 자리를 정리하고 남은 학생으로 모둠을 다시 섞었습니다.`
+        : "이미 정리된 자리입니다.");
+    });
   }
 
   if (isLoading) return <div className="notice">교사 인증 상태를 확인하고 있습니다.</div>;
@@ -259,12 +302,11 @@ export function LiveTeacherConsole() {
               >가상 학생 8명 입장</button>
               <button
                 className="button primary"
-                disabled={dashboard.players.length < 3}
-                onClick={() => run(async () => {
-                  await previewGroups({ sessionId });
-                  forgetEntryKey(sessionId);
-                  setMessage("모둠 배정안을 만들었습니다. 확인한 뒤 시작해 주세요.");
-                })}
+                disabled={lobbyPlayers.filter((player) => player.aliasSelected).length < 3}
+                onClick={() => {
+                  if (unselectedPlayers.length || disconnectedPlayers.length) setPreviewWarningOpen(true);
+                  else void makePreview([]);
+                }}
               >모둠 미리보기</button>
             </>
           )}
@@ -341,6 +383,60 @@ export function LiveTeacherConsole() {
         </div>
       </section>
 
+      {dashboard.session.status === "lobby" && (
+        <section className="panel" aria-label="대기실 참가자">
+          <h2>입장 대기실</h2>
+          <p className="notice">
+            호 선택 완료 {lobbyPlayers.filter((player) => player.aliasSelected).length}
+            {` · 선택 중 ${unselectedPlayers.length} · 연결 끊김 ${disconnectedPlayers.length}`}
+          </p>
+          <p>학생의 호를 불러 실제 기기와 맞는지 확인한 뒤, 필요할 때 해당 카드를 눌러 자리를 정리하세요.</p>
+          {lobbyPlayers.length === 0
+            ? <p className="notice">아직 입장한 학생이 없습니다.</p>
+            : <div className="lobby-players">
+                {lobbyPlayers.map((player) => (
+                  <button
+                    key={player.id}
+                    className="lobby-player-card"
+                    type="button"
+                    onClick={() => void kickPlayer(player)}
+                    aria-label={`${player.alias}, ${connectionLabel(player.lastSeenAt, player.connectionStatus)}, 내보내기 확인`}
+                  >
+                    <strong>{player.alias}</strong>
+                    <span>{connectionLabel(player.lastSeenAt, player.connectionStatus)}</span>
+                    <small>입장 {new Date(player.joinedAt).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}</small>
+                  </button>
+                ))}
+              </div>}
+        </section>
+      )}
+
+      {previewWarningOpen && dashboard.session.status === "lobby" && (
+        <div className="qr-modal-backdrop" role="presentation">
+          <div className="qr-modal" role="dialog" aria-modal="true" aria-labelledby="preview-warning-title">
+            <h2 id="preview-warning-title">모둠 편성 전 참가자를 확인해 주세요</h2>
+            {unselectedPlayers.length > 0 && (
+              <p>호 선택 중 {unselectedPlayers.length}자리는 그대로 진행하면 내보내고 편성에서 제외합니다.</p>
+            )}
+            {disconnectedPlayers.length > 0 && (
+              <p>연결 끊김 가능 {disconnectedPlayers.length}자리는 호를 골랐다면 편성에 남습니다. 학생 기기를 확인해 주세요.</p>
+            )}
+            <ul className="player-list">
+              {[...new Map([...unselectedPlayers, ...disconnectedPlayers].map((player) => [player.id, player])).values()].map((player) => (
+                <li className="player-row" key={player.id}>
+                  <strong>{player.alias}</strong>
+                  <small>{connectionLabel(player.lastSeenAt, player.connectionStatus)}</small>
+                </li>
+              ))}
+            </ul>
+            <div className="actions">
+              <button ref={previewChoiceRef} className="button secondary" onClick={() => setPreviewWarningOpen(false)}>정리하고 오기</button>
+              <button className="button primary" onClick={() => void makePreview(unselectedPlayers.map((player) => player.id))}>그대로 진행</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {groups.length > 0 && (
         <section className="rooms">
           {groups.map(([groupNumber, players]) => (
@@ -359,7 +455,10 @@ export function LiveTeacherConsole() {
                           {` · ${player.participationStatus === "removed" ? "제외됨" : connectionLabel(player.lastSeenAt, player.connectionStatus)}`}
                         </small>
                       )}
-                      {dashboard.session.status !== "lobby" && !player.isSynthetic && (
+                      {dashboard.session.status === "preview" && (
+                        <button className="button ghost" onClick={() => void kickPlayer(player)}>내보내기</button>
+                      )}
+                      {dashboard.session.status === "active" && !player.isSynthetic && (
                         <div className="actions">
                           <button
                             className="button ghost"

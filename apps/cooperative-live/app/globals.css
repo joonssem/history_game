@@ -142,6 +142,11 @@ a { color: inherit; }
 .player-list { list-style: none; margin: 16px 0; padding: 0; display: grid; gap: 8px; }
 .player-row { display: grid; grid-template-columns: minmax(72px, 0.8fr) 1.2fr auto; gap: 8px; align-items: center; padding: 10px; border-radius: 12px; background: var(--surface); }
 .player-row small { color: var(--muted); }
+.lobby-players { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin-top: 16px; }
+.lobby-player-card { display: grid; gap: 7px; min-height: 110px; padding: 16px; border: 2px solid var(--line); border-radius: 16px; text-align: left; color: var(--ink); background: var(--surface); cursor: pointer; }
+.lobby-player-card:hover, .lobby-player-card:focus-visible { border-color: var(--blue); background: var(--blue-pale); }
+.lobby-player-card strong { font-size: 1.2rem; }
+.lobby-player-card small { color: var(--muted); }
 
 .form { display: grid; gap: 14px; }
 .label { display: grid; gap: 7px; font-weight: 800; }

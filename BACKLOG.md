@@ -2,6 +2,14 @@
 
 > 완료된 기능은 이 목록에 넣지 않는다. 완료 이력은 [`walkthrough.md`](./walkthrough.md), 현재 상태는 [`project_context.md`](./project_context.md)에서 확인한다.
 
+## P0-COLLAB-GHOST-PLAYER — 교사 대기실 참가자 확인·내보내기
+
+- 작업 claim: `TASK-20261005-COLLAB-LOBBY-KICK | apps/cooperative-live 교사 대기실 참가자 확인·내보내기 | implementation agent(Codex) | 상태: DONE(자동 검증)·현장 검증 대기 | 브랜치: feat/cooperative-lobby-kick | 기준: f71ca7d9 | 검증: npm run check(단위 19·Convex 11·production build), git diff --check`
+- 원문: `INBOX.md`의 2026-10-05 대기실 요청. 2026-09-29 실제 수업에서 21명 중 2명이 활동에 들어가지 못했으며, 호 선택 전 생성된 빈 참가자 레코드를 교사가 대기실에서 확인하거나 정리할 수 없었다.
+- 목적: 호·접속 상태·입장 시각을 대기실에서 확인하고, 교사가 선택한 자리만 삭제해 호와 입장 자리를 다시 사용할 수 있게 한다. 모둠 미리보기와 재편성에서도 인원·권한·토큰 상태를 일관되게 유지한다.
+- 범위: `apps/cooperative-live`와 작업 기록 문서. 활동 시작 후의 기존 제외·재연결 동작은 유지한다.
+- 결과: 대기실 호·연결 상태·입장 시각 카드와 요약, 교사 확인 후 레코드 삭제·토큰 무효화, preview 내보내기 후 재편성·2명 이하 대기실 복귀, 미리보기 전 경고·호 미선택 자리 명시적 정리를 구현했다. 실제 기기 리허설은 Auth0 Preview callback 불일치 때문에 남아 있다.
+
 ## 🔶 지금 판단이 필요한 것 (2026-09-11 4트랙 세션 마무리)
 
 - 작업 claim: `TASK-20260916-01 | apps/cooperative-live 및 고려 초기 활동 | implementation/content agent | 상태: DONE` — `npm run check`, production build, client bundle 비공개 본문 검사 통과. 실제 기기 리허설은 별도 대기.

@@ -33,6 +33,7 @@ export function LiveJoinForm() {
   const handledEntryKey = useRef(false);
 
   const rememberSession = useCallback((result: JoinResult, manualCode?: string) => {
+    sessionStorage.removeItem(`${studentStorageKey(result.sessionId)}:kicked`);
     sessionStorage.setItem(
       studentStorageKey(result.sessionId),
       JSON.stringify({
@@ -40,6 +41,7 @@ export function LiveJoinForm() {
         aliasCandidates: result.aliasCandidates,
       }),
     );
+    window.dispatchEvent(new Event("cooperative-session-change"));
     if (manualCode) {
       sessionStorage.setItem(studentJoinStorageKey(manualCode), result.sessionId);
     }

@@ -448,6 +448,17 @@ export const view = queryGeneric({
   },
 });
 
+export const accessState = queryGeneric({
+  args: { sessionId: v.id("sessions"), token: v.string() },
+  handler: async (ctx, args) => {
+    const session = await ctx.db.get(args.sessionId);
+    if (!session || session.deleteAfter <= Date.now()) return "ended" as const;
+    const player = await findStudent(ctx, args.sessionId, args.token);
+    if (player && isActiveStudent(player)) return "active" as const;
+    return session.status === "active" ? "invalid" as const : "kicked" as const;
+  },
+});
+
 export const advance = mutationGeneric({
   args: { sessionId: v.id("sessions"), token: v.string() },
   handler: async (ctx, args) => {

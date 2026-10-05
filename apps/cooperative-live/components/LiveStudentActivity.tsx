@@ -47,6 +47,7 @@ function useSessionValue(key: string) {
 export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
   const typedSessionId = sessionId as Id<"sessions">;
   const storageKey = studentStorageKey(sessionId);
+  const [wasKicked, setWasKicked] = useSessionValue(`${storageKey}:kicked`);
   const rawStored = useSyncExternalStore(
     () => () => undefined,
     () => sessionStorage.getItem(storageKey),
@@ -83,12 +84,17 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
     convexApi.students.view,
     stored?.token ? { sessionId: typedSessionId, token: stored.token } : "skip",
   );
+  const accessState = useQuery(
+    convexApi.students.accessState,
+    view === null && stored?.token ? { sessionId: typedSessionId, token: stored.token } : "skip",
+  );
 
   useEffect(() => {
-    if (view === null) {
+    if (view === null && accessState && accessState !== "active") {
       clearCooperativeSessionStorage();
+      if (accessState === "kicked") setWasKicked("true");
     }
-  }, [view]);
+  }, [view, accessState, setWasKicked]);
 
   useEffect(() => {
     if (!stored?.token) return;
@@ -107,9 +113,13 @@ export function LiveStudentActivity({ sessionId }: { sessionId: string }) {
     return Math.max(0, Math.round(((index + 1) / STUDENT_STAGE_ORDER.length) * 100));
   }, [view]);
 
+  if (wasKicked || accessState === "kicked") {
+    return <section className="student-panel"><h1>자리 정리 안내</h1><p className="notice">선생님이 자리를 정리했어요. QR을 다시 찍어 입장해 주세요.</p></section>;
+  }
   if (!stored) return <div className="notice error">접속 정보가 없습니다. QR을 다시 찍어 입장해 주세요.</div>;
   if (view === undefined) return <div className="notice">실시간 활동 상태를 불러오고 있습니다.</div>;
   if (view === null) {
+    if (accessState === undefined) return <div className="notice">접속 상태를 확인하고 있습니다.</div>;
     return (
       <section className="student-panel">
         <h1>활동이 종료되었습니다</h1>

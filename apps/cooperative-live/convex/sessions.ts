@@ -277,15 +277,11 @@ async function assignSessionGroups(
   const players = await ctx.db
     .query("players")
     .withIndex("by_session", (query) => query.eq("sessionId", sessionId))
-    .collect();
+    .collect().then((members) => members.filter(isActiveStudent));
   if (players.length < 3) throw new Error("학생이 3명 이상 입장해야 합니다.");
-
-  const usedAliases = new Set(
-    players.map((player) => player.alias).filter(Boolean),
-  );
-  const remainingAliases = pickUniqueAliases(ALIASES.length).filter(
-    (alias) => !usedAliases.has(alias),
-  );
+  if (players.some((player) => !player.alias)) {
+    throw new Error("호 선택 중인 자리를 정리한 뒤 모둠을 미리 봐 주세요.");
+  }
   const assignments = assignGroups(
     players.map((player) =>
       (player._id as GenericId<"players">).toString()
@@ -297,14 +293,12 @@ async function assignSessionGroups(
   const byPlayer = new Map(
     assignments.map((assignment) => [assignment.participantKey, assignment]),
   );
-  let aliasIndex = 0;
   const now = Date.now();
   for (const player of players) {
     const playerId = player._id as GenericId<"players">;
     const assignment = byPlayer.get(playerId.toString());
     if (!assignment) throw new Error("모둠 배정에 실패했습니다.");
     await ctx.db.patch(playerId, {
-      alias: player.alias ?? remainingAliases[aliasIndex++],
       groupNumber: assignment.groupNumber,
       roleId: assignment.roleId,
       updatedAt: now,
@@ -314,13 +308,27 @@ async function assignSessionGroups(
 }
 
 export const previewGroups = mutationGeneric({
-  args: { sessionId: v.id("sessions") },
+  args: {
+    sessionId: v.id("sessions"),
+    removeUnselectedIds: v.optional(v.array(v.id("players"))),
+  },
   handler: async (ctx, args) => {
     const teacherSub = await requireTeacher(ctx);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     if (session.status !== "lobby") {
       throw new Error("입장 대기 중인 활동만 미리 볼 수 있습니다.");
     }
+    const players = await ctx.db
+      .query("players")
+      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+      .collect();
+    const unselectedIds = players.filter((player) => !player.alias).map((player) => player._id);
+    const confirmedIds = args.removeUnselectedIds ?? [];
+    if (unselectedIds.length !== confirmedIds.length
+      || unselectedIds.some((id) => !confirmedIds.includes(id))) {
+      throw new Error("대기실 참가자 목록이 바뀌었습니다. 다시 확인해 주세요.");
+    }
+    for (const playerId of unselectedIds) await ctx.db.delete(playerId);
     const assignments = await assignSessionGroups(
       ctx,
       args.sessionId,
@@ -337,6 +345,55 @@ export const previewGroups = mutationGeneric({
     return {
       groups: new Set(assignments.map((item) => item.groupNumber)).size,
       players: assignments.length,
+    };
+  },
+});
+
+export const kickBeforeStart = mutationGeneric({
+  args: { sessionId: v.id("sessions"), playerId: v.id("players") },
+  handler: async (ctx, args) => {
+    const teacherSub = await requireTeacher(ctx);
+    const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
+    if (session.status === "active") {
+      throw new Error("활동 중에는 기존 참가자 제외·재연결 기능을 사용해 주세요.");
+    }
+    const player = await ctx.db.get(args.playerId);
+    if (!player) return { removed: false, status: session.status };
+    if (player.sessionId !== args.sessionId) throw new Error("이 활동의 참가자가 아닙니다.");
+    await ctx.db.delete(args.playerId);
+    if (session.status === "lobby") return { removed: true, status: "lobby" as const };
+
+    const remaining = await ctx.db
+      .query("players")
+      .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))
+      .collect();
+    for (const member of remaining) {
+      if (member.groupNumber || member.roleId) {
+        await ctx.db.patch(member._id, {
+          groupNumber: undefined,
+          roleId: undefined,
+          updatedAt: Date.now(),
+        });
+      }
+    }
+    if (remaining.filter(isActiveStudent).length >= 3) {
+      await assignSessionGroups(ctx, args.sessionId, session.scenarioId, session.scenarioVersion);
+      return { removed: true, status: "preview" as const };
+    }
+    const now = Date.now();
+    const credential = await createEntryCredential(now, session.deleteAfter);
+    const codeExpiresAt = expiresAt(now, session.deleteAfter, ENTRY_CREDENTIAL_TTL_MS);
+    await ctx.db.patch(args.sessionId, {
+      status: "lobby",
+      codeExpiresAt,
+      entryKeyHash: credential.entryKeyHash,
+      entryKeyExpiresAt: credential.entryKeyExpiresAt,
+    });
+    await scheduleEntryCredentialExpiry(ctx.scheduler, args.sessionId, credential.entryKeyExpiresAt);
+    return {
+      removed: true,
+      status: "lobby" as const,
+      entryKey: credential.entryKey,
     };
   },
 });
@@ -726,7 +783,9 @@ export const dashboard = queryGeneric({
         const role = roleById(scenario, player.roleId);
         return {
           id: player._id,
-          alias: player.alias ?? "호 미선택",
+          alias: player.alias ?? "호 선택 중…",
+          aliasSelected: Boolean(player.alias),
+          joinedAt: player.joinedAt,
           groupNumber: player.groupNumber,
           roleId: player.roleId,
           roleName: role?.name,

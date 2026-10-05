@@ -699,3 +699,132 @@ describe("실시간 협동 MUD 가상 학급", () => {
     });
   });
 });
+
+describe("교사 대기실 참가자 정리", () => {
+  async function openLobby(count: number, selected = count) {
+    process.env.TEACHER_AUTH0_SUBS = `${TEACHER_SUB},auth0|other-teacher`;
+    process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
+    const backend = convexTest(schema, modules);
+    const teacher = backend.withIdentity({ subject: TEACHER_SUB });
+    const created = await teacher.mutation(convexApi.sessions.create, {
+      scenarioId: "early-goryeo-unity",
+      scenarioVersion: 1,
+    });
+    const students = await Promise.all(Array.from({ length: count }, () =>
+      backend.mutation(convexApi.students.joinWithEntryKey, { entryKey: created.entryKey! })
+    ));
+    await Promise.all(students.slice(0, selected).map((student, index) =>
+      backend.mutation(convexApi.students.selectAlias, {
+        sessionId: created.sessionId,
+        token: student.token,
+        alias: ALIASES[index],
+      })
+    ));
+    return { backend, teacher, created, students };
+  }
+
+  it("대기실 내보내기로 인원·호를 되돌리고 이전 토큰을 거부하며 재입장을 허용한다", async () => {
+    const { backend, teacher, created, students } = await openLobby(4);
+    const before = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    expect(before.players).toHaveLength(4);
+    expect(before.players[0]).toMatchObject({ aliasSelected: true, joinedAt: expect.any(Number) });
+    const kicked = await teacher.mutation(convexApi.sessions.kickBeforeStart, {
+      sessionId: created.sessionId,
+      playerId: before.players[0].id,
+    });
+    expect(kicked).toMatchObject({ removed: true, status: "lobby" });
+    expect(await teacher.mutation(convexApi.sessions.kickBeforeStart, {
+      sessionId: created.sessionId,
+      playerId: before.players[0].id,
+    })).toMatchObject({ removed: false, status: "lobby" });
+    const after = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    expect(after.players).toHaveLength(3);
+    expect(await backend.query(convexApi.students.view, {
+      sessionId: created.sessionId, token: students[0].token,
+    })).toBeNull();
+    expect(await backend.query(convexApi.students.accessState, {
+      sessionId: created.sessionId, token: students[0].token,
+    })).toBe("kicked");
+    await expect(backend.mutation(convexApi.students.selectAlias, {
+      sessionId: created.sessionId, token: students[0].token, alias: ALIASES[0],
+    })).rejects.toThrow("만료");
+    const rejoined = await backend.mutation(convexApi.students.joinWithEntryKey, { entryKey: created.entryKey! });
+    await backend.mutation(convexApi.students.selectAlias, {
+      sessionId: created.sessionId, token: rejoined.token, alias: ALIASES[0],
+    });
+    expect((await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId })).players).toHaveLength(4);
+  });
+
+  it("호 미선택 자리 정리 후 편성하고, 그대로 진행 때는 확인한 자리만 제외한다", async () => {
+    const { teacher, created } = await openLobby(5, 4);
+    const before = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    const empty = before.players.find((player) => !player.aliasSelected)!;
+    await expect(teacher.mutation(convexApi.sessions.previewGroups, { sessionId: created.sessionId }))
+      .rejects.toThrow("목록이 바뀌었습니다");
+    await teacher.mutation(convexApi.sessions.kickBeforeStart, {
+      sessionId: created.sessionId, playerId: empty.id,
+    });
+    const preview = await teacher.mutation(convexApi.sessions.previewGroups, { sessionId: created.sessionId });
+    expect(preview.players).toBe(4);
+    const another = await openLobby(5, 4);
+    const unselected = (await another.teacher.query(convexApi.sessions.dashboard, { sessionId: another.created.sessionId }))
+      .players.find((player) => !player.aliasSelected)!;
+    const direct = await another.teacher.mutation(convexApi.sessions.previewGroups, {
+      sessionId: another.created.sessionId, removeUnselectedIds: [unselected.id],
+    });
+    expect(direct).toMatchObject({ players: 4 });
+    expect((await another.teacher.query(convexApi.sessions.dashboard, { sessionId: another.created.sessionId })).players).toHaveLength(4);
+  });
+
+  it("preview 내보내기는 배정안을 다시 만들고 3명 미만이면 대기로 돌아간다", async () => {
+    const { teacher, created } = await openLobby(4);
+    await teacher.mutation(convexApi.sessions.previewGroups, { sessionId: created.sessionId });
+    let dashboard = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    const result = await teacher.mutation(convexApi.sessions.kickBeforeStart, {
+      sessionId: created.sessionId, playerId: dashboard.players[0].id,
+    });
+    expect(result).toMatchObject({ removed: true, status: "preview" });
+    dashboard = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    expect(dashboard.players).toHaveLength(3);
+    expect(dashboard.players.every((player) => player.groupNumber && player.roleId)).toBe(true);
+    const fallback = await teacher.mutation(convexApi.sessions.kickBeforeStart, {
+      sessionId: created.sessionId, playerId: dashboard.players[0].id,
+    });
+    expect(fallback).toMatchObject({ removed: true, status: "lobby", entryKey: expect.any(String) });
+    dashboard = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    expect(dashboard.players.every((player) => !player.groupNumber && !player.roleId)).toBe(true);
+    expect(dashboard.session.status).toBe("lobby");
+  });
+
+  it("비교사와 다른 교사는 참가자를 내보낼 수 없다", async () => {
+    const { backend, teacher, created } = await openLobby(3);
+    const playerId = (await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId })).players[0].id;
+    await expect(backend.mutation(convexApi.sessions.kickBeforeStart, {
+      sessionId: created.sessionId, playerId,
+    })).rejects.toThrow("교사 로그인");
+    const other = backend.withIdentity({ subject: "auth0|other-teacher" });
+    await expect(other.mutation(convexApi.sessions.kickBeforeStart, {
+      sessionId: created.sessionId, playerId,
+    })).rejects.toThrow("관리 권한");
+    expect((await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId })).players).toHaveLength(3);
+  });
+
+  it("21명 중 호 미선택 빈자리 2개를 교사가 정리하면 19명을 정상 편성한다", async () => {
+    const { teacher, created } = await openLobby(21, 19);
+    const before = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    const empty = before.players.filter((player) => !player.aliasSelected);
+    expect(empty).toHaveLength(2);
+    for (const player of empty) {
+      await teacher.mutation(convexApi.sessions.kickBeforeStart, {
+        sessionId: created.sessionId, playerId: player.id,
+      });
+    }
+    const preview = await teacher.mutation(convexApi.sessions.previewGroups, { sessionId: created.sessionId });
+    expect(preview.players).toBe(19);
+    const started = await teacher.mutation(convexApi.sessions.confirmStart, { sessionId: created.sessionId });
+    expect(started.players).toBe(19);
+    const dashboard = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
+    expect(dashboard.players).toHaveLength(19);
+    expect(dashboard.rooms.reduce((sum, room) => sum + room.total, 0)).toBe(19);
+  });
+});

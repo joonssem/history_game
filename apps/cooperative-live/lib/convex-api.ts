@@ -26,6 +26,8 @@ export type Dashboard = {
   players: Array<{
     id: Id<"players">;
     alias: string;
+    aliasSelected: boolean;
+    joinedAt: number;
     groupNumber?: number;
     roleId?: string;
     roleName?: string;
@@ -149,9 +151,14 @@ export const convexApi = {
     >("sessions:rotateEntryKey"),
     previewGroups: makeFunctionReference<
       "mutation",
-      { sessionId: Id<"sessions"> },
+      { sessionId: Id<"sessions">; removeUnselectedIds?: Id<"players">[] },
       { groups: number; players: number }
     >("sessions:previewGroups"),
+    kickBeforeStart: makeFunctionReference<
+      "mutation",
+      { sessionId: Id<"sessions">; playerId: Id<"players"> },
+      { removed: boolean; status: "lobby" | "preview"; entryKey?: string }
+    >("sessions:kickBeforeStart"),
     reshuffleGroups: makeFunctionReference<
       "mutation",
       { sessionId: Id<"sessions"> },
@@ -227,6 +234,11 @@ export const convexApi = {
       { sessionId: Id<"sessions">; token: string },
       StudentView
     >("students:view"),
+    accessState: makeFunctionReference<
+      "query",
+      { sessionId: Id<"sessions">; token: string },
+      "active" | "kicked" | "ended" | "invalid"
+    >("students:accessState"),
     advance: makeFunctionReference<
       "mutation",
       { sessionId: Id<"sessions">; token: string },
