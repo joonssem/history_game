@@ -2581,3 +2581,4 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 검증: `npm run check` 통과(lint, typecheck, 단위 19건, Convex 15건, production build), `git diff --check`. 사용자가 운영 `/teacher`에서 비밀번호 로그인을 확인했다. 실제 기기 리허설은 남아 있다.
 - 사고와 교훈: Convex 개발 배포에만 함수를 올린다고 판단했으나 Vercel Production·Preview가 같은 Convex 배포를 써서, main 반영 전까지 운영 교사 화면이 새 서버 함수와 맞지 않았다. 수업이 없는 시간이어서 main 반영으로 해소했다. 운영/개발 Convex 분리를 다음 기능 작업 전에 진행한다.
 - Convex 배포 시 `tsc` 검사는 `convex/tsconfig.json`에 `@/*` 경로가 없어 테스트 파일에서 실패했다. 이번 배포는 `--typecheck=disable`로 진행했고 같은 날 경로 설정을 보완했다.
+- 세션 마감 요약: [`docs/handoff/claude_session_close_20261005.md`](./docs/handoff/claude_session_close_20261005.md).

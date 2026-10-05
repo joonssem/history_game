@@ -330,6 +330,13 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 ## 7. 다음 작업 후보
 
+### 2026-10-05 기준 실시간 협동 앱
+
+- **교사 로그인**: Auth0를 제거하고 Convex 환경변수 `TEACHER_PASSCODE` 비밀번호 로그인으로 바꿔 운영에 반영했다. 복구 기능(참가자 제외·재연결·모둠별 진행·개입 이력)과 카훗식 대기실 내보내기도 함께 반영했다.
+- **다음**: 교사 1명+기기 4~8대 실제 기기 리허설(`tasks_cooperative_live_classroom_recovery.md` 8-3) → Auth0 흔적 삭제 → 운영/개발 Convex 분리 → 고려 후속 협동 활동 2종.
+- **주의**: Vercel Production·Preview가 같은 Convex 배포를 쓴다. Convex 함수 배포는 곧 운영 반영이다.
+- 요약: [`docs/handoff/claude_session_close_20261005.md`](./docs/handoff/claude_session_close_20261005.md).
+
 ### 2026-09-28 기준 남은 일
 
 - **웹사이트 구성 P3(구조 개편 6건)**: 수업 관찰 뒤 순서 결정. P4 정리 4건(성찰 일기 축소, 도감 초기화 위치, 골든벨 입구 이름, 헤더·로드맵 라벨)은 대기. `docs/plans/tasks_site_structure.md`.
@@ -387,7 +394,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
   - 공통 파일: `cooperative-mud/episode.js`(화면 흐름 엔진), `pacing.js`(타이머 페이싱), `cooperative.css`. 시나리오는 각 폴더의 `scenario.js`가 소유하고 엔진에는 역사 내용을 넣지 않는다. 고조선은 법 만들기 화면 때문에 자체 `app.js`를 쓰지만, 세 활동 모두 `역할 확인 → 최초 판단 → 정보 공유 → 추가 자료 → 재판단` 순서를 따른다.
   - 선사시대 협동 MUD는 종이 리허설 단계를 2026-09-06에 폐기하고 정적 웹 제작 대상으로 전환했다 — 1인 1기기 화면이 곧 역할 카드다.
   - 수업 운영 방법은 [`cooperative-mud/TEACHING.md`](./cooperative-mud/TEACHING.md)에 있다. 교실에서 바로 보는 문서다.
-  - 실시간 확장(Vercel + Convex)은 `apps/cooperative-live/`에 있다. 고조선 기술 회귀에 더해 고려 초기 “새 고려의 첫 회의”를 다중 시나리오로 구현했고, 역할 비공개·개인 판단 로컬 보존·공동 초안 revision·전원 확인·pause/resume·도움 요청·종료 삭제를 자동 검증했다. 4~8대 성인·교사 리허설과 실제 배포 환경 재확인 전에는 실제 학생에게 열지 않는다. `apps/cooperative-live/README.md`, `apps/cooperative-live/TEACHING_EARLY_GORYEO.md`, `docs/plans/implementation_plan_early_goryeo_cooperative_live_first_activity.md` 참조.
+  - 실시간 확장(Vercel + Convex, 교사는 비밀번호 로그인)은 `apps/cooperative-live/`에 있다. 고조선 기술 회귀에 더해 고려 초기 “새 고려의 첫 회의”를 다중 시나리오로 구현했고, 역할 비공개·개인 판단 로컬 보존·공동 초안 revision·전원 확인·pause/resume·도움 요청·종료 삭제를 자동 검증했다. 4~8대 성인·교사 리허설과 실제 배포 환경 재확인 전에는 실제 학생에게 열지 않는다. `apps/cooperative-live/README.md`, `apps/cooperative-live/TEACHING_EARLY_GORYEO.md`, `docs/plans/implementation_plan_early_goryeo_cooperative_live_first_activity.md` 참조.
 
 ## 8. 실행 및 테스트 방법
 
