@@ -18,6 +18,15 @@
 - 범위: `apps/cooperative-live`와 작업 기록 문서. 활동 시작 후의 기존 제외·재연결 동작은 유지한다.
 - 결과: 대기실 호·연결 상태·입장 시각 카드와 요약, 교사 확인 후 레코드 삭제·토큰 무효화, preview 내보내기 후 재편성·2명 이하 대기실 복귀, 미리보기 전 경고·호 미선택 자리 명시적 정리를 구현했다. 실제 기기 리허설은 Auth0 Preview callback 불일치 때문에 남아 있다.
 
+## P1-COLLAB-EMAIL-AUTH — 교사 이메일 일회용 코드 인증 (보류)
+
+- 작업 claim: `TASK-20261005-COLLAB-EMAIL-AUTH-PLAN | 교사 이메일 인증 전환 계획 | planning agent(Codex) | 상태: DONE | 검증: 현행 Auth0·Convex 권한 경계와 공식 인증 문서 대조, git diff --check`
+- 상태: `deferred` — 2026-10-05 사용자 결정으로 메일 서비스가 필요 없는 교사 비밀번호 로그인(`P0-COLLAB-TEACHER-PASSCODE`)으로 대체해 운영에 반영했다. 여러 교사가 각자 로그인해야 할 때 다시 검토한다. 원래 계획: [구현 계획](./docs/plans/implementation_plan_cooperative_live_email_auth.md). 원문은 `INBOX.md` 2026-10-05에 보존한다.
+- 문제: 교사 로그인은 Auth0 Google 연결, Preview callback 등록, Auth0 `sub` 허용목록에 의존한다. 최근 Preview에서 callback 불일치로 실제 기기 리허설이 멈췄다.
+- 목적: 교사는 실제 수신 가능한 이메일 주소로 일회용 코드를 받아 인증하고, 서버가 허용한 교사만 세션을 운영한다. 학생의 QR·코드 입장과 무계정 원칙은 유지한다.
+- 예상 변경 범위: `apps/cooperative-live`의 인증 공급자·교사 화면·Convex 권한 확인·환경변수·테스트·운영 문서. 기존 Auth0 소유 세션의 전환 절차가 필요하다.
+- 구현 관문: 이메일 발송 공급자와 발신 주소, 허용 교사 이메일을 정하고 별도 Preview에서 송수신·권한 거부·재로그인·세션 복구를 확인한다. 실제 학생 운영 게이트는 별도로 유지한다.
+
 ## 🔶 지금 판단이 필요한 것 (2026-09-11 4트랙 세션 마무리)
 
 - 작업 claim: `TASK-20260916-01 | apps/cooperative-live 및 고려 초기 활동 | implementation/content agent | 상태: DONE` — `npm run check`, production build, client bundle 비공개 본문 검사 통과. 실제 기기 리허설은 별도 대기.

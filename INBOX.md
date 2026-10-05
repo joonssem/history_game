@@ -44,6 +44,14 @@
 
 ---
 
+## 2026-10-05 — 실시간 협동 활동 교사 로그인 단순화 요청
+
+`TASK-20261005-COLLAB-EMAIL-AUTH-PLAN | 교사 이메일 인증 전환 계획 | planning agent(Codex) | 상태: DONE`
+
+- 사용자 원문: "협동활동에서 구글 로그인 확인 없이 진행하기, 구글 로그인 대신, 접속 가능한 이메일 형식으로 계정 인증하기. 현재 구글 로그인을 위한 auth0이 너무 작업을 힘들게 한다."
+- 상태: `archived` — 2026-10-05 교사 비밀번호 로그인으로 대체해 운영 반영(`BACKLOG.md` P0-COLLAB-TEACHER-PASSCODE). 이메일 인증은 보류. 원래 분류: [구현 계획](./docs/plans/implementation_plan_cooperative_live_email_auth.md)과 `BACKLOG.md`의 전환 항목에 연결했다. 인증 공급자·발신 주소·허용 교사 주소 확정과 구현 검증은 남아 있다.
+- 해석: 학생의 QR·코드 입장은 유지하고, 교사 대시보드의 Auth0 Google 로그인을 수신 가능한 이메일로 받은 일회용 코드 인증으로 바꾼다. 이메일 형식 검사만으로 교사 권한을 부여하지 않는다.
+
 ## 2026-09-29 — 고려 후속 협동 활동 다음 관문 진행 승인
 
 `TASK-20260929-GORYEO-RELATIONS-CULTURE-TASKS | 고려 후속 활동 우선순위·실행 체크리스트 | planning agent(Codex) | 상태: DONE`
