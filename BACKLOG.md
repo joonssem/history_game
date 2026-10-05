@@ -2,6 +2,14 @@
 
 > 완료된 기능은 이 목록에 넣지 않는다. 완료 이력은 [`walkthrough.md`](./walkthrough.md), 현재 상태는 [`project_context.md`](./project_context.md)에서 확인한다.
 
+## P0-COLLAB-TEACHER-PASSCODE — Auth0 제거, 교사 비밀번호 로그인
+
+- 작업 claim: `TASK-20261005-COLLAB-TEACHER-PASSCODE | apps/cooperative-live 교사 인증 교체 | implementation agent(Claude) | 상태: DONE(자동 검증)·배포 대기 | 브랜치: feat/single-teacher-auth | 검증: npm run check(단위 19·Convex 15·production build), git diff --check`
+- 배경: Auth0 Google 로그인은 Preview 주소마다 callback 등록이 필요해 리허설과 수정 작업을 막았다. 다른 교사와의 공동 사용을 대비해 넣은 기능이었으나 현재는 교사 한 명이 운영하므로 제거한다. 이메일 일회용 코드 계획(`P1-COLLAB-EMAIL-AUTH`)은 메일 서비스가 필요해 보류한다.
+- 결과: `/teacher`는 Convex 환경변수 `TEACHER_PASSCODE`(8자 이상) 하나로 로그인한다. 서버는 로그인 토큰 해시만 저장하고 12시간 유지, 10회 실패 시 15분 잠금, 비밀번호 변경 시 모든 로그인 무효. 모든 교사 함수는 `teacherToken` 인자로 확인한다. 이전 Auth0 소유 활동은 새 교사 화면에서 보이지 않고 원래 삭제 시각에 정리된다. 학생 QR·코드 입장은 그대로다.
+- 이 브랜치에는 복구 P0·P1/P2(`1c419810`, `6c28783d`)와 대기실 내보내기(`79cd8138`)도 포함된다. `feat/cooperative-lobby-kick`은 이 브랜치로 대체된다.
+- 배포 순서: ① Convex 개발 배포에 `npx convex env set TEACHER_PASSCODE <비밀번호>` → `npx convex dev --once` ② 브랜치 Preview에서 로그인·대기실·리허설 ③ GO 판정 뒤 운영 Convex에 같은 환경변수 설정과 `npx convex deploy`를 **먼저** 하고 main 병합 ④ Auth0 앱과 Vercel의 `NEXT_PUBLIC_AUTH0_*`, Convex의 `AUTH0_*`·`TEACHER_AUTH0_SUBS` 정리.
+
 ## P0-COLLAB-GHOST-PLAYER — 교사 대기실 참가자 확인·내보내기
 
 - 작업 claim: `TASK-20261005-COLLAB-LOBBY-KICK | apps/cooperative-live 교사 대기실 참가자 확인·내보내기 | implementation agent(Codex) | 상태: DONE(자동 검증)·현장 검증 대기 | 브랜치: feat/cooperative-lobby-kick | 기준: f71ca7d9 | 검증: npm run check(단위 19·Convex 11·production build), git diff --check`

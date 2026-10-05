@@ -1,4 +1,5 @@
 import { convexTest } from "convex-test";
+import type { FunctionArgs, FunctionReference, FunctionReturnType } from "convex/server";
 import { describe, expect, it } from "vitest";
 
 import { convexApi } from "../lib/convex-api";
@@ -7,15 +8,52 @@ import schema from "./schema";
 import { modules } from "./test.setup";
 import { getScenario } from "./scenarios";
 
-const TEACHER_SUB = "auth0|virtual-load-teacher";
+const TEACHER_PASSCODE = "virtual-load-teacher-passcode";
+
+type TeacherReference<Type extends "mutation" | "query"> =
+  FunctionReference<Type, "public", { teacherToken: string }, unknown>;
+
+// 비밀번호로 로그인한 뒤 교사 함수 호출에 토큰을 자동으로 붙인다.
+async function loginTeacher(backend: ReturnType<typeof convexTest>) {
+  const result = await backend.mutation(convexApi.teacherAuth.login, { passcode: TEACHER_PASSCODE });
+  if (!result.ok) throw new Error(result.error);
+  const teacherToken = result.token;
+  // 제네릭 참조에서는 convex-test의 조건부 인자 타입이 풀리지 않아 느슨한 시그니처로 호출한다.
+  const callMutation = backend.mutation.bind(backend) as unknown as (reference: unknown, args: unknown) => Promise<unknown>;
+  const callQuery = backend.query.bind(backend) as unknown as (reference: unknown, args: unknown) => Promise<unknown>;
+  return {
+    teacherToken,
+    mutation: <Ref extends TeacherReference<"mutation">>(
+      reference: Ref,
+      args: Omit<FunctionArgs<Ref>, "teacherToken">,
+    ) => callMutation(reference, { ...args, teacherToken }) as Promise<FunctionReturnType<Ref>>,
+    query: <Ref extends TeacherReference<"query">>(
+      reference: Ref,
+      args: Omit<FunctionArgs<Ref>, "teacherToken">,
+    ) => callQuery(reference, { ...args, teacherToken }) as Promise<FunctionReturnType<Ref>>,
+  };
+}
+
+async function insertLegacySession(backend: ReturnType<typeof convexTest>, code: string) {
+  const now = Date.now();
+  return await backend.run(async (ctx) => ctx.db.insert("sessions", {
+    scenarioId: "early-goryeo-unity",
+    scenarioVersion: 1,
+    ownerSub: "auth0|legacy-teacher",
+    code,
+    status: "lobby",
+    createdAt: now,
+    deleteAfter: now + 60 * 60 * 1000,
+  }));
+}
 const STUDENT_COUNT = 21;
 
 describe("실시간 협동 MUD 가상 학급", () => {
   it("21명 혼합 단계에서 5인 모둠을 3인으로 복구하고 다른 네 모둠을 보존한다", async () => {
-    process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
+    process.env.TEACHER_PASSCODE = TEACHER_PASSCODE;
     process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
     const testBackend = convexTest(schema, modules);
-    const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+    const teacher = await loginTeacher(testBackend);
     const created = await teacher.mutation(convexApi.sessions.create, {
       scenarioId: "early-goryeo-unity",
       scenarioVersion: 1,
@@ -69,10 +107,10 @@ describe("실시간 협동 MUD 가상 학급", () => {
   });
 
   it("준비된 모둠만 진행하고 다른 모둠과 전체 진행은 건드리지 않는다", async () => {
-    process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
+    process.env.TEACHER_PASSCODE = TEACHER_PASSCODE;
     process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
     const testBackend = convexTest(schema, modules);
-    const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+    const teacher = await loginTeacher(testBackend);
     const created = await teacher.mutation(convexApi.sessions.create, {
       scenarioId: "early-goryeo-unity",
       scenarioVersion: 1,
@@ -102,11 +140,10 @@ describe("실시간 협동 MUD 가상 학급", () => {
   });
 
   it("참가자 재연결·제외와 모둠별 관문을 다른 모둠 없이 안전하게 복구한다", async () => {
-    const otherTeacherSub = "auth0|recovery-other-teacher";
-    process.env.TEACHER_AUTH0_SUBS = `${TEACHER_SUB},${otherTeacherSub}`;
+    process.env.TEACHER_PASSCODE = TEACHER_PASSCODE;
     process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
     const testBackend = convexTest(schema, modules);
-    const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+    const teacher = await loginTeacher(testBackend);
     const created = await teacher.mutation(convexApi.sessions.create, {
       scenarioId: "early-goryeo-unity",
       scenarioVersion: 1,
@@ -132,11 +169,8 @@ describe("실시간 협동 MUD 가상 학급", () => {
     const storedRecovery = await testBackend.run(async (ctx) => ctx.db.get(firstPlayer.id));
     expect(storedRecovery?.recoveryTokenHash).toMatch(/^[0-9a-f]{64}$/);
     expect(JSON.stringify(storedRecovery)).not.toContain(recovery.recoveryCode);
-    const otherTeacher = testBackend.withIdentity({ subject: otherTeacherSub });
-    const otherSession = await otherTeacher.mutation(convexApi.sessions.create, {
-      scenarioId: "early-goryeo-unity",
-      scenarioVersion: 1,
-    });
+    const otherSession = { code: "999999" };
+    await insertLegacySession(testBackend, otherSession.code);
     await expect(testBackend.mutation(convexApi.students.recoverSeat, {
       code: otherSession.code,
       recoveryCode: recovery.recoveryCode,
@@ -245,14 +279,14 @@ describe("실시간 협동 MUD 가상 학급", () => {
   });
 
   it("조선 후기 3·4·5인 모둠을 서버에서 편성하고 역할 비공개·공통 자료를 지킨다", async () => {
-    process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
+    process.env.TEACHER_PASSCODE = TEACHER_PASSCODE;
     process.env.JOIN_ATTEMPT_HMAC_SECRET =
       "virtual-load-test-secret-32-bytes-minimum";
 
     const scenario = getScenario("joseon-late-market", 1)!;
     for (const size of [3, 4, 5] as const) {
       const testBackend = convexTest(schema, modules);
-      const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+      const teacher = await loginTeacher(testBackend);
       const created = await teacher.mutation(convexApi.sessions.create, {
         scenarioId: scenario.id,
         scenarioVersion: scenario.version,
@@ -335,11 +369,11 @@ describe("실시간 협동 MUD 가상 학급", () => {
   });
 
   it("고조선에서 교사 1명과 학생 21명의 입장부터 종료 삭제까지 관통한다", async () => {
-    process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
+    process.env.TEACHER_PASSCODE = TEACHER_PASSCODE;
     process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
 
     const testBackend = convexTest(schema, modules);
-    const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+    const teacher = await loginTeacher(testBackend);
     const created = await teacher.mutation(convexApi.sessions.create, {
       scenarioId: "gojoseon-eight-laws",
       scenarioVersion: 1,
@@ -484,12 +518,12 @@ describe("실시간 협동 MUD 가상 학급", () => {
   });
 
   it("고려 역할 비공개·pause·공동 revision·전원 확인을 서버에서 검증한다", async () => {
-    process.env.TEACHER_AUTH0_SUBS = TEACHER_SUB;
+    process.env.TEACHER_PASSCODE = TEACHER_PASSCODE;
     process.env.JOIN_ATTEMPT_HMAC_SECRET =
       "virtual-load-test-secret-32-bytes-minimum";
 
     const testBackend = convexTest(schema, modules);
-    const teacher = testBackend.withIdentity({ subject: TEACHER_SUB });
+    const teacher = await loginTeacher(testBackend);
     const created = await teacher.mutation(convexApi.sessions.create, {
       scenarioId: "early-goryeo-unity",
       scenarioVersion: 1,
@@ -702,10 +736,10 @@ describe("실시간 협동 MUD 가상 학급", () => {
 
 describe("교사 대기실 참가자 정리", () => {
   async function openLobby(count: number, selected = count) {
-    process.env.TEACHER_AUTH0_SUBS = `${TEACHER_SUB},auth0|other-teacher`;
+    process.env.TEACHER_PASSCODE = TEACHER_PASSCODE;
     process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
     const backend = convexTest(schema, modules);
-    const teacher = backend.withIdentity({ subject: TEACHER_SUB });
+    const teacher = await loginTeacher(backend);
     const created = await teacher.mutation(convexApi.sessions.create, {
       scenarioId: "early-goryeo-unity",
       scenarioVersion: 1,
@@ -796,15 +830,18 @@ describe("교사 대기실 참가자 정리", () => {
     expect(dashboard.session.status).toBe("lobby");
   });
 
-  it("비교사와 다른 교사는 참가자를 내보낼 수 없다", async () => {
+  it("로그인하지 않았거나 토큰이 틀리면, 또 이전 Auth0 세션은 내보낼 수 없다", async () => {
     const { backend, teacher, created } = await openLobby(3);
     const playerId = (await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId })).players[0].id;
     await expect(backend.mutation(convexApi.sessions.kickBeforeStart, {
-      sessionId: created.sessionId, playerId,
+      sessionId: created.sessionId, playerId, teacherToken: "",
     })).rejects.toThrow("교사 로그인");
-    const other = backend.withIdentity({ subject: "auth0|other-teacher" });
-    await expect(other.mutation(convexApi.sessions.kickBeforeStart, {
-      sessionId: created.sessionId, playerId,
+    await expect(backend.mutation(convexApi.sessions.kickBeforeStart, {
+      sessionId: created.sessionId, playerId, teacherToken: "0".repeat(64),
+    })).rejects.toThrow("교사 로그인");
+    const legacySessionId = await insertLegacySession(backend, "999998");
+    await expect(teacher.query(convexApi.sessions.dashboard, {
+      sessionId: legacySessionId,
     })).rejects.toThrow("관리 권한");
     expect((await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId })).players).toHaveLength(3);
   });
@@ -826,5 +863,53 @@ describe("교사 대기실 참가자 정리", () => {
     const dashboard = await teacher.query(convexApi.sessions.dashboard, { sessionId: created.sessionId });
     expect(dashboard.players).toHaveLength(19);
     expect(dashboard.rooms.reduce((sum, room) => sum + room.total, 0)).toBe(19);
+  });
+});
+
+describe("교사 비밀번호 로그인", () => {
+  function setup() {
+    process.env.TEACHER_PASSCODE = TEACHER_PASSCODE;
+    process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
+    return convexTest(schema, modules);
+  }
+
+  it("틀린 비밀번호는 거부하고 토큰 원문을 저장하지 않는다", async () => {
+    const backend = setup();
+    expect(await backend.mutation(convexApi.teacherAuth.login, { passcode: "wrong-passcode" }))
+      .toMatchObject({ ok: false, error: "비밀번호가 맞지 않습니다." });
+    const teacher = await loginTeacher(backend);
+    expect(await backend.query(convexApi.teacherAuth.check, { teacherToken: teacher.teacherToken })).toBe(true);
+    const stored = await backend.run(async (ctx) => ctx.db.query("teacherLogins").collect());
+    expect(stored).toHaveLength(1);
+    expect(JSON.stringify(stored)).not.toContain(teacher.teacherToken);
+    expect(JSON.stringify(stored)).not.toContain(TEACHER_PASSCODE);
+  });
+
+  it("10번 틀리면 맞는 비밀번호도 잠시 막는다", async () => {
+    const backend = setup();
+    for (let attempt = 0; attempt < 10; attempt += 1) {
+      await backend.mutation(convexApi.teacherAuth.login, { passcode: "wrong-passcode" });
+    }
+    expect(await backend.mutation(convexApi.teacherAuth.login, { passcode: TEACHER_PASSCODE }))
+      .toMatchObject({ ok: false, error: expect.stringContaining("잠시 잠겼습니다") });
+  });
+
+  it("로그아웃하거나 비밀번호를 바꾸면 이전 토큰을 거부한다", async () => {
+    const backend = setup();
+    const first = await loginTeacher(backend);
+    await backend.mutation(convexApi.teacherAuth.logout, { teacherToken: first.teacherToken });
+    expect(await backend.query(convexApi.teacherAuth.check, { teacherToken: first.teacherToken })).toBe(false);
+    await expect(first.query(convexApi.sessions.current, {})).rejects.toThrow("교사 로그인");
+
+    const second = await loginTeacher(backend);
+    process.env.TEACHER_PASSCODE = "changed-teacher-passcode";
+    await expect(second.mutation(convexApi.sessions.create, {})).rejects.toThrow("교사 로그인");
+  });
+
+  it("비밀번호가 설정되지 않았거나 8자 미만이면 로그인할 수 없다", async () => {
+    const backend = setup();
+    process.env.TEACHER_PASSCODE = "short";
+    expect(await backend.mutation(convexApi.teacherAuth.login, { passcode: "short" }))
+      .toMatchObject({ ok: false, error: expect.stringContaining("설정되지 않았습니다") });
   });
 });

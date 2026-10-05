@@ -147,7 +147,7 @@ export function DemoTeacherConsole() {
   return (
     <>
       <div className="mode-banner" role="status">
-        <strong>가상 데이터 모드</strong> — Convex와 Auth0 계정을 연결하기 전에 학생 8명의
+        <strong>가상 데이터 모드</strong> — Convex와 교사 비밀번호를 설정하기 전에 학생 8명의
         전체 흐름을 점검합니다. 실제 학생 정보는 사용하지 않습니다.
       </div>
 

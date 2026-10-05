@@ -81,6 +81,14 @@ export default defineSchema({
   })
     .index("by_session", ["sessionId"])
     .index("by_session_group", ["sessionId", "groupNumber"]),
+  teacherLogins: defineTable({
+    tokenHash: v.string(),
+    passcodeHash: v.string(),
+    createdAt: v.number(),
+    expiresAt: v.number(),
+  })
+    .index("by_token_hash", ["tokenHash"])
+    .index("by_expires_at", ["expiresAt"]),
   joinAttempts: defineTable({
     bucketHash: v.string(),
     sessionId: v.optional(v.id("sessions")),

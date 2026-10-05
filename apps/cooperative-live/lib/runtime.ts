@@ -2,8 +2,6 @@ export const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 
 export const isLiveConfigured = Boolean(
   process.env.NEXT_PUBLIC_CONVEX_URL &&
-    process.env.NEXT_PUBLIC_AUTH0_DOMAIN &&
-    process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID &&
     !isDemoMode,
 );
 

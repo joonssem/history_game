@@ -120,11 +120,22 @@ export type StudentView = {
   } | null;
 } | null;
 
+type TeacherArgs = { teacherToken: string };
+
 export const convexApi = {
+  teacherAuth: {
+    login: makeFunctionReference<
+      "mutation",
+      { passcode: string },
+      { ok: true; token: string; expiresAt: number } | { ok: false; error: string }
+    >("teacherAuth:login"),
+    logout: makeFunctionReference<"mutation", TeacherArgs, null>("teacherAuth:logout"),
+    check: makeFunctionReference<"query", TeacherArgs, boolean>("teacherAuth:check"),
+  },
   sessions: {
     create: makeFunctionReference<
       "mutation",
-      { scenarioId?: string; scenarioVersion?: number },
+      TeacherArgs & { scenarioId?: string; scenarioVersion?: number },
       {
         sessionId: Id<"sessions">;
         code: string;
@@ -136,74 +147,74 @@ export const convexApi = {
     >("sessions:create"),
     current: makeFunctionReference<
       "query",
-      Record<string, never>,
+      TeacherArgs,
       Dashboard["session"] | null
     >("sessions:current"),
     seedSyntheticStudents: makeFunctionReference<
       "mutation",
-      { sessionId: Id<"sessions">; count?: number },
+      TeacherArgs & { sessionId: Id<"sessions">; count?: number },
       number
     >("sessions:seedSyntheticStudents"),
     rotateEntryKey: makeFunctionReference<
       "mutation",
-      { sessionId: Id<"sessions"> },
+      TeacherArgs & { sessionId: Id<"sessions"> },
       { entryKey: string; entryKeyExpiresAt: number; codeExpiresAt: number }
     >("sessions:rotateEntryKey"),
     previewGroups: makeFunctionReference<
       "mutation",
-      { sessionId: Id<"sessions">; removeUnselectedIds?: Id<"players">[] },
+      TeacherArgs & { sessionId: Id<"sessions">; removeUnselectedIds?: Id<"players">[] },
       { groups: number; players: number }
     >("sessions:previewGroups"),
     kickBeforeStart: makeFunctionReference<
       "mutation",
-      { sessionId: Id<"sessions">; playerId: Id<"players"> },
+      TeacherArgs & { sessionId: Id<"sessions">; playerId: Id<"players"> },
       { removed: boolean; status: "lobby" | "preview"; entryKey?: string }
     >("sessions:kickBeforeStart"),
     reshuffleGroups: makeFunctionReference<
       "mutation",
-      { sessionId: Id<"sessions"> },
+      TeacherArgs & { sessionId: Id<"sessions"> },
       { groups: number; players: number }
     >("sessions:reshuffleGroups"),
     confirmStart: makeFunctionReference<
       "mutation",
-      { sessionId: Id<"sessions"> },
+      TeacherArgs & { sessionId: Id<"sessions"> },
       { groups: number; players: number }
     >("sessions:confirmStart"),
     cancelPreview: makeFunctionReference<
       "mutation",
-      { sessionId: Id<"sessions"> },
+      TeacherArgs & { sessionId: Id<"sessions"> },
       { entryKey: string; entryKeyExpiresAt: number; codeExpiresAt: number }
     >("sessions:cancelPreview"),
-    togglePause: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; paused: boolean }, { paused: boolean }>("sessions:togglePause"),
+    togglePause: makeFunctionReference<"mutation", TeacherArgs & { sessionId: Id<"sessions">; paused: boolean }, { paused: boolean }>("sessions:togglePause"),
     advanceStage: makeFunctionReference<
       "mutation",
-      { sessionId: Id<"sessions"> },
+      TeacherArgs & { sessionId: Id<"sessions"> },
       { stage: Stage }
     >("sessions:advanceStage"),
     advanceGroupStage: makeFunctionReference<
       "mutation",
-      { sessionId: Id<"sessions">; groupNumber: number },
+      TeacherArgs & { sessionId: Id<"sessions">; groupNumber: number },
       { stage: Stage }
     >("sessions:advanceGroupStage"),
     setParticipantStatus: makeFunctionReference<
       "mutation",
-      { sessionId: Id<"sessions">; playerId: Id<"players">; status: "active" | "removed" },
+      TeacherArgs & { sessionId: Id<"sessions">; playerId: Id<"players">; status: "active" | "removed" },
       { status: "active" | "removed" }
     >("sessions:setParticipantStatus"),
     issueRecoveryCode: makeFunctionReference<
       "mutation",
-      { sessionId: Id<"sessions">; playerId: Id<"players"> },
+      TeacherArgs & { sessionId: Id<"sessions">; playerId: Id<"players"> },
       { recoveryCode: string; expiresAt: number }
     >("sessions:issueRecoveryCode"),
-    resolveHelp: makeFunctionReference<"mutation", { sessionId: Id<"sessions">; groupNumber: number }, { resolved: boolean }>("sessions:resolveHelp"),
+    resolveHelp: makeFunctionReference<"mutation", TeacherArgs & { sessionId: Id<"sessions">; groupNumber: number }, { resolved: boolean }>("sessions:resolveHelp"),
     dashboard: makeFunctionReference<
       "query",
-      { sessionId: Id<"sessions"> },
+      TeacherArgs & { sessionId: Id<"sessions"> },
       Dashboard
     >("sessions:dashboard"),
     end: makeFunctionReference<
       "mutation",
-      { sessionId: Id<"sessions"> },
+      TeacherArgs & { sessionId: Id<"sessions"> },
       { deleted: number }
     >("sessions:end"),
   },
@@ -272,7 +283,7 @@ export const convexApi = {
   interventions: {
     send: makeFunctionReference<
       "mutation",
-      {
+      TeacherArgs & {
         sessionId: Id<"sessions">;
         groupNumber: number;
         kind: InterventionKind;

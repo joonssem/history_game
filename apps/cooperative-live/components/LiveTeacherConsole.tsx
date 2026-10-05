@@ -1,9 +1,8 @@
 "use client";
 
-import { useAuth0 } from "@auth0/auth0-react";
-import { useConvexAuth, useMutation, useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { QRCodeSVG } from "qrcode.react";
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 
 import { convexApi } from "@/lib/convex-api";
 import {
@@ -11,14 +10,27 @@ import {
   teacherEntryKeyStorageKey,
 } from "@/lib/runtime";
 import {
+  storeTeacherToken,
+  useTeacherMutation,
+  useTeacherToken,
+} from "@/lib/teacher-auth";
+import {
   PUBLIC_SCENARIOS,
   STAGE_LABELS,
   type InterventionKind,
 } from "@/shared/scenario";
 
 export function LiveTeacherConsole() {
-  const { loginWithRedirect, logout } = useAuth0();
-  const { isLoading, isAuthenticated } = useConvexAuth();
+  const teacherToken = useTeacherToken();
+  const tokenValid = useQuery(
+    convexApi.teacherAuth.check,
+    teacherToken ? { teacherToken } : "skip",
+  );
+  const isAuthenticated = Boolean(teacherToken) && tokenValid === true;
+  const loginTeacher = useMutation(convexApi.teacherAuth.login);
+  const logoutTeacher = useMutation(convexApi.teacherAuth.logout);
+  const [passcode, setPasscode] = useState("");
+  const [loggingIn, setLoggingIn] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [scenarioId, setScenarioId] = useState("early-goryeo-unity");
@@ -28,30 +40,30 @@ export function LiveTeacherConsole() {
   const [sendingIntervention, setSendingIntervention] = useState("");
   const qrTriggerRef = useRef<HTMLButtonElement>(null);
   const previewChoiceRef = useRef<HTMLButtonElement>(null);
-  const createSession = useMutation(convexApi.sessions.create);
-  const rotateEntryKey = useMutation(convexApi.sessions.rotateEntryKey);
-  const seedStudents = useMutation(convexApi.sessions.seedSyntheticStudents);
-  const previewGroups = useMutation(convexApi.sessions.previewGroups);
-  const reshuffleGroups = useMutation(convexApi.sessions.reshuffleGroups);
-  const confirmStart = useMutation(convexApi.sessions.confirmStart);
-  const cancelPreview = useMutation(convexApi.sessions.cancelPreview);
-  const endSession = useMutation(convexApi.sessions.end);
-  const sendIntervention = useMutation(convexApi.interventions.send);
-  const togglePause = useMutation(convexApi.sessions.togglePause);
-  const advanceStage = useMutation(convexApi.sessions.advanceStage);
-  const advanceGroupStage = useMutation(convexApi.sessions.advanceGroupStage);
-  const setParticipantStatus = useMutation(convexApi.sessions.setParticipantStatus);
-  const kickBeforeStart = useMutation(convexApi.sessions.kickBeforeStart);
-  const issueRecoveryCode = useMutation(convexApi.sessions.issueRecoveryCode);
-  const resolveHelp = useMutation(convexApi.sessions.resolveHelp);
+  const createSession = useTeacherMutation(convexApi.sessions.create);
+  const rotateEntryKey = useTeacherMutation(convexApi.sessions.rotateEntryKey);
+  const seedStudents = useTeacherMutation(convexApi.sessions.seedSyntheticStudents);
+  const previewGroups = useTeacherMutation(convexApi.sessions.previewGroups);
+  const reshuffleGroups = useTeacherMutation(convexApi.sessions.reshuffleGroups);
+  const confirmStart = useTeacherMutation(convexApi.sessions.confirmStart);
+  const cancelPreview = useTeacherMutation(convexApi.sessions.cancelPreview);
+  const endSession = useTeacherMutation(convexApi.sessions.end);
+  const sendIntervention = useTeacherMutation(convexApi.interventions.send);
+  const togglePause = useTeacherMutation(convexApi.sessions.togglePause);
+  const advanceStage = useTeacherMutation(convexApi.sessions.advanceStage);
+  const advanceGroupStage = useTeacherMutation(convexApi.sessions.advanceGroupStage);
+  const setParticipantStatus = useTeacherMutation(convexApi.sessions.setParticipantStatus);
+  const kickBeforeStart = useTeacherMutation(convexApi.sessions.kickBeforeStart);
+  const issueRecoveryCode = useTeacherMutation(convexApi.sessions.issueRecoveryCode);
+  const resolveHelp = useTeacherMutation(convexApi.sessions.resolveHelp);
   const currentSession = useQuery(
     convexApi.sessions.current,
-    isAuthenticated ? {} : "skip",
+    isAuthenticated ? { teacherToken } : "skip",
   );
   const sessionId = currentSession?._id ?? null;
   const dashboard = useQuery(
     convexApi.sessions.dashboard,
-    sessionId ? { sessionId } : "skip",
+    isAuthenticated && sessionId ? { sessionId, teacherToken } : "skip",
   );
 
   const entryKeyStorageKey = sessionId ? teacherEntryKeyStorageKey(sessionId) : "";
@@ -180,15 +192,59 @@ export function LiveTeacherConsole() {
     });
   }
 
-  if (isLoading) return <div className="notice">교사 인증 상태를 확인하고 있습니다.</div>;
+  // 만료되었거나 비밀번호가 바뀐 토큰은 지우고 다시 로그인하게 한다.
+  useEffect(() => {
+    if (teacherToken && tokenValid === false) storeTeacherToken(null);
+  }, [teacherToken, tokenValid]);
+
+  async function submitPasscode(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+    setLoggingIn(true);
+    try {
+      const result = await loginTeacher({ passcode });
+      if (result.ok) {
+        storeTeacherToken(result.token);
+        setPasscode("");
+      } else {
+        setError(result.error);
+      }
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "로그인하지 못했습니다.");
+    } finally {
+      setLoggingIn(false);
+    }
+  }
+
+  async function logout() {
+    const token = teacherToken;
+    storeTeacherToken(null);
+    if (token) await logoutTeacher({ teacherToken: token }).catch(() => undefined);
+  }
+
+  if (teacherToken && tokenValid === undefined) {
+    return <div className="notice">교사 인증 상태를 확인하고 있습니다.</div>;
+  }
   if (!isAuthenticated) {
     return (
       <section className="panel">
-        <h2>교사 로그인이 필요합니다</h2>
-        <p>Auth0에 연결한 Google 계정과 서버 허용목록을 모두 통과해야 합니다.</p>
-        <button className="button primary" onClick={() => loginWithRedirect()}>
-          Google 계정으로 로그인
-        </button>
+        <h2>교사 로그인</h2>
+        <form className="actions" onSubmit={submitPasscode}>
+          <label>
+            교사 비밀번호
+            <input
+              type="password"
+              autoComplete="current-password"
+              value={passcode}
+              onChange={(event) => setPasscode(event.target.value)}
+              required
+            />
+          </label>
+          <button className="button primary" type="submit" disabled={loggingIn || !passcode}>
+            {loggingIn ? "확인 중…" : "로그인"}
+          </button>
+        </form>
+        {error && <p className="notice error">{error}</p>}
       </section>
     );
   }
@@ -234,7 +290,7 @@ export function LiveTeacherConsole() {
           >
             활동 만들기
           </button>
-          <button className="button ghost" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+          <button className="button ghost" onClick={() => void logout()}>
             로그아웃
           </button>
         </div>

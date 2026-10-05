@@ -62,14 +62,14 @@ function joinAttemptSecret() {
   return secret;
 }
 
-async function findAttempt(ctx: MutationCtx, bucketHash: string) {
+export async function findAttempt(ctx: MutationCtx, bucketHash: string) {
   return await ctx.db
     .query("joinAttempts")
     .withIndex("by_bucket_hash", (query) => query.eq("bucketHash", bucketHash))
     .unique() as JoinAttempt | null;
 }
 
-async function recordFailure(
+export async function recordFailure(
   ctx: MutationCtx,
   bucketHash: string,
   policy: AttemptPolicy,

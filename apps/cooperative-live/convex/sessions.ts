@@ -96,11 +96,12 @@ function publicSession(session: {
 
 export const create = mutationGeneric({
   args: {
+    teacherToken: v.string(),
     scenarioId: v.optional(v.string()),
     scenarioVersion: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
-    const ownerSub = await requireTeacher(ctx);
+    const ownerSub = await requireTeacher(ctx, args.teacherToken);
     const now = Date.now();
     const scenarioId = args.scenarioId ?? DEFAULT_SCENARIO_ID;
     const scenarioVersion = args.scenarioVersion ?? 1;
@@ -183,9 +184,9 @@ export const create = mutationGeneric({
 });
 
 export const current = queryGeneric({
-  args: {},
-  handler: async (ctx) => {
-    const ownerSub = await requireTeacher(ctx);
+  args: { teacherToken: v.string() },
+  handler: async (ctx, args) => {
+    const ownerSub = await requireTeacher(ctx, args.teacherToken);
     const session = await ctx.db
       .query("sessions")
       .withIndex("by_owner", (query) => query.eq("ownerSub", ownerSub))
@@ -197,9 +198,9 @@ export const current = queryGeneric({
 });
 
 export const rotateEntryKey = mutationGeneric({
-  args: { sessionId: v.id("sessions") },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions") },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     if (session.status !== "lobby") {
       throw new Error("입장 대기 중인 활동에서만 QR을 새로 만들 수 있습니다.");
@@ -230,9 +231,9 @@ export const rotateEntryKey = mutationGeneric({
 });
 
 export const seedSyntheticStudents = mutationGeneric({
-  args: { sessionId: v.id("sessions"), count: v.optional(v.number()) },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions"), count: v.optional(v.number()) },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     if (session.status !== "lobby") {
       throw new Error("대기 중인 활동만 채울 수 있습니다.");
@@ -309,11 +310,12 @@ async function assignSessionGroups(
 
 export const previewGroups = mutationGeneric({
   args: {
+    teacherToken: v.string(),
     sessionId: v.id("sessions"),
     removeUnselectedIds: v.optional(v.array(v.id("players"))),
   },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     if (session.status !== "lobby") {
       throw new Error("입장 대기 중인 활동만 미리 볼 수 있습니다.");
@@ -350,9 +352,9 @@ export const previewGroups = mutationGeneric({
 });
 
 export const kickBeforeStart = mutationGeneric({
-  args: { sessionId: v.id("sessions"), playerId: v.id("players") },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions"), playerId: v.id("players") },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     if (session.status === "active") {
       throw new Error("활동 중에는 기존 참가자 제외·재연결 기능을 사용해 주세요.");
@@ -399,9 +401,9 @@ export const kickBeforeStart = mutationGeneric({
 });
 
 export const reshuffleGroups = mutationGeneric({
-  args: { sessionId: v.id("sessions") },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions") },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     if (session.status !== "preview") {
       throw new Error("모둠 미리보기 중에만 다시 섞을 수 있습니다.");
@@ -420,9 +422,9 @@ export const reshuffleGroups = mutationGeneric({
 });
 
 export const confirmStart = mutationGeneric({
-  args: { sessionId: v.id("sessions") },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions") },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     if (session.status !== "preview") {
       throw new Error("모둠 미리보기를 먼저 확인해 주세요.");
@@ -468,9 +470,9 @@ export const confirmStart = mutationGeneric({
 });
 
 export const cancelPreview = mutationGeneric({
-  args: { sessionId: v.id("sessions") },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions") },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     if (session.status !== "preview") {
       throw new Error("모둠 미리보기 중에만 대기로 돌아갈 수 있습니다.");
@@ -513,9 +515,9 @@ export const cancelPreview = mutationGeneric({
 });
 
 export const togglePause = mutationGeneric({
-  args: { sessionId: v.id("sessions"), paused: v.boolean() },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions"), paused: v.boolean() },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     if (session.status !== "active") {
       throw new Error("진행 중인 활동에서만 멈출 수 있습니다.");
@@ -528,9 +530,9 @@ export const togglePause = mutationGeneric({
 });
 
 export const advanceStage = mutationGeneric({
-  args: { sessionId: v.id("sessions") },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions") },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     if (session.status !== "active" || session.pausedAt) {
       throw new Error("진행 중이며 멈추지 않은 활동에서만 단계를 진행할 수 있습니다.");
@@ -614,9 +616,9 @@ function gateForPlayers(players: Array<{ stage: string; submittedAt?: number; sh
 }
 
 export const advanceGroupStage = mutationGeneric({
-  args: { sessionId: v.id("sessions"), groupNumber: v.number() },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions"), groupNumber: v.number() },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     if (session.status !== "active" || session.pausedAt) {
       throw new Error("진행 중이며 멈추지 않은 활동에서만 단계를 진행할 수 있습니다.");
@@ -649,9 +651,9 @@ export const advanceGroupStage = mutationGeneric({
 });
 
 export const setParticipantStatus = mutationGeneric({
-  args: { sessionId: v.id("sessions"), playerId: v.id("players"), status: v.union(v.literal("active"), v.literal("removed")) },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions"), playerId: v.id("players"), status: v.union(v.literal("active"), v.literal("removed")) },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     await requireOwnedSession(ctx, args.sessionId, teacherSub);
     const player = await ctx.db.get(args.playerId);
     if (!player || player.sessionId !== args.sessionId) throw new Error("참가자를 찾을 수 없습니다.");
@@ -717,9 +719,9 @@ export const setParticipantStatus = mutationGeneric({
 });
 
 export const issueRecoveryCode = mutationGeneric({
-  args: { sessionId: v.id("sessions"), playerId: v.id("players") },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions"), playerId: v.id("players") },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     if (session.status !== "active") throw new Error("진행 중인 활동에서만 자리를 다시 연결할 수 있습니다.");
     const player = await ctx.db.get(args.playerId);
@@ -736,9 +738,9 @@ export const issueRecoveryCode = mutationGeneric({
 });
 
 export const dashboard = queryGeneric({
-  args: { sessionId: v.id("sessions") },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions") },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     const session = await requireOwnedSession(ctx, args.sessionId, teacherSub);
     const scenario = getScenario(session.scenarioId, session.scenarioVersion);
     if (!scenario) throw new Error("활동 버전을 찾을 수 없습니다.");
@@ -851,9 +853,9 @@ export const dashboard = queryGeneric({
 });
 
 export const resolveHelp = mutationGeneric({
-  args: { sessionId: v.id("sessions"), groupNumber: v.number() },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions"), groupNumber: v.number() },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     await requireOwnedSession(ctx, args.sessionId, teacherSub);
     const request = await ctx.db
       .query("helpRequests")
@@ -870,9 +872,9 @@ export const resolveHelp = mutationGeneric({
 });
 
 export const end = mutationGeneric({
-  args: { sessionId: v.id("sessions") },
+  args: { teacherToken: v.string(), sessionId: v.id("sessions") },
   handler: async (ctx, args) => {
-    const teacherSub = await requireTeacher(ctx);
+    const teacherSub = await requireTeacher(ctx, args.teacherToken);
     await requireOwnedSession(ctx, args.sessionId, teacherSub);
     return { deleted: await deleteSessionData(ctx, args.sessionId) };
   },
