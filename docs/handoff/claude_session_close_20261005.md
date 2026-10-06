@@ -41,8 +41,8 @@
 
 | 구분 | 할 일 | 담당·조건 | 위치 |
 |---|---|---|---|
-| 리허설 | 교사 1명+기기 4~8대 실제 기기 리허설(대기실 항목 포함) → GO/NO-GO | 사용자+Claude, 다음 실제 수업 전 | `docs/plans/tasks_cooperative_live_classroom_recovery.md` 8-3~8-5 |
-| 정리 | Auth0 흔적 삭제: Vercel Preview `NEXT_PUBLIC_AUTH0_*`, Convex `AUTH0_*`·`TEACHER_AUTH0_SUBS`, Auth0 앱 | 사용자(대시보드), 아무 때나 | `BACKLOG.md` `P0-COLLAB-TEACHER-PASSCODE` |
+| 현장 판정 | 별도 4~8대 리허설은 사용자 판단으로 불필요(2026-10-06). 지난 수업에서 2명 입장 실패에도 정상 인원 모둠은 진행함. 이 관찰은 부족 인원 복구·로그 검증까지 입증하지 않음 | 사용자 판단 기록, 8-3 면제 | `INBOX.md` 2026-10-06, `docs/plans/tasks_cooperative_live_classroom_recovery.md` 8-3~8-5 |
+| 정리 | Vercel Production/Preview·Convex·로컬 `.env.local`의 Auth0 변수를 제거하고 Auth0 Development 테넌트의 `Default App` SPA를 삭제함(2026-10-06). 최근 30일 활성 사용자는 0명이고, 같은 기간 가입 1건·실패 로그인 2건이 기록됐으며 사용자 레코드는 별도로 유지됨. | 완료 | `BACKLOG.md` `P0-COLLAB-TEACHER-PASSCODE` |
 | 구조 | 운영/개발 Convex 분리, Vercel Preview 환경변수 분리 | 고려 후속 활동 착수 전 | 같은 항목 |
 | 관찰 | 대기실 카드 전체가 내보내기 버튼(태블릿 오터치), preview 내보내기 시 전체 재편성 | 리허설에서 확인 | `walkthrough.md` |
 | 기능 | 고려 후속 협동 활동 2종(15~16차시, 17~18차시) | 리허설 GO·Convex 분리 뒤 | `docs/plans/tasks_goryeo_relations_culture_cooperative_live.md` |

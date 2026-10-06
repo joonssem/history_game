@@ -1,5 +1,11 @@
 # Walkthrough
 
+## 2026-10-06 — Auth0 제거 후 운영 문서 정합화
+
+- 사용자 확인에 따라 2026-10-05 Auth0 제거·교사 비밀번호 로그인 운영 반영을 현행 기준으로 삼았다. Preview 전용 Auth0 계획과 구형 callback 안내는 폐기·역사 기록으로 표시하고, `README.md`, `project_context.md`, `BACKLOG.md`, `docs/plans/README.md`, 고려 수업 체크리스트와 교사용 안내를 갱신했다.
+- 사용자가 별도 4~8대 수업 리허설은 필요하지 않다고 판단했다. 근거인 “학생 2명 입장 실패에도 인원이 찬 모둠은 진행” 관찰과 범위를 `INBOX.md`에 보존하고, 리허설 자체를 수행한 것으로 기록하지 않았다. 남은 확인은 개인정보·로그 검사와 GO/NO-GO 판정이다.
+- 코드 변경 없이 Vercel Production/Preview의 Auth0 도메인·클라이언트 ID, Convex의 Auth0 도메인·클라이언트 ID·허용목록, 로컬 `.env.local`의 Auth0 도메인·클라이언트 ID와 Auth0 Development 테넌트의 `Default App` SPA를 제거했다. Vercel/Convex 재조회에서 Auth0 변수가 사라지고 `TEACHER_PASSCODE`, `JOIN_ATTEMPT_HMAC_SECRET`, `NEXT_PUBLIC_CONVEX_URL`, `NEXT_PUBLIC_DEMO_MODE`가 유지된 것을 확인했다. 삭제 전 앱 callback/logout/web origin은 비어 있었고 최근 30일 활성 사용자는 0명이었다. 같은 기간 가입 1건·실패 로그인 2건이 보였으며 사용자 레코드는 앱 설정 삭제 후에도 별도 유지된다. 앱 목록 새로고침 후 `Default App`이 없는 것을 확인했다. `git diff --check` 통과; 자동 테스트는 실행하지 않았다.
+
 ## 2026-09-10 — 고려 문화 파일럿 GitHub Pages 운영 배포
 
 `TASK-20260910-07 | main 병합·GitHub Pages 배포 | integration agent(Codex) | 상태: DONE`

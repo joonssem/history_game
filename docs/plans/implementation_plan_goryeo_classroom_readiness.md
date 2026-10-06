@@ -7,6 +7,8 @@
 - 실행 체크리스트: [`tasks_goryeo_classroom_readiness.md`](./tasks_goryeo_classroom_readiness.md)
 - 관련 계획: [실시간 복구](./implementation_plan_cooperative_live_classroom_recovery.md), [고려 후속 협동 활동](./implementation_plan_goryeo_relations_culture_cooperative_live.md)
 
+> **현재 상태 갱신(2026-10-06):** 이 문서는 2026-09-30 대체 운영안이다. 이후 복구·대기실 변경과 교사 비밀번호 로그인이 main/운영에 반영됐다. Auth0 callback은 더 이상 적용되지 않는다. 별도 4~8대 리허설은 사용자 판단으로 면제됐으며, 남은 공통 운영 확인은 `tasks_cooperative_live_classroom_recovery.md` 8-4 개인정보·로그 검사와 8-5 GO/NO-GO다. 아래 당시 계획 내용은 기록으로 보존한다.
+
 ## 1. 목적과 판정
 
 오늘 예정된 활동은 **고려의 건국**과 **고려의 문화**다. 협동적 근거 공유와 공동 설명은 유지하되, 로그인·실시간 서버 없이 진행할 교사 진행형 대체 절차를 준비한다.

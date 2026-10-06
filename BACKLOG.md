@@ -1,29 +1,29 @@
 ﻿﻿﻿# BACKLOG
 
-- 작업 claim: `TASK-20261002-PREVIEW-AUTH | Preview 전용 인증·로그인 연결 | integration agent(Codex) | 상태: READY | 기존 승인된 계획 재개. Auth0 SPA·고정 Preview 주소·개발 서버 설정·실제 교사 로그인 검증. 운영 인증·서버 보존. 계획: docs/plans/implementation_plan_preview_owned_auth.md`
+- 작업 claim: `TASK-20261002-PREVIEW-AUTH | Preview 전용 인증·로그인 연결 | 상태: SUPERSEDED(2026-10-05, Auth0 제거·교사 비밀번호 로그인 운영 반영). 실행하지 않음. 참고: docs/plans/implementation_plan_preview_owned_auth.md`
 
 - 작업 claim: `TASK-20261002-CLASSROOM-OCT29-AUDIT | 2026-10-29 수업용 협동 교실 콘텐츠·기능 점검 | audit/content agent(Claude) | 상태: READY | 1단원 15~18차시 계획(주변 나라 관계·문화와 생활) 콘텐츠 정합성, 현행 실시간 앱 지원 범위, 교사·학생 공통 기능 회귀를 읽기 전용 점검. 앱은 13차시 고려 건국과 고조선만 구현되어 있어 15~18차시는 미구현 표시·대체 활동 판정 포함. 결과·재현 조건·수업 전 필수 조치 보고. 체크리스트: docs/plans/tasks_classroom_oct29_audit.md`
 
-- `P1-PREVIEW-AUTH0-CALLBACK` 담당 갱신(2026-10-02): 인증·로그인 작업은 Codex가 맡는다. Claude의 10월 29일 수업 준비 점검과 파일 소유권이 겹치지 않도록, 인증 설정·Preview 로그인을 별도 작업 단위로 유지한다.
+- `P1-PREVIEW-AUTH0-CALLBACK` (2026-10-02 계획, 2026-10-05 종료): Auth0 Preview 로그인 계획은 교사 비밀번호 로그인으로 대체됐다. 아래 10월 29일 수업 감사와 인증 구현은 별개이며, 이 Auth0 작업은 재개하지 않는다.
 
 - 작업 claim: `TASK-20261001-PREVIEW-OWNED-AUTH | 관리 가능한 Google 계정의 Preview 전용 SPA 인증·고정 주소·실제 로그인 | integration agent(Codex) | 상태: 보류(사용자 오늘 종료 요청; SPA 생성 직전 확인·실제 인증 연결 대기)`
 
 - 작업 claim: `TASK-20261001-AUTH0-ACCOUNT-CHECK | Google 관리 로그인·기존 인증 테넌트 대조 | audit agent(Codex) | 상태: DONE | 실제 테넌트 메뉴·Settings 링크 확인, git diff --check 통과; 인증 경로 선택 대기`
 
-- `P1-PREVIEW-AUTH0-CALLBACK`: 통합 Preview 교사 로그인은 callback 미등록으로 차단된다. 사용자는 현재 Google 관리 계정의 새 테넌트에 Preview 전용 SPA를 구성하는 경로를 선택했다. 생성 양식만 준비했고 앱 생성·Google 연결·고정 alias·인증 환경변수 변경·실제 OAuth 검증은 미실행이다. 다음 세션은 생성 직전 확인부터 재개한다. 상세: `docs/plans/implementation_plan_preview_owned_auth.md`, `docs/plans/tasks_classroom_recovery_preview.md`.
+- 과거 `P1-PREVIEW-AUTH0-CALLBACK`: 당시에는 callback 미등록과 새 테넌트 SPA 생성이 미완료였다. 2026-10-05에 Auth0를 제거하고 비밀번호 로그인을 운영에 반영해 이 차단 경로는 폐기됐다. 세부 이력은 `docs/plans/implementation_plan_preview_owned_auth.md`와 `docs/plans/tasks_classroom_recovery_preview.md`에 보존한다.
 
-- 작업 claim: `TASK-20261001-COOP-PREVIEW-DEPLOY | 별도 Convex 개발 서버·통합 Vercel Preview 배포 및 확인 | integration agent(Codex) | 상태: DONE | npm run check·실제 서버 가상 8명·종료 삭제·Vercel READY 통과; 실제 Auth0 연결은 P1-PREVIEW-AUTH0-CALLBACK 대기`
+- 작업 claim: `TASK-20261001-COOP-PREVIEW-DEPLOY | 별도 Convex 개발 서버·통합 Vercel Preview 배포 및 확인 | integration agent(Codex) | 상태: DONE | npm run check·실제 서버 가상 8명·종료 삭제·Vercel READY 통과. 당시 Auth0 연결은 미완료였으며, 2026-10-05 비밀번호 로그인으로 대체됨`
 
 > 완료된 기능은 이 목록에 넣지 않는다. 완료 이력은 [`walkthrough.md`](./walkthrough.md), 현재 상태는 [`project_context.md`](./project_context.md)에서 확인한다.
 
 ## P0-COLLAB-TEACHER-PASSCODE — Auth0 제거, 교사 비밀번호 로그인
 
-- 작업 claim: `TASK-20261005-COLLAB-TEACHER-PASSCODE | apps/cooperative-live 교사 인증 교체 | implementation agent(Claude) | 상태: DONE·운영 반영(2026-10-05, main `b54f80f0`)·실제 기기 리허설 대기 | 검증: npm run check(단위 19·Convex 15·production build), git diff --check, 운영 `/teacher` 비밀번호 로그인 사용자 확인`
+- 작업 claim: `TASK-20261005-COLLAB-TEACHER-PASSCODE | apps/cooperative-live 교사 인증 교체 | implementation agent(Claude) | 상태: DONE·운영 반영(2026-10-05, main `b54f80f0`)·별도 기기 리허설 사용자 면제(2026-10-06) | 검증: npm run check(단위 19·Convex 15·production build), git diff --check, 운영 `/teacher` 비밀번호 로그인 사용자 확인`
 - 배경: Auth0 Google 로그인은 Preview 주소마다 callback 등록이 필요해 리허설과 수정 작업을 막았다. 다른 교사와의 공동 사용을 대비해 넣은 기능이었으나 현재는 교사 한 명이 운영하므로 제거한다. 이메일 일회용 코드 계획(`P1-COLLAB-EMAIL-AUTH`)은 메일 서비스가 필요해 보류한다.
 - 결과: `/teacher`는 Convex 환경변수 `TEACHER_PASSCODE`(8자 이상) 하나로 로그인한다. 서버는 로그인 토큰 해시만 저장하고 12시간 유지, 10회 실패 시 15분 잠금, 비밀번호 변경 시 모든 로그인 무효. 모든 교사 함수는 `teacherToken` 인자로 확인한다. 이전 Auth0 소유 활동은 새 교사 화면에서 보이지 않고 원래 삭제 시각에 정리된다. 학생 QR·코드 입장은 그대로다.
 - 같은 반영에 복구 P0·P1/P2(`1c419810`, `6c28783d`)와 대기실 내보내기(`79cd8138`)가 함께 main에 들어갔다. `feat/cooperative-lobby-kick`·`feat/cooperative-classroom-recovery-p0`·`feat/single-teacher-auth`는 내용이 모두 main에 있어 삭제 대상이다(대기실 코드는 cherry-pick 전후 동일 확인).
 - 배포 기록: Convex `glorious-guanaco-616`에 `TEACHER_PASSCODE` 설정 후 함수 배포 → main fast-forward → Vercel Production 자동 배포. **주의: Vercel Production·Preview가 모두 같은 Convex 배포(`glorious-guanaco-616`)를 쓴다.** Convex 함수 배포는 곧 운영 반영이며, 호환되지 않는 함수 서명을 배포하면 운영 화면이 깨진다(이번 배포 중 실제로 잠시 발생). 운영/개발 Convex 분리는 다음 기능 작업 전에 진행한다.
-- 남은 일: ① 실제 기기 리허설(`tasks_cooperative_live_classroom_recovery.md` 8-3) ② Auth0 앱과 Vercel Preview의 `NEXT_PUBLIC_AUTH0_*`, Convex의 `AUTH0_*`·`TEACHER_AUTH0_SUBS` 삭제 ③ 운영/개발 Convex 분리.
+- 상태 갱신(2026-10-06): Vercel Production/Preview의 `NEXT_PUBLIC_AUTH0_CLIENT_ID`·`NEXT_PUBLIC_AUTH0_DOMAIN`, Convex의 `AUTH0_CLIENT_ID`·`AUTH0_DOMAIN`·`TEACHER_AUTH0_SUBS`, 로컬 `.env.local`의 두 `NEXT_PUBLIC_AUTH0_*` 항목과 Auth0 Development 테넌트의 `Default App` SPA를 제거했다. 앱 설정에는 callback/logout/web origin URL이 없었고 최근 30일 활성 사용자는 0명이었다. 같은 기간 가입 1건과 실패 로그인 2건은 기록돼 있으나, Auth0 앱 삭제와 별개인 사용자 레코드는 유지된다. `TEACHER_PASSCODE`와 비인증용 환경변수는 보존했다. 다음은 운영/개발 Convex 분리다. 별도 4~8대 리허설은 사용자 판단으로 면제했다.
 
 ## P0-COLLAB-GHOST-PLAYER — 교사 대기실 참가자 확인·내보내기
 
@@ -31,7 +31,7 @@
 - 원문: `INBOX.md`의 2026-10-05 대기실 요청. 2026-09-29 실제 수업에서 21명 중 2명이 활동에 들어가지 못했으며, 호 선택 전 생성된 빈 참가자 레코드를 교사가 대기실에서 확인하거나 정리할 수 없었다.
 - 목적: 호·접속 상태·입장 시각을 대기실에서 확인하고, 교사가 선택한 자리만 삭제해 호와 입장 자리를 다시 사용할 수 있게 한다. 모둠 미리보기와 재편성에서도 인원·권한·토큰 상태를 일관되게 유지한다.
 - 범위: `apps/cooperative-live`와 작업 기록 문서. 활동 시작 후의 기존 제외·재연결 동작은 유지한다.
-- 결과: 대기실 호·연결 상태·입장 시각 카드와 요약, 교사 확인 후 레코드 삭제·토큰 무효화, preview 내보내기 후 재편성·2명 이하 대기실 복귀, 미리보기 전 경고·호 미선택 자리 명시적 정리를 구현했다. 실제 기기 리허설은 Auth0 Preview callback 불일치 때문에 남아 있다.
+- 결과: 대기실 호·연결 상태·입장 시각 카드와 요약, 교사 확인 후 레코드 삭제·토큰 무효화, preview 내보내기 후 재편성·2명 이하 대기실 복귀, 미리보기 전 경고·호 미선택 자리 명시적 정리를 구현했다. 별도 4~8대 리허설은 2026-10-06 사용자 판단으로 면제했으며, 정상 인원 모둠 진행 관찰의 범위를 넘어서는 복구·로그 검증 결과로 해석하지 않는다.
 
 ## P1-COLLAB-EMAIL-AUTH — 교사 이메일 일회용 코드 인증 (보류)
 
@@ -56,10 +56,10 @@
 ## P0-COLLAB-GORYEO-CLASSROOM-READINESS — 고려 건국·문화 수업 운영 및 디지털 활동 준비
 
 - 상태: `대체 운영안·체크리스트 완료 / 실시간 구현 중 / 현장 실행 대기` — [운영 대체안](./docs/plans/implementation_plan_goryeo_classroom_readiness.md) · [실행 체크리스트](./docs/plans/tasks_goryeo_classroom_readiness.md)
-- 배경: 고려 건국 실시간 활동은 2026-09-29 21명 수업에서 입장 실패와 전체 진행 차단을 보였다. 복구 구현은 별도 브랜치·Preview에 있고 Auth0 callback 및 4~8대 실기기 리허설이 남아 있다.
+- 배경: 고려 건국 실시간 활동은 2026-09-29 21명 수업에서 2명 입장 실패를 보였다. 사용자는 정상 인원 모둠이 진행됐음을 근거로 별도 4~8대 리허설은 필요하지 않다고 판단했다(2026-10-06). 복구·대기실 변경과 교사 비밀번호 로그인은 main/운영에 반영됐다.
 - 고려 문화 실시간 시나리오는 격리 브랜치에서 구현되고 입장 복구·교사 진행과 통합 검증을 마쳤다. 아직 main 통합·배포·현장 확인은 남아 있다. 기존 `regular_goryeo_culture`는 별도의 개인형 활동이다.
 - 당일 대안: 건국은 기존 교사용 다섯 관점·화이트보드 절차로, 문화는 기존 개인형 자료를 근거 탐색에 쓰고 모둠별 공동 주장·근거·자료 한계를 만드는 교사 진행형 방식으로 운영한다. 활동별 15분은 계획값이며 실측값이 아니다.
-- 재개 관문: 건국 실시간판은 복구 브랜치 통합·인증·실기기 리허설 뒤 소규모 학생 재시험을 한다. 문화 실시간판은 공통 엔진 게이트와 근거 출처 검토 뒤 구현하며, 검증 전에는 전체 학급 실시간 운영을 기본안으로 삼지 않는다.
+- 재개 관문: 기존 건국 실시간판의 별도 리허설은 사용자 판단으로 면제됐다. 남은 공통 항목은 `tasks_cooperative_live_classroom_recovery.md`의 개인정보·로그 확인과 GO/NO-GO 결정이다. 문화 실시간판은 공통 엔진 검토와 근거 출처 검토 뒤 구현한다.
 - 구현 승인(2026-09-30): 사용자 요청에 따라 별도 worktree에서 건국 복구와 고려 문화 협동 시나리오를 구현한다. 이번 구현은 고려 주변국 관계 활동을 포함하지 않으며, merge·배포·학생 사용은 현장 검증 뒤 별도 판정한다.
 
 - 작업 claim: `TASK-20260916-01 | apps/cooperative-live 및 고려 초기 활동 | implementation/content agent | 상태: DONE` — `npm run check`, production build, client bundle 비공개 본문 검사 통과. 실제 기기 리허설은 별도 대기.
@@ -73,8 +73,8 @@
 - 작업 claim: `TASK-20260929-COLLAB-QR-DISPLAY | 실시간 협동 교사용 QR 확대 요구 문서화 | planning agent(Codex) | 상태: DONE | 검증: INBOX 원문 보존, P2-COLLAB-06 목적·기능·범위·수용 기준 등록, git diff --check`
 - 작업 claim: `TASK-20260929-COLLAB-CLASSROOM-RECOVERY-PLAN | 유령 참가자·진행 관문·교사 운영 UX 해결 계획 | planning agent(Codex) | 상태: DONE | 검증: 현행 Convex/UI 계약 대조, 구현 순서·수용 기준·회귀 시나리오 문서화, git diff --check`
 - 작업 claim: `TASK-20260929-COLLAB-RECOVERY-TASKS | 복구 구현 우선순위와 실행 체크리스트 작성 | planning agent(Codex) | 상태: DONE | 검증: P0~P2 의존성·완료 기준·검증 명령·중단 조건 문서화, git diff --check`
-- 작업 claim: `TASK-20260929-COLLAB-RECOVERY-P0 | apps/cooperative-live P0-0~P0-5 | implementation agent(Codex) | 상태: DONE(자동 검증)·운영 반영(main `1c419810`)·실제 기기 리허설 대기. Auth0 차단은 2026-10-05 교사 비밀번호 로그인으로 해소 | 원 커밋: 0cbc90d | 검증: npm run check, 단위 19건, Convex 6건, 21명 신규 복구 회귀, production build, git diff --check, Convex dev functions ready, Vercel Preview Ready(dpl_4YeiHEfWc8M2FhoQCGkyQVqxDw9a) | 배포 관문: Auth0가 새 Preview /teacher redirect_uri를 허용하지 않아 Callback URL mismatch`
-- 작업 claim: `TASK-20260929-COLLAB-RECOVERY-P1P2 | 개입 이력·확인 표시와 교실용 QR 확대 | implementation agent(Codex) | 상태: DONE(자동 검증)·현장 검증 대기 | 브랜치: feat/cooperative-classroom-recovery-p0 | 커밋: f71ca7d | 검증: npm run check, 단위 19건, Convex 6건, production build, git diff --check`
+- 작업 claim: `TASK-20260929-COLLAB-RECOVERY-P0 | apps/cooperative-live P0-0~P0-5 | implementation agent(Codex) | 상태: DONE(자동 검증)·운영 반영(main `1c419810`)·별도 기기 리허설 사용자 면제(2026-10-06). Auth0 차단은 교사 비밀번호 로그인으로 해소 | 원 커밋: 0cbc90d | 검증: npm run check, 단위 19건, Convex 6건, 21명 신규 복구 회귀, production build, git diff --check, Convex dev functions ready, Vercel Preview Ready(dpl_4YeiHEfWc8M2FhoQCGkyQVqxDw9a)`
+- 작업 claim: `TASK-20260929-COLLAB-RECOVERY-P1P2 | 개입 이력·확인 표시와 교실용 QR 확대 | implementation agent(Codex) | 상태: DONE(자동 검증)·별도 기기 리허설 사용자 면제(2026-10-06) | 브랜치: feat/cooperative-classroom-recovery-p0 | 커밋: f71ca7d | 검증: npm run check, 단위 19건, Convex 6건, production build, git diff --check`
 - 작업 claim: `TASK-20260929-GORYEO-RELATIONS-CULTURE-PLAN | 고려 후속 실시간 협동 활동 2종 계획 | planning agent(Codex) | 상태: DONE | 범위: 15~16차시 주변 나라 관계, 17~18차시 문화·생활 | 검증: 기존 정규 MUD·48차시·협동 시나리오 계약 대조, git diff --check`
 - 작업 claim: `TASK-20260929-GORYEO-RELATIONS-CULTURE-TASKS | 고려 후속 활동 우선순위·실행 체크리스트 | planning agent(Codex) | 상태: DONE | 순서: P0 선행 관문 → P1-A 주변 나라 관계 → P1-B 문화와 생활 → 통합 리허설 | 검증: 의존성·완료 기준·중단 조건·검증 명령 문서화, git diff --check`
 
@@ -84,7 +84,7 @@
 - 목적: 13차시 고려 건국 협동 활동 뒤에 15~16차시 `고려와 주변 나라들의 관계`와 17~18차시 `고려의 문화와 사람들의 생활`을 같은 실시간 협동 엔진으로 연결한다.
 - 현행 자산: 정규 MUD `regular_goryeo_war`와 `regular_goryeo_culture`가 있으므로 사실·자료 후보는 재사용하되, 정규 MUD의 개인 관문을 그대로 복제하지 않는다.
 - 핵심 보완: 기존 `regular_goryeo_culture`는 팔만대장경·직지·벽란도 중심이어서 `6사04-03`의 사회 모습과 사람들의 생활 추론을 충분히 다루지 못한다는 기존 감사 결과가 있다. 새 협동 활동은 고려청자 제작·사용, 가족·상속, 신분과 생업 등 생활 근거를 포함하되 한 사례를 고려인 전체로 일반화하지 않는다.
-- 구현 전 관문: 4~8대 실제 기기 리허설 결과와 운영/개발 Convex 분리를 확인한다. 복구 기능 통합과 Auth0 차단은 2026-10-05에 해소했다. 공통 엔진 결함이 남은 상태에서 시나리오 수만 늘리지 않는다.
+- 구현 전 관문: 운영/개발 Convex 분리를 확인한다. 별도 4~8대 실제 기기 리허설은 사용자 판단으로 면제했고, 복구 기능 통합과 Auth0 차단은 2026-10-05에 해소했다. 공통 엔진 결함이 남은 상태에서 시나리오 수만 늘리지 않는다.
 - 예상 범위: `apps/cooperative-live/shared/scenario.ts`, `apps/cooperative-live/convex/scenarios.ts`, 시나리오 레지스트리·서버 검증 테스트, 교사 운영 문서. 정규 MUD JSON 변경은 별도 감사에서 필요성이 확인될 때만 분리한다.
 
 상세와 근거는 [`claude_four_track_session_close_20260911.md`](./docs/handoff/claude_four_track_session_close_20260911.md).

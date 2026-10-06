@@ -330,10 +330,10 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 ## 7. 다음 작업 후보
 
-### 2026-10-05 기준 실시간 협동 앱
+### 2026-10-06 기준 실시간 협동 앱
 
 - **교사 로그인**: Auth0를 제거하고 Convex 환경변수 `TEACHER_PASSCODE` 비밀번호 로그인으로 바꿔 운영에 반영했다. 복구 기능(참가자 제외·재연결·모둠별 진행·개입 이력)과 카훗식 대기실 내보내기도 함께 반영했다.
-- **다음**: 교사 1명+기기 4~8대 실제 기기 리허설(`tasks_cooperative_live_classroom_recovery.md` 8-3) → Auth0 흔적 삭제 → 운영/개발 Convex 분리 → 고려 후속 협동 활동 2종.
+- **다음**: 운영/개발 Convex 분리 → 고려 후속 협동 활동 2종. 2026-10-06 Vercel Production/Preview, Convex, 로컬 `.env.local`에서 Auth0 변수를 제거하고 Auth0 Development 테넌트의 `Default App` SPA도 삭제했다. 앱 callback/logout/web origin 설정은 비어 있었고 최근 30일 활성 사용자는 0명이었다. 같은 기간 가입 1건과 실패 로그인 2건이 기록됐으며 사용자 레코드는 앱 삭제와 별개로 유지된다. 별도 4~8대 리허설은 사용자 판단으로 면제했다. 남은 운영 확인은 `tasks_cooperative_live_classroom_recovery.md` 8-4 개인정보·로그 검사와 8-5 GO/NO-GO 결정이다.
 - **주의**: Vercel Production·Preview가 같은 Convex 배포를 쓴다. Convex 함수 배포는 곧 운영 반영이다.
 - 요약: [`docs/handoff/claude_session_close_20261005.md`](./docs/handoff/claude_session_close_20261005.md).
 
@@ -348,7 +348,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 실시간 확장에는 개인정보·국외 처리 절차가 차단 게이트다. 이 프로젝트는 교사 제작 교육용 저작물로 분류하므로 학습지원 소프트웨어 선정·학교운영위원회 심의 게이트는 적용하지 않는다. 현재 정적 협동 MUD의 수업 검증은 개인정보 게이트와 별도로 진행할 수 있다.
 
-1. **고려 초기 실시간 활동 4~8대 리허설** — 코드와 자동 회귀는 완료했다. 교사 1명+성인·교사 역할 참가자 4~8명으로 입장, 역할 비공개, pause/resume, 새로고침 복구, 공동 초안 revision, 전원 확인, 종료 삭제를 실제 수업 네트워크에서 확인한다. 결과는 `EXP-009`에 기록한다.
+1. **운영 판정** — 별도 4~8대 리허설은 2026-10-06 사용자 판단으로 면제했다. 체크리스트 8-4 개인정보·로그 검토를 마친 뒤 자동 회귀와 실제 수업 관찰을 근거로 8-5 GO/NO-GO를 결정한다.
 2. **실제 배포 환경 개인정보 조건 재확인** — 사용자가 국외 처리 조건을 처리했다고 확인했으나, 실제 학생 접속 직전에는 근거 문서와 사용할 Convex·Vercel 환경이 같은지 운영 체크리스트로 확인해야 한다. [BACKLOG P1-COLLAB-PRIVACY](./BACKLOG.md), [감사 문서](./docs/audits/convex_elementary_school_privacy_audit.md) 참조.
 3. **8차시 정적 협동 MUD 실제 수업 운영** — 7차시 시조 설화는 2026-09-08 수업 운영을 마쳐 `EXPERIMENTS.md`의 `EXP-007`에 기록했다. 8차시 한강 유역은 제작·브라우저 검증만 끝난 상태다. 볼 것: 네 자료가 모두 발화되는가, 공유 전 최초 판단이 서로 다른가, 타이머 배지가 너무 자주/드물게 뜨지 않는가.
 
@@ -394,7 +394,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
   - 공통 파일: `cooperative-mud/episode.js`(화면 흐름 엔진), `pacing.js`(타이머 페이싱), `cooperative.css`. 시나리오는 각 폴더의 `scenario.js`가 소유하고 엔진에는 역사 내용을 넣지 않는다. 고조선은 법 만들기 화면 때문에 자체 `app.js`를 쓰지만, 세 활동 모두 `역할 확인 → 최초 판단 → 정보 공유 → 추가 자료 → 재판단` 순서를 따른다.
   - 선사시대 협동 MUD는 종이 리허설 단계를 2026-09-06에 폐기하고 정적 웹 제작 대상으로 전환했다 — 1인 1기기 화면이 곧 역할 카드다.
   - 수업 운영 방법은 [`cooperative-mud/TEACHING.md`](./cooperative-mud/TEACHING.md)에 있다. 교실에서 바로 보는 문서다.
-  - 실시간 확장(Vercel + Convex, 교사는 비밀번호 로그인)은 `apps/cooperative-live/`에 있다. 고조선 기술 회귀에 더해 고려 초기 “새 고려의 첫 회의”를 다중 시나리오로 구현했고, 역할 비공개·개인 판단 로컬 보존·공동 초안 revision·전원 확인·pause/resume·도움 요청·종료 삭제를 자동 검증했다. 4~8대 성인·교사 리허설과 실제 배포 환경 재확인 전에는 실제 학생에게 열지 않는다. `apps/cooperative-live/README.md`, `apps/cooperative-live/TEACHING_EARLY_GORYEO.md`, `docs/plans/implementation_plan_early_goryeo_cooperative_live_first_activity.md` 참조.
+  - 실시간 확장(Vercel + Convex, 교사는 비밀번호 로그인)은 `apps/cooperative-live/`에 있다. 고조선 기술 회귀에 더해 고려 초기 “새 고려의 첫 회의”를 다중 시나리오로 구현했고, 역할 비공개·개인 판단 로컬 보존·공동 초안 revision·전원 확인·pause/resume·도움 요청·종료 삭제를 자동 검증했다. 2026-10-06 사용자는 정상 인원 모둠이 진행된 기존 수업 관찰을 근거로 별도 4~8대 리허설을 면제했다. 개인정보·로그 확인과 운영 GO/NO-GO는 복구 체크리스트를 따른다. `apps/cooperative-live/README.md`, `apps/cooperative-live/TEACHING_EARLY_GORYEO.md` 참조.
 
 ## 8. 실행 및 테스트 방법
 

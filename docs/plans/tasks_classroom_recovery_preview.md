@@ -1,5 +1,7 @@
 # 통합 복구 Preview 준비·연결 검증
 
+> **상태: 역사 기록 / Auth0 단계 superseded(2026-10-05).** Auth0 로그인을 제거하고 교사 비밀번호 로그인을 운영에 반영했다. 아래 Auth0 callback·테넌트 검증 절차는 현재 실행 지시가 아니다. 별도 4~8대 수업 리허설은 2026-10-06 사용자 판단으로 면제됐다. 최신 운영 상태는 `docs/handoff/claude_session_close_20261005.md`와 `docs/plans/tasks_cooperative_live_classroom_recovery.md`를 따른다.
+
 - 작성일: 2026-10-01
 - 작업: `TASK-20261001-COOP-PREVIEW-PREP`
 - 사용자 원문: “다음 작업 진행하기”

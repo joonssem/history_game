@@ -26,18 +26,18 @@
 
 ## 1. 협동 MUD 계열
 
-이 계열은 문서가 여러 개라 관계를 먼저 본다. **현재 실행 기준은 아래 제작 파이프라인이다** — 고조선 실시간 구현은 기술 회귀 기준으로 유지하며, 고려 초기 활동은 2026-09-29 21명 수업에서 1차 운영했다. 당시 확인된 입장·참가자 복구와 진행 차단을 해결한 브랜치는 Auth0 callback 및 4~8대 실기기 리허설을 통과하기 전까지 다음 실시간 학급 운영에 쓰지 않는다. 정적 협동 MUD는 다른 차시의 콘텐츠이며 고려 건국·문화 실시간 활동을 대신하지 않는다.
+이 계열은 문서가 여러 개라 관계를 먼저 본다. **현재 실행 기준은 아래 제작 파이프라인이다** — 고려 초기 활동은 2026-09-29 21명 수업에서 1차 운영했고, 2명 입장 실패에도 정상 인원 모둠은 진행됐다. 복구·대기실 변경과 교사 비밀번호 로그인이 main/운영에 반영됐다. 사용자는 2026-10-06 별도 4~8대 리허설을 불필요하다고 판단했다. 남은 현장 판정은 개인정보·로그 확인과 GO/NO-GO이며, 운영/개발 Convex 분리는 후속 활동 전에 다룬다. 정적 협동 MUD는 다른 차시의 콘텐츠이며 고려 건국·문화 실시간 활동을 대신하지 않는다.
 
 | 문서 | 상태 | 다음 행동 |
 |---|---|---|
 | [`early_goryeo_cooperative_live_pilot_rough_sketch.md`](./early_goryeo_cooperative_live_pilot_rough_sketch.md) | `구현 계획으로 승격` | 1단원 13차시 “새 고려의 첫 회의”를 첫 실제 학생 활동으로 확정. 상세 실행은 아래 구현 계획 기준 |
-| [`implementation_plan_early_goryeo_cooperative_live_first_activity.md`](./implementation_plan_early_goryeo_cooperative_live_first_activity.md) | `21명 실제 수업 1차 운영·복구 검증 대기` | 실제 운영에서 로그인·유령 참가자·전체 진행 차단이 확인됨. 복구 브랜치 인증·4~8대 리허설 뒤 소규모 학생 재시험 |
+| [`implementation_plan_early_goryeo_cooperative_live_first_activity.md`](./implementation_plan_early_goryeo_cooperative_live_first_activity.md) | `21명 실제 수업 1차 운영·복구 자동 검증 완료` | 교사 비밀번호 로그인·복구·대기실 변경은 운영 반영. 별도 리허설은 사용자 면제; 개인정보·로그 확인과 GO/NO-GO는 복구 체크리스트 기준 |
 | [`implementation_plan_goryeo_classroom_readiness.md`](./implementation_plan_goryeo_classroom_readiness.md) | `당일 대체 운영안·체크리스트 완료` | 고려 건국은 교사 진행형 대체, 고려 문화는 기존 개인형 자료와 모둠 종합으로 운영. 실시간 재개 조건은 별도 게이트로 관리 |
 | [`implementation_plan_joseon_late_cooperative_live_vertical_slice.md`](./implementation_plan_joseon_late_cooperative_live_vertical_slice.md) | `제안·후속 활동` | 고려 첫 활동에서 검증한 엔진에 Claude가 조선 후기를 이식. Codex는 계획·읽기 전용 감사·통합 판정만 담당 |
 | [`COLLABORATIVE_MUD_PLAN.md`](./COLLABORATIVE_MUD_PLAN.md) | `검토안` | 전체 계획·모둠 구성·배치 방식. 첫 수직 슬라이스 착수 승인 대기 |
 | [`COLLABORATIVE_MUD_ARCHITECTURE.md`](./COLLABORATIVE_MUD_ARCHITECTURE.md) | `검토안` | Convex 스키마·권한·상태 전이. 백엔드는 [D-019](../../DECISIONS.md)로 확정 |
 | [`COLLABORATIVE_MUD_MVP.md`](./COLLABORATIVE_MUD_MVP.md) | `검토안` | §8 첫 수직 슬라이스가 다음 구현 단위 |
-| [`implementation_plan_vercel_convex_vertical_slice.md`](./implementation_plan_vercel_convex_vertical_slice.md) | `로컬 구현 완료` | `apps/cooperative-live` 가상 흐름·복구·3~24명 편성 검증 완료. Convex/Auth0/Vercel 연결은 개인정보 게이트 뒤 진행 |
+| [`implementation_plan_vercel_convex_vertical_slice.md`](./implementation_plan_vercel_convex_vertical_slice.md) | `구현·운영 반영` | `apps/cooperative-live` 가상 흐름·복구·3~24명 편성 검증 완료. 현재 교사 인증은 Convex 비밀번호 로그인이다. 과거 Auth0 연결 절차는 실행 지시가 아니다 |
 | [`implementation_plan_cooperative_mud_gojoseon_law_v01.md`](./implementation_plan_cooperative_mud_gojoseon_law_v01.md) | `완료` · **실제 수업 운영됨** | 결과는 [`EXP-006`](../../EXPERIMENTS.md). 최초 판단 순서는 후속 계획으로 교정 완료 |
 | [`implementation_plan_gojoseon_initial_judgment_order.md`](./implementation_plan_gojoseon_initial_judgment_order.md) | `완료` | 6차시를 `역할 → 최초 판단 → 공유 → 추가 증거`로 교정. 실제 수업에서 판단 변화는 재관찰 대기 |
 | 정적 협동 MUD 3편 (코드) | `제작 완료` · 6차시 운영됨, 7·8차시 미운영 | `cooperative-mud/`의 `gojoseon-law`·`founding-myths`·`han-river`. 별도 계획서 없이 이 표와 `walkthrough.md`로 관리한다 |

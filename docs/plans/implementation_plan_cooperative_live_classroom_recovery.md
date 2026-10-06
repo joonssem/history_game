@@ -3,7 +3,7 @@
 - 작성일: 2026-09-29
 - 기준 커밋: `1abd76f`
 - 작업: `TASK-20260929-COLLAB-CLASSROOM-RECOVERY-PLAN`
-- 상태: `P0~P2 구현·자동 회귀·Vercel Preview 배포 완료(0cbc90d, f71ca7d) · Auth0 Preview callback 등록과 4~8대 실제 기기 리허설 대기`
+- 상태: `P0~P2 구현·자동 회귀·Vercel Preview 배포 완료(0cbc90d, f71ca7d) · Auth0 교사 로그인은 passcode로 교체 · 4~8대 실제 기기 리허설은 사용자 면제(2026-10-06) · 개인정보/로그 검사와 GO/NO-GO 결정 대기`
 - 우선순위: `P0` 2건 우선, QR 확대는 같은 교사 화면 묶음의 `P2`
 - 대상: `apps/cooperative-live`
 - 근거: 2026-09-29 교사 1명·학생 21명 “새 고려의 첫 회의” 실제 수업

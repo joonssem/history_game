@@ -1,5 +1,7 @@
 # 관리 가능한 계정의 Preview 전용 인증
 
+> **상태: 폐기됨(2026-10-05).** Auth0 Preview SPA 계획은 교사 비밀번호 로그인으로 대체되어 운영 반영됐다. 이 문서는 조사 이력으로 보존하며 실행 지시로 사용하지 않는다. 현행 인증·남은 정리는 `BACKLOG.md`의 `P0-COLLAB-TEACHER-PASSCODE`와 `docs/handoff/claude_session_close_20261005.md`를 따른다.
+
 - 날짜: 2026-10-01
 - 작업: TASK-20261001-PREVIEW-OWNED-AUTH
 - 승인: 사용자 “앞으로 작업 및 유지 보수 측면에서 더 나은 것으로 선택하기”로 경로 선택·후속 구성 위임.
