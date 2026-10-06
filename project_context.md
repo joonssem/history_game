@@ -333,8 +333,8 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 ### 2026-10-06 기준 실시간 협동 앱
 
 - **교사 로그인**: Auth0를 제거하고 Convex 환경변수 `TEACHER_PASSCODE` 비밀번호 로그인으로 바꿔 운영에 반영했다. 복구 기능(참가자 제외·재연결·모둠별 진행·개입 이력)과 카훗식 대기실 내보내기도 함께 반영했다.
-- **다음**: 운영/개발 Convex 분리 → 고려 후속 협동 활동 2종. 2026-10-06 Vercel Production/Preview, Convex, 로컬 `.env.local`에서 Auth0 변수를 제거하고 Auth0 Development 테넌트의 `Default App` SPA도 삭제했다. 앱 callback/logout/web origin 설정은 비어 있었고 최근 30일 활성 사용자는 0명이었다. 같은 기간 가입 1건과 실패 로그인 2건이 기록됐으며 사용자 레코드는 앱 삭제와 별개로 유지된다. 별도 4~8대 리허설은 사용자 판단으로 면제했다. 남은 운영 확인은 `tasks_cooperative_live_classroom_recovery.md` 8-4 개인정보·로그 검사와 8-5 GO/NO-GO 결정이다.
-- **주의**: Vercel Production·Preview가 같은 Convex 배포를 쓴다. Convex 함수 배포는 곧 운영 반영이다.
+- **다음**: 운영/개발 Convex 분리, 복구 체크리스트 8-4 개인정보·로그 검사와 8-5 GO/NO-GO. 고려 후속 협동 활동 P1-A 관계 및 P1-B 문화·생활 코드는 main 통합·자동 검증 완료이나 미배포다. 실제 수업 관찰, 출처 원문 및 교과서 쪽수 재대조도 남아 있다. 2026-10-06 Vercel Production/Preview, Convex, 로컬 `.env.local`에서 Auth0 변수를 제거하고 Auth0 Development 테넌트의 `Default App` SPA도 삭제했다. 앱 callback/logout/web origin 설정은 비어 있었고 최근 30일 활성 사용자는 0명이었다. 같은 기간 가입 1건과 실패 로그인 2건이 기록됐으며 사용자 레코드는 앱 삭제와 별개로 유지된다. 별도 4~8대 리허설은 사용자 판단으로 면제했다.
+- **주의**: 2026-10-06 확인 시 Vercel Production·Preview가 같은 `glorious-guanaco-616` Convex 배포를 쓴다. 별도 운영·개발 분리는 확인되지 않았으며 Convex 함수 배포는 곧 운영 반영이므로 분리 전 배포 금지.
 - 요약: [`docs/handoff/claude_session_close_20261005.md`](./docs/handoff/claude_session_close_20261005.md).
 
 ### 2026-09-28 기준 남은 일

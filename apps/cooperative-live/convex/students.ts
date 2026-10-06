@@ -677,6 +677,17 @@ export const saveDraft = mutationGeneric({
       throw new Error("두 정책이 함께 필요한 까닭을 하나 선택해 주세요.");
     }
 
+    const requirements = scenario.draftRequirements;
+    if (
+      requirements?.policyIds?.some((id) => !args.policyIds.includes(id))
+      || requirements?.evidenceRoleIds?.some((roleId) =>
+        !args.evidenceRoleIds.includes(roleId)
+      )
+      || requirements?.connectionIds?.some((id) => id !== args.connectionId)
+    ) {
+      throw new Error("가족 기록의 생활 근거와 자료 범위를 공동 설명에 포함해 주세요.");
+    }
+
     const existing = await ctx.db
       .query("drafts")
       .withIndex("by_session", (query) => query.eq("sessionId", args.sessionId))

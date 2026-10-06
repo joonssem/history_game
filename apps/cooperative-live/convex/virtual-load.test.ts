@@ -823,6 +823,70 @@ describe("실시간 협동 MUD 가상 학급", () => {
   });
 });
 
+describe("Goryeo culture draft requirements", () => {
+  it("rejects drafts that omit family-life evidence or its source limit", async () => {
+    process.env.TEACHER_PASSCODE = TEACHER_PASSCODE;
+    process.env.JOIN_ATTEMPT_HMAC_SECRET = "virtual-load-test-secret-32-bytes-minimum";
+    const backend = convexTest(schema, modules);
+    const teacher = await loginTeacher(backend);
+    const scenario = getScenario("goryeo-culture-life", 1)!;
+    const created = await teacher.mutation(convexApi.sessions.create, {
+      scenarioId: scenario.id,
+      scenarioVersion: scenario.version,
+    });
+    const students = await Promise.all(Array.from({ length: 3 }, () =>
+      backend.mutation(convexApi.students.joinWithEntryKey, { entryKey: created.entryKey! })
+    ));
+    await Promise.all(students.map((student, index) =>
+      backend.mutation(convexApi.students.selectAlias, {
+        sessionId: student.sessionId, token: student.token, alias: ALIASES[index],
+      })
+    ));
+    await teacher.mutation(convexApi.sessions.previewGroups, { sessionId: created.sessionId });
+    await teacher.mutation(convexApi.sessions.confirmStart, { sessionId: created.sessionId });
+    await teacher.mutation(convexApi.sessions.advanceStage, { sessionId: created.sessionId });
+    await Promise.all(students.map((student) => backend.mutation(convexApi.students.completeFirst, {
+      sessionId: student.sessionId, token: student.token,
+    })));
+    await teacher.mutation(convexApi.sessions.advanceStage, { sessionId: created.sessionId });
+    await Promise.all(students.map((student) => backend.mutation(convexApi.students.markShared, {
+      sessionId: student.sessionId, token: student.token,
+    })));
+    await teacher.mutation(convexApi.sessions.advanceStage, { sessionId: created.sessionId });
+
+    const base = {
+      sessionId: students[0].sessionId,
+      token: students[0].token,
+      limitationId: "missing-lives",
+      expectedRevision: 0,
+    };
+    await expect(backend.mutation(convexApi.students.saveDraft, {
+      ...base,
+      policyIds: ["craft-technology", "belief-purpose"],
+      evidenceRoleIds: ["celadon-artisan", "tripitaka-woodblock-reader"],
+      connectionId: "record-and-scope",
+    })).rejects.toThrow("가족 기록의 생활 근거와 자료 범위");
+    await expect(backend.mutation(convexApi.students.saveDraft, {
+      ...base,
+      policyIds: ["family-life", "belief-purpose"],
+      evidenceRoleIds: ["celadon-artisan", "tripitaka-woodblock-reader"],
+      connectionId: "record-and-scope",
+    })).rejects.toThrow("가족 기록의 생활 근거와 자료 범위");
+    await expect(backend.mutation(convexApi.students.saveDraft, {
+      ...base,
+      policyIds: ["family-life", "belief-purpose"],
+      evidenceRoleIds: ["family-record-reader", "tripitaka-woodblock-reader"],
+      connectionId: "tech-and-access",
+    })).rejects.toThrow("가족 기록의 생활 근거와 자료 범위");
+    await backend.mutation(convexApi.students.saveDraft, {
+      ...base,
+      policyIds: ["family-life", "belief-purpose"],
+      evidenceRoleIds: ["family-record-reader", "tripitaka-woodblock-reader"],
+      connectionId: "record-and-scope",
+    });
+  });
+});
+
 describe("교사 대기실 참가자 정리", () => {
   async function openLobby(count: number, selected = count) {
     process.env.TEACHER_PASSCODE = TEACHER_PASSCODE;

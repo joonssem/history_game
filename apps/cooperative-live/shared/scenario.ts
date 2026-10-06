@@ -137,11 +137,40 @@ const goryeoRelationsPublic: PublicScenario = {
   },
 };
 
+const goryeoCulturePublic: PublicScenario = {
+  id: "goryeo-culture-life",
+  version: 1,
+  publicMeta: {
+    title: "고려의 문화와 생활 — 문화유산은 사람들의 삶을 어디까지 보여 줄까?",
+    lesson: "2단원 17~18차시 고려의 문화와 생활",
+    recommendedMinutes: 10,
+  },
+  roles: [
+    { id: "celadon-artisan", icon: "🏺", name: "청자 공방 장인" },
+    { id: "family-record-reader", icon: "📜", name: "가족 기록 살피는 사람" },
+    { id: "tripitaka-woodblock-reader", icon: "🪵", name: "대장경 목판 작업자" },
+    { id: "movable-type-printer", icon: "🔤", name: "금속 활자 인쇄 기술자" },
+    { id: "evidence-curator", icon: "🔎", name: "자료 한계 검토자" },
+  ],
+  groupSizes: {
+    3: ["celadon-artisan", "family-record-reader", "tripitaka-woodblock-reader"],
+    4: [
+      "celadon-artisan", "family-record-reader", "tripitaka-woodblock-reader",
+      "movable-type-printer",
+    ],
+    5: [
+      "celadon-artisan", "family-record-reader", "tripitaka-woodblock-reader",
+      "movable-type-printer", "evidence-curator",
+    ],
+  },
+};
+
 export const PUBLIC_SCENARIOS = [
   gojoseonPublic,
   earlyGoryeoPublic,
   joseonLatePublic,
   goryeoRelationsPublic,
+  goryeoCulturePublic,
 ] as const;
 export const DEFAULT_SCENARIO_ID = earlyGoryeoPublic.id;
 export const SCENARIO_ID = gojoseonPublic.id;

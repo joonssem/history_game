@@ -159,3 +159,23 @@ describe("협동 MUD 공개 시나리오와 편성", () => {
     }
   });
 });
+
+describe("Goryeo culture role assignment", () => {
+  it("supports distinct role layouts for groups of 3, 4, and 5", () => {
+    const scenario = getPublicScenario("goryeo-culture-life", 1);
+    assert.ok(scenario);
+    for (const size of [3, 4, 5] as const) {
+      const assignments = assignGroups(
+        Array.from({ length: size }, (_, index) => `culture-${index + 1}`),
+        size,
+        seededRandom(size),
+        scenario,
+      );
+      assert.equal(assignments.length, size);
+      assert.deepEqual(
+        new Set(assignments.map((assignment) => assignment.roleId)),
+        new Set(scenario.groupSizes[size]),
+      );
+    }
+  });
+});

@@ -23,6 +23,7 @@
 - 결과: `/teacher`는 Convex 환경변수 `TEACHER_PASSCODE`(8자 이상) 하나로 로그인한다. 서버는 로그인 토큰 해시만 저장하고 12시간 유지, 10회 실패 시 15분 잠금, 비밀번호 변경 시 모든 로그인 무효. 모든 교사 함수는 `teacherToken` 인자로 확인한다. 이전 Auth0 소유 활동은 새 교사 화면에서 보이지 않고 원래 삭제 시각에 정리된다. 학생 QR·코드 입장은 그대로다.
 - 같은 반영에 복구 P0·P1/P2(`1c419810`, `6c28783d`)와 대기실 내보내기(`79cd8138`)가 함께 main에 들어갔다. `feat/cooperative-lobby-kick`·`feat/cooperative-classroom-recovery-p0`·`feat/single-teacher-auth`는 내용이 모두 main에 있어 삭제 대상이다(대기실 코드는 cherry-pick 전후 동일 확인).
 - 배포 기록: Convex `glorious-guanaco-616`에 `TEACHER_PASSCODE` 설정 후 함수 배포 → main fast-forward → Vercel Production 자동 배포. **주의: Vercel Production·Preview가 모두 같은 Convex 배포(`glorious-guanaco-616`)를 쓴다.** Convex 함수 배포는 곧 운영 반영이며, 호환되지 않는 함수 서명을 배포하면 운영 화면이 깨진다(이번 배포 중 실제로 잠시 발생). 운영/개발 Convex 분리는 다음 기능 작업 전에 진행한다.
+- 확인(2026-10-06): Production·Preview가 여전히 같은 `glorious-guanaco-616`를 참조한다. 별도의 운영 Convex 배포 ID나 연결 전환은 확인되지 않았다. 이번 시나리오 통합은 저장소 코드와 자동 검증에 한정하며 Convex/Vercel 배포는 하지 않는다.
 - 상태 갱신(2026-10-06): Vercel Production/Preview의 `NEXT_PUBLIC_AUTH0_CLIENT_ID`·`NEXT_PUBLIC_AUTH0_DOMAIN`, Convex의 `AUTH0_CLIENT_ID`·`AUTH0_DOMAIN`·`TEACHER_AUTH0_SUBS`, 로컬 `.env.local`의 두 `NEXT_PUBLIC_AUTH0_*` 항목과 Auth0 Development 테넌트의 `Default App` SPA를 제거했다. 앱 설정에는 callback/logout/web origin URL이 없었고 최근 30일 활성 사용자는 0명이었다. 같은 기간 가입 1건과 실패 로그인 2건은 기록돼 있으나, Auth0 앱 삭제와 별개인 사용자 레코드는 유지된다. `TEACHER_PASSCODE`와 비인증용 환경변수는 보존했다. 다음은 운영/개발 Convex 분리다. 별도 4~8대 리허설은 사용자 판단으로 면제했다.
 
 ## P0-COLLAB-GHOST-PLAYER — 교사 대기실 참가자 확인·내보내기
@@ -81,11 +82,13 @@
 
 ## P1-COLLAB-GORYEO-RELATIONS-CULTURE — 고려 후속 협동 활동 2종
 
-- 상태: `planned / checklist-ready / implementation-approval-needed` — [구현 계획](./docs/plans/implementation_plan_goryeo_relations_culture_cooperative_live.md) · [실행 체크리스트](./docs/plans/tasks_goryeo_relations_culture_cooperative_live.md)
+- 상태(2026-10-06): `코드 통합·자동 검증 완료 / 미배포·현장 확인 대기`. P1-A·P1-B는 main에 코드로 통합하되 Production·Preview가 같은 Convex를 사용하므로 배포하지 않는다. [구현 계획](./docs/plans/implementation_plan_goryeo_relations_culture_cooperative_live.md) · [실행 체크리스트](./docs/plans/tasks_goryeo_relations_culture_cooperative_live.md)
 - 목적: 13차시 고려 건국 협동 활동 뒤에 15~16차시 `고려와 주변 나라들의 관계`와 17~18차시 `고려의 문화와 사람들의 생활`을 같은 실시간 협동 엔진으로 연결한다.
 - 현행 자산: 정규 MUD `regular_goryeo_war`와 `regular_goryeo_culture`가 있으므로 사실·자료 후보는 재사용하되, 정규 MUD의 개인 관문을 그대로 복제하지 않는다.
 - 핵심 보완: 기존 `regular_goryeo_culture`는 팔만대장경·직지·벽란도 중심이어서 `6사04-03`의 사회 모습과 사람들의 생활 추론을 충분히 다루지 못한다는 기존 감사 결과가 있다. 새 협동 활동은 고려청자 제작·사용, 가족·상속, 신분과 생업 등 생활 근거를 포함하되 한 사례를 고려인 전체로 일반화하지 않는다.
-- 구현 전 관문: 운영/개발 Convex 분리를 확인한다. 별도 4~8대 실제 기기 리허설은 사용자 판단으로 면제했고, 복구 기능 통합과 Auth0 차단은 2026-10-05에 해소했다. 공통 엔진 결함이 남은 상태에서 시나리오 수만 늘리지 않는다.
+- 구현 전 관문(미완료): 운영/개발 Convex 분리를 먼저 완료하고, `tasks_cooperative_live_classroom_recovery.md`의 로그·개인정보 확인과 GO/NO-GO 판정을 한다. 별도 4~8대 실제 기기 리허설은 사용자 판단으로 면제했다. 복구 기능 통합과 Auth0 차단은 2026-10-05에 해소했다.
+- 문화 콘텐츠는 가족·상속 사례, 대장경 제작 노동과 계층 참여, 청자 사용 계층의 자료 한계를 포함한다. 최종 초안 저장 때 가족 생활 정책·가족 기록 역할·자료 범위 연결을 서버에서 요구한다. 출처표 A-2의 C1~C11 밖의 주장은 쓰지 않았고 C8 미확인 항목은 제외했다.
+- 남은 작업: 출처 원문과 교과서 쪽수 재대조, 실제 수업 관찰·기기 리허설, 운영/개발 Convex 분리 후 Preview 검증. 실제 학생 사용 전에는 이 항목들을 닫는다.
 - 예상 범위: `apps/cooperative-live/shared/scenario.ts`, `apps/cooperative-live/convex/scenarios.ts`, 시나리오 레지스트리·서버 검증 테스트, 교사 운영 문서. 정규 MUD JSON 변경은 별도 감사에서 필요성이 확인될 때만 분리한다.
 
 상세와 근거는 [`claude_four_track_session_close_20260911.md`](./docs/handoff/claude_four_track_session_close_20260911.md).

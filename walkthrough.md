@@ -2598,3 +2598,11 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 테스트: 공개 편성 고유성, 레지스트리 공통 자료·근거 표지, 3·4·5인 서버 편성·역할 비공개·공유 후 공통 자료 공개(Convex).
 - 검증: `npm run check` 통과(lint, typecheck, 단위 22건, Convex 16건, production build). 클라이언트 번들에 비공개 역할 본문 없음 확인. 실제 기기 리허설·학생 관찰·출처 원문 재대조·교과서 쪽수 대조는 미완료이며 이 기록을 현장 검증으로 해석하지 않는다.
 - 교사 운영안: `apps/cooperative-live/TEACHING_GORYEO_RELATIONS.md`. 문화 활동 병합 시 `PUBLIC_SCENARIOS`·`SCENARIOS` 배열과 테스트 파일에서 충돌이 예상된다(둘 다 추가이므로 양쪽 보존).
+
+## 2026-10-06 고려 문화·생활 실시간 협동 활동 통합 (P1-B)
+
+- P1-A 관계 활동(`goryeo-foreign-relations` v1)과 P1-B 문화·생활 활동(`goryeo-culture-life` v1)을 현재 main의 교사 비밀번호 인증·복구 계약 위에 통합했다. 문화 활동은 5개 역할(청자 장인, 가족 기록, 대장경 제작 참여, 금속활자 인쇄, 자료 범위 검토), 3·4·5인 배치, 3인 모둠 직지 공통자료를 등록했다.
+- 자료 조합만으로 고려인 전체의 삶을 일반화하지 않도록 초안 제출에 가족 생활 정책, 가족 기록 역할의 근거, `record-and-scope` 연결을 서버에서 필수화했다. 대장경의 장기간 판각·여러 계층 참여와 노동을 포함하되 구체적인 노동 조건은 자료로 알 수 없다고 한정했다. 청자 사용 계층·장인 생활도 출처표 한계를 넘지 않는다. 벽란도는 활동에서 사용하지 않으며, C8 미확인 지명·연도는 학생용 문장에 넣지 않았다.
+- 변경: `shared/scenario.ts`, `convex/scenarios.ts`, `convex/students.ts`, 공개 레지스트리·배치 테스트, Convex 저장 거부 회귀, `TEACHING_GORYEO_CULTURE_LIFE.md`, 계획 체크리스트, BACKLOG, project context.
+- 검증: `npm run check` 통과(lint, typecheck, 단위 24건, Convex 17건, production build), `git diff --check` 통과. 기존 관계 활동 및 레지스트리 회귀 포함.
+- 운영·현장 상태: Production과 Preview가 같은 Convex `glorious-guanaco-616`를 사용 중인 것을 확인했다. 운영/개발 분리가 끝나지 않아 Convex·Vercel 배포는 하지 않았다. 실제 기기 리허설·학생 관찰·출처 원문 및 교과서 쪽수 재대조는 미완료이므로 학생용 운영 GO로 보지 않는다.

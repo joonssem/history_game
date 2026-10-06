@@ -30,6 +30,11 @@ export type CooperativeScenario = Omit<PublicScenario, "roles"> & {
   teacherStages: readonly Stage[];
   interventions: { hint: string; deepen: string };
   sources: readonly { claim: string; url: string; accessedAt: string }[];
+  draftRequirements?: {
+    policyIds?: readonly string[];
+    evidenceRoleIds?: readonly string[];
+    connectionIds?: readonly string[];
+  };
 };
 
 function publicScenario(id: string): PublicScenario {
@@ -479,11 +484,129 @@ const goryeoRelations: CooperativeScenario = {
   ],
 };
 
+const goryeoCulturePublic = publicScenario("goryeo-culture-life");
+const goryeoCultureFirstChoices = [
+  { id: "technology", label: "문화유산은 고려의 기술 발달을 보여 준다" },
+  { id: "people", label: "문화유산과 기록은 사람들의 생활도 보여 준다" },
+  { id: "whole-society", label: "남은 유물만으로 고려 사람 모두의 삶을 알 수 있다" },
+] as const;
+
+const goryeoCulture: CooperativeScenario = {
+  ...goryeoCulturePublic,
+  roles: [
+    {
+      id: "celadon-artisan",
+      icon: "🏺",
+      name: "청자 공방 장인",
+      privateInfo: "역할극 자료: 고려청자는 맑고 푸른 비색과 상감 무늬로 알려져 있습니다. 상감청자는 그릇에 무늬를 새기고 흰 흙이나 검은 흙을 넣어 표현했습니다.",
+      interest: "정교한 청자를 만든 기술을 소개하되, 청자 한 점만으로 모든 사람이 이를 쓰거나 가졌다고 단정하지 않으려 합니다.",
+      firstChoices: goryeoCultureFirstChoices,
+      evidence: [{ id: "celadon-inlay", label: "비색과 상감 기법은 고려 도자 제작 기술의 발달을 보여 준다" }],
+    },
+    {
+      id: "family-record-reader",
+      icon: "📜",
+      name: "가족 기록 살피는 사람",
+      privateInfo: "염경애 묘지명에는 한 고려 여성의 가족 관계와 재산 상속에 관한 내용이 남아 있습니다. 딸들이 재산을 받은 사례이지만, 한 가족의 기록만으로 모든 고려 여성의 삶을 설명할 수는 없습니다.",
+      interest: "문화유산뿐 아니라 가족과 재산에 관한 기록도 살펴, 당시 생활 모습을 구체적인 사례로 말하고 싶습니다.",
+      firstChoices: goryeoCultureFirstChoices,
+      evidence: [{ id: "inheritance-record", label: "염경애 묘지명에는 딸들이 재산을 받은 가족 사례가 기록되어 있다" }],
+    },
+    {
+      id: "tripitaka-woodblock-reader",
+      icon: "🪵",
+      name: "대장경 목판 작업자",
+      privateInfo: "역할극 자료: 고려는 몽골의 침입 시기에 부처의 힘으로 나라를 지키려는 뜻을 담아 대장경 목판을 새겼습니다. 판각에는 10년이 넘는 시간이 걸렸고 여러 계층의 사람이 참여했다는 기록이 있습니다. 작업자의 구체적인 생활과 작업 조건은 이 자료만으로 알 수 없습니다.",
+      interest: "불교 신앙과 목판 제작이 나라를 지키려는 바람과 연결된 점을 설명하고, 긴 제작 과정에 많은 사람의 노동이 필요했음을 살펴보려 합니다.",
+      firstChoices: goryeoCultureFirstChoices,
+      evidence: [
+        { id: "tripitaka-purpose", label: "대장경 목판에는 불교 신앙과 나라를 지키려는 염원이 담겼다" },
+        { id: "tripitaka-labor", label: "10년 넘는 판각 기간과 여러 계층의 참여 기록은 많은 사람의 노동이 모였음을 보여 준다" },
+      ],
+    },
+    {
+      id: "movable-type-printer",
+      icon: "🔤",
+      name: "금속 활자 인쇄 기술자",
+      privateInfo: "직지는 1377년에 금속 활자로 인쇄되었습니다. 지금까지 남아 있는 금속 활자 인쇄 책 가운데 가장 오래된 것으로 알려져 있습니다. 이 책 한 권만으로 금속 활자 인쇄가 얼마나 널리 쓰였는지는 알 수 없습니다.",
+      interest: "고려에 금속 활자 기술이 있었음을 알리면서, 기술이 있었다는 사실과 누구나 책을 쉽게 볼 수 있었다는 주장은 구분하고 싶습니다.",
+      firstChoices: goryeoCultureFirstChoices,
+      evidence: [{ id: "jikji-metal-type", label: "1377년 직지는 고려의 금속 활자 인쇄 기술을 보여 주는 현존 자료다" }],
+    },
+    {
+      id: "evidence-curator",
+      icon: "🔎",
+      name: "자료 한계 검토자",
+      privateInfo: "청자·묘지명·목판·책은 서로 다른 까닭으로 만들어지고 보존된 자료입니다. 남은 자료는 당시 모든 지역과 계층의 일상을 똑같이 보여 주지 않습니다.",
+      interest: "무엇을 알 수 있는지와 아직 알기 어려운 점을 나누어, 모둠의 설명이 한 사례를 전체로 넓히지 않게 돕고 싶습니다.",
+      firstChoices: goryeoCultureFirstChoices,
+      evidence: [{ id: "evidence-scope", label: "남은 유물과 기록만으로 모든 사람의 생활을 알 수는 없다" }],
+    },
+  ],
+  sharedPrompt: {
+    question: "고려의 문화유산과 기록은 고려 사람들의 삶과 생각을 어디까지 보여 줄까?",
+    policies: [
+      { id: "craft-technology", label: "청자와 금속 활자에서 제작 기술과 지식을 살펴본다" },
+      { id: "belief-purpose", label: "대장경에서 불교 신앙과 나라를 지키려는 염원을 살펴본다" },
+      { id: "family-life", label: "가족 기록에서 재산과 생활 모습을 살펴본다" },
+    ],
+    limitations: [
+      { id: "one-family", label: "한 가족의 묘지명만으로 모든 고려 가족의 모습을 알 수 없다" },
+      { id: "who-used", label: "남은 청자와 직지만으로 누가 얼마나 자주 사용했는지 알 수 없다" },
+      { id: "missing-lives", label: "남은 유물과 기록에는 여러 지역·계층의 생활이 빠져 있을 수 있다" },
+    ],
+    connections: [
+      { id: "tech-and-access", label: "청자와 직지는 정교한 제작 기술을 보여 주지만, 모든 사람이 이를 이용했는지는 다른 자료가 필요하다" },
+      { id: "belief-and-work", label: "대장경은 불교 신앙과 나라를 지키려는 염원을 보여 주며, 긴 제작 기간에는 많은 사람의 작업이 필요했다" },
+      { id: "record-and-scope", label: "묘지명은 한 가족의 생활을 보여 주지만 다른 계층과 지역의 경험까지 대표하지는 않는다" },
+    ],
+    whyTogetherStem: "서로 다른 유물과 기록을 함께 보면",
+  },
+  draftRequirements: {
+    policyIds: ["family-life"],
+    evidenceRoleIds: ["family-record-reader"],
+    connectionIds: ["record-and-scope"],
+  },
+  commonEvidenceByGroupSize: {
+    3: [{ id: "common-jikji", label: "공통 자료: 1377년 직지는 고려의 금속 활자 인쇄 기술을 보여 주는 현존 자료다" }],
+    4: [],
+    5: [],
+  },
+  teacherStages: ["role", "first", "share", "draft", "confirm", "finished"],
+  interventions: {
+    hint: "자료에 직접 적힌 사실과, 그 사실에서 짐작한 점을 나누어 말해 볼까요?",
+    deepen: "이 자료가 보여 주지 않는 사람이나 생활은 누구일까요? 다른 자료가 더 필요한 까닭은 무엇인가요?",
+  },
+  sources: [
+    {
+      claim: "고려청자의 비색과 상감 기법 및 장인의 제작 기술",
+      url: "https://www.museum.go.kr/MUSEUM/contents/M0501000000.do?relicRecommendId=254458&schM=view",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "염경애 묘지명에 기록된 한 가족의 관계와 딸의 재산 상속 사례",
+      url: "https://contents.history.go.kr/front/hm/view.do?levelId=hm_064_0040",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "고려대장경 목판의 제작 기간·참여와 몽골 침입기 불교 신앙·수호 염원",
+      url: "https://contents.history.go.kr/mobile/eh/view.do?levelId=eh_r0150_0010&code=eh_age_20",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "1377년 직지와 고려 금속 활자 인쇄의 현존 자료 범위",
+      url: "https://contents.history.go.kr/mobile/eh/view.do?levelId=eh_r0160_0010",
+      accessedAt: "2026-10-02",
+    },
+  ],
+};
+
 export const SCENARIOS: readonly CooperativeScenario[] = [
   gojoseon,
   earlyGoryeo,
   joseonLate,
   goryeoRelations,
+  goryeoCulture,
 ];
 
 export function getScenario(id: string, version: number) {
@@ -524,6 +647,24 @@ export function validateScenarioRegistry(): string[] {
     for (const role of scenario.roles) {
       if (!role.privateInfo || !role.interest || role.evidence.length === 0) {
         errors.push(`${key}: ${role.id} 역할 자료가 완전하지 않습니다.`);
+      }
+    }
+  }
+  for (const scenario of SCENARIOS) {
+    const key = `${scenario.id}:${scenario.version}`;
+    for (const policyId of scenario.draftRequirements?.policyIds ?? []) {
+      if (!scenario.sharedPrompt.policies.some((policy) => policy.id === policyId)) {
+        errors.push(`${key}: unknown required policy ${policyId}`);
+      }
+    }
+    for (const roleId of scenario.draftRequirements?.evidenceRoleIds ?? []) {
+      if (!scenario.roles.some((role) => role.id === roleId)) {
+        errors.push(`${key}: unknown required evidence role ${roleId}`);
+      }
+    }
+    for (const connectionId of scenario.draftRequirements?.connectionIds ?? []) {
+      if (!scenario.sharedPrompt.connections.some((item) => item.id === connectionId)) {
+        errors.push(`${key}: unknown required connection ${connectionId}`);
       }
     }
   }

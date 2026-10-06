@@ -54,3 +54,21 @@ describe("서버 전용 협동 시나리오 레지스트리", () => {
     assert.ok(scenario.sources.length >= 6);
   });
 });
+
+describe("Goryeo culture evidence scope", () => {
+  it("keeps life evidence mandatory and excludes unverified claims", () => {
+    const scenario = getScenario("goryeo-culture-life", 1);
+    assert.ok(scenario);
+    assert.deepEqual(scenario.draftRequirements, {
+      policyIds: ["family-life"],
+      evidenceRoleIds: ["family-record-reader"],
+      connectionIds: ["record-and-scope"],
+    });
+    assert.equal(scenario.commonEvidenceByGroupSize[3][0]?.id, "common-jikji");
+    assert.equal(scenario.roles.some((role) => role.evidence.some((item) => item.id === "tripitaka-labor")), true);
+    const content = JSON.stringify(scenario);
+    for (const excluded of ["벽란도", "선원사", "분사도감", "1398", "1995", "2007"]) {
+      assert.equal(content.includes(excluded), false, `unexpected claim: ${excluded}`);
+    }
+  });
+});
