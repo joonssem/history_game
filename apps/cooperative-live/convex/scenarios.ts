@@ -357,10 +357,133 @@ const joseonLate: CooperativeScenario = {
   ],
 };
 
+const goryeoRelationsPublic = publicScenario("goryeo-foreign-relations");
+const goryeoRelationsFirstChoices = [
+  { id: "negotiate", label: "상대가 원하는 것을 알아보고 말로 협상한다" },
+  { id: "defend", label: "성과 방어 거점을 갖추고 맞서 싸운다" },
+  { id: "resist", label: "도읍을 옮기거나 끝까지 버티며 저항한다" },
+  { id: "protect-people", label: "백성의 피해를 줄이는 일을 먼저 한다" },
+] as const;
+
+const goryeoRelations: CooperativeScenario = {
+  ...goryeoRelationsPublic,
+  roles: [
+    {
+      id: "diplomacy-reviewer",
+      icon: "🤝",
+      name: "외교 기록 검토자",
+      privateInfo: "993년 거란이 쳐들어왔을 때 서희가 거란 장수와 만나 협상했습니다. 서희는 고려가 고구려를 이은 나라이고, 압록강 쪽 여진 때문에 거란과 길이 막혀 있다고 설명했습니다. 거란은 압록강 동쪽 여진이 살던 땅에 대한 고려의 권리를 인정하고 물러났습니다.",
+      interest: "외교는 상대가 무엇을 원하는지 읽고 조건을 주고받는 선택이었다고 생각합니다. 이 기록은 거란 시기의 한 사건입니다.",
+      firstChoices: goryeoRelationsFirstChoices,
+      evidence: [{ id: "diplomacy-seohui", label: "[거란 시기] 서희가 상대의 목적과 여진 문제를 짚어 협상했고, 거란이 고려의 권리를 인정하고 물러난 사례" }],
+    },
+    {
+      id: "border-defender",
+      icon: "🏯",
+      name: "북방 방어 담당자",
+      privateInfo: "담판 뒤 고려는 여진을 몰아내고 성을 쌓아 강동 6주를 차츰 만들어 갔습니다. 이 6주는 거란이 다시 쳐들어왔을 때 앞에서 맞서는 기지 구실을 했습니다. 한때는 개경이 함락되어 임금이 나주까지 피난한 위기도 있었고, 그 뒤 흥화진에서 귀주까지 이어진 방어로 거란군이 물러갔습니다.",
+      interest: "외교로 얻은 결과도 성과 방어 거점이 있어야 지킬 수 있었다고 생각합니다. 전투가 끝난 뒤에도 거란과의 관계는 화친으로 다시 정리되었습니다.",
+      firstChoices: goryeoRelationsFirstChoices,
+      evidence: [{ id: "defense-gangdong", label: "[거란 시기] 성을 쌓은 강동 6주가 다시 침입을 막는 기지가 되었고, 흥화진에서 귀주까지 이어서 방어한 과정" }],
+    },
+    {
+      id: "war-villager",
+      icon: "🌾",
+      name: "전란 속 마을 사람",
+      privateInfo: "몽골이 여러 차례 쳐들어오는 동안 국토가 황폐해지고 백성이 큰 고통을 겪었다고 기록되어 있습니다. 대구 부인사에 있던 대장경 판목과 황룡사 9층탑 같은 문화재도 이때 불탔습니다. 삼별초가 섬을 옮겨 다닐 때에는 해안 지역이 비고 길이 막히는 일도 있었습니다.",
+      interest: "나라의 대응을 평가할 때 백성의 생활 피해도 함께 살펴야 한다고 생각합니다. 이 자료는 몽골 시기 이야기이며, 거란 시기 백성의 생활은 우리 자료에 없습니다.",
+      firstChoices: goryeoRelationsFirstChoices,
+      evidence: [{ id: "villager-damage", label: "[몽골 시기] 오랜 침입으로 국토가 황폐해지고 백성이 고통을 겪었으며 문화재가 불탄 기록" }],
+    },
+    {
+      id: "ganghwa-recorder",
+      icon: "🌊",
+      name: "강화·항쟁 기록자",
+      privateInfo: "1231년 몽골이 침입한 뒤 이어서 여러 차례 쳐들어왔고, 집권자 최우는 1232년 도읍을 강화도로 옮겼습니다. 몽골군이 바다 싸움에 약했다는 이유와 함께 최씨 정권을 지키려는 계산도 있었다고 설명합니다. 처인성에서는 승려 김윤후가 몽골 장수를 쏘아 죽였고, 나중에 삼별초는 강화를 받아들이지 않고 진도와 제주도로 옮겨 가며 1273년까지 저항했습니다.",
+      interest: "저항의 뜻과 오래 이어진 전쟁의 부담을 함께 살펴야 한다고 생각합니다. 삼별초를 영웅이나 반란 한쪽으로만 말하기는 어렵습니다.",
+      firstChoices: goryeoRelationsFirstChoices,
+      evidence: [{ id: "ganghwa-resistance", label: "[몽골 시기] 강화도로 도읍을 옮기고, 처인성과 삼별초처럼 여러 곳에서 저항이 이어진 과정" }],
+    },
+    {
+      id: "timeline-reviewer",
+      icon: "🗓️",
+      name: "관계 연표 검토자",
+      privateInfo: "거란과의 일은 10~11세기, 몽골과의 일은 13세기에 있었던 서로 다른 시기의 일입니다. 몽골과의 오랜 전쟁은 강화와 복속(힘센 쪽을 따르는 관계)으로 이어졌습니다. 기록은 고려의 국가 위상이 보장되는 가운데 몽골의 강한 간섭도 받았다고 설명합니다.",
+      interest: "두 시기를 하나의 전쟁처럼 섞지 않도록 확인하고 싶습니다. 몽골과의 결과도 이겼다 졌다 한쪽으로만 평가하지 않도록 살피고 싶습니다.",
+      firstChoices: goryeoRelationsFirstChoices,
+      evidence: [{ id: "timeline-eras", label: "[두 시기 비교] 거란(10~11세기)과 몽골(13세기)은 서로 다른 시기이고, 몽골과의 관계는 복속을 전제로 한 간섭 속에서 이어졌다는 설명" }],
+    },
+  ],
+  sharedPrompt: {
+    question: "고려는 주변 나라의 위기에 어떻게 대응했고, 그 선택은 사람들의 생활에 어떤 영향을 주었을까?",
+    policies: [
+      { id: "negotiate", label: "상대의 목적을 읽고 협상한 외교" },
+      { id: "defend", label: "성과 방어 거점을 갖추고 싸운 방어" },
+      { id: "relocate-resist", label: "도읍을 옮기고 이어 간 저항" },
+      { id: "reduce-harm", label: "백성의 피해를 줄이려는 노력" },
+    ],
+    limitations: [
+      { id: "single-event", label: "한두 사건의 결과만으로 고려의 모든 대외 관계를 설명할 수 없다" },
+      { id: "two-eras", label: "거란 시기와 몽골 시기는 서로 다르므로 한 시기의 모습을 다른 시기에 그대로 적용할 수 없다" },
+      { id: "people-gap", label: "우리 자료는 몽골 시기 백성의 피해만 전하고, 거란 시기 백성의 생활은 알 수 없다" },
+    ],
+    connections: [
+      { id: "diplomacy-needs-defense", label: "외교로 얻은 결과를 지키려면 성과 방어 거점이 함께 필요했다" },
+      { id: "resist-cost", label: "몽골 시기의 도읍 이동과 저항은 나라를 지키려는 선택이었지만, 오랜 전쟁으로 백성과 문화재가 큰 피해를 입었다" },
+      { id: "different-eras", label: "거란 시기에는 협상과 방어가, 몽골 시기에는 도읍 이동과 저항이 중심이어서 같은 방법이 두 시기에 똑같이 쓰이지 않았다" },
+      { id: "resistance-spread", label: "삼별초의 저항은 강화 결정에 대한 반대에서 시작되었고, 그 이동은 주변 지역 사람들에게도 영향을 주었다" },
+    ],
+    whyTogetherStem: "서로 다른 시기와 처지의 자료를 함께 보면",
+  },
+  commonEvidenceByGroupSize: {
+    3: [{ id: "common-villager", label: "공통 자료: [몽골 시기] 오랜 침입으로 국토가 황폐해지고 백성이 고통을 겪었으며 문화재가 불탔다는 기록" }],
+    4: [],
+    5: [],
+  },
+  teacherStages: ["role", "first", "share", "draft", "confirm", "finished"],
+  interventions: {
+    hint: "지금 말한 대응은 어느 시기의 일인가요? 거란과 몽골 침입을 구분해 보세요.",
+    deepen: "그 선택은 나라를 지키는 데 어떤 도움이 되었고, 평범한 사람의 생활에는 어떤 부담을 주었을까요?",
+  },
+  sources: [
+    {
+      claim: "993년 서희의 담판과 강동 6주 개척, 거란 재침입 때 전진 기지 역할",
+      url: "https://contents.history.go.kr/front/tg/print.do?levelId=tg_002_1060&treeId=&whereStr=",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "거란 침입 때 흥화진·귀주로 이어진 강감찬의 방어 과정",
+      url: "https://contents.history.go.kr/front/hm/print.do?levelId=hm_048_0030&tabId=03&treeId=010401&whereStr=",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "거란 2차 침입 때 개경 함락과 현종의 피난, 귀주대첩 뒤 책봉·연호 사용 방식의 화친",
+      url: "https://contents.history.go.kr/front/ta/print.do?levelId=ta_h31_0050_0010_0030",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "1231년 몽골 침입, 강화도 천도, 처인성 전투, 몽골 침입의 피해, 환도와 복속 관계",
+      url: "https://contents.history.go.kr/mobile/ta/view.do?levelId=ta_h31_0050_0040_0010",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "최우의 1232년 강화도 천도와 해도입보책, 몽골에 대한 복속 관계",
+      url: "https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_i200800&code=kc_age_20",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "삼별초의 구성과 강화 반대, 진도·제주도로의 이동과 1273년 진압",
+      url: "https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_o200400&code=kc_age_20",
+      accessedAt: "2026-10-02",
+    },
+  ],
+};
+
 export const SCENARIOS: readonly CooperativeScenario[] = [
   gojoseon,
   earlyGoryeo,
   joseonLate,
+  goryeoRelations,
 ];
 
 export function getScenario(id: string, version: number) {
