@@ -130,6 +130,25 @@ describe("협동 MUD 공개 시나리오와 편성", () => {
     }
   });
 
+  it("고려 주변 나라 관계 3·4·5인 역할 배치를 고유하게 만든다", () => {
+    const scenario = getPublicScenario("goryeo-foreign-relations", 1);
+    assert.ok(scenario);
+    for (const size of [3, 4, 5] as const) {
+      const participants = Array.from(
+        { length: size },
+        (_, index) => `relations-${index + 1}`,
+      );
+      const assignments = assignGroups(
+        participants,
+        size,
+        seededRandom(size),
+        scenario,
+      );
+      assert.equal(assignments.length, size);
+      assert.equal(new Set(assignments.map((item) => item.roleId)).size, size);
+    }
+  });
+
   it("클라이언트 공개 카탈로그에는 비공개 역할 본문이 없다", () => {
     for (const scenario of PUBLIC_SCENARIOS) {
       for (const role of scenario.roles) {
@@ -137,6 +156,26 @@ describe("협동 MUD 공개 시나리오와 편성", () => {
         assert.equal("interest" in role, false);
         assert.equal("evidence" in role, false);
       }
+    }
+  });
+});
+
+describe("Goryeo culture role assignment", () => {
+  it("supports distinct role layouts for groups of 3, 4, and 5", () => {
+    const scenario = getPublicScenario("goryeo-culture-life", 1);
+    assert.ok(scenario);
+    for (const size of [3, 4, 5] as const) {
+      const assignments = assignGroups(
+        Array.from({ length: size }, (_, index) => `culture-${index + 1}`),
+        size,
+        seededRandom(size),
+        scenario,
+      );
+      assert.equal(assignments.length, size);
+      assert.deepEqual(
+        new Set(assignments.map((assignment) => assignment.roleId)),
+        new Set(scenario.groupSizes[size]),
+      );
     }
   });
 });

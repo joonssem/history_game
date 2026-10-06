@@ -30,6 +30,11 @@ export type CooperativeScenario = Omit<PublicScenario, "roles"> & {
   teacherStages: readonly Stage[];
   interventions: { hint: string; deepen: string };
   sources: readonly { claim: string; url: string; accessedAt: string }[];
+  draftRequirements?: {
+    policyIds?: readonly string[];
+    evidenceRoleIds?: readonly string[];
+    connectionIds?: readonly string[];
+  };
 };
 
 function publicScenario(id: string): PublicScenario {
@@ -357,10 +362,251 @@ const joseonLate: CooperativeScenario = {
   ],
 };
 
+const goryeoRelationsPublic = publicScenario("goryeo-foreign-relations");
+const goryeoRelationsFirstChoices = [
+  { id: "negotiate", label: "상대가 원하는 것을 알아보고 말로 협상한다" },
+  { id: "defend", label: "성과 방어 거점을 갖추고 맞서 싸운다" },
+  { id: "resist", label: "도읍을 옮기거나 끝까지 버티며 저항한다" },
+  { id: "protect-people", label: "백성의 피해를 줄이는 일을 먼저 한다" },
+] as const;
+
+const goryeoRelations: CooperativeScenario = {
+  ...goryeoRelationsPublic,
+  roles: [
+    {
+      id: "diplomacy-reviewer",
+      icon: "🤝",
+      name: "외교 기록 검토자",
+      privateInfo: "993년 거란이 쳐들어왔을 때 서희가 거란 장수와 만나 협상했습니다. 서희는 고려가 고구려를 이은 나라이고, 압록강 쪽 여진 때문에 거란과 길이 막혀 있다고 설명했습니다. 거란은 압록강 동쪽 여진이 살던 땅에 대한 고려의 권리를 인정하고 물러났습니다.",
+      interest: "외교는 상대가 무엇을 원하는지 읽고 조건을 주고받는 선택이었다고 생각합니다. 이 기록은 거란 시기의 한 사건입니다.",
+      firstChoices: goryeoRelationsFirstChoices,
+      evidence: [{ id: "diplomacy-seohui", label: "[거란 시기] 서희가 상대의 목적과 여진 문제를 짚어 협상했고, 거란이 고려의 권리를 인정하고 물러난 사례" }],
+    },
+    {
+      id: "border-defender",
+      icon: "🏯",
+      name: "북방 방어 담당자",
+      privateInfo: "담판 뒤 고려는 여진을 몰아내고 성을 쌓아 강동 6주를 차츰 만들어 갔습니다. 이 6주는 거란이 다시 쳐들어왔을 때 앞에서 맞서는 기지 구실을 했습니다. 한때는 개경이 함락되어 임금이 나주까지 피난한 위기도 있었고, 그 뒤 흥화진에서 귀주까지 이어진 방어로 거란군이 물러갔습니다.",
+      interest: "외교로 얻은 결과도 성과 방어 거점이 있어야 지킬 수 있었다고 생각합니다. 전투가 끝난 뒤에도 거란과의 관계는 화친으로 다시 정리되었습니다.",
+      firstChoices: goryeoRelationsFirstChoices,
+      evidence: [{ id: "defense-gangdong", label: "[거란 시기] 성을 쌓은 강동 6주가 다시 침입을 막는 기지가 되었고, 흥화진에서 귀주까지 이어서 방어한 과정" }],
+    },
+    {
+      id: "war-villager",
+      icon: "🌾",
+      name: "전란 속 마을 사람",
+      privateInfo: "몽골이 여러 차례 쳐들어오는 동안 국토가 황폐해지고 백성이 큰 고통을 겪었다고 기록되어 있습니다. 대구 부인사에 있던 대장경 판목과 황룡사 9층탑 같은 문화재도 이때 불탔습니다. 삼별초가 섬을 옮겨 다닐 때에는 해안 지역이 비고 길이 막히는 일도 있었습니다.",
+      interest: "나라의 대응을 평가할 때 백성의 생활 피해도 함께 살펴야 한다고 생각합니다. 이 자료는 몽골 시기 이야기이며, 거란 시기 백성의 생활은 우리 자료에 없습니다.",
+      firstChoices: goryeoRelationsFirstChoices,
+      evidence: [{ id: "villager-damage", label: "[몽골 시기] 오랜 침입으로 국토가 황폐해지고 백성이 고통을 겪었으며 문화재가 불탄 기록" }],
+    },
+    {
+      id: "ganghwa-recorder",
+      icon: "🌊",
+      name: "강화·항쟁 기록자",
+      privateInfo: "1231년 몽골이 침입한 뒤 이어서 여러 차례 쳐들어왔고, 집권자 최우는 1232년 도읍을 강화도로 옮겼습니다. 몽골군이 바다 싸움에 약했다는 이유와 함께 최씨 정권을 지키려는 계산도 있었다고 설명합니다. 처인성에서는 승려 김윤후가 몽골 장수를 쏘아 죽였고, 나중에 삼별초는 강화를 받아들이지 않고 진도와 제주도로 옮겨 가며 1273년까지 저항했습니다.",
+      interest: "저항의 뜻과 오래 이어진 전쟁의 부담을 함께 살펴야 한다고 생각합니다. 삼별초를 영웅이나 반란 한쪽으로만 말하기는 어렵습니다.",
+      firstChoices: goryeoRelationsFirstChoices,
+      evidence: [{ id: "ganghwa-resistance", label: "[몽골 시기] 강화도로 도읍을 옮기고, 처인성과 삼별초처럼 여러 곳에서 저항이 이어진 과정" }],
+    },
+    {
+      id: "timeline-reviewer",
+      icon: "🗓️",
+      name: "관계 연표 검토자",
+      privateInfo: "거란과의 일은 10~11세기, 몽골과의 일은 13세기에 있었던 서로 다른 시기의 일입니다. 몽골과의 오랜 전쟁은 강화와 복속(힘센 쪽을 따르는 관계)으로 이어졌습니다. 기록은 고려의 국가 위상이 보장되는 가운데 몽골의 강한 간섭도 받았다고 설명합니다.",
+      interest: "두 시기를 하나의 전쟁처럼 섞지 않도록 확인하고 싶습니다. 몽골과의 결과도 이겼다 졌다 한쪽으로만 평가하지 않도록 살피고 싶습니다.",
+      firstChoices: goryeoRelationsFirstChoices,
+      evidence: [{ id: "timeline-eras", label: "[두 시기 비교] 거란(10~11세기)과 몽골(13세기)은 서로 다른 시기이고, 몽골과의 관계는 복속을 전제로 한 간섭 속에서 이어졌다는 설명" }],
+    },
+  ],
+  sharedPrompt: {
+    question: "고려는 주변 나라의 위기에 어떻게 대응했고, 그 선택은 사람들의 생활에 어떤 영향을 주었을까?",
+    policies: [
+      { id: "negotiate", label: "상대의 목적을 읽고 협상한 외교" },
+      { id: "defend", label: "성과 방어 거점을 갖추고 싸운 방어" },
+      { id: "relocate-resist", label: "도읍을 옮기고 이어 간 저항" },
+      { id: "reduce-harm", label: "백성의 피해를 줄이려는 노력" },
+    ],
+    limitations: [
+      { id: "single-event", label: "한두 사건의 결과만으로 고려의 모든 대외 관계를 설명할 수 없다" },
+      { id: "two-eras", label: "거란 시기와 몽골 시기는 서로 다르므로 한 시기의 모습을 다른 시기에 그대로 적용할 수 없다" },
+      { id: "people-gap", label: "우리 자료는 몽골 시기 백성의 피해만 전하고, 거란 시기 백성의 생활은 알 수 없다" },
+    ],
+    connections: [
+      { id: "diplomacy-needs-defense", label: "외교로 얻은 결과를 지키려면 성과 방어 거점이 함께 필요했다" },
+      { id: "resist-cost", label: "몽골 시기의 도읍 이동과 저항은 나라를 지키려는 선택이었지만, 오랜 전쟁으로 백성과 문화재가 큰 피해를 입었다" },
+      { id: "different-eras", label: "거란 시기에는 협상과 방어가, 몽골 시기에는 도읍 이동과 저항이 중심이어서 같은 방법이 두 시기에 똑같이 쓰이지 않았다" },
+      { id: "resistance-spread", label: "삼별초의 저항은 강화 결정에 대한 반대에서 시작되었고, 그 이동은 주변 지역 사람들에게도 영향을 주었다" },
+    ],
+    whyTogetherStem: "서로 다른 시기와 처지의 자료를 함께 보면",
+  },
+  commonEvidenceByGroupSize: {
+    3: [{ id: "common-villager", label: "공통 자료: [몽골 시기] 오랜 침입으로 국토가 황폐해지고 백성이 고통을 겪었으며 문화재가 불탔다는 기록" }],
+    4: [],
+    5: [],
+  },
+  teacherStages: ["role", "first", "share", "draft", "confirm", "finished"],
+  interventions: {
+    hint: "지금 말한 대응은 어느 시기의 일인가요? 거란과 몽골 침입을 구분해 보세요.",
+    deepen: "그 선택은 나라를 지키는 데 어떤 도움이 되었고, 평범한 사람의 생활에는 어떤 부담을 주었을까요?",
+  },
+  sources: [
+    {
+      claim: "993년 서희의 담판과 강동 6주 개척, 거란 재침입 때 전진 기지 역할",
+      url: "https://contents.history.go.kr/front/tg/print.do?levelId=tg_002_1060&treeId=&whereStr=",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "거란 침입 때 흥화진·귀주로 이어진 강감찬의 방어 과정",
+      url: "https://contents.history.go.kr/front/hm/print.do?levelId=hm_048_0030&tabId=03&treeId=010401&whereStr=",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "거란 2차 침입 때 개경 함락과 현종의 피난, 귀주대첩 뒤 책봉·연호 사용 방식의 화친",
+      url: "https://contents.history.go.kr/front/ta/print.do?levelId=ta_h31_0050_0010_0030",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "1231년 몽골 침입, 강화도 천도, 처인성 전투, 몽골 침입의 피해, 환도와 복속 관계",
+      url: "https://contents.history.go.kr/mobile/ta/view.do?levelId=ta_h31_0050_0040_0010",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "최우의 1232년 강화도 천도와 해도입보책, 몽골에 대한 복속 관계",
+      url: "https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_i200800&code=kc_age_20",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "삼별초의 구성과 강화 반대, 진도·제주도로의 이동과 1273년 진압",
+      url: "https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_o200400&code=kc_age_20",
+      accessedAt: "2026-10-02",
+    },
+  ],
+};
+
+const goryeoCulturePublic = publicScenario("goryeo-culture-life");
+const goryeoCultureFirstChoices = [
+  { id: "technology", label: "문화유산은 고려의 기술 발달을 보여 준다" },
+  { id: "people", label: "문화유산과 기록은 사람들의 생활도 보여 준다" },
+  { id: "whole-society", label: "남은 유물만으로 고려 사람 모두의 삶을 알 수 있다" },
+] as const;
+
+const goryeoCulture: CooperativeScenario = {
+  ...goryeoCulturePublic,
+  roles: [
+    {
+      id: "celadon-artisan",
+      icon: "🏺",
+      name: "청자 공방 장인",
+      privateInfo: "역할극 자료: 고려청자는 맑고 푸른 비색과 상감 무늬로 알려져 있습니다. 상감청자는 그릇에 무늬를 새기고 흰 흙이나 검은 흙을 넣어 표현했습니다.",
+      interest: "정교한 청자를 만든 기술을 소개하되, 청자 한 점만으로 모든 사람이 이를 쓰거나 가졌다고 단정하지 않으려 합니다.",
+      firstChoices: goryeoCultureFirstChoices,
+      evidence: [{ id: "celadon-inlay", label: "비색과 상감 기법은 고려 도자 제작 기술의 발달을 보여 준다" }],
+    },
+    {
+      id: "family-record-reader",
+      icon: "📜",
+      name: "가족 기록 살피는 사람",
+      privateInfo: "염경애 묘지명에는 한 고려 여성의 가족 관계와 재산 상속에 관한 내용이 남아 있습니다. 딸들이 재산을 받은 사례이지만, 한 가족의 기록만으로 모든 고려 여성의 삶을 설명할 수는 없습니다.",
+      interest: "문화유산뿐 아니라 가족과 재산에 관한 기록도 살펴, 당시 생활 모습을 구체적인 사례로 말하고 싶습니다.",
+      firstChoices: goryeoCultureFirstChoices,
+      evidence: [{ id: "inheritance-record", label: "염경애 묘지명에는 딸들이 재산을 받은 가족 사례가 기록되어 있다" }],
+    },
+    {
+      id: "tripitaka-woodblock-reader",
+      icon: "🪵",
+      name: "대장경 목판 작업자",
+      privateInfo: "역할극 자료: 고려는 몽골의 침입 시기에 부처의 힘으로 나라를 지키려는 뜻을 담아 대장경 목판을 새겼습니다. 판각에는 10년이 넘는 시간이 걸렸고 여러 계층의 사람이 참여했다는 기록이 있습니다. 작업자의 구체적인 생활과 작업 조건은 이 자료만으로 알 수 없습니다.",
+      interest: "불교 신앙과 목판 제작이 나라를 지키려는 바람과 연결된 점을 설명하고, 긴 제작 과정에 많은 사람의 노동이 필요했음을 살펴보려 합니다.",
+      firstChoices: goryeoCultureFirstChoices,
+      evidence: [
+        { id: "tripitaka-purpose", label: "대장경 목판에는 불교 신앙과 나라를 지키려는 염원이 담겼다" },
+        { id: "tripitaka-labor", label: "10년 넘는 판각 기간과 여러 계층의 참여 기록은 많은 사람의 노동이 모였음을 보여 준다" },
+      ],
+    },
+    {
+      id: "movable-type-printer",
+      icon: "🔤",
+      name: "금속 활자 인쇄 기술자",
+      privateInfo: "직지는 1377년에 금속 활자로 인쇄되었습니다. 지금까지 남아 있는 금속 활자 인쇄 책 가운데 가장 오래된 것으로 알려져 있습니다. 이 책 한 권만으로 금속 활자 인쇄가 얼마나 널리 쓰였는지는 알 수 없습니다.",
+      interest: "고려에 금속 활자 기술이 있었음을 알리면서, 기술이 있었다는 사실과 누구나 책을 쉽게 볼 수 있었다는 주장은 구분하고 싶습니다.",
+      firstChoices: goryeoCultureFirstChoices,
+      evidence: [{ id: "jikji-metal-type", label: "1377년 직지는 고려의 금속 활자 인쇄 기술을 보여 주는 현존 자료다" }],
+    },
+    {
+      id: "evidence-curator",
+      icon: "🔎",
+      name: "자료 한계 검토자",
+      privateInfo: "청자·묘지명·목판·책은 서로 다른 까닭으로 만들어지고 보존된 자료입니다. 남은 자료는 당시 모든 지역과 계층의 일상을 똑같이 보여 주지 않습니다.",
+      interest: "무엇을 알 수 있는지와 아직 알기 어려운 점을 나누어, 모둠의 설명이 한 사례를 전체로 넓히지 않게 돕고 싶습니다.",
+      firstChoices: goryeoCultureFirstChoices,
+      evidence: [{ id: "evidence-scope", label: "남은 유물과 기록만으로 모든 사람의 생활을 알 수는 없다" }],
+    },
+  ],
+  sharedPrompt: {
+    question: "고려의 문화유산과 기록은 고려 사람들의 삶과 생각을 어디까지 보여 줄까?",
+    policies: [
+      { id: "craft-technology", label: "청자와 금속 활자에서 제작 기술과 지식을 살펴본다" },
+      { id: "belief-purpose", label: "대장경에서 불교 신앙과 나라를 지키려는 염원을 살펴본다" },
+      { id: "family-life", label: "가족 기록에서 재산과 생활 모습을 살펴본다" },
+    ],
+    limitations: [
+      { id: "one-family", label: "한 가족의 묘지명만으로 모든 고려 가족의 모습을 알 수 없다" },
+      { id: "who-used", label: "남은 청자와 직지만으로 누가 얼마나 자주 사용했는지 알 수 없다" },
+      { id: "missing-lives", label: "남은 유물과 기록에는 여러 지역·계층의 생활이 빠져 있을 수 있다" },
+    ],
+    connections: [
+      { id: "tech-and-access", label: "청자와 직지는 정교한 제작 기술을 보여 주지만, 모든 사람이 이를 이용했는지는 다른 자료가 필요하다" },
+      { id: "belief-and-work", label: "대장경은 불교 신앙과 나라를 지키려는 염원을 보여 주며, 긴 제작 기간에는 많은 사람의 작업이 필요했다" },
+      { id: "record-and-scope", label: "묘지명은 한 가족의 생활을 보여 주지만 다른 계층과 지역의 경험까지 대표하지는 않는다" },
+    ],
+    whyTogetherStem: "서로 다른 유물과 기록을 함께 보면",
+  },
+  draftRequirements: {
+    policyIds: ["family-life"],
+    evidenceRoleIds: ["family-record-reader"],
+    connectionIds: ["record-and-scope"],
+  },
+  commonEvidenceByGroupSize: {
+    3: [{ id: "common-jikji", label: "공통 자료: 1377년 직지는 고려의 금속 활자 인쇄 기술을 보여 주는 현존 자료다" }],
+    4: [],
+    5: [],
+  },
+  teacherStages: ["role", "first", "share", "draft", "confirm", "finished"],
+  interventions: {
+    hint: "자료에 직접 적힌 사실과, 그 사실에서 짐작한 점을 나누어 말해 볼까요?",
+    deepen: "이 자료가 보여 주지 않는 사람이나 생활은 누구일까요? 다른 자료가 더 필요한 까닭은 무엇인가요?",
+  },
+  sources: [
+    {
+      claim: "고려청자의 비색과 상감 기법 및 장인의 제작 기술",
+      url: "https://www.museum.go.kr/MUSEUM/contents/M0501000000.do?relicRecommendId=254458&schM=view",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "염경애 묘지명에 기록된 한 가족의 관계와 딸의 재산 상속 사례",
+      url: "https://contents.history.go.kr/front/hm/view.do?levelId=hm_064_0040",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "고려대장경 목판의 제작 기간·참여와 몽골 침입기 불교 신앙·수호 염원",
+      url: "https://contents.history.go.kr/mobile/eh/view.do?levelId=eh_r0150_0010&code=eh_age_20",
+      accessedAt: "2026-10-02",
+    },
+    {
+      claim: "1377년 직지와 고려 금속 활자 인쇄의 현존 자료 범위",
+      url: "https://contents.history.go.kr/mobile/eh/view.do?levelId=eh_r0160_0010",
+      accessedAt: "2026-10-02",
+    },
+  ],
+};
+
 export const SCENARIOS: readonly CooperativeScenario[] = [
   gojoseon,
   earlyGoryeo,
   joseonLate,
+  goryeoRelations,
+  goryeoCulture,
 ];
 
 export function getScenario(id: string, version: number) {
@@ -401,6 +647,24 @@ export function validateScenarioRegistry(): string[] {
     for (const role of scenario.roles) {
       if (!role.privateInfo || !role.interest || role.evidence.length === 0) {
         errors.push(`${key}: ${role.id} 역할 자료가 완전하지 않습니다.`);
+      }
+    }
+  }
+  for (const scenario of SCENARIOS) {
+    const key = `${scenario.id}:${scenario.version}`;
+    for (const policyId of scenario.draftRequirements?.policyIds ?? []) {
+      if (!scenario.sharedPrompt.policies.some((policy) => policy.id === policyId)) {
+        errors.push(`${key}: unknown required policy ${policyId}`);
+      }
+    }
+    for (const roleId of scenario.draftRequirements?.evidenceRoleIds ?? []) {
+      if (!scenario.roles.some((role) => role.id === roleId)) {
+        errors.push(`${key}: unknown required evidence role ${roleId}`);
+      }
+    }
+    for (const connectionId of scenario.draftRequirements?.connectionIds ?? []) {
+      if (!scenario.sharedPrompt.connections.some((item) => item.id === connectionId)) {
+        errors.push(`${key}: unknown required connection ${connectionId}`);
       }
     }
   }

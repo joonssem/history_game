@@ -2598,3 +2598,20 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - Convex CLI `logs --history 100 --jsonl --deployment glorious-guanaco-616`도 실행했지만 30초 동안 출력이 없어 중단했다. 과거 로그 조회 결과로 계산하지 않는다.
 - `apps/cooperative-live`에서 `npm run check`를 다시 실행해 통과시켰다: lint, typecheck, unit 19건, Convex 15건, Next.js production build.
 - `completeFirst` 인자에는 세션 ID와 학생 토큰만 있고 첫 판단·이유는 없다. `virtual-load.test.ts`는 복구 코드가 DB 원문으로 저장되지 않는 것을 검사한다. 코드 검색에서 학생 이름·학번 필드와 앱 `console.*` 호출을 발견하지 못했다. 따라서 8-4의 코드 측 점검과 현재 대시보드 관찰은 마쳤지만, 로그가 비어 있어 과거 기록의 민감값 포함 여부는 판정할 수 없다. 8-4는 미완료, 8-5는 사용자의 GO/NO-GO 결정 대기로 둔다.
+## 2026-10-06 고려 주변 나라 관계 실시간 협동 활동 추가 (P1-A)
+
+- 작업: `TASK-20261006-GORYEO-RELATIONS-P1A` (Claude, 기준 main `1d8d48e`, 브랜치 `feat/claude-goryeo-relations`). 계획 승인 순서에 따라 주변 나라 관계 활동만 구현했다. 고려 문화 실시간판은 Codex의 `feat/goryeo-classroom-activities`에 따로 있어 건드리지 않았다.
+- `goryeo-foreign-relations` v1을 `shared/scenario.ts`(공개 메타·3·4·5인 편성)와 `convex/scenarios.ts`(서버 전용 역할 본문·근거·공동 질문·교사 개입·출처 6건)에 등록했다. 교사 생성 화면은 공개 목록을 읽으므로 코드 변경 없이 선택된다. 새 상태 머신이나 필드는 만들지 않았다.
+- 역할 5종(외교 기록 검토자·북방 방어 담당자·전란 속 마을 사람·강화·항쟁 기록자·관계 연표 검토자). 3인 편성은 마을 사람 자료를 공통 자료로 보충한다. 근거 문장에 시기 표지를 붙였고, 거란 시기 백성 피해는 출처가 없어 쓰지 않았다.
+- 서버는 시기 조합을 강제하지 않는다(공통 엔진 계약 유지). 시기 구분은 근거 표지·한계 선택지·교사 발문으로 유도한다.
+- 테스트: 공개 편성 고유성, 레지스트리 공통 자료·근거 표지, 3·4·5인 서버 편성·역할 비공개·공유 후 공통 자료 공개(Convex).
+- 검증: `npm run check` 통과(lint, typecheck, 단위 22건, Convex 16건, production build). 클라이언트 번들에 비공개 역할 본문 없음 확인. 실제 기기 리허설·학생 관찰·출처 원문 재대조·교과서 쪽수 대조는 미완료이며 이 기록을 현장 검증으로 해석하지 않는다.
+- 교사 운영안: `apps/cooperative-live/TEACHING_GORYEO_RELATIONS.md`. 문화 활동 병합 시 `PUBLIC_SCENARIOS`·`SCENARIOS` 배열과 테스트 파일에서 충돌이 예상된다(둘 다 추가이므로 양쪽 보존).
+
+## 2026-10-06 고려 문화·생활 실시간 협동 활동 통합 (P1-B)
+
+- P1-A 관계 활동(`goryeo-foreign-relations` v1)과 P1-B 문화·생활 활동(`goryeo-culture-life` v1)을 현재 main의 교사 비밀번호 인증·복구 계약 위에 통합했다. 문화 활동은 5개 역할(청자 장인, 가족 기록, 대장경 제작 참여, 금속활자 인쇄, 자료 범위 검토), 3·4·5인 배치, 3인 모둠 직지 공통자료를 등록했다.
+- 자료 조합만으로 고려인 전체의 삶을 일반화하지 않도록 초안 제출에 가족 생활 정책, 가족 기록 역할의 근거, `record-and-scope` 연결을 서버에서 필수화했다. 대장경의 장기간 판각·여러 계층 참여와 노동을 포함하되 구체적인 노동 조건은 자료로 알 수 없다고 한정했다. 청자 사용 계층·장인 생활도 출처표 한계를 넘지 않는다. 벽란도는 활동에서 사용하지 않으며, C8 미확인 지명·연도는 학생용 문장에 넣지 않았다.
+- 변경: `shared/scenario.ts`, `convex/scenarios.ts`, `convex/students.ts`, 공개 레지스트리·배치 테스트, Convex 저장 거부 회귀, `TEACHING_GORYEO_CULTURE_LIFE.md`, 계획 체크리스트, BACKLOG, project context.
+- 검증: `npm run check` 통과(lint, typecheck, 단위 24건, Convex 17건, production build), `git diff --check` 통과. 기존 관계 활동 및 레지스트리 회귀 포함.
+- 운영·현장 상태: Production과 Preview가 같은 Convex `glorious-guanaco-616`를 사용 중인 것을 확인했다. 운영/개발 분리가 끝나지 않아 Convex·Vercel 배포는 하지 않았다. 실제 기기 리허설·학생 관찰·출처 원문 및 교과서 쪽수 재대조는 미완료이므로 학생용 운영 GO로 보지 않는다.
