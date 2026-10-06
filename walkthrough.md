@@ -2610,6 +2610,7 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 
 ## 2026-10-06 고려 문화·생활 실시간 협동 활동 통합 (P1-B)
 
+- main 병합 커밋: `b310dbe` (관계 P1-A `f16e361`와 문화 P1-B 통합). `npm run check` 통과: lint, typecheck, 단위 24건, Convex 17건, production build; `git diff --check` 통과.
 - P1-A 관계 활동(`goryeo-foreign-relations` v1)과 P1-B 문화·생활 활동(`goryeo-culture-life` v1)을 현재 main의 교사 비밀번호 인증·복구 계약 위에 통합했다. 문화 활동은 5개 역할(청자 장인, 가족 기록, 대장경 제작 참여, 금속활자 인쇄, 자료 범위 검토), 3·4·5인 배치, 3인 모둠 직지 공통자료를 등록했다.
 - 자료 조합만으로 고려인 전체의 삶을 일반화하지 않도록 초안 제출에 가족 생활 정책, 가족 기록 역할의 근거, `record-and-scope` 연결을 서버에서 필수화했다. 대장경의 장기간 판각·여러 계층 참여와 노동을 포함하되 구체적인 노동 조건은 자료로 알 수 없다고 한정했다. 청자 사용 계층·장인 생활도 출처표 한계를 넘지 않는다. 벽란도는 활동에서 사용하지 않으며, C8 미확인 지명·연도는 학생용 문장에 넣지 않았다.
 - 변경: `shared/scenario.ts`, `convex/scenarios.ts`, `convex/students.ts`, 공개 레지스트리·배치 테스트, Convex 저장 거부 회귀, `TEACHING_GORYEO_CULTURE_LIFE.md`, 계획 체크리스트, BACKLOG, project context.

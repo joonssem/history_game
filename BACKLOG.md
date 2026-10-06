@@ -82,7 +82,7 @@
 
 ## P1-COLLAB-GORYEO-RELATIONS-CULTURE — 고려 후속 협동 활동 2종
 
-- 상태(2026-10-06): `코드 통합·자동 검증 완료 / 미배포·현장 확인 대기`. P1-A·P1-B는 main에 코드로 통합하되 Production·Preview가 같은 Convex를 사용하므로 배포하지 않는다. [구현 계획](./docs/plans/implementation_plan_goryeo_relations_culture_cooperative_live.md) · [실행 체크리스트](./docs/plans/tasks_goryeo_relations_culture_cooperative_live.md)
+- 상태(2026-10-06): `코드 통합·자동 검증 완료 / 미배포·현장 확인 대기`. P1-A·P1-B는 main 병합 커밋 `b310dbe`에 포함. `npm run check` 통과(단위 24건·Convex 17건·build). Production·Preview가 같은 Convex를 사용하므로 배포하지 않는다. [구현 계획](./docs/plans/implementation_plan_goryeo_relations_culture_cooperative_live.md) · [실행 체크리스트](./docs/plans/tasks_goryeo_relations_culture_cooperative_live.md)
 - 목적: 13차시 고려 건국 협동 활동 뒤에 15~16차시 `고려와 주변 나라들의 관계`와 17~18차시 `고려의 문화와 사람들의 생활`을 같은 실시간 협동 엔진으로 연결한다.
 - 현행 자산: 정규 MUD `regular_goryeo_war`와 `regular_goryeo_culture`가 있으므로 사실·자료 후보는 재사용하되, 정규 MUD의 개인 관문을 그대로 복제하지 않는다.
 - 핵심 보완: 기존 `regular_goryeo_culture`는 팔만대장경·직지·벽란도 중심이어서 `6사04-03`의 사회 모습과 사람들의 생활 추론을 충분히 다루지 못한다는 기존 감사 결과가 있다. 새 협동 활동은 고려청자 제작·사용, 가족·상속, 신분과 생업 등 생활 근거를 포함하되 한 사례를 고려인 전체로 일반화하지 않는다.
