@@ -31,4 +31,26 @@ describe("서버 전용 협동 시나리오 레지스트리", () => {
     assert.equal(scenario.commonEvidenceByGroupSize[4].length, 0);
     assert.equal(scenario.commonEvidenceByGroupSize[5].length, 0);
   });
+
+  it("고려 주변 나라 관계 3인 편성에는 빠진 마을 사람 관점을 공통 자료로 보충한다", () => {
+    const scenario = getScenario("goryeo-foreign-relations", 1);
+    assert.ok(scenario);
+    assert.equal(scenario.commonEvidenceByGroupSize[3].length, 1);
+    assert.equal(scenario.commonEvidenceByGroupSize[3][0].id, "common-villager");
+    assert.equal(scenario.commonEvidenceByGroupSize[4].length, 0);
+    assert.equal(scenario.commonEvidenceByGroupSize[5].length, 0);
+  });
+
+  it("고려 주변 나라 관계 역할 근거는 시기를 표시하고 역할마다 고유하다", () => {
+    const scenario = getScenario("goryeo-foreign-relations", 1);
+    assert.ok(scenario);
+    const ids = scenario.roles.flatMap((role) => role.evidence.map((item) => item.id));
+    assert.equal(new Set(ids).size, ids.length);
+    for (const role of scenario.roles) {
+      for (const item of role.evidence) {
+        assert.match(item.label, /^\[(거란 시기|몽골 시기|두 시기 비교)\]/);
+      }
+    }
+    assert.ok(scenario.sources.length >= 6);
+  });
 });

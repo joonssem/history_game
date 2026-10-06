@@ -2588,3 +2588,13 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 사고와 교훈: Convex 개발 배포에만 함수를 올린다고 판단했으나 Vercel Production·Preview가 같은 Convex 배포를 써서, main 반영 전까지 운영 교사 화면이 새 서버 함수와 맞지 않았다. 수업이 없는 시간이어서 main 반영으로 해소했다. 운영/개발 Convex 분리를 다음 기능 작업 전에 진행한다.
 - Convex 배포 시 `tsc` 검사는 `convex/tsconfig.json`에 `@/*` 경로가 없어 테스트 파일에서 실패했다. 이번 배포는 `--typecheck=disable`로 진행했고 같은 날 경로 설정을 보완했다.
 - 세션 마감 요약: [`docs/handoff/claude_session_close_20261005.md`](./docs/handoff/claude_session_close_20261005.md).
+
+## 2026-10-06 고려 주변 나라 관계 실시간 협동 활동 추가 (P1-A)
+
+- 작업: `TASK-20261006-GORYEO-RELATIONS-P1A` (Claude, 기준 main `1d8d48e`, 브랜치 `feat/claude-goryeo-relations`). 계획 승인 순서에 따라 주변 나라 관계 활동만 구현했다. 고려 문화 실시간판은 Codex의 `feat/goryeo-classroom-activities`에 따로 있어 건드리지 않았다.
+- `goryeo-foreign-relations` v1을 `shared/scenario.ts`(공개 메타·3·4·5인 편성)와 `convex/scenarios.ts`(서버 전용 역할 본문·근거·공동 질문·교사 개입·출처 6건)에 등록했다. 교사 생성 화면은 공개 목록을 읽으므로 코드 변경 없이 선택된다. 새 상태 머신이나 필드는 만들지 않았다.
+- 역할 5종(외교 기록 검토자·북방 방어 담당자·전란 속 마을 사람·강화·항쟁 기록자·관계 연표 검토자). 3인 편성은 마을 사람 자료를 공통 자료로 보충한다. 근거 문장에 시기 표지를 붙였고, 거란 시기 백성 피해는 출처가 없어 쓰지 않았다.
+- 서버는 시기 조합을 강제하지 않는다(공통 엔진 계약 유지). 시기 구분은 근거 표지·한계 선택지·교사 발문으로 유도한다.
+- 테스트: 공개 편성 고유성, 레지스트리 공통 자료·근거 표지, 3·4·5인 서버 편성·역할 비공개·공유 후 공통 자료 공개(Convex).
+- 검증: `npm run check` 통과(lint, typecheck, 단위 22건, Convex 16건, production build). 클라이언트 번들에 비공개 역할 본문 없음 확인. 실제 기기 리허설·학생 관찰·출처 원문 재대조·교과서 쪽수 대조는 미완료이며 이 기록을 현장 검증으로 해석하지 않는다.
+- 교사 운영안: `apps/cooperative-live/TEACHING_GORYEO_RELATIONS.md`. 문화 활동 병합 시 `PUBLIC_SCENARIOS`·`SCENARIOS` 배열과 테스트 파일에서 충돌이 예상된다(둘 다 추가이므로 양쪽 보존).

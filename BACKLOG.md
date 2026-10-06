@@ -44,6 +44,7 @@
 
 ## 🔶 지금 판단이 필요한 것 (2026-09-11 4트랙 세션 마무리)
 
+- 작업 claim: `TASK-20261006-GORYEO-RELATIONS-P1A | apps/cooperative-live 고려 주변 나라 관계 시나리오 | implementation/content agent(Claude) | 상태: DONE(자동 검증)·main 미통합·리허설 대기 | 브랜치: feat/claude-goryeo-relations(.worktrees/claude-goryeo-relations) | 검증: npm run check(단위 22·Convex 16·build)`
 - 작업 claim: `TASK-20261001-COOP-PREVIEW-PREP | 통합 커밋·Vercel/Convex 연결 조사·Preview 준비 | integration agent(Codex) | 상태: DONE | 배포 목록/API 조회·git diff --check 성공; 실제 배포 확인 대기 | 구현 worktree: .worktrees/codex-goryeo-classroom-activities`
 
 - 작업 claim: `TASK-20261001-CLASSROOM-RECOVERY-INTEGRATION | 고려 문화 변경 보존·입장 복구·교사 진행·부족 인원 복구 | implementation/integration agent(Codex), 읽기 전용 audit agent | 상태: DONE(격리 브랜치 구현·검증)·Preview/현장 대기 | worktree: .worktrees/codex-goryeo-classroom-activities | 검증: npm run check(단위 21/21·Convex 24/24·build), 로컬 가상 UI, git diff --check`
