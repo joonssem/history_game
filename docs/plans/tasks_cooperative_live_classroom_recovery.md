@@ -189,11 +189,13 @@ P0 안에서는 순서를 바꾸지 않는다. 특히 모둠별 진행은 `activ
 - [ ] **8-4. 개인정보·로그 검사**
   - 학생 이름·학번·개인 판단 내용이 추가되지 않았는지 확인한다.
   - 배포·런타임 로그에 입장키·복구 코드·학생 토큰 원문이 없는지 확인한다.
+  - 2026-10-06 재확인: 학생 이름·학번 필드와 앱 코드의 `console.*` 호출은 검색되지 않았다. `completeFirst`는 `sessionId`·학생 토큰만 받고 선택 내용·이유는 보내지 않는다. 복구 코드 테스트는 DB 행에 원문이 없는 것을 확인한다. Vercel Production Observability는 최근 6시간 `No data in this time range`, 함수 호출 0으로 표시됐다. Convex Development(`glorious-guanaco-616`) Health에는 2026-10-03~현재 함수 호출 데이터가 없고, Logs는 `Waiting for new logs...` 상태로 과거 이벤트를 제공하지 않았다. CLI `logs --history 100 --jsonl`도 30초 동안 출력하지 않아 중단했다. 그러므로 현재 노출을 관찰하지 못했지만 과거 런타임 로그의 무노출 여부는 확인 불가이며 8-4는 미완료로 유지한다. 상세와 자동 검사 결과는 [`walkthrough.md`](../../walkthrough.md)의 2026-10-06 감사 절 참조.
 
 - [ ] **8-5. P0 Go/No-go 판정**
   - 자동 검사와 개인정보·로그 검사를 함께 검토해 사용자가 `GO/NO-GO`를 결정한다. 별도 기기 리허설은 2026-10-06 사용자 판단으로 요구하지 않는다.
   - 토큰 재사용, 잘못된 분모, 다른 모둠 상태 변경, 삭제 잔여 중 하나라도 발생하면 `NO-GO`.
   - `NO-GO` 상태에서는 21명 학생 재시험과 공개수업 실시간 경로를 진행하지 않는다.
+  - 2026-10-06 재검증: `apps/cooperative-live`에서 `npm run check` 통과(lint, typecheck, unit 19건, Convex 15건, production build). 로그 보존 범위의 한계는 8-4에 기록했다. 최종 GO/NO-GO는 사용자 판정 대기.
 
 ## 9. P1 — 교사 개입 이력·학생 확인
 

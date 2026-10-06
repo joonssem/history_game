@@ -2588,3 +2588,13 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 사고와 교훈: Convex 개발 배포에만 함수를 올린다고 판단했으나 Vercel Production·Preview가 같은 Convex 배포를 써서, main 반영 전까지 운영 교사 화면이 새 서버 함수와 맞지 않았다. 수업이 없는 시간이어서 main 반영으로 해소했다. 운영/개발 Convex 분리를 다음 기능 작업 전에 진행한다.
 - Convex 배포 시 `tsc` 검사는 `convex/tsconfig.json`에 `@/*` 경로가 없어 테스트 파일에서 실패했다. 이번 배포는 `--typecheck=disable`로 진행했고 같은 날 경로 설정을 보완했다.
 - 세션 마감 요약: [`docs/handoff/claude_session_close_20261005.md`](./docs/handoff/claude_session_close_20261005.md).
+
+## 2026-10-06 P0 개인정보·로그 검사 부분 결과
+
+- `TASK-20261006-COLLAB-RECOVERY-LOG-AUDIT`: 소스 검토에서 학생 이름·학번 필드와 실제 `console.*` 호출은 발견되지 않았으며, 학생의 초기 판단·이유는 `completeFirst` mutation에 전달되지 않는다.
+- Vercel `history-game` Logs에서 최근 30분 요청 로그 0건을 확인했다. Convex `cooperative-live`의 Development 배포(`glorious-guanaco-616`) Logs 화면은 12초 관찰 동안 `Waiting for new logs...`로 이벤트가 없었다. 앞서 실행한 Convex CLI bounded stream에서도 이벤트 형식의 로그는 수집되지 않았다.
+- 로그가 없어 관찰 창의 실제 레코드에서 입장키·복구 코드·학생 토큰 원문 노출은 확인되지 않았다. 과거 Convex 런타임 로그를 조회하지 못했으므로 이 결과를 전체 로그 이력에 대한 무노출 증명으로 확대하지 않는다. 계획서 8-4와 8-5는 미완료 상태를 유지한다.
+- 컴퓨터 업그레이드 이후 재개해 운영 대시보드를 다시 확인했다. Vercel Production Observability는 최근 6시간 데이터 없음, 함수 호출 0건으로 표시됐다. Convex Development Health의 표시 범위(2026-10-03~현재)에도 함수 호출 데이터가 없고, Logs 화면은 `Waiting for new logs...`만 표시해 과거 런타임 행을 열 수 없었다.
+- Convex CLI `logs --history 100 --jsonl --deployment glorious-guanaco-616`도 실행했지만 30초 동안 출력이 없어 중단했다. 과거 로그 조회 결과로 계산하지 않는다.
+- `apps/cooperative-live`에서 `npm run check`를 다시 실행해 통과시켰다: lint, typecheck, unit 19건, Convex 15건, Next.js production build.
+- `completeFirst` 인자에는 세션 ID와 학생 토큰만 있고 첫 판단·이유는 없다. `virtual-load.test.ts`는 복구 코드가 DB 원문으로 저장되지 않는 것을 검사한다. 코드 검색에서 학생 이름·학번 필드와 앱 `console.*` 호출을 발견하지 못했다. 따라서 8-4의 코드 측 점검과 현재 대시보드 관찰은 마쳤지만, 로그가 비어 있어 과거 기록의 민감값 포함 여부는 판정할 수 없다. 8-4는 미완료, 8-5는 사용자의 GO/NO-GO 결정 대기로 둔다.
