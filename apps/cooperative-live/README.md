@@ -1,5 +1,7 @@
 # 협동 역사 MUD · 실시간 수직 슬라이스
 
+> **동결 (2026-10-15, [D-038](../../DECISIONS.md))** — 이 앱은 개발을 중단하고 보관만 한다. 기능 추가·수정·배포를 하지 않는다. 협동 활동은 정적 `cooperative-mud/`에서 만든다.
+
 기존 정적 GitHub Pages 앱과 분리된 Next.js + Convex 앱이다. Vercel 프로젝트의 Root Directory는 `apps/cooperative-live`로 지정한다.
 
 ## 현재 범위

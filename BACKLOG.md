@@ -1,5 +1,16 @@
 ﻿﻿﻿# BACKLOG
 
+> **2026-10-15 — Convex 실시간 협동 활동 취소([D-038](./DECISIONS.md)).** 이 문서의 `*-COLLAB-*` 항목, 실시간 앱(`apps/cooperative-live`)·Convex·Vercel·Auth0·교사 비밀번호·입장 복구 관련 claim은 모두 **`CANCELLED`** 로 읽는다. 재개하지 않으며, 다음 정기 검토 때 이 문서에서 걷어 내고 이력은 `walkthrough.md`·`DECISIONS.md`에 둔다. 콘텐츠는 아래 `P1-COOP-STATIC-GORYEO`로 정적 협동에 이식한다(조선 후기 우선).
+
+## P1-COOP-STATIC-GORYEO — 협동 활동 정적 이식: 조선 후기 경제(10/29 공개수업·10분형) 우선, 고려 3종 후속
+
+- 작업 claim: `TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/joseon-late-economy·goryeo-* 신규 | implementation/content agent(Claude) | 상태: DOING — 조선 후기 구현·자동 검증 완료(2026-10-15), 사용자 콘텐츠 검토·Pages 반영·교실 기기 확인 대기. 고려 3종 미착수 | 검증: node --check, node scratch/check_static_coop_scenario.js, 로컬 Chrome 12경로`
+- 문제: 고려 건국·주변 나라 관계·문화와 생활 협동 콘텐츠가 동결된 실시간 앱 안에만 있다.
+- 목적: 교사가 모둠·번호를 나누고 학생이 말로 공유하는 정적 협동 MUD로 옮긴다. 10/29(목) 공개수업 「조선 후기의 경제적 변화 알아보기」(10분형)를 먼저 만들고, 고려 3종은 그 뒤에 옮긴다.
+- 교육적 영향: 2026-10-14 교사 시연에서 직접 활동이 이해·설명에 더 쉬웠다(INBOX). 비대칭 정보로 대화를 만드는 핵심 설계는 유지된다.
+- 예상 범위: `cooperative-mud/joseon-late-economy/`, `cooperative-mud/goryeo-relations/`, `cooperative-mud/goryeo-culture/`, 이후 `goryeo-founding/` 신규; `cooperative-mud/index.html`, `cooperative-mud/TEACHING.md` 수정. 공용 엔진(`episode.js`·`pacing.js`·`cooperative.css`)과 `apps/cooperative-live`는 수정하지 않는다.
+- 계획: [`implementation_plan_static_coop_goryeo.md`](./docs/plans/implementation_plan_static_coop_goryeo.md)
+
 - 작업 claim: `TASK-20261002-PREVIEW-AUTH | Preview 전용 인증·로그인 연결 | 상태: SUPERSEDED(2026-10-05, Auth0 제거·교사 비밀번호 로그인 운영 반영). 실행하지 않음. 참고: docs/plans/implementation_plan_preview_owned_auth.md`
 
 - 작업 claim: `TASK-20261002-CLASSROOM-OCT29-AUDIT | 2026-10-29 수업용 협동 교실 콘텐츠·기능 점검 | audit/content agent(Claude) | 상태: READY | 1단원 15~18차시 계획(주변 나라 관계·문화와 생활) 콘텐츠 정합성, 현행 실시간 앱 지원 범위, 교사·학생 공통 기능 회귀를 읽기 전용 점검. 앱은 13차시 고려 건국과 고조선만 구현되어 있어 15~18차시는 미구현 표시·대체 활동 판정 포함. 결과·재현 조건·수업 전 필수 조치 보고. 체크리스트: docs/plans/tasks_classroom_oct29_audit.md`

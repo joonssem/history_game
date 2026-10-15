@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2F5D8A">
+  <meta name="description" content="조선 후기의 경제적 변화를 주제로 한 DB 없는 협동 역사 탐험">
+  <title>무엇이 살림을 바꾸었을까: 조선 후기의 경제적 변화</title>
+  <link rel="stylesheet" href="../cooperative.css">
+</head>
+<body>
+  <main class="coop-shell game-shell">
+    <header class="coop-header game-header">
+      <div>
+        <a class="back-link" href="../">← 모둠 역사 탐험 허브</a>
+        <p class="eyebrow">🪙 조선 후기 · 모둠 역사 탐험 v0.1</p>
+        <h1>무엇이 사람들의 살림을 바꾸었을까</h1>
+        <p class="lead">조선 후기 농민·보부상·관리의 자료를 하나씩 맡아 말로 모으고, 농업과 상업이 어떻게 달라졌는지 모둠에서 함께 설명해 보세요.</p>
+      </div>
+      <span class="status-pill">개인정보 수집 없음</span>
+    </header>
+
+    <div class="game-progress" aria-label="게임 진행도">
+      <div class="progress-label"><span id="progress-step">활동 소개</span><span id="progress-count">1 / 8</span></div>
+      <div class="progress-track"><div id="progress-value" class="progress-value" style="width: 13%"></div></div>
+    </div>
+
+    <div id="live-status" class="live-status" role="status" aria-live="polite"></div>
+
+    <div id="pacing-note" class="pacing-note" hidden>
+      <button id="pacing-badge" class="pacing-badge" type="button" aria-expanded="false" aria-controls="pacing-text"></button>
+      <p id="pacing-text" class="pacing-text" hidden></p>
+    </div>
+
+
+    <section id="screen-intro" class="screen">
+      <div class="panel">
+        <h2 class="screen-title">시간 탐사단, 달라진 살림의 비밀을 밝혀 주세요</h2>
+        <p class="screen-description">조선 후기에는 농사짓는 방법과 물건을 사고파는 모습에 여러 변화가 일어났습니다. 여러분은 그 변화를 겪은 사람의 자료를 하나씩 가지고 있습니다.</p>
+        <ul class="rules">
+          <li>자기 화면의 자료를 친구에게 보여 주지 말고 말로 설명합니다.</li>
+          <li>친구 자료를 듣기 전에, 내 자료만 보고 먼저 생각을 정합니다.</li>
+          <li>마지막 문장은 모둠에서 말로 합의하고, 대표 기기 한 대에 기록합니다.</li>
+        </ul>
+        <div class="button-row"><button id="start-button" class="primary-button" type="button">활동 시작하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-setup" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">우리 모둠과 내 번호를 선택하세요</h2>
+        <p class="screen-description">교사가 알려 준 모둠 번호를 확인하고, 오늘 실제 모둠 인원에 맞는 숫자와 내 번호를 선택합니다. 이름이나 학번은 입력하지 않습니다.</p>
+        <label class="form-label">모둠 번호</label>
+        <div id="team-grid" class="team-grid" role="group" aria-label="모둠 번호"></div>
+        <label class="form-label">오늘 모둠 인원</label>
+        <div id="team-size-grid" class="team-size-grid" role="group" aria-label="오늘 모둠 인원"></div>
+        <label class="form-label">내 번호</label>
+        <div id="seat-grid" class="seat-grid" role="group" aria-label="좌석 번호"></div>
+        <p id="setup-hint" class="setup-hint">모둠을 먼저 선택하세요.</p>
+        <label class="form-label">활동 길이</label>
+        <div class="mode-grid" role="group" aria-label="활동 길이 선택">
+          <button class="mode-button" data-mode="5" type="button"><strong>5분형</strong><span>자료 나누기·새 자료까지</span></button>
+          <button class="mode-button is-selected" data-mode="10" type="button"><strong>10분형</strong><span>한 농민의 한 해 따라가기까지</span></button>
+        </div>
+        <p id="setup-error" class="error-note" role="alert"></p>
+        <div class="button-row"><button id="begin-button" class="primary-button" type="button" disabled>내 역할 자료 확인하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-role" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">내가 맡은 역할 자료입니다</h2>
+        <p class="screen-description">아직 친구에게 설명하지 마세요. 먼저 혼자 읽고, 다음 화면에서 내 생각을 정합니다.</p>
+        <div id="role-card" class="role-card"></div>
+        <div class="button-row"><button id="role-continue-button" class="primary-button" type="button">다 읽었어요</button></div>
+      </div>
+    </section>
+
+    <section id="screen-first" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">혼자 생각하기</p>
+          <h2>조선 후기 사람들의 살림을 가장 크게 바꾼 변화는 무엇이었을까요?</h2>
+          <p>지금 여러분은 자료 하나만 알고 있습니다. 그 자료만 보고 먼저 생각해 봅니다.</p>
+        </div>
+        <h2 class="screen-title" style="margin-top: 18px;">내 생각은 무엇인가요?</h2>
+        <p class="screen-description">친구와 자료를 나누기 전에 내 최초 판단을 먼저 기록합니다. 나중에 바꿀 수 있습니다.</p>
+        <div id="first-choice-grid" class="choice-grid"></div>
+      </div>
+    </section>
+
+    <section id="screen-share" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">이제 모둠에서 자료를 나눕니다</h2>
+        <p class="screen-description">화면을 보여 주지 말고, 아래 문장을 내 말로 설명하세요. 모둠 친구들의 자료가 다 모여야 다음으로 갈 수 있습니다.</p>
+        <div id="share-card" class="share-quote"></div>
+        <div class="evidence-card" style="margin-top: 14px;">
+          <h3>들으면서 찾아볼 것</h3>
+          <p>친구의 변화와 내 변화는 어떻게 이어지나요? 어느 변화가 먼저 일어나고, 어느 변화가 뒤따랐을까요?</p>
+        </div>
+        <div class="button-row"><button id="share-button" class="primary-button" type="button">모둠에 이야기했어요</button></div>
+        <p id="share-state" class="share-state" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="screen-reveal" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">새로운 자료</p>
+          <h2>상평통보가 널리 쓰이기 전에는 쌀과 옷감으로 사고팔았습니다</h2>
+          <p>물건값을 쌀이나 옷감으로 치렀다는 뜻입니다. 그런데 모내기법으로 쌀이 늘고, 팔려고 기르는 작물이 늘고, 장시마다 사람이 모여들었습니다. 이때 무거운 쌀가마니와 옷감을 지고 다니며 사고팔았다면 어땠을까요?</p>
+        </div>
+        <div id="missing-role-clue" class="evidence-card" hidden></div>
+        <div class="change-panel">
+          <h3>처음 생각을 그대로 유지하시겠습니까?</h3>
+          <p class="screen-description">친구들의 자료와 새 자료가 내 생각에 어떤 영향을 주었는지 선택합니다. 그대로 두어도 괜찮습니다.</p>
+          <div class="button-row">
+            <button id="keep-button" class="secondary-button" type="button">그대로 유지하기</button>
+            <button id="change-button" class="primary-button" type="button">생각을 바꾸기</button>
+          </div>
+          <div id="revised-choice-area" hidden>
+            <h3 style="margin-top: 18px;">바꾼 생각은 무엇인가요?</h3>
+            <div id="revised-choice-grid" class="choice-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-second" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">한 농민의 한 해 따라가기 · 이야기</p>
+          <h2>이 농민의 한 해에서 변화를 모두 찾아보세요</h2>
+          <p>봄에 모판에서 키운 어린 모를 논에 옮겨 심었습니다. 잡초 뽑는 일손이 줄어, 남는 힘으로 밭에 담배를 길렀습니다. 벼를 거둔 논에는 보리를 심었습니다. 그리고 담배를 지고 가까운 장시에 가서 팔고, 상평통보를 받았습니다.</p>
+        </div>
+        <div class="evidence-card">
+          <h3>모둠 토론 질문</h3>
+          <p>이 이야기에서 <strong>농업의 변화</strong>와 <strong>상업의 변화</strong>를 각각 찾아보세요. 농업의 변화가 없었다면, 이 농민이 장시에 갈 일이 있었을까요?</p>
+        </div>
+        <div class="evidence-card" style="margin-top: 12px;">
+          <h3>더 생각해 보기</h3>
+          <p>돈을 많이 번 이 농민은 다음에 무엇을 하고 싶었을까요? 다음 시간에 조선 후기 사회가 어떻게 달라졌는지 알아봅니다.</p>
+        </div>
+        <div class="button-row" style="margin-top: 16px;"><button id="second-continue-button" class="primary-button" type="button">모둠의 문장 만들어 보기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-statement" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">최종 미션</p>
+          <h2 id="statement-heading">우리 모둠의 설명 문장 만들기</h2>
+          <p id="statement-description">친구들의 자료를 모두 생각하고, 조선 후기에 무엇이 달라졌는지 모둠에서 합의합니다.</p>
+        </div>
+        <div id="statement-builder" class="law-builder" style="margin-top: 16px;"></div>
+        <div id="statement-preview" class="law-preview" aria-live="polite"></div>
+        <p class="law-note">이 기록은 이 기기에만 저장됩니다. 실제 모둠의 최종 문장은 친구들과 말로 합의한 뒤 대표 기기 한 대에서 기록하세요.</p>
+        <div class="button-row" style="margin-top: 15px;"><button id="statement-save-button" class="primary-button" type="button">우리 모둠 문장 기록하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-history" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">교과서와 비교</p>
+          <h2>교과서는 조선 후기의 경제적 변화를 이렇게 정리합니다</h2>
+          <p>사회 교과서 95~96쪽의 내용을 농업·상업·화폐로 나누어 보았습니다.</p>
+        </div>
+        <ul class="clause-list" id="document-list"></ul>
+        <div class="history-quote" style="margin-top: 14px;">
+          <p>조선 후기의 경제적 변화는 <strong>농업의 변화가 상업의 발달로 이어진 흐름</strong>으로 볼 수 있습니다. 쌀과 팔 작물이 늘자 사고파는 일이 많아졌고, 장시와 보부상, 상평통보가 그 거래를 도왔습니다. 다만 교과서는 “잘사는 농민이 나타나기도 했다”고 말할 뿐, 모든 사람이 잘살게 되었다고 말하지 않습니다.</p>
+        </div>
+        <div class="compare-box">
+          <h3>내 생각과 견주어 봅시다</h3>
+          <p id="compare-text"></p>
+        </div>
+        <div class="source-list" id="source-list"></div>
+        <div class="button-row" style="margin-top: 17px;"><button id="finish-button" class="primary-button" type="button">나의 탐구 기록 확인하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-finish" class="screen" hidden>
+      <div class="panel">
+        <p class="eyebrow">탐구 완료</p>
+        <h2 class="screen-title">나는 친구들의 자료를 듣고 내 생각을 다시 살펴보았습니다</h2>
+        <p class="screen-description">아래 기록은 이 기기에만 남습니다. 교사는 모둠 토론을 관찰한 뒤 별도 기록지에 결과를 적어 주세요.</p>
+        <div id="summary-grid" class="summary-grid"></div>
+        <h3 style="margin-top: 18px;">교사 관찰 질문</h3>
+        <ol class="observation-list">
+          <li>학생들이 자기 역할 자료를 실제로 말로 설명했나요?</li>
+          <li>모둠의 모든 역할 자료가 대화에 나왔나요?</li>
+          <li>공유 전 최초 판단이 서로 달랐나요?</li>
+          <li>친구 자료를 듣고 생각을 바꾼 학생이 있었나요?</li>
+          <li>농업의 변화와 상업의 변화를 나누어 말했나요?</li>
+          <li>“농업의 변화가 상업으로 이어졌다”는 흐름에 이른 모둠이 있었나요?</li>
+        </ol>
+        <div class="completion-note">이 활동은 변화의 이름을 외우는 것이 아니라, 서로 다른 변화가 어떻게 이어지는지 근거로 설명하는 과정을 보기 위한 것입니다.</div>
+        <div class="button-row" style="margin-top: 17px;"><button id="reset-button" class="secondary-button" type="button">이 기기 기록 지우고 다시 하기</button><a class="link-button" href="../">모둠 역사 탐험 허브로</a></div>
+      </div>
+    </section>
+  </main>
+  <script src="../pacing.js"></script>
+  <script src="scenario.js"></script>
+  <script src="../episode.js"></script>
+</body>
+</html>

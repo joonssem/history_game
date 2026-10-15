@@ -2616,3 +2616,13 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 변경: `shared/scenario.ts`, `convex/scenarios.ts`, `convex/students.ts`, 공개 레지스트리·배치 테스트, Convex 저장 거부 회귀, `TEACHING_GORYEO_CULTURE_LIFE.md`, 계획 체크리스트, BACKLOG, project context.
 - 검증: `npm run check` 통과(lint, typecheck, 단위 24건, Convex 17건, production build), `git diff --check` 통과. 기존 관계 활동 및 레지스트리 회귀 포함.
 - 운영·현장 상태: Production과 Preview가 같은 Convex `glorious-guanaco-616`를 사용 중인 것을 확인했다. 운영/개발 분리가 끝나지 않아 Convex·Vercel 배포는 하지 않았다. 실제 기기 리허설·학생 관찰·출처 원문 및 교과서 쪽수 재대조는 미완료이므로 학생용 운영 GO로 보지 않는다.
+
+## 2026-10-15 Convex 실시간 협동 취소·동결, 조선 후기 경제 정적 협동 활동 추가
+
+- 결정: [D-038](./DECISIONS.md) — Convex 실시간 협동 활동 취소, `apps/cooperative-live` 동결(코드 보관, Vercel·Convex 배포는 그대로 둠). [D-039](./DECISIONS.md) — 조선 후기 협동 활동을 교과서 95~96쪽의 세 갈래로 짜고, 학생 화면은 교과서 범위로 제한. D-019 폐기, D-034 역할 구성 대체.
+- 정리: 협동 관련 worktree 8개 제거(브랜치 보존). `feat/cooperative-teacher-master-advance`의 미커밋 계획서 2개는 제거 전에 그 브랜치에 커밋(`4309443`).
+- 교과서 PDF: 공개 저장소·Pages에 올라가 있던 `primary_data/society_5-2-1.pdf`를 main에서 추적 해제하고 `primary_data/*.pdf`와 교과서 이미지를 `.gitignore`에 추가(`e71f17c`, push 완료, Pages 404 확인). 과거 커밋·다른 원격 브랜치에는 남아 있으며, 사용자 판단으로 기록 재작성은 하지 않음.
+- 새 활동: `cooperative-mud/joseon-late-economy/` (2단원 8차시, 10/29 공개수업용, 기본 10분형). 역할 순서는 모내기 농민·상품 작물 농민·보부상·화폐 담당 관리·기록관. 3인 모둠은 상평통보 공통 자료를 받는다. 새 자료는 96쪽 "상평통보 이전 쌀·옷감 거래", 10분형 추가 단계는 한 농민의 한 해 이야기(가상)다. 교과서 밖 심화(전황·품팔이·호적 누락)는 `TEACHING.md` 교사 발문 자료로만 둔다. 공용 엔진(`episode.js`·`pacing.js`·`cooperative.css`)은 수정하지 않음.
+- 함께 수정: `cooperative-mud/index.html`(허브 카드), `cooperative-mud/TEACHING.md`(활동 표·역할 표·발문 자료), `apps/cooperative-live/README.md`(동결 표시).
+- 검증: `node --check` 통과. `scratch/check_static_coop_scenario.js`(신규, episode.js 계약 검사·문장 36조합)가 새 활동·한강·시조 설화에서 통과. 고조선은 별도 `app.js` 형식이라 대상 아님. 로컬 Chrome 자동 진행으로 휴대폰(375px)·태블릿(820px) × 3·4·5인 × 5·10분형 12개 경로를 완료 화면까지 확인(가로 넘침 없음, 콘솔 오류는 로컬 서버 favicon 404뿐). 기존 3개 활동 시작 화면 회귀 없음. `scripts/15_validate_cooperative_packet.js`는 실시간 앱 계약 전용이라 쓰지 않음.
+- 남은 일: 사용자 콘텐츠 검토, Pages 반영 후 교실 기기 확인, 10/29 수업 관찰 기록(EXPERIMENTS).
