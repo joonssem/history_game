@@ -15,3 +15,10 @@ debug.log
 
 # scripts/manual/site_regression.js 실행용 playwright-core 설치 폴더
 .tmp-playwright/
+
+# 교과서 원문(저작권) — 저장소·Pages에 올리지 않는다
+primary_data/*.pdf
+primary_data/**/*.jpg
+primary_data/**/*.jpeg
+primary_data/**/*.png
+primary_data/**/*.heic
