@@ -2,6 +2,12 @@
 
 > **2026-10-15 — Convex 실시간 협동 활동 취소([D-038](./DECISIONS.md)).** 이 문서의 `*-COLLAB-*` 항목, 실시간 앱(`apps/cooperative-live`)·Convex·Vercel·Auth0·교사 비밀번호·입장 복구 관련 claim은 모두 **`CANCELLED`** 로 읽는다. 재개하지 않으며, 다음 정기 검토 때 이 문서에서 걷어 내고 이력은 `walkthrough.md`·`DECISIONS.md`에 둔다. 콘텐츠는 아래 `P1-COOP-STATIC-GORYEO`로 정적 협동에 이식한다(조선 후기 우선).
 
+## P2-REPO-CLEANUP — Convex 취소 후 저장소 정리 (2026-10-16 등록)
+
+- 작업 claim: `TASK-20261016-REPO-CLEANUP | apps/cooperative-live 제거·worktree/브랜치 태그 보관·취소 문서 archive 이동·루트 정리 | integration agent(Claude) | 상태: planned — 사용자 방향 결정 완료, 실행 승인 대기`
+- 문제: 취소된 실시간 앱 코드(546MB node_modules 포함), worktree 10개, 브랜치 17개, 실시간 협동 문서 약 30개, BACKLOG CANCELLED 섹션이 현행 작업과 섞여 있다.
+- 계획: [`implementation_plan_repo_cleanup_20261016.md`](./docs/plans/implementation_plan_repo_cleanup_20261016.md)
+
 ## P1-COOP-STATIC-GORYEO — 협동 활동 정적 이식: 조선 후기 경제(10/29 공개수업·10분형) 우선, 고려 3종 후속
 
 - 작업 claim: `TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/joseon-late-economy·goryeo-* 신규 | implementation/content agent(Claude) | 상태: DOING — 조선 후기 구현·자동 검증 완료(2026-10-15), 사용자 콘텐츠 검토·Pages 반영·교실 기기 확인 대기. 고려 3종 미착수 | 검증: node --check, node scratch/check_static_coop_scenario.js, 로컬 Chrome 12경로`
