@@ -9,7 +9,7 @@
 - Vercel 정적 배포 가능성 검토
 - ~~Supabase `play_events`의 익명 필드·RLS·보관 기간 설계~~ → `보류` ([D-020](./DECISIONS.md))
 - ~~실시간 협동 MUD(Next.js + Convex, `apps/cooperative-live`)~~ → `취소·동결` (2026-10-15, [D-038](./DECISIONS.md))
-- 조선 후기 경제 협동 활동(10/29 공개수업·10분형)과 고려 3종을 정적 협동 MUD(`cooperative-mud/`)로 이식 — `BACKLOG.md` P1-COOP-STATIC-GORYEO
+- 조선 후기 경제→신분 변화 협동 활동(10/29 공개수업·13분형, 2026-10-16 개편 요청)과 고려 3종을 정적 협동 MUD(`cooperative-mud/`)로 이식 — `BACKLOG.md` P1-COOP-STATIC-GORYEO
 
 ## NEXT
 

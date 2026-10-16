@@ -10,12 +10,27 @@
 
 ## P1-COOP-STATIC-GORYEO — 협동 활동 정적 이식: 조선 후기 경제(10/29 공개수업·10분형) 우선, 고려 3종 후속
 
-- 작업 claim: `TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/joseon-late-economy·goryeo-* 신규 | implementation/content agent(Claude) | 상태: DOING — 조선 후기 구현·자동 검증 완료(2026-10-15), 사용자 콘텐츠 검토·Pages 반영·교실 기기 확인 대기. 고려 3종 미착수 | 검증: node --check, node scratch/check_static_coop_scenario.js, 로컬 Chrome 12경로`
+- 작업 claim: `TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/joseon-late-economy·goryeo-* 신규 | implementation/content agent(Claude) | 상태: DOING — 조선 후기 구현·자동 검증 완료(2026-10-15), Pages 반영(2026-10-16, `8571cd6`). **2026-10-16 사용자 전달사항으로 95~97쪽 경제→신분 13분 활동으로 개편 예정(아래 다음 세션 시작점)**. 고려 3종 미착수 | 검증: node --check, node scratch/check_static_coop_scenario.js, 로컬 Chrome 12경로`
 - 문제: 고려 건국·주변 나라 관계·문화와 생활 협동 콘텐츠가 동결된 실시간 앱 안에만 있다.
 - 목적: 교사가 모둠·번호를 나누고 학생이 말로 공유하는 정적 협동 MUD로 옮긴다. 10/29(목) 공개수업 「조선 후기의 경제적 변화 알아보기」(10분형)를 먼저 만들고, 고려 3종은 그 뒤에 옮긴다.
 - 교육적 영향: 2026-10-14 교사 시연에서 직접 활동이 이해·설명에 더 쉬웠다(INBOX). 비대칭 정보로 대화를 만드는 핵심 설계는 유지된다.
 - 예상 범위: `cooperative-mud/joseon-late-economy/`, `cooperative-mud/goryeo-relations/`, `cooperative-mud/goryeo-culture/`, 이후 `goryeo-founding/` 신규; `cooperative-mud/index.html`, `cooperative-mud/TEACHING.md` 수정. 공용 엔진(`episode.js`·`pacing.js`·`cooperative.css`)과 `apps/cooperative-live`는 수정하지 않는다.
 - 계획: [`implementation_plan_static_coop_goryeo.md`](./docs/plans/implementation_plan_static_coop_goryeo.md)
+- **다음 세션 시작점 (2026-10-16 종료 시점)**
+  - 원문: `d:\Projects\과정안사회\history_game_협동MUD_최신전달사항.md`(저장소 밖). INBOX 2026-10-16 항목에 요지가 있다. 같은 폴더의 `history_game_협동MUD_콘텐츠작성_전달명세.md`·`10월29일_사회_세안_통합본.md`·교과서 PDF 97쪽을 함께 본다. PDF는 저장소로 복사하지 않는다.
+  - 사용자 결정 대기(4개, Claude 권장안 포함)
+    1. 기존 95~96쪽 활동을 같은 폴더에서 교체한다. 저장 키는 v02로 바꾼다.
+    2. 13분형을 기본으로 하고 5분형은 유지한다. 10분형은 없앤다.
+    3. 엔진이 "번호 = 역할"로 고정되어 있다. 3인 모둠은 3번이 상민 자료를 받고, 양반 입장은 4단계 공통 자료(`smallTeamClue`)로 보여 준다.
+    4. 이 콘텐츠 작업을 먼저 하고 `P2-REPO-CLEANUP`은 뒤로 미룬다.
+  - 결정 뒤 순서
+    1. Opus로 역할 카드 전문과 7단계 문구 초안을 쓰고 사용자 검토를 받는다.
+    2. D-039 개정 결정을 기록한다.
+    3. Sonnet으로 `scenario.js`·`index.html`·`TEACHING.md`에 반영한다.
+    4. 검증한다: `node scratch/check_static_coop_scenario.js`, 3·4·5인 × 5·13분형 Chrome 경로.
+    5. push 후 교실 iPad에서 확인한다.
+    6. 회신 형식은 전달사항 §9를 따른다.
+  - 세안과 어긋나는 점(사용자에게 보고함): 세안에는 "교사가 앱 단계를 직접 전환"한다고 되어 있지만, 실제 앱은 학생이 버튼을 눌러 넘어간다. 세안 문구 수정을 권했다. 처음 생각의 "이유"를 쓰는 칸은 없어서 말로 대신한다.
 
 - 작업 claim: `TASK-20261002-PREVIEW-AUTH | Preview 전용 인증·로그인 연결 | 상태: SUPERSEDED(2026-10-05, Auth0 제거·교사 비밀번호 로그인 운영 반영). 실행하지 않음. 참고: docs/plans/implementation_plan_preview_owned_auth.md`
 
