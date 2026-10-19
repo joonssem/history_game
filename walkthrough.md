@@ -7,7 +7,7 @@
 - 교과서 5-2 2단원 77~99쪽을 직접 대조해 학생 화면을 쪽수 범위로 제한했다([D-043](./DECISIONS.md)): 건국과 유교 사회 77~86쪽, 세종 시기 87~90쪽, 임진왜란·병자호란 91~92쪽, 조선 후기 새로운 생각 94·98~99쪽. 경제·신분(95~97쪽)은 `joseon-late-economy`와 겹치지 않게 뺐다.
 - 바뀐 파일: `cooperative-mud/joseon-*/{scenario.js,index.html}`(신규 4종), `cooperative-mud/{index.html,TEACHING.md}`, `DECISIONS.md`(D-043), `docs/plans/joseon_coop_content_review_20261019.md`(자동 생성 검토 문서). 공용 엔진은 수정하지 않았다.
 - 검증(실행함): `node --check`, `node scratch/check_static_coop_scenario.js` 4종 OK(조합 108·108·81·81, 함정 각 2), 로컬 헤드리스 Chrome `scratch/e2e_coop_generic.js` 4종 ALL OK.
-- 미확인: 사용자 콘텐츠 검토, GitHub Pages 반영·운영 주소 재검증, 쪽별 출처 링크(우리역사넷 첫 화면만 연결), 실제 소요 시간.
+- 미확인: 사용자 콘텐츠 검토, GitHub Pages 반영·운영 주소 재검증, 실제 소요 시간. 사용자 검토 반영: 병자호란 두 신하 주장을 중립 요약으로 교체, 출처 링크를 항목별 우리역사넷 페이지로 교체(접속 미확인).
 
 ## 2026-10-19 — 고려 협동 활동 3종 정적 이식 (건국·주변 나라 관계·문화와 생활)
 

@@ -235,9 +235,19 @@
       unverifiable: '',
       aligned: '네 마지막 생각은 “{answer}”였구나. 교과서에 나오는 조선 후기의 모습과 이어지는 생각입니다. 그런데 교과서는 새로운 문물과 생각이 들어온 모습과 나라가 그것을 대한 모습을 따로 설명합니다. 네가 고른 생각은 어느 쪽과 더 가까운가요?'
     },
-    // 쪽별 링크는 확인하지 못해 우리역사넷 첫 화면만 둔다. 교사가 검색해 보충한다.
     sources: [
-      { label: '우리역사넷 (국사편찬위원회)', url: 'https://contents.history.go.kr/' }
+      {
+        label: '우리역사넷 · 실학의 발달',
+        url: 'https://contents.history.go.kr/mobile/ta/view.do?levelId=ta_h42_0030_0020_0010'
+      },
+      {
+        label: '우리역사넷 · 보유론적 천주신앙의 깨우침',
+        url: 'https://contents.history.go.kr/mobile/nh/view.do?levelId=nh_035_0020_0030_0010_0050'
+      },
+      {
+        label: '우리역사넷 · 동학당',
+        url: 'https://contents.history.go.kr/mobile/ta/view.do?levelId=ta_p42r_0110_0040_0070'
+      }
     ],
     documents: [
       { name: '서양 문물과 실학(98쪽)', note: '병자호란 전후 중국에 다녀온 사신들은 자명종·천리경·세계지도·천주교 서적·과학 기술 서적 등 서양 문물을 들여와 소개했고, 사람들의 생각이 점차 달라졌습니다. 유학이 이론에 치우쳐 한계가 있자 현실의 사회 문제를 해결하려는 실학이 나타났고, 실학자들은 농업·상업과 수공업·우리 역사와 지리 등을 연구했습니다.' },

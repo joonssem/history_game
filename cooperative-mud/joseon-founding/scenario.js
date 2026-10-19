@@ -235,9 +235,15 @@
       unverifiable: '',
       aligned: '네 마지막 생각은 “{answer}”였구나. 교과서가 말하는 유교 질서의 한 모습과 이어지는 생각입니다. 그런데 교과서는 이것이 모든 사람에게 똑같았다고 쓰지 않습니다. 같은 나라 안에서도 신분이나 성별에 따라 어떻게 달랐을까요?'
     },
-    // 쪽별 링크는 확인하지 못해 우리역사넷 첫 화면만 둔다. 교사가 검색해 보충한다.
     sources: [
-      { label: '우리역사넷 (국사편찬위원회)', url: 'https://contents.history.go.kr/' }
+      {
+        label: '우리역사넷 · 한양도성',
+        url: 'https://contents.history.go.kr/mobile/eh/view.do?levelId=eh_r0220_0010'
+      },
+      {
+        label: '우리역사넷 · 농사직설과 삼강행실도',
+        url: 'https://contents.history.go.kr/mobile/eh/view.do?levelId=eh_r0272_0010&code=eh_age_30'
+      }
     ],
     documents: [
       { name: '유교를 바탕으로 건국한 조선(77~82쪽)', note: '고려 말 백성의 삶이 힘들어지자 이성계는 일부 신진 사대부와 함께 조선을 건국했습니다. 한양을 새 수도로 정하고 유교의 ‘인의예지’를 반영해 설계했습니다. 성균관·향교·서당·서원으로 유교의 가르침을 알렸고, 『삼강행실도』에는 글과 함께 그림을 넣었습니다.' },
