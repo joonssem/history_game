@@ -1,6 +1,6 @@
 # 그래픽·디자인 업그레이드 제안 (2026-10-19, Claude Sonnet 5.5 조사)
 
-- 상태: `proposed` — 구현 전 사용자 선택 필요. 코드는 바꾸지 않았다.
+- 상태: `decided` — 화풍 A(한지 채색), 인물 없음. 구현 계획: `implementation_plan_scene_art_unit2_20261019.md`.
 - 조사 방법: 로컬 서버에서 포털·정규 MUD(`regular_neolithic`, `regular_myeongnyang`)·협동 활동 화면을 Chrome으로 캡처해 보고, `js/mudSimulators.js`를 읽었다.
 
 ## 현재 그래픽 수준
