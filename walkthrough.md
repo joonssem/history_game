@@ -2,7 +2,7 @@
 
 ## 2026-10-19 — 고려 협동 활동 3종 정적 이식 (건국·주변 나라 관계·문화와 생활)
 
-`TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/goryeo-{founding,relations,culture} | implementation/content agent(Claude) | 상태: DOING — 구현·로컬 검증 완료, 사용자 콘텐츠 검토 대기(push 전)`
+`TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/goryeo-{founding,relations,culture} | implementation/content agent(Claude) | 상태: DONE — push·Pages 반영·운영 주소 Chrome 3종 E2E ALL OK (2026-10-19, `2c9a211`). 실제 소요 시간은 수업 뒤 측정`
 
 - 교과서 5-2 1단원 47~63쪽을 직접 대조해 학생 화면을 교과서 쪽수 범위로 제한했다([D-042](./DECISIONS.md)). 원본의 교과서 밖 내용(사심관·여진 문제·삼별초·염경애 묘지명 등)은 `TEACHING.md` 교사 발문 자료로 옮겼다. 검토용 전문: [`docs/plans/goryeo_coop_content_review_20261019.md`](./docs/plans/goryeo_coop_content_review_20261019.md).
 - 바뀐 파일: `cooperative-mud/goryeo-*/{scenario.js,index.html}`(신규 3종), `cooperative-mud/trap-note.js`(공용·신규), `cooperative-mud/{index.html,TEACHING.md}`, `scratch/gen_coop_activity.js`(`index.html`·검토 문서 생성), `scratch/e2e_coop_generic.js`(신규), `DECISIONS.md`(D-042).
