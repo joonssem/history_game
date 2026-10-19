@@ -87,6 +87,8 @@ scenes['kim-hongdo-studio'] = () => open('', '붓과 벼루, 걸린 그림과 �
   + `<g transform="translate(400 172)"><rect x="0" y="0" width="30" height="8" rx="3" fill="#e8dcba" stroke="#8a7355" stroke-width="1.4"/><rect x="2" y="9" width="30" height="8" rx="3" fill="#efe5c8" stroke="#8a7355" stroke-width="1.4"/></g>`
   + close;
 
+require('./gen_scene_art_unit2')(scenes, { open, close, mountains, sea, ripples, panokseon, INK, W, H });
+
 for (const [id, fn] of Object.entries(scenes)) {
   fs.writeFileSync(path.join(OUT, id + '.svg'), fn());
   console.log('wrote', id + '.svg');

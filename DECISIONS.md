@@ -418,4 +418,4 @@
 - 상태: 채택 (2026-10-19, 사용자 선택: 화풍 A 한지 채색, "인물은 넣지 말자")
 - 근거: 정규 MUD 장면(약 105종)이 캔버스 도형으로만 그려져 가장 약한 그래픽이었다. 제안·계획: [`graphics_upgrade_proposal_20261019.md`](./docs/plans/graphics_upgrade_proposal_20261019.md), [`implementation_plan_scene_art_unit2_20261019.md`](./docs/plans/implementation_plan_scene_art_unit2_20261019.md)
 - 규칙: 장면은 `assets/scenes/<scene-id>.svg`(생성기 `scratch/gen_scene_art.js`)로 두고 `js/sceneArt.js`가 로드한다. 없거나 로드 전이면 기존 캔버스 그림이 그대로 쓰인다. 인물은 그리지 않는다(사물·배경만). 핫스팟 판정 반경은 그대로 두고, 그림 장면에서만 표지 원 + 아래 알약 라벨로 그린다.
-- 범위: 2단원 9편 34장면부터. 시범 3장면(명량 2·서민 문화 1) 적용.
+- 범위: 2단원 정규 MUD 9편 34장면 전부 적용(2026-10-19). 1·3단원 장면과 협동 활동 삽화는 후속.

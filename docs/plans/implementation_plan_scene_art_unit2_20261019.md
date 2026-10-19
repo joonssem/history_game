@@ -1,7 +1,7 @@
 # 장면 그래픽 교체 계획 — 2단원 정규 MUD (한지 채색화풍, 인물 없음)
 
 - 작성: 2026-10-19 (Claude Sonnet 5.5)
-- 상태: `pilot-implemented(시범 3장면, 사용자 검토 대기)` — 사용자 결정 완료(화풍 A 한지 채색, **인물은 그리지 않음**). 구현 전 사용자 확인 대기.
+- 상태: `implemented(2단원 34장면, 사용자 검토 대기)` — 사용자 결정 완료(화풍 A 한지 채색, **인물은 그리지 않음**). 구현 전 사용자 확인 대기.
 - 근거: [`graphics_upgrade_proposal_20261019.md`](./graphics_upgrade_proposal_20261019.md), 시안 [`graphics_scene_preview.html`](../prototypes/graphics_scene_preview.html)
 - 정정: 시안 단계에서 "2단원 14편"이라 했으나 2단원 정규 MUD는 **9편(14차시)**, 장면은 **34종**이다.
 

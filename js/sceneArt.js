@@ -5,7 +5,42 @@
 // =========================================================
 const SceneArt = {
   // 한지 채색화풍으로 교체된 장면. 목록에 없는 장면은 SVG를 요청하지 않는다.
-  available: new Set(['namhae-suguninmul', 'hansando-hakikjin', 'kim-hongdo-studio']),
+  available: new Set([
+    'angbuilgu-street',
+    'chiljeongsan-observatory',
+    'commoner-harvest',
+    'donghak-yongdamjeong',
+    'ganghwa-treaty-hall',
+    'gyeongbokgung-naming',
+    'hansando-hakikjin',
+    'hanyang-commerce-summary',
+    'hanyang-gates-pavement',
+    'hanyang-site-selection',
+    'hanyang-tram-street',
+    'hongdaeyong-globe',
+    'hopae-registration',
+    'hunminjeongeum-lab',
+    'hwaseong-geojunggi',
+    'ianbeop-farming',
+    'jejungwon-postal',
+    'joseon-border',
+    'joseon-diplomacy-exhibit',
+    'joseon-folk-evidence',
+    'joseon-founding-evidence',
+    'joseon-namhansanseong',
+    'joseon-postwar',
+    'joseon-status-evidence',
+    'jungin-medicine',
+    'kim-hongdo-studio',
+    'modern-open-evidence',
+    'namhae-suguninmul',
+    'pansori-performance',
+    'sangpum-crops',
+    'sangpyeongtongbo-market',
+    'sejong-evidence',
+    'silhak-summary',
+    'talchum-dance'
+  ]),
   images: {},
 
   load(scene) {

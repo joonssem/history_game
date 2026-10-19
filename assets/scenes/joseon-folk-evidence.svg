@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 230" width="480" height="230" role="img" aria-label="풍속화, 북과 부채, 탈">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#efe4cc"/><stop offset="1" stop-color="#e4d6b4"/></linearGradient>
+<filter id="paper" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.36  0 0 0 0 0.25  0 0 0 0.16 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+<filter id="wash"><feTurbulence type="fractalNoise" baseFrequency="0.03 0.08" numOctaves="3" seed="7" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6"/></filter>
+<linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c8190"/><stop offset="1" stop-color="#3f6577"/></linearGradient>
+</defs>
+<rect width="480" height="230" fill="url(#sky)"/>
+<rect y="176" width="480" height="54" fill="#b99a66"/><path d="M0 176 H480" stroke="#2a1d14" stroke-width="1.2" opacity=".5"/><g stroke="#8a7355" stroke-width="2" opacity=".45"><path d="M0 24 V176"/><path d="M60 24 V176"/><path d="M120 24 V176"/><path d="M180 24 V176"/><path d="M240 24 V176"/><path d="M300 24 V176"/><path d="M360 24 V176"/><path d="M420 24 V176"/></g>
+<g transform="translate(106 80) scale(1.1)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M0 -26 V-20" stroke-width="2"/><rect x="-22" y="-20" width="44" height="46" fill="#f7f1de" stroke="#8a5a35" stroke-width="3"/><path d="M-16 14 H16" stroke-width="1.2"/><path d="M-14 14 V4 L-2 -4 L10 4 V14" fill="#d9c38a"/><circle cx="14" cy="-6" r="6" fill="#7a8a3c" stroke="none"/></g>
+<g transform="translate(240 112) scale(1.2)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M-18 -6 Q-22 4 -18 14 H18 Q22 4 18 -6 Z" fill="#a8613f"/><ellipse cy="-6" rx="18" ry="6" fill="#f0e3c2"/><path d="M-14 -4 L-10 14 M-4 -2 L-2 14 M6 -2 L4 14 M14 -4 L10 14" stroke-width="1"/></g>
+<g transform="translate(374 80) scale(1.2)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><ellipse rx="22" ry="5" cy="-14" fill="#2a2420"/><path d="M-10 -14 Q-10 -28 0 -28 Q10 -28 10 -14 Z" fill="#3a332c"/><path d="M-14 -12 Q0 -18 14 -12 Q16 10 0 20 Q-16 10 -14 -12 Z" fill="#efe3c2"/><path d="M-9 -4 q3 -3 6 0 M3 -4 q3 -3 6 0" fill="none"/><path d="M-6 8 q6 4 12 0" fill="none"/><circle cx="-9" cy="2" r="2" fill="#c0392b" stroke="none"/><circle cx="9" cy="2" r="2" fill="#c0392b" stroke="none"/></g>
+<rect width="480" height="230" fill="#fff" filter="url(#paper)"/>
+</svg>
