@@ -34,9 +34,20 @@ const order = s.pacing.order;
 ['5', '10'].forEach((m) => Object.keys(s.pacing.budgets[m]).forEach((k) => need(order.includes(k), 'budget 단계 ' + k + ' 가 order에 없음')));
 order.forEach((k) => need(s.pacing.prompts[k] && s.pacing.prompts[k].slow && s.pacing.prompts[k].fast, 'prompts.' + k + ' 불완전'));
 need(!('second' in s.pacing.budgets['5']), '5분형에 second 예산이 있음');
-s.statement.fields[0].options.forEach((a) => s.statement.fields[1].options.forEach((b) => s.statement.fields[2].options.forEach((d) => {
-  const t = s.statement.compose([a.sentence, b.sentence, d.sentence]); need(!/\.\./.test(t), '문장 마침표 중복: ' + t);
-})));
-console.log(errors.length ? 'FAIL\n- ' + errors.join('\n- ') : 'OK ' + s.id + ' (역할 ' + s.roles.length + ', 문장 조합 ' + s.statement.fields.reduce((n, f) => n * f.options.length, 1) + ')');
+// 모든 칸의 선택지 조합을 만들어 문장 끝 마침표가 겹치지 않는지 본다(칸 수는 시나리오마다 다름).
+let combos = [[]];
+s.statement.fields.forEach((f) => { combos = combos.flatMap((c) => f.options.map((o) => c.concat(o.sentence))); });
+combos.forEach((c) => { const t = s.statement.compose(c); need(!/\.\./.test(t), '문장 마침표 중복: ' + t); });
+// 과잉일반화 함정(traps): 칸·값이 실제로 있어야 하고, 기본값(첫 선택지)이면 안 된다.
+(s.traps || []).forEach((t, i) => {
+  const f = s.statement.fields.find((x) => x.key === t.field);
+  need(f, 'traps[' + i + '].field 없음: ' + t.field);
+  if (f) {
+    need(f.options.some((o) => o.value === t.value), 'traps[' + i + '].value 가 선택지에 없음');
+    need(f.options[0].value !== t.value, 'traps[' + i + '] 가 기본 선택지임');
+  }
+  need(t.note && t.note.length > 10, 'traps[' + i + '].note 없음');
+});
+console.log(errors.length ? 'FAIL\n- ' + errors.join('\n- ') : 'OK ' + s.id + ' (역할 ' + s.roles.length + ', 문장 조합 ' + combos.length + ', 함정 ' + (s.traps || []).length + ')');
 console.log('예시: ' + s.statement.compose(parts));
 process.exit(errors.length ? 1 : 0);

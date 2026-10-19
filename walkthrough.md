@@ -1,4 +1,14 @@
 # Walkthrough
+## 2026-10-19 — 10/29 협동 활동 개편: 조선 후기 경제 → 신분 변화 13분형
+
+`TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/joseon-late-economy | implementation/content agent(Claude) | 상태: DOING — 개편 구현·로컬 검증 완료, push·교실 기기 확인 대기`
+
+- 사용자 결정 4건과 콘텐츠 판단 3건을 반영해 `joseon-late-economy`를 v02로 교체했다([D-041](./DECISIONS.md)). 콘텐츠 초안: [`docs/plans/joseon_late_status_content_draft_20261019.md`](./docs/plans/joseon_late_status_content_draft_20261019.md).
+- 교과서 95~97쪽 텍스트와 지도서 211~212·215쪽을 직접 대조했다. 4번 가난한 양반 카드의 "모두 부자는 아니었다"는 지도서에도 근거가 없어 만화 장면 묘사로 낮췄다.
+- 바뀐 파일: `joseon-late-economy/{scenario.js,index.html,trap-note.js(신규)}`, `cooperative-mud/{index.html,TEACHING.md}`, `scratch/check_static_coop_scenario.js`(6칸·함정 검사로 일반화), `scratch/e2e_joseon_late_status.js`(신규).
+- 검증(실행함): `node --check`, `node scratch/check_static_coop_scenario.js`(조선 후기 OK 조합 648·함정 2, 고려 외 두 활동 OK), 로컬 헤드리스 Chrome 8경로(3·4·5인 × 5·13분 + 함정 2종, 역할·근거·가상 표시·3인 추가 자료·6칸·함정 안내·담벼락 안내·기록 지우기·옛 v01 기록 무시 모두 통과).
+- 미확인: 교실 iPad 표시·조작, 실제 소요 시간, GitHub Pages 반영, 5분형에서 6칸을 60초에 고르는 부담. 고려 3종 이식은 미착수.
+
 
 ## 2026-10-06 — Auth0 제거 후 운영 문서 정합화
 
