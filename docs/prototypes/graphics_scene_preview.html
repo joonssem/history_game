@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>장면 그래픽 시안</title>
+<style>
+  :root { --bg:#faf6ee; --ink:#3b2a1f; --card:#fffdf8; --line:#d8cdb8; --accent:#8c3b26; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:24px 16px 48px; background:var(--bg); color:var(--ink); font-family:"Noto Sans KR","Malgun Gothic",sans-serif; }
+  main { max-width:1100px; margin:0 auto; }
+  h1 { font-size:1.5rem; margin:0 0 4px; }
+  p.lead { margin:0 0 24px; color:#6b5a4a; }
+  h2 { font-size:1.1rem; margin:32px 0 12px; border-left:4px solid var(--accent); padding-left:10px; }
+  .row { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; }
+  figure { margin:0; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px; }
+  figcaption { font-size:.85rem; font-weight:700; margin:0 0 8px; color:var(--accent); }
+  svg { width:100%; height:auto; display:block; border-radius:8px; }
+  .note { font-size:.8rem; color:#6b5a4a; margin-top:6px; }
+  .portraits { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,240px)); gap:16px; }
+  .hot { cursor:pointer; }
+  .hot:hover circle.ring { stroke-width:3; }
+</style>
+</head>
+<body>
+<main>
+  <h1>장면 그래픽 시안 (A: 한지 채색화풍 / B: 플랫 일러스트)</h1>
+  <p class="lead">같은 장면을 두 화풍으로 그렸습니다. 원형 표시는 실제 앱의 핫스팟 위치이고, 라벨은 겹치지 않도록 아래 알약으로 옮겼습니다. 역사 고증 확인 전의 시안입니다.</p>
+
+  <h2>명량 해협 (2단원 7차시)</h2>
+  <div class="row">
+    <figure><figcaption>A. 한지 채색화풍</figcaption><div id="mA"></div></figure>
+    <figure><figcaption>B. 플랫 일러스트</figcaption><div id="mB"></div></figure>
+  </div>
+
+  <h2>신석기 정착지 (1단원 3차시)</h2>
+  <div class="row">
+    <figure><figcaption>A. 한지 채색화풍</figcaption><div id="nA"></div></figure>
+    <figure><figcaption>B. 플랫 일러스트</figcaption><div id="nB"></div></figure>
+  </div>
+
+  <h2>인물 초상: 삼도수군통제사 이순신</h2>
+  <div class="portraits">
+    <figure><figcaption>A. 채색화풍</figcaption><div id="pA"></div></figure>
+    <figure><figcaption>B. 플랫</figcaption><div id="pB"></div></figure>
+  </div>
+  <p class="note">초상은 전립·갑옷·칼을 단순한 도형으로 그린 상징적 인물입니다. 이순신의 실제 초상화가 전하지 않아 특정 얼굴을 닮게 그리지 않았고, 이목구비도 넣지 않는 쪽이 더 안전하면 바꿀 수 있습니다.</p>
+</main>
+
+<script>
+const W = 480, H = 230;
+const NS = 'xmlns="http://www.w3.org/2000/svg"';
+
+/* 한지 질감: 종이 결 노이즈 + 먹 번짐 */
+const paperDefs = (id) => `
+  <filter id="paper${id}" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.36  0 0 0 0 0.25  0 0 0 0.16 0"/>
+    <feComposite in2="SourceGraphic" operator="in"/>
+  </filter>
+  <filter id="wash${id}"><feTurbulence type="fractalNoise" baseFrequency="0.03 0.08" numOctaves="3" seed="7" result="t"/>
+    <feDisplacementMap in="SourceGraphic" in2="t" scale="6"/></filter>`;
+
+function hotspot(x, y, label, flat) {
+  const w = label.length * 12 + 20;
+  return `<g class="hot" tabindex="0" role="button" aria-label="${label}">
+    <circle class="ring" cx="${x}" cy="${y}" r="13" fill="#fffdf4" fill-opacity=".92" stroke="${flat ? '#1f4e6b' : '#8c3b26'}" stroke-width="2"/>
+    <circle cx="${x}" cy="${y}" r="4.5" fill="${flat ? '#1f4e6b' : '#8c3b26'}"/>
+    <rect x="${x - w / 2}" y="${y + 17}" width="${w}" height="19" rx="9.5" fill="#fffdf4" fill-opacity=".95" stroke="${flat ? '#1f4e6b' : '#b9a27a'}"/>
+    <text x="${x}" y="${y + 30.5}" text-anchor="middle" font-size="11.5" font-weight="700" fill="#3b2a1f" font-family="Noto Sans KR,Malgun Gothic,sans-serif">${label}</text>
+  </g>`;
+}
+
+/* ---------- 판옥선 / 왜선 ---------- */
+function panokseon(x, y, s, st) {
+  const hull = st === 'A' ? '#6b4a30' : '#7a4a2b';
+  const deck = st === 'A' ? '#8a6444' : '#a86a3c';
+  const roof = st === 'A' ? '#3e4a42' : '#33495b';
+  const o = st === 'A' ? 'stroke="#2a1d14" stroke-width="1.4"' : '';
+  return `<g transform="translate(${x} ${y}) scale(${s})">
+    <path d="M-46 0 L46 0 L38 14 L-36 14 Z" fill="${hull}" ${o}/>
+    <rect x="-40" y="-8" width="80" height="8" fill="${deck}" ${o}/>
+    <rect x="-24" y="-24" width="48" height="16" fill="${deck}" ${o}/>
+    <path d="M-30 -24 L0 -36 L30 -24 Z" fill="${roof}" ${o}/>
+    <line x1="0" y1="-36" x2="0" y2="-52" stroke="#2a1d14" stroke-width="2"/>
+    <path d="M0 -52 L18 -48 L0 -44 Z" fill="#c0392b"/>
+    ${[-32, -20, 20, 32].map(px => `<circle cx="${px}" cy="-3.5" r="2.2" fill="#2a1d14"/>`).join('')}
+  </g>`;
+}
+function wae(x, y, s, st) {
+  const hull = st === 'A' ? '#3b3a38' : '#3d4348';
+  const o = st === 'A' ? 'stroke="#1b1b1b" stroke-width="1.2"' : '';
+  return `<g transform="translate(${x} ${y}) scale(${s})">
+    <path d="M-34 0 L34 0 L28 11 L-28 11 Z" fill="${hull}" ${o}/>
+    <rect x="-18" y="-13" width="36" height="13" fill="${st === 'A' ? '#5a5047' : '#6b6f73'}" ${o}/>
+    <line x1="0" y1="-13" x2="0" y2="-30" stroke="#1b1b1b" stroke-width="1.6"/>
+    <rect x="0" y="-30" width="14" height="9" fill="#e8e2d2" stroke="#1b1b1b" stroke-width=".8"/>
+  </g>`;
+}
+
+function myeongnyang(st) {
+  const A = st === 'A';
+  const sea1 = A ? '#5c8190' : '#2f6f8f', sea2 = A ? '#3f6577' : '#1f4e6b';
+  const sky1 = A ? '#e4dcc4' : '#cfe3ec', sky2 = A ? '#d4cbb0' : '#f2e4c4';
+  const mt1 = A ? '#7b8c78' : '#5c7a69', mt2 = A ? '#95a28f' : '#7d9a85';
+  let g = `<svg ${NS} viewBox="0 0 ${W} ${H}" role="img" aria-label="울돌목 좁은 해협에 판옥선 13척과 많은 왜선이 마주한 장면"><defs>${paperDefs('m' + st)}
+    <linearGradient id="sky${st}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky1}"/><stop offset="1" stop-color="${sky2}"/></linearGradient>
+    <linearGradient id="sea${st}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sea1}"/><stop offset="1" stop-color="${sea2}"/></linearGradient></defs>
+    <rect width="${W}" height="${H}" fill="url(#sky${st})"/>`;
+  /* 산 */
+  g += `<g ${A ? `filter="url(#wash${'m' + st})"` : ''}>
+    <path d="M0 118 L60 78 L110 104 L170 66 L230 106 L0 106 Z" fill="${mt2}" opacity=".85"/>
+    <path d="M250 112 L320 70 L380 100 L430 62 L480 96 L480 118 Z" fill="${mt2}" opacity=".85"/>
+    <path d="M0 126 L70 94 L140 120 L200 100 L260 124 L0 130 Z" fill="${mt1}"/>
+    <path d="M230 126 L300 98 L370 122 L440 92 L480 112 L480 130 L230 130 Z" fill="${mt1}"/></g>`;
+  /* 바다 */
+  g += `<rect x="0" y="118" width="${W}" height="${H - 118}" fill="url(#sea${st})"/>`;
+  /* 물살 선 */
+  for (let i = 0; i < 14; i++) {
+    const yy = 134 + i * 7, xx = (i * 67) % 380 + 20;
+    g += `<path d="M${xx} ${yy} q10 -4 20 0 t20 0 t20 0" fill="none" stroke="${A ? '#d7e4e4' : '#b8dbe6'}" stroke-width="1.6" opacity=".55"/>`;
+  }
+  /* 소용돌이 */
+  g += `<g transform="translate(240 150)" fill="none" stroke="${A ? '#e6efee' : '#ffffff'}" opacity=".7" stroke-width="1.8">
+     <ellipse rx="26" ry="7"/><ellipse rx="17" ry="4.5"/><ellipse rx="8" ry="2.4"/></g>`;
+  /* 왜선 (멀리, 작게) */
+  [[300, 148], [338, 140], [372, 152], [408, 142], [350, 164], [392, 168], [430, 156]].forEach(p => { g += wae(p[0], p[1], 0.62, st); });
+  /* 판옥선 13척 중 일부(앞줄 3척 표시, 나머지는 작게) */
+  [[70, 172], [128, 160], [186, 176]].forEach(p => { g += panokseon(p[0], p[1], 0.8, st); });
+  [[40, 146], [96, 142], [150, 138]].forEach(p => { g += panokseon(p[0], p[1], 0.45, st); });
+  /* 핫스팟 */
+  g += hotspot(128, 112, '판옥선 13척', !A) + hotspot(240, 150, '울돌목 협로', !A) + hotspot(372, 118, '일본 수군 대함대', !A);
+  return g + `<rect width="${W}" height="${H}" fill="#fff" filter="url(#paper${'m' + st})" ${A ? '' : 'opacity="0"'}/></svg>`;
+}
+
+/* ---------- 신석기 ---------- */
+function neolithic(st) {
+  const A = st === 'A';
+  const id = 'n' + st;
+  let g = `<svg ${NS} viewBox="0 0 ${W} ${H}" role="img" aria-label="강가에 움집과 농경지가 있는 신석기 마을"><defs>${paperDefs(id)}
+    <linearGradient id="sk${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${A ? '#dfe6cf' : '#bfe0e6'}"/><stop offset="1" stop-color="${A ? '#efe3bd' : '#f4e7c2'}"/></linearGradient></defs>
+    <rect width="${W}" height="${H}" fill="url(#sk${id})"/>
+    <circle cx="410" cy="48" r="20" fill="${A ? '#e9c88a' : '#f6c453'}" opacity=".9"/>`;
+  g += `<g ${A ? `filter="url(#wash${id})"` : ''}>
+    <path d="M0 120 L80 84 L150 112 L220 78 L300 116 L380 88 L480 120 L0 128 Z" fill="${A ? '#9aab8f' : '#7fa68b'}" opacity=".8"/></g>`;
+  g += `<rect x="0" y="118" width="${W}" height="${H - 118}" fill="${A ? '#9fb07a' : '#7da45f'}"/>`;
+  /* 강 */
+  g += `<path d="M0 124 C70 128 110 160 70 230 L170 230 C200 170 160 140 120 120 Z" fill="${A ? '#6e9aa6' : '#4aa3c7'}"/>`;
+  g += `<g fill="none" stroke="${A ? '#d9e8e6' : '#e6f6fb'}" stroke-width="1.6" opacity=".7">
+     <path d="M62 150 q8 -4 16 0 t16 0"/><path d="M60 176 q8 -4 16 0 t16 0"/><path d="M84 200 q8 -4 16 0 t16 0"/></g>`;
+  /* 농경지 이랑 */
+  for (let i = 0; i < 5; i++) {
+    g += `<path d="M${200 + i * 16} 172 L${190 + i * 22} 214" stroke="${A ? '#b09a58' : '#c8a84f'}" stroke-width="4" stroke-linecap="round"/>`;
+    g += `<path d="M${200 + i * 16} 172 L${200 + i * 16} 164 M${196 + i * 16} 168 L${200 + i * 16} 164 L${204 + i * 16} 168" stroke="${A ? '#7a8a3c' : '#4f8a2e'}" stroke-width="2" fill="none"/>`;
+  }
+  /* 움집 */
+  g += `<g transform="translate(395 150)">
+    <path d="M-62 28 Q-50 -26 0 -34 Q50 -26 62 28 Z" fill="${A ? '#9a7a4e' : '#c68b52'}" ${A ? 'stroke="#4a3322" stroke-width="1.6"' : ''}/>
+    <path d="M-40 28 Q-36 4 0 -2 Q36 4 40 28 Z" fill="${A ? '#6b5236' : '#a56a38'}" opacity=".55"/>
+    <path d="M-16 28 L-16 10 Q0 -2 16 10 L16 28 Z" fill="#3a2a1d"/>
+    ${[-40, -22, 0, 22, 40].map(p => `<line x1="${p}" y1="${22 - Math.abs(p) * 0.35}" x2="${p * 0.3}" y2="-30" stroke="${A ? '#c9ae78' : '#e5c58a'}" stroke-width="1.2" opacity=".6"/>`).join('')}</g>`;
+  /* 빗살무늬 토기 */
+  g += `<g transform="translate(305 182)">
+    <path d="M-14 -22 Q-20 6 -8 16 L8 16 Q20 6 14 -22 Z" fill="${A ? '#b97a4c' : '#d98a4e'}" ${A ? 'stroke="#4a2c18" stroke-width="1.4"' : ''}/>
+    <path d="M-12 -12 l8 5 M-14 -4 l12 6 M-4 -12 l8 5 M2 -4 l10 5" stroke="${A ? '#5c3820' : '#8a4a20'}" stroke-width="1.3"/></g>`;
+  g += hotspot(110, 134, '강가', !A) + hotspot(240, 160, '농경지', !A) + hotspot(395, 118, '움집', !A);
+  return g + `<rect width="${W}" height="${H}" fill="#fff" filter="url(#paper${id})" ${A ? '' : 'opacity="0"'}/></svg>`;
+}
+
+/* ---------- 이순신 초상 (실루엣형) ---------- */
+function portrait(st) {
+  const A = st === 'A';
+  const id = 'p' + st;
+  const bg = A ? '#efe3c6' : '#d8e9ef';
+  const armor = A ? '#3f4c58' : '#2f5d7c';
+  const trim = A ? '#b08a3e' : '#e7b94a';
+  const hat = A ? '#2a2420' : '#243447';
+  const skin = A ? '#d9b48f' : '#f0c9a0';
+  return `<svg ${NS} viewBox="0 0 200 240" role="img" aria-label="삼도수군통제사 이순신: 전립과 갑옷의 실루엣"><defs>${paperDefs(id)}</defs>
+    <rect width="200" height="240" rx="14" fill="${bg}"/>
+    <circle cx="100" cy="112" r="80" fill="${A ? '#e2d2ae' : '#c1dce6'}"/>
+    <path d="M30 240 Q36 168 100 160 Q164 168 170 240 Z" fill="${armor}" ${A ? 'stroke="#1e262d" stroke-width="2"/>' : '/>'}
+    <path d="M70 168 L100 190 L130 168" fill="none" stroke="${trim}" stroke-width="5"/>
+    <path d="M52 204 h96 M46 222 h108" stroke="${trim}" stroke-width="3" opacity=".8"/>
+    <rect x="86" y="140" width="28" height="26" rx="6" fill="${skin}"/>
+    <ellipse cx="100" cy="116" rx="30" ry="34" fill="${skin}" ${A ? 'stroke="#6b4a30" stroke-width="1.6"' : ''}/>
+    <path d="M70 100 Q100 78 130 100 Q124 84 100 80 Q76 84 70 100 Z" fill="${hat}"/>
+    <ellipse cx="100" cy="92" rx="52" ry="12" fill="${hat}" ${A ? 'stroke="#14100e" stroke-width="1.6"' : ''}/>
+    <path d="M74 90 Q100 52 126 90 Z" fill="${hat}"/>
+    <circle cx="100" cy="52" r="4" fill="#b83a2a"/><path d="M100 52 L100 40" stroke="#b83a2a" stroke-width="3"/>
+    <path d="M86 126 Q100 134 114 126" fill="none" stroke="#5a3a28" stroke-width="2" stroke-linecap="round"/>
+    <path d="M150 230 L168 150" stroke="#c9ccd1" stroke-width="5" stroke-linecap="round"/><rect x="162" y="140" width="12" height="14" rx="3" fill="${trim}"/>
+    <rect width="200" height="240" rx="14" fill="#fff" filter="url(#paper${id})" ${A ? '' : 'opacity="0"'}/>
+  </svg>`;
+}
+
+document.getElementById('mA').innerHTML = myeongnyang('A');
+document.getElementById('mB').innerHTML = myeongnyang('B');
+document.getElementById('nA').innerHTML = neolithic('A');
+document.getElementById('nB').innerHTML = neolithic('B');
+document.getElementById('pA').innerHTML = portrait('A');
+document.getElementById('pB').innerHTML = portrait('B');
+</script>
+</body>
+</html>
