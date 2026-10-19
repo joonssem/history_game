@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2F5D8A">
+  <meta name="description" content="유교를 바탕으로 건국한 조선이 사람들의 삶을 이끈 방법을 다루는 DB 없는 협동 역사 탐험">
+  <title>조선은 유교로 사람들의 삶을 어떻게 이끌었을까</title>
+  <link rel="stylesheet" href="../cooperative.css">
+</head>
+<body>
+  <!-- 이 파일은 scratch/gen_coop_activity.js가 scenario.js의 page 객체로 만든다. 문구는 scenario.js에서 고친다. -->
+  <main class="coop-shell game-shell">
+    <header class="coop-header game-header">
+      <div>
+        <a class="back-link" href="../">← 모둠 역사 탐험 허브</a>
+        <p class="eyebrow">🏯 조선 · 모둠 역사 탐험 v0.1</p>
+        <h1>조선은 유교로 사람들의 삶을 어떻게 이끌었을까</h1>
+        <p class="lead">한양과 궁궐, 유교 교육과 책, 법과 집안 예절, 신분의 자료를 하나씩 맡아 말로 모으고, 조선이 유교로 사람들의 삶을 어떻게 이끌었는지 모둠에서 설명해 보세요.</p>
+      </div>
+      <span class="status-pill">개인정보 수집 없음</span>
+    </header>
+
+    <div class="game-progress" aria-label="게임 진행도">
+      <div class="progress-label"><span id="progress-step">활동 소개</span><span id="progress-count">1 / 8</span></div>
+      <div class="progress-track"><div id="progress-value" class="progress-value" style="width: 13%"></div></div>
+    </div>
+
+    <div id="live-status" class="live-status" role="status" aria-live="polite"></div>
+
+    <div id="pacing-note" class="pacing-note" hidden>
+      <button id="pacing-badge" class="pacing-badge" type="button" aria-expanded="false" aria-controls="pacing-text"></button>
+      <p id="pacing-text" class="pacing-text" hidden></p>
+    </div>
+
+
+    <section id="screen-intro" class="screen">
+      <div class="panel">
+        <h2 class="screen-title">시간 탐사단, 조선 사람들의 하루를 밝혀 주세요</h2>
+        <div class="event-card">
+          <p class="event-label">오늘의 탐구 질문</p>
+          <h2>조선은 유교를 바탕으로 건국한 뒤, 사람들의 삶을 어떻게 이끌었을까?</h2>
+        </div>
+        <p class="screen-description" style="margin-top: 14px;">조선은 유교를 나라의 기본 정신으로 삼았습니다. 여러분은 그 모습을 한양, 학교와 책, 법, 신분에서 하나씩 맡아 가지고 있습니다.</p>
+        <ul class="rules">
+          <li>자기 화면의 자료를 친구에게 보여 주지 말고 말로 설명합니다.</li>
+          <li>친구 자료를 듣기 전에, 내 자료만 보고 먼저 생각을 정합니다.</li>
+          <li>마지막 설명은 모둠에서 말로 합의하고, 대표 기기 한 대에 기록합니다.</li>
+        </ul>
+        <div class="button-row"><button id="start-button" class="primary-button" type="button">활동 시작하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-setup" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">우리 모둠과 내 번호를 선택하세요</h2>
+        <p class="screen-description">교사가 알려 준 모둠 번호를 확인하고, 오늘 실제 모둠 인원에 맞는 숫자와 내 번호를 선택합니다. 이름이나 학번은 입력하지 않습니다.</p>
+        <label class="form-label">모둠 번호</label>
+        <div id="team-grid" class="team-grid" role="group" aria-label="모둠 번호"></div>
+        <label class="form-label">오늘 모둠 인원</label>
+        <div id="team-size-grid" class="team-size-grid" role="group" aria-label="오늘 모둠 인원"></div>
+        <label class="form-label">내 번호</label>
+        <div id="seat-grid" class="seat-grid" role="group" aria-label="좌석 번호"></div>
+        <p id="setup-hint" class="setup-hint">모둠을 먼저 선택하세요.</p>
+        <label class="form-label">활동 길이</label>
+        <div class="mode-grid" role="group" aria-label="활동 길이 선택">
+          <button class="mode-button" data-mode="5" type="button"><strong>5분형</strong><span>한 신분의 하루는 건너뜁니다</span></button>
+          <button class="mode-button is-selected" data-mode="10" type="button"><strong>10분형</strong><span>한 신분의 하루까지</span></button>
+        </div>
+        <p id="setup-error" class="error-note" role="alert"></p>
+        <div class="button-row"><button id="begin-button" class="primary-button" type="button" disabled>내 역할 자료 확인하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-role" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">내가 맡은 역할 자료입니다</h2>
+        <p class="screen-description">아직 친구에게 설명하지 마세요. 먼저 혼자 읽고, 핵심어를 찾아 두세요. 다음 화면에서 내 생각을 정합니다.</p>
+        <div id="role-card" class="role-card"></div>
+        <div class="button-row"><button id="role-continue-button" class="primary-button" type="button">다 읽었어요</button></div>
+      </div>
+    </section>
+
+    <section id="screen-first" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">혼자 생각하기</p>
+          <h2>유교를 나라의 기본 정신으로 삼은 조선은 가장 먼저 무엇을 해야 했을까요?</h2>
+          <p>지금 여러분은 자료 하나만 알고 있습니다. 정답을 고르는 것이 아니라, 내 자료만 보고 든 생각을 고릅니다. 고른 까닭은 다음 단계에서 말로 덧붙입니다.</p>
+        </div>
+        <h2 class="screen-title" style="margin-top: 18px;">내 생각은 무엇인가요?</h2>
+        <p class="screen-description">친구와 자료를 나누기 전에 내 처음 생각을 먼저 기록합니다. 나중에 바꿀 수 있고, 바꾸어도 점수는 없습니다.</p>
+        <div id="first-choice-grid" class="choice-grid"></div>
+      </div>
+    </section>
+
+    <section id="screen-share" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">이제 모둠에서 자료를 나눕니다</h2>
+        <p class="screen-description">1번부터 번호 순서대로 말합니다. 화면을 보여 주지 말고, 아래 문장을 내 말로 설명하세요. 마지막에 근거 쪽수를 꼭 말해 주세요.</p>
+        <div id="share-card" class="share-quote"></div>
+        <div class="evidence-card" style="margin-top: 14px;">
+          <h3>들으면서 찾아볼 것</h3>
+          <p>친구가 말하는 장면은 어디인가요? 한양, 학교, 법, 신분은 같은 방향을 가리키고 있나요?</p>
+        </div>
+        <div class="button-row"><button id="share-button" class="primary-button" type="button">모둠에 이야기했어요</button></div>
+        <p id="share-state" class="share-state" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="screen-reveal" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">공통 자료 · 교과서 85쪽</p>
+          <h2>유교 질서 속에서 여성의 삶은 어떠했을까요?</h2>
+          <p>유교 질서를 강조한 조선에서 여성은 배움의 기회가 매우 적었고, 사회 활동이 활발하지 못했습니다. 조선 전기에는 고려 시대와 마찬가지로 아들과 딸이 재산을 똑같이 물려받았고, 제사도 돌아가며 지냈습니다. 그러나 후기로 갈수록 여성의 지위가 낮아지고, 삼종지도를 따르는 삶을 살게 되었습니다.</p>
+          <p><b>삼종지도</b>: 어렸을 때에는 아버지의 뜻에 따르고, 결혼해서는 남편의 뜻에 따르고, 늙어서는 아들의 뜻에 따릅니다.</p>
+        </div>
+        <div class="evidence-card">
+          <h3>함께 이야기해 보기</h3>
+          <ol class="observation-list">
+          <li>조선 전기와 후기의 여성의 모습은 어떻게 달랐나요?</li>
+          <li>친구들의 자료를 떠올려 보세요. 유교 질서가 자리를 잡아 갈수록 사람들의 삶은 어떻게 달라졌을까요?</li>
+          </ol>
+        </div>
+        <div id="missing-role-clue" class="evidence-card" hidden></div>
+        <div class="change-panel">
+          <h3>처음 생각을 그대로 유지하시겠습니까?</h3>
+          <p class="screen-description">친구들의 자료와 공통 자료가 내 생각에 어떤 영향을 주었는지 선택합니다. 그대로 두어도 괜찮습니다.</p>
+          <div class="button-row">
+            <button id="keep-button" class="secondary-button" type="button">그대로 유지하기</button>
+            <button id="change-button" class="primary-button" type="button">생각을 바꾸기</button>
+          </div>
+          <div id="revised-choice-area" hidden>
+            <h3 style="margin-top: 18px;">바꾼 생각은 무엇인가요?</h3>
+            <div id="revised-choice-grid" class="choice-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-second" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">교과서 84쪽·86쪽 · 조선 시대의 인물이 되어 보기</p>
+          <h2>신분 하나를 골라 하루를 떠올려 볼까요?</h2>
+          <p>교과서 86쪽에서는 조선 시대 신분 중 하나를 골라 그 사람이 되어 가상 일기를 씁니다. 일기를 쓰지는 않고, 모둠에서 이야기하며 신분 하나를 골라 그 하루를 말로 떠올려 보세요.</p>
+          <p><b>양반</b> 유교의 가르침이 담긴 책을 공부하거나 관리가 되어 나랏일에 참여하면서 국역을 면제받았다. <b>중인</b> 높은 관리를 돕는 일을 하거나 의학, 법률, 통역 등 전문적인 일을 했다. <b>상민</b> 대부분 농사를 짓거나 물건을 파는 일을 했고, 나라에 세금을 내고 군대에 가는 사람도 거의 대부분이었다. <b>천민</b> 나라나 주인에 속한 노비가 대부분이었고 허드렛일을 하거나 물건을 만들었다.</p>
+          <p>일기는 상상력을 발휘하되, 신분의 특징과 하는 일을 역사적 사실에 맞게 써야 합니다.</p>
+        </div>
+        <div class="evidence-card">
+          <h3>모둠 토의 질문</h3>
+          <ol class="observation-list">
+          <li>어느 신분을 골랐나요? 그 사람이 아침부터 저녁까지 하는 일을 세 가지 떠올려 보세요.</li>
+          <li>같은 마을에 사는 다른 신분의 사람은 같은 날 무엇을 하고 있을까요?</li>
+          </ol>
+        </div>
+        <div class="button-row" style="margin-top: 16px;"><button id="second-continue-button" class="primary-button" type="button">모둠의 설명 만들어 보기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-statement" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">최종 미션</p>
+          <h2 id="statement-heading">우리 모둠의 설명 만들기</h2>
+          <p id="statement-description">친구들의 자료를 모두 생각하고 모둠에서 합의합니다.</p>
+        </div>
+        <div class="evidence-card" style="margin-top: 14px;">
+          <p>고르기 전에, 칸과 칸 사이에 <strong>“왜냐하면”</strong>을 넣어 한 번 소리 내어 말해 보세요. 기록관(3인 모둠은 3번 친구)은 “몇 쪽이야?”, “모두야, 일부야?”를 물어봐 주세요.</p>
+        </div>
+        <div id="statement-builder" class="law-builder" style="margin-top: 16px;"></div>
+        <div id="statement-preview" class="law-preview" aria-live="polite"></div>
+        <p class="law-note">이 기록은 이 기기에만 저장됩니다. 실제 모둠의 최종 설명은 친구들과 말로 합의한 뒤 대표 기기 한 대에서 기록하세요.</p>
+        <div class="button-row" style="margin-top: 15px;"><button id="statement-save-button" class="primary-button" type="button">우리 모둠 설명 기록하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-history" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">교과서와 비교</p>
+          <h2>교과서는 유교를 바탕으로 건국한 조선을 이렇게 정리합니다</h2>
+          <p>사회 교과서 77~86쪽의 내용을 건국과 한양·유교 교육과 법·신분과 여성으로 나누어 보았습니다.</p>
+        </div>
+        <ul class="clause-list" id="document-list"></ul>
+        <div class="history-quote" style="margin-top: 14px;">
+          <p>조선은 유교를 나라의 기본 정신으로 삼아 한양을 설계하고, 학교와 책, 법, 관혼상제로 가르침을 알렸습니다. 사람들은 <strong>신분에 맞게</strong> 생활했고, 여성의 지위는 조선 전기에서 후기로 갈수록 <strong>낮아졌습니다</strong>. 다만 이 자료로는 사람들이 가르침을 <strong>실제로 얼마나 따랐는지</strong>는 알 수 없습니다.</p>
+        </div>
+        <div class="evidence-card" style="margin-top: 14px;">
+          <h3>탐구 질문 다시 보기</h3>
+          <p><strong>조선은 유교를 바탕으로 건국한 뒤, 사람들의 삶을 어떻게 이끌었을까?</strong> 우리 모둠 설명은 이 질문에 답하고 있나요?</p>
+        </div>
+        <div id="trap-note" class="evidence-card" hidden></div>
+        <div class="compare-box">
+          <h3>내 생각과 견주어 봅시다</h3>
+          <p id="compare-text"></p>
+        </div>
+        <div class="source-list" id="source-list"></div>
+        <div class="button-row" style="margin-top: 17px;"><button id="finish-button" class="primary-button" type="button">나의 탐구 기록 확인하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-finish" class="screen" hidden>
+      <div class="panel">
+        <p class="eyebrow">탐구 완료</p>
+        <h2 class="screen-title">나는 친구들의 자료를 듣고 내 생각을 다시 살펴보았습니다</h2>
+        <p class="screen-description">아래 기록은 이 기기에만 남습니다. 교사는 모둠 토론을 관찰한 뒤 별도 기록지에 결과를 적어 주세요.</p>
+        <div id="summary-grid" class="summary-grid"></div>
+        <h3 style="margin-top: 18px;">교사 관찰 질문</h3>
+        <ol class="observation-list">
+          <li>학생들이 자기 역할 자료를 실제로 말로 설명했나요?</li>
+          <li>모둠 설명에 나라가 한 일과 사람들의 삶이 모두 나왔나요?</li>
+          <li>신분에 따라 달랐던 점을 근거와 함께 말했나요?</li>
+          <li>조선 전기와 후기의 차이를 구별했나요?</li>
+          <li>공통 자료를 보고 생각을 바꾼 학생이 있었나요?</li>
+        </ol>
+        <div class="completion-note">이 활동은 조선의 제도를 외우는 것이 아니라, 유교 질서가 사람들의 삶에 닿는 모습을 근거로 설명하고 자료의 범위를 따져 보는 과정을 보기 위한 것입니다.</div>
+        <div class="button-row" style="margin-top: 17px;"><button id="reset-button" class="secondary-button" type="button">이 기기 기록 지우고 다시 하기</button><a class="link-button" href="../">모둠 역사 탐험 허브로</a></div>
+      </div>
+    </section>
+  </main>
+  <script src="../pacing.js"></script>
+  <script src="scenario.js"></script>
+  <script src="../episode.js"></script>
+  <script src="../trap-note.js"></script>
+</body>
+</html>

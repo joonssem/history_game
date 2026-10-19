@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2F5D8A">
+  <meta name="description" content="조선 후기 서양 문물·실학·천주교·동학을 다루는 DB 없는 협동 역사 탐험">
+  <title>조선 후기에는 어떤 새로운 생각들이 퍼졌을까</title>
+  <link rel="stylesheet" href="../cooperative.css">
+</head>
+<body>
+  <!-- 이 파일은 scratch/gen_coop_activity.js가 scenario.js의 page 객체로 만든다. 문구는 scenario.js에서 고친다. -->
+  <main class="coop-shell game-shell">
+    <header class="coop-header game-header">
+      <div>
+        <a class="back-link" href="../">← 모둠 역사 탐험 허브</a>
+        <p class="eyebrow">🌅 조선 후기 · 모둠 역사 탐험 v0.1</p>
+        <h1>조선 후기에는 어떤 새로운 생각들이 퍼졌을까</h1>
+        <p class="lead">서양 문물, 실학, 천주교, 동학의 자료를 하나씩 맡아 말로 모으고, 조선 후기에 어떤 새로운 생각들이 퍼졌고 나라는 그것을 어떻게 대했는지 모둠에서 설명해 보세요.</p>
+      </div>
+      <span class="status-pill">개인정보 수집 없음</span>
+    </header>
+
+    <div class="game-progress" aria-label="게임 진행도">
+      <div class="progress-label"><span id="progress-step">활동 소개</span><span id="progress-count">1 / 8</span></div>
+      <div class="progress-track"><div id="progress-value" class="progress-value" style="width: 13%"></div></div>
+    </div>
+
+    <div id="live-status" class="live-status" role="status" aria-live="polite"></div>
+
+    <div id="pacing-note" class="pacing-note" hidden>
+      <button id="pacing-badge" class="pacing-badge" type="button" aria-expanded="false" aria-controls="pacing-text"></button>
+      <p id="pacing-text" class="pacing-text" hidden></p>
+    </div>
+
+
+    <section id="screen-intro" class="screen">
+      <div class="panel">
+        <h2 class="screen-title">시간 탐사단, 조선 후기의 새로운 생각을 찾아 주세요</h2>
+        <div class="event-card">
+          <p class="event-label">오늘의 탐구 질문</p>
+          <h2>조선 후기에는 어떤 새로운 생각들이 퍼졌고, 나라는 그것을 어떻게 대했을까?</h2>
+        </div>
+        <p class="screen-description" style="margin-top: 14px;">조선 후기에는 새로운 문물과 학문, 종교가 들어오거나 생겨났습니다. 여러분은 그 가운데 하나의 자료를 하나씩 가지고 있습니다.</p>
+        <ul class="rules">
+          <li>자기 화면의 자료를 친구에게 보여 주지 말고 말로 설명합니다.</li>
+          <li>친구 자료를 듣기 전에, 내 자료만 보고 먼저 생각을 정합니다.</li>
+          <li>마지막 설명은 모둠에서 말로 합의하고, 대표 기기 한 대에 기록합니다.</li>
+        </ul>
+        <div class="button-row"><button id="start-button" class="primary-button" type="button">활동 시작하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-setup" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">우리 모둠과 내 번호를 선택하세요</h2>
+        <p class="screen-description">교사가 알려 준 모둠 번호를 확인하고, 오늘 실제 모둠 인원에 맞는 숫자와 내 번호를 선택합니다. 이름이나 학번은 입력하지 않습니다.</p>
+        <label class="form-label">모둠 번호</label>
+        <div id="team-grid" class="team-grid" role="group" aria-label="모둠 번호"></div>
+        <label class="form-label">오늘 모둠 인원</label>
+        <div id="team-size-grid" class="team-size-grid" role="group" aria-label="오늘 모둠 인원"></div>
+        <label class="form-label">내 번호</label>
+        <div id="seat-grid" class="seat-grid" role="group" aria-label="좌석 번호"></div>
+        <p id="setup-hint" class="setup-hint">모둠을 먼저 선택하세요.</p>
+        <label class="form-label">활동 길이</label>
+        <div class="mode-grid" role="group" aria-label="활동 길이 선택">
+          <button class="mode-button" data-mode="5" type="button"><strong>5분형</strong><span>동학의 글 읽기는 건너뜁니다</span></button>
+          <button class="mode-button is-selected" data-mode="10" type="button"><strong>10분형</strong><span>동학의 글 읽기까지</span></button>
+        </div>
+        <p id="setup-error" class="error-note" role="alert"></p>
+        <div class="button-row"><button id="begin-button" class="primary-button" type="button" disabled>내 역할 자료 확인하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-role" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">내가 맡은 역할 자료입니다</h2>
+        <p class="screen-description">아직 친구에게 설명하지 마세요. 먼저 혼자 읽고, 핵심어를 찾아 두세요. 다음 화면에서 내 생각을 정합니다.</p>
+        <div id="role-card" class="role-card"></div>
+        <div class="button-row"><button id="role-continue-button" class="primary-button" type="button">다 읽었어요</button></div>
+      </div>
+    </section>
+
+    <section id="screen-first" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">혼자 생각하기</p>
+          <h2>새로운 문물과 생각이 들어오던 조선 후기에 사람들은 어떻게 하는 것이 좋았을까요?</h2>
+          <p>지금 여러분은 자료 하나만 알고 있습니다. 정답을 고르는 것이 아니라, 내 자료만 보고 든 생각을 고릅니다. 고른 까닭은 다음 단계에서 말로 덧붙입니다.</p>
+        </div>
+        <h2 class="screen-title" style="margin-top: 18px;">내 생각은 무엇인가요?</h2>
+        <p class="screen-description">친구와 자료를 나누기 전에 내 처음 생각을 먼저 기록합니다. 나중에 바꿀 수 있고, 바꾸어도 점수는 없습니다.</p>
+        <div id="first-choice-grid" class="choice-grid"></div>
+      </div>
+    </section>
+
+    <section id="screen-share" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">이제 모둠에서 자료를 나눕니다</h2>
+        <p class="screen-description">1번부터 번호 순서대로 말합니다. 화면을 보여 주지 말고, 아래 문장을 내 말로 설명하세요. 마지막에 근거 쪽수를 꼭 말해 주세요.</p>
+        <div id="share-card" class="share-quote"></div>
+        <div class="evidence-card" style="margin-top: 14px;">
+          <h3>들으면서 찾아볼 것</h3>
+          <p>친구가 말하는 새로운 것은 무엇인가요? 나라는 그것을 각각 어떻게 대했나요?</p>
+        </div>
+        <div class="button-row"><button id="share-button" class="primary-button" type="button">모둠에 이야기했어요</button></div>
+        <p id="share-state" class="share-state" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="screen-reveal" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">공통 자료 · 교과서 94쪽</p>
+          <h2>「천하도」와 지구의는 세계를 어떻게 다르게 보여 줄까요?</h2>
+          <p><b>「천하도」</b>는 중국을 중심으로 조선, 일본 등과 중국의 옛이야기에 나오는 상상의 나라들을 표현한 그림입니다. <b>지구의</b>는 지구를 본떠 둥글게 만든 모형에 바다, 육지, 여러 나라 등을 그리고 이름을 써넣은 것입니다.</p>
+          <p>교과서는 이렇게 묻습니다. “「천하도」에 그려진 것같이 세계를 이해하던 사람들이 지구의를 봤을 때 어떤 생각을 했을까요?”</p>
+        </div>
+        <div class="evidence-card">
+          <h3>함께 이야기해 보기</h3>
+          <ol class="observation-list">
+          <li>「천하도」를 보던 사람이 지구의를 본다면 무엇이 가장 놀라웠을까요?</li>
+          <li>친구들의 자료를 떠올려 보세요. 서양 문물, 실학, 새로운 종교는 이런 생각의 변화와 어떻게 이어질까요?</li>
+          </ol>
+        </div>
+        <div id="missing-role-clue" class="evidence-card" hidden></div>
+        <div class="change-panel">
+          <h3>처음 생각을 그대로 유지하시겠습니까?</h3>
+          <p class="screen-description">친구들의 자료와 공통 자료가 내 생각에 어떤 영향을 주었는지 선택합니다. 그대로 두어도 괜찮습니다.</p>
+          <div class="button-row">
+            <button id="keep-button" class="secondary-button" type="button">그대로 유지하기</button>
+            <button id="change-button" class="primary-button" type="button">생각을 바꾸기</button>
+          </div>
+          <div id="revised-choice-area" hidden>
+            <h3 style="margin-top: 18px;">바꾼 생각은 무엇인가요?</h3>
+            <div id="revised-choice-grid" class="choice-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-second" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">교과서 99쪽 · 동학의 글</p>
+          <h2>동학의 글은 무엇을 강조할까요?</h2>
+          <p>다음은 교과서 99쪽에 나오는 동학의 글입니다.</p>
+          <p>“사람이 곧 하늘이라. 그러므로 사람은 평등하며 차별이 없나니 사람이 마음대로 귀한 것, 천한 것을 나누는 것은 하늘을 거스르는 일이다.”</p>
+          <p>이 글을 읽고 글에서 강조하는 것과 이 글을 읽은 당시 백성이 어떻게 생각했을지, 동학이 어떤 사회 변화를 요구했을지 모둠에서 이야기해 보세요.</p>
+        </div>
+        <div class="evidence-card">
+          <h3>모둠 토의 질문</h3>
+          <ol class="observation-list">
+          <li>글에서 강조하는 것은 무엇인가요? 글 속 낱말을 찾아 보세요.</li>
+          <li>신분에 따라 귀하고 천하다고 나뉘던 사회에서, 이 글은 백성에게 어떻게 읽혔을까요?</li>
+          </ol>
+        </div>
+        <div class="button-row" style="margin-top: 16px;"><button id="second-continue-button" class="primary-button" type="button">모둠의 설명 만들어 보기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-statement" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">최종 미션</p>
+          <h2 id="statement-heading">우리 모둠의 설명 만들기</h2>
+          <p id="statement-description">친구들의 자료를 모두 생각하고 모둠에서 합의합니다.</p>
+        </div>
+        <div class="evidence-card" style="margin-top: 14px;">
+          <p>고르기 전에, 칸과 칸 사이에 <strong>“왜냐하면”</strong>을 넣어 한 번 소리 내어 말해 보세요. 기록관(3인 모둠은 3번 친구)은 “몇 쪽이야?”, “모두야, 일부야?”를 물어봐 주세요.</p>
+        </div>
+        <div id="statement-builder" class="law-builder" style="margin-top: 16px;"></div>
+        <div id="statement-preview" class="law-preview" aria-live="polite"></div>
+        <p class="law-note">이 기록은 이 기기에만 저장됩니다. 실제 모둠의 최종 설명은 친구들과 말로 합의한 뒤 대표 기기 한 대에서 기록하세요.</p>
+        <div class="button-row" style="margin-top: 15px;"><button id="statement-save-button" class="primary-button" type="button">우리 모둠 설명 기록하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-history" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">교과서와 비교</p>
+          <h2>교과서는 조선 후기의 새로운 생각들을 이렇게 정리합니다</h2>
+          <p>사회 교과서 94쪽, 98~99쪽의 내용을 서양 문물과 실학·천주교와 동학으로 나누어 보았습니다.</p>
+        </div>
+        <ul class="clause-list" id="document-list"></ul>
+        <div class="history-quote" style="margin-top: 14px;">
+          <p>조선 후기에는 서양 문물이 들어와 사람들의 <strong>생각이 점차 달라졌고</strong>, 현실의 문제를 풀려는 실학이 나타났습니다. 천주교와 동학은 모든 사람이 평등하다는 생각을 전했고 나라는 이를 <strong>탄압했습니다</strong>. 다만 이 자료로는 <strong>모든 백성이 어떻게 받아들였는지</strong>는 알 수 없습니다.</p>
+        </div>
+        <div class="evidence-card" style="margin-top: 14px;">
+          <h3>탐구 질문 다시 보기</h3>
+          <p><strong>조선 후기에는 어떤 새로운 생각들이 퍼졌고, 나라는 그것을 어떻게 대했을까?</strong> 우리 모둠 설명은 이 질문에 답하고 있나요?</p>
+        </div>
+        <div id="trap-note" class="evidence-card" hidden></div>
+        <div class="compare-box">
+          <h3>내 생각과 견주어 봅시다</h3>
+          <p id="compare-text"></p>
+        </div>
+        <div class="source-list" id="source-list"></div>
+        <div class="button-row" style="margin-top: 17px;"><button id="finish-button" class="primary-button" type="button">나의 탐구 기록 확인하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-finish" class="screen" hidden>
+      <div class="panel">
+        <p class="eyebrow">탐구 완료</p>
+        <h2 class="screen-title">나는 친구들의 자료를 듣고 내 생각을 다시 살펴보았습니다</h2>
+        <p class="screen-description">아래 기록은 이 기기에만 남습니다. 교사는 모둠 토론을 관찰한 뒤 별도 기록지에 결과를 적어 주세요.</p>
+        <div id="summary-grid" class="summary-grid"></div>
+        <h3 style="margin-top: 18px;">교사 관찰 질문</h3>
+        <ol class="observation-list">
+          <li>학생들이 자기 역할 자료를 실제로 말로 설명했나요?</li>
+          <li>모둠 설명에 새로 들어온 것과 나라의 반응이 모두 나왔나요?</li>
+          <li>실학자들의 주장이 서로 달랐다는 점을 말했나요?</li>
+          <li>교과서가 알려 주는 것과 알려 주지 않는 것(백성이 받아들인 정도 등)을 구별했나요?</li>
+          <li>공통 자료를 보고 생각을 바꾼 학생이 있었나요?</li>
+        </ol>
+        <div class="completion-note">이 활동은 새로운 생각의 이름을 외우는 것이 아니라, 그것이 어떻게 들어와 퍼지고 나라가 어떻게 반응했는지를 근거로 설명하고 자료의 범위를 따져 보는 과정을 보기 위한 것입니다.</div>
+        <div class="button-row" style="margin-top: 17px;"><button id="reset-button" class="secondary-button" type="button">이 기기 기록 지우고 다시 하기</button><a class="link-button" href="../">모둠 역사 탐험 허브로</a></div>
+      </div>
+    </section>
+  </main>
+  <script src="../pacing.js"></script>
+  <script src="scenario.js"></script>
+  <script src="../episode.js"></script>
+  <script src="../trap-note.js"></script>
+</body>
+</html>

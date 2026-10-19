@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2F5D8A">
+  <meta name="description" content="임진왜란과 병자호란을 겪은 조선의 대응과 결과를 다루는 DB 없는 협동 역사 탐험">
+  <title>조선은 두 번의 큰 전쟁을 어떻게 겪었을까</title>
+  <link rel="stylesheet" href="../cooperative.css">
+</head>
+<body>
+  <!-- 이 파일은 scratch/gen_coop_activity.js가 scenario.js의 page 객체로 만든다. 문구는 scenario.js에서 고친다. -->
+  <main class="coop-shell game-shell">
+    <header class="coop-header game-header">
+      <div>
+        <a class="back-link" href="../">← 모둠 역사 탐험 허브</a>
+        <p class="eyebrow">⚓ 조선 · 모둠 역사 탐험 v0.1</p>
+        <h1>조선은 두 번의 큰 전쟁을 어떻게 겪었을까</h1>
+        <p class="lead">임진왜란의 시작, 이순신의 수군, 의병, 병자호란의 자료를 하나씩 맡아 말로 모으고, 조선이 두 번의 큰 전쟁을 어떻게 겪고 이겨 냈는지 모둠에서 설명해 보세요.</p>
+      </div>
+      <span class="status-pill">개인정보 수집 없음</span>
+    </header>
+
+    <div class="game-progress" aria-label="게임 진행도">
+      <div class="progress-label"><span id="progress-step">활동 소개</span><span id="progress-count">1 / 8</span></div>
+      <div class="progress-track"><div id="progress-value" class="progress-value" style="width: 13%"></div></div>
+    </div>
+
+    <div id="live-status" class="live-status" role="status" aria-live="polite"></div>
+
+    <div id="pacing-note" class="pacing-note" hidden>
+      <button id="pacing-badge" class="pacing-badge" type="button" aria-expanded="false" aria-controls="pacing-text"></button>
+      <p id="pacing-text" class="pacing-text" hidden></p>
+    </div>
+
+
+    <section id="screen-intro" class="screen">
+      <div class="panel">
+        <h2 class="screen-title">시간 탐사단, 전쟁을 겪은 조선을 찾아가 주세요</h2>
+        <div class="event-card">
+          <p class="event-label">오늘의 탐구 질문</p>
+          <h2>조선은 임진왜란과 병자호란이라는 두 번의 큰 전쟁을 어떻게 겪었을까?</h2>
+        </div>
+        <p class="screen-description" style="margin-top: 14px;">조선은 일본과 청의 침략을 차례로 겪었습니다. 여러분은 두 전쟁에서 서로 다른 장면의 자료를 하나씩 가지고 있습니다.</p>
+        <ul class="rules">
+          <li>자기 화면의 자료를 친구에게 보여 주지 말고 말로 설명합니다.</li>
+          <li>친구 자료를 듣기 전에, 내 자료만 보고 먼저 생각을 정합니다.</li>
+          <li>마지막 설명은 모둠에서 말로 합의하고, 대표 기기 한 대에 기록합니다.</li>
+        </ul>
+        <div class="button-row"><button id="start-button" class="primary-button" type="button">활동 시작하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-setup" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">우리 모둠과 내 번호를 선택하세요</h2>
+        <p class="screen-description">교사가 알려 준 모둠 번호를 확인하고, 오늘 실제 모둠 인원에 맞는 숫자와 내 번호를 선택합니다. 이름이나 학번은 입력하지 않습니다.</p>
+        <label class="form-label">모둠 번호</label>
+        <div id="team-grid" class="team-grid" role="group" aria-label="모둠 번호"></div>
+        <label class="form-label">오늘 모둠 인원</label>
+        <div id="team-size-grid" class="team-size-grid" role="group" aria-label="오늘 모둠 인원"></div>
+        <label class="form-label">내 번호</label>
+        <div id="seat-grid" class="seat-grid" role="group" aria-label="좌석 번호"></div>
+        <p id="setup-hint" class="setup-hint">모둠을 먼저 선택하세요.</p>
+        <label class="form-label">활동 길이</label>
+        <div class="mode-grid" role="group" aria-label="활동 길이 선택">
+          <button class="mode-button" data-mode="5" type="button"><strong>5분형</strong><span>의병 고경명의 글 읽기는 건너뜁니다</span></button>
+          <button class="mode-button is-selected" data-mode="10" type="button"><strong>10분형</strong><span>의병 고경명의 글 읽기까지</span></button>
+        </div>
+        <p id="setup-error" class="error-note" role="alert"></p>
+        <div class="button-row"><button id="begin-button" class="primary-button" type="button" disabled>내 역할 자료 확인하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-role" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">내가 맡은 역할 자료입니다</h2>
+        <p class="screen-description">아직 친구에게 설명하지 마세요. 먼저 혼자 읽고, 핵심어를 찾아 두세요. 다음 화면에서 내 생각을 정합니다.</p>
+        <div id="role-card" class="role-card"></div>
+        <div class="button-row"><button id="role-continue-button" class="primary-button" type="button">다 읽었어요</button></div>
+      </div>
+    </section>
+
+    <section id="screen-first" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">혼자 생각하기</p>
+          <h2>나라가 외적의 침략을 받았을 때 가장 먼저 무엇을 해야 했을까요?</h2>
+          <p>지금 여러분은 자료 하나만 알고 있습니다. 정답을 고르는 것이 아니라, 내 자료만 보고 든 생각을 고릅니다. 고른 까닭은 다음 단계에서 말로 덧붙입니다.</p>
+        </div>
+        <h2 class="screen-title" style="margin-top: 18px;">내 생각은 무엇인가요?</h2>
+        <p class="screen-description">친구와 자료를 나누기 전에 내 처음 생각을 먼저 기록합니다. 나중에 바꿀 수 있고, 바꾸어도 점수는 없습니다.</p>
+        <div id="first-choice-grid" class="choice-grid"></div>
+      </div>
+    </section>
+
+    <section id="screen-share" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">이제 모둠에서 자료를 나눕니다</h2>
+        <p class="screen-description">1번부터 번호 순서대로 말합니다. 화면을 보여 주지 말고, 아래 문장을 내 말로 설명하세요. 마지막에 근거 쪽수를 꼭 말해 주세요.</p>
+        <div id="share-card" class="share-quote"></div>
+        <div class="evidence-card" style="margin-top: 14px;">
+          <h3>들으면서 찾아볼 것</h3>
+          <p>친구가 말하는 전쟁은 언제, 누구와의 싸움인가요? 두 전쟁의 대응과 결과는 어떻게 달랐나요?</p>
+        </div>
+        <div class="button-row"><button id="share-button" class="primary-button" type="button">모둠에 이야기했어요</button></div>
+        <p id="share-state" class="share-state" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="screen-reveal" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">공통 자료 · 교과서 92쪽</p>
+          <h2>병자호란 때 성안의 신하들은 무엇을 두고 다투었을까요?</h2>
+          <p>인조가 남한산성에서 청군에 포위되자 성안의 신하들은 청과 끝까지 싸우자는 쪽과 청에 항복하고 전쟁을 끝내자는 쪽으로 의견이 나뉘었습니다. 두 신하의 주장은 다음과 같습니다.</p>
+          <p><b>○○ 신하</b> “지금 조선의 군사력으로는 청에 맞서 싸우기 어렵습니다. 청과 화해하고 뒷날을 꾀해야 합니다.”</p>
+          <p><b>△△ 신하</b> “명과의 의리를 저버리고 오랑캐인 청에 항복할 수 없습니다. 임금과 신하, 백성이 힘을 합친다면 청을 물리칠 수 있습니다.”</p>
+          <p>교과서는 이렇게 생각해 보라고 알려 줍니다. “명이 임진왜란 때 조선을 도와준 점과 청이 세력을 키워 강해진 상황을 생각하며 자신의 입장을 정해 봐요.”</p>
+        </div>
+        <div class="evidence-card">
+          <h3>함께 이야기해 보기</h3>
+          <ol class="observation-list">
+          <li>두 신하의 주장은 각각 어떤 걱정에서 나왔나요?</li>
+          <li>친구들의 자료를 떠올려 보세요. 명이 임진왜란 때 도운 일은 신하들의 생각에 어떤 영향을 줬을까요? 나라면 누구의 주장을 지지할까요?</li>
+          </ol>
+        </div>
+        <div id="missing-role-clue" class="evidence-card" hidden></div>
+        <div class="change-panel">
+          <h3>처음 생각을 그대로 유지하시겠습니까?</h3>
+          <p class="screen-description">친구들의 자료와 공통 자료가 내 생각에 어떤 영향을 주었는지 선택합니다. 그대로 두어도 괜찮습니다.</p>
+          <div class="button-row">
+            <button id="keep-button" class="secondary-button" type="button">그대로 유지하기</button>
+            <button id="change-button" class="primary-button" type="button">생각을 바꾸기</button>
+          </div>
+          <div id="revised-choice-area" hidden>
+            <h3 style="margin-top: 18px;">바꾼 생각은 무엇인가요?</h3>
+            <div id="revised-choice-grid" class="choice-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-second" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">교과서 91쪽 · 의병장 고경명의 글</p>
+          <h2>의병장은 백성에게 무엇을 요구했을까요?</h2>
+          <p>다음은 교과서 91쪽에 나오는 의병장 고경명의 글입니다.</p>
+          <p>“섬나라 오랑캐가 쳐들어왔다. …… 충성과 의리란 마땅히 나라를 위해 죽는 것이니, 무기를 들고 군량미를 모으며, 말에 올라타 앞장서 전쟁터로 달리자. 기꺼이 농기구를 던지고 논밭에서 일어나 능력이 되는 데까지 오직 충성과 의리로 돌아가라.” - 고경명, 『제봉집』</p>
+          <p>이 글을 읽고 의병장이 백성에게 요구한 행동과 그 까닭을 조선이 나라의 기본 정신으로 삼은 유교와 관련지어 말해 보세요.</p>
+        </div>
+        <div class="evidence-card">
+          <h3>모둠 토의 질문</h3>
+          <ol class="observation-list">
+          <li>의병장이 백성에게 요구한 행동은 무엇인가요? 글에서 찾아 보세요.</li>
+          <li>그 까닭은 유교의 가르침(충성, 의리)과 어떻게 이어지나요?</li>
+          </ol>
+        </div>
+        <div class="button-row" style="margin-top: 16px;"><button id="second-continue-button" class="primary-button" type="button">모둠의 설명 만들어 보기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-statement" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">최종 미션</p>
+          <h2 id="statement-heading">우리 모둠의 설명 만들기</h2>
+          <p id="statement-description">친구들의 자료를 모두 생각하고 모둠에서 합의합니다.</p>
+        </div>
+        <div class="evidence-card" style="margin-top: 14px;">
+          <p>고르기 전에, 칸과 칸 사이에 <strong>“왜냐하면”</strong>을 넣어 한 번 소리 내어 말해 보세요. 기록관(3인 모둠은 3번 친구)은 “몇 쪽이야?”, “모두야, 일부야?”를 물어봐 주세요.</p>
+        </div>
+        <div id="statement-builder" class="law-builder" style="margin-top: 16px;"></div>
+        <div id="statement-preview" class="law-preview" aria-live="polite"></div>
+        <p class="law-note">이 기록은 이 기기에만 저장됩니다. 실제 모둠의 최종 설명은 친구들과 말로 합의한 뒤 대표 기기 한 대에서 기록하세요.</p>
+        <div class="button-row" style="margin-top: 15px;"><button id="statement-save-button" class="primary-button" type="button">우리 모둠 설명 기록하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-history" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">교과서와 비교</p>
+          <h2>교과서는 임진왜란과 병자호란을 이렇게 정리합니다</h2>
+          <p>사회 교과서 91~92쪽의 내용을 임진왜란과 병자호란으로 나누어 보았습니다.</p>
+        </div>
+        <ul class="clause-list" id="document-list"></ul>
+        <div class="history-quote" style="margin-top: 14px;">
+          <p>임진왜란에서 조선은 큰 위기를 맞았지만 <strong>이순신의 수군과 의병, 명군의 도움</strong>으로 극복했습니다. 병자호란에서는 신하들의 <strong>의견이 나뉘었고</strong> 인조가 항복해 많은 백성이 끌려갔습니다. 두 전쟁 모두 큰 피해를 남겼지만, 정확히 몇 명이 죽거나 끌려갔는지는 <strong>이 자료로는 알 수 없습니다</strong>.</p>
+        </div>
+        <div class="evidence-card" style="margin-top: 14px;">
+          <h3>탐구 질문 다시 보기</h3>
+          <p><strong>조선은 임진왜란과 병자호란이라는 두 번의 큰 전쟁을 어떻게 겪었을까?</strong> 우리 모둠 설명은 이 질문에 답하고 있나요?</p>
+        </div>
+        <div id="trap-note" class="evidence-card" hidden></div>
+        <div class="compare-box">
+          <h3>내 생각과 견주어 봅시다</h3>
+          <p id="compare-text"></p>
+        </div>
+        <div class="source-list" id="source-list"></div>
+        <div class="button-row" style="margin-top: 17px;"><button id="finish-button" class="primary-button" type="button">나의 탐구 기록 확인하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-finish" class="screen" hidden>
+      <div class="panel">
+        <p class="eyebrow">탐구 완료</p>
+        <h2 class="screen-title">나는 친구들의 자료를 듣고 내 생각을 다시 살펴보았습니다</h2>
+        <p class="screen-description">아래 기록은 이 기기에만 남습니다. 교사는 모둠 토론을 관찰한 뒤 별도 기록지에 결과를 적어 주세요.</p>
+        <div id="summary-grid" class="summary-grid"></div>
+        <h3 style="margin-top: 18px;">교사 관찰 질문</h3>
+        <ol class="observation-list">
+          <li>학생들이 자기 역할 자료를 실제로 말로 설명했나요?</li>
+          <li>모둠 설명에 임진왜란과 병자호란의 차이가 나왔나요?</li>
+          <li>두 신하의 주장을 각각 근거와 함께 설명했나요?</li>
+          <li>교과서가 알려 주는 것과 알려 주지 않는 것(정확한 피해 규모 등)을 구별했나요?</li>
+          <li>공통 자료를 보고 생각을 바꾼 학생이 있었나요?</li>
+        </ol>
+        <div class="completion-note">이 활동은 전쟁의 연표를 외우는 것이 아니라, 두 전쟁에서 조선이 어떻게 대응했고 결과가 어땠는지를 근거로 설명하고 자료의 범위를 따져 보는 과정을 보기 위한 것입니다.</div>
+        <div class="button-row" style="margin-top: 17px;"><button id="reset-button" class="secondary-button" type="button">이 기기 기록 지우고 다시 하기</button><a class="link-button" href="../">모둠 역사 탐험 허브로</a></div>
+      </div>
+    </section>
+  </main>
+  <script src="../pacing.js"></script>
+  <script src="scenario.js"></script>
+  <script src="../episode.js"></script>
+  <script src="../trap-note.js"></script>
+</body>
+</html>

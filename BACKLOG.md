@@ -10,7 +10,7 @@
 
 ## P1-COOP-STATIC-GORYEO — 협동 활동 정적 이식: 조선 후기 경제(10/29 공개수업·10분형) 우선, 고려 3종 후속
 
-- 작업 claim: `TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/joseon-late-economy·goryeo-* 신규 | implementation/content agent(Claude) | 상태: DOING — 조선 후기 95~97쪽 경제→신분 13분형 개편 구현·로컬 Chrome 8경로 검증 완료(2026-10-19, D-041), push·Pages 반영·운영 주소 재검증 완료(`452a35c`), 교실 iPad 확인 대기. 이전 10분형은 Pages 반영(2026-10-16, `8571cd6`). 고려 3종 정적 이식 구현·검증 완료(2026-10-19, D-042, 사용자 콘텐츠 검토 대기·push 전), 조선 4종(건국·유교 사회, 세종, 임진왜란·병자호란, 후기 사회 변화 확장) 후속 | 검증: node --check, node scratch/check_static_coop_scenario.js, 로컬 Chrome 12경로`
+- 작업 claim: `TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/joseon-late-economy·goryeo-* 신규 | implementation/content agent(Claude) | 상태: DOING — 조선 후기 95~97쪽 경제→신분 13분형 개편 구현·로컬 Chrome 8경로 검증 완료(2026-10-19, D-041), push·Pages 반영·운영 주소 재검증 완료(`452a35c`), 교실 iPad 확인 대기. 이전 10분형은 Pages 반영(2026-10-16, `8571cd6`). 고려 3종 정적 이식 구현·검증 완료(2026-10-19, D-042, 사용자 콘텐츠 검토 대기·push 전), 조선 4종(건국·유교 사회, 세종, 임진왜란·병자호란, 후기 사회 변화 확장) 구현·로컬 검증 완료(2026-10-19, D-043, 사용자 콘텐츠 검토 대기·push 전) | 검증: node --check, node scratch/check_static_coop_scenario.js, 로컬 Chrome 12경로`
 - 문제: 고려 건국·주변 나라 관계·문화와 생활 협동 콘텐츠가 동결된 실시간 앱 안에만 있다.
 - 목적: 교사가 모둠·번호를 나누고 학생이 말로 공유하는 정적 협동 MUD로 옮긴다. 10/29(목) 공개수업 「조선 후기의 경제적 변화 알아보기」(10분형)를 먼저 만들고, 고려 3종은 그 뒤에 옮긴다.
 - 교육적 영향: 2026-10-14 교사 시연에서 직접 활동이 이해·설명에 더 쉬웠다(INBOX). 비대칭 정보로 대화를 만드는 핵심 설계는 유지된다.
