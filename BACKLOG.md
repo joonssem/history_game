@@ -4,7 +4,7 @@
 
 ## P2-REPO-CLEANUP — Convex 취소 후 저장소 정리 (2026-10-16 등록)
 
-- 작업 claim: `TASK-20261016-REPO-CLEANUP | apps/cooperative-live 제거·worktree/브랜치 태그 보관·취소 문서 archive 이동·루트 정리 | integration agent(Claude) | 상태: DOING — 2026-10-19 앱 제거(`429d88c`)·아카이브 태그 13개 push·문서 이동·BACKLOG 정리·루트 정리 완료. worktree 9개 제거와 로컬/원격 브랜치 삭제는 Codex 등 다른 세션이 쓰는지 사용자 확인 대기`
+- 작업 claim: `TASK-20261016-REPO-CLEANUP | apps/cooperative-live 제거·worktree/브랜치 태그 보관·취소 문서 archive 이동·루트 정리 | integration agent(Claude) | 상태: DONE(Vercel Git 연동 확인만 Codex 위임) — 2026-10-19 앱 제거·태그 13개·문서 이동·BACKLOG·루트 정리·worktree 9개와 브랜치 삭제 완료`
 - 문제: 취소된 실시간 앱 코드(546MB node_modules 포함), worktree 10개, 브랜치 17개, 실시간 협동 문서 약 30개, BACKLOG CANCELLED 섹션이 현행 작업과 섞여 있다.
 - 계획: [`implementation_plan_repo_cleanup_20261016.md`](./docs/plans/implementation_plan_repo_cleanup_20261016.md)
 

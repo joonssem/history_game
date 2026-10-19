@@ -2,14 +2,14 @@
 
 ## 2026-10-19 — 저장소 정리: 실시간 협동 앱 제거와 문서 보관 (D-040)
 
-`TASK-20261016-REPO-CLEANUP | 저장소 정리 | integration agent(Claude) | 상태: DOING — 앱 제거·태그 보관·문서 이동·BACKLOG·루트 정리 완료, worktree·브랜치 삭제는 사용자 확인 대기`
+`TASK-20261016-REPO-CLEANUP | 저장소 정리 | integration agent(Claude) | 상태: DONE — worktree 9개 제거, 로컬 브랜치 17개·원격 브랜치 11개 삭제까지 완료(사용자 "전부 정리" 승인). Vercel Git 연동 확인만 Codex에 위임`
 
 - 보관 태그 13개(`archive/cooperative-live-20261016` + 미반영 브랜치 12개)를 만들어 원격에 push했다. `apps/cooperative-live/`와 `scripts/15_validate_cooperative_packet.js`를 제거하고 `.gitignore`의 `apps/*` 규칙 3줄을 지웠다(`429d88c`).
 - 취소 문서 28건과 `CONVEX_VERCEL_NOTES.md`(환경변수 이름만 있고 값 없음)를 `docs/archive/cooperative-live/`로 옮기고 README를 만들었다. BACKLOG의 취소 항목 16묶음은 같은 폴더 `BACKLOG_cancelled_20261016.md`로 옮겼다(1,043줄로 줄어듦). 살아 있던 "판단이 필요한 것 1~13"은 BACKLOG에 남겼다.
 - 루트의 `202610021201.png`·`extracted_script.js`·`extracted_style.css`·`debug.log`를 삭제하고 `다른pc_vscode터미널5개창작업설명.md`를 `docs/archive/`로 옮겼다.
 - README·project_context·docs/plans/README·TECH_STACK·ARCHITECTURE의 링크를 새 경로로 고쳤다. INBOX·walkthrough·DECISIONS 본문과 인계 문서의 옛 경로는 원문 보존을 위해 고치지 않았다.
 - 검증(실행함): quality-gate의 JSON·MUD 정합·계약·카탈로그·출처·시뮬레이터·차시 트랙·정적 자산 검사와 `node --check js/*.js` 모두 통과.
-- 미완: `git worktree` 9개 제거, 로컬 브랜치 17개·원격 브랜치 삭제, Vercel Git 연동 확인(사용자). Codex가 오늘 같은 저장소에서 작업했으므로 `.worktrees/codex-*`는 건드리지 않았다.
+- 후속(2026-10-19 사용자 승인): `git worktree` 9개 제거, 로컬 브랜치 17개·원격 브랜치 11개 삭제를 완료했다(삭제 전 태그와 커밋 일치를 확인). 남은 것은 Vercel Git 연동 확인(Codex 위임)과 등록되지 않은 `.worktrees/*` 폴더 5개(baseline·patch·preview 등) 처리다.
 
 ## 2026-10-19 — 조선 협동 활동 4종 신규 (건국과 유교 사회·세종 시기·임진왜란과 병자호란·조선 후기 새로운 생각)
 

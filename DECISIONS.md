@@ -358,7 +358,7 @@
   1. 코드는 태그 `archive/cooperative-live-20261016`(앱 포함 상태)로 보관하고 main에서 `apps/cooperative-live/`·`scripts/15_validate_cooperative_packet.js`를 제거했다. 복구: `git checkout archive/cooperative-live-20261016 -- apps/cooperative-live`.
   2. 미반영 브랜치 12개는 `archive/<브랜치명>` 태그로 보관했다(원격에 push). `claude-deep-prehistoric`은 브랜치로 남긴다.
   3. 취소된 문서 28건은 `docs/archive/cooperative-live/`로 옮겼고, BACKLOG의 취소 항목 원문은 같은 폴더 `BACKLOG_cancelled_20261016.md`에 있다.
-  4. worktree 제거와 브랜치 삭제는 다른 세션(Codex 등)이 쓰는지 사용자가 확인한 뒤 한다.
+  4. worktree 9개와 로컬/원격 브랜치는 사용자 승인("전부 정리", 2026-10-19) 뒤 제거했다. 삭제 전 태그와 커밋 일치를 확인했다.
 - 포기하는 것: main에서 앱을 바로 열어 보는 편의. 필요하면 태그에서 복구한다.
 
 ## D-041 — 10/29 협동 활동을 경제→신분 변화 13분형으로 개편한다 (D-039 규칙 1·2 개정)
