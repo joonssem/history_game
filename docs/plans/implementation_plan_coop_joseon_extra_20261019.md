@@ -2,7 +2,7 @@
 
 - 작성: 2026-10-19 (Claude, 기획)
 - 작업: `TASK-20261019-COOP-STATIC-JOSEON-EXTRA`
-- 상태: `planned` — 사용자 요청 "새 작업(서민문화, 개항 이후) 진행 계획 작성하기". 구현은 사용자 확인 뒤.
+- 상태: `implemented(로컬)` — 사용자 인터뷰로 열린 질문 확정(2026-10-19), 구현·로컬 검증 완료, 사용자 콘텐츠 검토 대기. 검토 문서: `joseon_extra_coop_content_review_20261019.md`
 - 근거: [D-043](../../DECISIONS.md)이 이번 범위에서 뺀 부분(서민 문화, 개항 이후)을 잇는다. 교과서 5-2 2단원(`primary_data/society_5-2-2.pdf`, 로컬 전용) 100~108쪽을 직접 읽었다.
 - 틀: D-042·D-043과 같다(역할 5개, 5분형·10분형, 6단계, 4칸 설명 틀, 함정 2개, `scenario.js` → `scratch/gen_coop_activity.js`). 공용 엔진·`cooperative.css`는 고치지 않는다.
 

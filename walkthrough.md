@@ -1,5 +1,14 @@
 # Walkthrough
 
+## 2026-10-19 — 조선 후기 확장 2종 신규 (서민 문화·개항 이후)
+
+`TASK-20261019-COOP-STATIC-JOSEON-EXTRA | cooperative-mud/joseon-{commoner-culture,open-ports} | implementation/content agent(Claude) | 상태: DOING — 구현·로컬 검증 완료, 사용자 콘텐츠 검토 대기(push 전)`
+
+- 교과서 5-2 2단원 100~102쪽, 104~108쪽을 쪽수 범위로 옮겼다([D-045](./DECISIONS.md)). 사용자 인터뷰 결정: 서민 문화 10분형은 101쪽 민화 고르기, 개항 이후는 학생 눈높이 제목, 109~110쪽은 쓰지 않음.
+- 바뀐 파일: `cooperative-mud/joseon-{commoner-culture,open-ports}/{scenario.js,index.html}`(신규), `cooperative-mud/{index.html,TEACHING.md}`(허브 13개·조선 묶음 7개), `DECISIONS.md`(D-045), 자동 생성 검토 문서.
+- 검증(실행함): `node --check`, `check_static_coop_scenario.js` 2종 OK(조합 81·81, 함정 각 2), 로컬 Chrome `e2e_coop_generic.js` 2종 ALL OK.
+- 미확인: 사용자 콘텐츠 검토, Pages 반영·운영 주소 검증, 쪽별 출처 링크(우리역사넷 첫 화면만), 실제 소요 시간.
+
 ## 2026-10-19 — 저장소 정리: 실시간 협동 앱 제거와 문서 보관 (D-040)
 
 `TASK-20261016-REPO-CLEANUP | 저장소 정리 | integration agent(Claude) | 상태: DONE — worktree 9개 제거, 로컬 브랜치 17개·원격 브랜치 11개 삭제까지 완료(사용자 "전부 정리" 승인). Vercel Git 연동 확인만 Codex에 위임`
