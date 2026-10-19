@@ -646,6 +646,20 @@ const MudSimulators = {
       if (correctness === true) { fill = '#22c55e'; stroke = '#dcfce7'; textColor = '#052e12'; markLabel = `✓ ${hotspot.label}`; }
       else if (correctness === false) { fill = '#ef4444'; stroke = '#fee2e2'; textColor = '#450a0a'; markLabel = `✕ ${hotspot.label}`; }
       else if (isFound) { fill = '#f59e0b'; stroke = '#fff7ed'; textColor = '#422006'; markLabel = `✓ ${hotspot.label}`; }
+      if (window.SceneArt && window.SceneArt.has(scene)) {
+        // 그림 장면: 작은 표지 원 + 아래 알약 라벨로 그림 위에서 글자가 겹치지 않게 한다. 판정 반경(radius)은 그대로다.
+        const r = hotspot.radius * 0.36;
+        ctx.fillStyle = fill; ctx.strokeStyle = correctness === null && !isFound ? '#8c3b26' : stroke; ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        if (!isFound) { ctx.fillStyle = '#8c3b26'; ctx.beginPath(); ctx.arc(cx, cy, r * 0.38, 0, Math.PI * 2); ctx.fill(); }
+        ctx.font = 'bold 11px "Pretendard", sans-serif';
+        const pw = ctx.measureText(markLabel).width + 16;
+        ctx.fillStyle = isFound || correctness !== null ? fill : 'rgba(255,253,244,0.95)';
+        ctx.strokeStyle = correctness === null && !isFound ? '#b9a27a' : stroke; ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.roundRect(cx - pw / 2, cy + r + 4, pw, 19, 9.5); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = textColor; ctx.fillText(markLabel, cx, cy + r + 17.5);
+        return;
+      }
       ctx.fillStyle = fill;
       ctx.strokeStyle = stroke;
       ctx.lineWidth = 2;
@@ -663,6 +677,7 @@ const MudSimulators = {
   // MUD JSON의 scene 키가 시대별 그림을 선택한다. 핫스팟·완료 로직은 공통으로 유지한다.
   drawConfiguredSceneBackground(ctx, w, h, scene) {
     if (!scene) return false;
+    if (window.SceneArt && window.SceneArt.draw(ctx, w, h, scene)) return true;
     const groundY = h * 0.68;
     const fillSky = (top, bottom, ground) => {
       const sky = ctx.createLinearGradient(0, 0, 0, h);

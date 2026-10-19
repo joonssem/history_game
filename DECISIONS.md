@@ -412,3 +412,10 @@
 - 근거: D-043이 이번 범위에서 뺀 부분을 잇는다. 교과서 5-2 2단원 100~102쪽, 104~108쪽을 직접 대조했다. 계획서는 [`implementation_plan_coop_joseon_extra_20261019.md`](./docs/plans/implementation_plan_coop_joseon_extra_20261019.md).
 - 규칙: D-042·D-043과 같다(쪽수 범위, 역할 5개, 3인 4번 자료는 공통 자료, 함정 2개, `scenario.js` → 생성기). 교과서 109~110쪽과 103쪽 재연은 쓰지 않는다.
 - 활동 이름은 `서민들은 왜 새로운 문화를 만들고 즐겼을까`, `항구가 열린 뒤 사람들의 생활은 어떻게 달라졌을까`로 했다.
+
+## D-046 — 시뮬레이터 장면을 한지 채색화풍 SVG로 바꾸되 인물은 그리지 않는다
+
+- 상태: 채택 (2026-10-19, 사용자 선택: 화풍 A 한지 채색, "인물은 넣지 말자")
+- 근거: 정규 MUD 장면(약 105종)이 캔버스 도형으로만 그려져 가장 약한 그래픽이었다. 제안·계획: [`graphics_upgrade_proposal_20261019.md`](./docs/plans/graphics_upgrade_proposal_20261019.md), [`implementation_plan_scene_art_unit2_20261019.md`](./docs/plans/implementation_plan_scene_art_unit2_20261019.md)
+- 규칙: 장면은 `assets/scenes/<scene-id>.svg`(생성기 `scratch/gen_scene_art.js`)로 두고 `js/sceneArt.js`가 로드한다. 없거나 로드 전이면 기존 캔버스 그림이 그대로 쓰인다. 인물은 그리지 않는다(사물·배경만). 핫스팟 판정 반경은 그대로 두고, 그림 장면에서만 표지 원 + 아래 알약 라벨로 그린다.
+- 범위: 2단원 9편 34장면부터. 시범 3장면(명량 2·서민 문화 1) 적용.

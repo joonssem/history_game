@@ -2685,3 +2685,10 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 함께 수정: `cooperative-mud/index.html`(허브 카드), `cooperative-mud/TEACHING.md`(활동 표·역할 표·발문 자료), `apps/cooperative-live/README.md`(동결 표시).
 - 검증: `node --check` 통과. `scratch/check_static_coop_scenario.js`(신규, episode.js 계약 검사·문장 36조합)가 새 활동·한강·시조 설화에서 통과. 고조선은 별도 `app.js` 형식이라 대상 아님. 로컬 Chrome 자동 진행으로 휴대폰(375px)·태블릿(820px) × 3·4·5인 × 5·10분형 12개 경로를 완료 화면까지 확인(가로 넘침 없음, 콘솔 오류는 로컬 서버 favicon 404뿐). 기존 3개 활동 시작 화면 회귀 없음. `scripts/15_validate_cooperative_packet.js`는 실시간 앱 계약 전용이라 쓰지 않음.
 - 남은 일: 사용자 콘텐츠 검토, Pages 반영 후 교실 기기 확인, 10/29 수업 관찰 기록(EXPERIMENTS).
+
+## 2026-10-19 장면 그래픽 시범: 한지 채색화풍 SVG 3장면 (D-046)
+
+- 변경: `js/sceneArt.js`(신규), `js/mudSimulators.js`(배경 훅 + 그림 장면용 알약 라벨), `index.html`(스크립트·캐시버스터), `assets/scenes/{namhae-suguninmul,hansando-hakikjin,kim-hongdo-studio}.svg`, 생성기 `scratch/gen_scene_art.js`.
+- 방식: SVG가 있으면 캔버스에 `drawImage`, 없으면 기존 그림. 인물 없음(김홍도 화실은 씨름 인물 대신 걸린 그림·병풍·붓과 벼루).
+- 검증: `node --check`, `scripts/01`·`06` 통과. Chrome 820×1180에서 세 장면 핫스팟 3개 클릭 → 3/3 완료, 콘솔 오류 없음(오디오 자동재생 경고만). 현재 화면과 비교 캡처로 라벨 겹침 해소 확인.
+- 남은 일: 사용자 검토 후 2단원 나머지 31장면 확장(계획서 §4).
