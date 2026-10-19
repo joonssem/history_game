@@ -18,7 +18,7 @@
 - 계획: [`implementation_plan_static_coop_goryeo.md`](./docs/plans/implementation_plan_static_coop_goryeo.md)
 - **다음 세션 시작점 (2026-10-16 종료 시점)**
   - 원문: `d:\Projects\과정안사회\history_game_협동MUD_최신전달사항.md`(저장소 밖). INBOX 2026-10-16 항목에 요지가 있다. 같은 폴더의 `history_game_협동MUD_콘텐츠작성_전달명세.md`·`10월29일_사회_세안_통합본.md`·교과서 PDF 97쪽을 함께 본다. PDF는 저장소로 복사하지 않는다.
-  - 사용자 결정 대기(4개, Claude 권장안 포함)
+  - 사용자 결정 완료(2026-10-19, 4개 모두 Claude 권장안 채택)
     1. 기존 95~96쪽 활동을 같은 폴더에서 교체한다. 저장 키는 v02로 바꾼다.
     2. 13분형을 기본으로 하고 5분형은 유지한다. 10분형은 없앤다.
     3. 엔진이 "번호 = 역할"로 고정되어 있다. 3인 모둠은 3번이 상민 자료를 받고, 양반 입장은 4단계 공통 자료(`smallTeamClue`)로 보여 준다.
