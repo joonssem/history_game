@@ -2,7 +2,7 @@
 
 ## 2026-10-19 — 조선 협동 활동 4종 신규 (건국과 유교 사회·세종 시기·임진왜란과 병자호란·조선 후기 새로운 생각)
 
-`TASK-20261019-COOP-STATIC-JOSEON | cooperative-mud/joseon-{founding,sejong,wars,late-change} | implementation/content agent(Claude) | 상태: DOING — 구현·로컬 검증 완료, 사용자 콘텐츠 검토 대기(push 전)`
+`TASK-20261019-COOP-STATIC-JOSEON | cooperative-mud/joseon-{founding,sejong,wars,late-change} | implementation/content agent(Claude) | 상태: DONE — 사용자 검토 반영, push(`a0ca3df`)·Pages 반영·운영 주소 Chrome 4종 E2E ALL OK (2026-10-19)`
 
 - 교과서 5-2 2단원 77~99쪽을 직접 대조해 학생 화면을 쪽수 범위로 제한했다([D-043](./DECISIONS.md)): 건국과 유교 사회 77~86쪽, 세종 시기 87~90쪽, 임진왜란·병자호란 91~92쪽, 조선 후기 새로운 생각 94·98~99쪽. 경제·신분(95~97쪽)은 `joseon-late-economy`와 겹치지 않게 뺐다.
 - 바뀐 파일: `cooperative-mud/joseon-*/{scenario.js,index.html}`(신규 4종), `cooperative-mud/{index.html,TEACHING.md}`, `DECISIONS.md`(D-043), `docs/plans/joseon_coop_content_review_20261019.md`(자동 생성 검토 문서). 공용 엔진은 수정하지 않았다.
