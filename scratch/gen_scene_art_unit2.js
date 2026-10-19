@@ -117,7 +117,21 @@ module.exports = function (scenes, h) {
   scenes['jungin-medicine'] = make('약장, 외국과 주고받은 편지, 의학 책', room, [m.chest(...L, 1.1), m.letter(...C, 1.2), m.book(...R, 1.1, '醫')]);
   scenes['commoner-harvest'] = make('곡식 자루, 깃발과 창, 지역별 논밭', field, [m.sacks(...L, 1.1), m.spearRack(...C, 1.1), m.paddy(...R, 1.1)]);
   scenes['joseon-status-evidence'] = make('장부, 약장, 호적 문서', room, [m.ledger(...L, 1.1), m.chest(...C, 1.1), m.scroll(...R, 1.1)]);
-  scenes['joseon-border'] = make('강이 흐르는 북쪽 국경 지도', maptex, [m.mapRiver(96, 78, 1.4), m.mapRiver(240, 112, 1.5, -1), m.cart(384, 82, 1.1)]);
+  // 북쪽 국경 지도(북쪽이 위): 두 강 모두 백두산에서 시작한다. 압록강은 남서쪽으로 흘러 황해, 두만강은 북동쪽을 거쳐 동해로 흐른다.
+  scenes['joseon-border'] = () => {
+    const arrow = (x, y, a) => `<path d="M-6 -4 L6 0 L-6 4 Z" fill="#2f5d70" transform="translate(${x} ${y}) rotate(${a})"/>`;
+    return open('', '백두산에서 시작해 압록강은 남서쪽 황해로, 두만강은 북동쪽을 거쳐 동해로 흐르는 국경 지도', '#efe3bd', '#e4d6a8')
+      + `<g fill="none" stroke="#b9a27a" stroke-width="1.2" opacity=".5">${[0, 1, 2, 3, 4, 5].map(i => `<path d="M0 ${40 + i * 34} Q120 ${24 + i * 34} 240 ${44 + i * 34} T480 ${36 + i * 34}"/>`).join('')}</g>`
+      + `<path d="M0 150 C40 156 62 168 66 190 C70 210 40 222 0 230 Z" fill="#8fb0b6"/><path d="M480 108 L440 112 C418 120 410 138 414 158 C420 184 444 208 480 230 Z" fill="#8fb0b6"/>`
+      + `<g fill="none" stroke="#d9e8e6" stroke-width="1.6" opacity=".8"><path d="M10 188 q8 -4 16 0 t16 0"/><path d="M440 170 q8 -4 16 0 t16 0"/></g>`
+      + `<g ${st}><path d="M222 70 L236 46 L250 70 Z" fill="#9aa890"/><path d="M230 56 L236 46 L242 56 Z" fill="#fffdf4" stroke-width="1"/></g><ellipse cx="236" cy="70" rx="9" ry="3" fill="#6e9aa6" stroke="${INK}" stroke-width="1"/>`
+      + `<path d="M228 72 C208 74 182 84 156 96 C134 108 114 122 98 138 C84 152 72 164 64 182" fill="none" stroke="#5c8190" stroke-width="6" stroke-linecap="round"/>`
+      + `<path d="M244 72 C268 64 304 66 340 78 C372 90 396 106 418 130" fill="none" stroke="#5c8190" stroke-width="6" stroke-linecap="round"/>`
+      + arrow(184, 83, 160) + arrow(108, 130, 132) + arrow(304, 68, 12) + arrow(388, 100, 36)
+      + m.hut(206, 118, 0.85) + m.hut(242, 122, 0.75) + m.cart(284, 118, 0.85)
+      + `<path d="M236 100 V88" stroke="#b83a2a" stroke-width="2" stroke-dasharray="4 4"/><path d="M230 90 L236 78 L242 90 Z" fill="#b83a2a"/>`
+      + close;
+  };
   scenes['joseon-namhansanseong'] = make('산 위의 성곽, 곡식이 줄어든 자루, 피해를 입은 집', outdoor.bind(null, '#d4d8dc', '#dcd8c8', '#8e9a86'), [m.wall(96, 82, 1.2), m.rice(...C, 1.3), m.houseBroken(384, 84, 1)]);
   scenes['joseon-postwar'] = make('국경 문서, 창 거치대, 다시 일군 논과 집', outdoor.bind(null, '#e4e4cc', '#efe3bd'), [m.scroll(96, 80, 1.1), m.spearRack(...C, 1), m.hut(384, 84, 1)]);
   scenes['joseon-diplomacy-exhibit'] = make('지도, 문서, 새싹이 놓인 전시 진열장', hall, [m.showcase(96, 78, 1.1, m.mapRiver(0, 0, 0.7)), m.showcase(240, 108, 1.2, m.scroll(0, 0, 0.8)), m.showcase(384, 78, 1.1, m.sprout(0, 0, 1))]);
