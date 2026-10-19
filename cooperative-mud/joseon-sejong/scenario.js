@@ -238,7 +238,7 @@
     sources: [
       {
         label: '우리역사넷 · 농사직설',
-        url: 'https://contents.history.go.kr/mobile/mid/kc_r300270'
+        url: 'https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_r300270'
       },
       {
         label: '우리역사넷 · 훈민정음의 창제와 편찬 사업',

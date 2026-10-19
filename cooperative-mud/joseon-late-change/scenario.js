@@ -245,8 +245,8 @@
         url: 'https://contents.history.go.kr/mobile/nh/view.do?levelId=nh_035_0020_0030_0010_0050'
       },
       {
-        label: '우리역사넷 · 동학당',
-        url: 'https://contents.history.go.kr/mobile/ta/view.do?levelId=ta_p42r_0110_0040_0070'
+        label: '우리역사넷 · 최제우, 사람이 한울님임을 알리다',
+        url: 'https://contents.history.go.kr/mobile/eh/view.do?levelId=eh_n0630_0010&code=eh_age_30'
       }
     ],
     documents: [
