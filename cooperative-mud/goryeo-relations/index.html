@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2F5D8A">
+  <meta name="description" content="고려가 거란과 몽골의 침입에 어떻게 맞섰는지 다루는 DB 없는 협동 역사 탐험">
+  <title>고려는 침입에 어떻게 맞섰을까: 거란과 몽골</title>
+  <link rel="stylesheet" href="../cooperative.css">
+</head>
+<body>
+  <!-- 이 파일은 scratch/gen_coop_activity.js가 scenario.js의 page 객체로 만든다. 문구는 scenario.js에서 고친다. -->
+  <main class="coop-shell game-shell">
+    <header class="coop-header game-header">
+      <div>
+        <a class="back-link" href="../">← 모둠 역사 탐험 허브</a>
+        <p class="eyebrow">🏯 고려 · 모둠 역사 탐험 v0.1</p>
+        <h1>고려는 침입에 어떻게 맞섰을까</h1>
+        <p class="lead">서희, 귀주 대첩, 강화도, 전쟁 속 백성의 자료를 하나씩 맡아 말로 모으고, 거란과 몽골의 침입에 고려가 어떻게 맞섰는지 모둠에서 설명해 보세요.</p>
+      </div>
+      <span class="status-pill">개인정보 수집 없음</span>
+    </header>
+
+    <div class="game-progress" aria-label="게임 진행도">
+      <div class="progress-label"><span id="progress-step">활동 소개</span><span id="progress-count">1 / 8</span></div>
+      <div class="progress-track"><div id="progress-value" class="progress-value" style="width: 13%"></div></div>
+    </div>
+
+    <div id="live-status" class="live-status" role="status" aria-live="polite"></div>
+
+    <div id="pacing-note" class="pacing-note" hidden>
+      <button id="pacing-badge" class="pacing-badge" type="button" aria-expanded="false" aria-controls="pacing-text"></button>
+      <p id="pacing-text" class="pacing-text" hidden></p>
+    </div>
+
+
+    <section id="screen-intro" class="screen">
+      <div class="panel">
+        <h2 class="screen-title">시간 탐사단, 고려를 지킨 선택의 비밀을 밝혀 주세요</h2>
+        <div class="event-card">
+          <p class="event-label">오늘의 탐구 질문</p>
+          <h2>고려는 거란과 몽골의 침입에 어떻게 맞섰고, 그 결과는 어떻게 달랐을까?</h2>
+        </div>
+        <p class="screen-description" style="margin-top: 14px;">고려는 북쪽에서 온 거란과 몽골의 침입을 겪었습니다. 여러분은 그 일을 겪은 사람의 자료를 하나씩 가지고 있습니다.</p>
+        <ul class="rules">
+          <li>자기 화면의 자료를 친구에게 보여 주지 말고 말로 설명합니다.</li>
+          <li>친구 자료를 듣기 전에, 내 자료만 보고 먼저 생각을 정합니다.</li>
+          <li>마지막 설명은 모둠에서 말로 합의하고, 대표 기기 한 대에 기록합니다.</li>
+        </ul>
+        <div class="button-row"><button id="start-button" class="primary-button" type="button">활동 시작하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-setup" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">우리 모둠과 내 번호를 선택하세요</h2>
+        <p class="screen-description">교사가 알려 준 모둠 번호를 확인하고, 오늘 실제 모둠 인원에 맞는 숫자와 내 번호를 선택합니다. 이름이나 학번은 입력하지 않습니다.</p>
+        <label class="form-label">모둠 번호</label>
+        <div id="team-grid" class="team-grid" role="group" aria-label="모둠 번호"></div>
+        <label class="form-label">오늘 모둠 인원</label>
+        <div id="team-size-grid" class="team-size-grid" role="group" aria-label="오늘 모둠 인원"></div>
+        <label class="form-label">내 번호</label>
+        <div id="seat-grid" class="seat-grid" role="group" aria-label="좌석 번호"></div>
+        <p id="setup-hint" class="setup-hint">모둠을 먼저 선택하세요.</p>
+        <label class="form-label">활동 길이</label>
+        <div class="mode-grid" role="group" aria-label="활동 길이 선택">
+          <button class="mode-button" data-mode="5" type="button"><strong>5분형</strong><span>두 전투 기록은 건너뜁니다</span></button>
+          <button class="mode-button is-selected" data-mode="10" type="button"><strong>10분형</strong><span>두 전투 기록 읽기까지</span></button>
+        </div>
+        <p id="setup-error" class="error-note" role="alert"></p>
+        <div class="button-row"><button id="begin-button" class="primary-button" type="button" disabled>내 역할 자료 확인하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-role" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">내가 맡은 역할 자료입니다</h2>
+        <p class="screen-description">아직 친구에게 설명하지 마세요. 먼저 혼자 읽고, 핵심어를 찾아 두세요. 다음 화면에서 내 생각을 정합니다.</p>
+        <div id="role-card" class="role-card"></div>
+        <div class="button-row"><button id="role-continue-button" class="primary-button" type="button">다 읽었어요</button></div>
+      </div>
+    </section>
+
+    <section id="screen-first" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">혼자 생각하기</p>
+          <h2>외적이 쳐들어왔을 때, 고려는 무엇을 가장 먼저 해야 했을까요?</h2>
+          <p>지금 여러분은 자료 하나만 알고 있습니다. 정답을 고르는 것이 아니라, 내 자료만 보고 든 생각을 고릅니다. 고른 까닭은 다음 단계에서 말로 덧붙입니다.</p>
+        </div>
+        <h2 class="screen-title" style="margin-top: 18px;">내 생각은 무엇인가요?</h2>
+        <p class="screen-description">친구와 자료를 나누기 전에 내 처음 생각을 먼저 기록합니다. 나중에 바꿀 수 있고, 바꾸어도 점수는 없습니다.</p>
+        <div id="first-choice-grid" class="choice-grid"></div>
+      </div>
+    </section>
+
+    <section id="screen-share" class="screen" hidden>
+      <div class="panel">
+        <h2 class="screen-title">이제 모둠에서 자료를 나눕니다</h2>
+        <p class="screen-description">1번부터 번호 순서대로 말합니다. 화면을 보여 주지 말고, 아래 문장을 내 말로 설명하세요. 마지막에 근거 쪽수를 꼭 말해 주세요.</p>
+        <div id="share-card" class="share-quote"></div>
+        <div class="evidence-card" style="margin-top: 14px;">
+          <h3>들으면서 찾아볼 것</h3>
+          <p>친구가 말한 대응은 거란 때의 일인가요, 몽골 때의 일인가요? 내 자료와 어떻게 이어지거나 어떻게 다른가요?</p>
+        </div>
+        <div class="button-row"><button id="share-button" class="primary-button" type="button">모둠에 이야기했어요</button></div>
+        <p id="share-state" class="share-state" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="screen-reveal" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">공통 자료 · 교과서 54쪽, 56쪽</p>
+          <h2>싸움이 끝난 뒤의 모습은 같았을까요?</h2>
+          <p>거란과는 귀주 대첩 뒤 거란이 사신을 여러 차례 보내 화해를 요청했고, 점차 백성이 편안해졌다고 기록되어 있습니다(현화사비). 거란은 고려를 다시는 넘보지 못했고, 고려·거란·송의 외교 관계는 안정되었습니다.</p>
+          <p>몽골과는 약 30년간의 전쟁이 끝난 뒤에도 고려가 정치적으로 몽골(원)의 간섭을 받게 되었습니다. 한편 교류가 늘어나면서 서로에게 많은 영향을 줬습니다.</p>
+        </div>
+        <div class="evidence-card">
+          <h3>함께 이야기해 보기</h3>
+          <ol class="observation-list">
+          <li>두 경우의 결과는 어떻게 달랐나요?</li>
+          <li>친구들의 자료를 떠올려 보세요. 같은 방법으로 두 침입을 모두 막았을까요?</li>
+          </ol>
+        </div>
+        <div id="missing-role-clue" class="evidence-card" hidden></div>
+        <div class="change-panel">
+          <h3>처음 생각을 그대로 유지하시겠습니까?</h3>
+          <p class="screen-description">친구들의 자료와 공통 자료가 내 생각에 어떤 영향을 주었는지 선택합니다. 그대로 두어도 괜찮습니다.</p>
+          <div class="button-row">
+            <button id="keep-button" class="secondary-button" type="button">그대로 유지하기</button>
+            <button id="change-button" class="primary-button" type="button">생각을 바꾸기</button>
+          </div>
+          <div id="revised-choice-area" hidden>
+            <h3 style="margin-top: 18px;">바꾼 생각은 무엇인가요?</h3>
+            <div id="revised-choice-grid" class="choice-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-second" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">교과서 56쪽 스스로 활동</p>
+          <h2>두 전투에서 고려가 몽골군을 물리칠 수 있었던 까닭은?</h2>
+          <p>『고려사』 — “승려 김윤후는 몽골의 침입 때 처인성에서 사회적으로 차별받던 백성을 모아 몽골군의 총사령관을 죽이고 몽골군을 물러나게 했다. …… 김윤후는 몽골이 또다시 침입하자 충주성에서 신분에 상관없이 힘을 다해 싸운 사람들에게 벼슬을 주기로 약속하고 노비 문서를 불태웠다. 이에 노비를 비롯한 모든 사람이 힘을 합쳐 몽골군을 물리쳤다.”</p>
+        </div>
+        <div class="evidence-card">
+          <h3>모둠 토의 질문</h3>
+          <ol class="observation-list">
+          <li>처인성에서 몽골군을 물러나게 한 사람들은 누구였나요?</li>
+          <li>충주성에서 김윤후는 어떤 약속을 했고, 그 결과 어떻게 되었나요?</li>
+          <li>두 기록에서 공통으로 찾을 수 있는 까닭은 무엇인가요?</li>
+          </ol>
+        </div>
+        <div class="button-row" style="margin-top: 16px;"><button id="second-continue-button" class="primary-button" type="button">모둠의 설명 만들어 보기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-statement" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">최종 미션</p>
+          <h2 id="statement-heading">우리 모둠의 설명 만들기</h2>
+          <p id="statement-description">친구들의 자료를 모두 생각하고 모둠에서 합의합니다.</p>
+        </div>
+        <div class="evidence-card" style="margin-top: 14px;">
+          <p>고르기 전에, 칸과 칸 사이에 <strong>“왜냐하면”</strong>을 넣어 한 번 소리 내어 말해 보세요. 기록관(3인 모둠은 3번 친구)은 “몇 쪽이야?”, “모두야, 일부야?”를 물어봐 주세요.</p>
+        </div>
+        <div id="statement-builder" class="law-builder" style="margin-top: 16px;"></div>
+        <div id="statement-preview" class="law-preview" aria-live="polite"></div>
+        <p class="law-note">이 기록은 이 기기에만 저장됩니다. 실제 모둠의 최종 설명은 친구들과 말로 합의한 뒤 대표 기기 한 대에서 기록하세요.</p>
+        <div class="button-row" style="margin-top: 15px;"><button id="statement-save-button" class="primary-button" type="button">우리 모둠 설명 기록하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-history" class="screen" hidden>
+      <div class="panel">
+        <div class="event-card">
+          <p class="event-label">교과서와 비교</p>
+          <h2>교과서는 고려의 대응을 이렇게 정리합니다</h2>
+          <p>사회 교과서 53~57쪽의 내용을 거란 때와 몽골 때로 나누어 보았습니다.</p>
+        </div>
+        <ul class="clause-list" id="document-list"></ul>
+        <div class="history-quote" style="margin-top: 14px;">
+          <p>고려는 거란에는 외교 담판과 싸움으로, 몽골에는 수도를 옮긴 끈질긴 저항으로 맞섰습니다. 거란과는 외교 관계가 <strong>안정되었지만</strong>, 몽골과는 오랜 전쟁의 피해를 입고 <strong>간섭을 받게</strong> 되었습니다. 두 사례만으로 고려의 모든 대외 관계를 설명할 수는 없고, 한 때의 방법을 다른 때에 그대로 적용해서도 안 됩니다.</p>
+        </div>
+        <div class="evidence-card" style="margin-top: 14px;">
+          <h3>탐구 질문 다시 보기</h3>
+          <p><strong>고려는 거란과 몽골의 침입에 어떻게 맞섰고, 그 결과는 어떻게 달랐을까?</strong> 우리 모둠 설명은 이 질문에 답하고 있나요?</p>
+        </div>
+        <div id="trap-note" class="evidence-card" hidden></div>
+        <div class="compare-box">
+          <h3>내 생각과 견주어 봅시다</h3>
+          <p id="compare-text"></p>
+        </div>
+        <div class="source-list" id="source-list"></div>
+        <div class="button-row" style="margin-top: 17px;"><button id="finish-button" class="primary-button" type="button">나의 탐구 기록 확인하기</button></div>
+      </div>
+    </section>
+
+    <section id="screen-finish" class="screen" hidden>
+      <div class="panel">
+        <p class="eyebrow">탐구 완료</p>
+        <h2 class="screen-title">나는 친구들의 자료를 듣고 내 생각을 다시 살펴보았습니다</h2>
+        <p class="screen-description">아래 기록은 이 기기에만 남습니다. 교사는 모둠 토론을 관찰한 뒤 별도 기록지에 결과를 적어 주세요.</p>
+        <div id="summary-grid" class="summary-grid"></div>
+        <h3 style="margin-top: 18px;">교사 관찰 질문</h3>
+        <ol class="observation-list">
+          <li>학생들이 자기 역할 자료를 실제로 말로 설명했나요?</li>
+          <li>모둠 설명에서 거란 때와 몽골 때의 일을 구별해 말했나요?</li>
+          <li>대응 방법(외교·싸움·수도 이동)과 그 결과(안정·피해·간섭)를 이어서 말했나요?</li>
+          <li>전쟁 속 백성의 피해를 근거로 들었나요?</li>
+          <li>공통 자료나 두 전투 기록을 보고 생각을 바꾼 학생이 있었나요?</li>
+        </ol>
+        <div class="completion-note">이 활동은 사건 이름을 외우는 것이 아니라, 고려의 대응과 그 결과를 시기별로 구별해 근거로 설명하는 과정을 보기 위한 것입니다.</div>
+        <div class="button-row" style="margin-top: 17px;"><button id="reset-button" class="secondary-button" type="button">이 기기 기록 지우고 다시 하기</button><a class="link-button" href="../">모둠 역사 탐험 허브로</a></div>
+      </div>
+    </section>
+  </main>
+  <script src="../pacing.js"></script>
+  <script src="scenario.js"></script>
+  <script src="../episode.js"></script>
+  <script src="../trap-note.js"></script>
+</body>
+</html>
