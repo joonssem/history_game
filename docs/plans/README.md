@@ -6,9 +6,9 @@
 - 완료 이력은 [`walkthrough.md`](../../walkthrough.md), 현재 상태는 [`project_context.md`](../../project_context.md), 미완료 항목은 [`BACKLOG.md`](../../BACKLOG.md)에서 확인한다.
 - 계획서의 상태를 바꾸면 이 표도 같이 갱신한다.
 - 2026-10-02 담당 분리: Preview 인증·로그인은 Codex가 진행하고, 2026-10-29 수업용 협동 교실 콘텐츠·기능 점검은 Claude가 맡는다. 작업 claim은 [`BACKLOG.md`](../../BACKLOG.md) 참조.
-- 2026-10-02 추가: [10월 29일 협동 교실 콘텐츠·기능 감사 체크리스트](./tasks_classroom_oct29_audit.md) — 1단원 15~18차시 계획을 기준으로 범위 고정, Claude의 읽기 전용 감사 실행 대기.
+- 2026-10-02 추가: [10월 29일 협동 교실 콘텐츠·기능 감사 체크리스트](../archive/cooperative-live/tasks_classroom_oct29_audit.md) — 1단원 15~18차시 계획을 기준으로 범위 고정, Claude의 읽기 전용 감사 실행 대기.
 
-- 2026-10-01 추가: [입장 복구 Preview 검증 체크리스트](./tasks_student_join_preview_verification.md) — 자동 검증 완료, Vercel 계정 조회 오류로 Preview 확인 대기.
+- 2026-10-01 추가: [입장 복구 Preview 검증 체크리스트](../archive/cooperative-live/tasks_student_join_preview_verification.md) — 자동 검증 완료, Vercel 계정 조회 오류로 Preview 확인 대기.
 
 ## 상태 표기
 
@@ -26,18 +26,12 @@
 
 ## 1. 협동 MUD 계열
 
+> 실시간 협동 앱(Convex) 계열 문서 8건은 취소(D-038)에 따라 [`../archive/cooperative-live/`](../archive/cooperative-live/README.md)로 옮겼다.
+
 이 계열은 문서가 여러 개라 관계를 먼저 본다. **현재 실행 기준은 아래 제작 파이프라인이다** — 고려 초기 활동은 2026-09-29 21명 수업에서 1차 운영했고, 2명 입장 실패에도 정상 인원 모둠은 진행됐다. 복구·대기실 변경과 교사 비밀번호 로그인이 main/운영에 반영됐다. 사용자는 2026-10-06 별도 4~8대 리허설을 불필요하다고 판단했다. 남은 현장 판정은 개인정보·로그 확인과 GO/NO-GO이며, 운영/개발 Convex 분리는 후속 활동 전에 다룬다. 정적 협동 MUD는 다른 차시의 콘텐츠이며 고려 건국·문화 실시간 활동을 대신하지 않는다.
 
 | 문서 | 상태 | 다음 행동 |
 |---|---|---|
-| [`early_goryeo_cooperative_live_pilot_rough_sketch.md`](./early_goryeo_cooperative_live_pilot_rough_sketch.md) | `구현 계획으로 승격` | 1단원 13차시 “새 고려의 첫 회의”를 첫 실제 학생 활동으로 확정. 상세 실행은 아래 구현 계획 기준 |
-| [`implementation_plan_early_goryeo_cooperative_live_first_activity.md`](./implementation_plan_early_goryeo_cooperative_live_first_activity.md) | `21명 실제 수업 1차 운영·복구 자동 검증 완료` | 교사 비밀번호 로그인·복구·대기실 변경은 운영 반영. 별도 리허설은 사용자 면제; 개인정보·로그 확인과 GO/NO-GO는 복구 체크리스트 기준 |
-| [`implementation_plan_goryeo_classroom_readiness.md`](./implementation_plan_goryeo_classroom_readiness.md) | `당일 대체 운영안·체크리스트 완료` | 고려 건국은 교사 진행형 대체, 고려 문화는 기존 개인형 자료와 모둠 종합으로 운영. 실시간 재개 조건은 별도 게이트로 관리 |
-| [`implementation_plan_joseon_late_cooperative_live_vertical_slice.md`](./implementation_plan_joseon_late_cooperative_live_vertical_slice.md) | `제안·후속 활동` | 고려 첫 활동에서 검증한 엔진에 Claude가 조선 후기를 이식. Codex는 계획·읽기 전용 감사·통합 판정만 담당 |
-| [`COLLABORATIVE_MUD_PLAN.md`](./COLLABORATIVE_MUD_PLAN.md) | `검토안` | 전체 계획·모둠 구성·배치 방식. 첫 수직 슬라이스 착수 승인 대기 |
-| [`COLLABORATIVE_MUD_ARCHITECTURE.md`](./COLLABORATIVE_MUD_ARCHITECTURE.md) | `검토안` | Convex 스키마·권한·상태 전이. 백엔드는 [D-019](../../DECISIONS.md)로 확정 |
-| [`COLLABORATIVE_MUD_MVP.md`](./COLLABORATIVE_MUD_MVP.md) | `검토안` | §8 첫 수직 슬라이스가 다음 구현 단위 |
-| [`implementation_plan_vercel_convex_vertical_slice.md`](./implementation_plan_vercel_convex_vertical_slice.md) | `구현·운영 반영` | `apps/cooperative-live` 가상 흐름·복구·3~24명 편성 검증 완료. 현재 교사 인증은 Convex 비밀번호 로그인이다. 과거 Auth0 연결 절차는 실행 지시가 아니다 |
 | [`implementation_plan_cooperative_mud_gojoseon_law_v01.md`](./implementation_plan_cooperative_mud_gojoseon_law_v01.md) | `완료` · **실제 수업 운영됨** | 결과는 [`EXP-006`](../../EXPERIMENTS.md). 최초 판단 순서는 후속 계획으로 교정 완료 |
 | [`implementation_plan_gojoseon_initial_judgment_order.md`](./implementation_plan_gojoseon_initial_judgment_order.md) | `완료` | 6차시를 `역할 → 최초 판단 → 공유 → 추가 증거`로 교정. 실제 수업에서 판단 변화는 재관찰 대기 |
 | 정적 협동 MUD 3편 (코드) | `제작 완료` · 6차시 운영됨, 7·8차시 미운영 | `cooperative-mud/`의 `gojoseon-law`·`founding-myths`·`han-river`. 별도 계획서 없이 이 표와 `walkthrough.md`로 관리한다 |
@@ -46,14 +40,14 @@
 | [`implementation_plan_cooperative_mud_pilot.md`](./implementation_plan_cooperative_mud_pilot.md) | `보류` (2026-09-03) | 한산도. 11월 진도와 불일치로 중단. 후속 후보로만 보존 |
 | [`scenario_candidates_artifact_comparison_and_cooperative_mud.md`](./scenario_candidates_artifact_comparison_and_cooperative_mud.md) | `후보 풀` | 25개 시나리오 후보. 다음 확장 소재 선정에 사용 |
 
-**제작 파이프라인**(2026-09-06 확정): `아이디어 확장·고도화 → 정적 협동 MUD 제작·수업 검증 → Vercel + Convex로 발전`. 두 벌을 만드는 것이 아니라 **하나의 콘텐츠를 두 방식으로 활용**한다. 정적 버전은 ① 콘텐츠 검증 ② 다른 교사 배포본 ③ 실시간 장애 폴백의 세 역할을 겸한다. 상세는 [`COLLABORATIVE_MUD_PLAN.md`](./COLLABORATIVE_MUD_PLAN.md) §12.
+**제작 파이프라인**(2026-09-06 확정): `아이디어 확장·고도화 → 정적 협동 MUD 제작·수업 검증 → Vercel + Convex로 발전`. 두 벌을 만드는 것이 아니라 **하나의 콘텐츠를 두 방식으로 활용**한다. 정적 버전은 ① 콘텐츠 검증 ② 다른 교사 배포본 ③ 실시간 장애 폴백의 세 역할을 겸한다. 상세는 [`COLLABORATIVE_MUD_PLAN.md`](../archive/cooperative-live/COLLABORATIVE_MUD_PLAN.md) §12.
 
 ## 2. 다음 구현 후보
 
 | 문서 | 상태 | 다음 행동 |
 |---|---|---|
 | [`implementation_plan_cooperative_inquiry_design_alignment.md`](./implementation_plan_cooperative_inquiry_design_alignment.md) · [`tasks_cooperative_inquiry_design_alignment.md`](./tasks_cooperative_inquiry_design_alignment.md) | `P2 제안 · 구현 승인 대기` | 정적 협동 MUD와 역사 탐구 패널의 공통 스타일·터치·반응형 기준을 맞춤 |
-  | [`implementation_plan_cooperative_live_theme_alignment.md`](./implementation_plan_cooperative_live_theme_alignment.md) · [`tasks_cooperative_live_theme_alignment.md`](./tasks_cooperative_live_theme_alignment.md) | `구현 완료 · 데모·검사 통과 · 학생 활동 상태 시각 확인 제한` | 실시간 협동 앱을 역사 팔레트에 맞추고 교사·학생 화면 상태 표현을 보존 |
+  | [`implementation_plan_cooperative_live_theme_alignment.md`](../archive/cooperative-live/implementation_plan_cooperative_live_theme_alignment.md) · [`tasks_cooperative_live_theme_alignment.md`](../archive/cooperative-live/tasks_cooperative_live_theme_alignment.md) | `구현 완료 · 데모·검사 통과 · 학생 활동 상태 시각 확인 제한` | 실시간 협동 앱을 역사 팔레트에 맞추고 교사·학생 화면 상태 표현을 보존 |
 | [`implementation_plan_evidence_notebook_interface.md`](./implementation_plan_evidence_notebook_interface.md) | `제안` | 착수 전 인터페이스 확정 대기 |
 
 ## 3. 진행 중 (남은 확인 항목 있음)

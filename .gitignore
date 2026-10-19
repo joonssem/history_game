@@ -3,9 +3,6 @@ __pycache__/
 
 # 독립 앱의 로컬 의존성·빌드 산출물은 소스와 분리한다.
 # git status와 git add -A에 대량 생성 파일이 들어오는 것을 막는다.
-apps/*/node_modules/
-apps/*/.next/
-apps/*/tsconfig.tsbuildinfo
 
 # git worktree 디렉터리와 로컬 로그는 저장소에 넣지 않는다.
 # 2026-09-11에 `git add -A`가 .worktrees/를 gitlink(서브모듈 스텁)로

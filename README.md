@@ -19,7 +19,7 @@
 - **활동 시간 감사**: Regular MUD는 10분 이내, 설계 목표 약 9분의 개인 복습 활동입니다. 자동 설계 지표 결과는 [`activity_duration_audit.md`](./activity_duration_audit.md)에서 관리합니다.
 - **활동 계층**: Regular MUD는 10분 이내(약 9분 목표)의 복습용이고, Deep-dive MUD는 여러 차시를 잇는 확장 탐구 활동입니다. 두 계층은 같은 시간·성공 기준으로 평가하지 않습니다.
 - **핵심 목표**: 단순 암기를 넘어 역사적 순간 속 '결단의 순간'을 체험하며 역사적 사고력과 문제 해결력 신장
-- **배포 구조**: 개인형 포털과 정적 협동 MUD는 GitHub Pages에서 운영합니다. 별도 실시간 협동 앱은 Vercel + Convex에서 운영하며, 교사는 Auth0 대신 Convex 비밀번호 로그인을 사용합니다. 실제 학생 적용은 개인정보·국외 처리 게이트와 운영 판정을 따릅니다. Supabase 도입안은 보류 상태입니다.
+- **배포 구조**: 개인형 포털과 정적 협동 MUD는 GitHub Pages에서 운영합니다. 실시간 협동 앱은 2026-10-15 취소되어 코드는 태그 `archive/cooperative-live-20261016`에, 문서는 [`docs/archive/cooperative-live/`](./docs/archive/cooperative-live/README.md)에 보관했다([D-038](./DECISIONS.md), [D-040](./DECISIONS.md)).
 
 ---
 
@@ -63,7 +63,7 @@
 
 고조선 편과 시조 설화 편은 실제 수업 운영을 마쳤고, 한강 유역 편은 수업 검증을 기다리고 있다. 비대칭 정보가 대면 대화를 만들었지만 교사가 모둠 진행 상황을 볼 수 없다는 제약도 확인했다. 관찰 기록은 [`EXPERIMENTS.md`](./EXPERIMENTS.md)의 `EXP-006`·`EXP-007`에 있다.
 
-이 제약을 해결하는 실시간 수직 슬라이스는 `apps/cooperative-live/`에 구현했다. 교사는 Convex 비밀번호 로그인, 학생은 QR·6자리 코드로 입장하며 모둠 편성, 미리보기·재섞기, 진행 대시보드, 교사 개입, 세션 종료 삭제를 지원한다. QR 원문은 서버에 저장하지 않으며 입장·모둠 편성·개입·삭제를 가상 데이터로 자동 검증했다. 2026-10-05 Auth0 로그인을 비밀번호 로그인으로 교체해 운영에 반영했다. 지난 수업에서 2명 입장 실패에도 정상 인원 모둠이 진행됐다는 관찰(2026-10-06)에 따라 별도 4~8대 리허설은 요구하지 않는다. 남은 운영 판정은 [`BACKLOG.md`](./BACKLOG.md) 및 복구 체크리스트를 따른다.
+실시간 협동 앱은 2026-10-15 취소되어 코드는 태그 `archive/cooperative-live-20261016`에, 문서는 [`docs/archive/cooperative-live/`](./docs/archive/cooperative-live/README.md)에 보관했다([D-038](./DECISIONS.md), [D-040](./DECISIONS.md)).
 
 - [협동 MUD 허브](./cooperative-mud/)
 - **[수업 진행 안내](./cooperative-mud/TEACHING.md)** — 교실에서 바로 보는 준비·진행·관찰 문서
@@ -71,9 +71,7 @@
 - [삼국·가야 시조 설화 바로 시작](./cooperative-mud/founding-myths/) — 1단원 7차시. 네 나라의 시조 이야기를 하나씩 나눠 읽고 말로 모은 뒤, 옛사람들이 왜 그렇게 이야기했는지 모둠의 설명 문장을 만든다. 친구 이야기를 듣기 **전에** 각자 판단을 먼저 기록하는 순서로 만들었다
 - [한강 유역 쟁탈 바로 시작](./cooperative-mud/han-river/) — 1단원 8차시. 들·물길·바닷길·연표를 나눠 조사하고, 세 나라가 왜 모두 이 땅을 원했는지 근거로 설명한다. 전투 장면 없이 지리와 교역로로 다룬다
 - **[수업 구조도](https://claude.ai/code/artifact/97e312bf-7cf9-4b4c-be07-6d0a4fd2c9a2)** — 기존 7단계 화면 위에 QR 입장·학생 호(號)·타이머 페이싱·교사 대시보드·데이터 경계를 얹은 전체 구조 *(비공개 링크 · 저장소 소유자 계정에서 열림)*
-- [실시간 협동 앱 실행·검증 안내](./apps/cooperative-live/README.md)
 - [구현 계획](./docs/plans/implementation_plan_cooperative_mud_gojoseon_law_v01.md)
-- [실시간 확장 설계](./docs/plans/COLLABORATIVE_MUD_PLAN.md) · [아키텍처](./docs/plans/COLLABORATIVE_MUD_ARCHITECTURE.md) · [MVP](./docs/plans/COLLABORATIVE_MUD_MVP.md)
 
 ---
 
@@ -205,14 +203,11 @@
 ## 🛠️ 기술 스택
 
 * **개인형·정적 협동 Frontend**: Pure Vanilla HTML5 / CSS3 / ES6+ JavaScript
-* **실시간 협동 Frontend**: Next.js 16 / React 19 / TypeScript
 * **Graphics**: HTML5 Canvas 기반 커스텀 2D 인터랙티브 시뮬레이션 엔진
 * **Audio**: Web Audio API Synth 기반 효과음 (외부 의존성 없음)
-* **State & Backend**: 개인형·정적 협동은 `localStorage`, 실시간 기술 Preview는 Convex
-* **Authentication**: 교사는 Convex `TEACHER_PASSCODE` 비밀번호 로그인, 학생은 계정 없이 세션 한정 난수 토큰 사용
-* **Deployment**: 정적 포털은 GitHub Pages, 실시간 기술 Preview는 Vercel
+* **State & Backend**: 개인형·정적 협동은 `localStorage`(서버·DB 없음)
+* **Deployment**: GitHub Pages
 * **Data**: JSON 기반 MUD 시나리오 (32개 파일), 커리큘럼 DB, 유물 DB, 교육과정 매핑 기준선
-* **보류된 후보**: Supabase 익명 플레이 로그 — Convex와 백엔드를 이중 운영하지 않기 위해 보류
 
 ## 🚀 로컬 실행과 검증
 
@@ -261,17 +256,6 @@ $env:NODE_PATH=".tmp-playwright/node_modules"; node scripts/manual/site_regressi
 
 학생 화면에는 개발 용어를 쓰지 않는다. MUD는 "역사 탐험", Deep-dive는 "대단원 도전", 협동 MUD는 "모둠 역사 탐험"으로 보인다. 이 README와 파일명·데이터 id는 개발 용어를 그대로 쓴다.
 
-실시간 협동 앱은 Node.js 20.9 이상이 필요하다.
-
-```powershell
-Set-Location apps/cooperative-live
-Copy-Item .env.example .env.local
-npm ci
-npm run dev
-# 전체 검사: npm run check
-```
-
-외부 계정 없이 살펴볼 때는 `.env.local`의 `NEXT_PUBLIC_DEMO_MODE=true`를 사용한다. 실제 Convex 교사 비밀번호 로그인과 환경변수 경계는 [실시간 협동 앱 README](./apps/cooperative-live/README.md)를 따른다.
 
 ---
 
@@ -298,7 +282,6 @@ npm run dev
 * ⚖️ [DECISIONS.md](./DECISIONS.md) — 장기 설계 결정과 근거
 * 🧾 [walkthrough.md](./walkthrough.md) — 완료 작업의 누적 기록
 * 🧱 [TECH_STACK.md](./TECH_STACK.md) — 기술 선택과 시스템 경계
-* ⚡ [apps/cooperative-live/README.md](./apps/cooperative-live/README.md) — 실시간 협동 기술 Preview 실행·보안·검증 안내
 * 🔀 [USER_FLOWS.md](./USER_FLOWS.md) — 학생·기능별 사용자 흐름과 플로우차트
 * 🖼️ [WIREFRAMES.md](./WIREFRAMES.md) — 핵심 화면 저충실도 와이어프레임
 * 👀 [classroom_observation_inquiry_pilot.md](./docs/plans/classroom_observation_inquiry_pilot.md) — 탐구형 관문·연대표 띠 수업 관찰 기록지
