@@ -2,7 +2,7 @@
 
 ## 2026-10-19 — 조선 후기 확장 2종 신규 (서민 문화·개항 이후)
 
-`TASK-20261019-COOP-STATIC-JOSEON-EXTRA | cooperative-mud/joseon-{commoner-culture,open-ports} | implementation/content agent(Claude) | 상태: DOING — 구현·로컬 검증 완료, 사용자 콘텐츠 검토 대기(push 전)`
+`TASK-20261019-COOP-STATIC-JOSEON-EXTRA | cooperative-mud/joseon-{commoner-culture,open-ports} | implementation/content agent(Claude) | 상태: DONE — 사용자 검토 반영(탈놀이 대사 풀이 삭제), push·Pages 반영·운영 주소 Chrome 2종 E2E ALL OK (2026-10-19)`
 
 - 교과서 5-2 2단원 100~102쪽, 104~108쪽을 쪽수 범위로 옮겼다([D-045](./DECISIONS.md)). 사용자 인터뷰 결정: 서민 문화 10분형은 101쪽 민화 고르기, 개항 이후는 학생 눈높이 제목, 109~110쪽은 쓰지 않음.
 - 바뀐 파일: `cooperative-mud/joseon-{commoner-culture,open-ports}/{scenario.js,index.html}`(신규), `cooperative-mud/{index.html,TEACHING.md}`(허브 13개·조선 묶음 7개), `DECISIONS.md`(D-045), 자동 생성 검토 문서.
