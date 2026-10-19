@@ -1,5 +1,16 @@
 # Walkthrough
 
+## 2026-10-19 — pstack 검토와 audit 스킬 2종 추가 (`/interrogate`, `/blast-radius`)
+
+`TASK-20261019-PSTACK-SKILLS | .claude/skills/{interrogate,blast-radius} | implementation agent(Claude) | 상태: DONE — 스킬 시험(sonnet·opus 교차)과 수정 반영 완료, 재검증 실행은 생략`
+
+- cursor/plugins `pstack`을 검토해 이 저장소에 맞는 것만 골랐다. 원문을 verbatim으로 가져올 수 없어 요약을 바탕으로 새로 썼고 각 파일에 출처를 밝혔다. 기존 `grill-me`·`retro`와 같은 형식이다.
+- 시험: 새 스킬 두 개에 `/interrogate`를 한 번 돌렸다(sonnet·opus 서브에이전트, 읽기 전용 Explore). 두 모델이 독립적으로 같은 문제를 짚었다. 읽기 전용 강제 약함, `git diff main...HEAD`가 main 작업·미추적 파일에서 비는 문제, Vercel 전제 오류, `scripts/01~18` 표기 오류(15번 없음)다.
+- opus만 찾은 것: `scripts/02_fix_missing_next.py`와 07·10·11·13·14·17·18은 실행하면 데이터·보고서를 다시 쓴다. audit 스킬이 "검증 스크립트를 돌린다"를 그대로 따르면 파일이 바뀐다(직접 확인함). 02 실행 금지와 실행 뒤 `git status` 확인을 스킬에 넣었다.
+- 수정 반영(Act on 7건): `Explore` 고정과 금지 사항 명시, 범위를 `git status --short` 기준으로 변경, GitHub Pages 전제로 교정, `/interrogate` 직접 호출 문구를 사용자 제안으로 변경, 세션 scratchpad만 사용(`scratch/` 금지), 경로 구분 정리.
+- 도입하지 않은 것: `/poteto-mode`·플레이북(AGENTS.md의 문서 우선 흐름과 겹침), `/setup-pstack`(grok·opus 5.5 전제), `/swarm`·`/arena`(worktree 규칙과 충돌 위험).
+- 미확인: 수정 후 스킬 재실행, 교육 렌즈의 실제 쓸모. 보류한 4건은 BACKLOG `P3-AUDIT-SKILLS`에 올렸다.
+
 ## 2026-10-19 — 조선 후기 확장 2종 신규 (서민 문화·개항 이후)
 
 `TASK-20261019-COOP-STATIC-JOSEON-EXTRA | cooperative-mud/joseon-{commoner-culture,open-ports} | implementation/content agent(Claude) | 상태: DONE — 사용자 검토 반영(탈놀이 대사 풀이 삭제), push·Pages 반영·운영 주소 Chrome 2종 E2E ALL OK (2026-10-19)`

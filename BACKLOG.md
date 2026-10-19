@@ -8,6 +8,14 @@
 - 문제: 취소된 실시간 앱 코드(546MB node_modules 포함), worktree 10개, 브랜치 17개, 실시간 협동 문서 약 30개, BACKLOG CANCELLED 섹션이 현행 작업과 섞여 있다.
 - 계획: [`implementation_plan_repo_cleanup_20261016.md`](./docs/plans/implementation_plan_repo_cleanup_20261016.md)
 
+## P3-AUDIT-SKILLS — `/interrogate`·`/blast-radius` 보완 (2026-10-19 등록)
+
+- 상태: `documented` — 우선순위는 제안값이며 다음 정기 검토에서 확정한다. 스킬은 이미 추가됐고([walkthrough](./walkthrough.md) 2026-10-19), 아래는 시험 중 보류한 항목이다. 다음 실제 변경(예: 새 협동 활동 편)에서 `/interrogate`를 써 보고 필요가 확인되면 올린다.
+- 결과 기록 위치: 결과를 `docs/audits/<주제>_<날짜>.md`에 남길지(선례 `round3_red_team_audit.md`). 지금은 보고만 하고 BACKLOG 등록은 사용자 확인 뒤에 한다.
+- 교육 렌즈 축소: 선택지 편향·민감 문구는 `scripts/12`·`17`로 넘기고, 렌즈는 "사실 단정·연령 어휘·오학습 유도"로 줄이며, 출처를 못 대면 "근거 확인 필요"로만 표시한다. 순수 JS/CSS 변경에서는 끈다. 역사 사실 판정은 `primary_data`를 검토자가 볼 수 없어 content 역할(사용자) 몫이다.
+- "서로 다른 모델" 한계: opus·sonnet·haiku는 같은 Claude 계열이라 공급사 교차의 이점이 약하다. 큰 변경에는 Codex red team을 독립 검토자로 권하고, haiku 제외도 검토한다.
+- 증거 5단계 보강: `BROWSER_REGRESSION_CHECKLIST.md` 연결과 `scripts/manual/site_regression.js`의 `.tmp-playwright/` 설치 전제를 적을지.
+
 ## P1-COOP-STATIC-GORYEO — 협동 활동 정적 이식: 조선 후기 경제(10/29 공개수업·10분형) 우선, 고려 3종 후속
 
 - 작업 claim: `TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/joseon-late-economy·goryeo-* 신규 | implementation/content agent(Claude) | 상태: DOING — 조선 후기 95~97쪽 경제→신분 13분형 개편 구현·로컬 Chrome 8경로 검증 완료(2026-10-19, D-041), push·Pages 반영·운영 주소 재검증 완료(`452a35c`), 교실 iPad 확인 대기. 이전 10분형은 Pages 반영(2026-10-16, `8571cd6`). 고려 3종 정적 이식 구현·검증 완료(2026-10-19, D-042, 사용자 콘텐츠 검토 대기·push 전), 조선 4종(건국·유교 사회, 세종, 임진왜란·병자호란, 후기 사회 변화 확장) 구현·push·운영 주소 검증 완료(2026-10-19, D-043) | 검증: node --check, node scratch/check_static_coop_scenario.js, 로컬 Chrome 12경로`
