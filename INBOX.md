@@ -2671,3 +2671,12 @@ TASK-20260910-07 | `audit/interaction-diversity` main 병합·GitHub Pages 배�
   - iPad 글자 크기·터치: 이전 협동 활동과 같은 디자인(`cooperative.css`)을 그대로 쓰므로 별도 iPad 확인은 생략한다. 새로 추가한 요소(6칸 드롭다운, 함정 안내)는 같은 컴포넌트를 쓴다.
   - 관찰: 기존 10분형은 학생들이 7분 이하에 끝냈다. 가설: 13분형(780초)도 모둠에 따라 10분 안팎에 끝날 수 있다. 실제 소요 시간은 10/29 수업에서 재고 `EXPERIMENTS.md`에 남긴다. 아직 시간 예산은 바꾸지 않는다(공개수업 세안이 13분 기준).
   - 고려 3종 이식: `BACKLOG.md` `P1-COOP-STATIC-GORYEO`의 후속 단계로 진행한다.
+
+## 2026-10-19 — mattpocock/skills 중 적용 가치 높은 2종 도입
+
+- 상태: `promoted`
+- 사용자 원문: "https://github.com/mattpocock/skills 이 링크의 내용을 지금 이 폴더에 적용할 것이 있는지 분석해봐" → "적용가치 높음 2개 적용하기"
+- 분류
+  - 플러그인 전체 설치는 하지 않는다. 이슈 트래커·TDD·PR 전제가 `BACKLOG.md` 문서 체계와 겹치고, `code-review` 이름이 Claude Code 내장 명령과 충돌한다.
+  - 도입: `.claude/skills/grill-me/`(구현 전 질문 라운드, 결과는 INBOX에 기록)와 `.claude/skills/retro/`(세션 회고 + 에이전트용 문서 작성 원칙, 후보는 BACKLOG에 등록). 둘 다 사용자가 `/grill-me`, `/retro`로 직접 호출한다.
+  - 보류: `to-questionnaire`, `diagnosing-bugs`, `GLOSSARY.md`는 필요할 때 다시 검토한다. AGENTS.md 정리는 `/retro` 실행 결과로 별도 제안한다.
