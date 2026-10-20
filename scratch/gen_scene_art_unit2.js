@@ -9,6 +9,20 @@ module.exports = function (scenes, h) {
   const T = (x, y, s, inner) => `<g transform="translate(${x} ${y}) scale(${s})" ${st}>${inner}</g>\n`;
   const font = 'font-family="Noto Serif KR,Batang,serif"';
 
+  // ---------- 한옥 지붕·단청 헬퍼 ----------
+  // 처마 끝이 위로 들린 기와지붕. a=처마 반폭, t=지붕 높이, r=용마루 반폭. 아랫면이 y≈+4, 용마루가 y=-t.
+  const roof = (a, t, r, fill = '#3e4a42') => `<path d="M${-r} ${-t} H${r} Q${a * 0.62} ${-t * 0.15} ${a + 7} -5 Q${a + 2} 3 ${a - 8} 4 H${-a + 8} Q${-a - 2} 3 ${-a - 7} -5 Q${-a * 0.62} ${-t * 0.15} ${-r} ${-t} Z" fill="${fill}"/>`
+    + `<path d="M${-r - 2} ${-t + 2} H${r + 2}" stroke="#1d2420" stroke-width="2.6"/><path d="M${-r - 3} ${-t - 3} v5 M${r + 3} ${-t - 3} v5" stroke="#1d2420" stroke-width="2.2"/>`
+    + `<g stroke="#232c27" stroke-width=".8" opacity=".75">${[-0.85, -0.55, -0.25, 0.05, 0.35, 0.65, 0.9].map(q => `<path d="M${q * r} ${-t + 4} L${q * (a - 4)} 2"/>`).join('')}</g>`;
+  // 처마 밑 단청 띠
+  const dancheong = (w, y, h = 5) => `<rect x="${-w}" y="${y}" width="${w * 2}" height="${h}" fill="#2f6b5a" stroke-width="1"/>`
+    + `<g stroke-width=".5">${Array.from({ length: Math.floor(w / 3) }, (_, i) => `<rect x="${-w + 1 + i * 6}" y="${y + 1}" width="4" height="${h - 2}" fill="${['#c0392b', '#e0b84a', '#4f7fa0'][i % 3]}"/>`).join('')}</g>`;
+  // 기둥과 창살. 기둥은 n+1개
+  const bays = (w, y0, y1, n, col = '#a83a2a', wall = '#d9c38a') => `<rect x="${-w}" y="${y0}" width="${w * 2}" height="${y1 - y0}" fill="${wall}"/>`
+    + `<g stroke="#8a7355" stroke-width=".7" opacity=".7">${Array.from({ length: n * 3 + 1 }, (_, i) => `<path d="M${-w + i * (w * 2 / (n * 3))} ${y0} V${y1}"/>`).join('')}<path d="M${-w} ${(y0 + y1) / 2} H${w}"/></g>`
+    + `<g stroke="${col}" stroke-width="3.2">${Array.from({ length: n + 1 }, (_, i) => `<path d="M${-w + i * (w * 2 / n)} ${y0} V${y1}"/>`).join('')}</g>`;
+  const stoneBase = (w, y, h = 6) => `<rect x="${-w}" y="${y}" width="${w * 2}" height="${h}" fill="#c9c0aa"/><path d="M${-w} ${y + h / 2} H${w}" stroke-width=".8" opacity=".6"/>${Array.from({ length: Math.floor(w / 9) }, (_, i) => `<path d="M${-w + 6 + i * 18} ${y} v${h}" stroke-width=".7" opacity=".5"/>`).join('')}`;
+
   // ---------- 배경 ----------
   const outdoor = (a = '#e4dcc4', b = '#d4cbb0', ground = '#9fb07a') => open('', '', a, b) + mountains(116)
     + `<rect x="0" y="116" width="${W}" height="${H - 116}" fill="${ground}"/><g filter="url(#wash)" opacity=".35"><path d="M0 150 Q120 134 240 152 T480 146 V230 H0 Z" fill="#7b8c68"/></g>\n`;
@@ -17,9 +31,19 @@ module.exports = function (scenes, h) {
     + `<g stroke="#8a7355" stroke-width="2" opacity=".45">${[0, 60, 120, 180, 240, 300, 360, 420].map(x => `<path d="M${x} 24 V176"/>`).join('')}</g>\n`;
   const courtyard = () => open('', '', '#dfe6e4', '#efe6cd') + `<g opacity=".8" ${st}><path d="M0 98 L60 80 L120 98 Z" fill="#6b7a70"/><rect x="0" y="98" width="130" height="22" fill="#a8613f"/><path d="M350 98 L420 76 L480 98 Z" fill="#6b7a70"/><rect x="350" y="98" width="130" height="22" fill="#a8613f"/></g>`
     + `<rect y="120" width="${W}" height="110" fill="#b9ab90"/><g stroke="#8d8068" stroke-width="1.2" opacity=".5">${[0, 1, 2, 3, 4, 5].map(i => `<path d="M0 ${128 + i * 20} H480"/>`).join('')}${[40, 120, 200, 280, 360, 440].map(x => `<path d="M${x} 120 L${x < 240 ? x - 50 : x + 50} 230"/>`).join('')}</g>\n`;
+  const palaceYard = () => open('', '', '#dfe6e4', '#efe6cd') + mountains(98).replace('<g filter="url(#wash)">', '<g filter="url(#wash)" opacity=".55">')
+    + `<g opacity=".55" ${st}><g transform="translate(120 104) scale(1.1 .8)">${roof(130, 10, 90)}</g><g transform="translate(370 104) scale(1.1 .8)">${roof(130, 10, 90)}</g></g>`
+    + `<rect y="116" width="${W}" height="114" fill="#b9ab90"/><path d="M200 116 H280 L330 230 H150 Z" fill="#cfc5ab"/><g stroke="#8d8068" stroke-width="1.2" opacity=".5">${[0, 1, 2, 3, 4, 5].map(i => `<path d="M0 ${124 + i * 20} H480"/>`).join('')}${[40, 120, 200, 280, 360, 440].map(x => `<path d="M${x} 116 L${x < 240 ? x - 50 : x + 50} 230"/>`).join('')}</g>\n`;
+  // 근대 거리: 서양식 벽돌 건물이 이어진 거리와 전차 선로
+  const modernStreet = () => open('', '', '#dfe6ea', '#ece6d2')
+    + `<g ${st}>${[[0, 56, 96, '#b4644a'], [96, 44, 84, '#c9b98c'], [180, 62, 100, '#b4644a'], [280, 48, 90, '#a9b0b4'], [370, 58, 110, '#b4644a']].map(([x, y, w, c]) => `<rect x="${x}" y="${y}" width="${w}" height="${128 - y}" fill="${c}"/><rect x="${x}" y="${y - 4}" width="${w}" height="5" fill="#e8e2d0"/>${Array.from({ length: Math.floor(w / 24) }, (_, i) => `<rect x="${x + 8 + i * 24}" y="${y + 10}" width="10" height="16" fill="#e6f0f2" stroke-width="1"/>`).join('')}`).join('')}</g>`
+    + `<rect y="128" width="${W}" height="102" fill="#a8a294"/><g stroke="#6b6558" stroke-width="2" opacity=".6"><path d="M0 188 H480 M0 198 H480"/></g><g stroke="#6b6558" stroke-width="1" opacity=".4">${Array.from({ length: 24 }, (_, i) => `<path d="M${i * 20 + 6} 186 v14"/>`).join('')}</g>\n`;
   const field = () => open('', '', '#e4e4c4', '#efe3bd') + mountains(110) + `<rect y="110" width="${W}" height="120" fill="#a8b073"/>`
     + `<g stroke="#8a9650" stroke-width="3" opacity=".6">${[0, 1, 2, 3, 4, 5, 6].map(i => `<path d="M0 ${124 + i * 15} Q240 ${118 + i * 15} 480 ${124 + i * 15}"/>`).join('')}</g>\n`;
-  const street = () => open('', '', '#e4dcc4', '#efe3bd') + `<g ${st}>${[[0, 70, 150], [150, 84, 120], [270, 66, 140], [410, 80, 120]].map(([x, y, w], i) => `<path d="M${x - 8} ${y + 30} L${x + w / 2} ${y} L${x + w + 8} ${y + 30} Z" fill="${i % 2 ? '#3e4a42' : '#4a554c'}"/><rect x="${x}" y="${y + 30}" width="${w}" height="${118 - y - 30 + 20}" fill="#d9c8a0"/>`).join('')}</g>`
+  const street = () => open('', '', '#e4dcc4', '#efe3bd') + `<g ${st}>${[[0, 70, 150], [150, 84, 120], [270, 66, 140], [410, 80, 120]].map(([x, y, w], i) => {
+    const cx = x + w / 2, ry = y + 24;
+    return `<g transform="translate(${cx} 0)">${bays(w / 2 - 4, ry + 6, 130, Math.max(2, Math.round(w / 40)), '#6b4a30', '#e4d6b4')}</g><g transform="translate(${cx} ${ry})">${roof(w / 2 + 6, 15, Math.max(w / 2 - 28, 14), i === 1 ? '#c9ae6a' : '#3e4a42')}</g>`;
+  }).join('')}</g>`
     + `<rect y="130" width="${W}" height="100" fill="#b09870"/>\n`;
   const hall = () => open('', '', '#ece3cf', '#e0d4b8') + `<rect y="170" width="${W}" height="60" fill="#8a6f4e"/><path d="M0 170 H480" stroke="${INK}" opacity=".5"/>\n`;
   const maptex = () => open('', '', '#efe3bd', '#e4d6a8') + `<g fill="none" stroke="#b9a27a" stroke-width="1.2" opacity=".55">${[0, 1, 2, 3, 4, 5].map(i => `<path d="M0 ${40 + i * 34} Q120 ${24 + i * 34} 240 ${44 + i * 34} T480 ${36 + i * 34}"/>`).join('')}</g>\n`;
@@ -27,12 +51,34 @@ module.exports = function (scenes, h) {
   // ---------- 소품 (중심 기준 약 ±30) ----------
   const m = {
     palace: (x, y, s = 1) => T(x, y, s, `<path d="M-34 -4 L0 -24 L34 -4 Z" fill="#3e4a42"/><rect x="-28" y="-4" width="56" height="22" fill="#b5593b"/><rect x="-6" y="4" width="12" height="14" fill="#5a3a26"/><path d="M-40 18 H40" stroke-width="2.2"/>`),
-    wall: (x, y, s = 1) => T(x, y, s, `<path d="M-40 18 L-34 -4 H34 L40 18 Z" fill="#b9ab90"/>${[-24, -8, 8, 24].map(p => `<rect x="${p - 5}" y="-12" width="10" height="8" fill="#b9ab90"/>`).join('')}<path d="M-30 6 H30 M-14 -4 V18 M10 -4 V18" stroke-width="1"/>`),
+    wall: (x, y, s = 1) => T(x, y, s, `<path d="M-42 20 L-36 -4 H36 L42 20 Z" fill="#b9ab90"/><g stroke-width=".9" opacity=".6"><path d="M-39 4 H39 M-41 12 H41"/>${[-28, -8, 14, 30].map(p => `<path d="M${p} -4 V4"/>`).join('')}${[-18, 4, 24, -36].map(p => `<path d="M${p} 4 V12"/>`).join('')}${[-30, -10, 10, 30].map(p => `<path d="M${p} 12 V20"/>`).join('')}</g>${[-28, -12, 4, 20].map(p => `<rect x="${p - 6}" y="-13" width="12" height="9" fill="#b9ab90"/><path d="M${p} -11 V-6" stroke-width="1"/>`).join('')}<path d="M-8 20 V10 Q0 2 8 10 V20 Z" fill="#3a2c20"/>`),
     boat: (x, y, s = 1) => T(x, y, s, `<path d="M-30 4 H30 L22 16 H-22 Z" fill="#8a6444"/><path d="M0 4 V-22" stroke-width="2"/><path d="M0 -20 L20 2 H0 Z" fill="#efe5c8"/>`),
     book: (x, y, s = 1, label = '') => T(x, y, s, `<rect x="-20" y="-16" width="40" height="32" rx="2" fill="#e8dcba"/><path d="M-20 -16 H-16 V16 H-20" fill="#8c3b26"/><path d="M-8 -6 H12 M-8 2 H12 M-8 10 H4" stroke-width="1"/>${label ? `<text x="2" y="-8" font-size="9" text-anchor="middle" stroke="none" fill="${INK}" ${font}>${label}</text>` : ''}`),
     scroll: (x, y, s = 1) => T(x, y, s, `<rect x="-26" y="-14" width="52" height="28" fill="#f3ead2"/><rect x="-30" y="-17" width="8" height="34" rx="3" fill="#8a5a35"/><rect x="22" y="-17" width="8" height="34" rx="3" fill="#8a5a35"/><path d="M-16 -4 H16 M-16 4 H16" stroke-width="1"/>`),
     plaque: (x, y, s = 1, text = '仁義禮智') => T(x, y, s, `<rect x="-34" y="-14" width="68" height="28" fill="#2f3b34"/><rect x="-34" y="-14" width="68" height="28" fill="none" stroke="#b08a3e" stroke-width="2.4"/><text x="0" y="6" font-size="17" text-anchor="middle" stroke="none" fill="#e7c872" ${font}>${text}</text>`),
     gate: (x, y, s = 1) => T(x, y, s, `<path d="M-36 -6 L0 -26 L36 -6 Z" fill="#3e4a42"/><rect x="-32" y="-6" width="64" height="8" fill="#8a3a2a"/><rect x="-26" y="2" width="8" height="22" fill="#8a3a2a"/><rect x="18" y="2" width="8" height="22" fill="#8a3a2a"/><path d="M-18 24 V8 Q0 -2 18 8 V24 Z" fill="#4a3322"/>`),
+    // 근정전: 월대 위의 중층 전각, 단청 띠와 붉은 기둥
+    palaceHall: (x, y, s = 0.8) => T(x, y, s, `${stoneBase(56, 26)}${stoneBase(48, 20)}<rect x="-9" y="26" width="18" height="6" fill="#d3cbb5"/>`
+      + `<rect x="-24" y="-22" width="48" height="14" fill="#b5593b"/><g transform="translate(0 -26)">${roof(32, 11, 18)}</g>${dancheong(26, -22, 4)}`
+      + `${bays(40, 6, 20, 5)}${dancheong(42, 0, 6)}<g transform="translate(0 -4)">${roof(50, 13, 30)}</g>`),
+    // 광화문 같은 궁궐 정문: 돌 축대의 홍예문 위에 붉은 문루와 겹처마 지붕
+    palaceGate: (x, y, s = 0.85) => T(x, y, s, `<path d="M-46 26 L-42 6 H42 L46 26 Z" fill="#b9b4a4"/><g stroke-width=".8" opacity=".5"><path d="M-44 12 H44 M-45 19 H45"/></g>`
+      + [-24, 0, 24].map((c, i) => `<path d="M${c - (i === 1 ? 9 : 7)} 26 V${i === 1 ? 14 : 16} Q${c} ${i === 1 ? 4 : 8} ${c + (i === 1 ? 9 : 7)} ${i === 1 ? 14 : 16} V26 Z" fill="#3a2c20"/>`).join('')
+      + `<rect x="-26" y="-22" width="52" height="8" fill="#a8402e"/><g transform="translate(0 -34)">${roof(30, 10, 16)}</g>${dancheong(24, -26, 4)}`
+      + `${bays(36, -6, 6, 4, '#8a2f20', '#a8402e')}${dancheong(38, -11, 5)}<g transform="translate(0 -14)">${roof(46, 12, 26)}</g>`),
+    // 성균관 명륜당: 단청 없이 소박한 지붕, 흰 벽과 나무 기둥, 편액, 은행나무
+    seonggyungwan: (x, y, s = 0.8) => T(x, y, s, `${stoneBase(56, 22, 7)}<rect x="-10" y="22" width="20" height="9" fill="#d3cbb5"/>`
+      + `${bays(46, 4, 22, 6, '#6b4a30', '#efe6cf')}<rect x="-46" y="-1" width="92" height="5" fill="#7a5a3c"/><g transform="translate(0 -3)">${roof(56, 14, 32)}</g>`
+      + `<rect x="-19" y="5" width="38" height="10" fill="#2f3b34" stroke="#b08a3e" stroke-width="1.4"/><text x="0" y="13.4" font-size="8.6" text-anchor="middle" stroke="none" fill="#e7c872" ${font}>明倫堂</text>`
+      + `<path d="M70 24 V2" stroke="#6b4a30" stroke-width="5"/><g fill="#e0b84a" stroke-width="1"><circle cx="70" cy="-6" r="14"/><circle cx="58" cy="2" r="10"/><circle cx="82" cy="2" r="10"/></g>`),
+    // 한양 민가: 처마가 들린 작은 기와집 세 채
+    hanokVillage: (x, y, s = 1) => [[-40, 2, 0.5], [0, 8, 0.6], [42, -2, 0.45]].map(([a, b, k]) => T(x + a * s, y + b * s, s * k * 1.5, `${stoneBase(30, 20, 4)}${bays(26, 6, 20, 3, '#6b4a30', '#efe6cf')}<g transform="translate(0 4)">${roof(34, 13, 18)}</g>`)).join(''),
+    // 개항기 서양식 벽돌 건물: 수평 줄, 아치창, 기둥 현관과 삼각 박공, 굴뚝
+    western: (x, y, s = 1) => T(x, y, s, `<rect x="-34" y="-18" width="68" height="40" fill="#b4644a"/><rect x="-36" y="-22" width="72" height="5" fill="#e8e2d0"/><path d="M-34 -22 L-26 -30 H26 L34 -22 Z" fill="#59616a"/><rect x="14" y="-40" width="7" height="12" fill="#8a4a38"/>`
+      + `<g stroke-width="1" fill="#e6f0f2">${[-26, -14, 14, 26].map(c => [-12, 6].map(r => `<path d="M${c - 4} ${r + 10} V${r + 2} Q${c} ${r - 4} ${c + 4} ${r + 2} V${r + 10} Z"/>`).join('')).join('')}</g>`
+      + `<rect x="-14" y="-2" width="28" height="24" fill="#e8e2d0"/><path d="M-17 -2 L0 -13 L17 -2 Z" fill="#f3efe2"/><path d="M-10 22 V4 Q0 -2 10 4 V22 Z" fill="#4a3322"/><path d="M-12 -2 V22 M12 -2 V22" stroke-width="2.2"/><path d="M-38 22 H38" stroke-width="2.2"/>`),
+    // 근대 상점 거리: 서양식 가게 둘과 간판
+    westernShops: (x, y, s = 1) => T(x, y, s, [[-30, '#b4644a'], [4, '#c9b98c']].map(([c, f], i) => `<rect x="${c - 2}" y="${-14 - i * 6}" width="30" height="${36 + i * 6}" fill="${f}"/><rect x="${c - 4}" y="${-18 - i * 6}" width="34" height="5" fill="#e8e2d0"/><rect x="${c + 4}" y="${-6 - i * 6}" width="8" height="12" fill="#e6f0f2" stroke-width="1"/><rect x="${c + 16}" y="${-6 - i * 6}" width="8" height="12" fill="#e6f0f2" stroke-width="1"/><path d="M${c - 2} 10 h30 l-3 8 h-24 Z" fill="${i ? '#4f7fa0' : '#2f6b5a'}"/>`).join('') + `<rect x="36" y="-10" width="10" height="32" fill="#8a6f4a"/><rect x="31" y="-12" width="20" height="9" fill="#f3ead2" stroke-width="1"/>`),
     mount: (x, y, s = 1) => T(x, y, s, `<path d="M-40 18 L-14 -18 L2 0 L16 -22 L40 18 Z" fill="#7b8c78"/><path d="M-40 18 H40" stroke-width="2"/><path d="M-6 18 q6 -10 12 0" fill="#6e9aa6" stroke-width="1"/>`),
     coin: (x, y, s = 1) => T(x, y, s, `<circle r="13" fill="#c9a24a"/><rect x="-4" y="-4" width="8" height="8" fill="#efe3bd"/>`),
     coins: (x, y, s = 1) => T(x, y, s, `<g fill="#c9a24a"><circle cx="-14" cy="6" r="10"/><circle cx="8" cy="6" r="10"/><circle cx="-3" cy="-8" r="10"/></g><g fill="#efe3bd" stroke-width="1"><rect x="-17" y="3" width="6" height="6"/><rect x="5" y="3" width="6" height="6"/><rect x="-6" y="-11" width="6" height="6"/></g>`),
@@ -90,10 +136,10 @@ module.exports = function (scenes, h) {
   const put = (items) => items.join('');
   const make = (label, bg, body) => () => bg().replace(/aria-label=""/, `aria-label="${label}"`) + put(body) + close;
 
-  scenes['hanyang-site-selection'] = make('산과 강이 둘러싼 한양 터와 도성, 강을 오가는 배', river.bind(null, '#e4e4cc', '#efe3bd'), [m.city(...L, 1), m.boat(...C, 1.1), m.wall(...R, 1)]);
-  scenes['gyeongbokgung-naming'] = make('궁궐 마당의 편액, 성문, 문서', courtyard, [m.plaque(...L, 1), m.gate(...C, 1.1), m.scroll(...R, 1)]);
-  scenes['hanyang-gates-pavement'] = make('근정전 앞마당과 햇빛, 거친 돌 박석', courtyard, [m.palace(...L, 1.2), `<circle cx="240" cy="92" r="18" fill="#f6dc7a" opacity=".9"/><g stroke="#e8b84a" stroke-width="2.4"><path d="M240 62 V68 M214 92 H208 M272 92 H266 M222 74 L218 70 M258 74 L262 70"/></g>`, `<g ${st}>${[0, 1, 2, 3].map(i => `<path d="M${340 + i * 16} ${74 + (i % 2) * 10} l14 -3 l4 12 l-14 4 Z" fill="#a9a08c"/>`).join('')}</g>`]);
-  scenes['joseon-founding-evidence'] = make('산과 강, 도성과 궁궐, 성균관', river.bind(null, '#e4e4cc', '#efe3bd'), [m.mount(96, 80, 1), m.palace(...C, 1.1), m.gate(384, 80, 0.9)]);
+  scenes['hanyang-site-selection'] = make('산과 강이 둘러싼 한양 터와 도성, 강을 오가는 배', river.bind(null, '#e4e4cc', '#efe3bd'), [m.hanokVillage(...L, 1), m.boat(...C, 1.1), m.wall(...R, 1)]);
+  scenes['gyeongbokgung-naming'] = make('궁궐 마당의 편액, 궁궐 정문, 문서', palaceYard, [m.plaque(...L, 1), m.palaceGate(240, 100, 1.2), m.scroll(...R, 1)]);
+  scenes['hanyang-gates-pavement'] = make('근정전 앞마당과 햇빛, 거친 돌 박석', palaceYard, [m.palaceHall(106, 78, 0.95), `<circle cx="240" cy="92" r="18" fill="#f6dc7a" opacity=".9"/><g stroke="#e8b84a" stroke-width="2.4"><path d="M240 62 V68 M214 92 H208 M272 92 H266 M222 74 L218 70 M258 74 L262 70"/></g>`, `<g ${st}>${[0, 1, 2, 3].map(i => `<path d="M${340 + i * 16} ${74 + (i % 2) * 10} l14 -3 l4 12 l-14 4 Z" fill="#a9a08c"/>`).join('')}</g>`]);
+  scenes['joseon-founding-evidence'] = make('산과 강, 도성과 궁궐, 성균관 명륜당', river.bind(null, '#e4e4cc', '#efe3bd'), [m.mount(96, 80, 1), m.palaceHall(240, 100, 1.0), m.seonggyungwan(356, 80, 0.9)]);
   scenes['ianbeop-farming'] = make('씨앗을 뿌린 논, 호미, 모내기한 논', field, [m.seedRows(...L, 1), m.hoe(...C, 1.1), m.paddy(...R, 1)]);
   scenes['sangpum-crops'] = make('호미, 장터 좌판, 상품 작물', field, [m.hoe(...L, 1), m.stall(...C, 1.1), m.crop(...R, 1)]);
   scenes['sangpyeongtongbo-market'] = make('곡식 자루, 여러 장터 좌판, 상평통보', street, [m.sacks(...L, 1), m.stalls(...C, 1), m.coins(...R, 1.1)]);
@@ -110,9 +156,9 @@ module.exports = function (scenes, h) {
   scenes['talchum-dance'] = make('지역마다 다른 탈, 양반탈, 탈놀이 마당', courtyard, [m.masks(...L, 1.1), m.mask(...C, 1.3, true), m.lantern(344, 80, 1), m.lantern(404, 80, 1)]);
   scenes['joseon-folk-evidence'] = make('풍속화, 북과 부채, 탈', room, [m.paintingHang(...L, 1.1), m.drum(...C, 1.2), m.mask(...R, 1.2, true)]);
   scenes['ganghwa-treaty-hall'] = make('조약 문서가 놓인 책상과 항구의 배', hall, [`<g ${st}><rect x="40" y="40" width="130" height="90" fill="#8fb0b6"/><path d="M40 90 H170" /></g>`, m.ship(105, 92, 0.9), m.desk(300, 138, 1.4), m.treatyDoc(300, 100, 1.5), m.flagpole(420, 120, 1.3)]);
-  scenes['jejungwon-postal'] = make('근대 병원과 우체국 건물, 우편함', street, [m.palace(150, 108, 1.5), m.letter(330, 112, 1.3), m.pole(420, 100, 1)]);
-  scenes['hanyang-tram-street'] = make('전차, 전등, 도시의 건물', street, [m.tram(...L, 1.1), m.bulb(...C, 1.3), m.city(...R, 1.2)]);
-  scenes['modern-open-evidence'] = make('항구의 배, 전신주, 문서', street, [m.ship(110, 100, 1.2), m.pole(240, 96, 1.2), m.treatyDoc(370, 100, 1)]);
+  scenes['jejungwon-postal'] = make('근대 병원과 우체국 건물, 우편함', modernStreet, [m.western(150, 98, 1.45), m.letter(330, 112, 1.3), m.pole(420, 100, 1)]);
+  scenes['hanyang-tram-street'] = make('전차, 전등, 도시의 건물', modernStreet, [m.tram(...L, 1.1), m.bulb(...C, 1.3), m.westernShops(...R, 1.2)]);
+  scenes['modern-open-evidence'] = make('항구의 배, 전신주, 문서', modernStreet, [m.ship(110, 100, 1.2), m.pole(240, 96, 1.2), m.treatyDoc(370, 100, 1)]);
   scenes['hopae-registration'] = make('호적 장부, 신분을 나타내는 깃발, 호패', room, [m.ledger(...L, 1.1), m.banners(...C, 1.2), m.tablet(...R, 1.1)]);
   scenes['jungin-medicine'] = make('약장, 외국과 주고받은 편지, 의학 책', room, [m.chest(...L, 1.1), m.letter(...C, 1.2), m.book(...R, 1.1, '醫')]);
   scenes['commoner-harvest'] = make('곡식 자루, 깃발과 창, 지역별 논밭', field, [m.sacks(...L, 1.1), m.spearRack(...C, 1.1), m.paddy(...R, 1.1)]);

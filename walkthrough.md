@@ -1,5 +1,25 @@
 # Walkthrough
 
+## 2026-10-20 — 장면 그림 개선: 조선 건국 건물을 궁궐·성균관답게, 개항기 건물과 구분 (D-046)
+
+`TASK-20261020-SCENE-HANOK | assets/scenes 7개, scratch/gen_scene_art_unit2.js | implementation agent(Claude) | 상태: DONE — 생성기 재실행·Chrome 렌더링 확인, 실제 시뮬레이터 화면·iPad 확인은 미실시`
+
+- 사용자 관찰: 조선 건국 2~3차시의 궁궐·대문·성균관이 조선 건물 같지 않고, 개항 이후 건물과 너무 비슷하다. 명량·세종·서민 문화·개항 이후 장면 자체는 좋다.
+- 원인: 건물 소품이 삼각 지붕에 사각 몸체인 하나의 도형(`palace`, `gate`, `city`)을 조선 건국과 개항기 장면이 함께 썼다.
+- 수정: 처마 끝이 들린 기와지붕, 단청 띠, 붉은 기둥, 월대를 갖춘 근정전형 중층 전각과 홍예문 궁궐 정문을 만들었다. 성균관은 단청 없이 흰 벽·나무 기둥·편액(明倫堂)·은행나무로 구분했다. 한양 민가도 기와집으로 바꿨다. 개항기는 벽돌 서양식 건물·아치창·삼각 박공과 서양식 거리 배경으로 따로 만들었다.
+- 바뀐 장면 7개: `joseon-founding-evidence`, `gyeongbokgung-naming`, `hanyang-gates-pavement`, `hanyang-site-selection`, `jejungwon-postal`, `hanyang-tram-street`, `modern-open-evidence`. 핫스팟·JSON·코드는 건드리지 않았다.
+- 2단원 34장면 전체 재점검(사용자 요청, 2026-10-20): 나머지 장면은 유지하고, 같은 문제가 남은 두 곳을 추가로 고쳤다. 조선 시장 거리 배경(`street`)을 곡선 처마 기와집(한 채는 초가)으로, 성벽 소품(`wall`)을 돌 쌓기·여장·성문으로 바꿨다. 영향 장면: `angbuilgu-street`, `sangpyeongtongbo-market`, `hanyang-commerce-summary`, `hanyang-site-selection`, `hwaseong-geojunggi`, `joseon-namhansanseong`. 서민 문화 마당(`courtyard`)·실내 배경은 사용자가 좋다고 해서 유지했다.
+- 남은 일: 사용자의 시각 검토(근정전·광화문·명륜당 형태는 교과서 이미지와 대조 필요). 브라우저가 이전 SVG를 캐시했다면 강력 새로고침.
+
+## 2026-10-20 — 동료 교사 피드백 2건: 단서 다시 보기·마지막 단서 설명 유지
+
+`TASK-20261020-CLUE-FEEDBACK | js/mudSimulators.js, js/mudEngine.js | implementation agent(Claude) | 상태: DONE — node --check, scripts/05, scripts/04 통과, 브라우저 실사용 확인은 미실시`
+
+- 관찰(동료 교사): 확인한 단서를 다시 볼 수 없다. 마지막 단서를 고르면 설명 대신 "모두 확인" 문구가 나온다.
+- 원인: 확인한 단서 버튼이 `disabled`가 되고 캔버스 재클릭은 "이미 확인했습니다"만 표시했다. 완료 시 `updateSimulatorCompletion`이 `successText`로 마지막 단서 설명을 덮어썼다.
+- 수정: 확인한 단서를 다시 누르면 설명을 다시 보여 준다(진행도·행동 수에는 영향 없음, 버튼은 ✓ 표시만 유지). 완료 문구는 마지막 단서 설명 아래에 덧붙인다.
+- 미확인: 모둠 탐험(협동 활동)은 해당 교사가 학생과 시험 후 피드백 예정.
+
 ## 2026-10-19 — pstack 검토와 audit 스킬 2종 추가 (`/interrogate`, `/blast-radius`)
 
 `TASK-20261019-PSTACK-SKILLS | .claude/skills/{interrogate,blast-radius} | implementation agent(Claude) | 상태: DONE — 스킬 시험(sonnet·opus 교차)과 수정 반영 완료, 재검증 실행은 생략`
