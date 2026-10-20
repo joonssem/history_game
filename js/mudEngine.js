@@ -395,7 +395,14 @@ const MudEngine = {
     if (actionReady && progressReady && validationReady && !this.simulatorComplete) {
       this.simulatorComplete = true;
       const feedback = document.getElementById('mn-canvas-feedback');
-      if (feedback && completion.successText) feedback.innerHTML = completion.successText;
+      if (feedback && completion.successText) {
+        // 마지막 단서의 설명을 지우지 않고 그 아래에 완료 안내를 덧붙인다.
+        const prior = String(feedback.textContent || '').trim()
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        feedback.innerHTML = prior
+          ? `<div style="margin-bottom: 6px;">${prior}</div>${completion.successText}`
+          : completion.successText;
+      }
       const grid = document.getElementById('mn-choices-grid');
       if (grid) {
         grid.querySelectorAll('button').forEach(btn => {

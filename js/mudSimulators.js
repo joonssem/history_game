@@ -492,7 +492,8 @@ const MudSimulators = {
       return false;
     }
     if (state.found.includes(hotspot.id)) {
-      this.setPaleoFeedback(`${hotspot.label}은(는) 이미 확인했습니다. 다른 단서를 찾아보세요.`);
+      // 확인한 단서도 다시 눌러 설명을 볼 수 있다. 새 행동으로 세지 않으려 false를 반환한다.
+      this.setPaleoFeedback(`${hotspot.label}: ${hotspot.feedback}`, hotspot.id);
       return false;
     }
     state.found.push(hotspot.id);
@@ -550,6 +551,10 @@ const MudSimulators = {
     if (!sequence.includes(hotspot.id)) {
       this.setPaleoFeedback(hotspot.feedback || `${hotspot.label}은(는) 이 판단과 관련이 없습니다. 다른 단서를 확인하세요.`);
       if (window.sounds) window.sounds.playWrong();
+      return false;
+    }
+    if (state.found.includes(hotspot.id)) {
+      this.setPaleoFeedback(`${hotspot.label}: ${hotspot.feedback}`, hotspot.id);
       return false;
     }
     if (hotspot.id !== sequence[step]) {
@@ -1785,7 +1790,7 @@ const MudSimulators = {
       button.className = 'btn secondary';
       button.style.cssText = 'width: auto; flex: 1 1 30%; min-width: 92px; min-height: 44px; padding: 7px 8px; font-size: 0.82rem;';
       button.textContent = `${found ? '✓ ' : ''}${hotspot.label}`;
-      button.disabled = Boolean(found);
+      button.setAttribute('aria-pressed', found ? 'true' : 'false');
       button.addEventListener('click', () => this.activateHotspot(hotspot.id));
       container.appendChild(button);
     });
