@@ -2736,4 +2736,4 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 데이터: `regular_bronze_age` 2단계·`regular_gojoseon` 3단계 장면 키 변경. 핫스팟 좌표 변경(id·문구·판정 유지): `regular_gojoseon` 1, `regular_three_kingdoms` 2, `regular_korean_war` 1·3, `regular_myeongnyang` 3.
 - 엔진: `SceneArt.active()` — 정규 MUD에서만 SVG를 쓴다. deep MUD(같은 장면 키, 다른 핫스팟)는 기존 캔버스 그림으로 돌아간다. 캐시버스터 `20261021-scene4`.
 - 검증: `scratch/verify_scene_art.js` 820×1180·390×844 장면 102/102, 콘솔 오류 0, deep MUD 미적용 확인(같은 스크립트에 추가). 좌표를 옮긴 6단계는 정해진 순서로 눌러 각 핫스팟이 자기 대상으로만 인식되는 것을 390×844에서 확인. `node --check`, `scripts/01`·`06` 통과. 태극기는 확대 렌더링으로 괘·태극 배치를 대조.
-- 남은 일: 사용자 교과서 대조(특히 지도 윤곽은 단순화한 선), 실기기 확인.
+- 2026-10-21 사용자 확인: 학생 iPad에서 정상 표시, 지도 해안선도 알아볼 수 있음. Pages 배포(`10c49d1`) 반영 완료.
