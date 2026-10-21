@@ -218,7 +218,7 @@
         "mode": "dolmen-step2",
         "type": "info",
         "interaction": "hotspot-discovery",
-        "scene": "neolithic-village",
+        "scene": "bronze-village",
         "hotspots": [
           {
             "id": "farming-surplus",

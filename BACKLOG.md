@@ -2,12 +2,6 @@
 
 > **2026-10-15 — Convex 실시간 협동 활동 취소([D-038](./DECISIONS.md)).** 취소된 `*-COLLAB-*` 항목 원문은 [`docs/archive/cooperative-live/BACKLOG_cancelled_20261016.md`](./docs/archive/cooperative-live/BACKLOG_cancelled_20261016.md)로 옮겼다(2026-10-19). 재개하지 않는다.
 
-## P1-SCENE-ART-ACCURACY — 장면 그림 오학습 소지 수정 (2026-10-21 등록)
-
-- 상태: `documented` — 사용자 확인 뒤 구현. 감사 결과: [`docs/audits/scene_art_accuracy_20261021.md`](./docs/audits/scene_art_accuracy_20261021.md)
-- 문제: D-046 장면 SVG 가운데 사실과 다르게 그려진 것이 있다. 태극기 도안, 6·25 지도(군사분계선 기울기·한반도 윤곽), 학익진 방향, 같은 그림의 라벨 불일치(고조선·청동기), 지도 장면 위치(국내성·아사달) 등 A 9건, 시대·모양 어긋남 B 12건.
-- 범위: SVG 생성기 수정 + 일부 MUD JSON 핫스팟 좌표·장면 키 변경(id·문구·판정 유지).
-
 ## P2-REPO-CLEANUP — Convex 취소 후 저장소 정리 (2026-10-16 등록)
 
 - 작업 claim: `TASK-20261016-REPO-CLEANUP | apps/cooperative-live 제거·worktree/브랜치 태그 보관·취소 문서 archive 이동·루트 정리 | integration agent(Claude) | 상태: DONE(Vercel Git 연동 확인만 Codex 위임) — 2026-10-19 앱 제거·태그 13개·문서 이동·BACKLOG·루트 정리·worktree 9개와 브랜치 삭제 완료`

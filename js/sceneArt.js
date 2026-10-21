@@ -13,6 +13,7 @@ const SceneArt = {
     'balhae-evidence',
     'balhae-heritage',
     'bronze-dolmen-transport',
+    'bronze-village',
     'busan-shanty-rebuild',
     'chiljeongsan-observatory',
     'colonial-1910s-evidence',
@@ -25,6 +26,7 @@ const SceneArt = {
     'gendarme-rule-ordinance',
     'goguryeo-mural-costume',
     'gojoseon-artifacts',
+    'gojoseon-bronze-culture',
     'gojoseon-law',
     'gojoseon-map',
     'gojoseon-summary',
@@ -127,7 +129,13 @@ const SceneArt = {
 
   // 그림이 있는 장면이면 로드 중에도 true. 옛 캔버스 그림이 잠깐 비치지 않게 한다.
   expects(scene) {
-    return this.available.has(scene);
+    return this.active(scene);
+  },
+
+  // 장면 그림은 정규 MUD 핫스팟 배치에 맞춰 그렸다. 같은 장면 키를 다른 배치로 쓰는 deep MUD에는 쓰지 않는다.
+  active(scene) {
+    const mud = window.MudEngine && window.MudEngine.currentMudData;
+    return this.available.has(scene) && !!mud && mud.tier === 'regular';
   },
 
   preloadAll() {
@@ -135,7 +143,7 @@ const SceneArt = {
   },
 
   draw(ctx, w, h, scene) {
-    if (!this.available.has(scene)) return false;
+    if (!this.active(scene)) return false;
     if (!this.has(scene)) {
       this.load(scene);
       ctx.fillStyle = '#efe5c9'; ctx.fillRect(0, 0, w, h);

@@ -131,22 +131,22 @@
           {
             "id": "manchuria",
             "label": "요동",
-            "x": 0.22,
-            "y": 0.48,
+            "x": 0.297,
+            "y": 0.217,
             "feedback": "고조선의 세력은 요동 지역까지 이어졌습니다."
           },
           {
             "id": "north-korea",
             "label": "한반도 북부",
-            "x": 0.5,
-            "y": 0.65,
+            "x": 0.513,
+            "y": 0.383,
             "feedback": "청동기 문화를 바탕으로 고조선이 성장한 지역입니다."
           },
           {
             "id": "asadal",
             "label": "아사달",
-            "x": 0.78,
-            "y": 0.48,
+            "x": 0.85,
+            "y": 0.687,
             "feedback": "단군왕검이 나라를 세웠다고 전해지는 도읍입니다."
           }
         ],
@@ -327,7 +327,7 @@
       ],
       "simulator": {
         "mode": "culture-touch",
-        "scene": "gojoseon-artifacts",
+        "scene": "gojoseon-bronze-culture",
         "interaction": "ordered-hotspot",
         "sequence": ["bronze-culture", "lute-sword", "dolmen-culture"],
         "type": "info",

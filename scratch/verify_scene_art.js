@@ -33,5 +33,9 @@ for(const mud of muds){
   if(r.art===false) bad.push('(no art) '+mud+':'+sid+' '+r.scene);
  }
 }
+// deep MUD는 같은 장면 키를 다른 핫스팟 배치로 쓰므로 SVG를 쓰지 않아야 한다.
+await ev(`window.MudEngine.openMUD('deep_prehistoric')`); await sleep(900);
+const deepUses=await ev(`window.SceneArt.expects('gojoseon-map')||window.SceneArt.expects('gojoseon-artifacts')`);
+if(deepUses) bad.push('deep MUD uses scene art');
 console.log('ok scenes:',ok,'\nproblems:',bad.length?bad.join('\n'):'none','\nconsole errors:',errs.filter(e=>!/AudioContext/.test(e)).length?errs.filter(e=>!/AudioContext/.test(e)).join('\n'):'none');
 proc.kill();process.exit(0);})();
