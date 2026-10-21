@@ -312,7 +312,8 @@ const MudSimulators = {
       ctx.fillText("화면을 터치하여 승기를 잡으세요!", w/2, h - 15);
     } else if (interaction === 'hotspot-discovery' || interaction === 'resource-allocation' || interaction === 'reflection' || interaction === 'ordered-hotspot') {
       const state = engine.getSimulatorState(simMode);
-      if (simMode === 'paleo-environment') {
+      // 장면 그림이 있으면 환경 탐색도 공통 렌더러(그림 + 알약 라벨)로 그린다.
+      if (simMode === 'paleo-environment' && !(window.SceneArt && window.SceneArt.expects(simMode))) {
         this.drawPaleoEnvironment(ctx, w, h, state);
       } else {
         this.drawPaleoActivity(ctx, w, h, simMode, state, simMode === 'paleo-fire' ? engine.paleoFireStep : state.found.length);
@@ -342,7 +343,7 @@ const MudSimulators = {
     return [
       { id: 'rock-shelter', label: '바위 그늘', x: 0.22, y: 0.52, radius: Math.min(canvasWidth, canvasHeight) * 0.14, feedback: '바람과 추위를 피할 수 있는 보금자리입니다.' },
       { id: 'riverbank', label: '강가', x: 0.72, y: 0.48, radius: Math.min(canvasWidth, canvasHeight) * 0.14, feedback: '물을 얻고 동물 흔적을 찾을 수 있지만 범람에 주의해야 합니다.' },
-      { id: 'open-plain', label: '트인 평야', x: 0.48, y: 0.76, radius: Math.min(canvasWidth, canvasHeight) * 0.13, feedback: '시야는 넓지만 바람과 추위에 그대로 노출됩니다.' }
+      { id: 'open-plain', label: '트인 평야', x: 0.48, y: 0.68, radius: Math.min(canvasWidth, canvasHeight) * 0.13, feedback: '시야는 넓지만 바람과 추위에 그대로 노출됩니다.' }
     ];
   },
 
@@ -433,24 +434,25 @@ const MudSimulators = {
         { id: 'stone', label: '부싯돌', x: 0.76, y: 0.66, feedback: '마찰로 불꽃을 만들 도구입니다.' }
       ],
       'paleo-stone': [
-        { id: 'stone-edge', label: '가장자리', x: 0.25, y: 0.52, feedback: '가장자리부터 얇게 다듬어 날을 만듭니다.' },
-        { id: 'stone-face', label: '돌의 면', x: 0.50, y: 0.43, feedback: '한쪽 면을 고르게 다듬어 쥐기 좋은 모양을 만듭니다.' },
-        { id: 'stone-tip', label: '뾰족한 끝', x: 0.75, y: 0.52, feedback: '끝부분을 뾰족하게 다듬어 다양한 작업에 사용할 수 있습니다.' }
+        // 장면 그림(assets/scenes/paleo-stone.svg)의 큰 주먹도끼 한 개에서 아래 가장자리·가운데 면·오른쪽 끝을 가리킨다.
+        { id: 'stone-edge', label: '가장자리', x: 0.36, y: 0.69, feedback: '가장자리부터 얇게 다듬어 날을 만듭니다.' },
+        { id: 'stone-face', label: '돌의 면', x: 0.47, y: 0.47, feedback: '한쪽 면을 고르게 다듬어 쥐기 좋은 모양을 만듭니다.' },
+        { id: 'stone-tip', label: '뾰족한 끝', x: 0.80, y: 0.50, feedback: '끝부분을 뾰족하게 다듬어 다양한 작업에 사용할 수 있습니다.' }
       ],
       'paleo-hunt': [
         { id: 'tracks', label: '동물 발자국', x: 0.24, y: 0.52, feedback: '동물이 지나간 방향을 알려 주는 단서입니다.' },
-        { id: 'wind', label: '바람 방향', x: 0.50, y: 0.38, feedback: '바람을 거슬러 접근하면 냄새를 들키지 않을 수 있습니다.' },
+        { id: 'wind', label: '바람 방향', x: 0.50, y: 0.46, feedback: '바람을 거슬러 접근하면 냄새를 들키지 않을 수 있습니다.' },
         { id: 'rock-funnel', label: '바위 길목', x: 0.76, y: 0.54, feedback: '무리가 함께 움직일 때 동물을 유도하기 좋은 지형입니다.' }
       ],
       'paleo-community': [
         { id: 'food', label: '식량', x: 0.22, y: 0.48, feedback: '모두가 먹을 수 있도록 공동으로 나누어야 합니다.' },
-        { id: 'fire', label: '불씨', x: 0.50, y: 0.38, feedback: '불씨를 지키는 사람이 있어야 공동체가 안전합니다.' },
+        { id: 'fire', label: '불씨', x: 0.50, y: 0.45, feedback: '불씨를 지키는 사람이 있어야 공동체가 안전합니다.' },
         { id: 'tool', label: '도구', x: 0.78, y: 0.48, feedback: '필요한 사람이 함께 사용하도록 공유해야 합니다.' },
-        { id: 'hide', label: '가죽', x: 0.50, y: 0.70, feedback: '추위를 막는 재료이므로 필요한 구성원에게 배분합니다.' }
+        { id: 'hide', label: '가죽', x: 0.36, y: 0.74, feedback: '추위를 막는 재료이므로 필요한 구성원에게 배분합니다.' }
       ],
       'paleo-reflection': [
         { id: 'environment', label: '환경 관찰', x: 0.22, y: 0.50, feedback: '구석기 사람들은 자연환경을 관찰해 생활 터전을 정했습니다.' },
-        { id: 'technology', label: '도구와 불', x: 0.50, y: 0.40, feedback: '도구와 불은 추위와 위험을 이겨 내는 기술이었습니다.' },
+        { id: 'technology', label: '도구와 불', x: 0.50, y: 0.50, feedback: '도구와 불은 추위와 위험을 이겨 내는 기술이었습니다.' },
         { id: 'cooperation', label: '공동체 협력', x: 0.78, y: 0.50, feedback: '이동 생활에서는 자원과 역할을 나누는 협력이 중요했습니다.' }
       ]
     }[mode] || [];
@@ -572,7 +574,8 @@ const MudSimulators = {
   },
 
   drawPaleoActivity(ctx, w, h, mode, state, progress) {
-    const scene = window.MudEngine?.currentSimulator?.scene;
+    // 구석기 활동은 장면 키 대신 모드 이름(paleo-*)으로 장면 그림을 찾는다.
+    const scene = window.MudEngine?.currentSimulator?.scene || (window.SceneArt && window.SceneArt.expects(mode) ? mode : undefined);
     const colors = {
       'paleo-fire': ['#21150e', '#9a3412'],
       'paleo-stone': ['#27221d', '#78716c'],
@@ -675,7 +678,7 @@ const MudSimulators = {
       ctx.fillStyle = textColor;
       ctx.fillText(markLabel, cx, cy + 4);
     });
-    ctx.fillStyle = mode === 'paleo-fire' || mode === 'paleo-stone' ? '#fef3c7' : '#1f2937';
+    ctx.fillStyle = (mode === 'paleo-fire' || mode === 'paleo-stone') && !(window.SceneArt && window.SceneArt.expects(scene)) ? '#fef3c7' : '#1f2937';
     ctx.fillText(`진행: ${progress}/${hotspots.length}`, w / 2, h - 16);
   },
 

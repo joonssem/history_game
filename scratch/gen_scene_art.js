@@ -99,6 +99,7 @@ scenes['kim-hongdo-studio'] = () => open('', '붓과 벼루, 걸린 그림과 �
 const hp = { open, close, mountains, sea, ripples, panokseon, INK, W, H };
 const U2 = require('./gen_scene_art_unit2')(scenes, hp);
 require('./gen_scene_art_unit13')(scenes, hp, U2);
+require('./gen_scene_art_paleo')(scenes, hp, U2);
 
 for (const [id, fn] of Object.entries(scenes)) {
   fs.writeFileSync(path.join(OUT, id + '.svg'), fn());

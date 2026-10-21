@@ -18,5 +18,19 @@ for (const unit of [1, 2, 3]) {
     figs.forEach(() => total++);
   }
 }
+// 구석기 편은 장면 키가 없고 핫스팟이 엔진(js/mudSimulators.js)에 있으므로 거기서 읽는다.
+{
+  const js = fs.readFileSync(path.join(root, 'js/mudSimulators.js'), 'utf8');
+  const block = (start, end) => js.slice(js.indexOf(start), js.indexOf(end, js.indexOf(start)));
+  const parse = (txt) => [...txt.matchAll(/id: '([^']+)', label: '([^']+)', x: ([\d.]+), y: ([\d.]+)/g)].map(m => ({ label: m[2], x: +m[3], y: +m[4] }));
+  const envHs = parse(block('getPaleoEnvironmentHotspots(canvasWidth', '];'));
+  const base = block("'paleo-fire': [", '}[mode]');
+  const modes = ['paleo-environment', 'paleo-fire', 'paleo-stone', 'paleo-hunt', 'paleo-community', 'paleo-reflection'];
+  const figs = modes.filter(m => svgs.has(m)).map(m => {
+    const hs = m === 'paleo-environment' ? envHs : parse(base.slice(base.indexOf(`'${m}': [`), base.indexOf(']', base.indexOf(`'${m}': [`))));
+    return `<figure><div class="s"><img src="../../assets/scenes/${m}.svg" alt="">${hs.map(h => `<i class="r" style="left:${h.x * 100}%;top:${h.y * 100}%"></i><b class="p" style="left:${h.x * 100}%;top:${h.y * 100}%">${h.label}</b>`).join('')}</div><figcaption>${m}</figcaption></figure>`;
+  });
+  if (figs.length) { secs.unshift(`<h2>1단원 · 구석기 생존기 <small>regular_paleolithic (핫스팟은 엔진 기본 목록)</small></h2><div class="g">${figs.join('')}</div>`); total += figs.length; }
+}
 const html = `${old[0]}\n${style}\n<h1>장면 그림 점검판 (정규 MUD 1~3단원, ${total}장면 표시)</h1><p>실제 앱의 핫스팟 위치(원)와 라벨을 겹쳐 보여 줍니다. 그림이 교과서 소재와 맞는지 확인하는 용도입니다. 고칠 장면은 장면 이름(그림 아래 영문)과 함께 알려 주세요.</p>\n<label><input type="checkbox" id="t" checked> 핫스팟 표시</label>\n${secs.join('')}</main><script>document.getElementById('t').onchange=function(e){document.querySelectorAll('.r,.p').forEach(function(x){x.style.display=e.target.checked?'':'none'})}</script></body></html>\n`;
 fs.writeFileSync(out, html); console.log('sections', secs.length, 'figures', total);
