@@ -181,4 +181,5 @@ module.exports = function (scenes, h) {
   scenes['joseon-namhansanseong'] = make('산 위의 성곽, 곡식이 줄어든 자루, 피해를 입은 집', outdoor.bind(null, '#d4d8dc', '#dcd8c8', '#8e9a86'), [m.wall(96, 82, 1.2), m.rice(...C, 1.3), m.houseBroken(384, 84, 1)]);
   scenes['joseon-postwar'] = make('국경 문서, 창 거치대, 다시 일군 논과 집', outdoor.bind(null, '#e4e4cc', '#efe3bd'), [m.scroll(96, 80, 1.1), m.spearRack(...C, 1), m.hut(384, 84, 1)]);
   scenes['joseon-diplomacy-exhibit'] = make('지도, 문서, 새싹이 놓인 전시 진열장', hall, [m.showcase(96, 78, 1.1, m.mapRiver(0, 0, 0.7)), m.showcase(240, 108, 1.2, m.scroll(0, 0, 0.8)), m.showcase(384, 78, 1.1, m.sprout(0, 0, 1))]);
+  return { m, T, st, font, L, C, R, make, outdoor, river, room, courtyard, palaceYard, modernStreet, field, street, hall, maptex, roof, bays, stoneBase, dancheong };
 };

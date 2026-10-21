@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 230" width="480" height="230" role="img" aria-label="헌병 모자, 토지 지도, 비밀 결사 기록">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece3cf"/><stop offset="1" stop-color="#e0d4b8"/></linearGradient>
+<filter id="paper" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.36  0 0 0 0 0.25  0 0 0 0.16 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+<filter id="wash"><feTurbulence type="fractalNoise" baseFrequency="0.03 0.08" numOctaves="3" seed="7" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6"/></filter>
+<linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c8190"/><stop offset="1" stop-color="#3f6577"/></linearGradient>
+</defs>
+<rect width="480" height="230" fill="url(#sky)"/>
+<rect y="170" width="480" height="60" fill="#8a6f4e"/><path d="M0 170 H480" stroke="#2a1d14" opacity=".5"/>
+<g transform="translate(106 80) scale(1.2)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M-18 6 Q-18 -14 0 -14 Q18 -14 18 6 Z" fill="#3b3a38"/><rect x="-21" y="6" width="42" height="6" fill="#2a2420"/><circle cy="-3" r="3.4" fill="#c9a23b"/></g>
+<g transform="translate(240 112) scale(1.3)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><rect x="-30" y="-20" width="60" height="40" fill="#f3ead2"/><rect x="-28" y="-18" width="18" height="14" fill="#a8b073" stroke-width=".9"/><rect x="-8" y="-18" width="20" height="22" fill="#c9ae6a" stroke-width=".9"/><rect x="14" y="-18" width="14" height="16" fill="#8fa86a" stroke-width=".9"/><rect x="-28" y="-2" width="18" height="20" fill="#c9ae6a" stroke-width=".9"/><rect x="14" y="0" width="14" height="18" fill="#a8b073" stroke-width=".9"/><rect x="-8" y="6" width="20" height="12" fill="#8fa86a" stroke-width=".9"/></g>
+<g transform="translate(374 80) scale(1.2)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><rect x="-26" y="-14" width="52" height="28" fill="#f3ead2"/><rect x="-30" y="-17" width="8" height="34" rx="3" fill="#8a5a35"/><rect x="22" y="-17" width="8" height="34" rx="3" fill="#8a5a35"/><path d="M-16 -4 H16 M-16 4 H16" stroke-width="1"/></g>
+<rect width="480" height="230" fill="#fff" filter="url(#paper)"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 230" width="480" height="230" role="img" aria-label="온돌 구조, 국서, 주민 기록 장부">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#efe4cc"/><stop offset="1" stop-color="#e4d6b4"/></linearGradient>
+<filter id="paper" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.36  0 0 0 0 0.25  0 0 0 0.16 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+<filter id="wash"><feTurbulence type="fractalNoise" baseFrequency="0.03 0.08" numOctaves="3" seed="7" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6"/></filter>
+<linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c8190"/><stop offset="1" stop-color="#3f6577"/></linearGradient>
+</defs>
+<rect width="480" height="230" fill="url(#sky)"/>
+<rect y="176" width="480" height="54" fill="#b99a66"/><path d="M0 176 H480" stroke="#2a1d14" stroke-width="1.2" opacity=".5"/><g stroke="#8a7355" stroke-width="2" opacity=".45"><path d="M0 24 V176"/><path d="M60 24 V176"/><path d="M120 24 V176"/><path d="M180 24 V176"/><path d="M240 24 V176"/><path d="M300 24 V176"/><path d="M360 24 V176"/><path d="M420 24 V176"/></g>
+<g transform="translate(106 80) scale(1.2)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><rect x="-32" y="-4" width="64" height="9" fill="#b9ab90"/><rect x="-32" y="5" width="64" height="16" fill="#8a6f4a"/><path d="M-26 14 H24 M-26 14 q0 -6 6 -6" fill="none" stroke="#e8742a" stroke-width="2.4"/><path d="M-30 20 Q-34 8 -26 12 Q-24 4 -20 12 Q-16 6 -18 20 Z" fill="#e8742a"/><path d="M26 -4 q4 -8 -2 -14 q6 -2 2 -10" fill="none" stroke="#a8a8a0" stroke-width="2"/></g>
+<g transform="translate(240 112) scale(1.3)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><rect x="-24" y="-14" width="48" height="30" fill="#f7f1de"/><path d="M-24 -14 L0 4 L24 -14" fill="none"/><circle cx="14" cy="10" r="5" fill="#b83a2a" stroke="none"/></g>
+<g transform="translate(374 80) scale(1.2)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><rect x="-26" y="-14" width="22" height="28" fill="#e8dcba"/><rect x="2" y="-14" width="22" height="28" fill="#d9c8a0"/><path d="M-22 -6 H-8 M-22 2 H-8 M6 -6 H20 M6 2 H20" stroke-width="1"/></g>
+<rect width="480" height="230" fill="#fff" filter="url(#paper)"/>
+</svg>

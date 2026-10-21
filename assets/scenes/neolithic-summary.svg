@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 230" width="480" height="230" role="img" aria-label="움집, 빗살무늬 토기, 가락바퀴가 모인 정착 마을">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfeaee"/><stop offset="1" stop-color="#e8e2b7"/></linearGradient>
+<filter id="paper" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.36  0 0 0 0 0.25  0 0 0 0.16 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+<filter id="wash"><feTurbulence type="fractalNoise" baseFrequency="0.03 0.08" numOctaves="3" seed="7" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6"/></filter>
+<linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c8190"/><stop offset="1" stop-color="#3f6577"/></linearGradient>
+</defs>
+<rect width="480" height="230" fill="url(#sky)"/>
+<g filter="url(#wash)">
+<path d="M0 116 L60 76 L110 102 L170 64 L230 104 L0 104 Z" fill="#95a28f" opacity=".85"/>
+<path d="M250 110 L320 68 L380 98 L430 60 L480 94 L480 116 Z" fill="#95a28f" opacity=".85"/>
+<path d="M0 124 L70 92 L140 118 L200 98 L260 122 L0 128 Z" fill="#7b8c78"/>
+<path d="M230 124 L300 96 L370 120 L440 90 L480 110 L480 128 L230 128 Z" fill="#7b8c78"/></g>
+<rect x="0" y="116" width="480" height="114" fill="#9fb07a"/><g filter="url(#wash)" opacity=".35"><path d="M0 150 Q120 134 240 152 T480 146 V230 H0 Z" fill="#7b8c68"/></g>
+<path d="M150 116 C190 150 130 176 210 230 L300 230 C240 180 300 150 210 116 Z" fill="#6e9aa6"/><g fill="none" stroke="#d9e8e6" stroke-width="1.6" opacity=".7"><path d="M190 150 q8 -4 16 0 t16 0"/><path d="M200 184 q8 -4 16 0 t16 0"/></g>
+<g transform="translate(110 96) scale(1.2)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M-32 20 L-22 -2 Q0 -36 22 -2 L32 20 Z" fill="#c9ae6a"/><path d="M-18 0 L-14 16 M0 -14 V16 M14 0 L18 16" stroke-width=".9" opacity=".7"/><path d="M-7 20 V8 H7 V20" fill="#5a3a26"/></g>
+<g transform="translate(240 108) scale(1.2)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M-18 -18 H18 Q22 4 6 24 H-6 Q-22 4 -18 -18 Z" fill="#c98a5a"/><ellipse cy="-18" rx="18" ry="4" fill="#8a5a3a"/><path d="M-16 -8 l4 5 l4 -5 l4 5 l4 -5 l4 5 l4 -5 l4 5 l4 -5" fill="none" stroke="#6b3f26" stroke-width="1"/><path d="M-16 2 l4 5 l4 -5 l4 5 l4 -5 l4 5 l4 -5 l4 5 l4 -5" fill="none" stroke="#6b3f26" stroke-width="1"/><path d="M-16 12 l4 5 l4 -5 l4 5 l4 -5 l4 5 l4 -5 l4 5 l4 -5" fill="none" stroke="#6b3f26" stroke-width="1"/></g>
+<g transform="translate(370 100) scale(1.2)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><ellipse cy="10" rx="16" ry="5" fill="#b9ab90"/><ellipse cy="7" rx="16" ry="5" fill="#d8cfb8"/><circle cy="7" r="2.4" fill="#2a1d14"/><path d="M0 7 V-22" stroke-width="2.4"/><path d="M0 -20 C10 -14 -10 -8 0 -2" fill="none" stroke="#efe5c8" stroke-width="2.2"/></g>
+<g transform="translate(300 148) scale(1)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M0 16 V-2" stroke="#5f7a2e" stroke-width="2.4" fill="none"/><path d="M0 4 Q-14 -2 -16 -14 Q-2 -10 0 4 Z" fill="#7a8a3c"/><path d="M0 -2 Q14 -8 16 -20 Q2 -16 0 -2 Z" fill="#8ea04a"/><path d="M-14 16 H14" stroke-width="1.6"/></g>
+<rect width="480" height="230" fill="#fff" filter="url(#paper)"/>
+</svg>

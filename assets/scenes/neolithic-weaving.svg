@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 230" width="480" height="230" role="img" aria-label="가락바퀴, 뼈바늘, 짜 놓은 옷감">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e4dcc4"/><stop offset="1" stop-color="#d4cbb0"/></linearGradient>
+<filter id="paper" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.36  0 0 0 0 0.25  0 0 0 0.16 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+<filter id="wash"><feTurbulence type="fractalNoise" baseFrequency="0.03 0.08" numOctaves="3" seed="7" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6"/></filter>
+<linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c8190"/><stop offset="1" stop-color="#3f6577"/></linearGradient>
+</defs>
+<rect width="480" height="230" fill="url(#sky)"/>
+<g filter="url(#wash)">
+<path d="M0 116 L60 76 L110 102 L170 64 L230 104 L0 104 Z" fill="#95a28f" opacity=".85"/>
+<path d="M250 110 L320 68 L380 98 L430 60 L480 94 L480 116 Z" fill="#95a28f" opacity=".85"/>
+<path d="M0 124 L70 92 L140 118 L200 98 L260 122 L0 128 Z" fill="#7b8c78"/>
+<path d="M230 124 L300 96 L370 120 L440 90 L480 110 L480 128 L230 128 Z" fill="#7b8c78"/></g>
+<rect x="0" y="116" width="480" height="114" fill="#b9a678"/><g filter="url(#wash)" opacity=".35"><path d="M0 150 Q120 134 240 152 T480 146 V230 H0 Z" fill="#7b8c68"/></g>
+<g transform="translate(106 80) scale(1.2)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><ellipse cy="10" rx="16" ry="5" fill="#b9ab90"/><ellipse cy="7" rx="16" ry="5" fill="#d8cfb8"/><circle cy="7" r="2.4" fill="#2a1d14"/><path d="M0 7 V-22" stroke-width="2.4"/><path d="M0 -20 C10 -14 -10 -8 0 -2" fill="none" stroke="#efe5c8" stroke-width="2.2"/></g>
+<g transform="translate(240 61) scale(1.3)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M-14 18 L12 -22" stroke="#2a1d14" stroke-width="6" fill="none"/><path d="M-14 18 L12 -22" stroke="#e8dcba" stroke-width="4" fill="none"/><ellipse cx="9" cy="-16" rx="1.5" ry="3.4" transform="rotate(34 9 -16)" fill="#2a1d14"/></g>
+<g transform="translate(374 80) scale(1.1)" stroke="#2a1d14" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M-26 -14 H26 V14 Q13 8 0 14 T-26 14 Z" fill="#e8dcba"/><g stroke-width=".7" opacity=".55"><path d="M-26 -18 H26"/><path d="M-26 -10 H26"/><path d="M-26 -2 H26"/><path d="M-26 6 H26"/><path d="M-14 -14 V12"/><path d="M0 -14 V12"/><path d="M14 -14 V12"/></g></g>
+<rect width="480" height="230" fill="#fff" filter="url(#paper)"/>
+</svg>

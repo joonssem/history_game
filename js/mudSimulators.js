@@ -651,7 +651,7 @@ const MudSimulators = {
       if (correctness === true) { fill = '#22c55e'; stroke = '#dcfce7'; textColor = '#052e12'; markLabel = `✓ ${hotspot.label}`; }
       else if (correctness === false) { fill = '#ef4444'; stroke = '#fee2e2'; textColor = '#450a0a'; markLabel = `✕ ${hotspot.label}`; }
       else if (isFound) { fill = '#f59e0b'; stroke = '#fff7ed'; textColor = '#422006'; markLabel = `✓ ${hotspot.label}`; }
-      if (window.SceneArt && window.SceneArt.has(scene)) {
+      if (window.SceneArt && window.SceneArt.expects(scene)) {
         // 그림 장면: 작은 표지 원 + 아래 알약 라벨로 그림 위에서 글자가 겹치지 않게 한다. 판정 반경(radius)은 그대로다.
         const r = hotspot.radius * 0.36;
         ctx.fillStyle = fill; ctx.strokeStyle = correctness === null && !isFound ? '#8c3b26' : stroke; ctx.lineWidth = 2.5;
