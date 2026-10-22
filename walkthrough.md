@@ -2,6 +2,26 @@
 
 > **보관 안내 (2026-10-22)**: 2026-09 이전 기록은 [`docs/archive/walkthrough/`](./docs/archive/walkthrough/)의 월별 파일로 옮겼다. 이 파일에는 2026-10 기록만 둔다.
 
+## 2026-10-22 — 협동 MUD 교사용 보기 추가 (순회지도용)
+
+`TASK-20261022-COOP-TEACHER-VIEW | cooperative-mud/teacher/ | implementation agent(Claude) | 상태: 로컬 검증 완료, push 전`
+
+- 계기: 조선 건국·유교 사회 수업(2026-10-22)에서 학생이 받은 자료를 교사가 바로 확인할 수 없어 순회지도가 어려웠다.
+- 추가: `cooperative-mud/teacher/index.html`·`teacher.js`. 남은 조선 활동 6개(세종, 두 전쟁, 조선 후기 경제·신분(10/29 공개수업), 새로운 생각, 서민 문화, 개항 이후)를 탭으로 고르고, 1~5번을 누르면 그 번호의 역할 자료·요지·말할 문장이 나온다. 아래에는 8단계 흐름(화면 문구, 권장 시간, 느릴 때/빠를 때 발문, 선택지, 3인 모둠 자료, 모둠 설명 칸별 선택지와 ⚠ 함정·되묻는 메모, 교과서 정리, 비교 문구, 출처)이 접혀 있고 인쇄할 수 있다.
+- 데이터: 각 활동의 `scenario.js`와 `index.html`을 그대로 읽는다(복사·생성 없음). `joseon-late-economy`는 `page` 객체 없이 직접 쓴 `index.html`이라 화면 문구는 6개 모두 `index.html`에서 읽어 출처를 맞췄다.
+- 접근: 학생 허브 미링크 + `noindex`. PIN 가림막은 넣지 않았다. 학생용 엔진·활동 파일은 수정하지 않았다.
+- 검증: `node --check cooperative-mud/teacher/teacher.js`, 로컬 HTTP + Chrome headless(820×1180)로 6개 활동 모두 오류 없음 — 번호 탭 5개, 3번 역할명 일치, 8단계 본문 모두 채워짐, 함정 표시 2개씩, 흐름 안 남은 버튼 0개. 화면 캡처로 번호 카드·공통 자료 단계 확인.
+
+## 2026-10-22 — DECISIONS.md 분리: 실시간 앱 관련 결정 5건 보관
+
+`TASK-20261022-REPO-SLIMMING | DECISIONS.md | integration agent(Claude) | 상태: DONE`
+
+- D-038이 폐기·정지·무효로 명시한 D-019·D-020·D-021·D-023·D-035의 본문을 `docs/archive/decisions/cooperative-live_decisions.md`로 옮겼다. 본문은 원문 그대로이고 상대 링크만 새 위치 기준으로 고쳤다.
+- `DECISIONS.md`에는 번호·제목·상태 줄과 한 줄 요약, 보관 위치만 남겼다. 제목을 그대로 두어 D-017·D-038 등에서 걸린 앵커 링크가 계속 동작한다. 결정 46개의 번호와 순서는 그대로다.
+- 효과는 57KB → 51KB로 크지 않다. 나머지 결정은 아직 유효하거나 D-038 이후 정적 협동 작업의 근거라 옮기지 않았다.
+- 보관 파일의 `COLLABORATIVE_MUD_*` 링크 5개는 원래 깨져 있던 것을 `docs/archive/cooperative-live/`의 실제 위치로 바로잡았다. 깨진 링크는 125개에서 120개로 줄었다.
+- 같은 날 다른 세션이 `BACKLOG.md`·`cooperative-mud/`를 작업 중이어서 `BACKLOG.md`는 건드리지 않았다. `P4-CODE-TIDY`의 DECISIONS 분리 항목은 그 작업이 커밋된 뒤 지운다.
+
 ## 2026-10-22 — 저장소 슬림화 단계 C: scratch 정리, 상시 도구를 scripts/로
 
 `TASK-20261022-REPO-SLIMMING | scratch/ 42개 | integration agent(Claude) | 상태: 단계 C DONE (슬림화 전체 완료, DECISIONS 분리만 보류)`
