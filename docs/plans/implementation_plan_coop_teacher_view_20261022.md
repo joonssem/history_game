@@ -1,7 +1,8 @@
 # 구현 계획 — 협동 MUD 교사용 한눈 보기 (P1-COOP-TEACHER-VIEW)
 
 - 작성: 2026-10-22, 방법 A 사용자 선택
-- 작업 claim: `TASK-20261022-COOP-TEACHER-VIEW | cooperative-mud/teacher/ 신규 | implementation agent(Claude) | 상태: DOING — 구현·로컬 검증 완료, push 전`
+- 작업 claim: `TASK-20261022-COOP-TEACHER-VIEW | cooperative-mud/teacher/ 신규 | implementation agent(Claude) | 상태: DONE(2026-10-22)`
+- 사용 환경: 교사 PC + 인쇄본. iPad는 대상 아님.
 - 사용자 추가 요구(2026-10-22): 조선 예정 활동만, 순회지도 중 학생 번호별 자료 확인이 1순위 → 번호 탭을 화면 맨 위에 고정
 
 ## 목표

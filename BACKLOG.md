@@ -24,7 +24,7 @@
 
 ## P1-COOP-TEACHER-VIEW — 협동 MUD 교사용 한눈 보기 (2026-10-22 등록)
 
-- 작업 claim: `TASK-20261022-COOP-TEACHER-VIEW | cooperative-mud/teacher/ 신규 | implementation agent(Claude) | 상태: DOING — 구현·로컬 Chrome 6개 활동 검증 완료(2026-10-22), push·Pages 반영과 교실 iPad 순회지도 확인 대기 | 검증: node --check, 로컬 HTTP + Chrome headless 6경로`
+- 작업 claim: `TASK-20261022-COOP-TEACHER-VIEW | cooperative-mud/teacher/ 신규 | implementation agent(Claude) | 상태: DONE — 구현·로컬 Chrome 6개 활동 검증·push·Pages 반영(2026-10-22, `72bdebf`). 사용 환경은 교사 PC + 인쇄본(iPad 확인 불필요, 사용자 2026-10-22). 인쇄본에 1~5번 역할 자료 전부 싣기 추가 | 검증: node --check, 로컬 HTTP + Chrome headless 6경로, printToPDF A4 14쪽(1~5쪽 번호별 자료)`
 - 계획: [`implementation_plan_coop_teacher_view_20261022.md`](./docs/plans/implementation_plan_coop_teacher_view_20261022.md)
 - 계기(2026-10-22 사용자): 조선 건국·유교 사회 수업에서 학생별로 무슨 자료를 받았는지 확인하기 불편해 순회지도 중 도움을 주기 어려웠다. 그래서 번호별 자료 보기를 맨 위에 둔다.
 - 문제: 학생 화면은 내 역할·현재 단계만 보여 줘서, 교사가 한 활동의 전체 내용(역할 카드 전부·선택지·함정·교과서 정리)을 한눈에 확인할 방법이 없다.

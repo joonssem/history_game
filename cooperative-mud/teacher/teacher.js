@@ -110,12 +110,25 @@
   // 학생 화면의 역할 카드와 같은 내용: 혼자 읽는 자료 → 이 자료가 말해 주는 것 → 친구에게 말할 문장
   function renderSeat() {
     const s = current.scenario;
-    const role = s.roles[currentSeat - 1];
+    get('seat-view').innerHTML = roleCard(currentSeat);
+    const last = s.roles.length;
+    get('seat-note').innerHTML = '번호 = 역할입니다. 인원이 ' + s.teamSizeOptions.join('·') + '명이면 1번부터 그 수만큼만 씁니다. ' +
+      '<b>3인 모둠</b>은 4번 이후 자료를 받지 않고, 공통 자료 단계에서 「' + esc(s.smallTeamClue.title) + '」를 봅니다.' +
+      (last > 4 ? ' 4인 모둠은 ' + last + '번 자료가 없습니다.' : '');
+  }
+
+  // 인쇄본은 순회지도 때 들고 다니므로 선택한 번호만이 아니라 모든 번호의 자료를 싣는다.
+  function renderAllSeats() {
+    get('seat-view').innerHTML = current.scenario.roles.map(function (role, i) { return roleCard(i + 1); }).join('');
+  }
+
+  function roleCard(seat) {
+    const s = current.scenario;
+    const role = s.roles[seat - 1];
     const labels = s.labels || {};
-    get('seat-view').innerHTML =
-      '<div class="role-card">' +
+    return '<div class="role-card">' +
         '<div class="role-head"><div class="role-icon">' + role.icon + '</div><div>' +
-          '<span class="role-badge">' + currentSeat + '번</span>' +
+          '<span class="role-badge">' + seat + '번</span>' +
           '<h2>' + esc(role.name) + '</h2><p class="muted-label">' + esc(role.figure) + '</p>' +
         '</div></div>' +
         '<p class="private-label">' + esc(labels.privateLabel || '내가 가진 자료') + '</p>' +
@@ -123,10 +136,6 @@
         '<div class="interest-box"><b>' + esc(labels.interestLabel || '이 자료가 말해 주는 것:') + '</b> ' + role.interest + '</div>' +
         '<div class="share-quote"><b>자료 나누기 때 말할 문장</b><br>' + role.shareText + '</div>' +
       '</div>';
-    const last = s.roles.length;
-    get('seat-note').innerHTML = '번호 = 역할입니다. 인원이 ' + s.teamSizeOptions.join('·') + '명이면 1번부터 그 수만큼만 씁니다. ' +
-      '<b>3인 모둠</b>은 4번 이후 자료를 받지 않고, 공통 자료 단계에서 「' + esc(s.smallTeamClue.title) + '」를 봅니다.' +
-      (last > 4 ? ' 4인 모둠은 ' + last + '번 자료가 없습니다.' : '');
   }
 
   function box(title, inner) {
@@ -245,6 +254,10 @@
   get('print-button').addEventListener('click', function () { window.print(); });
   window.addEventListener('beforeprint', function () {
     document.querySelectorAll('.stage').forEach(function (d) { d.open = true; });
+    if (current) renderAllSeats();
+  });
+  window.addEventListener('afterprint', function () {
+    if (current) renderSeat();
   });
 
   renderActivityTabs();
