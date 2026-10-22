@@ -4,7 +4,7 @@
 
 ## P2-REPO-SLIMMING — 지난 문서 보관·로그 문서 분할·scratch 정리 (2026-10-22 등록)
 
-- 작업 claim: `TASK-20261022-REPO-SLIMMING | docs/plans·docs/handoff 보관, 루트 문서 이동, walkthrough·INBOX 분할, scratch 정리 | integration agent(Claude) | 상태: DOING — 단계 A 완료(2026-10-22, 완료 계획서 16개·handoff 61개 보관, 루트 문서 5개 이동, agents.md→AGENTS.md), 단계 B(walkthrough·INBOX 분할)·C(scratch 정리) 대기 | 검증: CI 단계 전체(01·03·04·08·09·05·16·06·07·10·11, node --check, git diff --check), 깨진 링크 125→125`
+- 작업 claim: `TASK-20261022-REPO-SLIMMING | docs/plans·docs/handoff 보관, 루트 문서 이동, walkthrough·INBOX 분할, scratch 정리 | integration agent(Claude) | 상태: DOING — 단계 B 완료(2026-10-22, walkthrough·INBOX 분할), 단계 A 완료(2026-10-22, 완료 계획서 16개·handoff 61개 보관, 루트 문서 5개 이동, agents.md→AGENTS.md), 단계 B(walkthrough·INBOX 분할)·C(scratch 정리) 대기 | 검증: CI 단계 전체(01·03·04·08·09·05·16·06·07·10·11, node --check, git diff --check), 깨진 링크 125→125`
 - 문제: 세션마다 읽는 루트 로그 문서가 크고(walkthrough 386KB, INBOX 208KB), 완료 계획서·지난 핸드오프가 현행 문서와 섞여 있다.
 - 계획: [`implementation_plan_repo_slimming_20261022.md`](./docs/plans/implementation_plan_repo_slimming_20261022.md)
 
