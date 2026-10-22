@@ -2,6 +2,16 @@
 
 > **보관 안내 (2026-10-22)**: 2026-09 이전 기록은 [`docs/archive/walkthrough/`](./docs/archive/walkthrough/)의 월별 파일로 옮겼다. 이 파일에는 2026-10 기록만 둔다.
 
+## 2026-10-22 — 저장소 슬림화 단계 C: scratch 정리, 상시 도구를 scripts/로
+
+`TASK-20261022-REPO-SLIMMING | scratch/ 42개 | integration agent(Claude) | 상태: 단계 C DONE (슬림화 전체 완료, DECISIONS 분리만 보류)`
+
+- 옮김(`git mv`): 협동 활동 도구 4개 → `scripts/coop/`(`gen_coop_activity.js`, `check_static_coop_scenario.js`, `e2e_coop_generic.js`, `e2e_joseon_late_status.js`), 장면 그림 도구 → `scripts/scene_art/`(`gen_scene_art*.js` 4개, `gen_scene_gallery.js`, `verify_scene_art.js`, `shot_one.js`, `shot_scene.js`, `_reg.js` → `register_scenes.js`, `_scenes.js` → `list_missing_scenes.js`), `audit_interaction_diversity.py` → `scripts/`, `vercel_ascii_hostname.cjs` → `scripts/manual/`. `register_scenes.js`는 새 SVG를 추가할 때 `js/sceneArt.js`의 `available` 목록을 다시 만드는 도구라서 삭제하지 않았다.
+- 삭제(26개, git 이력에 남음): 적용이 끝난 일회성 데이터 변환 `03_`~`23_` 21개, `_patch_*.py` 4개, `_targets.txt`. `scratch/`는 사라졌다.
+- 경로 보정: 한 단계 깊어진 `gen_scene_art.js`·`gen_scene_gallery.js`·`verify_scene_art.js`의 `..`를 `../..`로 고쳤다. 협동 활동 `index.html`·`scenario.js` 18개의 생성기 경로 주석과 문서의 사용 예시도 새 경로로 바꿨다.
+- 검증: 이동한 JS 전부 `node --check`, `check_static_coop_scenario.js` 통과, 협동 활동 `index.html` 재생성 결과는 주석 한 줄만 다름, `gen_scene_art.js` 재실행 시 `assets/` 변화 없음, CI 단계 전체 통과, 깨진 링크 125개 유지.
+- 보류: 장면 도구 4개 통합과 `mudSimulators.js` 분리는 BACKLOG에 남긴다.
+
 ## 2026-10-22 — 저장소 슬림화 단계 B: walkthrough·INBOX 분할
 
 `TASK-20261022-REPO-SLIMMING | walkthrough.md, INBOX.md | integration agent(Claude) | 상태: 단계 B DONE`
@@ -24,7 +34,7 @@
 
 ## 2026-10-20 — 장면 그림 개선: 조선 건국 건물을 궁궐·성균관답게, 개항기 건물과 구분 (D-046)
 
-`TASK-20261020-SCENE-HANOK | assets/scenes 7개, scratch/gen_scene_art_unit2.js | implementation agent(Claude) | 상태: DONE — 생성기 재실행·Chrome 렌더링 확인, 실제 시뮬레이터 화면·iPad 확인은 미실시`
+`TASK-20261020-SCENE-HANOK | assets/scenes 7개, scripts/scene_art/gen_scene_art_unit2.js | implementation agent(Claude) | 상태: DONE — 생성기 재실행·Chrome 렌더링 확인, 실제 시뮬레이터 화면·iPad 확인은 미실시`
 
 - 사용자 관찰: 조선 건국 2~3차시의 궁궐·대문·성균관이 조선 건물 같지 않고, 개항 이후 건물과 너무 비슷하다. 명량·세종·서민 문화·개항 이후 장면 자체는 좋다.
 - 원인: 건물 소품이 삼각 지붕에 사각 몸체인 하나의 도형(`palace`, `gate`, `city`)을 조선 건국과 개항기 장면이 함께 썼다.
@@ -79,7 +89,7 @@
 
 - 교과서 5-2 2단원 77~99쪽을 직접 대조해 학생 화면을 쪽수 범위로 제한했다([D-043](./DECISIONS.md)): 건국과 유교 사회 77~86쪽, 세종 시기 87~90쪽, 임진왜란·병자호란 91~92쪽, 조선 후기 새로운 생각 94·98~99쪽. 경제·신분(95~97쪽)은 `joseon-late-economy`와 겹치지 않게 뺐다.
 - 바뀐 파일: `cooperative-mud/joseon-*/{scenario.js,index.html}`(신규 4종), `cooperative-mud/{index.html,TEACHING.md}`, `DECISIONS.md`(D-043), `docs/plans/joseon_coop_content_review_20261019.md`(자동 생성 검토 문서). 공용 엔진은 수정하지 않았다.
-- 검증(실행함): `node --check`, `node scratch/check_static_coop_scenario.js` 4종 OK(조합 108·108·81·81, 함정 각 2), 로컬 헤드리스 Chrome `scratch/e2e_coop_generic.js` 4종 ALL OK.
+- 검증(실행함): `node --check`, `node scripts/coop/check_static_coop_scenario.js` 4종 OK(조합 108·108·81·81, 함정 각 2), 로컬 헤드리스 Chrome `scripts/coop/e2e_coop_generic.js` 4종 ALL OK.
 - 미확인: 사용자 콘텐츠 검토, GitHub Pages 반영·운영 주소 재검증, 실제 소요 시간. 사용자 검토 반영: 병자호란 두 신하 주장을 중립 요약으로 교체, 출처 링크를 항목별 우리역사넷 페이지로 교체(접속 미확인).
 
 ## 2026-10-19 — 고려 협동 활동 3종 정적 이식 (건국·주변 나라 관계·문화와 생활)
@@ -87,8 +97,8 @@
 `TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/goryeo-{founding,relations,culture} | implementation/content agent(Claude) | 상태: DONE — push·Pages 반영·운영 주소 Chrome 3종 E2E ALL OK (2026-10-19, `2c9a211`). 실제 소요 시간은 수업 뒤 측정`
 
 - 교과서 5-2 1단원 47~63쪽을 직접 대조해 학생 화면을 교과서 쪽수 범위로 제한했다([D-042](./DECISIONS.md)). 원본의 교과서 밖 내용(사심관·여진 문제·삼별초·염경애 묘지명 등)은 `TEACHING.md` 교사 발문 자료로 옮겼다. 검토용 전문: [`docs/plans/goryeo_coop_content_review_20261019.md`](./docs/plans/goryeo_coop_content_review_20261019.md).
-- 바뀐 파일: `cooperative-mud/goryeo-*/{scenario.js,index.html}`(신규 3종), `cooperative-mud/trap-note.js`(공용·신규), `cooperative-mud/{index.html,TEACHING.md}`, `scratch/gen_coop_activity.js`(`index.html`·검토 문서 생성), `scratch/e2e_coop_generic.js`(신규), `DECISIONS.md`(D-042).
-- 검증(실행함): `node --check`, `node scratch/check_static_coop_scenario.js` 3종 OK(조합 144·108·108, 함정 각 2), 로컬 헤드리스 Chrome 3종 × (3·4·5인 × 5·10분형 + 함정 2종) 전부 통과.
+- 바뀐 파일: `cooperative-mud/goryeo-*/{scenario.js,index.html}`(신규 3종), `cooperative-mud/trap-note.js`(공용·신규), `cooperative-mud/{index.html,TEACHING.md}`, `scripts/coop/gen_coop_activity.js`(`index.html`·검토 문서 생성), `scripts/coop/e2e_coop_generic.js`(신규), `DECISIONS.md`(D-042).
+- 검증(실행함): `node --check`, `node scripts/coop/check_static_coop_scenario.js` 3종 OK(조합 144·108·108, 함정 각 2), 로컬 헤드리스 Chrome 3종 × (3·4·5인 × 5·10분형 + 함정 2종) 전부 통과.
 - 미확인: 실제 소요 시간(기존 10분형이 7분 이하였다는 관찰이 있어 예산 조정 가능성), 교실 iPad. 조선 4종(건국·유교 사회, 세종, 임진왜란·병자호란, 후기 사회 변화 확장)은 미착수.
 ## 2026-10-19 — 10/29 협동 활동 개편: 조선 후기 경제 → 신분 변화 13분형
 
@@ -96,8 +106,8 @@
 
 - 사용자 결정 4건과 콘텐츠 판단 3건을 반영해 `joseon-late-economy`를 v02로 교체했다([D-041](./DECISIONS.md)). 콘텐츠 초안: [`docs/plans/joseon_late_status_content_draft_20261019.md`](./docs/plans/joseon_late_status_content_draft_20261019.md).
 - 교과서 95~97쪽 텍스트와 지도서 211~212·215쪽을 직접 대조했다. 4번 가난한 양반 카드의 "모두 부자는 아니었다"는 지도서에도 근거가 없어 만화 장면 묘사로 낮췄다.
-- 바뀐 파일: `joseon-late-economy/{scenario.js,index.html,trap-note.js(신규)}`, `cooperative-mud/{index.html,TEACHING.md}`, `scratch/check_static_coop_scenario.js`(6칸·함정 검사로 일반화), `scratch/e2e_joseon_late_status.js`(신규).
-- 검증(실행함): `node --check`, `node scratch/check_static_coop_scenario.js`(조선 후기 OK 조합 648·함정 2, 고려 외 두 활동 OK), 로컬 헤드리스 Chrome 8경로(3·4·5인 × 5·13분 + 함정 2종, 역할·근거·가상 표시·3인 추가 자료·6칸·함정 안내·담벼락 안내·기록 지우기·옛 v01 기록 무시 모두 통과).
+- 바뀐 파일: `joseon-late-economy/{scenario.js,index.html,trap-note.js(신규)}`, `cooperative-mud/{index.html,TEACHING.md}`, `scripts/coop/check_static_coop_scenario.js`(6칸·함정 검사로 일반화), `scripts/coop/e2e_joseon_late_status.js`(신규).
+- 검증(실행함): `node --check`, `node scripts/coop/check_static_coop_scenario.js`(조선 후기 OK 조합 648·함정 2, 고려 외 두 활동 OK), 로컬 헤드리스 Chrome 8경로(3·4·5인 × 5·13분 + 함정 2종, 역할·근거·가상 표시·3인 추가 자료·6칸·함정 안내·담벼락 안내·기록 지우기·옛 v01 기록 무시 모두 통과).
 - 미확인: 교실 iPad 표시·조작, 실제 소요 시간, 5분형에서 6칸을 60초에 고르는 부담. 고려 3종 이식은 미착수.
 
 
@@ -160,20 +170,20 @@
 - 교과서 PDF: 공개 저장소·Pages에 올라가 있던 `primary_data/society_5-2-1.pdf`를 main에서 추적 해제하고 `primary_data/*.pdf`와 교과서 이미지를 `.gitignore`에 추가(`e71f17c`, push 완료, Pages 404 확인). 과거 커밋·다른 원격 브랜치에는 남아 있으며, 사용자 판단으로 기록 재작성은 하지 않음.
 - 새 활동: `cooperative-mud/joseon-late-economy/` (2단원 8차시, 10/29 공개수업용, 기본 10분형). 역할 순서는 모내기 농민·상품 작물 농민·보부상·화폐 담당 관리·기록관. 3인 모둠은 상평통보 공통 자료를 받는다. 새 자료는 96쪽 "상평통보 이전 쌀·옷감 거래", 10분형 추가 단계는 한 농민의 한 해 이야기(가상)다. 교과서 밖 심화(전황·품팔이·호적 누락)는 `TEACHING.md` 교사 발문 자료로만 둔다. 공용 엔진(`episode.js`·`pacing.js`·`cooperative.css`)은 수정하지 않음.
 - 함께 수정: `cooperative-mud/index.html`(허브 카드), `cooperative-mud/TEACHING.md`(활동 표·역할 표·발문 자료), `apps/cooperative-live/README.md`(동결 표시).
-- 검증: `node --check` 통과. `scratch/check_static_coop_scenario.js`(신규, episode.js 계약 검사·문장 36조합)가 새 활동·한강·시조 설화에서 통과. 고조선은 별도 `app.js` 형식이라 대상 아님. 로컬 Chrome 자동 진행으로 휴대폰(375px)·태블릿(820px) × 3·4·5인 × 5·10분형 12개 경로를 완료 화면까지 확인(가로 넘침 없음, 콘솔 오류는 로컬 서버 favicon 404뿐). 기존 3개 활동 시작 화면 회귀 없음. `scripts/15_validate_cooperative_packet.js`는 실시간 앱 계약 전용이라 쓰지 않음.
+- 검증: `node --check` 통과. `scripts/coop/check_static_coop_scenario.js`(신규, episode.js 계약 검사·문장 36조합)가 새 활동·한강·시조 설화에서 통과. 고조선은 별도 `app.js` 형식이라 대상 아님. 로컬 Chrome 자동 진행으로 휴대폰(375px)·태블릿(820px) × 3·4·5인 × 5·10분형 12개 경로를 완료 화면까지 확인(가로 넘침 없음, 콘솔 오류는 로컬 서버 favicon 404뿐). 기존 3개 활동 시작 화면 회귀 없음. `scripts/15_validate_cooperative_packet.js`는 실시간 앱 계약 전용이라 쓰지 않음.
 - 남은 일: 사용자 콘텐츠 검토, Pages 반영 후 교실 기기 확인, 10/29 수업 관찰 기록(EXPERIMENTS).
 
 ## 2026-10-19 장면 그래픽 시범: 한지 채색화풍 SVG 3장면 (D-046)
 
-- 변경: `js/sceneArt.js`(신규), `js/mudSimulators.js`(배경 훅 + 그림 장면용 알약 라벨), `index.html`(스크립트·캐시버스터), `assets/scenes/{namhae-suguninmul,hansando-hakikjin,kim-hongdo-studio}.svg`, 생성기 `scratch/gen_scene_art.js`.
+- 변경: `js/sceneArt.js`(신규), `js/mudSimulators.js`(배경 훅 + 그림 장면용 알약 라벨), `index.html`(스크립트·캐시버스터), `assets/scenes/{namhae-suguninmul,hansando-hakikjin,kim-hongdo-studio}.svg`, 생성기 `scripts/scene_art/gen_scene_art.js`.
 - 방식: SVG가 있으면 캔버스에 `drawImage`, 없으면 기존 그림. 인물 없음(김홍도 화실은 씨름 인물 대신 걸린 그림·병풍·붓과 벼루).
 - 검증: `node --check`, `scripts/01`·`06` 통과. Chrome 820×1180에서 세 장면 핫스팟 3개 클릭 → 3/3 완료, 콘솔 오류 없음(오디오 자동재생 경고만). 현재 화면과 비교 캡처로 라벨 겹침 해소 확인.
 - 남은 일: 사용자 검토 후 2단원 나머지 31장면 확장(계획서 §4).
 
 ## 2026-10-19 장면 그래픽 확장: 2단원 정규 MUD 34장면 전부 한지 채색화풍 SVG (D-046)
 
-- 변경: `assets/scenes/*.svg` 34개(시범 3 + 31), `js/sceneArt.js` 장면 목록 확장, 생성기 `scratch/gen_scene_art.js`·`scratch/gen_scene_art_unit2.js`(소품 약 50종 재사용). 인물은 그리지 않았다(사물·배경·건물·도구만). 핫스팟 위치에 맞춰 소품을 위쪽에 두고 라벨 알약 자리를 비웠다.
-- 검증: `scratch/verify_scene_art.js`(신규)로 9편의 모든 단계를 열어 34장면이 SVG로 그려지는지, 핫스팟을 모두 눌러 완료되는지, 콘솔 오류가 없는지 확인했다. 820×1180·390×844 모두 장면 34/34, 콘솔 오류 0. 예외: `modern_open:3`(전차 거리)은 `inquiry-task`로 한 지점만 고르는 상호작용이라 1/3이 정상이다. `node --check`, `scripts/06` 통과.
+- 변경: `assets/scenes/*.svg` 34개(시범 3 + 31), `js/sceneArt.js` 장면 목록 확장, 생성기 `scripts/scene_art/gen_scene_art.js`·`scripts/scene_art/gen_scene_art_unit2.js`(소품 약 50종 재사용). 인물은 그리지 않았다(사물·배경·건물·도구만). 핫스팟 위치에 맞춰 소품을 위쪽에 두고 라벨 알약 자리를 비웠다.
+- 검증: `scripts/scene_art/verify_scene_art.js`(신규)로 9편의 모든 단계를 열어 34장면이 SVG로 그려지는지, 핫스팟을 모두 눌러 완료되는지, 콘솔 오류가 없는지 확인했다. 820×1180·390×844 모두 장면 34/34, 콘솔 오류 0. 예외: `modern_open:3`(전차 거리)은 `inquiry-task`로 한 지점만 고르는 상호작용이라 1/3이 정상이다. `node --check`, `scripts/06` 통과.
 - 남은 일: 사용자 검토, 판옥선·한양 건물·호패 등 교과서 이미지와의 대조(사용자, 점검판 `docs/prototypes/scene_gallery.html`), 실제 iPad 확인, 1·3단원 확장 여부.
 - 2026-10-19 수정(사용자 지적): `joseon-border` 지도를 실제 방향으로 다시 그렸다. 북쪽이 위이고 두 강 모두 백두산에서 시작한다. 압록강은 남서쪽으로 흘러 황해(왼쪽), 두만강은 북동쪽을 거쳐 동해(오른쪽)로 흐른다. 강 위에 핫스팟이 놓이도록 `regular_joseon_diplomacy.json`의 해당 단계 핫스팟 좌표를 바꿨다(압록강 0.325/0.42, 두만강 0.71/0.33, 주민 이주 0.5/0.67). id·문구·판정은 그대로다.
 
@@ -181,8 +191,8 @@
 
 - 사용자 승인: 2단원 34장면 승인. 요청 두 가지 — 접속 직후 옛 화면이 잠깐 보였다 바뀌는 문제 수정, 1·3단원 확장.
 - 깜빡임 원인: SVG 로드 전 `SceneArt.draw`가 false를 돌려 기존 캔버스 그림이 먼저 그려지고, 로드 뒤에 SVG로 교체됐다. 수정: 등록된 장면은 로드 전 한지색 바탕만 그리고(`expects`), 핫스팟 표지도 그림 장면 모양으로 고정했으며, `sceneArt.js` 로드 때 전체를 미리 읽는다(`preloadAll`). 로드 실패한 장면만 기존 그림으로 되돌린다. 캐시버스터 `20261021-scene3`.
-- 확장: 1단원(신석기·청동기·고조선·삼국·고분 벽화·고려 건국·사회·전쟁·문화·통일신라·발해) 40장면 + 3단원(광복·3·1운동·6·25·의병·1910년대·1930~40년대·전후) 26장면. 인물 없음(사물·배경만). 생성기 `scratch/gen_scene_art_unit13.js`(신규), `gen_scene_art_unit2.js`는 헬퍼를 반환하도록만 수정(2단원 SVG는 재생성해도 동일). 점검판 `docs/prototypes/scene_gallery.html`을 1~3단원 전체로 `scratch/gen_scene_gallery.js`가 다시 만든다.
-- 검증: `scratch/verify_scene_art.js`가 정규 MUD 27편 모든 단계를 열어 102장면(편별 중복 포함)이 SVG로 그려지는지, 핫스팟을 눌러 완료되는지 확인. 820×1180·390×844 모두 장면 102/102, 콘솔 오류 0. 단계형 상호작용(`inquiry-task` 선택형·`ordered-hotspot` 순서형 6단계)은 무작위 클릭으로 완료되지 않는 것이 정상이다. `node --check`, `scripts/01`·`06` 통과.
+- 확장: 1단원(신석기·청동기·고조선·삼국·고분 벽화·고려 건국·사회·전쟁·문화·통일신라·발해) 40장면 + 3단원(광복·3·1운동·6·25·의병·1910년대·1930~40년대·전후) 26장면. 인물 없음(사물·배경만). 생성기 `scripts/scene_art/gen_scene_art_unit13.js`(신규), `gen_scene_art_unit2.js`는 헬퍼를 반환하도록만 수정(2단원 SVG는 재생성해도 동일). 점검판 `docs/prototypes/scene_gallery.html`을 1~3단원 전체로 `scripts/scene_art/gen_scene_gallery.js`가 다시 만든다.
+- 검증: `scripts/scene_art/verify_scene_art.js`가 정규 MUD 27편 모든 단계를 열어 102장면(편별 중복 포함)이 SVG로 그려지는지, 핫스팟을 눌러 완료되는지 확인. 820×1180·390×844 모두 장면 102/102, 콘솔 오류 0. 단계형 상호작용(`inquiry-task` 선택형·`ordered-hotspot` 순서형 6단계)은 무작위 클릭으로 완료되지 않는 것이 정상이다. `node --check`, `scripts/01`·`06` 통과.
 - 남은 일: 사용자 검토(태극기 괘 방향, 벽화·갑옷·탑·석굴암 등 교과서 이미지 대조), 실기기 확인, 구석기·협동 활동 삽화·유물 연출은 후속.
 
 ## 2026-10-21 장면 그림 정확성 수정: 오학습 소지 21건 (D-046)
@@ -192,13 +202,13 @@
 - 장면: 학익진(왜선을 감싸는 반원), 울돌목(해남·진도 사이 좁은 물목, 판옥선 13척), 고조선 편 새 장면 `gojoseon-bronze-culture`, 청동기 편 새 장면 `bronze-village`, 신석기 마을(밭을 강 밖으로), 비파형 동검·칠지도·덩이쇠·상감 청자 모양, 통일신라 왕관→교서, 고려·신라 배→네모 돛 전통 배, 해인사→장경판전, 무량수전·발해 궁궐→단층 건물, 고려 건국의 광화문→성벽, 아우내 깃발→태극기, 1930년대 칠판의 한글 삭제, 청운교·백운교, 작은 지도(동검·고인돌 분포, 군사분계선, 의병 여러 지역).
 - 데이터: `regular_bronze_age` 2단계·`regular_gojoseon` 3단계 장면 키 변경. 핫스팟 좌표 변경(id·문구·판정 유지): `regular_gojoseon` 1, `regular_three_kingdoms` 2, `regular_korean_war` 1·3, `regular_myeongnyang` 3.
 - 엔진: `SceneArt.active()` — 정규 MUD에서만 SVG를 쓴다. deep MUD(같은 장면 키, 다른 핫스팟)는 기존 캔버스 그림으로 돌아간다. 캐시버스터 `20261021-scene4`.
-- 검증: `scratch/verify_scene_art.js` 820×1180·390×844 장면 102/102, 콘솔 오류 0, deep MUD 미적용 확인(같은 스크립트에 추가). 좌표를 옮긴 6단계는 정해진 순서로 눌러 각 핫스팟이 자기 대상으로만 인식되는 것을 390×844에서 확인. `node --check`, `scripts/01`·`06` 통과. 태극기는 확대 렌더링으로 괘·태극 배치를 대조.
+- 검증: `scripts/scene_art/verify_scene_art.js` 820×1180·390×844 장면 102/102, 콘솔 오류 0, deep MUD 미적용 확인(같은 스크립트에 추가). 좌표를 옮긴 6단계는 정해진 순서로 눌러 각 핫스팟이 자기 대상으로만 인식되는 것을 390×844에서 확인. `node --check`, `scripts/01`·`06` 통과. 태극기는 확대 렌더링으로 괘·태극 배치를 대조.
 - 2026-10-21 사용자 확인: 학생 iPad에서 정상 표시, 지도 해안선도 알아볼 수 있음. Pages 배포(`10c49d1`) 반영 완료.
 
 ## 2026-10-21 장면 그래픽: 구석기 편 6활동 (D-046)
 
 - 판단: 협동 활동(`cooperative-mud/`)에는 삽화를 넣지 않는다. 글 카드 기반이고 화면을 보여 주지 않고 말로 설명하는 것이 핵심이며, 10/29 공개수업 직전이다. 10/29 관찰에서 몰입 부족 신호가 나오면 재검토.
-- 변경: `assets/scenes/paleo-{environment,fire,stone,hunt,community,reflection}.svg`(신규 6), 생성기 `scratch/gen_scene_art_paleo.js`. 구석기는 장면 키 대신 활동 이름으로 그림을 찾는다(`drawPaleoActivity`). 환경 탐색도 공통 렌더러(그림 + 알약 라벨)를 쓴다. 인물 없음, 뗀석기·불·가죽·막집·사냥감만 그렸다(간석기·토기·농경·활 제외).
+- 변경: `assets/scenes/paleo-{environment,fire,stone,hunt,community,reflection}.svg`(신규 6), 생성기 `scripts/scene_art/gen_scene_art_paleo.js`. 구석기는 장면 키 대신 활동 이름으로 그림을 찾는다(`drawPaleoActivity`). 환경 탐색도 공통 렌더러(그림 + 알약 라벨)를 쓴다. 인물 없음, 뗀석기·불·가죽·막집·사냥감만 그렸다(간석기·토기·농경·활 제외).
 - 핫스팟 이동(엔진 기본 목록, id·문구 유지): 트인 평야·바람 방향·불씨·가죽·도구와 불, 그리고 주먹도끼 한 개에 맞춘 가장자리·돌의 면·뾰족한 끝. 안내 배너·진행 글자와 겹치지 않게 했다.
 - 검증: 6단계 모두 820×1180·390×844에서 확인, 정해진 순서로 누르면 6단계 모두 완료, 콘솔 오류 0. 기존 정규 MUD 102장면 점검·`node --check`·`scripts/01`·`06` 통과. 캐시버스터 `20261021-scene5`. 점검판에 구석기 구역 추가(108장면).
 - 남은 일: 사용자 점검판 검토, 실기기 확인.

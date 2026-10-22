@@ -1,6 +1,6 @@
-// 장면 점검판 생성: 정규 MUD 전체(1~3단원)의 장면 SVG와 핫스팟을 한 페이지에 모은다. 사용: node scratch/gen_scene_gallery.js
+// 장면 점검판 생성: 정규 MUD 전체(1~3단원)의 장면 SVG와 핫스팟을 한 페이지에 모은다. 사용: node scripts/scene_art/gen_scene_gallery.js
 const fs = require('fs'), path = require('path');
-const root = path.join(__dirname, '..');
+const root = path.join(__dirname, '..', '..');
 const out = path.join(root, 'docs/prototypes/scene_gallery.html');
 const old = fs.readFileSync(out, 'utf8').split('\n');
 const style = old[1];

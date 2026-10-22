@@ -1,5 +1,5 @@
 // 정적 협동 시나리오가 episode.js가 읽는 필드를 모두 갖췄는지 검사한다.
-// 사용: node scratch/check_static_coop_scenario.js cooperative-mud/<폴더>/scenario.js
+// 사용: node scripts/coop/check_static_coop_scenario.js cooperative-mud/<폴더>/scenario.js
 const fs = require('fs');
 const vm = require('vm');
 const file = process.argv[2];

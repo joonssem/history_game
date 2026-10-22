@@ -4,7 +4,7 @@
 
 ## P2-REPO-SLIMMING — 지난 문서 보관·로그 문서 분할·scratch 정리 (2026-10-22 등록)
 
-- 작업 claim: `TASK-20261022-REPO-SLIMMING | docs/plans·docs/handoff 보관, 루트 문서 이동, walkthrough·INBOX 분할, scratch 정리 | integration agent(Claude) | 상태: DOING — 단계 B 완료(2026-10-22, walkthrough·INBOX 분할), 단계 A 완료(2026-10-22, 완료 계획서 16개·handoff 61개 보관, 루트 문서 5개 이동, agents.md→AGENTS.md), 단계 B(walkthrough·INBOX 분할)·C(scratch 정리) 대기 | 검증: CI 단계 전체(01·03·04·08·09·05·16·06·07·10·11, node --check, git diff --check), 깨진 링크 125→125`
+- 작업 claim: `TASK-20261022-REPO-SLIMMING | docs/plans·docs/handoff 보관, 루트 문서 이동, walkthrough·INBOX 분할, scratch 정리 | integration agent(Claude) | 상태: DONE(DECISIONS.md 분리만 보류) — 단계 C 완료(2026-10-22, scratch 42개 중 16개를 scripts/로 이동·26개 삭제), 단계 B 완료(2026-10-22, walkthrough·INBOX 분할), 단계 A 완료(2026-10-22, 완료 계획서 16개·handoff 61개 보관, 루트 문서 5개 이동, agents.md→AGENTS.md), 단계 B(walkthrough·INBOX 분할)·C(scratch 정리) 대기 | 검증: CI 단계 전체(01·03·04·08·09·05·16·06·07·10·11, node --check, git diff --check), 깨진 링크 125→125`
 - 문제: 세션마다 읽는 루트 로그 문서가 크고(walkthrough 386KB, INBOX 208KB), 완료 계획서·지난 핸드오프가 현행 문서와 섞여 있다.
 - 계획: [`implementation_plan_repo_slimming_20261022.md`](./docs/plans/implementation_plan_repo_slimming_20261022.md)
 
@@ -24,7 +24,7 @@
 
 ## P1-COOP-STATIC-GORYEO — 협동 활동 정적 이식: 조선 후기 경제(10/29 공개수업·10분형) 우선, 고려 3종 후속
 
-- 작업 claim: `TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/joseon-late-economy·goryeo-* 신규 | implementation/content agent(Claude) | 상태: DOING — 조선 후기 95~97쪽 경제→신분 13분형 개편 구현·로컬 Chrome 8경로 검증 완료(2026-10-19, D-041), push·Pages 반영·운영 주소 재검증 완료(`452a35c`), 교실 iPad 확인 대기. 이전 10분형은 Pages 반영(2026-10-16, `8571cd6`). 고려 3종 정적 이식 구현·검증 완료(2026-10-19, D-042, 사용자 콘텐츠 검토 대기·push 전), 조선 4종(건국·유교 사회, 세종, 임진왜란·병자호란, 후기 사회 변화 확장) 구현·push·운영 주소 검증 완료(2026-10-19, D-043) | 검증: node --check, node scratch/check_static_coop_scenario.js, 로컬 Chrome 12경로`
+- 작업 claim: `TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/joseon-late-economy·goryeo-* 신규 | implementation/content agent(Claude) | 상태: DOING — 조선 후기 95~97쪽 경제→신분 13분형 개편 구현·로컬 Chrome 8경로 검증 완료(2026-10-19, D-041), push·Pages 반영·운영 주소 재검증 완료(`452a35c`), 교실 iPad 확인 대기. 이전 10분형은 Pages 반영(2026-10-16, `8571cd6`). 고려 3종 정적 이식 구현·검증 완료(2026-10-19, D-042, 사용자 콘텐츠 검토 대기·push 전), 조선 4종(건국·유교 사회, 세종, 임진왜란·병자호란, 후기 사회 변화 확장) 구현·push·운영 주소 검증 완료(2026-10-19, D-043) | 검증: node --check, node scripts/coop/check_static_coop_scenario.js, 로컬 Chrome 12경로`
 - 문제: 고려 건국·주변 나라 관계·문화와 생활 협동 콘텐츠가 동결된 실시간 앱 안에만 있다.
 - 목적: 교사가 모둠·번호를 나누고 학생이 말로 공유하는 정적 협동 MUD로 옮긴다. 10/29(목) 공개수업 「조선 후기의 경제적 변화 알아보기」(10분형)를 먼저 만들고, 고려 3종은 그 뒤에 옮긴다.
 - 교육적 영향: 2026-10-14 교사 시연에서 직접 활동이 이해·설명에 더 쉬웠다(INBOX). 비대칭 정보로 대화를 만드는 핵심 설계는 유지된다.
@@ -41,7 +41,7 @@
     1. Opus로 역할 카드 전문과 7단계 문구 초안을 쓰고 사용자 검토를 받는다.
     2. D-039 개정 결정을 기록한다.
     3. Sonnet으로 `scenario.js`·`index.html`·`TEACHING.md`에 반영한다.
-    4. 검증한다: `node scratch/check_static_coop_scenario.js`, 3·4·5인 × 5·13분형 Chrome 경로.
+    4. 검증한다: `node scripts/coop/check_static_coop_scenario.js`, 3·4·5인 × 5·13분형 Chrome 경로.
     5. push 후 교실 iPad에서 확인한다.
     6. 회신 형식은 전달사항 §9를 따른다.
   - 세안과 어긋나는 점(사용자에게 보고함): 세안에는 "교사가 앱 단계를 직접 전환"한다고 되어 있지만, 실제 앱은 학생이 버튼을 눌러 넘어간다. 세안 문구 수정을 권했다. 처음 생각의 "이유"를 쓰는 칸은 없어서 말로 대신한다.
@@ -357,3 +357,12 @@
 - [ ] (승인 대기) MUD 시작·완료 화면에 "이 편에서 밝힐 질문" 한 문장 — 위 §2-2, 최소 검증 후보 관찰 1번과 직결
 - [ ] (후보) 도감에서 미획득 유물을 `?` 빈 칸으로 표시 — 전부 필수화하지 않는다
 - [ ] (후보) 학습 기록지 인쇄
+
+## P4-CODE-TIDY — 코드·스크립트 구조 정리 후보 (2026-10-22 등록, 슬림화에서 분리)
+
+- 상태: `documented` — 우선순위는 제안값이며 다음 정기 검토에서 확정한다.
+- `js/mudSimulators.js`(180KB)를 단원별로 나누는 방안 검토. 로드 순서와 `index.html` 스크립트 등록, `scripts/05` 런타임 테스트에 영향이 있어 별도 계획이 필요하다.
+- `scripts/scene_art/gen_scene_art*.js` 4개를 단원 인자를 받는 생성기로 통합.
+- `scripts/` 번호 중복(`09`가 2개)과 빈 번호(`15`), 데이터를 고치는 `02_fix_missing_next.py`가 검증 스크립트 사이에 섞인 점 정리.
+- 검증 스크립트를 한 번에 돌리는 실행기 하나를 두어 CI(`quality-gate.yml`)와 로컬 명령을 일치시키기.
+- `DECISIONS.md`(57KB)에서 폐기·대체된 결정 본문을 보관 문서로 옮기고 색인만 남기기. 결정 번호 링크가 많아 링크 영향 확인이 먼저다.

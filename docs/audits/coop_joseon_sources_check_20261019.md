@@ -58,5 +58,5 @@ $response.BaseResponse.ResponseUri.AbsoluteUri
 
 - DONE 검증 명령: 위 GET을 원본 10개·직접 주소/대체 후보 2개에 수행하고, `git rev-parse --abbrev-ref HEAD`, `git status --short`, `git diff --name-only`로 변경 범위를 확인했다.
 - 시작 시 `cooperative-mud/index.html`의 기존 수정과 미추적 `CONVEX_VERCEL_NOTES.md`를 확인했으며 건드리지 않았다. 점검 도중 기존 index.html 수정 표시는 사라졌다. 다른 세션/사용자의 작업 여부는 추정하지 않으며 본 작업에서는 해당 파일에 쓰기·복원·생성을 하지 않았다.
-- 본 작업의 산출물은 이 문서 한 개다. 코드 변경·생성·커밋·푸시·배포는 수행하지 않았다. Claude가 이 결과를 받아 수정 및 필요시 `scratch/gen_coop_activity.js` 재생성을 진행할 수 있다.
+- 본 작업의 산출물은 이 문서 한 개다. 코드 변경·생성·커밋·푸시·배포는 수행하지 않았다. Claude가 이 결과를 받아 수정 및 필요시 `scripts/coop/gen_coop_activity.js` 재생성을 진행할 수 있다.
 - HTTP 결과는 확인 시점과 요청 환경의 관찰이다. 학교망·물리 태블릿에서의 접속을 별도로 보장하는 검증은 아니다.

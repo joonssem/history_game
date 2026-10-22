@@ -1,5 +1,5 @@
 // 정적 협동 활동(scenario.js 구조)을 실제 Chrome(헤드리스, CDP)으로 끝까지 조작해 확인한다. 선택지 수·칸 수·함정은 페이지의 시나리오에서 읽는다.
-// 사용: node scratch/e2e_coop_generic.js <활동 URL 예: http://localhost:8791/cooperative-mud/goryeo-relations/>
+// 사용: node scripts/coop/e2e_coop_generic.js <활동 URL 예: http://localhost:8791/cooperative-mud/goryeo-relations/>
 const { spawn } = require('child_process');
 const fs = require('fs');
 const os = require('os');

@@ -35,7 +35,7 @@
   - 함수 인자·동작을 바꾸면 서버 배포와 main 반영을 한 번에 이어서 한다. 분리 전까지 Preview에서 호환되지 않는 서버를 시험하지 않는다.
 - **Git Preview에는 Vercel 로그인 보호가 걸려 있다.** 학생 기기 리허설은 운영 주소에서 한다.
 - **Convex 배포 타입 검사**: `convex/tsconfig.json`에 `@/*` 경로를 추가해 `--typecheck=disable` 없이 배포할 수 있다.
-- **이 PC에서 배포 도구 실행**: 학교 프록시 때문에 `NODE_OPTIONS=--use-system-ca`가 필요하다. Vercel CLI는 PC 이름이 한글이라 `scratch/vercel_ascii_hostname.cjs`를 `--require`로 함께 넣는다.
+- **이 PC에서 배포 도구 실행**: 학교 프록시 때문에 `NODE_OPTIONS=--use-system-ca`가 필요하다. Vercel CLI는 PC 이름이 한글이라 `scripts/manual/vercel_ascii_hostname.cjs`를 `--require`로 함께 넣는다.
 
 ## 4. 남은 일
 

@@ -1,6 +1,6 @@
 // 정적 협동 활동의 index.html과 사람이 읽는 검토 문서를 scenario.js 한 곳에서 만든다.
-// 사용: node scratch/gen_coop_activity.js cooperative-mud/<폴더>        → <폴더>/index.html 생성
-//       node scratch/gen_coop_activity.js --review <폴더> [<폴더>...]   → 검토용 마크다운을 표준 출력
+// 사용: node scripts/coop/gen_coop_activity.js cooperative-mud/<폴더>        → <폴더>/index.html 생성
+//       node scripts/coop/gen_coop_activity.js --review <폴더> [<폴더>...]   → 검토용 마크다운을 표준 출력
 // scenario.js의 page 객체가 화면 문구(소개·공통 자료·가상 상황·교과서 정리·관찰 질문)를 담는다.
 // 공용 엔진(episode.js·pacing.js)은 page 객체를 읽지 않는다.
 const fs = require('fs');
@@ -29,7 +29,7 @@ function html(s) {
   <link rel="stylesheet" href="../cooperative.css">
 </head>
 <body>
-  <!-- 이 파일은 scratch/gen_coop_activity.js가 scenario.js의 page 객체로 만든다. 문구는 scenario.js에서 고친다. -->
+  <!-- 이 파일은 scripts/coop/gen_coop_activity.js가 scenario.js의 page 객체로 만든다. 문구는 scenario.js에서 고친다. -->
   <main class="coop-shell game-shell">
     <header class="coop-header game-header">
       <div>

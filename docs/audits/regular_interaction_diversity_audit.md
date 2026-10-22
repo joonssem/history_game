@@ -21,7 +21,7 @@
 실행 명령:
 
 ```powershell
-python scratch/audit_interaction_diversity.py
+python scripts/audit_interaction_diversity.py
 ```
 
 | 항목 | 결과 | 해석 |
@@ -155,7 +155,7 @@ JSON 102개 중 개별 `radius`를 선언한 곳은 0개다. 세 좌표 배치�
 다음 검증은 모두 통과했다.
 
 ```text
-python scratch/audit_interaction_diversity.py
+python scripts/audit_interaction_diversity.py
 python scripts/01_validate_game_data.py
 python scripts/03_validate_mud_integrity.py
 python scripts/04_validate_mud_contract.py

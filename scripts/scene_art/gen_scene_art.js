@@ -1,8 +1,8 @@
-// 한지 채색화풍 장면 SVG 생성기 (인물 없음). 사용: node scratch/gen_scene_art.js  → assets/scenes/<scene-id>.svg
+// 한지 채색화풍 장면 SVG 생성기 (인물 없음). 사용: node scripts/scene_art/gen_scene_art.js  → assets/scenes/<scene-id>.svg
 // 480×230 viewBox는 시뮬레이터 캔버스(약 2.09:1)와 같다. 핫스팟 원·라벨은 캔버스가 그리므로 SVG에는 넣지 않는다.
 const fs = require('fs');
 const path = require('path');
-const OUT = path.join(__dirname, '..', 'assets', 'scenes');
+const OUT = path.join(__dirname, '..', '..', 'assets', 'scenes');
 fs.mkdirSync(OUT, { recursive: true });
 const W = 480, H = 230;
 const INK = '#2a1d14';

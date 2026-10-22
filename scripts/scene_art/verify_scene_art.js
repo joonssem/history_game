@@ -1,5 +1,5 @@
 // 정규 MUD(1~3단원, _index.json 기준) 전 단계: SVG 장면이 그려지는지, 핫스팟을 모두 누르면 완료되는지, 콘솔 오류가 없는지 확인한다.
-// 사용: node scratch/verify_scene_art.js <창 크기 예: 820,1180>
+// 사용: node scripts/scene_art/verify_scene_art.js <창 크기 예: 820,1180>
 const { spawn } = require('child_process'); const fs=require('fs'),os=require('os'),path=require('path');
 const chrome='C:/Program Files/Google/Chrome/Application/chrome.exe'; const profile=fs.mkdtempSync(path.join(os.tmpdir(),'v-'));
 const port=9336; const proc=spawn(chrome,['--headless=new','--remote-debugging-port='+port,'--user-data-dir='+profile,'--window-size='+(process.argv[2]||'820,1180'),'about:blank'],{stdio:'ignore'});
@@ -13,7 +13,7 @@ const send=(method,params={})=>new Promise(r=>{const i=++id;pend.set(i,r);ws.sen
 const ev=async e=>(await send('Runtime.evaluate',{expression:e,awaitPromise:true,returnByValue:true})).result?.result?.value;
 await send('Page.enable');await send('Runtime.enable');await send('Log.enable');
 await send('Page.navigate',{url:'http://localhost:8791/index.html?v='+Date.now()}); await sleep(2500);
-const muds=JSON.parse(fs.readFileSync(path.join(__dirname,'..','data/mud/_index.json'),'utf8')).muds.filter(x=>x.tier==='regular').map(x=>x.mudId.replace(/^regular_/,''));
+const muds=JSON.parse(fs.readFileSync(path.join(__dirname,'..','..','data/mud/_index.json'),'utf8')).muds.filter(x=>x.tier==='regular').map(x=>x.mudId.replace(/^regular_/,''));
 let ok=0,bad=[];
 for(const mud of muds){
  await ev(`window.MudEngine.openMUD('regular_${mud}')`); await sleep(900);

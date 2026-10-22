@@ -1,5 +1,5 @@
 // 조선 후기 경제·신분 협동 활동을 실제 Chrome(헤드리스, CDP)으로 끝까지 조작해 확인한다.
-// 사용: node scratch/e2e_joseon_late_status.js <활동 URL 예: http://localhost:8791/cooperative-mud/joseon-late-economy/>
+// 사용: node scripts/coop/e2e_joseon_late_status.js <활동 URL 예: http://localhost:8791/cooperative-mud/joseon-late-economy/>
 const { spawn } = require('child_process');
 const fs = require('fs');
 const os = require('os');

@@ -69,7 +69,7 @@ python scripts/07_audit_activity_duration.py
 python scripts/08_validate_mud_catalog.py
 python scripts/09_validate_mud_sources.py
 python scripts/09_audit_tap_resistance.py
-python scratch/audit_interaction_diversity.py
+python scripts/audit_interaction_diversity.py
 git diff --check
 ```
 

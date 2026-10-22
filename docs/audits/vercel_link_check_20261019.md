@@ -55,7 +55,7 @@
 ## 수행·검증 범위
 
 - 실행 명령: `vercel project inspect history-game`, `vercel list history-game`, 위 두 GET API, 실패 배포 두 건의 `vercel inspect <URL> --logs`, 운영 별칭의 `vercel inspect <URL>`.
-- CLI 실행에는 기존 `scratch/vercel_ascii_hostname.cjs`와 `node --use-system-ca`를 사용했다. 첫 기본 CLI 조회의 `fetch failed` 이후 네트워크 승인을 받아 재조회했다.
+- CLI 실행에는 기존 `scripts/manual/vercel_ascii_hostname.cjs`와 `node --use-system-ca`를 사용했다. 첫 기본 CLI 조회의 `fetch failed` 이후 네트워크 승인을 받아 재조회했다.
 - 로컬 확인: `git rev-parse --abbrev-ref HEAD`, `git status --short`, `git show -s --format=fuller 429d88c`, `git merge-base --is-ancestor 429d88c 7bb45b6`, `git diff 429d88c^ 429d88c --stat`, `git diff --check`.
 - 이 작업의 변경 파일은 이 감사 문서 하나다. 다른 세션의 변경은 수정·stash·discard하지 않았다. 브랜치는 시작과 종료 모두 `main`이다.
 - 설정 변경·환경변수 조회/변경·연결 해제·배포·재배포·push·커밋은 수행하지 않았다. 콘텐츠·코드 변경이 없어 앱 회귀 테스트는 실행하지 않았다.

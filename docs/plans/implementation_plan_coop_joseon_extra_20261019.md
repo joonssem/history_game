@@ -4,7 +4,7 @@
 - 작업: `TASK-20261019-COOP-STATIC-JOSEON-EXTRA`
 - 상태: `implemented(로컬)` — 사용자 인터뷰로 열린 질문 확정(2026-10-19), 구현·로컬 검증 완료, 사용자 콘텐츠 검토 대기. 검토 문서: `joseon_extra_coop_content_review_20261019.md`
 - 근거: [D-043](../../DECISIONS.md)이 이번 범위에서 뺀 부분(서민 문화, 개항 이후)을 잇는다. 교과서 5-2 2단원(`primary_data/society_5-2-2.pdf`, 로컬 전용) 100~108쪽을 직접 읽었다.
-- 틀: D-042·D-043과 같다(역할 5개, 5분형·10분형, 6단계, 4칸 설명 틀, 함정 2개, `scenario.js` → `scratch/gen_coop_activity.js`). 공용 엔진·`cooperative.css`는 고치지 않는다.
+- 틀: D-042·D-043과 같다(역할 5개, 5분형·10분형, 6단계, 4칸 설명 틀, 함정 2개, `scenario.js` → `scripts/coop/gen_coop_activity.js`). 공용 엔진·`cooperative.css`는 고치지 않는다.
 
 ## 1. 활동 A — 서민 문화 (`joseon-commoner-culture/`)
 
@@ -55,7 +55,7 @@
 | 1 | 두 활동의 `scenario.js` 초안 작성 → `index.html` 생성 → 검사 | 이 계획 승인 뒤. 1차 검토 문서 자동 생성 |
 | 2 | 사용자 콘텐츠 검토(인터뷰 형식) | D-043 때처럼 3~4개 질문 |
 | 3 | 허브 카드·`TEACHING.md`·결정 기록(D-044) | |
-| 4 | push, Pages 확인, 운영 주소 Chrome 검사 | `scratch/e2e_coop_generic.js` |
+| 4 | push, Pages 확인, 운영 주소 Chrome 검사 | `scripts/coop/e2e_coop_generic.js` |
 
 - 10/29 이전에는 구현하지 않아도 된다. 공개수업 활동(`joseon-late-economy`)과 겹치지 않는다.
 - 같은 틀이므로 두 활동을 한 묶음으로 구현·검증한다.

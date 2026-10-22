@@ -38,7 +38,7 @@
 ### 단계 2 — 실시간 앱 제거
 
 - `apps/cooperative-live/` 전체를 삭제한다(로컬 `node_modules` 546MB 포함).
-- `scripts/15_validate_cooperative_packet.js`를 삭제한다. 실시간 앱 계약 전용이고 CI에서 쓰지 않는다. 정적 활동 검사는 `scratch/check_static_coop_scenario.js`가 맡는다.
+- `scripts/15_validate_cooperative_packet.js`를 삭제한다. 실시간 앱 계약 전용이고 CI에서 쓰지 않는다. 정적 활동 검사는 `scripts/coop/check_static_coop_scenario.js`가 맡는다.
 - `.gitignore`의 `apps/*` 규칙 3줄을 삭제한다.
 - 고려 3종 정적 이식 때 원본 콘텐츠는 `git show archive/cooperative-live-20261016:apps/cooperative-live/convex/scenarios.ts`로 읽는다. 이 방법을 `implementation_plan_static_coop_goryeo.md`에 한 줄 적는다.
 

@@ -1,7 +1,7 @@
 # 고려 협동 MUD 3종 콘텐츠 검토 자료
 
 - 작성: 2026-10-19 (Claude) · 상태: `draft` — 사용자 검토 대기
-- 이 문서는 `scratch/gen_coop_activity.js --review`가 각 `scenario.js`에서 자동으로 만든 것이다. 문구를 고칠 때는 `scenario.js`를 고치고 이 문서를 다시 만든다.
+- 이 문서는 `scripts/coop/gen_coop_activity.js --review`가 각 `scenario.js`에서 자동으로 만든 것이다. 문구를 고칠 때는 `scenario.js`를 고치고 이 문서를 다시 만든다.
 - 근거: 교과서 5-2 1단원 47~63쪽을 직접 대조했다([D-042](../../DECISIONS.md)). 교과서 밖 내용은 학생 화면에서 뺐다.
 
 ## 고려는 서로 다른 사람들을 어떻게 한 나라로 묶었을까

@@ -1,7 +1,7 @@
 // 학생 화면의 사실 서술은 교과서 5-2 1단원 50·52·58~62쪽(고려의 문화와 생활) 범위 안에서 쓴다(D-042).
 // 염경애 묘지명·청자의 비색 설명 같은 교과서 밖 내용은 TEACHING.md 교사 발문 자료로 둔다.
 // 역할 순서가 곧 번호 순서다. 3인은 1~3번, 4인은 1~4번, 5인은 1~5번을 쓴다.
-// 이 파일의 page 객체는 scratch/gen_coop_activity.js가 index.html을 만들 때만 읽는다(엔진은 읽지 않는다).
+// 이 파일의 page 객체는 scripts/coop/gen_coop_activity.js가 index.html을 만들 때만 읽는다(엔진은 읽지 않는다).
 (function () {
   // 카드 하나를 같은 틀로 만든다: 본문 → 핵심어 → 근거 → 친구에게 물어볼 것 → 힌트
   function card(body, keywords, evidence, ask, hint) {

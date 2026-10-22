@@ -1,6 +1,6 @@
 // 학생 화면의 사실 서술은 교과서 5-2 2단원 104~108쪽(개항 이후 달라진 사회와 생활 모습) 범위 안에서 쓴다(D-045).
 // 역할 순서가 곧 번호 순서다. 3인은 1~3번, 4인은 1~4번, 5인은 1~5번을 쓴다.
-// 이 파일의 page 객체는 scratch/gen_coop_activity.js가 index.html을 만들 때만 읽는다(엔진은 읽지 않는다).
+// 이 파일의 page 객체는 scripts/coop/gen_coop_activity.js가 index.html을 만들 때만 읽는다(엔진은 읽지 않는다).
 (function () {
   // 카드 하나를 같은 틀로 만든다: 본문 → 핵심어 → 근거 → 친구에게 물어볼 것 → 힌트
   function card(body, keywords, evidence, ask, hint) {

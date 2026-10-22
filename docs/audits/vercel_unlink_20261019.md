@@ -21,7 +21,7 @@ Vercel CLI 61.0.0의 `api` 명령으로 Git 연결 해제 endpoint만 호출했�
 명령의 `vc`는 다음 실행 접두부를 뜻한다(실제로는 전체 경로로 실행).
 
 ```text
-node --use-system-ca --require ./scratch/vercel_ascii_hostname.cjs C:/Users/PC/AppData/Roaming/npm/node_modules/vercel/dist/vc.js
+node --use-system-ca --require ./scripts/manual/vercel_ascii_hostname.cjs C:/Users/PC/AppData/Roaming/npm/node_modules/vercel/dist/vc.js
 ```
 
 실행 명령:
