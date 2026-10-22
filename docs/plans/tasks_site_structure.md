@@ -19,7 +19,7 @@ P0(진행 불가·배포 장애·데이터 손상)에 해당하는 항목은 없
 ## 0. 착수 전
 
 - [x] 이 체크리스트 범위와 우선순위 승인 — 2026-09-28 사용자 "이제 순위대로 진행하자"
-- [x] 작업 전 브랜치 확인, 별도 worktree에서 작업(agents.md) — `.worktrees/claude-p1`
+- [x] 작업 전 브랜치 확인, 별도 worktree에서 작업(AGENTS.md) — `.worktrees/claude-p1`
 - [x] `css/style.css`·`index.html`·`js/mudEngine.js` 수정 시 캐시버스터를 함께 올린다 — P1: `20260928-site1`
 
 승인일·승인자: 2026-09-28 · 사용자(joonssem)

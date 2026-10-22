@@ -1,22 +1,22 @@
 # 문서 정리 우선순위 감사 보고서
 
 작성: Claude (Sonnet 5) · 작성일: 2026-09-01 · 기준 커밋: `b07a7d2`(`origin/main`과 일치)
-근거 지시서: [`claude_code_document_cleanup_priority.md`](../handoff/claude_code_document_cleanup_priority.md)
+근거 지시서: [`claude_code_document_cleanup_priority.md`](../archive/handoff/claude_code_document_cleanup_priority.md)
 
-> 이 보고서는 읽기·분류·보고만 수행했다. 어떤 파일도 삭제·이동·이름변경·병합하지 않았고, `PRD.md`/`BACKLOG.md`/`DECISIONS.md`/`project_context.md`/`walkthrough.md`/`agents.md`/`activity_duration_audit.md`는 편집하지 않았다. 커밋·push도 하지 않았다.
+> 이 보고서는 읽기·분류·보고만 수행했다. 어떤 파일도 삭제·이동·이름변경·병합하지 않았고, `PRD.md`/`BACKLOG.md`/`DECISIONS.md`/`project_context.md`/`walkthrough.md`/`AGENTS.md`/`docs/audits/activity_duration_audit.md`는 편집하지 않았다. 커밋·push도 하지 않았다.
 
 ## A. 요약
 
 - 조사한 문서 수: 구현 계획서 14개(지시서 지정 9개 + 참고 확인 5개) + 핸드오프 18개 + 감사 문서 11개 = **43개**
 - **가장 먼저 정리할 문서 5개** (상태 문구가 실제 사실과 모순되는 순서):
-  1. `docs/plans/implementation_plan_docs_reorganization.md` — 상단 상태가 `proposed`이지만 실제로는 4단계 전부 실행·커밋(`7581795`)·Codex 링크 반영(`b07a7d2`)까지 push 완료됨.
-  2. `docs/handoff/docs_reorg_codex_handoff.md` — §1이 "아직 git commit 전"이라고 적혀 있는데, 같은 문서 하단 "## Codex 회신"은 이미 반영 완료를 보고함. 문서 내부 자기모순.
-  3. `docs/handoff/phase37_codex_handoff.md` — "push는 사용자 요청으로 보류 중"이라 적혀 있지만, `implementation_plan_scene_phase38.md`가 "Phase 37 완료·커밋·푸시(`5cb5e6b`)"로 이미 push까지 확정했다고 명시.
-  4. `docs/handoff/phase38_codex_handoff.md` — "아직 push 안 함 — 사용자 승인 대기"라 적혀 있지만, 이후 지시서(`claude_code_post_phase38_regression_instruction.md`)가 이 커밋을 이미 지난 부모 커밋으로 인용함.
+  1. `docs/archive/plans/implementation_plan_docs_reorganization.md` — 상단 상태가 `proposed`이지만 실제로는 4단계 전부 실행·커밋(`7581795`)·Codex 링크 반영(`b07a7d2`)까지 push 완료됨.
+  2. `docs/archive/handoff/docs_reorg_codex_handoff.md` — §1이 "아직 git commit 전"이라고 적혀 있는데, 같은 문서 하단 "## Codex 회신"은 이미 반영 완료를 보고함. 문서 내부 자기모순.
+  3. `docs/archive/handoff/phase37_codex_handoff.md` — "push는 사용자 요청으로 보류 중"이라 적혀 있지만, `implementation_plan_scene_phase38.md`가 "Phase 37 완료·커밋·푸시(`5cb5e6b`)"로 이미 push까지 확정했다고 명시.
+  4. `docs/archive/handoff/phase38_codex_handoff.md` — "아직 push 안 함 — 사용자 승인 대기"라 적혀 있지만, 이후 지시서(`claude_code_post_phase38_regression_instruction.md`)가 이 커밋을 이미 지난 부모 커밋으로 인용함.
   5. `docs/plans/implementation_plan_tap_resistance_batch.md` ↔ `BACKLOG.md` 수치 불일치 — 계획서는 "4개 MUD 반영", `BACKLOG.md`는 "주요 5개 MUD 반영"으로 서로 다른 숫자를 기재.
 
-- **즉시 정리하면 안 되는 문서** (현재도 활성 작업의 근거로 쓰이는 중): `implementation_plan_student_feedback_p1.md`(항목 C 미구현), `implementation_plan_choice_quality_batch.md`, `implementation_plan_sensitive_history_interactions.md`, `implementation_plan_registration_single_source.md`, `implementation_plan_accessibility_state.md`, `implementation_plan_tap_resistance_batch.md`, `docs/handoff/codex_tap_resistance_priority.md`.
-- **보존 필수 문서**: `docs/audits/curriculum_alignment_report_2022.md`(README가 직접 인용), `docs/audits/if_stage_audit.md`·`choice_bias_audit.md`(BACKLOG가 직접 인용하며 반복 갱신됨), `docs/handoff/phase37_codex_handoff.md`·`phase38_codex_handoff.md`(장면 작업 커밋 히스토리의 유일한 상세 근거).
+- **즉시 정리하면 안 되는 문서** (현재도 활성 작업의 근거로 쓰이는 중): `implementation_plan_student_feedback_p1.md`(항목 C 미구현), `implementation_plan_choice_quality_batch.md`, `implementation_plan_sensitive_history_interactions.md`, `implementation_plan_registration_single_source.md`, `implementation_plan_accessibility_state.md`, `implementation_plan_tap_resistance_batch.md`, `docs/archive/handoff/codex_tap_resistance_priority.md`.
+- **보존 필수 문서**: `docs/audits/curriculum_alignment_report_2022.md`(README가 직접 인용), `docs/audits/if_stage_audit.md`·`choice_bias_audit.md`(BACKLOG가 직접 인용하며 반복 갱신됨), `docs/archive/handoff/phase37_codex_handoff.md`·`phase38_codex_handoff.md`(장면 작업 커밋 히스토리의 유일한 상세 근거).
 
 ## B. 계획서 판정표 (`docs/plans/`, 14개)
 
@@ -37,7 +37,7 @@
 | `implementation_plan_student_feedback_p1.md` | 항목별 구분(A 중복·미실행, B Codex 완료, C 실행 대상) | active(항목 C 한정) | `js/miniGames.js`에 `startRestorationGame` 없음, `data/artifacts.json`에 `restoreClues` 없음 — 항목 C(유물 복원 퍼즐) 미구현 확인 | 유지, 문서 제목대로 "항목 C 전용" 계속 사용 |
 | `implementation_plan_tap_resistance_batch.md` | in-progress(4개 MUD 반영) | active, **수치 정정 필요** | `BACKLOG.md`는 "주요 5개 MUD 반영"으로 기재해 이 계획서의 "4개"와 불일치 | 실제 반영 MUD 목록 재확인 후 두 문서 수치 통일 (BACKLOG는 Codex 소유이므로 Codex 조율 필요) |
 
-## C. 핸드오프 판정표 (`docs/handoff/`, 18개)
+## C. 핸드오프 판정표 (`docs/archive/handoff/`, 18개)
 
 | 파일 | 유형 | 활성 여부 | 중복·충돌 | 권장 조치 |
 |---|---|---|---|---|
@@ -49,7 +49,7 @@
 | `claude_code_next_review_instruction.md` | 작업 지시서 | 완료 | 출력물 = `codex_if_stage_review.md` + walkthrough "문서 상태 대조 1차 정리" | archive |
 | `claude_code_next_review_message.md` | **단순 전달 메시지** | 완료 | instruction 본체와 내용 100% 중복 | **정리 우선순위 1순위** — archive/삭제 후보 |
 | `claude_code_post_phase38_regression_instruction.md` | 회귀 점검 지시서 | 완료 | walkthrough 607~644 각 P-번호 브라우저 회귀 항목으로 반영 확인 | archive |
-| `claude_code_reactivation_brief.md` | 역할·경계 재확인 브리프 | 개념은 유효하나 내용은 `agents.md`와 중복 | `agents.md`가 같은 경계 규칙의 대표 소유 문서 | archive(핵심 규칙은 agents.md 기준) |
+| `claude_code_reactivation_brief.md` | 역할·경계 재확인 브리프 | 개념은 유효하나 내용은 `AGENTS.md`와 중복 | `AGENTS.md`가 같은 경계 규칙의 대표 소유 문서 | archive(핵심 규칙은 AGENTS.md 기준) |
 | `claude_code_remaining_work_instruction.md` | 작업 지시서 | 완료 | walkthrough 607~644 항목들로 반영 확인 | archive |
 | `claude_code_remaining_work_message.md` | **단순 전달 메시지** | 완료 | instruction 본체와 내용 중복 | **정리 우선순위 1순위** — archive/삭제 후보 |
 | `claude_code_sensitive_history_crosscheck_instruction.md` | 검증 지시서 | 완료 | 출력물 = `sensitive_history_crosscheck_report.md`, walkthrough "민감 역사 glossary 표현 완화" | archive |
@@ -71,7 +71,7 @@
 | `curriculum_alignment_report_2022.md` | 2026-08-27 | `README.md`가 직접 인용(성취기준 매핑 근거) | 불명 | 살아있는 참고 문서 — 유지 필수 |
 | `historical_language_audit.md` | 2026-08-27 | 반영 여부 미확인 | 불명 | `uncertain` |
 | `if_stage_audit.md` | 2026-09-01(최신) | `BACKLOG.md`가 "IF 재설계" 항목의 기준 문서로 직접 링크 | `scripts/10_audit_if_stages.py` | 유지 필수 |
-| `ipad_ux_regression_report.md` | 2026-08-27 | `BROWSER_REGRESSION_CHECKLIST.md`와 성격(브라우저·기기 점검) 중복 가능성 | 없음(수동) | `uncertain` — 두 문서 역할 구분 필요 |
+| `ipad_ux_regression_report.md` | 2026-08-27 | `docs/product/BROWSER_REGRESSION_CHECKLIST.md`와 성격(브라우저·기기 점검) 중복 가능성 | 없음(수동) | `uncertain` — 두 문서 역할 구분 필요 |
 | `pilot_mapping_report_2022.md` | 2026-08-26 | `curriculum_alignment_report_2022.md`와 주제(2022 개정 매핑) 중복 | 불명 | 통합 검토 후보(이번엔 병합 안 함) |
 | `sensitive_history_crosscheck_report.md` | 2026-09-01 | walkthrough "민감 역사 glossary 표현 완화"와 연결 확인 | 없음(수동 검토) | 유지 |
 | `simulator_report.md` | 2026-08-25(가장 오래됨, 20KB) | 현재 `js/mudSimulators.js` 구조와 실제 일치 여부 미확인 | 없음 | `uncertain` — 가장 오래된 문서라 재검토 우선순위 높음 |

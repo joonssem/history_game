@@ -1,7 +1,7 @@
 # 3단원 정규 7편 사실 대조 (라운드 10 §1)
 
 - 작성: 관문 설계실(gate-grammar), 2026-09-21
-- 지시서: `docs/handoff/claude_four_track_round10_instruction.md` §0·§0-2·§1(D-032 해제 뒤 첫 3단원 대조)
+- 지시서: `docs/archive/handoff/claude_four_track_round10_instruction.md` §0·§0-2·§1(D-032 해제 뒤 첫 3단원 대조)
 - 대상: `regular_independence_army`(2차시), `regular_japanese_rule_1`(3차시), `regular_independence`(4~5차시), `regular_japanese_rule_2`(6~7차시), `regular_gwangbok`(8~9차시), `regular_korean_war`(10~12차시), `regular_post_war`(12차시)
 - 방법: `narrative`·`choices`·`glossary`·시뮬레이터 `feedback`/`infoText`의 수치·연도·인물·인과 단정을 뽑아 원문과 대조했다. IF 단계(실패 분기)의 가상 상황·오답 피드백은 대조 대상에서 제외했다(예: "밀고하여 배신", "독재자 지명" 같은 오답 선택지 텍스트).
 - 출처 규칙: 공식 출처만 썼다(국사편찬위원회 우리역사넷, 국가유산청). 위키백과·나무위키는 검색 결과에 섞여 있어도 근거로 쓰지 않았다.

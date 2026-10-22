@@ -1,6 +1,6 @@
 # 2단원 비파일럿 8편 사실 대조
 
-> 라운드 5 지시서(`docs/handoff/claude_four_track_round5_instruction.md`) §1. 대상 8편: `regular_joseon_founding`, `regular_sejong`, `regular_joseon_status`, `regular_joseon_silhak`, `regular_joseon_economy`, `regular_joseon_folk`, `regular_joseon_diplomacy`, `regular_myeongnyang`. 방법은 라운드 4와 같다 — `narrative`·`choices`·`glossary`·`location`·`badge`·시뮬레이터 텍스트에서 수치·연도·인물·인과 단정을 뽑아 공식 출처와 대조하고, 로드맵 라벨이 실제 관문 내용과 맞는지도 함께 확인했다. IF 단계(`N-1`)의 가상 실패 서술은 대상에서 제외했다.
+> 라운드 5 지시서(`docs/archive/handoff/claude_four_track_round5_instruction.md`) §1. 대상 8편: `regular_joseon_founding`, `regular_sejong`, `regular_joseon_status`, `regular_joseon_silhak`, `regular_joseon_economy`, `regular_joseon_folk`, `regular_joseon_diplomacy`, `regular_myeongnyang`. 방법은 라운드 4와 같다 — `narrative`·`choices`·`glossary`·`location`·`badge`·시뮬레이터 텍스트에서 수치·연도·인물·인과 단정을 뽑아 공식 출처와 대조하고, 로드맵 라벨이 실제 관문 내용과 맞는지도 함께 확인했다. IF 단계(`N-1`)의 가상 실패 서술은 대상에서 제외했다.
 
 ## 결과 요약
 

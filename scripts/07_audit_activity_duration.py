@@ -22,7 +22,7 @@ from _tap_resistance_rule import find_rapid_tap_stages  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 MUD_DIR = ROOT / "data" / "mud"
-REPORT = ROOT / "activity_duration_audit.md"
+REPORT = ROOT / "docs" / "audits" / "activity_duration_audit.md"
 SUMMARY_START = "<!-- DURATION_SUMMARY:START -->"
 SUMMARY_END = "<!-- DURATION_SUMMARY:END -->"
 MODES_START = "<!-- UNGATED_MODES:START -->"

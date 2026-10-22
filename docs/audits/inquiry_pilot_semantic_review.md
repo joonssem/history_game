@@ -1,6 +1,6 @@
 # 파일럿 4편 16관문 의미 검토표
 
-> 라운드 3 지시서(`docs/handoff/claude_four_track_round3_instruction.md`) §1-1. 자동 검증(계약·D-027·D-030 구조 검사)을 통과한 뒤에도 남을 수 있는 **의미 결함**을 사람이 직접 읽고 확인한 기록이다. Codex red team 감사(`docs/audits/claude_four_track_red_team_audit.md`, RT-01~06)와 D-030 조치(2026-09-14, 커밋 `32f6d82`)가 이미 고친 항목은 "기존 조치"로 표시하고, 이번 검토에서 새로 찾은 것만 "신규"로 표시한다.
+> 라운드 3 지시서(`docs/archive/handoff/claude_four_track_round3_instruction.md`) §1-1. 자동 검증(계약·D-027·D-030 구조 검사)을 통과한 뒤에도 남을 수 있는 **의미 결함**을 사람이 직접 읽고 확인한 기록이다. Codex red team 감사(`docs/audits/claude_four_track_red_team_audit.md`, RT-01~06)와 D-030 조치(2026-09-14, 커밋 `32f6d82`)가 이미 고친 항목은 "기존 조치"로 표시하고, 이번 검토에서 새로 찾은 것만 "신규"로 표시한다.
 
 ## 검토 기준 (라운드 3 §1-1 요약)
 

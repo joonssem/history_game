@@ -1,7 +1,7 @@
 # 「타임머신 스토리」와 MUD의 관계 정의안 (Track3 P3)
 
 - 작성: Claude Sonnet 5 (연결 공방 / activity-loop, 2026-09-11)
-- 근거: `docs/handoff/claude_four_track_round2_instruction.md` §3-2
+- 근거: `docs/archive/handoff/claude_four_track_round2_instruction.md` §3-2
 - 이 문서는 **문서만** 낸다. 스토리 콘텐츠를 새로 쓰지 않고, 코드도 고치지 않는다.
 
 ## 1. 조사 결과 — 지금 스토리는 무엇인가

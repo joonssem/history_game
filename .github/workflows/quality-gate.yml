@@ -41,7 +41,7 @@ jobs:
       - name: Audit activity duration metadata
         run: |
           python scripts/07_audit_activity_duration.py
-          git diff --exit-code -- activity_duration_audit.md
+          git diff --exit-code -- docs/audits/activity_duration_audit.md
       - name: Audit Regular retry stages
         run: |
           python scripts/10_audit_if_stages.py

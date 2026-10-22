@@ -1,7 +1,7 @@
 # 연대표 띠 — 시대 구분·연대 표기 검증
 
 - 작성: Sonnet 5(대조실), 2026-09-18
-- 지시서: `docs/handoff/claude_four_track_round9_instruction.md` §2
+- 지시서: `docs/archive/handoff/claude_four_track_round9_instruction.md` §2
 - `data/lesson_track.json`은 **직접 고치지 않았다** — 이 문서는 수정 제안표만 남긴다. 관문 설계실이 반영한다.
 - 출처 규칙: 우리역사넷(국사편찬위원회)만 썼다. 위키백과·나무위키는 검색 결과에 섞여 있어도 근거로 쓰지 않았다.
 - **먼저 짚을 것**: 지시서 §0-2의 확정 데이터 형식 예시가 `eraRange: "약 70만 년 전~"`을 그대로 쓰고 있다. 이 값은 `docs/audits/external_reference_sbbsbb_review_20260918.md`가 기록한 **외부 사이트(史뿐史뿐)의 화면 문구를 그대로 옮긴 것**이고, 우리 프로젝트가 라운드 5~6에서 이미 "70만 년 전"은 원문에 없는 숫자라고 정정한 값과 정면으로 어긋난다(`docs/audits/quiz_story_fact_check.md` story_paleolithic 항목 — "전기 구석기 30~20만 년 전 vs 후기 구석기 약 4만 년 전"이라는 대립 학설, 현무암층 약 50만 년 전, TT-OSL 측정 12.6만~18.2만 년 전 등 여러 추정치가 대립하고 "70만 년 전"이라는 단일 수치는 원문에 없음을 확인했었다). **지시서의 예시를 그대로 베끼지 말라**고 관문 설계실에 명확히 전달한다.

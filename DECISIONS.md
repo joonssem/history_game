@@ -35,7 +35,7 @@
 ## D-006 — 문서의 역할을 분리한다
 
 - 상태: 채택
-- 규칙: `PRD.md`는 요구사항, `BACKLOG.md`는 미완료 검토 항목, `DECISIONS.md`는 장기 설계 결정, `project_context.md`는 현재 인수인계, `walkthrough.md`는 완료 기록, `agents.md`는 협업 절차를 담당한다.
+- 규칙: `PRD.md`는 요구사항, `BACKLOG.md`는 미완료 검토 항목, `DECISIONS.md`는 장기 설계 결정, `project_context.md`는 현재 인수인계, `walkthrough.md`는 완료 기록, `AGENTS.md`는 협업 절차를 담당한다.
 
 ## D-007 — Regular MUD 시간 기준을 10분 이내·약 9분 목표로 둔다
 
@@ -396,14 +396,14 @@
   4. 교과서 밖 내용은 학생 화면에 넣지 않는다. 출처 링크는 우리역사넷 항목 페이지를 검색해 걸었다(접속은 교사가 확인). 병자호란 공통 자료의 두 신하 주장은 사용자 검토에서 원문 인용 대신 중립 요약으로 바꿨다.
 - 포기하는 것: 서민 문화(판소리·탈놀이·민화), 개항 이후 내용. 필요하면 후속 항목으로 올린다.
 
-## D-044 — 상시 지시문(agents.md)에서 Pro/Flash 이원 체계와 Phase 이력을 빼고 203줄에서 59줄로 줄인다
+## D-044 — 상시 지시문(AGENTS.md)에서 Pro/Flash 이원 체계와 Phase 이력을 빼고 203줄에서 59줄로 줄인다
 
 - 상태: 채택 (2026-10-19, 사용자 지시 "분석 대로 적용하기". 근거: mattpocock/skills `retro`·`writing-for-agents`를 적용한 `/retro` 분석)
-- 근거: `agents.md`는 매 세션 컨텍스트에 실린다. 기획·점검(Pro)/실행·코딩(Flash) 분담, 모델 전환 표, 산출 파일 표는 현재 운영(Claude 단독 진행, D-038)과 맞지 않고, Phase 이력 표는 `walkthrough.md`와 중복이었다. 문서 승격 규칙이 세 절에 흩어져 있었다.
+- 근거: `AGENTS.md`는 매 세션 컨텍스트에 실린다. 기획·점검(Pro)/실행·코딩(Flash) 분담, 모델 전환 표, 산출 파일 표는 현재 운영(Claude 단독 진행, D-038)과 맞지 않고, Phase 이력 표는 `walkthrough.md`와 중복이었다. 문서 승격 규칙이 세 절에 흩어져 있었다.
 - 규칙:
   1. 현재 역할 분담은 한 절로 두고, 이력은 `walkthrough.md`, 이유는 `DECISIONS.md`, 현재 상태는 `project_context.md`를 가리킨다.
   2. 문서 우선 원칙·문서 운영 체계·입력 승격 흐름을 "문서 우선·일괄 구현" 한 절로 합쳤다. 규칙의 의미는 바꾸지 않았다.
-  3. 파일명과 위치(`agents.md`)는 유지한다. `apps/cooperative-live/CLAUDE.md`가 `@AGENTS.md`를 임포트하고 여러 문서가 인용한다.
+  3. 파일명과 위치(`AGENTS.md`)는 유지한다. `apps/cooperative-live/CLAUDE.md`가 `@AGENTS.md`를 임포트하고 여러 문서가 인용한다.
 - 포기하는 것: 삭제된 Pro/Flash 전환 표와 Phase 요약표의 한눈 참조. 필요하면 git 이력(`bad3ca3` 이전)에서 본다.
 
 ## D-045 — 서민 문화·개항 이후 협동 활동 2종을 같은 틀로 만든다 (D-043 범위 확장)

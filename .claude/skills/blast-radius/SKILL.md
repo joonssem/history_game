@@ -16,7 +16,7 @@ disable-model-invocation: true
 2. 특정 `파일:줄`을 가리킴
 3. 단계별로 추론
 4. 스크립트·테스트로 실행
-5. 실제 앱에서 재현(`.claude/launch.json`의 `static-server`(8791)만 현재 폴더를 서빙한다. 다른 구성은 워크트리를 가리키므로 쓰지 않는다. 절차는 `BROWSER_REGRESSION_CHECKLIST.md`)
+5. 실제 앱에서 재현(`.claude/launch.json`의 `static-server`(8791)만 현재 폴더를 서빙한다. 다른 구성은 워크트리를 가리키므로 쓰지 않는다. 절차는 `docs/product/BROWSER_REGRESSION_CHECKLIST.md`)
 
 보고서의 모든 "안전하다" 주장 옆에 현재 단계를 적는다. 3단계 이하는 "미증명"으로 표시한다.
 

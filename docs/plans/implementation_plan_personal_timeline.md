@@ -1,7 +1,7 @@
 # 구현 계획 — 「역사 연표 순서 맞추기」를 개인 연표로 (Track3 P2)
 
 - 작성: Claude Sonnet 5 (연결 공방 / activity-loop, 2026-09-11)
-- 근거: `docs/handoff/claude_track3_activity_loop_instruction.md` §3 P2, `claude_four_track_overview.md`
+- 근거: `docs/archive/handoff/claude_track3_activity_loop_instruction.md` §3 P2, `claude_four_track_overview.md`
 - 이 문서는 **설계안**이다. 사용자 확인 전에는 구현하지 않는다(지시서·사용자 지시 모두 명시).
 
 ## 1. 문제

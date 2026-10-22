@@ -112,7 +112,7 @@ git cherry-pick --no-commit 6fee7fc
 
 다음 현재 문서가 branch에만 있는 파일을 가리킨다.
 
-- `docs/handoff/codex_deep_three_kingdoms_ownership_handoff.md` → 재설계 계획, Claude 세션 전환 노트
+- `docs/archive/handoff/codex_deep_three_kingdoms_ownership_handoff.md` → 재설계 계획, Claude 세션 전환 노트
 - `project_context.md` → Claude 세션 전환 노트
 - `docs/plans/implementation_plan_evidence_notebook_interface.md` → 재설계 계획을 파일명으로 참조
 

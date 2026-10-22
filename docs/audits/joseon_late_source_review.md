@@ -1,7 +1,7 @@
 # 조선 후기 서술 출처 검토표 — 10월 28일 공개수업 콘텐츠 패킷
 
 - 작성: Sonnet 5(대조실), 2026-09-16
-- 지시서: `docs/handoff/claude_four_track_round6_instruction.md` §2
+- 지시서: `docs/archive/handoff/claude_four_track_round6_instruction.md` §2
 - 목적: 관문 설계실(역할 카드)·연결 공방(패킷 초안)이 조선 후기 문안을 쓸 때, "원문이 실제로 말하는 범위"를 벗어나지 않도록 미리 정리해 둔 참고표다. **이 표 자체는 학생에게 보이지 않는다.**
 - 출처 규칙: 우리역사넷(국사편찬위원회, contents.history.go.kr), 한국민족문화대백과사전만 썼다. 위키백과·나무위키는 검색 결과에 섞여 있어도 근거로 쓰지 않았다. 표의 인용문은 전부 WebFetch로 원문 페이지를 직접 열어 확인한 문장이다(열람일 2026-09-16).
 
@@ -86,8 +86,8 @@
 ## 관문 설계실 역할 카드 대조 — 라운드 7 §2
 
 - 작성: Sonnet 5(대조실), 2026-09-16
-- 지시서: `docs/handoff/claude_four_track_round7_instruction.md` §2
-- 대상 문서: `docs/handoff/claude_joseon_late_role_cards.md`(라운드 6, 관문 설계실 작성). **이 문서는 직접 고치지 않았다** — 아래 수정 제안은 관문 설계실이 2단계에서 반영한다.
+- 지시서: `docs/archive/handoff/claude_four_track_round7_instruction.md` §2
+- 대상 문서: `docs/archive/handoff/claude_joseon_late_role_cards.md`(라운드 6, 관문 설계실 작성). **이 문서는 직접 고치지 않았다** — 아래 수정 제안은 관문 설계실이 2단계에서 반영한다.
 - 공인(`gongin`) 카드는 D-034로 폐기가 확정돼 문장별 대조를 하지 않았다. 다만 §1 item2가 "대동법·공인"을 확인 필요 6곳 중 하나로 지목해 사실관계만 별도로 확인해 뒀다(§ "대동법·공인 제도" 참고 — 카드 폐기와 무관하게 패킷의 다른 서술에 쓰일 수 있어서).
 
 <!-- ROLE_CARD_REVIEW:START -->
@@ -170,7 +170,7 @@
 
 ### 라운드 7 2단계 — 품팔이(`laborer`) 카드 문장 대조
 
-`docs/handoff/claude_joseon_late_role_cards.md`의 품팔이 카드(§3-5인 변형, 관문 설계실이 1단계에서 이미 작성)를 같은 표 형식으로 대조했다. **이 문서는 대조실 소유가 아니므로 직접 고치지 않았다.**
+`docs/archive/handoff/claude_joseon_late_role_cards.md`의 품팔이 카드(§3-5인 변형, 관문 설계실이 1단계에서 이미 작성)를 같은 표 형식으로 대조했다. **이 문서는 대조실 소유가 아니므로 직접 고치지 않았다.**
 
 | 문장 | 판정 | 근거 |
 |---|---|---|
@@ -221,7 +221,7 @@
 ## 라운드 8 — 앱 `sources` 목록 + `connections` 문장 범위 기준
 
 - 작성: Sonnet 5(대조실), 2026-09-17
-- 지시서: `docs/handoff/claude_four_track_round8_instruction.md` §2
+- 지시서: `docs/archive/handoff/claude_four_track_round8_instruction.md` §2
 - `apps/cooperative-live/convex/scenarios.ts`는 **읽기만** 했다(고려 초기 `earlyGoryeo.sources` 형식·분량 참고). 역할 카드 파일은 이번에도 직접 고치지 않았다.
 
 ### 8-1. 앱 `sources` 목록 (`{claim, url, accessedAt}`)

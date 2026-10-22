@@ -15,7 +15,7 @@
 
 ## 2. 실행 결과 (2026-09-07, Claude)
 
-Regular MUD 24개 스테이지에 [`docs/handoff/claude_track_b_deep_dive_result.md`](../handoff/claude_track_b_deep_dive_result.md) §9에서 검증한 "선택지 단서 인용형 재작성" 기법을 적용했다 — 정답은 핫스팟 단서 2~3개를 직접 인용하고, 오답은 같은 단서를 반대 결론으로 인용해 길이를 맞췄다.
+Regular MUD 24개 스테이지에 [`docs/archive/handoff/claude_track_b_deep_dive_result.md`](../archive/handoff/claude_track_b_deep_dive_result.md) §9에서 검증한 "선택지 단서 인용형 재작성" 기법을 적용했다 — 정답은 핫스팟 단서 2~3개를 직접 인용하고, 오답은 같은 단서를 반대 결론으로 인용해 길이를 맞췄다.
 
 - 정답이 오답 평균보다 10자 이상 긴 단계: **34개 → 0개(Regular 기준)**. 프로젝트 전체로는 27개 → 3개이며, 남은 3개(`deep_joseon:1`, `deep_three_kingdoms:1/5`)는 Deep-dive 소관이라 이 작업(Regular MUD 채팅창) 범위 밖이다.
 - 작업 중 선택지만의 문제가 아니라 **narrative·hotspots와 badge·scene·선택지의 주제 자체가 어긋난 콘텐츠 버그 3건**을 추가로 발견해 함께 고쳤다(`regular_gojoseon:3`, `regular_joseon_silhak:2`, `regular_three_kingdoms_life:2` — 상세는 커밋 `6afc4a3` 메시지 참고).

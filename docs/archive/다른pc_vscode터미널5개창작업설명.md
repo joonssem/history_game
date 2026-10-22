@@ -105,7 +105,7 @@ claude mcp add playwright -- npx -y @playwright/mcp@latest
 
 새 PC의 Claude는 지금까지의 대화를 모른다. 기획 세션에 아래를 넣으면 저장소 문서로 상태를 복구한다.
 
-> `docs/handoff/claude_four_track_overview.md`, `docs/handoff/claude_four_track_round9_instruction.md`, `DECISIONS.md`의 D-027~D-036, `walkthrough.md`의 마지막 3개 항목, `BACKLOG.md`의 2026-09 항목, `EXPERIMENTS.md`의 EXP-008을 읽고 현재 상태를 파악해 줘. 그다음 라운드 9의 남은 일(조작대 2단계)부터 이어서 진행하자.
+> `docs/archive/handoff/claude_four_track_overview.md`, `docs/archive/handoff/claude_four_track_round9_instruction.md`, `DECISIONS.md`의 D-027~D-036, `walkthrough.md`의 마지막 3개 항목, `BACKLOG.md`의 2026-09 항목, `EXPERIMENTS.md`의 EXP-008을 읽고 현재 상태를 파악해 줘. 그다음 라운드 9의 남은 일(조작대 2단계)부터 이어서 진행하자.
 
 ## 6. 지켜야 할 규칙 (PC가 바뀌어도 같음)
 

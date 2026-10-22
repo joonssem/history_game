@@ -16,7 +16,7 @@
 - **현재 콘텐츠 기준**: 2015 개정 초등 5학년 2학기 사회 (총 3개 단원, 48개 차시)
 - **목표 교육과정**: 2022 개정 교육과정 교과서에 맞춘 재매핑 진행 중 (`data/curriculum_mapping.json`)
 - **성취기준 매핑**: 전체 32개 MUD 중 30개를 `[6사04-01]`~`[6사07-02]`의 2022 개정 성취기준과 직접 연결했습니다. 명량대첩·병자호란 MUD 2종은 보조 역사 맥락으로 분리했으며, 출판사·교과서 판본별 차시 번호는 확인 대기입니다. 자세한 판단은 [`curriculum_alignment_report_2022.md`](./docs/audits/curriculum_alignment_report_2022.md)에 기록합니다.
-- **활동 시간 감사**: Regular MUD는 10분 이내, 설계 목표 약 9분의 개인 복습 활동입니다. 자동 설계 지표 결과는 [`activity_duration_audit.md`](./activity_duration_audit.md)에서 관리합니다.
+- **활동 시간 감사**: Regular MUD는 10분 이내, 설계 목표 약 9분의 개인 복습 활동입니다. 자동 설계 지표 결과는 [`docs/audits/activity_duration_audit.md`](./docs/audits/activity_duration_audit.md)에서 관리합니다.
 - **활동 계층**: Regular MUD는 10분 이내(약 9분 목표)의 복습용이고, Deep-dive MUD는 여러 차시를 잇는 확장 탐구 활동입니다. 두 계층은 같은 시간·성공 기준으로 평가하지 않습니다.
 - **핵심 목표**: 단순 암기를 넘어 역사적 순간 속 '결단의 순간'을 체험하며 역사적 사고력과 문제 해결력 신장
 - **배포 구조**: 개인형 포털과 정적 협동 MUD는 GitHub Pages에서 운영합니다. 실시간 협동 앱은 2026-10-15 취소되어 코드는 태그 `archive/cooperative-live-20261016`에, 문서는 [`docs/archive/cooperative-live/`](./docs/archive/cooperative-live/README.md)에 보관했다([D-038](./DECISIONS.md), [D-040](./DECISIONS.md)).
@@ -71,7 +71,7 @@
 - [삼국·가야 시조 설화 바로 시작](./cooperative-mud/founding-myths/) — 1단원 7차시. 네 나라의 시조 이야기를 하나씩 나눠 읽고 말로 모은 뒤, 옛사람들이 왜 그렇게 이야기했는지 모둠의 설명 문장을 만든다. 친구 이야기를 듣기 **전에** 각자 판단을 먼저 기록하는 순서로 만들었다
 - [한강 유역 쟁탈 바로 시작](./cooperative-mud/han-river/) — 1단원 8차시. 들·물길·바닷길·연표를 나눠 조사하고, 세 나라가 왜 모두 이 땅을 원했는지 근거로 설명한다. 전투 장면 없이 지리와 교역로로 다룬다
 - **[수업 구조도](https://claude.ai/code/artifact/97e312bf-7cf9-4b4c-be07-6d0a4fd2c9a2)** — 기존 7단계 화면 위에 QR 입장·학생 호(號)·타이머 페이싱·교사 대시보드·데이터 경계를 얹은 전체 구조 *(비공개 링크 · 저장소 소유자 계정에서 열림)*
-- [구현 계획](./docs/plans/implementation_plan_cooperative_mud_gojoseon_law_v01.md)
+- [구현 계획](./docs/archive/plans/implementation_plan_cooperative_mud_gojoseon_law_v01.md)
 
 ---
 
@@ -234,7 +234,7 @@ python scripts/10_audit_if_stages.py            # 보고서 재생성 — 변경
 python scripts/11_audit_artifacts.py            # 보고서 재생성 — 변경분도 커밋한다
 ```
 
-CI가 `07`·`10`·`11`의 보고서(`activity_duration_audit.md`, `docs/audits/if_stage_audit.md`, `docs/audits/artifact_audit.md`)를 다시 만들어 `git diff`로 비교한다. MUD 문구를 고친 뒤 보고서를 다시 만들지 않으면 CI가 실패한다.
+CI가 `07`·`10`·`11`의 보고서(`docs/audits/activity_duration_audit.md`, `docs/audits/if_stage_audit.md`, `docs/audits/artifact_audit.md`)를 다시 만들어 `git diff`로 비교한다. MUD 문구를 고친 뒤 보고서를 다시 만들지 않으면 CI가 실패한다.
 
 검토 목록을 만드는 보조 감사(실패 조건 아님):
 
@@ -245,7 +245,7 @@ node scripts/17_lint_sensitive_wording.js      # 3단원 민감 표현
 node scripts/18_audit_stage_coherence.js       # 한 단계 안 칸끼리의 주제 불일치 경고
 ```
 
-자동 검사는 문구의 뜻이 맞는지까지 보지 못한다. MUD 문구를 고쳤다면 브라우저에서 해당 단계의 정답·오답·재시도 화면까지 직접 확인한다([`BROWSER_REGRESSION_CHECKLIST.md`](./BROWSER_REGRESSION_CHECKLIST.md)).
+자동 검사는 문구의 뜻이 맞는지까지 보지 못한다. MUD 문구를 고쳤다면 브라우저에서 해당 단계의 정답·오답·재시도 화면까지 직접 확인한다([`docs/product/BROWSER_REGRESSION_CHECKLIST.md`](./docs/product/BROWSER_REGRESSION_CHECKLIST.md)).
 
 포털·MUD 화면 배치를 바꿨다면 브라우저 수동 회귀를 돌린다(Playwright, PC의 Edge 사용, 태블릿·휴대폰 크기 18개 확인):
 
@@ -269,10 +269,10 @@ $env:NODE_PATH=".tmp-playwright/node_modules"; node scripts/manual/site_regressi
 
 ## 📂 관련 문서
 
-* 📋 [agents.md](./agents.md) — AI 에이전트 협업 체계 및 Phase별 개발 기록
+* 📋 [AGENTS.md](./AGENTS.md) — AI 에이전트 협업 체계 및 Phase별 개발 기록
 * 📖 [project_context.md](./project_context.md) — 전체 MUD 목록, 시뮬레이터 명세, 미해결 이슈
-* 🧪 [BROWSER_REGRESSION_CHECKLIST.md](./BROWSER_REGRESSION_CHECKLIST.md) — 브라우저·태블릿 수동 회귀 점검 기준
-* 🏺 [TEACHING_artifact_comparison.md](./TEACHING_artifact_comparison.md) — 유물 2개 비교·추론 활동 수업 진행 안내 (프로토타입)
+* 🧪 [docs/product/BROWSER_REGRESSION_CHECKLIST.md](./docs/product/BROWSER_REGRESSION_CHECKLIST.md) — 브라우저·태블릿 수동 회귀 점검 기준
+* 🏺 [docs/product/TEACHING_artifact_comparison.md](./docs/product/TEACHING_artifact_comparison.md) — 유물 2개 비교·추론 활동 수업 진행 안내 (프로토타입)
 * 🧭 [PRD.md](./PRD.md) — 제품 목표, 사용자, 범위, 수용 기준
 * 📝 [BACKLOG.md](./BACKLOG.md) — 미완료 기획·검토 항목
 * 📥 [INBOX.md](./INBOX.md) — 사용자 입력·관찰 원문
@@ -282,11 +282,11 @@ $env:NODE_PATH=".tmp-playwright/node_modules"; node scripts/manual/site_regressi
 * ⚖️ [DECISIONS.md](./DECISIONS.md) — 장기 설계 결정과 근거
 * 🧾 [walkthrough.md](./walkthrough.md) — 완료 작업의 누적 기록
 * 🧱 [TECH_STACK.md](./TECH_STACK.md) — 기술 선택과 시스템 경계
-* 🔀 [USER_FLOWS.md](./USER_FLOWS.md) — 학생·기능별 사용자 흐름과 플로우차트
-* 🖼️ [WIREFRAMES.md](./WIREFRAMES.md) — 핵심 화면 저충실도 와이어프레임
+* 🔀 [docs/product/USER_FLOWS.md](./docs/product/USER_FLOWS.md) — 학생·기능별 사용자 흐름과 플로우차트
+* 🖼️ [docs/product/WIREFRAMES.md](./docs/product/WIREFRAMES.md) — 핵심 화면 저충실도 와이어프레임
 * 👀 [classroom_observation_inquiry_pilot.md](./docs/plans/classroom_observation_inquiry_pilot.md) — 탐구형 관문·연대표 띠 수업 관찰 기록지
 * 🔎 [docs/audits/](./docs/audits/) — 사실 대조·레드팀 감사·자동 감사 보고서. 최근: [단계 정합성 검토](./docs/audits/stage_coherence_review_20260928.md), [3단원 문구 후속 감사](./docs/audits/unit3_b72c7a26_wording_followup_20260928.md)
-* 🤝 [docs/handoff/](./docs/handoff/) — Claude·Codex 간 작업 지시서와 전달 문서
+* 🗂️ [docs/archive/](./docs/archive/) — 완료 계획서(`plans/`), 지난 Claude·Codex 작업 지시서와 전달 문서(`handoff/`), 취소된 실시간 협동 문서
 
 ---
 

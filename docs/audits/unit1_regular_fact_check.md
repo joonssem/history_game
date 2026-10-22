@@ -1,6 +1,6 @@
 # 1단원 비파일럿 9편 사실 대조
 
-> 라운드 4 지시서(`docs/handoff/claude_four_track_round4_instruction.md`) §1-1. 대상 9편: `regular_paleolithic`, `regular_bronze_age`, `regular_gojoseon`, `regular_three_kingdoms_life`, `regular_silla`, `regular_balhae`, `regular_goryeo_founding`, `regular_goryeo_society`, `regular_goryeo_war`. `narrative`·`choices`·`glossary`·`location`·`badge`·시뮬레이터 `feedback`/`infoText`에서 수치·연도·인물·인과 단정을 뽑아 공식 출처 원문과 대조했다. IF 단계(`N-1`)의 가상 실패 상황 서술은 대상에서 제외했다(§0-3/§1-1의 IF 단계 예외 규칙).
+> 라운드 4 지시서(`docs/archive/handoff/claude_four_track_round4_instruction.md`) §1-1. 대상 9편: `regular_paleolithic`, `regular_bronze_age`, `regular_gojoseon`, `regular_three_kingdoms_life`, `regular_silla`, `regular_balhae`, `regular_goryeo_founding`, `regular_goryeo_society`, `regular_goryeo_war`. `narrative`·`choices`·`glossary`·`location`·`badge`·시뮬레이터 `feedback`/`infoText`에서 수치·연도·인물·인과 단정을 뽑아 공식 출처 원문과 대조했다. IF 단계(`N-1`)의 가상 실패 상황 서술은 대상에서 제외했다(§0-3/§1-1의 IF 단계 예외 규칙).
 
 ## 대조 결과 표
 

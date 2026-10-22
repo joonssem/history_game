@@ -3,7 +3,7 @@
 `TASK-20260914-01 | Claude 4트랙 inquiry-task·확장 활동·유적 페어 red team 감사 | audit agent(Codex) | 상태: DONE`
 
 - 감사 기준: `origin/main` `d435149` (2026-09-14)
-- 요청 문서: [`codex_red_team_round3_handoff_20260914.md`](../handoff/codex_red_team_round3_handoff_20260914.md)
+- 요청 문서: [`codex_red_team_round3_handoff_20260914.md`](../archive/handoff/codex_red_team_round3_handoff_20260914.md)
 - 범위: inquiry-task 파일럿 4편, `나의 연표`, 신규 유물·유적 페어 2개, Codex 소유 브랜치·worktree
 - 원칙: 코드와 데이터는 수정하지 않았다. 이 문서만 추가했다.
 

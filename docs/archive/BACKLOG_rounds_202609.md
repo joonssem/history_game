@@ -56,7 +56,7 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 - 구현 범위: `js/mudEngine.js`의 `renderFinalReflection()` 직후 해금 유물이 2개 이상이고 아직 보지 않은 비교 콘텐츠가 있으면 선택형 제안 카드를 띄운다. 시작하면 관찰→근거 카드(무근거 선택지 포함)→빈칸 주장 완성→결과 비교 4단계를 거치며, 결과 화면은 "정답/오답" 표현 없이 학생 생각을 먼저 요약하고 학계 관점을 병치하되 근접도에 따라 칭찬형/안내형으로만 톤을 바꾼다. 완료·건너뛰기 모두 `encyclopedia`의 `seenArtifactComparisons`에 기록해 같은 콘텐츠를 반복 제안하지 않는다.
 - 신규/변경 파일: [`data/artifactComparisons.json`](./data/artifactComparisons.json)(1번째 페어: 빗살무늬 토기 vs 민무늬 토기 항아리), [`js/artifactComparison.js`](./js/artifactComparison.js)(신규 엔진), `js/encyclopedia.js`(seen 상태 저장), `js/mudEngine.js`(제안 카드 삽입), `js/app.js`·`index.html`(로드·캐시 버스터 갱신), `scripts/01_validate_game_data.py`(신규 JSON 검증 대상 추가).
 - 검증: `python scripts/01_validate_game_data.py`, `python scripts/06_validate_static_assets.py` 통과. 로컬 정적 서버에서 두 톤 분기(근접/차이)와 건너뛰기 시 재노출 안 됨을 브라우저 콘솔로 직접 실행해 확인했다(자동화 테스트는 아직 없음).
-- 교사용 수업 진행 안내: [`TEACHING_artifact_comparison.md`](./TEACHING_artifact_comparison.md) (README.md에서도 링크).
+- 교사용 수업 진행 안내: [`docs/product/TEACHING_artifact_comparison.md`](./TEACHING_artifact_comparison.md) (README.md에서도 링크).
 - **2026-09-08 확장 1**: 교사가 직접 시험해 보고 긍정적 반응(도전 활동 같은 느낌, 시대를 넘나드는 비교의 재미)을 확인한 뒤, 2번째 페어(청자 상감 구름·학무늬 매병[고려, 덕수2182] vs 백자 달항아리[조선, 접수702])를 추가했다. museum.go.kr 재확인 결과 둘 다 공공누리 제1유형(출처표시)만 적용되고 변경금지 조건은 없다. `unlockThreshold`가 같아 첫 페어를 완료·건너뛴 뒤 다음 MUD 클리어 시 자동으로 이어서 등장한다. 검증은 위와 동일한 방식(브라우저 콘솔)으로 두 톤 분기를 재확인했다.
 - **2026-09-08 확장 2**: 사용자와 함께 후속 페어 후보 5개(신라 금관 vs 가야 금동관, 무령왕릉 관식 vs 신라 금관, 청자 vs 분청사기, 상평통보 vs 오늘날 지폐, 혼천의 vs 홍대용 지구의)를 브레인스토밍했다. museum.go.kr에서 실제 확인한 결과:
   - 확정·구현: **3번째 페어** 청자 상감 구름·학무늬 매병(고려, 덕수2182) vs 분청사기 상감 물고기무늬 매병(조선 초기, 덕수253, relicId=967). 둘 다 공공누리 출처표시만 적용. "같은 상감 기법이 왕조 교체기의 혼란 속에서 자유분방한 스타일로 바뀐 이유"로 프레이밍해, 앞선 두 페어(기술 변화·가치관 변화)와 다른 세 번째 해석 유형(사회 격변에 따른 양식 변화)을 추가했다.
@@ -73,7 +73,7 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 - **2026-09-08 버그 수정 — 시대 순서 무시 문제**: 사용자가 "청자·분청사기 매병 페어가 삼국시대 '한강 쟁탈전' MUD 클리어 직후에 등장한다"고 보고했다. 원인: 모든 페어가 `unlockThreshold: 2`로 동일해서, 해금 유물 개수만 보고 시대와 무관하게 배열 순서대로 다음 미확인 페어를 띄웠다(한강 쟁탈전은 칠지도·순수비 2개를 한 번에 줘서 카운트가 급증). 수정: 페어별 임계값을 시대 구간에 맞게 분리했다 — `cmp_pottery_1`(신석기·청동기) 3, `cmp_crown_1`·`cmp_crown_2`(삼국) 6(한강 쟁탈전 직후 정확히 도달), `cmp_ceramics_1`·`cmp_ceramics_2`(고려·조선) 8(고려 문화 MUD 이후). 브라우저 콘솔에서 `getEligibleComparison()`을 유물 개수별로 직접 호출해 각 구간에서 같은 시대 페어만 나오는지 확인했다.
 - **2026-09-09 관찰·다음 계획**: 학생마다 참여도 편차가 뚜렷하다는 관찰이 나왔다(상세는 `EXPERIMENTS.md` `EXP-002`). 구글 폼 피드백 채널(2026-09-08 연결)로 응답이 쌓이는 대로 원인을 분석해 수정 작업을 이어가기로 했다. 가까운 목표는 **다른 학급에도 이 포털 링크를 전달**해 표본을 넓히는 것 — 정적 사이트라 학급별 배포에 코드 변경은 필요 없지만, 학급이 늘면 피드백 폼에 학급 구분 필드가 필요할지는 응답이 쌓인 뒤 검토한다.
 - **2026-09-09 확장 5**: Codex는 협동 MUD 실시간 서버(Convex) 트랙, Claude(이 채팅)는 유물 비교 트랙으로 역할을 다시 확인했다. **6번째 페어** 김홍도 「논갈이」(단원 풍속도첩, 본관6504-1) vs 신윤복 「저잣길」(여속도첩, 덕수1103)을 추가했다. museum.go.kr 재확인 결과 둘 다 공공누리 출처표시만 적용, 변경금지 없음. 앞선 다섯 페어와 다르게 "같은 조선 후기 화가여도 무엇을 눈여겨봤는지가 다른 이유"(시골 농사 vs 시장 장사)라는 여섯 번째 해석 유형이다. `unlockThreshold: 11`로 조선 후기 서민 문화 MUD(art_11) 이후에 등장하도록 시대 구간을 맞췄다.
-- **2026-09-09 콘텐츠 적절성 재검토**: 사용자가 "6번째 페어 그림이 초등학생 수준인가?"라고 물어 다시 확인한 결과, 처음 골랐던 신윤복 「여속도첩」(전체 6면)은 그중 3면이 기녀(妓女)를 그린 것으로 국립중앙박물관이 직접 소개하고 있었다 — 처음엔 화첩 전체를 뭉뚱그려 "몸단장·나들이 등 여성의 일상"으로만 서술해 부정확했다. 사용자는 "김홍도·신윤복 두 화가는 유지"를 확인했고, 국립중앙박물관이 "기녀가 아닌 일반 부녀자를 그린 것"으로 공식 소개하는 3면 중 「저잣길」(생선 장수 여인)만 특정해 다시 작성했다. 관찰·근거·claim 문구도 "여성의 일상"에서 "시장에서 장사하는 여성"으로 구체화했다. 결과 화면의 "실물 보기" 링크도 화첩 전체가 노출되는 박물관 소장품 페이지 대신, 「미인도」(전통 복식 초상화, 안전 확인함) 한 장만 실린 한국민족문화대백과사전 신윤복 소개 글로 바꿨다. 나머지 5개 페어도 같은 기준으로 재검토해 이상 없음을 확인하고, `TEACHING_artifact_comparison.md`에 재사용 가능한 "콘텐츠 점검 체크리스트"를 추가했다.
+- **2026-09-09 콘텐츠 적절성 재검토**: 사용자가 "6번째 페어 그림이 초등학생 수준인가?"라고 물어 다시 확인한 결과, 처음 골랐던 신윤복 「여속도첩」(전체 6면)은 그중 3면이 기녀(妓女)를 그린 것으로 국립중앙박물관이 직접 소개하고 있었다 — 처음엔 화첩 전체를 뭉뚱그려 "몸단장·나들이 등 여성의 일상"으로만 서술해 부정확했다. 사용자는 "김홍도·신윤복 두 화가는 유지"를 확인했고, 국립중앙박물관이 "기녀가 아닌 일반 부녀자를 그린 것"으로 공식 소개하는 3면 중 「저잣길」(생선 장수 여인)만 특정해 다시 작성했다. 관찰·근거·claim 문구도 "여성의 일상"에서 "시장에서 장사하는 여성"으로 구체화했다. 결과 화면의 "실물 보기" 링크도 화첩 전체가 노출되는 박물관 소장품 페이지 대신, 「미인도」(전통 복식 초상화, 안전 확인함) 한 장만 실린 한국민족문화대백과사전 신윤복 소개 글로 바꿨다. 나머지 5개 페어도 같은 기준으로 재검토해 이상 없음을 확인하고, `docs/product/TEACHING_artifact_comparison.md`에 재사용 가능한 "콘텐츠 점검 체크리스트"를 추가했다.
 - **2026-09-09 버그 수정 — 시대 순서 무시 문제(재발, 근본 수정)**: 사용자가 스크린샷으로 "유물 비교 활동이 을사의병·안중근 MUD에도 등장한다"고 보고했다. `unlockThreshold`(9-08 수정)는 "일반적인 순서대로 플레이"할 때만 통했고, 학생이 차시를 건너뛰거나 다른 순서로 하면(예: 근현대 MUD를 먼저 여러 개 클리어) 여전히 무관한 시대 페어가 나왔다 — 해금 유물 총 개수는 실제 진도와 별개였기 때문이다. **근본 수정**: `getEligibleComparison()`을 개수 임계값 대신 `requiredArtifactNames`(그 시대 MUD가 실제로 주는 보상 유물 이름/ID 목록)로 바꿨다. 예: `cmp_ceramics_1`은 "직지심체요절 영인본과 고려 비색 청자"(art_8, 고려 문화 MUD)를 실제로 갖고 있어야만 뜬다. 근현대 유물 9개를 먼저 갖고 있어도 이 마커가 없으면 어떤 페어도 뜨지 않고, 마커를 획득한 순간 정확히 그 페어만 뜨는 것을 브라우저 콘솔로 확인했다(비선형 플레이 시나리오 포함). `unlockThreshold`는 안전장치(마커 미지정 콘텐츠용 대체 로직)로 남겨뒀다.
 - **2026-09-09 확장 6~8**: 근본 수정 뒤 새 페어 아이디어를 브레인스토밍해 사용자가 "2→1→4→3" 순서로 진행을 요청했다. museum.go.kr에서 확인한 결과:
   - 확정·구현: **7번째 페어** 휴대용 앙부일구(신수15157, relicId=2399) vs 보루각 자격루(덕수6470, relicId=4530). 세종 시대에 처음 발명됐지만 **지금 남은 실물은 둘 다 후대 제작본**이라는 사실(앙부일구=1871년 강건 제작, 자격루=1536년 중종 때 남은 부속)을 숨기지 않고 traits·scholarPerspective에 정직하게 반영했다. `requiredArtifactNames`는 art_sejong("훈민정음 해례본과 앙부일구").
@@ -84,15 +84,15 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
 - **2026-09-09 신규 활동 — 유물 탐정 미니게임**: 유물 비교 활동과 별개로 "유물 관련 다른 활동" 3개(개인 전시 준비실·유물 탐정·내 유물 연표)를 브레인스토밍했다. 개인 전시 준비실은 구현 전에 "학생 입력이 어디 저장되는지"를 사용자가 먼저 물어, `localStorage`뿐이라 서버 제출 경로가 필요하다는 걸 답하고 보류했다. 사용자가 학생 수준에 가장 적절하다고 고른 **유물 탐정: 이게 뭘까?**를 구현했다 — 그 학생이 실제로 해금한 유물만(4개 미만이면 비활성) 출제하는 4지선다 힌트 게임(시대→종류→설명 순 3단계 힌트, 오답 시 감점 없이 힌트 자동 추가). 기존 미니게임 3종과 같은 `MiniGameEngine` 클래스에 추가했고(신규 파일 없음), 새 배지 `badge_detective_master`(전 문제 힌트 1개로 완료 시)를 `js/encyclopedia.js`에 추가했다. 검증은 브라우저 콘솔에서 부족 안내·5라운드 생성·오답 힌트 증가·정답 톤 분기·배지 획득까지 전부 확인. 나머지 2개 아이디어(전시 준비실, 내 유물 연표)는 다음 후보로 남긴다.
 - **2026-09-10 버그 수정 — 시대 순서 무시 문제(3차, 마커 자체의 결함)**: 사용자가 스크린샷으로 "유물 비교(두 나라의 왕관, 삼국시대)가 3·1 운동/대한민국 정부 수립(근현대) MUD 직후에도 뜬다"고 재차 보고했다. 원인 분석 결과 2가지: (1) `requiredArtifactNames` 마커 자체는 정확해도, `getEligibleComparison()`이 "지금 막 끝낸 MUD의 시대"를 전혀 받지 않아 누적 도감에 그 마커가 있으면 몇 달 뒤 전혀 다른 시대 MUD를 끝낼 때마다 계속 튀어나왔다. (2) `cmp_metal_tech_1`(비파형동검 페어)이 자기 유물(art_4)이 아니라 `cmp_crown_1`의 마커(백제 칠지도·신라 북한산 순수비)를 복붙해 갖고 있어, 고조선 MUD를 한 번도 안 한 학생에게도 뜰 수 있었다. **수정**: `js/artifactComparison.js`에 `getEraGroup(rawEra)`(선사~근현대 5개 묶음)와 `eraGroup` 필터를 추가해 `getEligibleComparison(currentEraGroup)`이 시대 불일치 페어를 아예 후보에서 제외하도록 했다. `js/mudEngine.js`의 `renderFinalReflection()`은 방금 끝낸 MUD의 실제 보상 유물 era를 `artifacts.json`에서 찾아 `currentEraGroup`을 계산해 넘긴다. `cmp_metal_tech_1`의 마커를 `["비파형 동검", "art_4"]`로 정정했다. `cmp_crown_2`(무령왕 관식↔신라 금관, 실물 보상이 따로 없는 페어)는 사용자 확인에 따라 삼국시대 보상 여러 개 중 하나(OR)로 유지하되 `eraGroup: "three_kingdoms"`로 시대 보호막을 추가했다. 5개 사고실험 시나리오(스크린샷 재현/정상 삼국시대 트리거/crown_1→crown_2 순차 노출/metal_tech_1 정상 트리거/era 미확인 시 안전 미노출)를 로컬 서버+브라우저 콘솔로 전부 검증. `01_validate_game_data.py` 통과. 캐시버스터 `?v=20260910-eragroup1`.
 - **2026-09-10 콘텐츠 정정 — "8조법 목판"**: 사용자가 Deep-dive 보상 `art_deep_1`("단군왕검의 비파형 동검과 8조법 목판")의 표기를 문제 삼았다. 8조법은 후대 중국 역사서 『한서』에 3개 조항만 전해지는 기록이고, 고조선 당시의 목판 실물이 발굴된 적은 없다 — "목판"이라는 구체적 실물 형태를 단정한 것이 오해 소지가 있었다. `data/artifacts.json`의 name/desc와 `data/mud/deep_prehistoric.json`의 보상 표시명을 "…전해오는 8조법"으로 정정하고, desc에 실물이 남아있지 않다는 사실을 명시했다. (참고: name·desc 간 다른 유물을 가리키는 불일치가 있을까 우려했으나 재확인 결과 없었음.)
-- **2026-09-10 신규 — 유물↔유적(발견 장소) 연결**: "유물만큼 유적도 많고 웹에 좋은 사진 자료가 많다"는 요청으로, 이미지 직접 삽입 대신 국가유산포털(heritage.go.kr) 공식 사적 페이지로 링크하는 안전한 방식을 사용자가 선택(기존 "실물 보기" 링크 패턴과 동일 철학). 6개 유적을 국가유산포털에서 직접 열어 사진·설명 일치를 확인(2026-09-10): 서울 암사동 유적(ccbaCpno=1331102670000), 부여 송국리 유적(1333402490000, 민무늬토기·비파형동검 공유), 연천 전곡리 유적(1333102680000), 경주 대릉원 일원(1333705120000, 금관총 포함), 고령 지산동 고분군(1333700790000), 공주 무령왕릉과 왕릉원(1333400130000). `data/artifactComparisons.json`의 각 유물 객체에 `site: {name, url, note}` 필드를 추가했고, 출토지를 모르는 전세품 유물(청자·백자·풍속화·앙부일구·자격루)에는 일부러 넣지 않았다(없는 정보를 지어내지 않음). `js/artifactComparison.js`에 `siteLinksHtml(cmp)`를 추가해 결과 화면(4단계)의 "실물 보기" 링크 아래 "🏛️ 이 유물이 발견된 유적" 박스로 노출, 두 유물이 같은 유적을 공유하면 중복 없이 한 번만 표시한다. 브라우저 콘솔에서 링크 텍스트·href 정확성과, site 필드가 없는 페어(풍속화)는 빈 문자열을 반환해 정보를 지어내지 않는지 확인. 캐시버스터 `?v=20260910-sitelinks1`. 상세는 `TEACHING_artifact_comparison.md`의 "2026-09-10 추가" 절 참고.
-- **2026-09-10 트랙 2 「대조실」 — 유적을 비교 대상으로 승격 + 도감 진입점**: Opus 5 기획 세션이 작성한 지시서(`docs/handoff/claude_track2_artifact_site_instruction.md`)를 받아 격리 워크트리(`.worktrees/claude-artifact-site`, 브랜치 `feat/artifact-site-comparison`)에서 진행했다. 4단계로 완료:
+- **2026-09-10 신규 — 유물↔유적(발견 장소) 연결**: "유물만큼 유적도 많고 웹에 좋은 사진 자료가 많다"는 요청으로, 이미지 직접 삽입 대신 국가유산포털(heritage.go.kr) 공식 사적 페이지로 링크하는 안전한 방식을 사용자가 선택(기존 "실물 보기" 링크 패턴과 동일 철학). 6개 유적을 국가유산포털에서 직접 열어 사진·설명 일치를 확인(2026-09-10): 서울 암사동 유적(ccbaCpno=1331102670000), 부여 송국리 유적(1333402490000, 민무늬토기·비파형동검 공유), 연천 전곡리 유적(1333102680000), 경주 대릉원 일원(1333705120000, 금관총 포함), 고령 지산동 고분군(1333700790000), 공주 무령왕릉과 왕릉원(1333400130000). `data/artifactComparisons.json`의 각 유물 객체에 `site: {name, url, note}` 필드를 추가했고, 출토지를 모르는 전세품 유물(청자·백자·풍속화·앙부일구·자격루)에는 일부러 넣지 않았다(없는 정보를 지어내지 않음). `js/artifactComparison.js`에 `siteLinksHtml(cmp)`를 추가해 결과 화면(4단계)의 "실물 보기" 링크 아래 "🏛️ 이 유물이 발견된 유적" 박스로 노출, 두 유물이 같은 유적을 공유하면 중복 없이 한 번만 표시한다. 브라우저 콘솔에서 링크 텍스트·href 정확성과, site 필드가 없는 페어(풍속화)는 빈 문자열을 반환해 정보를 지어내지 않는지 확인. 캐시버스터 `?v=20260910-sitelinks1`. 상세는 `docs/product/TEACHING_artifact_comparison.md`의 "2026-09-10 추가" 절 참고.
+- **2026-09-10 트랙 2 「대조실」 — 유적을 비교 대상으로 승격 + 도감 진입점**: Opus 5 기획 세션이 작성한 지시서(`docs/archive/handoff/claude_track2_artifact_site_instruction.md`)를 받아 격리 워크트리(`.worktrees/claude-artifact-site`, 브랜치 `feat/artifact-site-comparison`)에서 진행했다. 4단계로 완료:
   - **P0 출처 규칙**: `docs/plans/artifact_site_source_policy.md` 신규 작성 — 유물은 museum.go.kr(소장품번호+relicId+공공누리 유형), 유적은 heritage.go.kr(ccbaCpno+지정종별+확인일자) 기준으로 갈라서 정리하고, "확인 못 한 항목은 추측하지 않는다"는 규칙과 재사용 가능한 확인된 유적 7곳 표를 남겼다.
   - **P1 도감 진입점**: `EXPERIMENTS.md` `EXP-002`에 남아있던 학생 요청("도감에서 바로 연결될 수 있냐")을 구현했다. `js/artifactComparison.js`에 `getAllEligibleComparisons()`(시대 필터 없이 아직 안 본 것 전부 나열 — MUD 직후 제안과 달리 "방금 끝낸 MUD의 시대"라는 맥락이 없으므로)와 `encyclopediaEntryHtml()`·`startFromEncyclopedia()`를 추가하고, `js/encyclopedia.js`의 `renderEncyclopedia()`에 "🏛️ 대조실 — 지금 바로 비교해 보기" 섹션을 삽입했다. 두 진입 경로(MUD 직후/도감)는 `seenArtifactComparisons` 상태를 그대로 공유한다.
   - **P2 스키마 확장**: 각 비교에 `pairType`(`artifact_vs_artifact`/`artifact_vs_site`/`site_vs_site`, 기존 9개는 필드 자체를 안 넣어 무변경) 필드를 추가하고, 유적을 비교 대상 자체로 쓸 때는 그 쪽 객체에 `kind: "site"` + 유적용 `traits`(규모·배치·주변환경·함께나온것, 유물의 무늬·재질·모양 축과 다름)를 준다. 결과 화면의 "출처" 문구가 유물/유적에 따라 다른 라벨("국립중앙박물관 소장품 · 실물 보기" vs "국가유산청 국가유산포털 · 유적 보기")을 쓰도록 `sourceEntryMeta()`/`sourceLineHtml()`로 일반화했다. 기존 `siteLinksHtml()`(결과 화면 하단 링크)은 그대로 유지.
   - **P3 신규 페어 2개**(트랙 2 지시서의 "최대 4개" 제한 내에서, 1차 추천 2개만 구현): `cmp_artifact_site_1`("토기 하나, 마을 전체" — 빗살무늬 토기 ↔ 서울 암사동 유적, "유물을 맥락으로 되돌리기"), `cmp_site_vs_site_1`("움집 마을과 거대한 무덤" — 서울 암사동 유적 vs 고창 죽림리 지석묘군, "노동력·계급의 등장"). 둘 다 기존 9개와 다른 새 해석 유형이고, `requiredArtifactNames`·`eraGroup`을 시대 순서에 맞게 설정했다(같은 실수 반복 방지 — 2026-09-08/09/10 세 차례 있었던 시대 매칭 버그 참고).
   - 검증: 브라우저 콘솔+실제 클릭으로 (1) 기존 시대 필터 회귀 없음(근현대 MUD 뒤 삼국 왕관 페어 여전히 null), (2) 두 신규 페어 단독 트리거·전체 4단계 플레이·두 톤 분기(근접/차이) 재현, (3) 도감 진입점에서 실제 버튼 클릭으로 모달 닫힘→시뮬레이터 뷰 전환→활동 시작까지 전체 흐름, (4) 기존 9개 페어의 출처 라인이 그대로인지(신규 `kind` 필드 부재 시 문구 안 바뀜) 확인. `node --check`(두 JS 파일), `python scripts/01_validate_game_data.py`·`06_validate_static_assets.py`, `git diff --check` 전부 통과, 콘솔 에러 0건. 캐시버스터 `?v=20260910-artifactsite1`(encyclopedia.js·artifactComparison.js).
   - **2026-09-11 §5 완료 판정 재확인(4트랙 조정 요청)**: 코드 검증만으로는 완료 보고하지 않는다는 지시에 따라, `preview_start` 이름 `artifact-site`(포트 8802, 자기 worktree)로 다시 로컬 서버를 띄워 전부 **실제 클릭**으로 재현했다 — (1) `cmp_artifact_site_1`을 관찰 옵션 클릭→유효 근거 카드 4개 클릭→빈칸 드롭다운 정답 선택까지 진행해 "👏 학계 관점과 가까운 생각이야"(근접 톤) 재현, "실물 보기 A"(museum.go.kr)·"유적 보기 B"(heritage.go.kr) 링크 href 확인. (2) `cmp_site_vs_site_1`은 **"나의 도감" 버튼을 실제로 클릭**해 모달을 열고 "🏛️ 대조실" 섹션의 "시작하기" 버튼을 클릭해 진입(이미 완료한 `cmp_artifact_site_1`은 목록에서 정상적으로 빠져 있었음) → 근거 카드 유효1+무효1 클릭, 빈칸 오답 선택으로 "💡 학자들은 이렇게 봐"(차이 톤) 재현, 두 유적 링크 모두 "유적 보기 A/B"로 정확히 렌더링. (3) `getEligibleComparison()`을 5개 시대군(선사~근현대)마다 호출해 각자 자기 시대 페어만 반환함을 확인, 2026-09-08 재발 시나리오(삼국시대 유물만 있을 때 청자 페어가 새는지)도 별도로 `noCeramicsLeak: true`로 재확인. (4) 기존 9개 페어를 각자의 실제 마커 하나씩만으로 개별 테스트해 전부 자기 자신만 반환(교차 오염 없음). `read_console_messages`로 전체 로그 0건 확인(에러·경고 모두 없음). 이 재확인 시점 기준 브랜치는 `feat/artifact-site-comparison`(다른 트랙의 조정 커밋 위로 재정렬된 뒤에도 `git diff origin/main --stat` 범위가 자기 8개 파일 그대로임을 매번 재확인함).
-- **2026-09-11 라운드 2 「대조실」 — 깊게 파기(신규 페어 동결, 기존 페어 유적 연결 시도, 다시보기 판단)**: `docs/handoff/claude_four_track_round2_instruction.md` §2를 받아 진행. 이번 라운드는 **런타임 코드(`js/artifactComparison.js`·`js/encyclopedia.js`)를 전혀 건드리지 않고 데이터·문서만** 바꿨다 — `sourceNote`는 어느 렌더 함수에서도 읽지 않는 개발자용 메타데이터임을 `grep`으로 재확인했으므로, 캐시버스터 갱신·1180×820 확인·다른 트랙 교차 확인이 이번 변경엔 해당하지 않는다(§0-1/0-3 요건은 런타임을 고쳤을 때만 발동).
+- **2026-09-11 라운드 2 「대조실」 — 깊게 파기(신규 페어 동결, 기존 페어 유적 연결 시도, 다시보기 판단)**: `docs/archive/handoff/claude_four_track_round2_instruction.md` §2를 받아 진행. 이번 라운드는 **런타임 코드(`js/artifactComparison.js`·`js/encyclopedia.js`)를 전혀 건드리지 않고 데이터·문서만** 바꿨다 — `sourceNote`는 어느 렌더 함수에서도 읽지 않는 개발자용 메타데이터임을 `grep`으로 재확인했으므로, 캐시버스터 갱신·1180×820 확인·다른 트랙 교차 확인이 이번 변경엔 해당하지 않는다(§0-1/0-3 요건은 런타임을 고쳤을 때만 발동).
   - **2-1 신규 페어 동결**: 지시대로 추가 페어를 만들지 않았다(11개 유지). 2026-09-08 "5개로 마무리, 피드백 먼저" 합의를 이미 넘어선 상태라는 지시서의 지적에 동의.
   - **2-2 기존 6개 페어 유적 연결 — 표**: `docs/plans/artifact_site_source_policy.md` §4의 확인된 7곳 표를 근거로 검토했고, museum.go.kr 소장품 페이지를 WebFetch로 다시 열어 출토지 서술을 직접 확인했다. **결과: 6개 페어 중 붙인 것 0개, 전부 "확인 후 보류"**(추측 금지 원칙 준수).
 
@@ -108,7 +108,7 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
   - **2-3 다시 보기 — 보류**: 학생이 실제로 요청한 적이 없고(교사 전달 피드백 3건 중 없음), 구현하려면 `seenArtifactComparisons`와 분리된 새 상태가 필요해 복잡도 대비 근거가 약해 **보류**로 판단했다. 근거·대안 방향은 `EXPERIMENTS.md` `EXP-002`에 기록.
   - **2-4 수업 관찰 체크리스트**: 기능 추가 없이 `EXPERIMENTS.md` `EXP-002`에 유적 페어 관련 관찰 항목 5개(유물↔유적/유적↔유적 페어 체감, 유적 링크 클릭 여부, 도감 진입점 자발적 사용, sourceNote 노출 필요성, 기존 체크리스트 유지)를 추가했다.
   - **판단이 갈린 지점**: 없음 — 지시서의 판단(신규 페어 동결, 추측 금지)에 전부 동의했고, 2-2에서 "붙일 수 있는 것"을 하나도 못 찾은 것 자체가 이번 조사의 정직한 결과다.
-- **2026-09-14 라운드 3 「대조실」 — 기존 9개 페어 사실 검증 + 유적 출처 필드 공백 정리**: `docs/handoff/claude_four_track_round3_instruction.md` §0·§2를 받아 진행. 이번에도 **`js/`는 전혀 건드리지 않았다** — §2-2의 신규 필드는 렌더링에 쓰이지 않는 순수 데이터임을 추가 전에 `js/artifactComparison.js`를 다시 읽어 확인했다.
+- **2026-09-14 라운드 3 「대조실」 — 기존 9개 페어 사실 검증 + 유적 출처 필드 공백 정리**: `docs/archive/handoff/claude_four_track_round3_instruction.md` §0·§2를 받아 진행. 이번에도 **`js/`는 전혀 건드리지 않았다** — §2-2의 신규 필드는 렌더링에 쓰이지 않는 순수 데이터임을 추가 전에 `js/artifactComparison.js`를 다시 읽어 확인했다.
   - **2-1 사실 검증(수치·연도·단정 표현을 공식 출처 원문과 대조)**: Codex red team은 신규 유적 페어 2개만 감사했으므로, 기존 9개(`cmp_pottery_1`/`ceramics_1`/`ceramics_2`/`crown_1`/`crown_2`/`folk_paintings_1`/`science_1`/`paleo_neo_1`/`metal_tech_1`)의 `traits`·`claim` 정답·`scholarPerspective`·`evidenceCards`에서 수치·연도·"몇 세기" 표현을 전부 뽑아 museum.go.kr·encykorea.aks.ac.kr·국사편찬위원회 우리역사넷 원문과 WebFetch/WebSearch로 대조했다.
 
     | 페어 | 문장 | 대조 결과 | 조치 | 근거 URL·확인일 |
@@ -127,7 +127,7 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
   - **렌더링 영향 없음 확인**: 브라우저(`artifact-site`, 8802)에서 `cmp_crown_1`·`cmp_pottery_1`을 실제로 플레이해 정정된 연대 표기가 화면에 그대로 나오는지, 콘솔 에러/경고가 없는지 확인했다(`read_console_messages` 0건). `js/`를 고치지 않았으므로 다른 트랙 교차 확인은 이번 라운드 요건에 해당하지 않는다(§0-1은 공용 런타임을 고쳤을 때만 발동).
   - 검증: `python scripts/01_validate_game_data.py`(신규 필드 검사 포함, PASS), `python -c` JSON 파싱 확인(11개 페어), `git status --short`로 커밋 전 변경 파일이 `data/artifactComparisons.json`·`docs/plans/artifact_site_source_policy.md`·`scripts/01_validate_game_data.py` 세 개뿐임을 확인(§0-4).
   - **판단이 갈린 지점**: `cmp_crown_1`/`cmp_crown_2`의 신라 금관 연대를 "5~6세기경"에서 더 좁혔지만, "5세기 말~6세기 초"도 여전히 범위 표현이다 — 정확한 단일 연도를 단정할 근거가 없어(금관총 자체의 절대연대는 학계에서도 폭넓게 논의됨) 의도적으로 범위+'짐작'을 유지했다. 라운드 3 지시서의 "확인 안 되면 오류로 단정하지 말고 짐작 수준으로 낮춘다"는 원칙을 문자 그대로 적용한 결과다.
-- **2026-09-15 라운드 4 「대조실」 — 유물 도감 36종 사실 대조 (§2-1만, §2-2는 대기)**: `docs/handoff/claude_four_track_round4_instruction.md` §2를 받아 진행. 기준 브랜치가 `main`이 아니라 `fix/round3-red-team`(Codex가 main 체크아웃에서 작업 중)이라 **main 체크아웃은 건드리지 않았고, 결과도 이번엔 push하지 않고 자기 브랜치(`feat/artifact-site-comparison`)에만 커밋했다**(§0-4).
+- **2026-09-15 라운드 4 「대조실」 — 유물 도감 36종 사실 대조 (§2-1만, §2-2는 대기)**: `docs/archive/handoff/claude_four_track_round4_instruction.md` §2를 받아 진행. 기준 브랜치가 `main`이 아니라 `fix/round3-red-team`(Codex가 main 체크아웃에서 작업 중)이라 **main 체크아웃은 건드리지 않았고, 결과도 이번엔 push하지 않고 자기 브랜치(`feat/artifact-site-comparison`)에만 커밋했다**(§0-4).
   - **먼저 확인**: `git -C .worktrees/claude-artifact-site fetch origin && git log --oneline origin/main -5`로 Codex T2(R3-08·R3-09) 커밋이 main에 올라왔는지 확인 — **아직 안 올라와 있었다**(origin/main 최신 커밋은 `3c77437 docs: record T1 round 3 red team audit`, T2 관련 커밋 없음). 지시대로 **§2-2(신라 금관·가야 금동관·청자 매병 연대 재조정)는 손대지 않았다** — 흥미롭게도 R3-08·R3-09가 지적한 오류는 바로 위 2026-09-14 라운드 3 항목에서 내가 직접 넣은 정정이었다(`cmp_crown_1`의 가야 금동관 "6세기 전반", `cmp_ceramics_1/2`의 청자 매병 "12세기경"). Codex가 그 출처 자체(리움·도쿄국립박물관 소장 가야 금관 혼동, 청자 큐레이터 글의 "12세기 후반~13세기" 누락)를 다시 검토 중이므로, 기획 세션이 통합할 때까지 기다린다.
   - **2-1 유물 도감 36종 사실 대조**: `data/artifacts.json`의 `name`/`desc`/`hint`/`era`/`tierName`을 훑어 정도전 근정전 설계(일치, 변경 없음) 등 여러 항목을 검토했고, 실제로 공식 출처 원문을 열어 대조한 4건에서 문제를 찾았다 — 상세 표는 `docs/audits/artifacts_fact_check.md` 참고:
     - `art_7`(귀주대첩 승전보와 강감찬 보검): museum.go.kr·웹 검색으로 실물을 확인 못함 → `sourceNote` 신설, 실물 미확인·상징적 표현임을 기록.
@@ -142,7 +142,7 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
   - **렌더링 확인**: `artifact-site`(8802)에서 `art_10`·`art_14`를 실제로 도감 상세 모달로 열어 늘어난/완화된 `desc`가 레이아웃 안 깨지고 `sourceNote`가 화면에 안 뜨는지 스크린샷으로 확인. 콘솔 에러 0건. `js/`는 전혀 안 고쳤다.
   - 검증: `python -c` JSON 파싱(36개 항목), `python scripts/01_validate_game_data.py`·`06_validate_static_assets.py`·`11_audit_artifacts.py`(0건) 통과. `git status --short`로 커밋 전 변경 파일이 `data/artifacts.json`·`docs/audits/artifacts_fact_check.md` 둘뿐임을 확인(§0-4). **main 체크아웃(`D:\codexwork\history_game`)에는 어떤 명령도 실행하지 않았다.**
   - **판단이 갈린 지점**: 없음 — §2-2를 건드리지 않은 판단은 지시서 그대로였고, `desc`/`sourceNote` 분리는 지시서에 명시되진 않았지만 "출처 필드(sources, sourceNote 등)에 남긴다"는 §0-3 문구와 자체 감사 스크립트의 150자 경고를 근거로 자연스럽게 따라온 결정이다.
-- **2026-09-15 라운드 5 「대조실」 — R3-08·R3-09 처리 + 도감 미대조 항목**: `docs/handoff/claude_four_track_round5_instruction.md` §2를 받아 진행. 기준이 이번엔 `origin/main`이었지만(라운드 4가 이미 통합됨) **여전히 main 체크아웃은 건드리지 않았고 push도 안 했다**(§0-2, Codex가 협동 MUD 작업 중). 상세는 `docs/audits/artifacts_fact_check.md`의 "라운드 5 추가" 절.
+- **2026-09-15 라운드 5 「대조실」 — R3-08·R3-09 처리 + 도감 미대조 항목**: `docs/archive/handoff/claude_four_track_round5_instruction.md` §2를 받아 진행. 기준이 이번엔 `origin/main`이었지만(라운드 4가 이미 통합됨) **여전히 main 체크아웃은 건드리지 않았고 push도 안 했다**(§0-2, Codex가 협동 MUD 작업 중). 상세는 `docs/audits/artifacts_fact_check.md`의 "라운드 5 추가" 절.
   - **먼저 읽음**: `docs/audits/round3_red_team_audit.md`, Codex T2의 `docs/audits/source_crosscheck_followup_20260914.md`(T2-2는 다른 3페어·art_12만 처리하고 R3-08·09는 대조실 몫으로 남겨 둔 것을 확인).
   - **R3-08 정정**: `cmp_crown_1.artifactB`(가야 금동관) — 지난 라운드에 "6세기 전반"으로 좁힌 근거(encykorea 글)가 실은 **다른 유물(리움·도쿄국립박물관 소장 가야 금관)을 설명하는 문장**이었음을 원문 재열람으로 확인. era를 "5~6세기경으로 짐작"으로 되돌리되, 이번엔 "확정 근거가 없다는 걸 직접 확인하고 의도적으로 넓게 유지"했다는 점을 `sourceNote`에 남겼다(단순 원복이 아님).
   - **R3-09 정정**: `cmp_ceramics_1`/`cmp_ceramics_2`의 청자 매병(덕수2182) — sourceNote가 인용한 큐레이터 글(relicRecommendId=254445)의 실제 이미지 캡션이 "고려 12세기 후반~13세기"임을 WebFetch로 재확인. era를 "12세기경" → "12세기 후반~13세기"로 정정. claim(빈칸)은 "고려"/"조선"만 채우므로 이 정정으로 흔들리지 않음을 확인.
@@ -153,16 +153,16 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
   - **렌더링 확인**: `artifact-site`(8802)에서 `cmp_crown_1`·`cmp_ceramics_1`을 실제로 플레이해 정정된 연대가 화면에 그대로 나오는지, `art_deep_2` 도감 상세 모달에서 정정된 desc가 뜨는지 확인. 콘솔 에러 0건.
   - 검증: `python -c` JSON 파싱(11+36개), `01_validate_game_data.py`·`04_validate_mud_contract.py`·`node 05_test_simulator_runtime.js`·`11_audit_artifacts.py`(0건)·`node 13`·`node 14` 전부 통과. `git status --short`로 최종 커밋 범위가 `data/artifactComparisons.json`·`data/artifacts.json`·`BACKLOG.md`·`docs/audits/artifacts_fact_check.md` 넷뿐임을 확인. main 체크아웃은 열지도 않았다.
   - **판단이 갈린 지점**: 없음 — Codex T2의 기존 정정(cmp_folk_paintings_1/paleo_neo_1/metal_tech_1, art_12 보고)은 지시대로 되돌리지 않았다.
-- **2026-09-16 라운드 6 「대조실」 — 조선 후기 공개수업(10/28) 출처 검토표**: `docs/handoff/claude_four_track_round6_instruction.md` §2를 받아 진행. 이번 라운드는 기존 데이터 정정이 아니라 **다른 창(관문 설계실·연결 공방)이 새 협동 학습 콘텐츠를 쓸 때 참고할 신규 문서**를 만드는 작업이었다 — `data/artifactComparisons.json`·`data/artifacts.json`은 건드리지 않았다. main 체크아웃은 열지 않았고, push도 안 했다(§0-2).
+- **2026-09-16 라운드 6 「대조실」 — 조선 후기 공개수업(10/28) 출처 검토표**: `docs/archive/handoff/claude_four_track_round6_instruction.md` §2를 받아 진행. 이번 라운드는 기존 데이터 정정이 아니라 **다른 창(관문 설계실·연결 공방)이 새 협동 학습 콘텐츠를 쓸 때 참고할 신규 문서**를 만드는 작업이었다 — `data/artifactComparisons.json`·`data/artifacts.json`은 건드리지 않았다. main 체크아웃은 열지 않았고, push도 안 했다(§0-2).
   - **산출물**: `docs/audits/joseon_late_source_review.md` 신규 작성. 장시·화폐(상평통보)·농업 생산(이앙법)·수공업·광업·생활·서민 문화 5개 주제를 우리역사넷 원문(전부 WebFetch로 직접 열람, 2026-09-16)을 근거로 "말하는 것/말하지 않는 것/지역·신분·시기 차이/출처"로 정리했다. 위키백과·나무위키는 검색 결과에 섞여 있어도 근거로 쓰지 않았다. 다섯 주제와 자주 엮이는 배경지식(신분제 동요·양반 인구 증가)도 부록으로 추가했다.
   - **주요 발견**: 장시는 18세기 **말**에야 전국 1,000곳(그 이전 시기에 "전국"이라고 쓰면 시기 오류), 상평통보는 초기엔 서울·각 아문 중심이었고 영조대엔 오히려 '전황'(돈 부족)이 있었다, 이앙법은 삼남지방이 먼저였고 전국 균일 확산이 아니었다(수리시설이 조건), 광업 민영화는 연·은 생산지에 한정된 서술이고 금 등 다른 광물까지 일반화할 근거가 없다, "서민 문화"의 실제 향유층은 서민뿐 아니라 중인·상공업 계층·부농층까지 포함된다(오히려 "서민만"이라고 쓰면 원문과 어긋남), 신분제는 "해체되어 **가던**"(진행형) 것이지 "사라졌다/폐지됐다"가 아니다.
   - **과잉 단정 점검표**: 지시서 §0-2-4의 5개 금지어("모든 사람"·"전국"·"즉시"·"누구나"·"완전히")가 각 주제에서 왜 위험한지 한 줄씩 표로 정리해 다른 창이 문안 작성 시 체크리스트로 쓰게 했다.
-  - **§2-4(역할 카드 대조)는 대기**: 관문 설계실의 `docs/handoff/claude_joseon_late_role_cards.md`가 이 라운드 작성 시점까지 아직 없어(`ls`로 확인), 대조·수정 요청 목록 작성은 문서 끝에 빈 자리(관리 마커)만 만들어 두고 다음에 이어가기로 했다. 남의 파일은 만들지도 고치지도 않았다.
+  - **§2-4(역할 카드 대조)는 대기**: 관문 설계실의 `docs/archive/handoff/claude_joseon_late_role_cards.md`가 이 라운드 작성 시점까지 아직 없어(`ls`로 확인), 대조·수정 요청 목록 작성은 문서 끝에 빈 자리(관리 마커)만 만들어 두고 다음에 이어가기로 했다. 남의 파일은 만들지도 고치지도 않았다.
   - **확인 불가로 남긴 것**: 이앙법 확산에서 지주-소작농 신분차, 수공업·광업의 지역차(개별 광산 단위), 서민 문화 향유의 도시-농촌 지역차 — 세 항목 모두 오류로 단정하지 않고 "확인 불가"로 표시했다.
   - **부수 확인**: `node scripts/13`·`14`를 실행하면 조작대 소유 보고서 2개가 재생성되는데, 이번에도 실제 내용 변화(타임스탬프성 2줄)만 있어 `git checkout --`으로 되돌렸다. `14`의 총 경고가 지난 라운드(20건)에서 **3건**으로 줄어든 것을 확인했는데, 이건 내가 고친 게 아니라 다른 창(조작대)이 D-031 `sequenceKind`를 이미 구현해 반영된 결과로 보인다 — 내 커밋 범위에는 포함하지 않았다.
   - 검증: `python scripts/04_validate_mud_contract.py`·`node scripts/05_test_simulator_runtime.js`·`python scripts/11_audit_artifacts.py`(0건)·`node scripts/13`·`node scripts/14` 전부 통과(이번 라운드는 `data/*.json`을 안 고쳐서 `01_validate_game_data.py`는 참고용으로만 확인). `git status --short`로 최종 커밋 범위가 `BACKLOG.md`·`docs/audits/joseon_late_source_review.md` 둘뿐임을 확인.
   - **판단이 갈린 지점**: 없음.
-- **2026-09-16 라운드 7 「대조실」 — 역할 카드 문장 대조 + 품팔이 근거 사전 정리**: `docs/handoff/claude_four_track_round7_instruction.md` §2를 받아 진행. 라운드 6에서 비워 뒀던 `docs/audits/joseon_late_source_review.md`의 `ROLE_CARD_REVIEW` 절을 채웠다. **`claude_joseon_late_role_cards.md`(관문 설계실 소유)는 읽기만 하고 직접 고치지 않았다.** main 체크아웃은 안 열었고 push도 안 했다.
+- **2026-09-16 라운드 7 「대조실」 — 역할 카드 문장 대조 + 품팔이 근거 사전 정리**: `docs/archive/handoff/claude_four_track_round7_instruction.md` §2를 받아 진행. 라운드 6에서 비워 뒀던 `docs/audits/joseon_late_source_review.md`의 `ROLE_CARD_REVIEW` 절을 채웠다. **`claude_joseon_late_role_cards.md`(관문 설계실 소유)는 읽기만 하고 직접 고치지 않았다.** main 체크아웃은 안 열었고 push도 안 했다.
   - **확인 필요 6곳 우선 처리**: 광작-품팔이 인과(우리역사넷 「광작과 광작농」이 직접 인과 명시 — 맞음), 전황(영조대 초반 — 맞음, 라운드 6에서 이미 확인), 관영→민간 수공업(숙종 33년/1707 비변사등록 사료 + 정조 때/18세기 말 공장안 폐지 — 맞음), 호적 누락(박일원 1788년 30% 추정 + 유리민 증가 확인, "품팔이"를 콕 집은 문장은 못 찾아 "맞음(근사)"), 대동법·공인(1608년 경기 시작→1708년 전국 완료, 100년 걸림 — 카드는 D-034로 폐기돼 대조 생략, 사실관계만 참고용 기록), 지역차 전반(라운드 6 표로 이미 커버).
   - **역할 카드 4개 + 공통 자료 + 3인 공통 자료 문장별 전수 판정**: 총 22개 문장/구절을 표로 정리(맞음/범위 초과/확인 불가/기존 대조 확인/해당 없음). 대부분 맞음이었고, 경미한 수정 제안 1건("혼자 힘으로" → "예전보다 적은 일손으로", 농민 #2 — 광작농도 농번기엔 고용 노동을 함께 썼다는 원문 근거).
   - **품팔이(`laborer`) 카드용 근거 사전 정리**: 관문 설계실이 2단계에서 쓸 수 있게, 우리역사넷 「임노동자」·「광작과 광작농」을 근거로 "말하는 것"(임노동자=고공, 농업·도성 세곡 하역 등 복수 경로)·"말하지 않는 것"(모든 몰락 농민이 품팔이가 됐다는 단정 없음)·구체적 privateInfo 문장 방향까지 제안했다.
@@ -172,7 +172,7 @@ TASK-20260908-CMP1 | 유물 2개 기반 역사적 추론 프로토타입 구현 
   - 검증: `python scripts/04_validate_mud_contract.py`·`node scripts/05_test_simulator_runtime.js`·`node scripts/15_validate_cooperative_packet.js`(위 경고 재현 확인)·`node scripts/13`·`node scripts/14` 전부 통과. `git status --short`로 최종 커밋 범위가 `BACKLOG.md`·`docs/audits/joseon_late_source_review.md` 둘뿐임을 확인 — 역할 카드 파일·패킷 파일은 건드리지 않았다.
   - **판단이 갈린 지점**: 없음 — 공인 카드는 지시대로 문장별 대조를 생략했다(사실관계만 참고용으로 남김).
   - **2단계에 넘길 것**: 위 evidenceOptions 2건 수정 제안(연결 공방), 품팔이 privateInfo 문장 방향 제안(관문 설계실), 농민 #2 "혼자 힘으로" 완화 제안(관문 설계실).
-- **2026-09-16 라운드 7 2단계 「대조실」 — 확인 불가 해소 + 품팔이 카드 대조 + ev6_mining 대안**: `docs/handoff/claude_four_track_round7_stage2_instruction.md` §2를 받아 진행. 이번에도 `docs/audits/joseon_late_source_review.md`만 고쳤고 **역할 카드 파일은 직접 고치지 않았다**(관문 설계실이 이미 1단계에서 공인→품팔이 교체를 완료해 둔 걸 읽기만 함). main 체크아웃은 안 열었고 push도 안 했다.
+- **2026-09-16 라운드 7 2단계 「대조실」 — 확인 불가 해소 + 품팔이 카드 대조 + ev6_mining 대안**: `docs/archive/handoff/claude_four_track_round7_stage2_instruction.md` §2를 받아 진행. 이번에도 `docs/audits/joseon_late_source_review.md`만 고쳤고 **역할 카드 파일은 직접 고치지 않았다**(관문 설계실이 이미 1단계에서 공인→품팔이 교체를 완료해 둔 걸 읽기만 함). main 체크아웃은 안 열었고 push도 안 했다.
   - **확인 불가 5건 재조사 결과**: 농민 #3 이모작은 **해소**(우리역사넷 「이모작」 — 16~17세기 시작, 『한정록』 최초 기록, 경상·전라 중심·경기 일부라는 지역차까지 확인 — 관문 설계실에 지역차 추가를 제안). 보부상 #5·수공업자 #3도 **해소**(「장시의 증가와 시장권 형성」의 사상인 30~50리 순회 유통 서술로 뒷받침). 보부상 #2·수공업자 #4·기록관 #3은 **확인 불가 확정** — 특히 보부상 #2는 검색 스니펫에 같은 문장이 반복해서 나왔지만, 그 문장이 있다고 나온 우리역사넷 페이지 2곳을 직접 WebFetch로 열어 봐도 실제로는 없어서 "검색 결과가 틀릴 수 있다"는 걸 다시 확인한 사례로 기록해 뒀다(원문 재확인의 필요성).
   - **품팔이 카드 5문장 전수 대조**: 4개 맞음(고공=임노동자 개념, 광작→몰락 인과, 농번기 고용 수요, 지역차 hedge), 1개 확인 불가(비수기 불안정 — 상식적 추론). 수정 요청 없음 — 관문 설계실이 1단계에서 이미 "일부" 범위를 잘 지켜 썼다.
   - **`ev6_mining` 대안 라벨 제안**: "허가와 세금을 내면 개인도 광산을 운영할 수 있었다" → **"정부 허가 받은 사람이 은광 등을 캐고 세금 냈다"**(21자, 조작대의 30자 기준 충족) — 설점수세제가 실제로는 연·은 생산지에 한정된 정부 통제 구조라는 원문 범위를 반영. 연결 공방이 2-나에서 반영할 수 있게 문서에 남겼다.
@@ -267,7 +267,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 ### 조작대(inquiry-console) 트랙 1-B — P0 재렌더/포커스 소실 수정 완료 (2026-09-10)
 
 - `js/mudInquiry.js`: 재렌더 시 `panel.replaceChildren()`로 DOM을 통째로 버려 포커스가 매번 `body`로 날아가던 문제를 `data-focus-key` 기반 캡처·복원(`captureFocusKey`/`restoreFocus`)으로 해결. 순서 카드 ↑↓가 맨 위/아래에 닿아 눌렀던 방향 버튼이 disabled가 되면 같은 카드의 반대 방향 버튼으로 폴백해 연속 조작이 끊기지 않는다.
-- 지시서(`docs/handoff/claude_track1b_inquiry_console_instruction.md`)의 P0 "진행도 게이지 0% 고정"은 로컬 실측 결과 **재현되지 않음** — 고려 문화 4관문 모두 `sim.type: "info"`라 `#widget-gauge`가 애초에 `display:none`이며, 파일럿 도입 커밋(`87c1b10`)부터 계속 이랬다(git history 확인). 실제 UI에 노출되는 결함이 아니므로 이번 작업에서는 별도 조치 없이 다음 항목(P1)으로 넘어간다.
+- 지시서(`docs/archive/handoff/claude_track1b_inquiry_console_instruction.md`)의 P0 "진행도 게이지 0% 고정"은 로컬 실측 결과 **재현되지 않음** — 고려 문화 4관문 모두 `sim.type: "info"`라 `#widget-gauge`가 애초에 `display:none`이며, 파일럿 도입 커밋(`87c1b10`)부터 계속 이랬다(git history 확인). 실제 UI에 노출되는 결함이 아니므로 이번 작업에서는 별도 조치 없이 다음 항목(P1)으로 넘어간다.
 - 검증: `regular_goryeo_culture` 4관문을 로컬 서버에서 실제 클릭/스크립트 혼합으로 끝까지 플레이. §3 보존 항목(3단 잠금, 완료 후 전체 잠금, D-027 카테고리 판정) 모두 유지 확인. §8 자동 검증 전부 통과, 콘솔 에러 0건.
 
 ### 조작대(inquiry-console) 트랙 1-B — P0 진행도 게이지 방어 처리 완료 (2026-09-10)
@@ -285,7 +285,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### P1 — 트랙 1-A(관문 설계실) `regular_neolithic` 파일럿 완료 (2026-09-10)
 
-- 작업: `docs/handoff/claude_track1a_gate_grammar_instruction.md` §3 1차 범위 3편 중 1편째. `regular_neolithic.json`의 4개 필수 단계(1·2·3·4)를 `ordered-hotspot`/`resource-allocation`/`reflection`에서 `inquiry-task`로 전환. 배정 문법은 `sequence`(1·2·3단계, 정착→토기→의생활 과정의 앞뒤 관계)이고 4단계(종합)는 참조 구현(`regular_goryeo_culture`)과 같은 관례로 `claim-evidence`를 사용했다.
+- 작업: `docs/archive/handoff/claude_track1a_gate_grammar_instruction.md` §3 1차 범위 3편 중 1편째. `regular_neolithic.json`의 4개 필수 단계(1·2·3·4)를 `ordered-hotspot`/`resource-allocation`/`reflection`에서 `inquiry-task`로 전환. 배정 문법은 `sequence`(1·2·3단계, 정착→토기→의생활 과정의 앞뒤 관계)이고 4단계(종합)는 참조 구현(`regular_goryeo_culture`)과 같은 관례로 `claim-evidence`를 사용했다.
 - 소유권 범위 준수: `simulator` 블록만 수정했고 `choices`·`narrative`·`glossary`·실패 분기(`1-1`/`2-1`/`3-1`)는 그대로 두었다. `js/`·`css/`·`index.html`은 건드리지 않았다.
 - D-027 회귀 직접 확인: 4단계 근거 3개 중 같은 범주(`technology`) 2개만으로 `minCategories:2` 주장을 제출해 **거부됨**을 확인했다(기존 고려 문화 결함과 달리 이번엔 정상 차단). 범주는 `environment`(1개)·`technology`(2개, 토기·의생활)로 의도적으로 겹쳐 배정해 범주 다양성 조건이 실제로 걸리도록 설계했다.
 - 검증: `04_validate_mud_contract.py` 포함 지시서 §8 전체 통과. 로컬 서버(격리 워크트리, 다른 세션과 포트 충돌 확인 후 8792 사용)에서 1~4단계 전부 실제 플레이: 오답 제출 시 다음 버튼 비활성 유지·정답 비노출 확인, 정답 제출 시 탐구 패널 컨트롤 전체 비활성화 + 다음 버튼만 활성화 확인, 최종 보상(`art_2` 암사동 빗살무늬 토기) 정상 지급, 콘솔 에러 0건.
@@ -322,7 +322,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### 2026-09-10 「연결 공방」(activity-loop) Track 3 — P0 완료: 원인과 결과 1·2단원 세트 신규 제작
 
-- **배경**: `docs/handoff/claude_track3_activity_loop_instruction.md`(Opus 5 기획) — 확장 역사 활동을 "MUD에서 얻은 것을 다시 쓰는 곳"으로 재정의하는 트랙. §1 미병합 커밋(`76f7cde` 버튼-결과 위치 수정, `2108f0f` 토글 스위치 도입) 정리 후 P0 착수.
+- **배경**: `docs/archive/handoff/claude_track3_activity_loop_instruction.md`(Opus 5 기획) — 확장 역사 활동을 "MUD에서 얻은 것을 다시 쓰는 곳"으로 재정의하는 트랙. §1 미병합 커밋(`76f7cde` 버튼-결과 위치 수정, `2108f0f` 토글 스위치 도입) 정리 후 P0 착수.
 - **문제**: `data/causeEffectChains.json`이 3단원(근현대) 2세트뿐이라 1·2단원 진도 중에는 원인과 결과 게임이 완전히 비어 있었다.
 - **작업**: 1단원(고려)·2단원(조선) 세트를 각 1개씩 신규 제작, 총 4세트로 확장.
   - 1단원: 고려 건국 → 거란 침입·서희의 담판 → 거란 재침입·강감찬의 귀주대첩 → 몽골 침입·팔만대장경 조판 → 벽란도 국제 교류 (`regular_goryeo_founding`/`regular_goryeo_war`/`regular_goryeo_culture` MUD 내용 기준)
@@ -417,7 +417,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### 2026-09-14 「관문 설계실」(gate-grammar) Round 3 — §1-1·§1-2: 16관문 의미 검토표 + 수업 관찰 준비
 
-- 지시서: `docs/handoff/claude_four_track_round3_instruction.md` §1. "새 편을 전환하지 않는다. `js/`는 수정하지 않는다"는 원칙을 지켰다 — `data/mud/*.json` 1개 파일과 `docs/` 문서만 수정.
+- 지시서: `docs/archive/handoff/claude_four_track_round3_instruction.md` §1. "새 편을 전환하지 않는다. `js/`는 수정하지 않는다"는 원칙을 지켰다 — `data/mud/*.json` 1개 파일과 `docs/` 문서만 수정.
 - **주 작업(§1-1)**: `docs/audits/inquiry_pilot_semantic_review.md`에 파일럿 4편(고려 문화·신석기·삼국·근대 개항) 16관문 전부를 표로 정리했다. 지시서가 지목한 "근대 1관문 '개항의 계기'를 받치는 자료가 없다"(RT-02)를 먼저 처리: 강화도 조약 제5조("부산 이외에 두 항구를 20개월 이내에 개항하여 통상을 허가한다")를 국사편찬위원회 우리역사넷(`kc_i400800`) 원문으로 대조해 새 근거 카드 `port-opening-clause`를 추가하고 `requiredEvidenceIds`에 포함시켰다. `treaty-unequal-clauses` award의 라벨·설명도 "개항과 불평등 조항"으로 갱신했다.
 - 나머지 15관문은 2026-09-14 `32f6d82`(D-030) 조치가 이미 RT-02·03·05를 해소한 상태였음을 사람이 직접 문장을 다시 읽어 재확인했다 — `requiredCategories`/`requiredEvidenceIds`가 각 주장 문장의 요소와 정확히 대응하는지, `sequence` 카드가 모두 절차·연대로 확인되는 순서인지, `map-evidence` 세 정답이 같은 이야기를 하는지, 오답 피드백이 정답을 노출하지 않는지 확인했다. 신규 수정은 없음.
 - **§1-2**: `docs/plans/classroom_observation_inquiry_pilot.md` 작성 — Codex 첫 인계(`claude_code_interaction_diversity_handoff_20260910.md` §6 P0)가 2026-09-10에 요구했으나 아직 없었던 문서. 공통 지표(완료 시간 7~12분, 무작위 클릭, 자료 연결 설명, 오답 후 수정, 교사 개입, 막힌 지점) + 편별 관찰 포인트 + 교사용 1장 기록 양식 포함. `EXPERIMENTS.md`에 `EXP-008`을 "관찰 → 가설 → 실험 → 결과 → 다음 결정" 형식으로 추가하고 결과·다음 결정 칸은 비워 뒀다.
@@ -476,7 +476,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### 2026-09-15 「관문 설계실」(gate-grammar) Round 4 — §1-1: 1단원 비파일럿 9편 사실 대조
 
-- 지시서: `docs/handoff/claude_four_track_round4_instruction.md` §1. 기준 브랜치는 main이 아니라 `fix/round3-red-team`(`b4dca60`). **main 체크아웃은 건드리지 않았고, 이 브랜치에만 커밋 — 원격 push도 하지 않았다**(§0-4 지시 그대로).
+- 지시서: `docs/archive/handoff/claude_four_track_round4_instruction.md` §1. 기준 브랜치는 main이 아니라 `fix/round3-red-team`(`b4dca60`). **main 체크아웃은 건드리지 않았고, 이 브랜치에만 커밋 — 원격 push도 하지 않았다**(§0-4 지시 그대로).
 - 대상: `regular_paleolithic`·`regular_bronze_age`·`regular_gojoseon`·`regular_three_kingdoms_life`·`regular_silla`·`regular_balhae`·`regular_goryeo_founding`·`regular_goryeo_society`·`regular_goryeo_war` 9편. 결과 표는 `docs/audits/unit1_regular_fact_check.md`.
 - **정정 2건(원문 직접 열람으로 확정)**:
   1. `regular_goryeo_war` 3단계: "귀주대첩 이후 거란은 다시는 고려를 넘보지 못했고, 동아시아의 평화가 200년간 유지되었습니다" → 국사편찬위원회 우리역사넷 원문("큰 갈등이나 물리적 충돌 없이 오랜 시간 안정적인 평화 체제를 유지")에 맞춰 "200년"과 "다시는 넘보지 못했고"라는 확인되지 않은 단정을 뺐다.
@@ -517,7 +517,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### 2026-09-15 「관문 설계실」(gate-grammar) Round 5 — §1: 2단원 비파일럿 8편 사실 대조
 
-- 지시서: `docs/handoff/claude_four_track_round5_instruction.md` §1. 기준은 `origin/main`. **main 체크아웃은 열지도 쓰지도 않았고, 이 브랜치에만 커밋 — push 없음**(§0 그대로).
+- 지시서: `docs/archive/handoff/claude_four_track_round5_instruction.md` §1. 기준은 `origin/main`. **main 체크아웃은 열지도 쓰지도 않았고, 이 브랜치에만 커밋 — push 없음**(§0 그대로).
 - 대상: `regular_joseon_founding`·`regular_sejong`·`regular_joseon_status`·`regular_joseon_silhak`·`regular_joseon_economy`·`regular_joseon_folk`·`regular_joseon_diplomacy`·`regular_myeongnyang` 8편. 결과: `docs/audits/unit2_regular_fact_check.md`.
 - **결과: 확인된 사실 오류 없음, 데이터 변경 없음.** 라운드 4의 1단원 9편과 대비된다 — 2단원 8편은 이미 정밀하게 다듬어진 상태였다. 특히 지시서가 예로 든 "측우기를 장영실이 만들었다"는 통속 서술을 `regular_sejong` 3관문에서 직접 확인했지만, 측우기는 발명자를 특정하지 않고 앙부일구(장영실 관련 해시계)와 명확히 구분해 서술하고 있었다.
 - `regular_joseon_silhak`의 "수원 화성 10년 예정→2년 9개월 완공" 수치는 원문 재확인에 실패했다(기존 인용 출처에 해당 서술 없음, 재탐색한 URL들도 매번 무관한 페이지로 연결). 반증도 찾지 못해 유지했고, 다음 라운드에서 정확한 원문을 찾으면 재확인이 필요하다고 남겨 뒀다.
@@ -556,8 +556,8 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### 2026-09-16 「관문 설계실」(gate-grammar) Round 6 — §1: 조선 후기 역할별 자료 카드 (C1)
 
-- 지시서: `docs/handoff/claude_four_track_round6_instruction.md` §0·§1. 10월 28일 공개수업 콘텐츠 패킷 중 관문 설계실 몫. `data/mud/`·`apps/**`·`js/*.js`는 건드리지 않았다(§0 그대로). main 체크아웃 미접촉, 이 브랜치에만 커밋 — push 없음.
-- 산출물: `docs/handoff/claude_joseon_late_role_cards.md`. 4인 역할(농민·보부상·장시 주민·수공업자·기록관) `privateInfo`(3~5문장, 역할 간 내용 겹침 없음)·`sharePrompt`·`interest`, 3인 변형(겸임 없이 3역할 + 공통 자료 보충)·5인 변형(다섯째 역할 `공인` — 대동법 이후 관청 납품 상인, 단순 서기 아님), `commonPrompt`, `firstJudgment`(정답 없는 3지선다 + 이유는 기기 저장), `synthesis`(대상·근거 8개·한계 옵션, `minEvidence:2`/`minDistinctRoleSources:2`), 질문 틀 3종(대상·근거·한계), 교사 개입 문구, sticky-wall 문자열 형식을 초안으로 작성했다.
+- 지시서: `docs/archive/handoff/claude_four_track_round6_instruction.md` §0·§1. 10월 28일 공개수업 콘텐츠 패킷 중 관문 설계실 몫. `data/mud/`·`apps/**`·`js/*.js`는 건드리지 않았다(§0 그대로). main 체크아웃 미접촉, 이 브랜치에만 커밋 — push 없음.
+- 산출물: `docs/archive/handoff/claude_joseon_late_role_cards.md`. 4인 역할(농민·보부상·장시 주민·수공업자·기록관) `privateInfo`(3~5문장, 역할 간 내용 겹침 없음)·`sharePrompt`·`interest`, 3인 변형(겸임 없이 3역할 + 공통 자료 보충)·5인 변형(다섯째 역할 `공인` — 대동법 이후 관청 납품 상인, 단순 서기 아님), `commonPrompt`, `firstJudgment`(정답 없는 3지선다 + 이유는 기기 저장), `synthesis`(대상·근거 8개·한계 옵션, `minEvidence:2`/`minDistinctRoleSources:2`), 질문 틀 3종(대상·근거·한계), 교사 개입 문구, sticky-wall 문자열 형식을 초안으로 작성했다.
 - **판단 기준 자체 점검**: 지시서가 요구한 "자료 한 장만 봐도 답이 나오면 안 된다"를 직접 확인 — 농민 카드만으로는 "땅을 넓힌 사람은 좋아졌다"까지만 알 수 있고 화폐 불편·경쟁·기록 공백은 다른 역할 카드에만 있다.
 - **이해관계 충돌 설계**: 농민(제값 받고 싶음)↔보부상(쌀 때 사고 싶음), 보부상(타 지역 물건 유통)↔수공업자(그 물건과 경쟁), 농민 본인(광작 성공)↔농민의 이웃(땅을 구하지 못해 품팔이), 5인 변형의 공인(대량 확보로 안정적 이익)↔수공업자·보부상(물건 구하기 어려워짐) — 4가지 갈등축을 문서 §2에 명시했다.
 - 각 사실 문장 옆에 `[출처 후보: …]` 표기로 이미 검증된 것(라운드 5에서 대조 완료된 모내기법·상평통보)과 **대조실이 확인해야 할 것**(광작-품팔이 관계, 전황, 관영→민간 수공업 전환, 호적 누락, 대동법·공인 성립 범위)을 구분해 넘겼다. 원문 대조는 직접 하지 않았다(대조실 소관).
@@ -569,7 +569,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### 2026-09-16 「관문 설계실」(gate-grammar) Round 7 §1 — 1단계: 공인 카드를 품팔이 카드로 교체
 
-- 지시서: `docs/handoff/claude_four_track_round7_instruction.md` §0·§1, 결정 근거 `DECISIONS.md` D-034. **`docs/handoff/claude_joseon_late_role_cards.md` 한 파일만** 고쳤다. `apps/**`·`cooperative-mud/**`·`data/mud/*.json`·`js/*.js`·남의 파일은 건드리지 않았다. main 체크아웃 미접촉, 이 브랜치에만 커밋 — push 없음.
+- 지시서: `docs/archive/handoff/claude_four_track_round7_instruction.md` §0·§1, 결정 근거 `DECISIONS.md` D-034. **`docs/archive/handoff/claude_joseon_late_role_cards.md` 한 파일만** 고쳤다. `apps/**`·`cooperative-mud/**`·`data/mud/*.json`·`js/*.js`·남의 파일은 건드리지 않았다. main 체크아웃 미접촉, 이 브랜치에만 커밋 — push 없음.
 - **5인 변형의 `gongin`(공인) 카드를 `laborer`(품팔이) 카드로 교체**했다. 공인은 보부상과 같은 상인 관점이라 겹친다는 D-034 판단을 그대로 따랐다. 품팔이 카드 내용: 이앙법 확산으로 광작이 늘며 땅을 빌리지 못하게 된 일부 농민이 품삯으로 생활 — "모든 농민이 땅을 잃었다"처럼 쓰지 않고 privateInfo 2·5번에서 "일부"·"모든 마을에 똑같이 있는 것은 아니"라고 범위를 명시했다(지시서 주의 사항 직접 반영).
 - 이해관계 충돌 문장 추가: 농민(넓은 땅을 지어 이익) ↔ 품팔이(일거리는 생기지만 제 땅이 없어 불안정) — 같은 변화(광작)가 두 처지에 다르게 나타남을 명시.
 - 역할 id·`evidenceId`를 D-034 확정값 표와 맞췄다: `evidenceOptions`의 `ev-gongin`을 `ev-laborer`(roleId `laborer`)로 교체, §9의 5인 구성 안내를 `["farmer","bobusang","craftsman","recordkeeper","laborer"]`로 수정, §10 확인 불가 목록에서 대동법·공인 관련 항목을 뺐다(더 이상 해당 없음).
@@ -582,7 +582,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### 2026-09-16 「관문 설계실」(gate-grammar) Round 7 §1 — 2단계: 역할 카드 확정
 
-- 지시서: `docs/handoff/claude_four_track_round7_stage2_instruction.md` §1. `docs/handoff/claude_joseon_late_role_cards.md` 한 파일만 고쳤다. main 체크아웃 미접촉, 이 브랜치에만 커밋 — push 없음.
+- 지시서: `docs/archive/handoff/claude_four_track_round7_stage2_instruction.md` §1. `docs/archive/handoff/claude_joseon_late_role_cards.md` 한 파일만 고쳤다. main 체크아웃 미접촉, 이 브랜치에만 커밋 — push 없음.
 - 대조실이 `docs/audits/joseon_late_source_review.md`의 `ROLE_CARD_REVIEW`에서 낸 문장별 판정을 전부 반영했다.
   - **범위 초과 정정**: 농민 #2 "혼자 힘으로" → "예전보다 적은 일손으로"(광작농도 농번기엔 고용 노동을 함께 썼다는 원문 근거).
   - **확인 불가 → 빼서 §11 "보류 문장"에 보존**: 농민 이모작 문장, 보부상 "곡식·물건 값 시기별 변동" 문장. 개념 자체는 삭제하지 않고 각 역할의 `interest` 필드에 남겨 카드 설계(이해관계 충돌)는 그대로 유지했다.
@@ -599,7 +599,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### 2026-09-17 「관문 설계실」(gate-grammar) Round 8 §1: 역할 본문 확정본 v2(앱 계약)
 
-- 지시서 `docs/handoff/claude_four_track_round8_instruction.md`(D-035) §0·§1. `docs/handoff/claude_joseon_late_role_cards.md` 한 파일만 고쳤다. `apps/**`는 읽기만 했다.
+- 지시서 `docs/archive/handoff/claude_four_track_round8_instruction.md`(D-035) §0·§1. `docs/archive/handoff/claude_joseon_late_role_cards.md` 한 파일만 고쳤다. `apps/**`는 읽기만 했다.
 - **C1-04 반영**: 직접 근거가 없던 추론 문장 세 곳을 역할의 추론·걱정으로 낮췄다. 보부상 interest 첫 문장("이문을 남기고 싶습니다"→"남길 수 있지 않을까 생각합니다"), 수공업자 privateInfo #4("살림이 어려워집니다"→"어려워질까 걱정입니다"), 품팔이 privateInfo #4("벌이가 불안정합니다"→"불안정할 때도 있을 것입니다"). 사실로 단정하는 문장이 남지 않게 했다.
 - **역할마다 대표 근거 1개 확정**: 5개 역할의 evidenceId가 서로 겹치지 않음을 확인하고(`farmer-ipbeop`/`bobusang-currency`/`jangsi-craftsman`/`record-keeper-scope`/`laborer-wage`), 각각 30자 안팎 label과 고른 이유 한 줄을 추가했다. 기록관 근거는 지시서대로 "자료의 한계"(호적에 없는 유리민)를 가리키도록 했다.
 - **학생 문장·편집 메모 분리**(C1-05 대응): 모든 역할 카드의 줄 끝 `[...]` 메모를 목록 항목 아래 들여쓴 "메모:" 줄로 옮겼다. 학생 문장에는 더 이상 대괄호가 남지 않는다.
@@ -609,9 +609,9 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - `scripts/15`의 기본 모드(옵션 없음)는 여전히 `data/cooperative/joseon_late_packet.draft.json`(연결 공방 소유) 기준으로 실패를 낸다 — 2-나에서 연결 공방이 패킷을 앱 계약 JSON으로 다시 조립하면 해소될 예상된 실패이며 이 라운드의 내 몫이 아니다.
 - 부수 갱신된 조작대 소유 보고서 2개(`inquiry_combinatorics_audit.md`, `inquiry_semantics_lint.md`)는 `git checkout --`으로 되돌렸다.
 - 커밋 직전 `git status --short`로 대상 문서 1개만 바뀌었는지 확인했다.
-- **2단계(연결 공방)에 넘길 것**: `docs/handoff/claude_joseon_late_runtime_scenario.json` 조립 시 이 문서의 v2 `privateInfo`(메모 제외)·대표 근거(`evidence` id/label)를 그대로 쓰면 된다. `sharePrompt`·질문 틀은 지시서대로 교사용 sticky-wall 문서로 옮겨 달라.
+- **2단계(연결 공방)에 넘길 것**: `docs/archive/handoff/claude_joseon_late_runtime_scenario.json` 조립 시 이 문서의 v2 `privateInfo`(메모 제외)·대표 근거(`evidence` id/label)를 그대로 쓰면 된다. `sharePrompt`·질문 틀은 지시서대로 교사용 sticky-wall 문서로 옮겨 달라.
 
-- **2026-09-17 라운드 8 「대조실」 — 앱 `sources` 목록 + connections 범위 기준**: `docs/handoff/claude_four_track_round8_instruction.md` §2를 받아 진행. `docs/audits/joseon_late_source_review.md`만 고쳤다. `apps/cooperative-live/convex/scenarios.ts`는 **읽기만** 했다(D-035·§0 규칙대로 앱 파일에 손대지 않음, 고려 초기 `earlyGoryeo.sources` 형식만 참고). main 체크아웃은 안 열었고 push도 안 했다.
+- **2026-09-17 라운드 8 「대조실」 — 앱 `sources` 목록 + connections 범위 기준**: `docs/archive/handoff/claude_four_track_round8_instruction.md` §2를 받아 진행. `docs/audits/joseon_late_source_review.md`만 고쳤다. `apps/cooperative-live/convex/scenarios.ts`는 **읽기만** 했다(D-035·§0 규칙대로 앱 파일에 손대지 않음, 고려 초기 `earlyGoryeo.sources` 형식만 참고). main 체크아웃은 안 열었고 push도 안 했다.
   - **8-1 앱 `sources` 9건**: 지금까지(라운드 6~7) WebFetch로 실제 열람한 원문 중 역할 카드의 사실 문장을 직접 뒷받침하는 것만 골라 `{claim, url, accessedAt}` 형식으로 정리했다 — 이앙법·광작-몰락 인과·이모작(지역차 포함)·장시 순회 유통·상평통보 유통(1678)·전황(영조대)·관영→민영 수공업(1707 사료+정조대 공장안 폐지)·호적 누락(박일원 1788·30%)·임노동자(고공) 개념. 기록관의 "고을 기록만으로 나라 전체를 알 수 없다"는 방법론적 서술은 고려 초기 record-reviewer 선례처럼 별도 소스를 붙이지 않았다.
   - **8-2 추론 문장 3건**: C1-04가 지목한 보부상 이문·수공업자 안 팔리는 달·품팔이 비수기 불안정 세 문장을 "추론(출처 없음)"으로 표를 만들어 분리했다. 지시서 예시("~할까 걱정입니다")와 같은 방향의 권장 표현을 같이 제안했다 — 다만 관문 설계실의 §1 문장 확정은 대조실 몫이 아니라 직접 고치지 않았다.
   - **8-3 connections 범위 기준 5가지**: (1) 대상은 반드시 역할 카드가 있는 인물군이어야 함(지주처럼 근거 없는 집단 금지), (2) 전칭 표현 금지, (3) 이득·어려움을 같은 변화의 양면으로 묶어 씀, (4) 추론으로 낮춘 문장의 결론은 connections에서도 단정하지 않음, (5) 시기·지역 미명시 "전국" 규모로 확장하지 않음.
@@ -620,7 +620,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
   - **판단이 갈린 지점**: 없음.
 
 ## 2026-09-18 후속 제품 방향 점검 (구현 아님)
-- 메모: `docs/handoff/claude_round8_product_link_memo_20260918.md`(Codex 메모 `claude_history_journey_connection_followup_20260918.md` §6 요청)
+- 메모: `docs/archive/handoff/claude_round8_product_link_memo_20260918.md`(Codex 메모 `claude_history_journey_connection_followup_20260918.md` §6 요청)
 - 점검 결과: 조선 후기 `evidence`·`limitations`·`connections`는 세 관점과 충돌하지 않는다. 관점 B(유물을 증거로)는 아직 연결되지 않았다.
 - [ ] 최소 검증 후보: 고려 편 한 차시로 개인 MUD(`regular_goryeo_culture`) → 유물 카드 → 실시간 협동(`early-goryeo-unity`)을 이어 관찰. 새 코드 없음. 관찰 3항목은 메모 §4
 - [ ] (판단 대기) 역할 `evidence`에 유물 식별자를 붙일지 — 앱 데이터 구조 변경이라 수업 관찰 뒤 별도 승인
@@ -629,7 +629,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 ## 2026-09-18 차시 연결(관점 A) — 교사 관찰에서 나온 요구
 - 현상: Regular 한 차시를 마치면 **항상 전체 진도표로 돌아간다.** 이어서 다음 차시로 가거나 이전 차시로 돌아가는 길이 없다.
 - 보강 근거: 같은 날 학생 몇 명이 **스스로 지난 7~8차시를 찾아 들어가** 바뀐 시뮬레이터를 해 봤다(`EXPERIMENTS.md` EXP-008 관찰 맥락). 되돌아가려는 행동이 실제로 있었다.
-- 참고 사례: 다른 교사 자료 — 선사시대부터 대한민국 수립까지 연대표로 이어지고 현재 위치를 볼 수 있다(`docs/handoff/claude_history_journey_connection_followup_20260918.md` §1).
+- 참고 사례: 다른 교사 자료 — 선사시대부터 대한민국 수립까지 연대표로 이어지고 현재 위치를 볼 수 있다(`docs/archive/handoff/claude_history_journey_connection_followup_20260918.md` §1).
 - 데이터 준비 상태: `data/mud/_index.json`에 `unitId`·`lessonNumbers`가 이미 있어 차시 순서를 만들 수 있다. 새 데이터 구조가 필요하지 않다.
 - [ ] (승인 대기) 완료 화면에 "이전 차시 / 다음 차시" 연결 추가 — 관점 A의 가장 작은 후보
 - [ ] (승인 대기, 더 큼) 연대표 형태의 현재 위치 표시
@@ -644,7 +644,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### 2026-09-18 「관문 설계실」(gate-grammar) Round 9 §1: `data/lesson_track.json` 작성
 
-- 지시서 `docs/handoff/claude_four_track_round9_instruction.md`(D-036) §0·§1. `data/lesson_track.json`(신규) 한 파일만 만들었다. `apps/**`·`cooperative-mud/**`는 건드리지 않았다.
+- 지시서 `docs/archive/handoff/claude_four_track_round9_instruction.md`(D-036) §0·§1. `data/lesson_track.json`(신규) 한 파일만 만들었다. `apps/**`·`cooperative-mud/**`는 건드리지 않았다.
 - **확인 불가 항목(§5에 넘김)**: 지시서와 D-036은 "정규 32편"이라고 했지만, `data/mud/_index.json`에서 `tier: "regular"`인 항목은 **28개뿐**이다(직접 스크립트로 확인, `08_validate_mud_catalog.py`가 말하는 "32"는 심화 4편을 합친 전체 MUD 수). 4편을 임의로 지어내지 않고 실제 28편으로 `lesson_track.json`을 만들었으며, `note` 필드와 이 로그에 그대로 남긴다. 대조실·연결 공방·조작대·기획 세션이 32 vs 28 불일치를 알아야 한다.
 - **2단원 7차시 동률 순서**: `regular_myeongnyang`(명량대첩, 1597년)을 `regular_joseon_diplomacy`(병자호란, 1636년)보다 앞에 두었다. 두 편 다 교과서상 7차시로 같지만, 연대표는 실제 역사 순서를 보여주는 것이 목적(D-036 배경)이라 사건 발생 연도를 기준으로 삼았다. 이유는 각 항목의 `orderNote`에 적었다.
 - **eraLabel**: 지시서가 준 13개 라벨 목록을 그대로 썼다. 교과서 흐름과 어긋나지 않도록, 안중근·의병 항쟁 편(3단원 2차시, `regular_independence_army`)은 1910년 국권 피탈 이전 사건(의병 항쟁·1909년 안중근)이라 "일제강점기"가 아니라 앞 편(`regular_modern_open`)과 같은 "개항기"로 묶었다 — 같은 시대가 이어지되 실제 연도 순서와도 어긋나지 않는다. 조선 전기·후기 경계(7차시 왜란·호란 두 편)는 지시서가 준 라벨 목록에 "왜란·호란" 별도 항목이 없어 "조선 전기"로 묶었다(8차시 조선 후기 경제 편 앞에 위치).
@@ -656,7 +656,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - **대조실에 넘길 것**: `eraRange` 13개 라벨 전부와 §2가 지목한 시기(선사, 발해·통일신라 병존, 조선 전기 경계)를 검증해 `lesson_track_era_review.md`에 남겨 달라. 내가 임의로 정한 라벨 배치(의병·안중근을 개항기로, 왜란·호란을 조선 전기로)도 함께 검토해 달라 — 어긋나면 다음 라운드에 라벨을 바꾸겠다.
 - **기획 세션에 넘길 것**: "정규 32편" 전제와 실제 데이터(28편)의 불일치. 4편이 아직 안 만들어진 것인지, 32라는 숫자 자체가 착오인지 확인이 필요하다.
 
-- **2026-09-18 라운드 9 「대조실」 — 연대표 띠 시대 구분·연대 표기 검증**: `docs/handoff/claude_four_track_round9_instruction.md` §2를 받아 진행. 신규 산출물 `docs/audits/lesson_track_era_review.md`만 만들었다 — `data/lesson_track.json`(관문 설계실 소유, 이번 라운드 아직 없음)은 직접 고치지 않았다. main 체크아웃은 안 열었고 push도 안 했다.
+- **2026-09-18 라운드 9 「대조실」 — 연대표 띠 시대 구분·연대 표기 검증**: `docs/archive/handoff/claude_four_track_round9_instruction.md` §2를 받아 진행. 신규 산출물 `docs/audits/lesson_track_era_review.md`만 만들었다 — `data/lesson_track.json`(관문 설계실 소유, 이번 라운드 아직 없음)은 직접 고치지 않았다. main 체크아웃은 안 열었고 push도 안 했다.
   - **먼저 지적**: 지시서 §0-2의 확정 데이터 형식 예시 자체가 `eraRange: "약 70만 년 전~"`을 쓰고 있는데, 이건 `docs/audits/external_reference_sbbsbb_review_20260918.md`가 기록한 **외부 사이트 화면 문구를 그대로 옮긴 값**이고 라운드 5~6에서 이미 "원문에 없는 단정"으로 정정했던 값과 정면으로 어긋난다 — 지시서 예시를 그대로 베끼지 말라고 관문 설계실에 명확히 전달했다.
   - **13개 시대 연대 표기 전수 검토**: 신석기(기원전 8000년경), 청동기(기원전 2000년경~1500년경), 고조선(건국 기원전 2333년은 국사편찬위원회도 "의문 제기"라고 명시하는 **전승 기록** — "~라고 전한다" 필수, 멸망 기원전 108년은 확인), 삼국(기원전 57~668), 발해(698~926), 고려(918~1392), 조선 전기/후기(임진왜란 1592 기준 분리), 개항기(1876 시작만 확인, 종료 연도는 확인 불가), 일제강점기(1910~1945), 광복·대한민국(1945~, 끝 없음) 정리.
   - **핵심 정정 — 통일신라 종료 연도**: 지시서·외부 사이트는 "676~936"인데, **WebFetch로 우리역사넷 「기울어지는 신라」 원문을 직접 열어** "경순왕은…왕건에게로 나라를 들어 항복하였다(935)"를 확인 — 936년은 고려가 그 이듬해 후백제까지 마저 병합해 "후삼국 통일을 완성"한 해이지 신라(통일신라) 자체의 멸망 연도가 아니다. "676~935"로 정정 제안.
@@ -668,7 +668,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### 2026-09-18 「관문 설계실」(gate-grammar) Round 9 2단계 §1: 연대 표기 확정, `eraRangeDraft` 제거
 
-- 지시서 `docs/handoff/claude_four_track_round9_instruction.md` "라운드 9 — 2단계" §1(1단계 통합 뒤). `data/lesson_track.json` 한 파일만 고쳤다.
+- 지시서 `docs/archive/handoff/claude_four_track_round9_instruction.md` "라운드 9 — 2단계" §1(1단계 통합 뒤). `data/lesson_track.json` 한 파일만 고쳤다.
 - `docs/audits/lesson_track_era_review.md` 제안표를 항목마다 반영하고 28개 전 항목에서 `eraRangeDraft` 표시를 뗐다.
   - **통일신라**: 이미 "676~935"로 맞게 들어가 있어 그대로 두고(936은 고려의 후삼국 통일 완성 연도이지 신라 멸망 연도가 아니라는 대조실 구분을 반영한 값이었다) draft 표시만 제거했다.
   - **구석기**: "수십만 년 전~약 1만 년 전" → **"수십만 년 전~"**(끝 연도 제거). 라운드 5·6의 "70만 년 전은 원문에 없는 숫자" 판단과 일치시켰다.
@@ -686,7 +686,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - 커밋 직전 `git status --short`로 대상 파일 1개만 바뀌었는지 확인했다.
 - **연결 공방에 넘길 것**: 발해 `eraOverlapNote`("통일신라와 같은 시대") 안내 문구를 화면에 반영해 달라(대조실 §2-1과 동일 요청).
 
-- **2026-09-18 라운드 9 2단계 「대조실」 — 핵심 4건 WebFetch 직접 확인**: `docs/handoff/claude_four_track_round9_instruction.md`("라운드 9 — 2단계 지시")의 2-§2를 받아 진행. `docs/audits/lesson_track_era_review.md`만 고쳤다 — `data/lesson_track.json`(관문 설계실 소유, 이미 내 1단계 제안을 대부분 반영해 둔 초안 상태 확인함)은 직접 고치지 않았다. main 체크아웃은 안 열었고 push도 안 했다.
+- **2026-09-18 라운드 9 2단계 「대조실」 — 핵심 4건 WebFetch 직접 확인**: `docs/archive/handoff/claude_four_track_round9_instruction.md`("라운드 9 — 2단계 지시")의 2-§2를 받아 진행. `docs/audits/lesson_track_era_review.md`만 고쳤다 — `data/lesson_track.json`(관문 설계실 소유, 이미 내 1단계 제안을 대부분 반영해 둔 초안 상태 확인함)은 직접 고치지 않았다. main 체크아웃은 안 열었고 push도 안 했다.
   - **핵심 4건을 WebFetch로 원문 직접 확인**(1단계는 대부분 WebSearch 종합이었던 것을 지시대로 보강):
     - 통일신라 935년 — 1단계에서 이미 WebFetch 확인한 「기울어지는 신라」를 재검토, 같은 URL·같은 인용문이 유효함을 재확인.
     - 발해 698년 — 우리역사넷 "대조영 세력은…동모산에 이르러 698년 진국을 건국"(`kc_i100800`) 확인.
@@ -699,7 +699,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### 2026-09-21 「관문 설계실」(gate-grammar) Round 10 §1: 3단원 정규 7편 사실 대조
 
-- 지시서 `docs/handoff/claude_four_track_round10_instruction.md`(D-032 해제) §0·§0-2·§1. 산출물 `docs/audits/unit3_regular_fact_check.md`. 대상 7편 중 확인된 오류가 있는 5편만 데이터를 고쳤다: `regular_independence.json`, `regular_japanese_rule_1.json`, `regular_japanese_rule_2.json`, `regular_gwangbok.json`, `regular_post_war.json`. `regular_independence_army.json`·`regular_korean_war.json`은 대조 결과 이미 잘 되어 있어 손대지 않았다. `apps/**`는 읽지 않았다.
+- 지시서 `docs/archive/handoff/claude_four_track_round10_instruction.md`(D-032 해제) §0·§0-2·§1. 산출물 `docs/audits/unit3_regular_fact_check.md`. 대상 7편 중 확인된 오류가 있는 5편만 데이터를 고쳤다: `regular_independence.json`, `regular_japanese_rule_1.json`, `regular_japanese_rule_2.json`, `regular_gwangbok.json`, `regular_post_war.json`. `regular_independence_army.json`·`regular_korean_war.json`은 대조 결과 이미 잘 되어 있어 손대지 않았다. `apps/**`는 읽지 않았다.
 - **WebFetch 원문 직접 확인 4건**(나머지는 검색 종합, 문서에 구분 표시): 아우내 장터 참여 인원(우리역사넷 「유관순」— "약 3천여 명"), 기미독립선언서 저자 논쟁(우리역사넷 「3·1 독립 선언서」— 공약 3장 저자는 학설 대립), 국호 '대한민국' 제안자(우리역사넷 — 신석우 동의·이영근 재청, 기존 서술 정확), 대한광복회 결성자·김좌진 가입 시점(우리역사넷 — 1915년 박상진 주도 결성, 김좌진은 1916년 이후 가입).
 - **확인된 오류 9건을 고쳤다**: (1) 아우내 장터 "3천 명"→"약 3천여 명"(확정 수치처럼 쓴 추정치를 원문 표현대로 되돌림), (2) 기미독립선언서 "한용운 등이 검토" 삭제(논쟁 있는 서술을 확정처럼 씀), (3)(4) `regular_japanese_rule_1`의 로드맵/배지 라벨 "독립의군부"를 실제 관문 내용(대한광복회·송죽회)에 맞게 정정 — 라운드 5 삼국생활 편과 같은 유형의 라벨-내용 불일치, (5) 대한광복회 "박상진, 김좌진 등이 결성"→"박상진이 주도해 결성하고 김좌진 등이 참여"(김좌진은 1915년 결성 당시 멤버가 아니라 1916년 이후 가입), (6) 창씨개명 "1939년"→"1939년 공포해 1940년부터"(공포·시행 연도 구분), (7) 조선어학회 "덕분에 자유롭게 쓰고 있다" 인과 완화, (8)(9) `regular_post_war`의 "교육열"(한국인의 유별난 열정/경제 성장의 원동력이라는 일반화·과잉 인과), "유네스코와 전 세계가 감동"(출처 미확인 감정 서술), "천막 교실→산업화·민주화를 이끌었다"(과잉 인과)를 각각 완화·삭제.
 - **IF 단계(오답 선택지)는 대조 대상에서 제외**했다(지시서 §1 명시) — "밀고하여 배신", "독재자 지명" 같은 표현은 잘못된 선택지의 극단적 예시일 뿐 서술 단정이 아니라고 판단.
@@ -711,7 +711,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 - 커밋 직전 `git status --short`로 대상 6개 파일(데이터 5개 + 신규 감사 문서 1개)만 바뀌었는지 확인했다.
 - **판단을 기획 세션에 넘길 항목**: 없음.
 
-- **2026-09-21 라운드 10 「대조실」 — 3단원 유물 9종 재검토 (D-032 해제 뒤)**: `docs/handoff/claude_four_track_round10_instruction.md`의 §0/§0-2/§2를 받아 진행. `data/artifacts.json`과 `docs/audits/artifacts_fact_check.md`(라운드 10 절 추가)만 고쳤다. `data/artifactComparisons.json`은 지시대로 손대지 않았고(3단원 쌍 새로 만들지 않음), main 체크아웃은 안 열었고 push도 안 했다.
+- **2026-09-21 라운드 10 「대조실」 — 3단원 유물 9종 재검토 (D-032 해제 뒤)**: `docs/archive/handoff/claude_four_track_round10_instruction.md`의 §0/§0-2/§2를 받아 진행. `data/artifacts.json`과 `docs/audits/artifacts_fact_check.md`(라운드 10 절 추가)만 고쳤다. `data/artifactComparisons.json`은 지시대로 손대지 않았고(3단원 쌍 새로 만들지 않음), main 체크아웃은 안 열었고 push도 안 했다.
   - **먼저 라운드 5 보고를 재확인**: `artifacts_fact_check.md`의 "3단원(수정 금지, 보고만)" 절에서 "art_15~art_20, art_24, art_independence, art_korean_war 8종"이라 적혀 있었으나, 실제로 `art_19`(남한산성·효종 북벌)는 `hint`가 이미 "2단원 7차시"로 되어 있어 3단원이 아니었다 — 라운드 5 보고의 카운트 표현이 부정확했던 것으로 보인다. 이번 지시서가 준 9종 목록(`art_deep_4` 포함)이 맞는 최종 목록이었다.
   - **실물 vs 상징적 표현 판정** (근거는 `artifacts_fact_check.md` 라운드 10 절 표에 상세): 실물이 있는 유물 4종(`art_16` 제헌헌법 원본, `art_18` 조선말 큰사전 원고, `art_24` 안중근 단지 태극기·유묵, `art_independence` 기미독립선언서·임시헌장), 완전히 상징적 표현으로 바꾼 것 2종(`art_15` 투표함, `art_17` 대한광복회 포고문·서명록), 절반만 실물 2종(`art_20` 이산가족 기록물은 실물·천막 교실 몽당연필은 상징, `art_korean_war` 무공훈장은 실물·수복 서울 태극기는 상징), 기존 판정 유지 1종(`art_deep_4`, 라운드 5 그대로).
   - **WebFetch로 원문 직접 확인한 것은 2건**(`art_18` 조선말 큰사전 원고 — 국가유산포털, 2012.12.24 국가등록문화유산·독립기념관 5책 소장 확인 / `art_24` 안중근 유묵 — 국가유산포털, 보물·1972.08.16·동국대 박물관 소장 확인). 나머지는 WebSearch 종합이며 각 `sourceNote`에 구분해 적었다.
@@ -723,7 +723,7 @@ Deep-dive MUD 4종(`deep_prehistoric`/`deep_joseon`/`deep_modern`/`deep_three_ki
 
 ### 2026-09-21 「관문 설계실」(gate-grammar) Round 11 §1: D-037 연대 표기 시대 단위 통일
 
-- 지시서 `docs/handoff/claude_four_track_round11_instruction.md`(D-037, Codex 감사 LT-08·LT-09 대응) §0·§1. `data/lesson_track.json` 한 파일만 고쳤다. `apps/**`는 읽지 않았다.
+- 지시서 `docs/archive/handoff/claude_four_track_round11_instruction.md`(D-037, Codex 감사 LT-08·LT-09 대응) §0·§1. `data/lesson_track.json` 한 파일만 고쳤다. `apps/**`는 읽지 않았다.
 - **명량·병자호란을 "조선 후기"로 이동**: `regular_myeongnyang`·`regular_joseon_diplomacy`의 `eraLabel`을 "조선 전기"→"조선 후기"로 바꾸고 `eraRange`를 다른 조선 후기 칸과 같은 "1592년경~1876년경"으로 맞췄다. 라운드 9 2단계에서 자기모순을 피하려 편별로 넣었던 `eraRangeNote`(1597년 / 1636~1637년)는 모순이 사라져 지웠다. `orderNote`(2단원 7차시 동률 tie-break 근거)는 그대로 남겼다 — 순서 문제와는 무관하기 때문이다.
 - **같은 eraLabel은 같은 eraRange로 통일**(D-037 1): "광복·대한민국" 3편(gwangbok/korean_war/post_war)이 각각 "1945년~"/"1950년~1953년"/"1953년~"으로 갈려 있던 것을 전부 "1945년~현재"로 맞췄다.
 - **끝이 열린 표기 정리**(D-037 3): "광복·대한민국"은 "1945년~현재"(현재 진행 중인 시대라 "현재" 명시), "개항기"는 기본값 "1876년 이후"(끝 연도 미확인 — 대조실이 원문으로 확인하면 다음 라운드에 기획 세션이 "1876년~1910년"으로 바꾸기로 함).

@@ -3,7 +3,7 @@
 TASK-20260914-T1 | 라운드 3 결과 5항목 교차 감사 | 담당: audit agent(Codex) | 상태: DONE
 
 - 기준: `main` / `9e27a67`, 확인일 **2026-09-14**. 시작 시 미커밋 변경 없음.
-- 지시: [Claude 제한기간 작업 T1](../handoff/codex_tasks_while_claude_limited_20260914.md).
+- 지시: [Claude 제한기간 작업 T1](../archive/handoff/codex_tasks_while_claude_limited_20260914.md).
 - 방법: 파일럿 4편의 narrative·task·awards, 실제 UI 이벤트 처리기·판정 코드, 05·13번 검증기, `56f8013` 변경분, 공식 기관의 원문 본문 대조.
 - **보고 전용**: 코드·데이터·기존 감사 결과물은 수정하지 않았다. 브라우저 실기기 플레이는 수행하지 않았고, UI 상태 전이는 DOM 스텁의 실제 이벤트 처리기로 재현했다.
 - 모든 아래 출처 URL은 위 확인일에 열었다. 검색 요약만 있고 원문 본문을 확보하지 못한 내용은 확정 근거에서 제외했다.

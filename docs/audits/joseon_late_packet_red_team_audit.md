@@ -2,7 +2,7 @@
 
 - 감사일: 2026-09-17
 - 대상 기준: `origin/main` `ad74ccb`
-- 요청: `docs/handoff/codex_joseon_late_packet_audit_request_20260917.md`
+- 요청: `docs/archive/handoff/codex_joseon_late_packet_audit_request_20260917.md`
 - 역할: audit agent(Codex)
 - 변경 원칙: 패킷·앱·검증기 문안과 코드는 고치지 않고 문제·재현·수용 기준만 기록한다.
 

@@ -1,7 +1,7 @@
 # 구현 사양서 — 정규 32편 연대표 띠 UI (Track3 라운드9 §3)
 
 - 작성: Claude Sonnet 5 (연결 공방 / activity-loop, 2026-09-18)
-- 근거: `docs/handoff/claude_four_track_round9_instruction.md` §0-2(확정 데이터 형식), §3. 결정: `DECISIONS.md` D-036.
+- 근거: `docs/archive/handoff/claude_four_track_round9_instruction.md` §0-2(확정 데이터 형식), §3. 결정: `DECISIONS.md` D-036.
 - 이 문서는 **사양서다. 코드를 쓰지 않는다.** 조작대(`js/lessonTrack.js`, `js/mudEngine.js`, `css/style.css`, `index.html`)가 이 문서를 보고 구현한다.
 - 데이터 소스: `data/lesson_track.json`(관문 설계실, §0-2 형식 그대로 — `order`/`mudId`/`unitId`/`lessonNumbers`/`eraLabel`/`eraRange`/`shortTitle`). 이 문서는 그 파일이 아직 나오기 전에 작성됐으므로, 필드 이름은 확정 형식을 그대로 참조만 한다.
 

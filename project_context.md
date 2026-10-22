@@ -93,7 +93,7 @@ history_game/
 ├── data/curriculum_mapping.json         # 기존 차시와 2022 개정 교육과정 매핑 기준선
 ├── simulator_contract.json              # 시뮬레이터 기계 계약
 ├── README.md                           # 프로젝트 소개
-├── agents.md                           # AI 에이전트 협업 체계 및 작업 원칙
+├── AGENTS.md                           # AI 에이전트 협업 체계 및 작업 원칙
 ├── PRD.md                              # 제품 목표·범위·수용 기준
 ├── BACKLOG.md                          # 미완료 기획·검토 항목
 ├── INBOX.md                             # 사용자 입력·관찰 원문 단일 창구
@@ -102,11 +102,10 @@ history_game/
 ├── ARCHITECTURE.md                      # 현재 구조와 목표 확장
 ├── DECISIONS.md                        # 장기 설계 결정 기록
 ├── TECH_STACK.md                        # 기술 선택과 시스템 경계
-├── USER_FLOWS.md                        # 사용자 흐름과 플로우차트
-├── WIREFRAMES.md                         # 핵심 화면 와이어프레임
-├── docs/audits/                        # 감사·점검 리포트
-├── docs/plans/                         # 구현 계획서
-├── docs/handoff/                       # 에이전트 전달·작업 지시 기록
+├── docs/product/                       # 사용자 흐름·와이어프레임·브라우저 회귀 점검표·유물 비교 수업 안내
+├── docs/audits/                        # 감사·점검 리포트 (activity_duration_audit.md 포함)
+├── docs/plans/                         # 진행 중·대기 중인 구현 계획서만
+├── docs/archive/                       # 완료 계획서(plans/)·지난 에이전트 전달 문서(handoff/)·취소 문서 보관
 ├── scripts/12_audit_choice_bias.py     # 선택지 길이·위치 편향 감사 스크립트
 ├── walkthrough.md                      # 완료 작업 누적 기록
 └── project_context.md                  # 이 파일
@@ -128,7 +127,7 @@ history_game/
 | `INBOX.md` | 사용자가 아이디어·관찰·검토 내용을 기록하는 단일 입력 창구 |
 | `PRD.md` / `BACKLOG.md` / `DECISIONS.md` | 각각 제품 요구사항, 미완료 검토 항목, 장기 설계 결정 |
 | `EXPERIMENTS.md` / `ROADMAP.md` / `ARCHITECTURE.md` | 수업 실험, 구현 순서, 시스템 연결 구조 |
-| `agents.md` | Codex CLI·Claude Code의 파일 소유권과 검토·병렬 작업 규칙 |
+| `AGENTS.md` | Codex CLI·Claude Code의 파일 소유권과 검토·병렬 작업 규칙 |
 
 ### 중요한 의존 관계
 
@@ -174,7 +173,7 @@ history_game/
 ### 부분적으로 구현된 기능
 
 - **_index.json 활용**: Regular MUD는 인덱스 기반 매핑을 우선 사용하며, 기존 조건문은 인덱스 로드 실패 시 호환성을 위한 fallback으로 남아 있음. 2단원 7차시와 3단원 12차시는 primary/supplementary 계약으로 중복을 해결했다. 보조 MUD 별도 노출은 후속 검토 대상이다.
-- **브라우저 회귀 점검**: 실제 화면·터치·접근성 확인 순서는 [`BROWSER_REGRESSION_CHECKLIST.md`](./BROWSER_REGRESSION_CHECKLIST.md)에 기록함. 자동화된 수동 회귀 `scripts/manual/site_regression.js`(Playwright, 18개 확인)가 있으나 CI에는 아직 넣지 않았다.
+- **브라우저 회귀 점검**: 실제 화면·터치·접근성 확인 순서는 [`docs/product/BROWSER_REGRESSION_CHECKLIST.md`](./docs/product/BROWSER_REGRESSION_CHECKLIST.md)에 기록함. 자동화된 수동 회귀 `scripts/manual/site_regression.js`(Playwright, 18개 확인)가 있으나 CI에는 아직 넣지 않았다.
 
 ---
 
@@ -332,7 +331,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 ### 실시간 협동 앱 (취소·보관)
 
 - 실시간 협동 앱은 2026-10-15 취소되어 코드는 태그 `archive/cooperative-live-20261016`에, 문서는 [`docs/archive/cooperative-live/`](./docs/archive/cooperative-live/README.md)에 보관했다([D-038](./DECISIONS.md), [D-040](./DECISIONS.md)).
-- 이전 상태 기록(2026-10-06)은 [`docs/handoff/claude_session_close_20261005.md`](./docs/handoff/claude_session_close_20261005.md)에 있다.
+- 이전 상태 기록(2026-10-06)은 [`docs/archive/handoff/claude_session_close_20261005.md`](./docs/archive/handoff/claude_session_close_20261005.md)에 있다.
 
 ### 2026-09-28 기준 남은 일
 
@@ -351,7 +350,7 @@ Regular MUD는 `_index.json`의 `unitId`와 `lessonNumbers`를 기준으로
 
 ### Deep-dive 트랙 현황 (2026-09-09 확정·완료)
 
-- **역할 분담 확정**: 2026-09-01 결정("Claude의 deep-dive 결과물이 낫다")의 범위가 일주일째 미확정이었던 것을 재확인했다. `deep_three_kingdoms.json`은 **Codex 소유 유지**, `deep_prehistoric.json`(이미 main에 반영 완료)·`deep_joseon.json`·`deep_modern.json`은 **Claude 담당**으로 확정. 상세: [`docs/handoff/codex_deep_three_kingdoms_ownership_handoff.md`](./docs/handoff/codex_deep_three_kingdoms_ownership_handoff.md), [`docs/handoff/claude_deep_dive_session_continuation.md`](./docs/handoff/claude_deep_dive_session_continuation.md).
+- **역할 분담 확정**: 2026-09-01 결정("Claude의 deep-dive 결과물이 낫다")의 범위가 일주일째 미확정이었던 것을 재확인했다. `deep_three_kingdoms.json`은 **Codex 소유 유지**, `deep_prehistoric.json`(이미 main에 반영 완료)·`deep_joseon.json`·`deep_modern.json`은 **Claude 담당**으로 확정. 상세: [`docs/archive/handoff/codex_deep_three_kingdoms_ownership_handoff.md`](./docs/archive/handoff/codex_deep_three_kingdoms_ownership_handoff.md), [`docs/handoff/claude_deep_dive_session_continuation.md`](./docs/handoff/claude_deep_dive_session_continuation.md).
 - **선택지 편향 잔여 3건 전부 해소**: `deep_joseon:1`(Claude)·`deep_three_kingdoms:1/5`(Codex)를 선택지 단서 인용형으로 수정. `scripts/12_audit_choice_bias.py` 기준 10자 이상 편향 0건.
 - **PRD.md/DECISIONS.md 개정(Codex)**: D-024(Deep-dive 필수 게이팅은 활동 자체에 역사적 판단이 있을 때만 허용)·D-025(교차 단원 Deep-dive는 `unitId: null` + `spansUnits`)·D-026(Deep-dive는 시대 길이가 아니라 사고 질문으로 구획) 채택. 새 교차 단원 Deep-dive 착수 전 D-025의 스키마·검증기 구현이 선행돼야 한다.
 - **구조 감사 결과**: `deep_joseon.json`은 8개 판단 스테이지 전부 실제 자료 확인 게이팅(`ordered-hotspot`)이 이미 걸려 있어 양호. `deep_modern.json`은 7개 중 4개 동일, 3개(`precise-taegeukgi`×2·`precise-vote`)는 정밀 조작형의 다른 방식 게이팅이라 문제로 보지 않음.

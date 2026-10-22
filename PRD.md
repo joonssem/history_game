@@ -4,7 +4,7 @@
 
 이 문서는 프로젝트가 해결하려는 교육 문제와 현재 제품 범위를 고정한다. 구현 세부사항과 완료 이력은 각각 [`project_context.md`](./project_context.md)와 [`walkthrough.md`](./walkthrough.md)를 따른다.
 
-설계 산출물은 [`TECH_STACK.md`](./TECH_STACK.md), [`USER_FLOWS.md`](./USER_FLOWS.md), [`WIREFRAMES.md`](./WIREFRAMES.md)에서 관리한다.
+설계 산출물은 [`TECH_STACK.md`](./TECH_STACK.md), [`docs/product/USER_FLOWS.md`](./docs/product/USER_FLOWS.md), [`docs/product/WIREFRAMES.md`](./docs/product/WIREFRAMES.md)에서 관리한다.
 
 ## 제품 목표
 

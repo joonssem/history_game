@@ -324,11 +324,11 @@ TASK-20260918-01 | 참고 사이트 인사이트 기록 | 담당: 기획·점검
   - LATER 후보: 작은 실험의 수업 근거가 확보된 뒤 `나의 역사 여정` 화면과 개인 탐험–협동 해석 연결을 검토한다.
 - 통합 제품 문장 초안: **학생은 시대별 MUD에서 역사적 질문을 만나고, 자료와 유물을 증거로 모아 자신의 해석을 만든다. 개인이 발견한 서로 다른 증거는 교실 협동 활동에서 공유되며, 질문과 반론을 거쳐 더 나은 공동 해석으로 수정된다. 각각의 활동 결과는 하나의 연속된 역사 여정으로 남는다.**
 - 실행 경계: 이 대화는 라운드 8의 앱 계약 이관이나 현재 Claude 소유 파일에 새 기능을 끼워 넣으라는 지시가 아니다. 기존 작업을 끝낸 뒤 중복 항목·최소 실험·변경 범위를 검토하기 위한 후속 방향 메모다.
-- Claude 전달 문서: [`docs/handoff/claude_history_journey_connection_followup_20260918.md`](./docs/handoff/claude_history_journey_connection_followup_20260918.md)
+- Claude 전달 문서: [`docs/archive/handoff/claude_history_journey_connection_followup_20260918.md`](./docs/archive/handoff/claude_history_journey_connection_followup_20260918.md)
 
 ### Claude 점검 회신 — 2026-09-18
 
-- 사용자 전달: Claude가 점검만 수행하고 구현하지 않았으며, 결과를 `docs/handoff/claude_round8_product_link_memo_20260918.md`에 기록해 main 커밋 `9fb0a31`로 올렸다고 보고했다.
+- 사용자 전달: Claude가 점검만 수행하고 구현하지 않았으며, 결과를 `docs/archive/handoff/claude_round8_product_link_memo_20260918.md`에 기록해 main 커밋 `9fb0a31`로 올렸다고 보고했다.
 - 로컬 확인 상태: 이 기록을 추가하는 시점의 현재 체크아웃은 `main` `12b5001`이며, 보고된 커밋과 문서는 아직 로컬에 내려와 있지 않아 사용자 전달 내용을 원문 근거로 기록한다. 추후 통합 시 실제 커밋과 문서를 대조한다.
 - 충돌 점검 결과: 세 관점과 현재 라운드 8 설계 사이에 정면 충돌은 없다.
   - 교실 연결은 역할별로 겹치지 않는 근거, 자료만으로 알 수 없는 한계, 이득과 어려움을 함께 담은 연결 문장으로 상당 부분 반영돼 있다.
@@ -403,7 +403,7 @@ TASK-20260915-05 | 공개수업과 실시간 협동 MUD 개발·검증 일정 �
 - 상태: `promoted`
 - 사용자 원문: "커밋 푸시 후 계획 세우기 진행하자"
 - 분류: T2~T4 검증·커밋·push 후, `P2-COLLAB-02` 고조선 정적 협동 MUD의 최초 판단 순서 교정 계획을 작성했다. 계획 승인 전에는 코드를 수정하지 않는다.
-- 승격: [`docs/plans/implementation_plan_gojoseon_initial_judgment_order.md`](./docs/plans/implementation_plan_gojoseon_initial_judgment_order.md)
+- 승격: [`docs/archive/plans/implementation_plan_gojoseon_initial_judgment_order.md`](./docs/archive/plans/implementation_plan_gojoseon_initial_judgment_order.md)
 
 ## 2026-09-15 — T4 `claude-deep-prehistoric` 브랜치 분석 요청
 
@@ -456,9 +456,9 @@ Deep dive MUD 고도화
 - Track A — Regular MUD·인터랙티브 활동 안정화 및 최종 통합: Codex 담당
 - Claude는 공용 엔진과 Codex 소유 기준 문서를 동시에 수정하지 않고, 담당 파일과 결과 보고서 중심으로 작업한다.
 
-전달 문서: [`claude_track_b_deep_dive_instruction.md`](./docs/handoff/claude_track_b_deep_dive_instruction.md), [`claude_track_c_product_direction_instruction.md`](./docs/handoff/claude_track_c_product_direction_instruction.md)
+전달 문서: [`claude_track_b_deep_dive_instruction.md`](./docs/archive/handoff/claude_track_b_deep_dive_instruction.md), [`claude_track_c_product_direction_instruction.md`](./docs/archive/handoff/claude_track_c_product_direction_instruction.md)
 
-TASK-20260902-02 | Track B: deep_joseon.json 파일럿 개선 | 담당: Claude | 상태: DONE (결과: docs/handoff/claude_track_b_deep_dive_result.md)
+TASK-20260902-02 | Track B: deep_joseon.json 파일럿 개선 | 담당: Claude | 상태: DONE (결과: docs/archive/handoff/claude_track_b_deep_dive_result.md)
 
 ---
 
@@ -491,7 +491,7 @@ TASK-20260902-02 | Track B: deep_joseon.json 파일럿 개선 | 담당: Claude |
 - 명성·인물 관계도·전체 메타 스토리·4/8/16분기 구조는 유지보수·역사적 인과 오해·활동 시간 증가 위험이 있으므로 종이 설계와 작은 실험 후 판단한다.
 - Copilot의 “핵심 재미가 이미 검증되었다”는 평가는 가설이며, 실제 학습 효과·역사적 추론 발생 여부는 학생 관찰과 최소 진단으로 다시 확인해야 한다.
 
-연결 문서: [`EXPERIMENTS.md`](./EXPERIMENTS.md), [`ROADMAP.md`](./ROADMAP.md), [`PRD.md`](./PRD.md), [`DECISIONS.md`](./DECISIONS.md), [`claude_track_c_product_direction_result.md`](./docs/handoff/claude_track_c_product_direction_result.md)
+연결 문서: [`EXPERIMENTS.md`](./EXPERIMENTS.md), [`ROADMAP.md`](./ROADMAP.md), [`PRD.md`](./PRD.md), [`DECISIONS.md`](./DECISIONS.md), [`claude_track_c_product_direction_result.md`](./docs/archive/handoff/claude_track_c_product_direction_result.md)
 
 ---
 
@@ -1163,7 +1163,7 @@ TASK-20260904-02 | 고조선 8조법 DB 없는 협동 MUD v0.1 구현 | 담당: 
 - 핵심 가설: 역할별 비대칭 정보가 실제 대화와 판단 변경을 만드는가.
 - v0.1 기술 후보: DB·로그인·채팅 없이 모둠/좌석 선택과 역할 표시를 브라우저에서 결정하고, 공유·모둠 결정은 실제 말과 교사 관찰로 처리한다.
 - 고조선 8조법은 기존 `regular_gojoseon` 개인 MUD와 분리된 협동 시나리오로 검토한다. 기존 보상·도감·개인 MUD 완료 상태와 자동 연결하지 않는다.
-  - 처리 결과: 사용자가 구현을 승인해 구현 계획 [`implementation_plan_cooperative_mud_gojoseon_law_v01.md`](./docs/plans/implementation_plan_cooperative_mud_gojoseon_law_v01.md)으로 승격했으며, 2026-09-04 구현·검증을 완료했다.
+  - 처리 결과: 사용자가 구현을 승인해 구현 계획 [`implementation_plan_cooperative_mud_gojoseon_law_v01.md`](./docs/archive/plans/implementation_plan_cooperative_mud_gojoseon_law_v01.md)으로 승격했으며, 2026-09-04 구현·검증을 완료했다.
 - 구현 범위: `cooperative-mud/` 허브와 `gojoseon-law/` 독립 정적 페이지, 5분형·10분형, 기기별 localStorage 기록이다.
 - 기존 선사시대 종이 파일럿 계획은 대체하지 않는다. 두 실험은 각각 역할 기반 대화와 판단 변경이라는 다른 가설을 검증한다.
 
@@ -2120,7 +2120,7 @@ TASK-20260908-01 | 감사 스크립트 기준 통일·보고서 경로 수정 | 
 
 ### 운영상 확인된 것
 
-- **작업 폴더를 두 세션이 공유하는 구조가 실제로 사고를 냈다.** 작업 중 브랜치가 `main` → `feat/cooperative-live-vertical-slice`로 두 번 바뀌었고, 두 번째에는 앞선 커밋이 빠진 베이스 위에 편집이 올라갔다. 알아채고 멈춘 뒤 stash·패치로 보존하고 `main`에서 재작업했다. 규칙을 `agents.md`에 구체화했다.
+- **작업 폴더를 두 세션이 공유하는 구조가 실제로 사고를 냈다.** 작업 중 브랜치가 `main` → `feat/cooperative-live-vertical-slice`로 두 번 바뀌었고, 두 번째에는 앞선 커밋이 빠진 베이스 위에 편집이 올라갔다. 알아채고 멈춘 뒤 stash·패치로 보존하고 `main`에서 재작업했다. 규칙을 `AGENTS.md`에 구체화했다.
 - 사용자 판단: Codex가 작업 중일 때는 브랜치를 건드리지 않고 멈춘다.
 
 ### 다음 세션이 볼 곳
@@ -2505,7 +2505,7 @@ TASK-20260910-07 | `audit/interaction-diversity` main 병합·GitHub Pages 배�
 ## 2026-09-14 Claude 제한기간 T1 실행 요청
 
 - 사용자 원문: "t1 진행"
-- 상태: `triaged` — 이미 작성된 `docs/handoff/codex_tasks_while_claude_limited_20260914.md`의 T1 감사 실행 요청.
+- 상태: `triaged` — 이미 작성된 `docs/archive/handoff/codex_tasks_while_claude_limited_20260914.md`의 T1 감사 실행 요청.
 - 실행 claim·결과: `docs/audits/round3_red_team_audit.md`. T2 이후는 이번 요청 범위에 포함하지 않는다.
 ## 2026-09-15 — Codex 작업 재개 요청
 
@@ -2634,13 +2634,13 @@ TASK-20260910-07 | `audit/interaction-diversity` main 병합·GitHub Pages 배�
 
 ## 2026-10-15 — 10/29 공개수업 주제 정정과 활동 길이
 
-- 상태: `promoted` → `docs/plans/implementation_plan_static_coop_goryeo.md`, `BACKLOG.md` `P1-COOP-STATIC-GORYEO`
+- 상태: `promoted` → `docs/archive/plans/implementation_plan_static_coop_goryeo.md`, `BACKLOG.md` `P1-COOP-STATIC-GORYEO`
 - 사용자 원문: “10월 29일 활동은 '조선 후기의 경제적 변화 알아보기' 야 / 10분형 / 계획서를 보여줘.”
 - 분류: 2026-10-02 항목에 기록된 "1단원 15~18차시(고려와 주변 나라 관계·고려의 문화와 생활)"는 이 답변으로 정정된다. 그 항목 본문은 원문 보존을 위해 고치지 않는다. 10/29 정적 협동 이식 1순위를 조선 후기(`joseonLate`)로 바꾸고, 고려 3종은 후속으로 미룬다. 기본 길이는 10분형이다.
 
 ## 2026-10-15 — 조선 후기 협동 활동의 교과서 연결 강화
 
-- 상태: `promoted` → `DECISIONS.md` `D-039`, `docs/plans/implementation_plan_static_coop_goryeo.md` 개정
+- 상태: `promoted` → `DECISIONS.md` `D-039`, `docs/archive/plans/implementation_plan_static_coop_goryeo.md` 개정
 - 사용자 원문: “교과서 내용과 최대한 연결되도록 만들기”
 - 인터뷰 답변(같은 날):
   - 교과서 94~96쪽(2단원 8차시 「조선 후기의 경제적 변화」) 사진·PDF를 사용자가 `primary_data/`에 제공한다. 학생 화면 문장은 그 원문 기준으로 맞춘다.

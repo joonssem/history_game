@@ -1,5 +1,16 @@
 # Walkthrough
 
+## 2026-10-22 — 저장소 슬림화 단계 A: 완료 계획서·지난 핸드오프 보관, 루트 문서 이동
+
+`TASK-20261022-REPO-SLIMMING | docs/plans·docs/handoff·루트 문서 | integration agent(Claude) | 상태: 단계 A DONE`
+
+- 계획: [`implementation_plan_repo_slimming_20261022.md`](./docs/plans/implementation_plan_repo_slimming_20261022.md)
+- 옮김(`git mv`): 완료 계획서 16개 → `docs/archive/plans/`, `docs/handoff/` 61개 → `docs/archive/handoff/`, `activity_duration_audit.md` → `docs/audits/`, `TEACHING_artifact_comparison.md`·`USER_FLOWS.md`·`WIREFRAMES.md`·`BROWSER_REGRESSION_CHECKLIST.md` → `docs/product/`, `agents.md` → `AGENTS.md`.
+- 링크: 모든 `.md`의 상대 링크와 저장소 루트 기준 경로 표기를 새 경로로 바꿨다. INBOX·walkthrough·DECISIONS도 경로 문자열만 바꿨고 문장은 고치지 않았다. 이전부터 깨져 있던 링크 125개는 그대로이고 새로 깨진 링크는 없다.
+- 코드: `scripts/07_audit_activity_duration.py`의 보고서 경로와 `.github/workflows/quality-gate.yml`의 비교 경로를 `docs/audits/activity_duration_audit.md`로 바꿨다.
+- 검증: CI 단계 전체를 로컬에서 실행해 통과(01·03·04·08·09·05·16·06·07·10·11, 보고서 재생성 후 diff 없음, `node --check js/*.js`, `git diff --check`).
+- 남김: 상태 표기가 낡아 완료 여부를 판단하지 못한 계획서(`implementation_plan_lesson_track_ui`, `implementation_plan_personal_timeline`, `story_mud_relationship`, `tasks_site_structure`, `classroom_observation_*`)는 `docs/plans/`에 두었다.
+
 ## 2026-10-20 — 장면 그림 개선: 조선 건국 건물을 궁궐·성균관답게, 개항기 건물과 구분 (D-046)
 
 `TASK-20261020-SCENE-HANOK | assets/scenes 7개, scratch/gen_scene_art_unit2.js | implementation agent(Claude) | 상태: DONE — 생성기 재실행·Chrome 렌더링 확인, 실제 시뮬레이터 화면·iPad 확인은 미실시`
@@ -148,7 +159,7 @@
 - 포털 초기 화면과 2단원 7차시·3단원 12차시의 primary MUD 연결이 의도대로 동작하는지 확인했다.
 - `regular_paleolithic`에서 필수 단서 잠금, 순서 오류 피드백, 오답 IF 분기, 정상 단계 이동을 확인했다.
 - 성찰 단서 3개를 모두 확인하기 전 완료 버튼이 잠긴 상태를 확인하고, 완료 후 성찰 UI·도감 언급·콘솔 오류 0건을 확인했다.
-- 상세 결과는 `BROWSER_REGRESSION_CHECKLIST.md`에 기록했다.
+- 상세 결과는 `docs/product/BROWSER_REGRESSION_CHECKLIST.md`에 기록했다.
 
 ## 2026-08-31 — P1-02 1차 반영분 브라우저 확인
 
@@ -223,7 +234,7 @@
 
 - IF 스테이지 94개 검토 신호를 설명 길이와 자료·비교 단서 수로 재선별했다.
 - `regular_korean_war` 3-1, `regular_joseon_diplomacy` 1-1·2-1·3-1, `regular_independence_army` 3-1, `regular_goryeo_culture` 1-1을 1차 검토 대상으로 정했다.
-- 문장 보강 전 교육적 기준과 변경 범위를 [`implementation_plan_if_stage_quality_batch.md`](./docs/plans/implementation_plan_if_stage_quality_batch.md)에 기록했다.
+- 문장 보강 전 교육적 기준과 변경 범위를 [`implementation_plan_if_stage_quality_batch.md`](./docs/archive/plans/implementation_plan_if_stage_quality_batch.md)에 기록했다.
 - 이번 단계에서는 코드와 콘텐츠를 수정하지 않았다.
 
 ## 2026-08-31 — IF 스테이지 품질 1차 문장 보강
@@ -251,7 +262,7 @@
 
 ## 2026-08-31 — 설계 정합성 대표 수직 슬라이스 1차 반영
 
-- `WIREFRAMES.md`에서 실제 화면에 없는 `[자료 보기]` 요소를 제거했다.
+- `docs/product/WIREFRAMES.md`에서 실제 화면에 없는 `[자료 보기]` 요소를 제거했다.
 - `regular_paleolithic` 6단계 성찰 시뮬레이터를 `required: true`로 변경해 성찰 단서 확인 후 엔딩으로 진행하도록 설계 기준을 반영했다.
 - 구현 계획은 정적 검증 완료·브라우저 시각 점검 대기 상태로 유지한다. 브라우저 연결 플러그인 버전 오류로 태블릿 화면 검증은 수행하지 못했다.
 - 검증: 게임 데이터 JSON, MUD 무결성, MUD 계약, 시뮬레이터 런타임, `mudEngine.js`·`mudSimulators.js` 문법, `git diff --check` 통과.
@@ -285,7 +296,7 @@
 ## 2026-08-28 — 문서 기반 운영 체계 정비
 
 - `PRD.md`, `BACKLOG.md`, `DECISIONS.md`를 최소 범위로 추가해 요구사항·미완료 검토·장기 설계 결정을 분리했다.
-- `agents.md`, `README.md`, `project_context.md`에 문서별 역할과 링크를 연결하고, Regular MUD(5~10분 복습)와 Deep-dive MUD(확장 탐구)의 교육 목적을 명시했다.
+- `AGENTS.md`, `README.md`, `project_context.md`에 문서별 역할과 링크를 연결하고, Regular MUD(5~10분 복습)와 Deep-dive MUD(확장 탐구)의 교육 목적을 명시했다.
 - 이미 완료된 JSON 기반 MUD, Vanilla JS, GitHub Pages 구조와 교육과정 정합성 검토는 BACKLOG가 아니라 `DECISIONS.md`에 기록했다.
 - `AI_Architecture_Reflection.md`는 저장소에 존재하지 않아 실행 지시로 해석하거나 내용을 보충하지 않았다. 실제 파일명은 `project_context.md`(소문자)이며 링크도 이 이름으로 유지했다.
 - 검증: 핵심 문서 존재·링크 대상·작업 트리 상태를 확인하고, 문서 간 역할 및 완료/미완료 항목의 중복을 점검했다.
@@ -488,7 +499,7 @@
 
 ## 2026-08-27 — Phase 10 활동 시간·상호작용 전수 감사
 
-- `scripts/07_audit_activity_duration.py`와 `activity_duration_audit.md`를 추가해 Regular MUD의 핵심 단계·능동 활동·필수 활동·예상 시간을 전수 계산한다.
+- `scripts/07_audit_activity_duration.py`와 `docs/audits/activity_duration_audit.md`를 추가해 Regular MUD의 핵심 단계·능동 활동·필수 활동·예상 시간을 전수 계산한다.
 - Regular 28종 중 24종이 보완 대상으로 확인되었고, 가장 반복적인 구조 결함은 시뮬레이터 완료 없이 선택지를 통과할 수 있다는 점이다. 구석기는 자동 추정상 10분을 조금 넘을 가능성이 있어 실제 학생 시간 측정 대상으로 표시했다.
 - Regular MUD 28종의 선언 시간을 승인된 개인 활동 목표인 `5-10min`으로 통일했다.
 - iPad 10세대 가로 크기(1180×820)에서 구석기 화면의 레이아웃, 필수 활동 전 선택지 잠금, 대체 터치 버튼 상태를 확인했다.
@@ -728,7 +739,7 @@
 
 ## 2026-08-31 — P3 브라우저 회귀 체크리스트 문서화
 
-- 브라우저 연결 복구 후 바로 실행할 수 있도록 `BROWSER_REGRESSION_CHECKLIST.md`를 추가했다.
+- 브라우저 연결 복구 후 바로 실행할 수 있도록 `docs/product/BROWSER_REGRESSION_CHECKLIST.md`를 추가했다.
 - 포털 초기 화면, 중복 차시 매칭, 대표 MUD 흐름, 터치·접근성, 기록 양식을 한 문서에 고정했다.
 - 핵심 흐름 차단·잘못된 MUD 연결·터치 실패의 우선순위 판정 규칙도 기록했다.
 
@@ -855,7 +866,7 @@
 ## 2026-09-01 — 학생 실제 활동 시간 관찰 기록
 
 - 수업 종료 10분 전 1단원 2차시 `regular_paleolithic`과 3차시 `regular_neolithic`을 연속 제시했다.
-- 학생들이 두 활동을 모두 4분 이내에 완료했으며, 기존 설계 추정치와 구분되는 실제 관찰값으로 `activity_duration_audit.md`에 기록했다.
+- 학생들이 두 활동을 모두 4분 이내에 완료했으며, 기존 설계 추정치와 구분되는 실제 관찰값으로 `docs/audits/activity_duration_audit.md`에 기록했다.
 - 빠른 완료 과정에서 학생들이 오타 또는 문맥 문제를 발견해 교사에게 제시했다.
 - Regular를 일괄적으로 늘리기보다 빠른 학생용 선택형 유물 확장 활동을 검토 대상으로 남겼다.
 - 표본 수와 단계별 소요 시간이 없어 P1-02 전체 완료로 처리하지 않았다.
@@ -901,7 +912,7 @@
 
 ## 2026-09-01 — 학생 피드백 기반 기획 기준선 갱신
 
-- `PRD.md`, `TECH_STACK.md`, `DECISIONS.md`, `BACKLOG.md`, `agents.md`, `README.md`, `project_context.md`에 실제 교실 기반 반복 개선 사이클을 반영했다.
+- `PRD.md`, `TECH_STACK.md`, `DECISIONS.md`, `BACKLOG.md`, `AGENTS.md`, `README.md`, `project_context.md`에 실제 교실 기반 반복 개선 사이클을 반영했다.
 - 4분 이내 완료 관찰을 선택지 난이도·시뮬레이터 완료 조건·읽기 속도·교실 내 정보 공유로 분리해 진단하도록 정리했다.
 - 최소 플레이 로그는 개인정보 없이 브라우저 내부에서 검토하고, 유물은 수집 보상에서 관찰·비교·주장·근거 추론 자원으로 확장하는 방향을 기록했다.
 - 친구 비교·협력과 역사 타이쿤은 서버 없는 작은 실험 이후로, 백엔드·DB·로그인·실시간 멀티플레이·공개 순위표는 `Future / Not Now`로 경계를 명시했다.
@@ -910,9 +921,9 @@
 
 ## 2026-09-01 — 게임성·Vercel·Supabase 점진 도입 기준선 갱신
 
-- `PRD.md`와 `USER_FLOWS.md`에 탐험·발견·자료 추론·유물 활용·근거 공유를 연결하는 장기 플레이 루프를 추가했다.
+- `PRD.md`와 `docs/product/USER_FLOWS.md`에 탐험·발견·자료 추론·유물 활용·근거 공유를 연결하는 장기 플레이 루프를 추가했다.
 - 빠른 완료 문제는 필수 경로를 무조건 늘리지 않고 선택 탐험과 추가 역사 단서로 확장하는 방향을 기록했다.
-- `TECH_STACK.md`, `DECISIONS.md`, `project_context.md`, `README.md`, `BACKLOG.md`, `agents.md`에서 현재 GitHub Pages 운영과 목표 Vercel 배포를 구분했다.
+- `TECH_STACK.md`, `DECISIONS.md`, `project_context.md`, `README.md`, `BACKLOG.md`, `AGENTS.md`에서 현재 GitHub Pages 운영과 목표 Vercel 배포를 구분했다.
 - Supabase는 `play_events` 익명 로그부터 검토하고, localStorage는 즉시 상태·복원·네트워크 장애 대응으로 유지하도록 정리했다.
 - 개인정보 최소화, RLS, secret/service-role 키 비노출, Anonymous Auth·Realtime·역사 타이쿤의 후순위 게이트를 문서화했다.
 - 이번 단계에서는 Supabase 프로젝트·테이블·Vercel 설정·Auth·Realtime·플레이 로그 코드를 구현하지 않았다.
@@ -921,13 +932,13 @@
 
 - 사용자가 아이디어·수업 관찰·기술 검토를 `INBOX.md` 한 곳에 기록하도록 중앙 입력 창구를 만들었다.
 - `EXPERIMENTS.md`, `ROADMAP.md`, `ARCHITECTURE.md`를 추가해 수업 실험, 구현 순서, 시스템 연결 구조를 분리했다.
-- `agents.md`, `README.md`, `project_context.md`에 INBOX 원문 보존과 역할별 문서 승격 규칙을 연결했다.
+- `AGENTS.md`, `README.md`, `project_context.md`에 INBOX 원문 보존과 역할별 문서 승격 규칙을 연결했다.
 - 판단이 어려운 내용은 확정하지 않고 INBOX에 보존하며, 기존 문서와 충돌하면 사용자에게 보고하도록 규칙화했다.
 - 현재 저장소의 루트 문서 링크를 보존하기 위해 `docs/`로 파일을 이동하지 않았다.
 
 ## 2026-09-01 — 다중 에이전트 작업 규칙 명시
 
-- `agents.md`에 Codex CLI와 Claude Code의 동일 저장소 작업 원칙을 추가했다.
+- `AGENTS.md`에 Codex CLI와 Claude Code의 동일 저장소 작업 원칙을 추가했다.
 - 동일 파일 동시 수정 금지, 구현 에이전트와 검토 에이전트 분리, 병렬 작업 시 branch/worktree 우선 원칙을 명시했다.
 
 ## 2026-09-01 — 문서 상태 대조 1차 정리
@@ -988,7 +999,7 @@
 ## 2026-09-03 — Regular MUD 활동 게이팅 정합성 개선
 
 - 작업 claim `TASK-REGULAR-MUD-GATING | data/mud/regular_*.json + walkthrough.md | implementation agent`를 `DONE`으로 종료한다.
-- 실행 지시서 `docs/handoff/codex_regular_mud_activity_gating_instruction.md`에 따라 Regular MUD 28종의 판단 스테이지를 전수 대조했다.
+- 실행 지시서 `docs/archive/handoff/codex_regular_mud_activity_gating_instruction.md`에 따라 Regular MUD 28종의 판단 스테이지를 전수 대조했다.
 - 판단 스테이지 101개에서 게이팅 없음 41개를 `hotspot-discovery`로 전환하고, 기존 `hotspot-discovery` 56개에 `ordered-hotspot`과 서술상 원인→상황→결정 순서의 `sequence`를 추가했다. 최종 집계는 `hotspot-discovery 41`, `ordered-hotspot 58`(기존 2개 포함), `resource-allocation 2`, `none 0`이다.
 - 우선순위 1 단계에는 narrative에 이미 있는 자료·행동 근거를 3개 hotspot으로 분리하고 `required: true`, `target/minActions: 3`, `progressKey: "simulatorProgress"` 계약을 적용했다. 광복·명량·청동기 단계의 기존 버튼/게이지 우회 경로는 정보 확인형 hotspot으로 교체했다.
 - `regular_paleolithic:6`은 판단 선택지가 없는 최종 성찰 단계이므로 필수 조작을 선택 조작으로 낮춰 D-007 추정 시간을 10.2분에서 9.9분으로 줄였다. Regular 최대 추정 시간은 9.9분이며 10분 초과 파일은 0개다. 감사 결과의 잔여 `8/28` 경고는 10분 초과가 아닌 기존 반복 탭 내성 후속 신호다.
@@ -1266,7 +1277,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 결과: 07번 8종 → **7종**(`regular_paleolithic`이 `기준 충족 추정`으로), 09번 7종 유지, 두 스크립트 판정 **완전 일치**.
 - `__pycache__`가 생기므로 `.gitignore`를 새로 만들었다(기존에 없었다).
 
-검증: 두 스크립트 재실행 후 대상 MUD 집합이 정확히 일치함을 프로그램으로 대조 확인. `activity_duration_audit.md` 변경은 `regular_paleolithic` 행과 집계 수 3줄뿐. 정적 검증 9종과 `05_test_simulator_runtime.js` 통과. 07번 재실행 멱등성 확인.
+검증: 두 스크립트 재실행 후 대상 MUD 집합이 정확히 일치함을 프로그램으로 대조 확인. `docs/audits/activity_duration_audit.md` 변경은 `regular_paleolithic` 행과 집계 수 3줄뿐. 정적 검증 9종과 `05_test_simulator_runtime.js` 통과. 07번 재실행 멱등성 확인.
 
 **작업 중 발견한 별건**: `scripts/10_audit_if_stages.py`와 `11_audit_artifacts.py`가 보고서를 저장소 **루트**에 쓰는데, 실제 추적 중인 파일은 `docs/audits/` 아래에 있다(문서 재배치 때 스크립트가 갱신되지 않음). 특히 `docs/audits/if_stage_audit.md`에는 손으로 쓴 실행 결과 절이 붙어 있어, 생성물로 덮어쓰면 사라진다. 이번 범위에 포함하지 않고 기록만 남긴다.
 
@@ -1310,7 +1321,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 
 - 실시간 앱(`apps/cooperative-live/`)과 개인정보 감사 문서는 `TASK-20260908-02`에서 `main`에 통합해, 이전의 브랜치 전용 상태와 끊어진 BACKLOG 링크를 해소했다.
 - **감사 보고서를 손으로 고칠 때는 마커 바깥에 쓴다.** 안에 쓰면 다음 스크립트 실행에서 사라진다.
-- **작업 폴더를 Codex와 공유하는 한 브랜치 전환 사고가 재발한다.** 규칙은 `agents.md`의 Multi-agent working rules에 구체화해 두었다. 병렬 작업 시 `git worktree`로 폴더를 나눈다.
+- **작업 폴더를 Codex와 공유하는 한 브랜치 전환 사고가 재발한다.** 규칙은 `AGENTS.md`의 Multi-agent working rules에 구체화해 두었다. 병렬 작업 시 `git worktree`로 폴더를 나눈다.
 - 백업 stash(`stash@{0}`)가 남아 있다. `main`에서 재작업했으므로 필요 없으며 `git stash drop`으로 지워도 된다.
 ### 같은 날 — 작업 브랜치 이어받기와 복구·편성 보강
 
@@ -1352,7 +1363,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 구현 전 museum.go.kr을 다시 조회해 두 유물 모두 공공누리 제1유형(출처표시)만 적용되고 변경금지 조건이 없음을 확인했다. 실제 사진은 이번에도 넣지 않고 첫 페어와 동일하게 이모지+텍스트 방식을 유지했다.
 - 초점은 첫 페어(기술 변화)와 다르게 잡았다 — 화려한 상감 장식(고려)에서 소박한 여백(조선)으로 바뀐 것을 "기술 퇴보"가 아니라 "시대별 아름다움 기준의 변화"로 해석하도록 학계 관점 문구를 설계해, 학생이 앞선 활동에서 얻은 "무늬가 없어진 건 기술이 나빠진 게 아니다"라는 인상을 다른 맥락(가치관 변화)에도 다르게 적용해 보게 했다.
 - `js/artifactComparison.js`는 변경하지 않았다 — 여러 페어를 배열 순서대로 제안하도록 이미 일반화되어 있어 데이터만 추가하면 됐다.
-- 문서: `BACKLOG.md`의 해당 항목에 확장 기록 추가, `TEACHING_artifact_comparison.md`를 2페어 기준으로 갱신(페어 표 추가, 콘솔 테스트 명령 갱신).
+- 문서: `BACKLOG.md`의 해당 항목에 확장 기록 추가, `docs/product/TEACHING_artifact_comparison.md`를 2페어 기준으로 갱신(페어 표 추가, 콘솔 테스트 명령 갱신).
 - 검증: `01_validate_game_data.py`·`06_validate_static_assets.py` 통과. 로컬 정적 서버에서 2번째 페어의 두 톤 분기(칭찬형/안내형)와 첫 페어 완료 후 자동으로 이어서 등장하는 것을 브라우저 콘솔로 확인했다.
 - 남은 것: 학생 피드백 5개 질문(EXP-002에 함께 기록 예정) 결과를 본 뒤 3번째 페어(삼국 불상 비교 등) 진행 여부를 결정한다.
 
@@ -1365,7 +1376,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - **조사했지만 보류**: 신라 금관은 금관총 금관(본관9435, relicId=159727)까지 확인했지만, 가야 금동관(고령 지산동 32호분 출토)과 무령왕릉 금제관식(국립공주박물관)은 museum.go.kr의 소장품 검색 relicId 체계가 전시실 안내 페이지의 relicId와 달라 여러 번 시도했지만 확실한 매칭을 찾지 못했다. 잘못된 ID를 지어내지 않고 보류로 남겼다.
 - **범위 제외**: 상평통보 vs 오늘날 지폐는 실물 박물관 유물 페어 형식이 아니라 활동 스키마와 맞지 않아 제외했다. 혼천의(구10035)는 단독 확인했지만 짝이 될 실물 소장품을 찾지 못해 보류했다.
 - `js/artifactComparison.js`는 이번에도 변경하지 않았다 — 데이터만 추가.
-- 문서: `BACKLOG.md`에 확장 2 기록 추가, `TEACHING_artifact_comparison.md`를 3페어 기준 표로 갱신.
+- 문서: `BACKLOG.md`에 확장 2 기록 추가, `docs/product/TEACHING_artifact_comparison.md`를 3페어 기준 표로 갱신.
 - 검증: `01_validate_game_data.py`·`06_validate_static_assets.py` 통과. 로컬 정적 서버에서 3번째 페어의 근접 톤 분기와 앞선 두 페어 완료 후 자동으로 이어서 등장하는 것을 브라우저 콘솔로 확인했다.
 - 다음: 신라 금관/가야 금동관/무령왕릉 관식의 정확한 relicId는 사용자가 museum.go.kr을 직접 검색하거나, 더 나은 검색 방법을 찾은 뒤 이어간다.
 
@@ -1380,7 +1391,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - **한계 기록**: 가야 금동관은 상설전시 안내 페이지 설명만 확보했고, 개별 소장품 검색 페이지(소장품번호·이미지 공공누리 조건)는 여러 검색 경로를 시도했지만 확정하지 못했다. 이 활동은 애초에 실물 사진을 쓰지 않는 설계라 기능상 문제는 없지만, 데이터 파일의 `sourceNote`·`license` 필드에 이 한계를 그대로 남겨 추측을 사실처럼 적지 않았다.
 - 최초 claim 문구에서 "신라 금관은 신라 에서" 같은 어색한 조사 붙임 문제를 발견해, 빈칸 뒤에 항상 공백이 삽입되는 엔진 구조(`js/artifactComparison.js`)에 맞춰 "나라에서" 형태로 되돌려 자연스러운 문장이 되도록 고쳤다.
 - `js/artifactComparison.js`는 이번에도 변경하지 않았다 — 데이터만 추가.
-- 문서: `BACKLOG.md`에 확장 3 기록 추가, `TEACHING_artifact_comparison.md`를 4페어 기준 표로 갱신(가야 금동관 이미지 조건 한계도 명시).
+- 문서: `BACKLOG.md`에 확장 3 기록 추가, `docs/product/TEACHING_artifact_comparison.md`를 4페어 기준 표로 갱신(가야 금동관 이미지 조건 한계도 명시).
 - 검증: `01_validate_game_data.py`·`06_validate_static_assets.py` 통과. 로컬 정적 서버에서 4번째 페어의 톤 분기와 문장 조사 수정 결과를 브라우저 콘솔로 재확인했다.
 - 다음: 무령왕릉 금제관식(국립공주박물관)의 정확한 소장품번호는 아직 확인하지 못해 5번째 페어 후보로 보류한다.
 
@@ -1392,7 +1403,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 신라 쪽 짝은 4번째 페어에서 이미 확인한 금관총 금관(본관9435)을 재사용했다. 앞선 페어들과 다르게 "완성된 관 형태 vs 관에 꽂는 장식(관식)", "무덤 주인을 정확히 아는지 여부(무령왕릉 지석 vs 금관총의 무명)"라는 다섯 번째 해석 유형으로 프레이밍했다.
 - 국가유산청 페이지에는 공공누리 유형이 명시돼 있지 않아 이번에도 개별 이미지 이용조건은 확인하지 못했다. `sourceNote`·`license` 필드에 이 한계를 그대로 남겼다(이미지 미사용이라 기능상 영향 없음).
 - `js/artifactComparison.js`는 이번에도 변경하지 않았다 — 데이터만 추가. 총 5개 페어가 배열 순서대로 이어서 등장한다.
-- 문서: `BACKLOG.md`에 확장 4 기록 추가, `TEACHING_artifact_comparison.md`를 5페어 기준 표로 갱신. 사용자와 "5개 페어로 일단 마무리하고 학생 피드백부터 받는다"로 합의했다.
+- 문서: `BACKLOG.md`에 확장 4 기록 추가, `docs/product/TEACHING_artifact_comparison.md`를 5페어 기준 표로 갱신. 사용자와 "5개 페어로 일단 마무리하고 학생 피드백부터 받는다"로 합의했다.
 - 검증: `01_validate_game_data.py`·`06_validate_static_assets.py` 통과. 로컬 정적 서버에서 5번째 페어의 톤 분기와 앞선 페어 완료 후 자동으로 이어서 등장하는 것을 브라우저 콘솔로 확인했다.
 - 다음: 실제 수업에서 학생 피드백(EXP-002)을 받은 뒤 6번째 페어 진행 여부와 톤·난이도 조정을 결정한다.
 
@@ -1406,7 +1417,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 설문 문항(공통 6개 + 유물 비교 전용 7개, "유물 비교 활동"을 선택한 학생만 전용 섹션으로 분기)은 Claude가 초안해 채팅으로 전달했고, 사용자가 직접 구글 설문지에 옮겨 만들었다. 이메일 수집은 끄도록 안내했다(개인정보 미수집 원칙 유지).
 - 기존 "성찰 일기 복사하기" 버튼은 제거 요청이 없어 그대로 두었다.
 - 검증: `01_validate_game_data.py`·`06_validate_static_assets.py` 통과, 4개 JS 파일 문법 검사 통과. 로컬 정적 서버에서 MUD 완료 화면과 유물 비교 결과 화면 양쪽에 피드백 버튼의 `href`가 정확한 구글 설문지 URL로 렌더링되는 것을 브라우저 콘솔로 확인했다.
-- 문서: `BACKLOG.md`에 기록 추가, `TEACHING_artifact_comparison.md`에 "학생 피드백은 구글 설문지로 받는다" 안내 추가.
+- 문서: `BACKLOG.md`에 기록 추가, `docs/product/TEACHING_artifact_comparison.md`에 "학생 피드백은 구글 설문지로 받는다" 안내 추가.
 
 ## 2026-09-08 — 유물 비교 활동 시대 순서 버그 수정
 
@@ -1420,7 +1431,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
   - `cmp_ceramics_1`·`cmp_ceramics_2`(고려·조선 도자기): 2 → 8 (고려 문화 MUD 이후)
 - `js/artifactComparison.js`는 변경하지 않았다 — `unlockThreshold`를 실제로 비교에 쓰고 있었으므로 데이터만 고치면 됐다.
 - 검증: 브라우저 콘솔에서 `encyclopedia.data.unlockedArtifacts` 개수를 2/3/4/6/6(이전 페어 확인 후)/8로 바꿔가며 `ArtifactComparisonEngine.getEligibleComparison()`을 직접 호출해, 각 구간에서 같은 시대의 페어만 반환되는지 확인했다(2 → null, 3 → 토기, 6 → 신라·가야 왕관, 8 → 도자기). `01_validate_game_data.py`·`06_validate_static_assets.py` 통과.
-- 문서: `BACKLOG.md`에 버그·수정 기록 추가, `TEACHING_artifact_comparison.md`에 시대 구간별 등장 순서 안내 추가.
+- 문서: `BACKLOG.md`에 버그·수정 기록 추가, `docs/product/TEACHING_artifact_comparison.md`에 시대 구간별 등장 순서 안내 추가.
 
 ## 2026-09-09 — 실시간 협동 MUD QR·수동 코드 입장 보안
 
@@ -1477,7 +1488,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - `unlockThreshold: 11`로 설정해 조선 후기 서민 문화 MUD(art_11 보상) 이후에만 등장하도록 시대 구간을 맞췄다.
 - 구현 중 claim 문장의 빈칸 뒤에 조사가 공백을 사이에 두고 어색하게 붙는 문제(`노동 을(를) 그렸고`)를 발견해, "모습을 그렸고" 형태로 middle/suffix를 다듬어 자연스러운 문장이 되도록 고쳤다.
 - `js/artifactComparison.js`는 변경하지 않았다 — 데이터만 추가.
-- 문서: `BACKLOG.md`에 확장 5 기록 추가, `TEACHING_artifact_comparison.md`를 6페어 기준으로 갱신.
+- 문서: `BACKLOG.md`에 확장 5 기록 추가, `docs/product/TEACHING_artifact_comparison.md`를 6페어 기준으로 갱신.
 - 검증: 브라우저 콘솔에서 `getEligibleComparison()`을 유물 개수 10/11로 호출해 임계값 경계를 확인했고(10 → 이전 페어, 11 → 신규 페어), 실제 결과 화면까지 진행해 근접/차이 두 톤 분기와 문장 수정 결과를 확인했다. `01_validate_game_data.py`·`06_validate_static_assets.py` 통과.
 - 참고: 같은 작업 폴더에서 다른 세션이 `.worktrees/`를 만들어 격리 작업을 시작한 것을 확인했다 — 공유 폴더 충돌을 줄이는 올바른 방향이다.
 
@@ -1499,7 +1510,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 
 - 신윤복 페어 수정 뒤, 사용자 요청으로 나머지 5개 페어(토기 2종, 도자기 2종, 왕관·관식 2종)도 같은 기준으로 재검토했다. 각 museumUrl을 직접 열어 단일 유물 사진(다각도)뿐인지, 묶음·화첩처럼 다른 콘텐츠가 섞여 있지 않은지 확인했다.
 - 결과: 5개 전부 이상 없음. 전부 토기·도자기·금관 같은 단일 물체라 화첩처럼 여러 장면이 섞이는 구조가 아니었다. 서술 문구도 기술·양식·정치체제 설명뿐이라 별도 수정 없음.
-- `TEACHING_artifact_comparison.md`에 "새 페어(또는 다른 활동) 제작 전 콘텐츠 점검 체크리스트"를 추가했다 — 화첩·묶음 소장품 여부, 인물·장면 묘사 여부, 바깥 링크가 실제로 보여주는 것, 서술 문구의 폭력·성적 요소 여부를 항목화했다. 이후 다른 활동을 만들 때도 재사용한다.
+- `docs/product/TEACHING_artifact_comparison.md`에 "새 페어(또는 다른 활동) 제작 전 콘텐츠 점검 체크리스트"를 추가했다 — 화첩·묶음 소장품 여부, 인물·장면 묘사 여부, 바깥 링크가 실제로 보여주는 것, 서술 문구의 폭력·성적 요소 여부를 항목화했다. 이후 다른 활동을 만들 때도 재사용한다.
 
 ## 2026-09-09 — 유물 비교 페어 등장 조건 근본 수정(마커 유물 기반)
 
@@ -1528,7 +1539,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - **10번째 후보(고려 홍패 vs 5·10 총선거 투표함)는 보류**했다. 현존하는 고려 시대 홍패 실물 6건 전부가 국립중앙박물관이 아니라 개인·문중 소장(보물 지정)이었고, 국립중앙박물관 소장 홍패는 조선 시대(1814년)뿐이었다. 투표함도 소장처를 확인하지 못했다. 두 소장처 모두 확인 안 된 상태로 만들지 않고, 사용자에게 상황을 그대로 보고한 뒤 "3번은 건너뛰고 나머지만 커밋"으로 정리했다.
 - 세 페어 모두 `requiredArtifactNames`(2026-09-09 근본 수정에서 만든 방식)를 바로 적용해서 만들었다 — `js/artifactComparison.js`는 이번에도 변경 없음, 데이터만 추가.
 - 검증: 브라우저 콘솔에서 각 마커 하나만으로 정확한 페어가 매치되는지, 결과 화면까지 진행해 문장·두 톤 분기를 페어마다 확인했다. `01_validate_game_data.py`·`06_validate_static_assets.py` 통과.
-- 문서: `BACKLOG.md`에 확장 6~8 기록, `TEACHING_artifact_comparison.md`를 9페어 기준 표로 갱신(10번째 보류 사실도 명시).
+- 문서: `BACKLOG.md`에 확장 6~8 기록, `docs/product/TEACHING_artifact_comparison.md`를 9페어 기준 표로 갱신(10번째 보류 사실도 명시).
 
 ## 2026-09-09 — 확장 역사 활동(타임머신 스토리·퀴즈·미니게임) Tailwind 미적용 스타일 깨짐 수정
 
@@ -1546,7 +1557,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 `TASK-20260909-07 | 원인과 결과 순서 맞추기 미니게임 기획·구현 | Claude Sonnet 5 | 상태: DONE`
 
 - 사용자가 "다른 원인 결과 스토리 순서 활동을 기획하자"고 요청. 기존 "역사 연표 순서 맞추기"(연도 표시, 연대 암기로 풀 수 있음)와 차별화 지점을 먼저 확인한 뒤(연도 비노출, 인과 논리로만 채점) 진행했다.
-- 기획 문서 `docs/plans/implementation_plan_cause_effect_order_game.md` 작성 — 콘텐츠 후보(3단원 35~45차시 기반 2세트), UI 재사용 설계, 그리고 `docs/audits/historical_language_audit.md`가 경고하는 "단일 원인·과도한 인과 서사" 위험을 어떻게 피할지(카드 문구에 복수 요인 암시, 정답 화면에 "다섯 사건만으로 설명되지 않는다" 고정 안내)를 명시했다. 사용자가 문구 초안과 스테이지 2개 전부 진행을 승인.
+- 기획 문서 `docs/archive/plans/implementation_plan_cause_effect_order_game.md` 작성 — 콘텐츠 후보(3단원 35~45차시 기반 2세트), UI 재사용 설계, 그리고 `docs/audits/historical_language_audit.md`가 경고하는 "단일 원인·과도한 인과 서사" 위험을 어떻게 피할지(카드 문구에 복수 요인 암시, 정답 화면에 "다섯 사건만으로 설명되지 않는다" 고정 안내)를 명시했다. 사용자가 문구 초안과 스테이지 2개 전부 진행을 승인.
 - `data/causeEffectChains.json` 신규: 스테이지 2개(을사늑약~임시정부 수립, 8·15 광복~정전 협정), 각 5개 사건, `year` 필드 없음.
 - `js/miniGames.js`에 `startCauseEffectGame`/`renderCauseEffectUI`/`handleCauseEffectClick`/`checkCauseEffectOrder` 4개 함수를 연표 게임과 동일한 클릭 교환 UI 패턴으로 추가.
 - `js/encyclopedia.js`에 `badge_causality_master`(🔗 인과 관계 탐정) 배지 추가. `index.html` 미니게임 카드에 버튼·컨테이너 추가.
@@ -1576,7 +1587,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
   - 8. 주먹도끼(구석기) vs 바퀴날도끼(신석기)(뗀석기→간석기 기술 변화)
   - 9. 비파형 동검(청동) vs 고리자루 큰 칼(철)(무기 대결이 아닌 금속 기술·상징물로 서술)
   - 보류: 고려 홍패 vs 5·10 총선거 투표함(국립중앙박물관 소장 확인 실패로 제외)
-- **콘텐츠 안전성 재검토**: 사용자 질문("초등학생 수준인가?")을 계기로 신윤복 페어를 「여속도첩」 전체(기녀 3면 포함)에서 「저잣길」(일반 부녀자로 공식 소개된 면) 하나로 좁혀 다시 작성. 나머지 5개 페어도 같은 기준으로 재검토해 이상 없음 확인. 재사용 가능한 "콘텐츠 점검 체크리스트"를 `TEACHING_artifact_comparison.md`에 추가.
+- **콘텐츠 안전성 재검토**: 사용자 질문("초등학생 수준인가?")을 계기로 신윤복 페어를 「여속도첩」 전체(기녀 3면 포함)에서 「저잣길」(일반 부녀자로 공식 소개된 면) 하나로 좁혀 다시 작성. 나머지 5개 페어도 같은 기준으로 재검토해 이상 없음 확인. 재사용 가능한 "콘텐츠 점검 체크리스트"를 `docs/product/TEACHING_artifact_comparison.md`에 추가.
 - **버그 근본 수정**: 페어 등장 조건을 "해금 유물 개수 임계값"에서 "그 시대 MUD가 실제로 주는 보상 유물 이름"(`requiredArtifactNames`) 기반으로 바꿔, 학생이 차시를 비선형으로 진행해도 무관한 시대 페어가 뜨지 않게 했다(을사의병·안중근 MUD 직후 도자기 페어가 뜨던 재발 버그를 근본적으로 해소).
 - **학생 피드백 채널**: 구글 폼(`window.FEEDBACK_FORM_URL`)을 MUD 공통 완료 화면과 유물 비교 결과 화면에 연결.
 - **신규 활동 — 유물 탐정 미니게임**: 유물 비교와 별개로 새 메커닉을 브레인스토밍(개인 전시 준비실/유물 탐정/내 유물 연표)한 뒤, 학생 수준에 가장 적절하다고 판단된 "유물 탐정: 이게 뭘까?"를 구현(그 학생이 실제로 해금한 유물만 출제, 힌트 3단계, 4지선다).
@@ -1594,7 +1605,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - `deep-dive-competition-task`(2026-09-01) 결정의 범위가 일주일째 미확정 상태였던 것을 사용자에게 재확인했다: `deep_three_kingdoms.json`은 Codex 소유 유지, `deep_joseon.json`·`deep_modern.json`은 Claude가 감사·개선 착수로 확정.
 - `deep_joseon.json`·`deep_modern.json` 구조 감사: 예상과 달리 `deep_joseon`은 이미 8개 스테이지 전부 `ordered-hotspot` 실제 게이팅이 걸려 있었고, `deep_modern`도 7개 중 4개가 동일 수준·3개(`precise-taegeukgi`×2·`precise-vote`)는 정밀 조작형의 다른 방식 게이팅이라 문제로 보지 않았다.
 - `scripts/12_audit_choice_bias.py`가 미해결로 남겨 둔 `deep_joseon:1`(정답이 오답보다 12자 길어 자료 안 읽고도 정답 티남)을 "선택지 단서 인용형 재작성" 기법으로 수정. 재실행으로 목록에서 빠진 것 확인.
-- `docs/handoff/codex_deep_three_kingdoms_ownership_handoff.md` 신규 작성: 위 역할 분담, `deep_three_kingdoms:1/5`에 남아있던 같은 종류의 편향(Codex 몫), PRD.md/DECISIONS.md 개정이 필요한 결정 3건(Deep-dive 필수 게이팅 허용 여부·교차 단원 스키마·Deep-dive 정의 개정)을 전달.
+- `docs/archive/handoff/codex_deep_three_kingdoms_ownership_handoff.md` 신규 작성: 위 역할 분담, `deep_three_kingdoms:1/5`에 남아있던 같은 종류의 편향(Codex 몫), PRD.md/DECISIONS.md 개정이 필요한 결정 3건(Deep-dive 필수 게이팅 허용 여부·교차 단원 스키마·Deep-dive 정의 개정)을 전달.
 - **정정 1건**: 문서 작성 중 `codex-deep-three-kingdoms` 브랜치 삭제를 제안하려다, `git log codex-deep-three-kingdoms ^main`으로 먼저 확인해 그 브랜치에 `deep_three_kingdoms.json`과 무관한 실제 협동 MUD 기능 2건(뒤로가기 네비게이션, 추가 미션 — 아래 TASK-10 참고)이 미반영 상태로 남아있음을 발견하고 삭제 제안을 철회·정정했다.
 - `docs/handoff/claude_deep_dive_session_continuation.md` 갱신(별도 워크트리 `claude-deep-prehistoric`) — 역할 분담 확정 사실 반영.
 - 검증: `01/03/04/06/08/09_validate_*`, JS 문법 검사 통과.
@@ -1640,13 +1651,13 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 - 이어서 사용자가 "8조법 목판?"이라고 물어, Deep-dive 보상 `art_deep_1`의 "8조법 목판" 표기가 실물 근거 없는 단정이라는 걸 확인(8조법은 『한서』에 3개 조항만 전해지는 문헌 기록, 실물 목판 발굴 사례 없음). `data/artifacts.json`·`data/mud/deep_prehistoric.json`의 이름을 "…전해오는 8조법"으로 정정하고 desc에 사실 관계를 명시했다.
 - 마지막으로 "유물만큼 유적도 많고 웹에 좋은 사진이 많다"는 요청에 유물↔유적(발견 장소) 연결 기능을 추가했다. 사진을 직접 삽입하지 않고(저작권 부담) 국가유산포털(heritage.go.kr) 공식 사적 페이지로만 링크하는 방식을 사용자가 선택했다. 6개 유적(서울 암사동, 부여 송국리, 연천 전곡리, 경주 대릉원 일원, 고령 지산동 고분군, 공주 무령왕릉과 왕릉원)을 heritage.go.kr에서 직접 열어 사진·설명이 실제로 맞는지 확인한 뒤 `data/artifactComparisons.json`의 유물 객체에 `site` 필드로 추가했다. 출토지를 모르는 전세품 유물(청자·백자·풍속화·앙부일구·자격루)에는 일부러 넣지 않았다. `js/artifactComparison.js`에 `siteLinksHtml()`을 추가해 결과 화면에 "🏛️ 이 유물이 발견된 유적" 박스로 노출(같은 유적 공유 시 중복 제거).
 - 검증: 로컬 정적 서버 + 브라우저 콘솔에서 site 링크 텍스트·href 정확성, site 정보 없는 페어(풍속화)는 빈 문자열을 반환해 정보를 지어내지 않는지 확인. `01_validate_game_data.py` 통과, `js/artifactComparison.js`는 `node -c`로 문법 확인.
-- 문서: `BACKLOG.md`에 3건 기록, `TEACHING_artifact_comparison.md`에 "2026-09-10 추가 — 유물↔유적 연결" 절 신설, 캐시버스터 `?v=20260910-eragroup1`(엔진)·`?v=20260910-sitelinks1`(엔진 재갱신).
+- 문서: `BACKLOG.md`에 3건 기록, `docs/product/TEACHING_artifact_comparison.md`에 "2026-09-10 추가 — 유물↔유적 연결" 절 신설, 캐시버스터 `?v=20260910-eragroup1`(엔진)·`?v=20260910-sitelinks1`(엔진 재갱신).
 
 ## 2026-09-10 — 트랙 1-A(관문 설계실) `regular_neolithic` 파일럿 1편
 
 `TASK-20260910-GATE1 | Regular MUD 관문 문법 다양화 1편(신석기) | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
 
-- 지시서 `docs/handoff/claude_track1a_gate_grammar_instruction.md`(Opus 5 기획) §3 1차 범위 3편 중 1편째. `data/mud/regular_neolithic.json`의 필수 단계 4개를 기존 `ordered-hotspot`/`resource-allocation`/`reflection`(모두 "원 3개 누르기" 계열)에서 `inquiry-task`로 전환했다. 배정 문법은 `sequence`(정착지→토기→의생활 순서의 앞뒤 관계 판단), 4단계(종합)는 참조 구현 `regular_goryeo_culture`와 같은 관례로 `claim-evidence`를 사용했다.
+- 지시서 `docs/archive/handoff/claude_track1a_gate_grammar_instruction.md`(Opus 5 기획) §3 1차 범위 3편 중 1편째. `data/mud/regular_neolithic.json`의 필수 단계 4개를 기존 `ordered-hotspot`/`resource-allocation`/`reflection`(모두 "원 3개 누르기" 계열)에서 `inquiry-task`로 전환했다. 배정 문법은 `sequence`(정착지→토기→의생활 순서의 앞뒤 관계 판단), 4단계(종합)는 참조 구현 `regular_goryeo_culture`와 같은 관례로 `claim-evidence`를 사용했다.
 - 범위: `simulator` 블록만 수정, `choices`·`narrative`·`glossary`와 실패 분기(`1-1`/`2-1`/`3-1`)는 그대로 유지했다. `js/`·`css/`·`index.html`은 건드리지 않았다(트랙 1-A 소유권 범위).
 - D-027(범주 무력화) 회귀를 직접 재현·확인: 근거 3개 중 같은 범주(`technology`) 2개만으로 `minCategories:2` 주장을 제출하면 정상적으로 거부됨을 확인했다. 범주를 `environment`(1개)·`technology`(2개)로 의도적으로 겹치게 배정해 범주 다양성 조건이 실제로 의미 있게 걸리도록 설계했다.
 - 검증: 지시서 §8 전체(`node --check` 3종, `01/03/04/06/07/08/09_validate·audit_*`, `05_test_simulator_runtime.js`) 통과, `git diff --check` 클린. 격리 워크트리 로컬 정적 서버(다른 세션과 포트 충돌 확인 후 8792 포트 사용)에서 1~4단계 전부 실제 플레이: 오답 제출 시 다음 버튼 비활성 유지·정답 비노출, 정답 제출 시 탐구 패널 컨트롤 전체 비활성화 + 다음 버튼만 활성화, 최종 보상(`art_2` 암사동 빗살무늬 토기) 정상 지급, 콘솔 error/warning 0건을 모두 확인했다.
@@ -1687,7 +1698,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 
 `TASK-20260911-GATE3 | 4트랙 라운드 2 §1-1 강화도 조약·근대 문물 편 전환 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
 
-- `docs/handoff/claude_four_track_round2_instruction.md` §1-1. `data/mud/regular_modern_open.json`의 필수 단계 4개를 `ordered-hotspot`에서 `inquiry-task`로 전환. 신석기·삼국과 달리 처음부터 편 내부 4관문 다양화(commit-revise/sequence/map-evidence/claim-evidence)로 설계해 재작업 없이 끝냈다.
+- `docs/archive/handoff/claude_four_track_round2_instruction.md` §1-1. `data/mud/regular_modern_open.json`의 필수 단계 4개를 `ordered-hotspot`에서 `inquiry-task`로 전환. 신석기·삼국과 달리 처음부터 편 내부 4관문 다양화(commit-revise/sequence/map-evidence/claim-evidence)로 설계해 재작업 없이 끝냈다.
 - 1단계(강화도 조약) `commit-revise`, 2단계(제중원·우정총국) `sequence`(1884 우정총국→1885 제중원→이용 한계 확인의 실제 연대순), 3단계(전차·전등) `map-evidence`(D-029에 따라 `task.labels` 필수 채움), 4단계 `claim-evidence`.
 - **민감 주제 균형 설계(라운드 2 §1-1 요구)**: `docs/plans/implementation_plan_sensitive_history_interactions.md`를 먼저 읽고, 4단계 `limits`에 "불평등 조약이 있었으므로 근대화는 의미 없다"(치욕사관 단정)와 "전차 하나로 주권 문제까지 다 설명된다"(근대화 미화) 양쪽을 모두 `correct:false`로 배치해 어느 한쪽 단정도 게이트를 통과하지 못하게 했다. 실플레이로 편향 응답 제출 시 실제 거부됨을 확인했다.
 - 검증: 지시서 §8 전체 재통과(반복 탭 후보 6개 유지). `preview_start(name: "gate-grammar")` 포트 8801, **아이패드 가로 1180×820**에서 1~4단계 전부 재생: 3단계 커스텀 `labels` 문구 렌더링 확인, 4단계 편향 응답 거부 후 균형 응답으로 정상 완료, 콘솔 error/warning 0건.
@@ -1701,7 +1712,7 @@ BACKLOG P2-03 점검 중 `placement: "supplementary"`로 등록된 `regular_myeo
 
 ### 기획
 
-Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리했다. 지시서는 `docs/handoff/`에 있다 — [개요](./docs/handoff/claude_four_track_overview.md), [관문 설계실](./docs/handoff/claude_track1a_gate_grammar_instruction.md), [대조실](./docs/handoff/claude_track2_artifact_site_instruction.md), [연결 공방](./docs/handoff/claude_track3_activity_loop_instruction.md), [조작대](./docs/handoff/claude_track1b_inquiry_console_instruction.md), [라운드 2](./docs/handoff/claude_four_track_round2_instruction.md).
+Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리했다. 지시서는 `docs/archive/handoff/`에 있다 — [개요](./docs/archive/handoff/claude_four_track_overview.md), [관문 설계실](./docs/archive/handoff/claude_track1a_gate_grammar_instruction.md), [대조실](./docs/archive/handoff/claude_track2_artifact_site_instruction.md), [연결 공방](./docs/archive/handoff/claude_track3_activity_loop_instruction.md), [조작대](./docs/archive/handoff/claude_track1b_inquiry_console_instruction.md), [라운드 2](./docs/archive/handoff/claude_four_track_round2_instruction.md).
 
 ### 통합 단계에서 잡은 결함 (각 창의 트리에서는 보이지 않던 것)
 
@@ -1741,7 +1752,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 ## 2026-09-14 — 조작대(inquiry-console) 라운드 3: inquiry-task 조합 감사 도구 + D-030 회귀 테스트
 
-`docs/handoff/claude_four_track_round3_instruction.md` §4 주 작업.
+`docs/archive/handoff/claude_four_track_round3_instruction.md` §4 주 작업.
 
 - **`scripts/13_audit_inquiry_combinatorics.js` 신설**: red team이 손으로 계산한 "관문별 통과 조합 밀도"(RT-04)를 반복 가능한 도구로 만들었다. `js/mudEngine.js`·`mudInquiry.js`·`mudSimulators.js`를 DOM 스텁 위에서 그대로 불러와, 각 편의 inquiry-task 관문마다 "제출 가능한 상태"를 실제 UI 활성화 조건대로 전수 열거(`commit-revise`는 initialChoice×finalChoice, `sequence`는 카드 순열×의미선택지, `map-evidence`는 장소×근거×한계, `claim-evidence`는 주장×근거 부분집합×(requireLimit일 때만) 한계)해 `MudInquiry.evaluateTask()`에 그대로 넣고 `complete` 비율을 낸다. 결과는 `docs/audits/inquiry_combinatorics_audit.md`에 표로 남긴다.
 - 2026-09-14 D-030 수정 후 마지막 관문 기대 수치(고려 11/40, 신석기 2/8, 삼국 2/8, 근대 4/24 — 위 "Codex red team 감사 반영" 절의 수치와 일치)로 스크립트 자체가 자기 검증한다. 불일치 시 종료 코드 1로 실패한다.
@@ -1754,7 +1765,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 `TASK-20260914-GATE-R3 | 파일럿 4편 16관문 의미 검토표 + 수업 관찰 체크리스트 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
 
-- 지시서 `docs/handoff/claude_four_track_round3_instruction.md` §1. 새 편 전환·`js/` 수정 없이 문서 검토와 1건의 데이터 수정만 진행했다.
+- 지시서 `docs/archive/handoff/claude_four_track_round3_instruction.md` §1. 새 편 전환·`js/` 수정 없이 문서 검토와 1건의 데이터 수정만 진행했다.
 - `docs/audits/inquiry_pilot_semantic_review.md`: 파일럿 4편(고려 문화·신석기·삼국·근대 개항) 16관문 전부를 문법별 기준(commit-revise 요소별 근거/sequence 절차·연대/map-evidence 세 정답 일치/claim-evidence 요구-문장 대응)으로 사람이 직접 읽고 표로 남겼다.
 - 지시서가 지목한 근대 개항 1관문의 공백("개항의 계기"를 받치는 자료 없음, RT-02)을 처리: 강화도 조약 제5조 원문(국사편찬위원회 우리역사넷 `kc_i400800`, "부산 이외에 두 항구를 20개월 이내에 개항하여 통상을 허가한다")을 대조해 새 근거 카드 `port-opening-clause`를 추가하고 `requiredEvidenceIds`에 포함시켰다. 조 번호 표기(조/관)는 두 번째 출처로 교차 확인하지 못해 학생 화면 문구에서 뺐다(`BACKLOG.md` §0-3 표에 보류로 기록).
 - 나머지 15관문은 2026-09-14 `32f6d82`(D-030)가 이미 해소한 상태였음을 재확인만 하고 데이터는 바꾸지 않았다.
@@ -1766,7 +1777,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 `TASK-20260914-03 | 4트랙 라운드 3 통합·교차 검증·배포 | Claude Opus 5 | 상태: DONE`
 
-- 지시서: [`claude_four_track_round3_instruction.md`](./docs/handoff/claude_four_track_round3_instruction.md). 넓히지 않고 관찰 준비와 의미·사실 검증.
+- 지시서: [`claude_four_track_round3_instruction.md`](./docs/archive/handoff/claude_four_track_round3_instruction.md). 넓히지 않고 관찰 준비와 의미·사실 검증.
 - 관문 설계실(`8173011`): 파일럿 4편 16관문 의미 검토표(`docs/audits/inquiry_pilot_semantic_review.md`), 수업 관찰 체크리스트(`docs/plans/classroom_observation_inquiry_pilot.md`), EXPERIMENTS 항목. 근대 1관문에 "항구 개방 조항" 근거를 추가해 "개항의 계기" 공백을 메웠다.
 - 대조실(`56f8013`, main 직접): 기존 9개 페어 사실 검증, 연대 표기 정밀화, 유적 링크 `checkedAt`·`hasPhoto` 필드와 검증.
 - 연결 공방(`90f460f`): 나의 연표 판정 인수 검토, 원인과 결과·기본 연표 40개 카드 검증, 고려 세트 벽란도 순서 정정. `art_12` era 라벨은 보류(BACKLOG 참조).
@@ -1833,7 +1844,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 `TASK-20260915-GATE-R4 | 1단원 비파일럿 9편 수치·연도·인물·인과 대조 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
 
-- 지시서 `docs/handoff/claude_four_track_round4_instruction.md` §1. 기준 브랜치 `fix/round3-red-team`(`b4dca60`) 위에서 작업, main 체크아웃은 건드리지 않았고 이 브랜치에만 커밋했다(원격 push 없음, §0-4).
+- 지시서 `docs/archive/handoff/claude_four_track_round4_instruction.md` §1. 기준 브랜치 `fix/round3-red-team`(`b4dca60`) 위에서 작업, main 체크아웃은 건드리지 않았고 이 브랜치에만 커밋했다(원격 push 없음, §0-4).
 - 대상 9편(`regular_paleolithic`/`regular_bronze_age`/`regular_gojoseon`/`regular_three_kingdoms_life`/`regular_silla`/`regular_balhae`/`regular_goryeo_founding`/`regular_goryeo_society`/`regular_goryeo_war`)의 `narrative`·`choices`·`glossary`·`location`·`badge`·시뮬레이터 텍스트에서 수치·연도·인물·인과 단정을 뽑아 `WebFetch`로 국사편찬위원회 우리역사넷 원문과 직접 대조했다. 결과 표: `docs/audits/unit1_regular_fact_check.md`.
 - **정정 2건**(원문 직접 열람으로 확정): (1) `regular_goryeo_war` 3단계의 "귀주대첩 이후 200년간 평화·다시는 넘보지 못했고" — 원문은 그런 구체적 기간·절대적 서술을 담고 있지 않아 원문 문구("큰 갈등이나 물리적 충돌 없이 오랜 시간 안정적인 평화")에 맞춤. (2) `regular_gojoseon` 1단계의 "《삼국유사》에는... 기원전 2333년" — 원문이 "삼국유사와 동국통감의 기록에 따르면"이라 두 문헌을 함께 인용하므로 병기로 정정.
 - **완화 1건**(원문 미확인): `regular_bronze_age`의 "전 세계 고인돌의 절반 이상" — 국가유산포털 등 여러 페이지를 열었으나 비율을 명시한 원문을 찾지 못해 구체적 수치 단정을 뺐다.
@@ -1844,7 +1855,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 ## 2026-09-15 — 조작대(inquiry-console) 라운드 4: inquiry-task 의미 lint 스크립트 + 첫 판단 보존 브라우저 확인
 
-`docs/handoff/claude_four_track_round4_instruction.md` §4 주 작업.
+`docs/archive/handoff/claude_four_track_round4_instruction.md` §4 주 작업.
 
 - **`scripts/14_lint_inquiry_semantics.js` 신설**: 라운드 3 red team이 사람이 읽어서 찾은 결함(R3-04, R3-07, D-030 3) 중 기계가 신호로 잡을 수 있는 5종을 검토 목록(실패 아님)으로 낸다 — 순서 노출(구조적 화살표-사슬 신호 + 카드 라벨 어휘 신호), 날짜 없는 순서 카드, map-evidence 오답 피드백의 정답 장소 라벨 노출, 완료·단정어(`완성`·`가장 먼저`·`반드시`·`뒤에야`·`마지막 단계`), inquiry-task 편의 개별 출처 공백. 결과는 `docs/audits/inquiry_semantics_lint.md`.
 - **자기 검증 결과, 지시서와 다른 사실을 발견**: 지시서는 "기획 세션이 방금 고친 삼국 3관문은 순서 노출 경고가 사라져야 한다"고 했으나, 실제로는 남아 있다. `b4dca60`는 `simulator.instruction`의 "영토 확보→교류→기록 순서로"만 지웠고, `meaningQuestion.options[order-random].feedback`의 같은 패턴("영토 확보→순행→기록 사이에는 앞뒤 관계가 있습니다")은 손대지 않았다. `data/mud/regular_three_kingdoms.json`은 이번 라운드 조작대 소유가 아니라(관문 설계실) 고치지 않고 보고서 상단에 눈에 띄게 남겼다.
@@ -1873,7 +1884,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 - T2 공식 출처 정정, T3 판옥선 시대 표시 조사, T4 `claude-deep-prehistoric` 브랜치 감사를 전체 검증 후 `e4229c9`로 커밋하고 `origin/main`에 push했다.
 - `TASK-20260915-T5-PLAN | 고조선 정적 협동 MUD 최초 판단 순서 교정 계획 | planning agent(Codex) | 상태: DONE`
-- `EXP-006`, 고조선 전용 `app.js`, 공용 `episode.js`, 7·8차시 화면 흐름을 대조해 [`implementation_plan_gojoseon_initial_judgment_order.md`](./docs/plans/implementation_plan_gojoseon_initial_judgment_order.md)를 작성했다.
+- `EXP-006`, 고조선 전용 `app.js`, 공용 `episode.js`, 7·8차시 화면 흐름을 대조해 [`implementation_plan_gojoseon_initial_judgment_order.md`](./docs/archive/plans/implementation_plan_gojoseon_initial_judgment_order.md)를 작성했다.
 - 계획은 고조선 편을 공용 엔진으로 전면 이관하지 않고 `역할 → 최초 판단 → 공유 → 추가 증거` 순서만 최소 이식한다. 기존 총 시간 예산, 법 만들기, 3·4·5인/5·10분형 분기를 유지하고 뒤로가기 재진입 상태를 명시적으로 검증한다.
 - 상태: 계획 작성 완료, 사용자 구현 승인 대기. 협동 MUD 코드와 실시간 앱은 수정하지 않았다.
 
@@ -1891,7 +1902,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 `TASK-20260915-GATE-R5 | 2단원 비파일럿 8편 수치·연도·인물·인과 대조 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
 
-- 지시서 `docs/handoff/claude_four_track_round5_instruction.md` §1. `origin/main` 기준, main 체크아웃 미접촉, 이 브랜치에만 커밋(push 없음).
+- 지시서 `docs/archive/handoff/claude_four_track_round5_instruction.md` §1. `origin/main` 기준, main 체크아웃 미접촉, 이 브랜치에만 커밋(push 없음).
 - 대상 8편(`regular_joseon_founding`/`regular_sejong`/`regular_joseon_status`/`regular_joseon_silhak`/`regular_joseon_economy`/`regular_joseon_folk`/`regular_joseon_diplomacy`/`regular_myeongnyang`) 전부를 읽고 수치·연도·인물·인과 단정과 로드맵 라벨-콘텐츠 정합성을 확인했다. 결과: `docs/audits/unit2_regular_fact_check.md`.
 - **확인된 사실 오류 없음 — 데이터를 바꾸지 않았다.** 지시서가 예시로 든 "측우기를 장영실이 만들었다" 서술을 `regular_sejong` 3관문에서 직접 확인했지만, 실제로는 측우기 발명자를 특정하지 않고 앙부일구와 명확히 구분해 서술하고 있었다. 8편 모두 로드맵 라벨도 실제 관문 내용과 일치했다(라운드 4에서 발견된 것과 같은 불일치 없음).
 - `regular_joseon_silhak`의 거중기·수원 화성 "10년 예정→2년 9개월" 수치는 여러 URL 시도에도 원문을 확보하지 못해 확인 불가로 남기고 유지했다(반증도 없음).
@@ -1901,7 +1912,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 ## 2026-09-15 — 조작대(inquiry-console) 라운드 5: lint 오탐 줄이기 + 라운드 4 통합본 브라우저 교차 확인
 
-`docs/handoff/claude_four_track_round5_instruction.md` §4.
+`docs/archive/handoff/claude_four_track_round5_instruction.md` §4.
 
 ### 4-1 lint 오탐 줄이기
 
@@ -1946,8 +1957,8 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 `TASK-20260916-GATE-R6 | 조선 후기 협동 활동 4/3/5인 역할 카드 초안 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
 
-- 지시서 `docs/handoff/claude_four_track_round6_instruction.md` §0·§1. `data/mud/`·`apps/**`·`js/*.js` 미접촉, main 체크아웃 미접촉, 이 브랜치에만 커밋(push 없음).
-- 산출물: `docs/handoff/claude_joseon_late_role_cards.md`. 4인 역할(농민·보부상·장시 주민·수공업자·기록관)의 `privateInfo`(역할 간 내용 비중복)·`sharePrompt`·`interest`, 3인 변형(겸임 없음 + 공통 자료 보충), 5인 변형(다섯째 역할 `공인` — 고유 근거 보유, 서기 아님), `commonPrompt`, 정답 없는 `firstJudgment`, `synthesis` 옵션(근거 8개, `minEvidence:2`·`minDistinctRoleSources:2`), 질문 틀 3종, 교사 개입 문구, sticky-wall 형식을 계획서 §4 `CooperativeScenario` 타입에 맞춰 초안으로 작성했다.
+- 지시서 `docs/archive/handoff/claude_four_track_round6_instruction.md` §0·§1. `data/mud/`·`apps/**`·`js/*.js` 미접촉, main 체크아웃 미접촉, 이 브랜치에만 커밋(push 없음).
+- 산출물: `docs/archive/handoff/claude_joseon_late_role_cards.md`. 4인 역할(농민·보부상·장시 주민·수공업자·기록관)의 `privateInfo`(역할 간 내용 비중복)·`sharePrompt`·`interest`, 3인 변형(겸임 없음 + 공통 자료 보충), 5인 변형(다섯째 역할 `공인` — 고유 근거 보유, 서기 아님), `commonPrompt`, 정답 없는 `firstJudgment`, `synthesis` 옵션(근거 8개, `minEvidence:2`·`minDistinctRoleSources:2`), 질문 틀 3종, 교사 개입 문구, sticky-wall 형식을 계획서 §4 `CooperativeScenario` 타입에 맞춰 초안으로 작성했다.
 - 지시서의 핵심 제약("자료 한 장만 봐도 답이 나오면 안 됨", "역할끼리 이해관계가 부딪혀야 함")을 직접 점검해 문서 §2에 4가지 갈등축(농민↔보부상 가격, 보부상↔수공업자 경쟁, 농민 본인↔이웃 광작 격차, 공인↔소상인 물량 선점)을 명시했다.
 - 사실 문장마다 `[출처 후보]` 표기로 이미 검증된 것과 대조실이 확인할 것을 구분했다 — 원문 대조는 직접 하지 않고 대조실에 넘겼다.
 - 검증: `04/05/11/13/14` 전부 통과(데이터 불변, 회귀 없음). `scripts/15`는 아직 없어(조작대 신설 예정) 건너뜀. 부수 갱신된 보고서 2개(내 소유 아님)는 되돌렸다.
@@ -1956,7 +1967,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 ## 2026-09-16 — 조작대(inquiry-console) 라운드 6: 협동 패킷 검증 스크립트 + D-031 sequenceKind 구현
 
-`docs/handoff/claude_four_track_round6_instruction.md` §4.
+`docs/archive/handoff/claude_four_track_round6_instruction.md` §4.
 
 ### 4-1 `scripts/15_validate_cooperative_packet.js` 신설
 
@@ -2000,7 +2011,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 `TASK-20260916-GATE-R7 | 조선 후기 5인 변형 공인 카드를 품팔이 카드로 교체 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
 
-- 지시서 `docs/handoff/claude_four_track_round7_instruction.md` §0·§1(D-034). 라운드 6에서 네 창이 동시 작업해 역할 카드 문서와 패킷 초안의 역할 id·5인 역할이 서로 어긋난 것을 맞추는 1단계 작업이다. `docs/handoff/claude_joseon_late_role_cards.md` 한 파일만 고쳤다.
+- 지시서 `docs/archive/handoff/claude_four_track_round7_instruction.md` §0·§1(D-034). 라운드 6에서 네 창이 동시 작업해 역할 카드 문서와 패킷 초안의 역할 id·5인 역할이 서로 어긋난 것을 맞추는 1단계 작업이다. `docs/archive/handoff/claude_joseon_late_role_cards.md` 한 파일만 고쳤다.
 - D-034 확정값에 따라 5인 변형의 `gongin`(공인, 보부상과 관점이 겹침)을 `laborer`(품팔이)로 교체했다. 광작 확대로 땅을 빌리지 못하게 된 "일부" 농민이 품삯으로 생활한다는 내용으로, "모든 농민이 땅을 잃었다"는 과잉 단정을 피하려고 privateInfo에 범위를 두 번 명시했다(지시서가 특히 주의를 준 부분).
 - 농민↔품팔이 이해관계 충돌(같은 광작이 두 처지에 다르게 나타남)을 §2·§3에 추가했다. `evidenceOptions`의 `ev-gongin`→`ev-laborer`, §9의 5인 구성·§10 확인 불가 목록도 확정값에 맞춰 정리했다.
 - 문서 첫머리에 "§4~§8은 연결 공방 참고 자료, 확정본은 패킷 JSON"이라는 소유 경계 안내를 추가했다(D-034가 판단·해석 옵션은 연결 공방 소유로 정리했기 때문).
@@ -2011,7 +2022,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 ## 2026-09-16 — 조작대(inquiry-console) 라운드 7: scripts/15 네 가지 보완
 
-`docs/handoff/claude_four_track_round7_instruction.md` §4.
+`docs/archive/handoff/claude_four_track_round7_instruction.md` §4.
 
 - **부정문 오탐 제거**: 문장 단위로 나눠 "수(는) 없", "것은 아니", "않았/아니었" 같은 부정·한계 패턴이 같은 문장에 있으면 과잉 단정어 경고를 내지 않는다. `limitOptions.limit_scope`("...전국 모든 지역에서 똑같이 일어났는지는 이 자료만으로 알 수 없다")에서 재현 확인 — "전국"이 있어도 더 이상 경고하지 않음. 처음 정규식(`할\s*수\s*없`)이 "알 수 없다"류를 놓쳐 직접 재현 테스트로 잡아 고침.
 - **D-034 확정값·역할 카드 문서 교차 검사 추가**: `CONFIRMED_ROLES` 상수(역할 id·evidenceId·참여 변형)를 두고 패킷의 `roles[].id`/`evidenceId`, `groupVariants.3`(craftsman·laborer 금지 + 공통 자료 `jangsi-craftsman-summary` 필수), `groupVariants.5`(laborer 필수)를 대조한다. 역할 카드 문서(`claude_joseon_late_role_cards.md`)의 헤딩 백틱 id·`evidenceId` 줄을 정규식으로 뽑아 패킷과도 대조한다. 다르면 실패로 낸다.
@@ -2026,7 +2037,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 `TASK-20260916-GATE-R7-2 | 대조실 문장별 판정을 역할 카드에 반영해 확정 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
 
-- 지시서 `docs/handoff/claude_four_track_round7_stage2_instruction.md` §1. `docs/handoff/claude_joseon_late_role_cards.md` 한 파일만 고쳤다.
+- 지시서 `docs/archive/handoff/claude_four_track_round7_stage2_instruction.md` §1. `docs/archive/handoff/claude_joseon_late_role_cards.md` 한 파일만 고쳤다.
 - 대조실이 `docs/audits/joseon_late_source_review.md`의 `ROLE_CARD_REVIEW`에 남긴 문장별 판정을 전부 반영했다.
   - **범위 초과 정정**: 농민 #2 "혼자 힘으로" → "예전보다 적은 일손으로"(우리역사넷 「광작과 광작농」 — 광작농도 농번기엔 고용 노동을 함께 썼다는 서술).
   - **확인 불가 → 카드에서 빼고 새 §11 "보류 문장" 표에 원문·판정·되살릴 조건을 보존**: 농민 이모작 문장, 보부상 가격 변동 문장, 수공업자 "보부상이 다른 지역에서 가져온 물건과 경쟁" 원문. 개념 자체(가격 변동, 지역 간 경쟁)는 삭제하지 않고 `interest` 필드나 일반화된 문장으로 남겨 각 카드의 이해관계 충돌 설계는 그대로 유지했다.
@@ -2045,7 +2056,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 `TASK-20260917-GATE-R8 | 역할 카드 v2 확정 — 추론 낮춤·대표 근거 1개·문장/메모 분리 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
 
-- 지시서 `docs/handoff/claude_four_track_round8_instruction.md`(D-035) §0·§1. 조선 후기 콘텐츠를 실제 앱 계약(`apps/cooperative-live/convex/scenarios.ts`, 읽기만 함)에 맞춰 옮기는 1단계 작업이다. `docs/handoff/claude_joseon_late_role_cards.md` 한 파일만 고쳤다.
+- 지시서 `docs/archive/handoff/claude_four_track_round8_instruction.md`(D-035) §0·§1. 조선 후기 콘텐츠를 실제 앱 계약(`apps/cooperative-live/convex/scenarios.ts`, 읽기만 함)에 맞춰 옮기는 1단계 작업이다. `docs/archive/handoff/claude_joseon_late_role_cards.md` 한 파일만 고쳤다.
 - **C1-04(직접 근거 없는 추론 문장 낮추기)**: 보부상의 값 변동 이문 문장(interest), 수공업자의 안 팔리는 달 살림 문장(privateInfo #4), 품팔이의 농번기 밖 벌이 불안정 문장(privateInfo #4) 세 곳을 "~할까 걱정입니다", "~일 것입니다" 같은 추론·걱정 표현으로 고쳐, 사실로 단정하는 서술이 남지 않게 했다.
 - **역할당 대표 근거 1개**: 기존에 각 역할에 붙어 있던 단일 `evidenceId`(`farmer-ipbeop`/`bobusang-currency`/`jangsi-craftsman`/`record-keeper-scope`/`laborer-wage`)를 그대로 대표 근거로 확정하고, 각각 30자 안팎 label과 선택 이유를 한 줄씩 추가했다. 5개 id가 서로 겹치지 않음을 확인했고, 기록관은 지시서 요구대로 "자료의 한계"(유리민이 호적에서 빠짐)를 가리키는 근거를 대표로 삼았다.
 - **학생 문장·편집 메모 분리(C1-05)**: 모든 역할 카드에서 줄 끝에 붙어 있던 `[출처: …]`류 대괄호 메모를 목록 항목 아래 들여쓴 "- 메모: …" 줄로 옮겼다. 조작대의 `--cards` 문장 분리 오탐(마침표가 아닌 곳에서 잘리던 문제)의 원인이었던 학생 문장 내 섞인 메모를 제거한 것이다.
@@ -2054,11 +2065,11 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - `scripts/15`의 기본 모드(옵션 없음)는 여전히 `data/cooperative/joseon_late_packet.draft.json`(연결 공방 소유, 아직 라운드 6 산출물)을 기준으로 실패를 낸다 — 2-나에서 연결 공방이 앱 계약 JSON을 새로 조립하면 해소될 예상된 실패이며 이번 라운드 관문 설계실의 몫이 아니다.
 - 부수 갱신된 조작대 소유 보고서 2개(`inquiry_combinatorics_audit.md`, `inquiry_semantics_lint.md`)는 `git checkout --`으로 되돌렸다.
 - `git status --short`로 대상 문서 1개만 바뀐 것을 커밋 직전 확인했다.
-- 2단계(연결 공방이 `docs/handoff/claude_joseon_late_runtime_scenario.json`을 조립하는 단계)는 기획 세션이 따로 지시할 때까지 착수하지 않는다.
+- 2단계(연결 공방이 `docs/archive/handoff/claude_joseon_late_runtime_scenario.json`을 조립하는 단계)는 기획 세션이 따로 지시할 때까지 착수하지 않는다.
 
 ## 2026-09-16 — 조작대(inquiry-console) 라운드 7 2단계: scripts/15 글 길이·가독성 검사 + --cards 옵션
 
-`docs/handoff/claude_four_track_round7_stage2_instruction.md` §3.
+`docs/archive/handoff/claude_four_track_round7_stage2_instruction.md` §3.
 
 - **길이·가독성 검사 추가**(`checkReadability`): `privateInfo`는 문장 수 3~5·문장당 60자 초과 경고(권장 40자 안팎), `sharePrompt`·`interest`·`firstJudgment.prompt`는 80자 초과 경고, `evidenceOptions[].shortLabel`은 30자 초과 경고, `limitOptions[].text`는 60자 초과 경고. `[PLACEHOLDER`가 남은 문자열은 아직 실제 문안이 아니므로 검사에서 제외한다.
 - **기준값은 제안값**이라고 스크립트 주석과 이 기록에 명시한다 — 수업 리허설(10/12~16)에서 실측하며 조정한다. 경고만 내고 실패로 막지 않는다(`--final`도 이 검사에는 영향 없음, 자리표시자 개수만 실패로 전환).
@@ -2074,11 +2085,11 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - 2-나: 확정 문장을 패킷 JSON에 옮겼다(`e6feb9b`). 편집 메모와 출처 코드는 제외했다. `--final` PASS, 자리표시자 0곳.
 - 남은 경고 14건은 제안값 기준의 길이 경고와 부정문 오탐 1건이다(`recordkeeper.interest`의 "모든 사람"). 리허설 뒤 조정한다.
 - 교훈: 라운드 6은 id를 먼저 고정하지 않고 동시에 작업해 결과가 갈라졌다. 라운드 7은 2단계 순서로 풀었다(D-034).
-- Codex 읽기 전용 감사 요청: `docs/handoff/codex_joseon_late_packet_audit_request_20260917.md`.
+- Codex 읽기 전용 감사 요청: `docs/archive/handoff/codex_joseon_late_packet_audit_request_20260917.md`.
 
 ## 2026-09-17 — 조작대(inquiry-console) 라운드 8: scripts/15 문장 분리 수정 + --runtime 앱 계약 검사
 
-`docs/handoff/claude_four_track_round8_instruction.md` §3.
+`docs/archive/handoff/claude_four_track_round8_instruction.md` §3.
 
 ### C1-05 문장 나누기 오탐 수정 + 회귀 fixture
 
@@ -2102,7 +2113,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 `TASK-20260918-GATE-R9 | 정규 MUD를 단원 넘어 잇는 연대표 데이터 작성 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE(확인 불가 1건 있음)`
 
-- 지시서 `docs/handoff/claude_four_track_round9_instruction.md`(D-036) §0·§1. 완료 화면에서 항상 전체 진도표로만 나가고 앞뒤 차시로 이어지는 길이 없던 문제(교사 관찰 EXP-008)를 해결하려고 단원 경계를 넘어 이어지는 연대표 띠 데이터를 만드는 1단계 작업이다. `data/lesson_track.json`(신규) 한 파일만 만들었다.
+- 지시서 `docs/archive/handoff/claude_four_track_round9_instruction.md`(D-036) §0·§1. 완료 화면에서 항상 전체 진도표로만 나가고 앞뒤 차시로 이어지는 길이 없던 문제(교사 관찰 EXP-008)를 해결하려고 단원 경계를 넘어 이어지는 연대표 띠 데이터를 만드는 1단계 작업이다. `data/lesson_track.json`(신규) 한 파일만 만들었다.
 - **32 vs 28 불일치**: 지시서·D-036 모두 "정규 32편"을 전제했지만 `data/mud/_index.json`의 `tier: "regular"` 항목을 직접 세어 보니 28개였다(전체 MUD 32개 = 정규 28 + 심화 4, `08_validate_mud_catalog.py`가 보고하는 "32 MUD"는 이 전체 수다). 4편을 지어내지 않고 실제 28편으로 만들었고, `note` 필드와 완료 보고에 확인 불가 항목으로 남겼다 — 기획 세션이 32라는 숫자의 근거를 다시 확인해야 한다.
 - **2단원 7차시 동률 처리**: `regular_myeongnyang`(명량대첩, 1597년)과 `regular_joseon_diplomacy`(병자호란, 1636년)가 둘 다 7차시다. 연대표는 실제 역사 순서를 보여주는 것이 목적이라는 D-036 배경에 따라, 교과서 차시 번호가 같더라도 실제 사건 발생 연도(1597 < 1636) 순으로 명량 편을 앞에 두었다. 판단 근거를 각 항목의 `orderNote`에 남겼다.
 - **eraLabel 배치**: 지시서가 준 13개 라벨을 그대로 쓰되, 3단원 2차시 `regular_independence_army`(의병 항쟁·안중근, 1909년 이전 사건)는 1910년 이후를 가리키는 "일제강점기"가 아니라 앞 편과 같은 "개항기"로 묶었다 — 연도상으로도 맞고 교과서 흐름과도 어긋나지 않는다. 2단원 7차시(왜란·호란 두 편)는 지시서 라벨 목록에 별도 항목이 없어 "조선 전기"로 묶고 8차시(조선 후기 경제)부터 "조선 후기"를 시작했다.
@@ -2116,7 +2127,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 ## 2026-09-18 — 조작대(inquiry-console) 라운드 9: 정규 연대표 띠 구현(D-036)
 
-`docs/handoff/claude_four_track_round9_instruction.md` §4.
+`docs/archive/handoff/claude_four_track_round9_instruction.md` §4.
 
 ### 지시서와 다른 사실 발견
 
@@ -2153,7 +2164,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 `TASK-20260918-CODEX-JOSEON-LATE | 확정 런타임 JSON의 실제 앱 등록·3·4·5인 회귀 | implementation agent(Codex) | 상태: DONE`
 
-- D-035의 파일 소유권에 따라 Claude가 확정한 `docs/handoff/claude_joseon_late_runtime_scenario.json`은 수정하지 않고, `apps/cooperative-live`의 공개·서버 레지스트리에 `joseon-late-market` version 1을 등록했다.
+- D-035의 파일 소유권에 따라 Claude가 확정한 `docs/archive/handoff/claude_joseon_late_runtime_scenario.json`은 수정하지 않고, `apps/cooperative-live`의 공개·서버 레지스트리에 `joseon-late-market` version 1을 등록했다.
 - 공개 레지스트리에는 제목·차시·권장 시간·역할 id/icon/name·3/4/5인 배치만 넣었다. 역할별 `privateInfo`·`interest`·`evidence`, 공동 질문, 자료 한계, 연결 문장, 개입 문구, 출처 8건은 서버 레지스트리에만 넣었다.
 - 3인 모둠은 농민·보부상·기록관을 배치하고, 빠진 수공업자 관점을 `common-craftsman` 읽기 전용 공통 자료로 보충한다. 4인과 5인 모둠에는 공통 자료를 추가하지 않는다.
 - 공개·서버 레지스트리 단위 테스트에 조선 후기 3·4·5인 고유 역할 배치와 3인 공통 자료 검사를 추가했다.
@@ -2161,7 +2172,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - production 화면에서 공개 첫 화면에 고조선·고려 초기·조선 후기 세 활동이 함께 표시되는 것을 확인했다. 로컬 가상 교사 화면은 기존 설계대로 고려 초기 데모를 고정 표시하므로, 실제 시나리오 선택 UI는 Convex/Auth0 연결 Preview에서 후속 확인한다.
 - production client bundle을 역할별 비공개 본문 고유 문구 5개로 검색해 0건임을 확인했다. 공개 제목·역할명·배치만 client bundle에 포함된다.
 - 검증:
-  - `node scripts/15_validate_cooperative_packet.js --runtime docs/handoff/claude_joseon_late_runtime_scenario.json` PASS(Claude가 기록한 interest 길이 제안 경고 3건만 유지)
+  - `node scripts/15_validate_cooperative_packet.js --runtime docs/archive/handoff/claude_joseon_late_runtime_scenario.json` PASS(Claude가 기록한 interest 길이 제안 경고 3건만 유지)
   - `npm run check` PASS: ESLint, TypeScript, 공개 레지스트리·입장 보안 단위 테스트 19개, Convex 기존 테스트, Next.js production build
   - 추가 후 `npm run test:convex` PASS: 3개 테스트(조선 후기 3·4·5인 서버 회귀 포함)
   - `git diff --check` PASS
@@ -2171,7 +2182,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 `TASK-20260918-GATE-R9-2 | 대조실 검증값 반영, eraRangeDraft 제거 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
 
-- 지시서 `docs/handoff/claude_four_track_round9_instruction.md` "라운드 9 — 2단계" §1. 1단계에서 초안으로 남겨 둔 `data/lesson_track.json`의 `eraRange`를 대조실 `docs/audits/lesson_track_era_review.md` 제안표대로 확정하고 `eraRangeDraft` 표시를 뗐다. 이 파일 하나만 고쳤다.
+- 지시서 `docs/archive/handoff/claude_four_track_round9_instruction.md` "라운드 9 — 2단계" §1. 1단계에서 초안으로 남겨 둔 `data/lesson_track.json`의 `eraRange`를 대조실 `docs/audits/lesson_track_era_review.md` 제안표대로 확정하고 `eraRangeDraft` 표시를 뗐다. 이 파일 하나만 고쳤다.
 - **연대 값 정정**(지시서가 명시한 항목): 통일신라는 이미 "676~935"로 맞아 있던 값을 유지(936은 고려의 후삼국 통일 완성이지 신라 멸망 연도가 아님), 구석기는 "수십만 년 전~약 1만 년 전"에서 끝 연도를 빼 "수십만 년 전~"으로(라운드 5·6의 "70만 년 전은 원문에 없다" 판단과 일치), 고조선은 "기원전 2333년(전한다)~기원전 108년"으로 전승 기록임을 드러냈다, 개항기는 "1876년~1910년"에서 끝 연도를 빼 "1876년~"으로, 청동기는 이미 시작만("기원전 2000년경~") 쓰고 있어 그대로 두었다.
 - **나머지 표도 함께 반영**: 신석기 표기를 "기원전 8000년경~"으로 통일, 조선 전기(founding·sejong·status)는 "1392년~1592년경", 조선 후기(economy·silhak·folk)는 "1592년경~1876년경"으로 대조실 구분을 그대로 썼다.
 - **설계 판단(지시서에 없어 직접 결정)**: 조선 전기의 새 표준 범위(~1592년경)를 명량해전(1597)·병자호란(1636~1637) 두 편에 그대로 적용하면 각 편의 실제 사건이 자기 `eraRange` 밖에 있게 되는 모순이 생긴다. `eraLabel`은 교과서 흐름(조선 후기 경제 편 앞)을 지키려고 그대로 "조선 전기"를 쓰되, `eraRange`만 편별 실제 연도(1597년 / 1636~1637년)로 바꾸고 `eraRangeNote`에 이유를 적었다. 1단계에서 정한 `orderNote`(동률 tie-break 근거)는 그대로 유지했다.
@@ -2198,7 +2209,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 
 `TASK-20260918-CODEX-HANDOFF-SAFETY | Codex 문서·조선 후기 작업의 원격 보존 확인 | integration agent(Codex) | 상태: DONE`
 
-- 역사 여정 연결 관점 3종(개별 MUD의 여정 연결, 유물을 증거로 활용, 개인 증거에서 공동 해석으로 확장)과 교사 제작 역사 웹앱 사례 메모를 `INBOX.md` 및 `docs/handoff/claude_history_journey_connection_followup_20260918.md`에 기록한 커밋 `e07c831`이 `origin/main`에 포함됐음을 확인했다.
+- 역사 여정 연결 관점 3종(개별 MUD의 여정 연결, 유물을 증거로 활용, 개인 증거에서 공동 해석으로 확장)과 교사 제작 역사 웹앱 사례 메모를 `INBOX.md` 및 `docs/archive/handoff/claude_history_journey_connection_followup_20260918.md`에 기록한 커밋 `e07c831`이 `origin/main`에 포함됐음을 확인했다.
 - 조선 후기 실시간 협동 MUD 앱 등록 커밋 `39f4fd8`과 감사 커밋 `45404d7`도 `origin/main`의 조상임을 확인했다. 따라서 별도 Codex worktree 폴더가 새 PC에 복사되지 않아도 원격 `main`에서 내용과 이력을 복구할 수 있다.
 - `audit/joseon-late-packet-20260917`이라는 별도 원격 브랜치는 없지만 감사 커밋 자체는 원격 `main`에 포함되어 유실 위험이 없다. 새 PC에서는 필요할 때 해당 커밋이나 `origin/main`을 기준으로 worktree를 다시 만든다.
 - 원격 갱신 후 로컬 `main`과 `origin/main`이 모두 `1ef85a6`을 가리키며 작업 트리가 깨끗한 상태임을 확인했다.
@@ -2238,7 +2249,7 @@ Claude 쪽 작업을 네 창으로 나누고 파일 소유권·포트를 분리�
 - 요청 A는 이미 `fbe3e82`에 병합돼 있었다. 런타임 콘텐츠 계약 검사와 `apps/cooperative-live`의 전체 `npm run check`를 다시 실행해 공개·서버 레지스트리, 3·4·5인 역할 배치, 3인 공통 자료, 클라이언트 비공개 본문 미노출, lint·typecheck·unit/Convex tests·production build를 모두 통과했다. 콘텐츠 원문의 `interest` 길이 제안 경고 3건은 기존 예상값이며 문안을 수정하지 않았다.
 - 요청 B는 코드 변경 없이 읽기 전용으로 수행해 [`lesson_track_red_team_audit.md`](./docs/audits/lesson_track_red_team_audit.md)에 10개 발견 사항과 수용 기준을 기록했다. 높은 심각도는 보상 유물 기반 완료 오판 가능성과 `<button role="listitem">`의 버튼 의미 손실이다.
 - Claude가 작업 중인 3단원 데이터 파일은 열거나 수정하지 않았다.
-- 검증: `node scripts/15_validate_cooperative_packet.js --runtime docs/handoff/claude_joseon_late_runtime_scenario.json`, `npm run check`(`apps/cooperative-live`), `node scripts/16_validate_lesson_track.js` 통과.
+- 검증: `node scripts/15_validate_cooperative_packet.js --runtime docs/archive/handoff/claude_joseon_late_runtime_scenario.json`, `npm run check`(`apps/cooperative-live`), `node scripts/16_validate_lesson_track.js` 통과.
 
 ## 2026-09-21 — 기획 세션: 연대표 띠 red team(LT-01~10) 1차 대응
 
@@ -2274,7 +2285,7 @@ Codex 읽기 전용 감사(`docs/audits/lesson_track_red_team_audit.md`, 기준 
 
 `TASK-20260921-GATE-R10 | D-032 해제 뒤 첫 3단원 사실 대조, 확인된 오류만 수정 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
 
-- 지시서 `docs/handoff/claude_four_track_round10_instruction.md` §0·§0-2·§1. 1·2단원과 확장 활동 대조는 이미 끝났고, 3단원(일제강점기·광복·6·25)만 라운드 3~8 동안 "수정 금지"로 묶여 있다가 D-032로 이번에 처음 열렸다. 정규 7편(`regular_independence_army`·`regular_japanese_rule_1`·`regular_independence`·`regular_japanese_rule_2`·`regular_gwangbok`·`regular_korean_war`·`regular_post_war`) 전부를 문장 단위로 대조했다.
+- 지시서 `docs/archive/handoff/claude_four_track_round10_instruction.md` §0·§0-2·§1. 1·2단원과 확장 활동 대조는 이미 끝났고, 3단원(일제강점기·광복·6·25)만 라운드 3~8 동안 "수정 금지"로 묶여 있다가 D-032로 이번에 처음 열렸다. 정규 7편(`regular_independence_army`·`regular_japanese_rule_1`·`regular_independence`·`regular_japanese_rule_2`·`regular_gwangbok`·`regular_korean_war`·`regular_post_war`) 전부를 문장 단위로 대조했다.
 - §0-2가 요구하는 3단원 특유의 기준(일반화 금지·인물 평가 새로 하지 않기·숫자 엄격·감정 자극 지양·남북 양쪽 균형)을 체크리스트 삼아 각 편의 `narrative`·`choices`·`glossary`·시뮬레이터 `feedback`/`infoText`를 훑었다. IF 단계(오답 선택지의 "배신", "독재자 지명" 같은 극단적 텍스트)는 지시서대로 가상 상황이라 대조 대상에서 뺐다.
 - **WebFetch로 원문을 직접 연 4건**: 아우내 장터 참여 인원("약 3천여 명", 우리역사넷 「유관순」), 기미독립선언서 저자 논쟁(공약 3장 작성자는 학설 대립, 우리역사넷 「3·1 독립 선언서」), 국호 '대한민국' 제안자(신석우, 우리역사넷 — 기존 서술 정확해 수정 없음), 대한광복회 결성자·김좌진 가입 시점(1915년 박상진 주도 결성, 김좌진은 1916년 이후 가입). 나머지 항목은 검색 결과 종합(공식 도메인만 채택)으로 확인하고 `docs/audits/unit3_regular_fact_check.md` 표에 원문 열람/검색 확인을 구분해 적었다.
 - **확인된 오류 9건**을 5개 파일에서 고쳤다.
@@ -2292,7 +2303,7 @@ Codex 읽기 전용 감사(`docs/audits/lesson_track_red_team_audit.md`, 기준 
 
 ## 2026-09-21 — 조작대(inquiry-console) 라운드 10: 3단원 민감 주제 표현 lint
 
-`docs/handoff/claude_four_track_round10_instruction.md` §4.
+`docs/archive/handoff/claude_four_track_round10_instruction.md` §4.
 
 ### `scripts/17_lint_sensitive_wording.js` 신설
 
@@ -2337,7 +2348,7 @@ D-032로 수정 금지가 풀린 뒤 첫 라운드다. 1·2단원과 확장 활�
 
 `TASK-20260921-GATE-R11 | 명량·병자호란을 조선 후기로, 같은 시대명은 같은 연도로 통일 | Claude Sonnet 5 · worktree claude-gate-grammar/feat/mud-gate-grammar | 상태: DONE`
 
-- 지시서 `docs/handoff/claude_four_track_round11_instruction.md`(D-037, Codex 감사 `lesson_track_red_team_audit.md` LT-08·LT-09 대응) §0·§1. `data/lesson_track.json` 한 파일만 고쳤다.
+- 지시서 `docs/archive/handoff/claude_four_track_round11_instruction.md`(D-037, Codex 감사 `lesson_track_red_team_audit.md` LT-08·LT-09 대응) §0·§1. `data/lesson_track.json` 한 파일만 고쳤다.
 - 배경: 라운드 9 2단계에서 명량·병자호란을 "조선 전기" 칸에 두되 편별 실제 연도(1597년, 1636~1637년)를 넣어 화면에 "조선 전기(1392~1592년경)"와 편별 연도가 동시에 보이는 모순이 있었다. D-037은 이걸 "eraLabel은 시대 범위, eraRange는 그 시대 전체 범위"로 규칙을 단순화하고, 사건 연도는 MUD 본문이 다루게 했다.
 - **명량·병자호란 → 조선 후기**: `eraLabel`을 "조선 후기"로, `eraRange`를 다른 조선 후기 칸과 같은 "1592년경~1876년경"으로 맞췄다. 자기모순 회피용으로 넣었던 `eraRangeNote`는 지웠고, 순서 결정과는 무관한 `orderNote`(7차시 동률 tie-break 근거)는 남겼다.
 - **같은 eraLabel은 같은 eraRange**(D-037 1): "광복·대한민국" 3편이 "1945년~"/"1950년~1953년"/"1953년~"으로 갈려 있던 것을 "1945년~현재"로 통일했다.
@@ -2351,7 +2362,7 @@ D-032로 수정 금지가 풀린 뒤 첫 라운드다. 1·2단원과 확장 활�
 
 ## 2026-09-21 — 조작대(inquiry-console) 라운드 11: `scripts/16` 검증기 보강(LT-03·LT-10, D-037)
 
-`docs/handoff/claude_four_track_round11_instruction.md` §4.
+`docs/archive/handoff/claude_four_track_round11_instruction.md` §4.
 
 ### LT-03 — `lesson_track.json` ↔ `_index.json` ↔ 실제 mud 파일 3중 대조
 
@@ -2450,7 +2461,7 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
   1. **2단계**: 이야기와 정답은 "전승이 다르니 방어 거점·지형·병력 운영을 살피자"로 신중하게 쓰여 있었다. 그런데 배지·로드맵·헤더·안내("물살을 채우고 터뜨리세요")·피드백("강물이 선봉대를 휩쓸었습니다")·오답·2-1 버튼은 수공을 사실로 단정하는 옛 문구였다. 이 칸들을 방어 거점·지형 탐구로 맞췄다. 소가죽 수공은 『고려사』 강감찬 열전에 전하므로 용어 풀이에 남기되, "『고려사』에 전하는 전술로…했다고 한다"로 바꿨다. 안내 문구도 실제 조작(단서 3개 찾기)과 맞췄다.
   2. **4-1 해설**: 오답("귀주 전투 한 장면만으로")과 다른 "서희의 담판 자료 하나만으로는"으로 시작하던 첫 문장을 "귀주 전투 한 장면만으로는"으로 고쳤다.
   3. **3-1 재시도 버튼**: "귀주 벌판에서 완벽한 승리를 거둔다" → "전투 결과와 전쟁 뒤의 과제를 함께 살펴본다"(정답 요지와 일치).
-- `activity_duration_audit.md`는 글자 수 변화(7.8→7.9분)를 반영해 재생성했다(CI가 동기화를 검사함).
+- `docs/audits/activity_duration_audit.md`는 글자 수 변화(7.8→7.9분)를 반영해 재생성했다(CI가 동기화를 검사함).
 - 검증: 01·03·04·05·06·07·08·09·10·11·14·16(`--ci`)·17 통과, `git diff --check` 통과. 브라우저 실플레이는 하지 않았다.
 
 ## 2026-09-28 — Regular 14편 점검 결과 일괄 수정 (P1-STAGE-COHERENCE-B 점검 3~5)
@@ -2471,7 +2482,7 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
   - **`regular_gwangbok`**: 1-1의 옛 "태극기 색칠" 버튼·안내를 고쳤다. 3-1 해설이 오답(독재·부자만 투표)과 다른 비밀 선거 위반을 설명하던 것을 보통·평등·비밀 선거로 고쳤다.
   - **`regular_post_war`**: 2단계 정답·피드백을 이야기("성공 신화가 아니라")에 맞게 바꿨다. 배지 "총성 속에서도"(1950년대 중반 배경과 불일치)와 1-1 버튼도 고쳤다.
   - **`regular_independence`**: 2-1 버튼을 해설(한 사람의 용기만이 아님)에 맞췄다.
-- 보고서: `activity_duration_audit.md`, `docs/audits/if_stage_audit.md`를 재생성했다. 재시도 단계 보완 신호가 줄었다.
+- 보고서: `docs/audits/activity_duration_audit.md`, `docs/audits/if_stage_audit.md`를 재생성했다. 재시도 단계 보완 신호가 줄었다.
 - 검증: 01·03·04·05·06·07·08·09·10·11·12·14·16(`--ci`)·17 통과, `git diff --check` 통과. 바꾼 정답은 모두 오답과 길이 차이 10자 이내다. 브라우저 실플레이는 하지 않았다.
 - 남긴 것: 2단계·2-1의 "숙정문(智)" 대응(문 이름에 智가 없음)은 대조실 확인 뒤 정한다. 3단원 문구는 라운드 10 사실 대조 이후 처음 바뀌었으므로, 다음 대조실 라운드에서 재확인을 권한다.
 
@@ -2634,7 +2645,7 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 
 ## 2026-09-28 — 세션 마감 문서화
 
-- `docs/handoff/claude_session_close_20260928.md`를 새로 썼다. 오늘의 흐름(12단계), 바뀐 규칙·도구, 남은 일(담당·조건), 배운 점을 담았다.
+- `docs/archive/handoff/claude_session_close_20260928.md`를 새로 썼다. 오늘의 흐름(12단계), 바뀐 규칙·도구, 남은 일(담당·조건), 배운 점을 담았다.
 - `project_context.md` v4.2로 갱신했다. 반영 내용: 포털 구성·학생 용어·MUD 배치·저장 정규화·용어 말풍선 한 번 치환, 단계 정합성 해결 기록, 선택지 피드백 미표시, 2026-09-28 기준 남은 일, 추가 검사와 브라우저 수동 회귀 실행법.
 - `BACKLOG.md` `P2-SITE-STRUCTURE` 상태를 `in-progress`로 바꾸고 완료 커밋과 남은 판단을 적었다.
 - `README.md`에 이어서 하기, 수동 회귀 실행법, 학생 화면 용어 원칙을 넣었다.
@@ -2666,7 +2677,7 @@ LT-03(메타데이터·파일 대조)은 현재 데이터에서는 오류 0건 �
 - 검증: `npm run check` 통과(lint, typecheck, 단위 19건, Convex 15건, production build), `git diff --check`. 사용자가 운영 `/teacher`에서 비밀번호 로그인을 확인했다. 실제 기기 리허설은 남아 있다.
 - 사고와 교훈: Convex 개발 배포에만 함수를 올린다고 판단했으나 Vercel Production·Preview가 같은 Convex 배포를 써서, main 반영 전까지 운영 교사 화면이 새 서버 함수와 맞지 않았다. 수업이 없는 시간이어서 main 반영으로 해소했다. 운영/개발 Convex 분리를 다음 기능 작업 전에 진행한다.
 - Convex 배포 시 `tsc` 검사는 `convex/tsconfig.json`에 `@/*` 경로가 없어 테스트 파일에서 실패했다. 이번 배포는 `--typecheck=disable`로 진행했고 같은 날 경로 설정을 보완했다.
-- 세션 마감 요약: [`docs/handoff/claude_session_close_20261005.md`](./docs/handoff/claude_session_close_20261005.md).
+- 세션 마감 요약: [`docs/archive/handoff/claude_session_close_20261005.md`](./docs/archive/handoff/claude_session_close_20261005.md).
 
 ## 2026-10-06 P0 개인정보·로그 검사 부분 결과
 

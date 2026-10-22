@@ -15,7 +15,7 @@
 
 이 7곳은 모두 분기 없는 단일 선택지(`도감에 등록하고 완료합니다!` → `next: "end"`)만 있는 엔딩 화면이다. 게이지를 2~4회 아무렇게나 채워도 건너뛰는 것은 "완료 축하 문구를 읽는 시간"뿐, 실제 역사적 판단이나 자료 비교 지점이 아니므로 **재설계가 필요하지 않다고 판단**한다.
 
-루트 `activity_duration_audit.md`(`scripts/07_audit_activity_duration.py`)가 8종(위 7종 + `regular_paleolithic`)을 "반복 탭 조기 종료 위험"으로 표시하던 것은 **07번 스크립트 쪽의 오탐**이었다. `regular_paleolithic`은 `paleo-*` 전용 렌더러가 중복 입력을 자체적으로 거부해 09번이 이미 안전하다고 판정한 대상인데, 07번이 그 제외 목록을 갖고 있지 않았다.
+루트 `docs/audits/activity_duration_audit.md`(`scripts/07_audit_activity_duration.py`)가 8종(위 7종 + `regular_paleolithic`)을 "반복 탭 조기 종료 위험"으로 표시하던 것은 **07번 스크립트 쪽의 오탐**이었다. `regular_paleolithic`은 `paleo-*` 전용 렌더러가 중복 입력을 자체적으로 거부해 09번이 이미 안전하다고 판정한 대상인데, 07번이 그 제외 목록을 갖고 있지 않았다.
 
 ### 2026-09-07 판정 기준 통일 (Claude)
 

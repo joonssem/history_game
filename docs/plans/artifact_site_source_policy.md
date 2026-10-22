@@ -1,6 +1,6 @@
 # 유물·유적 출처 확인 규칙 (대조실 트랙)
 
-- 작성: Sonnet 5, 2026-09-10 (트랙 2 지시서 `docs/handoff/claude_track2_artifact_site_instruction.md` P0)
+- 작성: Sonnet 5, 2026-09-10 (트랙 2 지시서 `docs/archive/handoff/claude_track2_artifact_site_instruction.md` P0)
 - 적용 범위: `data/artifactComparisons.json`의 모든 신규·기존 유물(`artifactA`/`artifactB`)·유적(`site`) 항목
 - 이 활동은 실물 사진을 앱에 직접 싣지 않는다(이모지+텍스트, 바깥 링크만 제공). 따라서 **이미지 이용조건(공공누리 유형·변경금지 여부)은 기능상 영향이 없다** — 기록은 남기되 이 규칙 때문에 데이터 추가가 막히지는 않는다.
 
@@ -39,7 +39,7 @@ Codex red team 감사가 지적한 공백이다. 지금까지 확인 날짜를 `
 ## 3. 공통 규칙
 
 1. **확인하지 못한 항목을 추측으로 채우지 않는다.** museum.go.kr·heritage.go.kr 검색 UI가 동적이라 relicId/ccbaCpno를 못 찾을 때가 있다 — 이럴 때는 그 페어(또는 그 항목)를 보류하고, `sourceNote`에 "확인하지 못함"이라고 정직하게 남긴다. 지금까지 실제로 보류한 사례: 고려 홍패(개인·문중 소장만 확인됨), 신라 금관과 짝지을 가야 금동관의 개별 소장품번호(상설전시 안내 페이지 설명만 확보).
-2. **의심스러우면 사용자에게 물어본다.** 특히 유적이 5학년 수준에 적절한지(폭력·죽음 관련 유적 등)는 `TEACHING_artifact_comparison.md`의 기존 콘텐츠 점검 체크리스트를 그대로 적용한다.
+2. **의심스러우면 사용자에게 물어본다.** 특히 유적이 5학년 수준에 적절한지(폭력·죽음 관련 유적 등)는 `docs/product/TEACHING_artifact_comparison.md`의 기존 콘텐츠 점검 체크리스트를 그대로 적용한다.
 3. **findspot 일치 확인.** 유물의 `location`(또는 `traits.location`)과 유적의 `site.name`이 실제로 같은 장소를 가리키는지 대조한다(예: "충남 부여 송국리" ↔ "부여 송국리 유적"). 다른 이름이면 별도 확인 없이 연결하지 않는다.
 4. **`checkedAt` 없는 site 필드는 만들지 않는다.** 링크를 걸기 전에 반드시 heritage.go.kr 페이지를 직접 열어(WebFetch 또는 직접 열람) 제목·설명·사진 유무를 확인한 뒤에만 데이터에 추가한다.
 5. 이 문서는 이후 모든 신규 유물·유적 데이터가 따라야 하는 규칙이다 — 새 페어를 만들 때 이 문서의 표를 그대로 체크리스트로 쓴다.

@@ -207,7 +207,7 @@ VS Code를 강제로 종료하거나 변경사항을 삭제하지 않는다. 이
 - [x] GitHub 저장소와 로컬 폴더의 관계를 확인했다.
 - [x] 현재 기술 스택과 실행 명령을 확인했다.
 - [x] 기존 코드 구조를 문서화했다.
-- [x] 기존 운영 문서(`PRD.md`, `BACKLOG.md`, `DECISIONS.md`, `project_context.md`, `agents.md`, `walkthrough.md`)를 확인했다.
+- [x] 기존 운영 문서(`PRD.md`, `BACKLOG.md`, `DECISIONS.md`, `project_context.md`, `AGENTS.md`, `walkthrough.md`)를 확인했다.
 - [x] Codex가 저장소를 분석하고 결과를 보고했다.
 - [ ] PRD·기술 스택·사용자 흐름·플로우차트·와이어프레임을 현재 상태에 맞게 정리한다.
 - [ ] 문서에 축적된 작업의 우선순위를 정하고 첫 구현 작업을 한 가지로 좁힌다.
@@ -252,7 +252,7 @@ idea → documented → prioritized → planned → in-progress → verified →
 - [x] 실제 폴더 구조와 실행 환경 확인
 - [x] 기존 문서 체계 확인
 - [x] 문서 우선·일괄 구현 원칙을 본 착수안에 반영
-- [ ] `agents.md`에 동일한 작업 수집·우선순위·구현 규칙 반영
+- [ ] `AGENTS.md`에 동일한 작업 수집·우선순위·구현 규칙 반영
 - [ ] `BACKLOG.md` 항목을 현재 상태 기준으로 재분류
 
 ### Phase 1 — 제품과 기술 설계 정리

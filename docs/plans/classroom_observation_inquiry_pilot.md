@@ -1,6 +1,6 @@
 # 수업 관찰 체크리스트 — inquiry-task 파일럿 4편
 
-> 라운드 3 지시서 §1-2. Codex의 첫 인계(`docs/handoff/claude_code_interaction_diversity_handoff_20260910.md` §6 P0)가 2026-09-10에 요구했으나 아직 만들어지지 않았던 문서다. 파일럿 4편(고려 문화·신석기·삼국·근대 개항)이 실제 학생에게 통했는지 수업 관찰 전에는 어떤 판단도 확정하지 않는다 — 이 문서는 관찰을 준비만 하고, 결과는 `EXPERIMENTS.md`에 별도로 기록한다.
+> 라운드 3 지시서 §1-2. Codex의 첫 인계(`docs/archive/handoff/claude_code_interaction_diversity_handoff_20260910.md` §6 P0)가 2026-09-10에 요구했으나 아직 만들어지지 않았던 문서다. 파일럿 4편(고려 문화·신석기·삼국·근대 개항)이 실제 학생에게 통했는지 수업 관찰 전에는 어떤 판단도 확정하지 않는다 — 이 문서는 관찰을 준비만 하고, 결과는 `EXPERIMENTS.md`에 별도로 기록한다.
 
 ## 1. 관찰 대상과 환경
 

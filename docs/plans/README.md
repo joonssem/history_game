@@ -3,6 +3,7 @@
 이 폴더의 계획서가 각각 어떤 상태이고 다음 행동이 무엇인지 한눈에 보기 위한 색인이다. 개별 문서의 내용은 복제하지 않는다.
 
 - 갱신: 2026-09-30
+- 2026-10-22: 완료 계획서 16개를 [`docs/archive/plans/`](../archive/plans/)로, `docs/handoff/` 전체를 [`docs/archive/handoff/`](../archive/handoff/)로 옮겼다([`implementation_plan_repo_slimming_20261022.md`](./implementation_plan_repo_slimming_20261022.md)). 아래 표의 링크는 새 경로를 가리킨다.
 - 완료 이력은 [`walkthrough.md`](../../walkthrough.md), 현재 상태는 [`project_context.md`](../../project_context.md), 미완료 항목은 [`BACKLOG.md`](../../BACKLOG.md)에서 확인한다.
 - 계획서의 상태를 바꾸면 이 표도 같이 갱신한다.
 - 2026-10-02 담당 분리: Preview 인증·로그인은 Codex가 진행하고, 2026-10-29 수업용 협동 교실 콘텐츠·기능 점검은 Claude가 맡는다. 작업 claim은 [`BACKLOG.md`](../../BACKLOG.md) 참조.
@@ -32,8 +33,8 @@
 
 | 문서 | 상태 | 다음 행동 |
 |---|---|---|
-| [`implementation_plan_cooperative_mud_gojoseon_law_v01.md`](./implementation_plan_cooperative_mud_gojoseon_law_v01.md) | `완료` · **실제 수업 운영됨** | 결과는 [`EXP-006`](../../EXPERIMENTS.md). 최초 판단 순서는 후속 계획으로 교정 완료 |
-| [`implementation_plan_gojoseon_initial_judgment_order.md`](./implementation_plan_gojoseon_initial_judgment_order.md) | `완료` | 6차시를 `역할 → 최초 판단 → 공유 → 추가 증거`로 교정. 실제 수업에서 판단 변화는 재관찰 대기 |
+| [`implementation_plan_cooperative_mud_gojoseon_law_v01.md`](../archive/plans/implementation_plan_cooperative_mud_gojoseon_law_v01.md) | `완료` · **실제 수업 운영됨** | 결과는 [`EXP-006`](../../EXPERIMENTS.md). 최초 판단 순서는 후속 계획으로 교정 완료 |
+| [`implementation_plan_gojoseon_initial_judgment_order.md`](../archive/plans/implementation_plan_gojoseon_initial_judgment_order.md) | `완료` | 6차시를 `역할 → 최초 판단 → 공유 → 추가 증거`로 교정. 실제 수업에서 판단 변화는 재관찰 대기 |
 | 정적 협동 MUD 3편 (코드) | `제작 완료` · 6차시 운영됨, 7·8차시 미운영 | `cooperative-mud/`의 `gojoseon-law`·`founding-myths`·`han-river`. 별도 계획서 없이 이 표와 `walkthrough.md`로 관리한다 |
 | [`cooperative_prehistory_content_draft.md`](./cooperative_prehistory_content_draft.md) | `콘텐츠 원본` | 선사 3막 문안. 정적 협동 MUD의 원본으로 재사용. 막2·3 역사 사실 재대조 필요 |
 | [`implementation_plan_cooperative_prehistory_pilot.md`](./implementation_plan_cooperative_prehistory_pilot.md) | `콘텐츠 원본` | 종이 단계 폐기. 막1부터 정적 협동 MUD로 제작 |
@@ -65,20 +66,20 @@
 
 | 문서 | 대상 |
 |---|---|
-| [`implementation_plan_track_a_runtime_stabilization.md`](./implementation_plan_track_a_runtime_stabilization.md) | MUD 런타임 상태 정리 |
-| [`implementation_plan_design_alignment_vertical_slice.md`](./implementation_plan_design_alignment_vertical_slice.md) | `regular_paleolithic` 대표 수직 슬라이스 |
-| [`implementation_plan_if_stage_quality_batch.md`](./implementation_plan_if_stage_quality_batch.md) | IF 스테이지 문장 품질 |
-| [`implementation_plan_choice_randomization.md`](./implementation_plan_choice_randomization.md) | 선택지 위치 무작위화 |
-| [`implementation_plan_artifact_wording.md`](./implementation_plan_artifact_wording.md) | 유물 이미지·문구 정합성 |
-| [`implementation_plan_scene_phase38.md`](./implementation_plan_scene_phase38.md) | 근현대 장면 15개, 장면 사업 종결 |
-| [`implementation_plan_student_feedback_p1.md`](./implementation_plan_student_feedback_p1.md) | 학생 피드백 P1 배치 |
-| [`implementation_plan_docs_reorganization.md`](./implementation_plan_docs_reorganization.md) | 문서 재배치. 완료된 구조 변경의 근거 |
+| [`implementation_plan_track_a_runtime_stabilization.md`](../archive/plans/implementation_plan_track_a_runtime_stabilization.md) | MUD 런타임 상태 정리 |
+| [`implementation_plan_design_alignment_vertical_slice.md`](../archive/plans/implementation_plan_design_alignment_vertical_slice.md) | `regular_paleolithic` 대표 수직 슬라이스 |
+| [`implementation_plan_if_stage_quality_batch.md`](../archive/plans/implementation_plan_if_stage_quality_batch.md) | IF 스테이지 문장 품질 |
+| [`implementation_plan_choice_randomization.md`](../archive/plans/implementation_plan_choice_randomization.md) | 선택지 위치 무작위화 |
+| [`implementation_plan_artifact_wording.md`](../archive/plans/implementation_plan_artifact_wording.md) | 유물 이미지·문구 정합성 |
+| [`implementation_plan_scene_phase38.md`](../archive/plans/implementation_plan_scene_phase38.md) | 근현대 장면 15개, 장면 사업 종결 |
+| [`implementation_plan_student_feedback_p1.md`](../archive/plans/implementation_plan_student_feedback_p1.md) | 학생 피드백 P1 배치 |
+| [`implementation_plan_docs_reorganization.md`](../archive/plans/implementation_plan_docs_reorganization.md) | 문서 재배치. 완료된 구조 변경의 근거 |
 
 ## 5. 과거 진단 — 현재 기준 아님
 
 | 문서 | 비고 |
 |---|---|
-| [`implementation_plan_structural_stabilization.md`](./implementation_plan_structural_stabilization.md) | 과거 구조 진단. 제품 코드에 그대로 적용하지 않는다 |
+| [`implementation_plan_structural_stabilization.md`](../archive/plans/implementation_plan_structural_stabilization.md) | 과거 구조 진단. 제품 코드에 그대로 적용하지 않는다 |
 
 `superseded` 문서는 [`docs/archive/`](../archive/)로 옮긴다. 2026-09-06에 `implementation_plan_mud_depth_expansion.md`와 `cooperative_prehistory_paper_rehearsal_execution.md`(종이 단계 폐기)를 이동했다.
 

@@ -67,16 +67,16 @@ apps/cooperative-live/
 | `CONVEX_DEPLOYMENT` | 로컬 Convex CLI가 개발 배포 대상을 기억하는 변수 | `.env.example`; Vercel 환경 변수라는 근거는 없음 |
 | `TEACHER_PASSCODE` | Convex 서버에서 교사 비밀번호 확인에 사용. Vercel에 복제하지 않음 | `convex/security.ts`, README, 2026-10-05 인계 기록 |
 | `JOIN_ATTEMPT_HMAC_SECRET` | Convex 서버에서 입장 실패 제한 버킷을 HMAC 처리 | `convex/students.ts`, README, `.env.example` |
-| `CONVEX_DEPLOY_KEY` | 현재 저장소의 Vercel 설정 목록에는 없음. Production/Preview에 실제 등록됐는지 별도 대시보드 확인 없이는 단정할 수 없음 | 최초 계획은 환경별 배포 키 분리를 제안했으나 현재 README의 Vercel 변수 목록에는 키가 없음. `docs/plans/implementation_plan_vercel_convex_vertical_slice.md`, README, `docs/handoff/claude_session_close_20261005.md` |
+| `CONVEX_DEPLOY_KEY` | 현재 저장소의 Vercel 설정 목록에는 없음. Production/Preview에 실제 등록됐는지 별도 대시보드 확인 없이는 단정할 수 없음 | 최초 계획은 환경별 배포 키 분리를 제안했으나 현재 README의 Vercel 변수 목록에는 키가 없음. `docs/plans/implementation_plan_vercel_convex_vertical_slice.md`, README, `docs/archive/handoff/claude_session_close_20261005.md` |
 
-README 기준 현재 Vercel에는 `NEXT_PUBLIC_CONVEX_URL`, `NEXT_PUBLIC_DEMO_MODE`만 두며 비밀번호와 HMAC 비밀값은 Convex 배포 환경에만 둔다. 2026-10-06 기록은 Auth0 관련 이전 변수를 Vercel Production/Preview, Convex, 로컬에서 제거했다고 한다. 현재 코드 경로에는 Auth0 로그인이 없다. 근거: `apps/cooperative-live/README.md`, `walkthrough.md`(2026-10-06), `docs/handoff/claude_session_close_20261005.md`.
+README 기준 현재 Vercel에는 `NEXT_PUBLIC_CONVEX_URL`, `NEXT_PUBLIC_DEMO_MODE`만 두며 비밀번호와 HMAC 비밀값은 Convex 배포 환경에만 둔다. 2026-10-06 기록은 Auth0 관련 이전 변수를 Vercel Production/Preview, Convex, 로컬에서 제거했다고 한다. 현재 코드 경로에는 Auth0 로그인이 없다. 근거: `apps/cooperative-live/README.md`, `walkthrough.md`(2026-10-06), `docs/archive/handoff/claude_session_close_20261005.md`.
 
 ### 배포 분리와 접속 주소
 
-- Convex 개발 배포와 운영 배포를 분리하지 않았다. 인계 기록에 Vercel Production과 Preview 모두 같은 Convex **개발** 배포를 가리킨다고 명시돼 있다. 따라서 Convex 함수 배포가 운영 동작에도 즉시 반영될 수 있다. 이는 다른 프로젝트에서 그대로 복제하기보다 먼저 환경 분리를 설계할 중요한 운영 교훈이다. 근거: `docs/handoff/claude_session_close_20261005.md`.
+- Convex 개발 배포와 운영 배포를 분리하지 않았다. 인계 기록에 Vercel Production과 Preview 모두 같은 Convex **개발** 배포를 가리킨다고 명시돼 있다. 따라서 Convex 함수 배포가 운영 동작에도 즉시 반영될 수 있다. 이는 다른 프로젝트에서 그대로 복제하기보다 먼저 환경 분리를 설계할 중요한 운영 교훈이다. 근거: `docs/archive/handoff/claude_session_close_20261005.md`.
 - 2026-09-28 리허설 기록에서 그 공용 대상은 `glorious-guanaco-616`으로 식별돼 있다. 이는 Convex 배포 이름이며 비밀 키가 아니다. 계정 설정은 바뀔 수 있으므로 현재 대시보드에서 여전히 같은 대상인지 확인은 필요하다. 근거: `docs/audits/cooperative_live_deployment_rehearsal_20260928.md`.
 - `CONVEX_DEPLOY_KEY`를 Production/Preview별로 설정한 흔적이나 키 분리 여부는 확인 불가다. 초기 계획서에는 개발·미리보기·운영용 키 분리를 제안했지만 현재 공유 배포 구조와 일치하지 않는다. 근거: 계획서 §6, 10월 인계 기록.
-- 2026-10-05에는 Convex 함수를 배포한 뒤 `main` 반영, Vercel 운영 자동 배포 순서로 진행했다고 기록돼 있다. GitHub의 `main` 반영 후 Vercel 배포는 자동화돼 있다. Convex 배포는 별도 단계다. 근거: `docs/handoff/claude_session_close_20261005.md`.
+- 2026-10-05에는 Convex 함수를 배포한 뒤 `main` 반영, Vercel 운영 자동 배포 순서로 진행했다고 기록돼 있다. GitHub의 `main` 반영 후 Vercel 배포는 자동화돼 있다. Convex 배포는 별도 단계다. 근거: `docs/archive/handoff/claude_session_close_20261005.md`.
 - 안정 주소 형태는 `https://<프로젝트 별칭>.vercel.app`; 현재 README/리허설 기록의 별칭은 `history-game-kappa-gilt.vercel.app`이다. 사용자 도메인 연결 여부는 확인되지 않았다. 이 주소는 문서상 실제 학생 운영 승인이 아닌 가상 데이터 기술 Preview다. Git 기반 임시 Preview에는 Vercel 로그인 보호가 적용됐다고 인계 기록에 적혀 있다. 근거: README, `docs/audits/cooperative_live_deployment_rehearsal_20260928.md`, 10월 인계 기록.
 - Vercel Preview는 현재 Production과 동일한 Convex 개발 배포를 바라본다. Preview에서 운영과 독립된 데이터를 쓰지 않는 구성이다.
 
@@ -138,10 +138,10 @@ return () => window.clearInterval(timer);
 
 ### 기록으로 확인된 문제
 
-1. **Convex TypeScript 배포 검사 실패**: 당시 `convex/tsconfig.json`에 앱 `@/*` alias 경로가 없어 Convex 배포 typecheck가 실패했고, 한 차례 `--typecheck=disable`로 우회했다. 이후 `allowImportingTsExtensions`와 `@/*` paths를 설정해 typecheck 비활성화 없이 배포하도록 수정했다. 현재 설정은 `apps/cooperative-live/convex/tsconfig.json`; 과거/해결 기록은 `walkthrough.md`, `docs/handoff/claude_session_close_20261005.md`.
+1. **Convex TypeScript 배포 검사 실패**: 당시 `convex/tsconfig.json`에 앱 `@/*` alias 경로가 없어 Convex 배포 typecheck가 실패했고, 한 차례 `--typecheck=disable`로 우회했다. 이후 `allowImportingTsExtensions`와 `@/*` paths를 설정해 typecheck 비활성화 없이 배포하도록 수정했다. 현재 설정은 `apps/cooperative-live/convex/tsconfig.json`; 과거/해결 기록은 `walkthrough.md`, `docs/archive/handoff/claude_session_close_20261005.md`.
 2. **Vercel 프론트와 Convex 함수 버전 불일치**: 2026-09-28 고정 주소에서 새 프론트가 보낸 `scenarioId` 인자를 연결된 Convex 함수 validator가 거부했다. 현재 저장소의 `convex/sessions.ts`와 스키마를 해당 개발 배포에 다시 반영해 복구했다. 함수 시그니처·스키마를 바꾸면 Convex 배포와 프론트 배포를 함께 맞춰야 한다. 근거: `docs/audits/cooperative_live_deployment_rehearsal_20260928.md`.
-3. **21명 수업에서 빈 참가자 레코드가 자리 차지**: 2026-09-29 실제 수업 관찰에서 참가자 대기실이 접속 수만 보이고 유령 슬롯을 교사가 복구할 수 없어 일부 입장이 막혔다. 이후 heartbeat 기반 접속 상태, 대기실 카드, 내보내기/재편성·복구 기능을 구현해 2026-10-05 운영 반영했다고 기록돼 있다. 이는 문제/해결 이력만 요약한 것이며 학생별 정보는 포함하지 않는다. 근거: `docs/handoff/claude_session_close_20261005.md`, `walkthrough.md` 2026-10-05 대기실 항목, `BACKLOG.md` `P0-COLLAB-GHOST-PLAYER`.
-4. **로컬 Convex 익명 개발 서버 인증서 오류**: 초기 개발 중 백엔드 바이너리 다운로드에서 인증서 체인 오류가 있어 해당 시점에는 로컬 Convex 실행이 막혔다. 인증서 검증을 끄지 않고 신뢰할 CA 또는 원격 Convex 개발 배포를 사용하도록 기록했다. 특정 PC의 학교 프록시 환경에서는 배포 도구에 `NODE_OPTIONS=--use-system-ca`가 필요했다고 한다. 근거: `docs/plans/implementation_plan_vercel_convex_vertical_slice.md`, `docs/handoff/claude_session_close_20261005.md`.
+3. **21명 수업에서 빈 참가자 레코드가 자리 차지**: 2026-09-29 실제 수업 관찰에서 참가자 대기실이 접속 수만 보이고 유령 슬롯을 교사가 복구할 수 없어 일부 입장이 막혔다. 이후 heartbeat 기반 접속 상태, 대기실 카드, 내보내기/재편성·복구 기능을 구현해 2026-10-05 운영 반영했다고 기록돼 있다. 이는 문제/해결 이력만 요약한 것이며 학생별 정보는 포함하지 않는다. 근거: `docs/archive/handoff/claude_session_close_20261005.md`, `walkthrough.md` 2026-10-05 대기실 항목, `BACKLOG.md` `P0-COLLAB-GHOST-PLAYER`.
+4. **로컬 Convex 익명 개발 서버 인증서 오류**: 초기 개발 중 백엔드 바이너리 다운로드에서 인증서 체인 오류가 있어 해당 시점에는 로컬 Convex 실행이 막혔다. 인증서 검증을 끄지 않고 신뢰할 CA 또는 원격 Convex 개발 배포를 사용하도록 기록했다. 특정 PC의 학교 프록시 환경에서는 배포 도구에 `NODE_OPTIONS=--use-system-ca`가 필요했다고 한다. 근거: `docs/plans/implementation_plan_vercel_convex_vertical_slice.md`, `docs/archive/handoff/claude_session_close_20261005.md`.
 
 ### 비밀값 유출 / 키 교체
 
@@ -192,9 +192,9 @@ Convex CLI가 안내하는 개발 배포 URL을 `NEXT_PUBLIC_CONVEX_URL`로 로�
 
 ### 브랜치와 배포 흐름
 
-- 작업은 기능 브랜치에서 하고 통합 후 `main`에 반영하는 흐름이 기록돼 있다. 작업 디렉터리를 공유하며 브랜치만 전환하지 말고 필요하면 별도 Git worktree를 쓴다는 저장소 지침이 있다. 근거: 루트 `agents.md`, `docs/plans/implementation_plan_vercel_convex_vertical_slice.md`, 10월 인계 기록.
+- 작업은 기능 브랜치에서 하고 통합 후 `main`에 반영하는 흐름이 기록돼 있다. 작업 디렉터리를 공유하며 브랜치만 전환하지 말고 필요하면 별도 Git worktree를 쓴다는 저장소 지침이 있다. 근거: 루트 `AGENTS.md`, `docs/plans/implementation_plan_vercel_convex_vertical_slice.md`, 10월 인계 기록.
 - `main` 변경은 Vercel Git 연동을 통해 자동 배포된다. Convex 함수는 CLI로 별도 배포한 후 프론트 배포를 진행한 기록이 있다. 현재 Preview·Production이 같은 Convex 개발 대상을 쓰므로 배포 순서를 바꿔도 환경 격리는 되지 않는다.
-- 임시 Preview URL에서 외부 인증 callback 허용 문제가 발생한 적이 있다. 이후 Auth0는 제거됐고 현재는 교사 비밀번호 로그인이다. 지금의 Vercel Preview는 접근 보호가 걸렸다고 기록돼 있어 학생 기기 점검 주소로 쓰지 않는다. 근거: `docs/audits/cooperative_live_deployment_rehearsal_20260928.md`, `docs/handoff/claude_session_close_20261005.md`.
+- 임시 Preview URL에서 외부 인증 callback 허용 문제가 발생한 적이 있다. 이후 Auth0는 제거됐고 현재는 교사 비밀번호 로그인이다. 지금의 Vercel Preview는 접근 보호가 걸렸다고 기록돼 있어 학생 기기 점검 주소로 쓰지 않는다. 근거: `docs/audits/cooperative_live_deployment_rehearsal_20260928.md`, `docs/archive/handoff/claude_session_close_20261005.md`.
 
 ### AI 코딩 도구에서 자주 생기는 Convex 실수
 

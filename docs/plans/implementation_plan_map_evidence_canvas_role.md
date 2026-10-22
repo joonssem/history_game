@@ -29,7 +29,7 @@
 
 ## 2. 접근성 제약 — 왜 "캔버스를 강제"할 수 없는가
 
-`js/mudSimulators.js`의 캔버스는 `role="img"`이고, `mn-hotspot-actions`의 DOM 버튼이 **동등한 대체 조작**이다(`docs/handoff/claude_track1b_inquiry_console_instruction.md` §4의 "모바일 대체 조작은 접근성상 반드시 필요" 원칙, WCAG 비텍스트 콘텐츠 대체 요건). 스크린리더·저시력·모터 장애 학생은 캔버스를 볼 수도, 좌표를 정확히 클릭할 수도 없다.
+`js/mudSimulators.js`의 캔버스는 `role="img"`이고, `mn-hotspot-actions`의 DOM 버튼이 **동등한 대체 조작**이다(`docs/archive/handoff/claude_track1b_inquiry_console_instruction.md` §4의 "모바일 대체 조작은 접근성상 반드시 필요" 원칙, WCAG 비텍스트 콘텐츠 대체 요건). 스크린리더·저시력·모터 장애 학생은 캔버스를 볼 수도, 좌표를 정확히 클릭할 수도 없다.
 
 그런데 "동등한 대체"의 정의상, DOM 버튼이 캔버스가 주는 정보와 **같은 정보**를 텍스트로 제공해야 한다. 캔버스만 아는 정보(좌표, 색, 아이콘)가 있고 DOM 버튼에 없다면 그건 접근성 결함이다. 반대로 DOM 버튼에 있는 정보를 캔버스가 몰라도 상관없다.
 

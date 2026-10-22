@@ -2,11 +2,17 @@
 
 > **2026-10-15 — Convex 실시간 협동 활동 취소([D-038](./DECISIONS.md)).** 취소된 `*-COLLAB-*` 항목 원문은 [`docs/archive/cooperative-live/BACKLOG_cancelled_20261016.md`](./docs/archive/cooperative-live/BACKLOG_cancelled_20261016.md)로 옮겼다(2026-10-19). 재개하지 않는다.
 
+## P2-REPO-SLIMMING — 지난 문서 보관·로그 문서 분할·scratch 정리 (2026-10-22 등록)
+
+- 작업 claim: `TASK-20261022-REPO-SLIMMING | docs/plans·docs/handoff 보관, 루트 문서 이동, walkthrough·INBOX 분할, scratch 정리 | integration agent(Claude) | 상태: DOING — 단계 A 완료(2026-10-22, 완료 계획서 16개·handoff 61개 보관, 루트 문서 5개 이동, agents.md→AGENTS.md), 단계 B(walkthrough·INBOX 분할)·C(scratch 정리) 대기 | 검증: CI 단계 전체(01·03·04·08·09·05·16·06·07·10·11, node --check, git diff --check), 깨진 링크 125→125`
+- 문제: 세션마다 읽는 루트 로그 문서가 크고(walkthrough 386KB, INBOX 208KB), 완료 계획서·지난 핸드오프가 현행 문서와 섞여 있다.
+- 계획: [`implementation_plan_repo_slimming_20261022.md`](./docs/plans/implementation_plan_repo_slimming_20261022.md)
+
 ## P2-REPO-CLEANUP — Convex 취소 후 저장소 정리 (2026-10-16 등록)
 
 - 작업 claim: `TASK-20261016-REPO-CLEANUP | apps/cooperative-live 제거·worktree/브랜치 태그 보관·취소 문서 archive 이동·루트 정리 | integration agent(Claude) | 상태: DONE(Vercel Git 연동 확인만 Codex 위임) — 2026-10-19 앱 제거·태그 13개·문서 이동·BACKLOG·루트 정리·worktree 9개와 브랜치 삭제 완료`
 - 문제: 취소된 실시간 앱 코드(546MB node_modules 포함), worktree 10개, 브랜치 17개, 실시간 협동 문서 약 30개, BACKLOG CANCELLED 섹션이 현행 작업과 섞여 있다.
-- 계획: [`implementation_plan_repo_cleanup_20261016.md`](./docs/plans/implementation_plan_repo_cleanup_20261016.md)
+- 계획: [`implementation_plan_repo_cleanup_20261016.md`](./docs/archive/plans/implementation_plan_repo_cleanup_20261016.md)
 
 ## P3-AUDIT-SKILLS — `/interrogate`·`/blast-radius` 보완 (2026-10-19 등록)
 
@@ -14,7 +20,7 @@
 - 결과 기록 위치: 결과를 `docs/audits/<주제>_<날짜>.md`에 남길지(선례 `round3_red_team_audit.md`). 지금은 보고만 하고 BACKLOG 등록은 사용자 확인 뒤에 한다.
 - 교육 렌즈 축소: 선택지 편향·민감 문구는 `scripts/12`·`17`로 넘기고, 렌즈는 "사실 단정·연령 어휘·오학습 유도"로 줄이며, 출처를 못 대면 "근거 확인 필요"로만 표시한다. 순수 JS/CSS 변경에서는 끈다. 역사 사실 판정은 `primary_data`를 검토자가 볼 수 없어 content 역할(사용자) 몫이다.
 - "서로 다른 모델" 한계: opus·sonnet·haiku는 같은 Claude 계열이라 공급사 교차의 이점이 약하다. 큰 변경에는 Codex red team을 독립 검토자로 권하고, haiku 제외도 검토한다.
-- 증거 5단계 보강: `BROWSER_REGRESSION_CHECKLIST.md` 연결과 `scripts/manual/site_regression.js`의 `.tmp-playwright/` 설치 전제를 적을지.
+- 증거 5단계 보강: `docs/product/BROWSER_REGRESSION_CHECKLIST.md` 연결과 `scripts/manual/site_regression.js`의 `.tmp-playwright/` 설치 전제를 적을지.
 
 ## P1-COOP-STATIC-GORYEO — 협동 활동 정적 이식: 조선 후기 경제(10/29 공개수업·10분형) 우선, 고려 3종 후속
 
@@ -23,7 +29,7 @@
 - 목적: 교사가 모둠·번호를 나누고 학생이 말로 공유하는 정적 협동 MUD로 옮긴다. 10/29(목) 공개수업 「조선 후기의 경제적 변화 알아보기」(10분형)를 먼저 만들고, 고려 3종은 그 뒤에 옮긴다.
 - 교육적 영향: 2026-10-14 교사 시연에서 직접 활동이 이해·설명에 더 쉬웠다(INBOX). 비대칭 정보로 대화를 만드는 핵심 설계는 유지된다.
 - 예상 범위: `cooperative-mud/joseon-late-economy/`, `cooperative-mud/goryeo-relations/`, `cooperative-mud/goryeo-culture/`, 이후 `goryeo-founding/` 신규; `cooperative-mud/index.html`, `cooperative-mud/TEACHING.md` 수정. 공용 엔진(`episode.js`·`pacing.js`·`cooperative.css`)과 `apps/cooperative-live`는 수정하지 않는다.
-- 계획: [`implementation_plan_static_coop_goryeo.md`](./docs/plans/implementation_plan_static_coop_goryeo.md)
+- 계획: [`implementation_plan_static_coop_goryeo.md`](./docs/archive/plans/implementation_plan_static_coop_goryeo.md)
 - **다음 세션 시작점 (2026-10-16 종료 시점)**
   - 원문: `d:\Projects\과정안사회\history_game_협동MUD_최신전달사항.md`(저장소 밖). INBOX 2026-10-16 항목에 요지가 있다. 같은 폴더의 `history_game_협동MUD_콘텐츠작성_전달명세.md`·`10월29일_사회_세안_통합본.md`·교과서 PDF 97쪽을 함께 본다. PDF는 저장소로 복사하지 않는다.
   - 사용자 결정 완료(2026-10-19, 4개 모두 Claude 권장안 채택)
@@ -58,7 +64,7 @@
 12. **T1 R3-07·10·11 (P2 제안)** — 정답 미노출 감사 기록, 개항 제4·5관 요약의 직접 인용 표시, 앙부일구 연대의 개별·일반 설명 구분 보완. 기존 감사·출처 기록 정확성 목적, 확인된 핵심 개항 내용과 1871년 데이터를 오류로 단정하지 않음([감사 §4~6](./docs/audits/round3_red_team_audit.md)).
 13. **T3 `art_12` 시대 표시 결정** — 현행 `조선 후기`는 연표상 세종→명량 순서를 보존하지만 교과서의 명시적 “조선 후기 사회 변화” 소단원보다 앞선 사건에 붙어 있다. `조선 전기`로 라벨만 바꾸면 1597년이 현재 범위 밖이 되고 세종 유물과의 순서 강제가 사라진다. 현행 유지 후 표시 라벨과 계산 범위를 분리해 `조선 시대(임진왜란)`/`[1592, 1598]`로 다루는 별도 계획을 권고한다([T3 조사](./docs/audits/source_crosscheck_followup_20260914.md#t3-art_12-판옥선-시대-표시와-연표-영향-조사)).
 
-**2026-09-15 갱신**: T2 공식 원문 대조와 T3 판옥선 시대 표시 조사를 완료했다([보고서](./docs/audits/source_crosscheck_followup_20260914.md)). T2에서는 벽란도 순서의 근거를 우리역사넷 원문으로 교체하고 명백한 유물 원문 불일치 3건을 정정했다. T3에서는 데이터를 수정하지 않고, 현행 `조선 후기`가 연표 순서를 보존하지만 교과서 단원 표시와 어긋나며 `조선 전기`로 라벨만 바꾸면 세종과의 순서 판정이 사라짐을 확인했다. `art_12`의 최종 표시 방식 등 1·2·3·4·6번의 판단 대기는 유지한다. 수업 관찰 준비물은 갖춰졌다(`docs/plans/classroom_observation_inquiry_pilot.md`) — 다음 개발 라운드보다 관찰을 먼저 권한다. 전체 현황은 `docs/handoff/claude_four_track_session_close_20260911.md` 2026-09-14 갱신 절. 새로 남은 기록 사항: 유적 출처 정책이 `kind: "site"` 대상의 확인 날짜·사진 유무를 저장할 필드를 정의하지 않았다(기능 영향 없음, 다음 유적 페어 추가 때 정한다). 근대 개항 1관문은 정답 문장의 "개항의 계기" 부분을 받치는 자료가 없다(감사 RT-02 부기, 수업 관찰 뒤 판단).
+**2026-09-15 갱신**: T2 공식 원문 대조와 T3 판옥선 시대 표시 조사를 완료했다([보고서](./docs/audits/source_crosscheck_followup_20260914.md)). T2에서는 벽란도 순서의 근거를 우리역사넷 원문으로 교체하고 명백한 유물 원문 불일치 3건을 정정했다. T3에서는 데이터를 수정하지 않고, 현행 `조선 후기`가 연표 순서를 보존하지만 교과서 단원 표시와 어긋나며 `조선 전기`로 라벨만 바꾸면 세종과의 순서 판정이 사라짐을 확인했다. `art_12`의 최종 표시 방식 등 1·2·3·4·6번의 판단 대기는 유지한다. 수업 관찰 준비물은 갖춰졌다(`docs/plans/classroom_observation_inquiry_pilot.md`) — 다음 개발 라운드보다 관찰을 먼저 권한다. 전체 현황은 `docs/archive/handoff/claude_four_track_session_close_20260911.md` 2026-09-14 갱신 절. 새로 남은 기록 사항: 유적 출처 정책이 `kind: "site"` 대상의 확인 날짜·사진 유무를 저장할 필드를 정의하지 않았다(기능 영향 없음, 다음 유적 페어 추가 때 정한다). 근대 개항 1관문은 정답 문장의 "개항의 계기" 부분을 받치는 자료가 없다(감사 RT-02 부기, 수업 관찰 뒤 판단).
 
 ## P1-STAGE-COHERENCE — 한 단계 안의 필드 간 내용 불일치 (2026-09-28 등록)
 
@@ -163,7 +169,7 @@
   - "숙정문(智)" 대응: 대조실 확인 필요
   - 3단원 수정 문구: 다음 대조실 라운드에서 재확인 권고
   - A 항목(자동 경고 검사)과 `header.tag`↔`lesson_track` 대조의 `scripts/16` 편입은 아직 하지 않았다.
-- 작업 규칙 보완 제안: 콘텐츠 데이터 수정은 문서 커밋에 섞지 않고 별도 커밋으로 한다. 한 필드를 고칠 때는 같은 단계의 나머지 필드도 함께 본다(`agents.md` 반영 여부는 정기 검토 때 결정).
+- 작업 규칙 보완 제안: 콘텐츠 데이터 수정은 문서 커밋에 섞지 않고 별도 커밋으로 한다. 한 필드를 고칠 때는 같은 단계의 나머지 필드도 함께 본다(`AGENTS.md` 반영 여부는 정기 검토 때 결정).
 
 ## P2-SITE-STRUCTURE — 활동이 늘어난 뒤의 웹사이트 구성 정비 (2026-09-28 등록)
 
@@ -234,7 +240,7 @@
 ### 현재 선정된 첫 구현 계획
 
 - 대상: `P1-01`, `regular_paleolithic` 대표 수직 슬라이스
-- 계획서: [`implementation_plan_design_alignment_vertical_slice.md`](./docs/plans/implementation_plan_design_alignment_vertical_slice.md)
+- 계획서: [`implementation_plan_design_alignment_vertical_slice.md`](./docs/archive/plans/implementation_plan_design_alignment_vertical_slice.md)
 - 상태: `completed` — 정적·브라우저 대표 흐름 검증 완료
 - 구현 시작 조건: 계획 범위와 검증 결과에 대한 사용자 확인
 
@@ -248,7 +254,7 @@
 ### P1-03 IF 스테이지 1차 구현 계획
 
 - 대상: 설명이 짧고 자료·비교 단서가 부족한 IF 단계 6개
-- 계획서: [`implementation_plan_if_stage_quality_batch.md`](./docs/plans/implementation_plan_if_stage_quality_batch.md)
+- 계획서: [`implementation_plan_if_stage_quality_batch.md`](./docs/archive/plans/implementation_plan_if_stage_quality_batch.md)
 - 상태: `completed` — 문장 보강·Codex/Claude 검토·사용자 최종 승인 완료
 
 ### P2-01 접근성·상태 표현 1차 계획
@@ -267,7 +273,7 @@
 
 ### P1 — 설계 문서와 실제 화면의 정합성 점검
 
-- `WIREFRAMES.md`의 `[자료 보기]`가 현재 화면에 없는 이유를 확인하고, 실제 기능을 추가하지 않고 와이어프레임에서 제거한다.
+- `docs/product/WIREFRAMES.md`의 `[자료 보기]`가 현재 화면에 없는 이유를 확인하고, 실제 기능을 추가하지 않고 와이어프레임에서 제거한다.
 - 포털의 차시 카드·단원 탭·확장 활동 영역이 와이어프레임의 정보 구조와 일치하는지 태블릿 세로 화면에서 확인한다.
 - MUD 플레이 화면의 단계 표시, 자료 본문, 시뮬레이터, 피드백, 선택지 순서가 실제 학생 흐름과 일치하는지 확인한다.
 - 캔버스 조작이 어려운 시뮬레이터에 버튼 대체 조작이 제공되는지 모드별로 확인한다.
@@ -283,7 +289,7 @@
 
 ### P2 — 설계 산출물 유지 규칙 확정
 
-- PRD의 수용 기준이 `USER_FLOWS.md`와 `WIREFRAMES.md`의 화면·흐름 기준에 반영되어 있는지 검토한다.
+- PRD의 수용 기준이 `docs/product/USER_FLOWS.md`와 `docs/product/WIREFRAMES.md`의 화면·흐름 기준에 반영되어 있는지 검토한다.
 - 설계 변경 요청은 먼저 BACKLOG에 기록하고, 우선순위 검토 전까지 관련 설계 문서와 코드를 임의로 변경하지 않는다.
 - 구현 완료 후 실제 동작이 설계 문서와 달라진 경우, 문서 갱신과 `walkthrough.md` 기록을 같은 작업 묶음에 포함한다.
 
@@ -293,7 +299,7 @@
 - 탭 가능한 요소를 학생이 순서와 의미를 확인하지 않고 연속해서 눌러 1~2분 안에 끝내는 경로를 전수 확인한다.
 - 핵심 단서 읽기·비교·해석 없이 완료되는 경우에는 완료 조건, 피드백, 단계 분량을 재설계한다.
 - Deep-dive MUD는 확장 탐구 활동으로 운영할 차시 수, 교사 안내, 예상 시간을 별도로 정한다.
-- 결과를 `activity_duration_audit.md`와 카탈로그 메타데이터에 반영한다.
+- 결과를 `docs/audits/activity_duration_audit.md`와 카탈로그 메타데이터에 반영한다.
 
 ### P1 — 자동 생성 IF 스테이지 교육적 품질 보강
 
@@ -317,7 +323,7 @@
 ### P3 — 미확인 브라우저·기기 회귀 점검
 
 - 변경된 시뮬레이터 장면과 터치 흐름을 지원 브라우저·태블릿에서 정기적으로 육안 확인한다.
-- 실행 기준: [`BROWSER_REGRESSION_CHECKLIST.md`](./BROWSER_REGRESSION_CHECKLIST.md)
+- 실행 기준: [`docs/product/BROWSER_REGRESSION_CHECKLIST.md`](./docs/product/BROWSER_REGRESSION_CHECKLIST.md)
 
 ### P2 — 감사 보고서 출력 경로 정합성
 
@@ -329,7 +335,7 @@
 
 ## 이월된 미결 항목 (2026-09 라운드 기록에서 옮김, 원문: [`docs/archive/BACKLOG_rounds_202609.md`](./docs/archive/BACKLOG_rounds_202609.md))
 
-- 우선순위: [`backlog_priority_review_20261019.md`](./docs/plans/backlog_priority_review_20261019.md)
+- 우선순위: [`backlog_priority_review_20261019.md`](./docs/archive/plans/backlog_priority_review_20261019.md)
 
 - [ ] R3-08 가야 금동관 출처 대상 불일치 → 라운드 5 §2
 - [ ] R3-09 청자 매병 시기 표기 → 라운드 5 §2

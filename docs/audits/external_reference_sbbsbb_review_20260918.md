@@ -2,7 +2,7 @@
 
 - 열람: 2026-09-18, Claude 기획 세션(Opus)이 브라우저로 직접 조작하며 확인
 - 대상: https://so0yeon.github.io/sbbsbb/ (초등 5학년 2학기 사회·역사)
-- 경위: 사용자 요청. Codex 메모 `docs/handoff/claude_history_journey_connection_followup_20260918.md` §1이 같은 사이트를 정리했고, 이 문서는 **직접 조작해 확인한 화면 사실**과 우리 프로젝트에 적용할지 판단을 남긴다.
+- 경위: 사용자 요청. Codex 메모 `docs/archive/handoff/claude_history_journey_connection_followup_20260918.md` §1이 같은 사이트를 정리했고, 이 문서는 **직접 조작해 확인한 화면 사실**과 우리 프로젝트에 적용할지 판단을 남긴다.
 - **원칙**: 이 사이트의 학습 효과는 검증된 것이 아니다. 구조를 베끼는 것이 목적이 아니라, 우리가 이미 겪는 문제(차시 연결 부재)에 쓸 수 있는 것만 고른다.
 
 ## 1. 직접 확인한 화면 구조

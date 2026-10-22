@@ -3,7 +3,7 @@
 `TASK-20260915-T2 | 벽란도 순서 및 원문 미대조 유물 페어 공식 출처 대조 | audit agent(Codex) | 상태: DONE`
 
 - 확인일: **2026-09-15**
-- 범위: [`codex_tasks_while_claude_limited_20260914.md`](../handoff/codex_tasks_while_claude_limited_20260914.md) T2-1·T2-2
+- 범위: [`codex_tasks_while_claude_limited_20260914.md`](../archive/handoff/codex_tasks_while_claude_limited_20260914.md) T2-1·T2-2
 - 원칙: 공식 기관 원문으로 확인되는 명백한 사실 오류만 `data/artifactComparisons.json`에서 정정했다. 해석·표현의 적절성은 보고만 했다.
 
 ## T2-1. 원인과 결과 고려 세트의 벽란도 순서

@@ -1,7 +1,7 @@
 # 유물 도감(`data/artifacts.json`) 36종 사실 대조 — 라운드 4 §2-1
 
 - 작성: Sonnet 5(대조실), 2026-09-15
-- 지시서: `docs/handoff/claude_four_track_round4_instruction.md` §2-1
+- 지시서: `docs/archive/handoff/claude_four_track_round4_instruction.md` §2-1
 - 범위: `data/artifacts.json`의 `name`/`desc`/`hint`/`era`/`tierName` 36개 전체를 훑고, 그중 **실제로 공식 출처 원문을 열어 대조한 항목**과 **아직 안 연 항목**을 모두 표에 남긴다. `art_12`의 `era`는 사용자 판단 대기라 손대지 않았다(§0-5). 3단원(일제강점기·전쟁·광복) 콘텐츠는 지시대로 수정하지 않고 보고만 한다.
 
 ## 정정·완화한 항목 (원문 확인함)
@@ -53,7 +53,7 @@
 ## 라운드 5 추가 — R3-08·R3-09 정정 + 도감 미대조 항목(`art_23`, `art_deep_2~4`)
 
 - 작성: Sonnet 5(대조실), 2026-09-15
-- 지시서: `docs/handoff/claude_four_track_round5_instruction.md` §2
+- 지시서: `docs/archive/handoff/claude_four_track_round5_instruction.md` §2
 - 먼저 `docs/audits/round3_red_team_audit.md`와 Codex T2의 `docs/audits/source_crosscheck_followup_20260914.md`를 읽었다 — T2는 `cmp_folk_paintings_1`/`cmp_paleo_neo_1`/`cmp_metal_tech_1`(T2-2)와 `art_12`(T3, 보고 전용)를 처리했지만 **R3-08·R3-09는 처리하지 않고 대조실 몫으로 남겨 뒀다.** 이번에 직접 처리했고, **Codex T2의 정정은 되돌리지 않았다**(§2-5).
 
 ### R3-08 — `cmp_crown_1.artifactB` 가야 금동관 연대
