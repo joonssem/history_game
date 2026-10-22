@@ -22,6 +22,16 @@
 - "서로 다른 모델" 한계: opus·sonnet·haiku는 같은 Claude 계열이라 공급사 교차의 이점이 약하다. 큰 변경에는 Codex red team을 독립 검토자로 권하고, haiku 제외도 검토한다.
 - 증거 5단계 보강: `docs/product/BROWSER_REGRESSION_CHECKLIST.md` 연결과 `scripts/manual/site_regression.js`의 `.tmp-playwright/` 설치 전제를 적을지.
 
+## P1-COOP-TEACHER-VIEW — 협동 MUD 교사용 한눈 보기 (2026-10-22 등록)
+
+- 작업 claim: `TASK-20261022-COOP-TEACHER-VIEW | cooperative-mud/teacher/ 신규 | implementation agent(Claude) | 상태: DOING — 구현·로컬 Chrome 6개 활동 검증 완료(2026-10-22), push·Pages 반영과 교실 iPad 순회지도 확인 대기 | 검증: node --check, 로컬 HTTP + Chrome headless 6경로`
+- 계획: [`implementation_plan_coop_teacher_view_20261022.md`](./docs/plans/implementation_plan_coop_teacher_view_20261022.md)
+- 계기(2026-10-22 사용자): 조선 건국·유교 사회 수업에서 학생별로 무슨 자료를 받았는지 확인하기 불편해 순회지도 중 도움을 주기 어려웠다. 그래서 번호별 자료 보기를 맨 위에 둔다.
+- 문제: 학생 화면은 내 역할·현재 단계만 보여 줘서, 교사가 한 활동의 전체 내용(역할 카드 전부·선택지·함정·교과서 정리)을 한눈에 확인할 방법이 없다.
+- 방향(방법 A, 사용자 선택): `cooperative-mud/teacher/` 새 페이지가 각 활동의 `scenario.js`를 직접 불러와 단계 순서대로 펼친다. 생성 단계가 없어 시나리오 수정이 바로 반영된다. 인쇄용 CSS 포함.
+- 범위: **남은 활동만**(공개수업 포함). 사용자 판정(2026-10-22): 아래 6개만 남았고 그 앞 진도는 모두 운영함(`cooperative-mud/TEACHING.md` 표 반영) — `joseon-sejong`, `joseon-wars`, `joseon-late-economy`(10/29 공개수업), `joseon-late-change`, `joseon-commoner-culture`, `joseon-open-ports`. 목록에 운영 상태를 두어 운영 후 숨긴다. `gojoseon-law`(구 구조)는 대상에서 빠지므로 별도 어댑터가 필요 없다.
+- 제외: 학생용 엔진(`episode.js`·`pacing.js`)과 학생 허브 링크는 수정하지 않는다. GitHub Pages라 진짜 접근 제한은 불가 — 허브 미링크·`noindex`, PIN 가림막은 사용자 결정 대기.
+
 ## P1-COOP-STATIC-GORYEO — 협동 활동 정적 이식: 조선 후기 경제(10/29 공개수업·10분형) 우선, 고려 3종 후속
 
 - 작업 claim: `TASK-20261015-COOP-STATIC-GORYEO | cooperative-mud/joseon-late-economy·goryeo-* 신규 | implementation/content agent(Claude) | 상태: DOING — 조선 후기 95~97쪽 경제→신분 13분형 개편 구현·로컬 Chrome 8경로 검증 완료(2026-10-19, D-041), push·Pages 반영·운영 주소 재검증 완료(`452a35c`), 교실 iPad 확인 대기. 이전 10분형은 Pages 반영(2026-10-16, `8571cd6`). 고려 3종 정적 이식 구현·검증 완료(2026-10-19, D-042, 사용자 콘텐츠 검토 대기·push 전), 조선 4종(건국·유교 사회, 세종, 임진왜란·병자호란, 후기 사회 변화 확장) 구현·push·운영 주소 검증 완료(2026-10-19, D-043) | 검증: node --check, node scripts/coop/check_static_coop_scenario.js, 로컬 Chrome 12경로`

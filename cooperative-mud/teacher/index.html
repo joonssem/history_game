@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#2F5D8A">
+  <title>협동 활동 교사용 보기</title>
+  <link rel="stylesheet" href="../cooperative.css">
+  <style>
+    /* 교사용 보기 전용. 학생 화면 스타일(cooperative.css)은 그대로 쓰고 여기서는 덧붙이기만 한다. */
+    .teacher-bar { position: sticky; top: 0; z-index: 5; margin: 0 -14px; padding: 10px 14px; border-bottom: 1px solid var(--coop-line); background: rgba(251, 247, 239, 0.96); backdrop-filter: blur(4px); }
+    .activity-tabs { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 2px; }
+    .activity-tab { flex: 0 0 auto; min-height: 44px; padding: 7px 12px; border: 1px solid var(--coop-line); border-radius: 9px; background: #FFF; color: var(--coop-ink); font-size: 0.86rem; font-weight: 700; cursor: pointer; }
+    .activity-tab.is-selected { border-color: var(--coop-red); background: #F8E5D1; color: var(--coop-red-dark); }
+    .activity-tab .tab-badge { display: block; color: var(--coop-red); font-size: 0.7rem; }
+    .seat-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 7px; margin-top: 8px; }
+    .seat-tab { min-height: 54px; padding: 5px 4px; border: 1px solid var(--coop-line); border-radius: 9px; background: #FFF; color: var(--coop-ink); cursor: pointer; line-height: 1.25; }
+    .seat-tab b { display: block; color: var(--coop-red-dark); font-size: 1.05rem; }
+    .seat-tab span { display: block; overflow: hidden; color: var(--coop-muted); font-size: 0.74rem; text-overflow: ellipsis; white-space: nowrap; }
+    .seat-tab.is-selected { border-color: var(--coop-teal); background: #EAF3F4; }
+    .seat-note { margin: 10px 0 0; color: var(--coop-muted); font-size: 0.84rem; }
+    .stage { margin-top: 12px; border: 1px solid var(--coop-line); border-radius: 12px; background: var(--coop-panel); }
+    .stage > summary { padding: 13px 15px; color: var(--coop-red-dark); font-weight: 800; cursor: pointer; }
+    .stage > summary small { margin-left: 6px; color: var(--coop-muted); font-weight: 600; }
+    .stage-body { padding: 0 15px 15px; }
+    .stage-body .panel { padding: 0; border: 0; box-shadow: none; background: none; }
+    .teacher-box { margin-top: 12px; padding: 12px 13px; border: 1px dashed var(--coop-teal); border-radius: 10px; background: #F4F9FA; font-size: 0.9rem; }
+    .teacher-box h4 { margin: 0 0 6px; color: var(--coop-teal); font-size: 0.86rem; }
+    .teacher-box ul, .teacher-box ol { margin: 0; padding-left: 20px; }
+    .teacher-box li + li { margin-top: 4px; }
+    .trap-tag { display: inline-block; margin-left: 5px; padding: 1px 6px; border-radius: 6px; background: #F6DCD3; color: #8A2E1C; font-size: 0.72rem; font-weight: 800; }
+    .trap-note-text { margin-top: 3px; color: var(--coop-muted); font-size: 0.84rem; }
+    .load-error { color: #9B2C2C; }
+    .print-row { margin-top: 18px; }
+    @media print {
+      .teacher-bar, .print-row, .back-link { display: none; }
+      .stage { break-inside: avoid-page; }
+      body { background: #FFF; }
+    }
+  </style>
+</head>
+<body>
+  <main class="coop-shell game-shell">
+    <header class="coop-header game-header">
+      <div>
+        <a class="back-link" href="../">← 모둠 역사 탐험 허브</a>
+        <p class="eyebrow">교사용 · 학생 화면에는 링크하지 않음</p>
+        <h1 id="activity-title">협동 활동 교사용 보기</h1>
+        <p class="lead">순회지도할 때 학생 번호를 누르면 그 학생이 받은 자료가 바로 보입니다. 아래에는 활동 전체 흐름이 단계별로 접혀 있습니다.</p>
+      </div>
+    </header>
+
+    <div class="teacher-bar">
+      <div id="activity-tabs" class="activity-tabs" role="group" aria-label="활동 선택"></div>
+      <div id="seat-tabs" class="seat-tabs" role="group" aria-label="학생 번호"></div>
+    </div>
+
+    <p id="load-status" class="live-status" role="status" aria-live="polite"></p>
+
+    <section id="seat-view" class="screen" aria-live="polite"></section>
+    <p id="seat-note" class="seat-note"></p>
+
+    <section id="flow-view" class="screen"></section>
+
+    <div class="button-row print-row">
+      <button id="expand-button" class="secondary-button" type="button">단계 모두 펼치기</button>
+      <button id="print-button" class="secondary-button" type="button">이 활동 인쇄하기</button>
+    </div>
+  </main>
+  <script src="teacher.js"></script>
+</body>
+</html>
