@@ -1,0 +1,37 @@
+/* 사라진 그림을 찾아라 전용 보조 스타일. 기본 디자인은 ../cooperative.css를 따른다. */
+.quest-field {
+  display: block; width: 100%; min-height: 48px; padding: 10px 12px; margin: 6px 0 10px;
+  border: 1px solid var(--coop-line, #cfc7b8); border-radius: 8px; background: #FFF; color: var(--coop-ink, #222); font-size: 1.05rem;
+}
+textarea.quest-field { min-height: 110px; resize: vertical; line-height: 1.6; }
+.quest-field:focus-visible { outline: 3px solid rgba(46, 91, 112, 0.32); outline-offset: 2px; }
+.story-box { padding: 14px; margin: 10px 0; border-left: 4px solid var(--coop-red, #b5442b); background: #FFF; line-height: 1.8; }
+.message-box { padding: 14px; margin: 12px 0; border: 2px solid #222; border-radius: 10px; background: #FFF; line-height: 1.8; }
+.paper-note { padding: 10px 12px; margin: 10px 0; border-radius: 8px; background: #FFF4D6; font-size: 0.95rem; }
+.ok-text { color: #2f6b2f; font-weight: 700; }
+.mission-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
+.mission-card { min-height: 86px; padding: 10px; border: 1px solid var(--coop-line, #cfc7b8); border-radius: 10px; background: #FFF; text-align: left; color: var(--coop-ink, #222); }
+.mission-card b { display: block; font-size: 1.05rem; }
+.mission-card small { color: #666; }
+.mission-card.is-done { background: #E3F0E3; border-color: #7aa57a; }
+.mission-card .piece { float: right; width: 38px; height: 38px; line-height: 38px; text-align: center; border-radius: 6px; background: #F8E5D1; font-size: 1.5rem; font-weight: 700; }
+.piece-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.piece-btn { width: 52px; height: 58px; border: 2px solid #8a6d3b; border-radius: 6px; background: #FFF8E6; font-size: 1.7rem; font-weight: 700; color: var(--coop-ink, #222); }
+.piece-btn.is-used { opacity: 0.35; }
+.slot-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+.slot { width: 44px; height: 52px; line-height: 52px; text-align: center; border: 2px dashed #8a6d3b; border-radius: 6px; font-size: 1.5rem; font-weight: 700; background: #FFF; }
+.slot.is-filled { border-style: solid; background: #FFF8E6; }
+.choice-button.is-selected { border-color: var(--coop-red, #b5442b); background: #F8E5D1; }
+.choice-grid { margin-bottom: 12px; }
+.quest-figures { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
+.quest-figure { margin: 8px 0; text-align: center; flex: 1 1 140px; max-width: 220px; }
+.quest-figure img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--coop-line, #cfc7b8); background: #FFF; }
+.quest-figure figcaption { margin-top: 4px; font-weight: 700; }
+.part-block { margin: 14px 0; }
+.check-row { display: flex; gap: 10px; align-items: flex-start; margin: 10px 0; line-height: 1.6; }
+.check-row input { width: 24px; height: 24px; margin-top: 2px; }
+.gate-box { padding: 14px; margin: 14px 0; border: 1px solid var(--coop-line, #cfc7b8); border-radius: 10px; background: #FAF6EC; }
+.gate-box .quest-field { max-width: 180px; text-align: center; letter-spacing: 0.3em; }
+.gate-details { margin: 14px 0; }
+.gate-details summary { cursor: pointer; color: #555; font-size: 0.9rem; }
+.mission-tag { display: inline-block; padding: 2px 10px; border-radius: 999px; background: #E8EEF2; font-size: 0.85rem; }

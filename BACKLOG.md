@@ -29,6 +29,13 @@
 - 범위: 개인 카드·암호·자가 점검 미션·마무리 화면을 `cooperative-mud/gapsin-quest/` 정적 페이지로. 이동·팀 결성·일본 NPC 거절은 오프라인 유지. 종이 미션지는 최대한 줄인다.
 - 확인 필요: 이번 학급 팀 편성·두 성은 확정(2026-11-04), 마무리 역사 서술의 교과서 대조.
 
+
+## P1-MISSING-PAINTING — 서민 문화 추리 게임(2019 오프라인 활동) 이식 (2026-11-04 등록)
+
+- 상태: `in-progress` — 1차 구현·자동 흐름 검증 완료(2026-11-04). 2단원 서민 문화 정리 차시용(날짜 미정).
+- 계획: [`implementation_plan_missing_painting.md`](./docs/plans/implementation_plan_missing_painting.md)
+- 확인 필요: 하회탈 SVG 구별력, 서당 갓·월식 안내 문구의 단정 정도, iPad 실기. 허난설헌 설정은 교사 설계.
+
 ## P1-COOP-TEACHER-VIEW — 협동 MUD 교사용 한눈 보기 (2026-10-22 등록)
 
 - 작업 claim: `TASK-20261022-COOP-TEACHER-VIEW | cooperative-mud/teacher/ 신규 | implementation agent(Claude) | 상태: DONE — 구현·로컬 Chrome 6개 활동 검증·push·Pages 반영(2026-10-22, `72bdebf`). 사용 환경은 교사 PC + 인쇄본(iPad 확인 불필요, 사용자 2026-10-22). 인쇄본에 1~5번 역할 자료 전부 싣기 추가 | 검증: node --check, 로컬 HTTP + Chrome headless 6경로, printToPDF A4 14쪽(1~5쪽 번호별 자료)`
