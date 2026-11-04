@@ -91,7 +91,7 @@
     if (part.kind === 'text') return norm(s.text['p' + i], part.strip) !== '' && part.accept.map(function (a) { return norm(a); }).indexOf(norm(s.text['p' + i], part.strip)) >= 0;
     if (part.kind === 'distinct') {
       const acc = part.accept.map(function (a) { return norm(a); });
-      const vals = []; for (let k = 0; k < part.count; k += 1) vals.push(norm(s.text['p' + i + '_' + k]));
+      const vals = []; for (let k = 0; k < part.count; k += 1) vals.push(norm(s.text['p' + i + '_' + k], part.strip));
       const ok = vals.every(function (v) { return v && acc.indexOf(v) >= 0; });
       return ok && vals.filter(function (v, k) { return vals.indexOf(v) === k; }).length === part.count;
     }
