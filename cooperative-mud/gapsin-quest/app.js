@@ -312,6 +312,7 @@
         '<section class="screen"><div class="panel">' +
         '<h2 class="screen-title">비밀 동지가 되어 주세요</h2>' +
         '<div class="event-card"><p class="event-label">오늘의 활동</p><h2>갑신정변, 우리가 해 본다면?</h2></div>' +
+        '<p>강화도 조약(1876년)으로 개항한 뒤, 1884년에 일어난 사건 속으로 들어가 봅니다.</p>' +
         '<ul class="rules">' +
         '<li>이 일은 비밀리에 이루어집니다. 먼저 내가 누구인지 이름을 알아냅니다.</li>' +
         '<li>암호를 풀어 같은 암호를 가진 동지들을 찾아 한 팀이 됩니다.</li>' +
