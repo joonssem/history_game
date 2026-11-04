@@ -108,6 +108,7 @@
       });
     }
     if (part.kind === 'confirm') return !!s.check['p' + i];
+    if (part.kind === 'free') return String(s.text['p' + i] || '').replace(/\s/g, '').length >= (part.minLen || 1);
     return false;
   }
 
@@ -115,6 +116,9 @@
   function partHtml(m, part, i) {
     const s = w(m);
     const label = '<p class="screen-description"><b>' + esc(part.label) + '</b></p>';
+    if (part.kind === 'free') {
+      return '<div class="part-block">' + label + '<textarea class="quest-field sc-lock" data-p="' + i + '" style="min-height:80px">' + esc(s.text['p' + i] || '') + '</textarea></div>';
+    }
     if (part.kind === 'text') {
       return '<div class="part-block">' + label + '<input class="quest-field sc-lock" data-p="' + i + '" type="text" autocomplete="off" autocapitalize="off" value="' + esc(s.text['p' + i] || '') + '"></div>';
     }
@@ -145,7 +149,7 @@
 
   function bindMission(m) {
     const s = w(m);
-    Array.prototype.forEach.call(app.querySelectorAll('input[data-p]'), function (el) {
+    Array.prototype.forEach.call(app.querySelectorAll('input[data-p], textarea[data-p]'), function (el) {
       el.addEventListener('input', function () { s.text['p' + el.getAttribute('data-p')] = el.value; save(); });
     });
     Array.prototype.forEach.call(app.querySelectorAll('button[data-o]'), function (el) {
@@ -172,6 +176,13 @@
       if (right === m.parts.length) { pass(m); return; }
       s.tries += 1; save();
       box.className = 'error-note'; box.hidden = false;
+      const rejected = m.parts.some(function (p, i) {
+        return p.reject && p.reject.map(function (r) { return norm(r); }).indexOf(norm(s.text['p' + i], p.strip)) >= 0;
+      });
+      if (rejected) {
+        box.innerHTML = '이 활동의 미션지에 이미 나온 그림 제목은 쓸 수 없어요. 다른 그림을 찾아보세요.';
+        return;
+      }
       const base = m.parts.length > 1 ? m.parts.length + '개 중 ' + right + '개가 맞아요. 다시 확인해 보세요.' : '아직 아니에요. 다시 생각해 보세요.';
       box.innerHTML = esc(base) + (s.tries >= 2 && m.hint ? '<br>💡 ' + esc(m.hint) : '');
     });
