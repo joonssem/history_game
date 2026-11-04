@@ -12,7 +12,7 @@
       teacherCode: '1884',   // 교사 확인용 숫자(갑신정변이 일어난 해). 바꾸려면 여기를 고친다.
       surnameMost: '김',      // 김옥균 카드: "우리 반에서 가장 많은 성"
       surname10: '박',        // 박영효 카드: "우리 반 11번·12번의 성" (올해 두 학생 모두 박)
-      // 학급 번호(1번부터) → 암호 모둠(team)·역할(role). 모둠 크기는 4·4·4·5·5(원본 2019).
+      // 학급 번호(1번부터) → 암호 모둠(team)·역할(role). 모둠 크기는 올해 21명 기준 4·4·4·5·4(원본 2019는 4·4·4·5·5).
       // 번호를 바꾸면 모둠이 바뀐다. role 'fifth'는 해당 모둠 teams[].fifthRole 카드를 쓴다.
       assignments: [
         { team: 'silhak', role: 'leader' }, { team: 'silhak', role: 'japanese' },
@@ -25,8 +25,7 @@
         { team: 'tangpyeong', role: 'gaehwa' }, { team: 'tangpyeong', role: 'brave' },
         { team: 'tangpyeong', role: 'fifth' },
         { team: 'ganghwa', role: 'leader' }, { team: 'ganghwa', role: 'japanese' },
-        { team: 'ganghwa', role: 'gaehwa' }, { team: 'ganghwa', role: 'brave' },
-        { team: 'ganghwa', role: 'fifth' }
+        { team: 'ganghwa', role: 'gaehwa' }, { team: 'ganghwa', role: 'brave' }
       ]
     },
 
@@ -36,7 +35,7 @@
         question: '백성들의 힘든 삶에 기존 학문이 도움이 되지 않는다는 것을 알고 삶에 실제적인 도움을 주는 실용적인 학문이 등장했다. 이 학문의 이름은 무엇인가?' },
       { id: 'tangpyeong', answer: '탕평책', size: 5, fifthRole: 'japanese',
         question: '영조와 정조는 과도한 당쟁을 없애기 위해서 한 붕당에 치우치지 않고 균형을 이루기 위해서 실시한 제도는 무엇인가?' },
-      { id: 'ganghwa', answer: '강화도조약', size: 5, fifthRole: 'gaehwa',
+      { id: 'ganghwa', answer: '강화도조약', size: 4, fifthRole: 'gaehwa', // 올해는 4명이라 쓰이지 않음
         question: '우리나라 최초의 근대적 조약이자 조선에 불평등한 조약의 이름은 무엇인가?' },
       { id: 'byeongin', answer: '병인양요', size: 4,
         question: '병인년에 프랑스 선교사를 죽인 일을 빌미로 프랑스가 강화도를 침략한 사건의 이름은 무엇인가?' },
