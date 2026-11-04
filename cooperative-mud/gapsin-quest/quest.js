@@ -12,20 +12,30 @@
       teacherCode: '1884',   // 교사 확인용 숫자(갑신정변이 일어난 해). 바꾸려면 여기를 고친다.
       surnameMost: '김',      // 김옥균 카드: "우리 반에서 가장 많은 성"
       surname10: '박',        // 박영효 카드: "우리 반 11번·12번의 성" (올해 두 학생 모두 박)
-      // 학급 번호(1번부터) → 암호 모둠(team)·역할(role). 모둠 크기는 올해 21명 기준 4·4·4·5·4(원본 2019는 4·4·4·5·5).
+      // 학급 번호(1번부터, 올해 모둠 편성은 교사가 정함) → 암호 모둠(team)·역할(role). 모둠 크기는 올해 21명 기준 4·4·4·5·4(원본 2019는 4·4·4·5·5).
       // 번호를 바꾸면 모둠이 바뀐다. role 'fifth'는 해당 모둠 teams[].fifthRole 카드를 쓴다.
       assignments: [
-        { team: 'silhak', role: 'leader' }, { team: 'silhak', role: 'japanese' },
-        { team: 'silhak', role: 'gaehwa' }, { team: 'silhak', role: 'brave' },
-        { team: 'byeongin', role: 'leader' }, { team: 'byeongin', role: 'japanese' },
-        { team: 'byeongin', role: 'gaehwa' }, { team: 'byeongin', role: 'brave' },
-        { team: 'sinmi', role: 'leader' }, { team: 'sinmi', role: 'japanese' },
-        { team: 'sinmi', role: 'gaehwa' }, { team: 'sinmi', role: 'brave' },
-        { team: 'tangpyeong', role: 'leader' }, { team: 'tangpyeong', role: 'japanese' },
-        { team: 'tangpyeong', role: 'gaehwa' }, { team: 'tangpyeong', role: 'brave' },
-        { team: 'tangpyeong', role: 'fifth' },
-        { team: 'ganghwa', role: 'leader' }, { team: 'ganghwa', role: 'japanese' },
-        { team: 'ganghwa', role: 'gaehwa' }, { team: 'ganghwa', role: 'brave' }
+        { team: 'tangpyeong', role: 'fifth' }, // 1번
+        { team: 'ganghwa', role: 'brave' }, // 2번
+        { team: 'sinmi', role: 'brave' }, // 3번
+        { team: 'ganghwa', role: 'japanese' }, // 4번
+        { team: 'tangpyeong', role: 'gaehwa' }, // 5번
+        { team: 'sinmi', role: 'japanese' }, // 6번
+        { team: 'silhak', role: 'gaehwa' }, // 7번
+        { team: 'tangpyeong', role: 'japanese' }, // 8번
+        { team: 'ganghwa', role: 'leader' }, // 9번
+        { team: 'tangpyeong', role: 'brave' }, // 10번
+        { team: 'silhak', role: 'brave' }, // 11번
+        { team: 'sinmi', role: 'leader' }, // 12번
+        { team: 'byeongin', role: 'japanese' }, // 13번
+        { team: 'tangpyeong', role: 'leader' }, // 14번
+        { team: 'byeongin', role: 'gaehwa' }, // 15번
+        { team: 'ganghwa', role: 'gaehwa' }, // 16번
+        { team: 'silhak', role: 'japanese' }, // 17번
+        { team: 'byeongin', role: 'brave' }, // 18번
+        { team: 'silhak', role: 'leader' }, // 19번
+        { team: 'sinmi', role: 'gaehwa' }, // 20번
+        { team: 'byeongin', role: 'leader' } // 21번
       ]
     },
 
