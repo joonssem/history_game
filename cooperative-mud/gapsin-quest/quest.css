@@ -1,0 +1,44 @@
+/* 갑신정변 역사 체험 전용 보조 스타일. 기본 디자인은 ../cooperative.css를 따른다. */
+.quest-field {
+  display: block; width: 100%; min-height: 48px; padding: 10px 12px; margin: 6px 0 10px;
+  border: 1px solid var(--coop-line, #cfc7b8); border-radius: 8px; background: #FFF; color: var(--coop-ink, #222);
+  font-size: 1.05rem;
+}
+textarea.quest-field { min-height: 130px; resize: vertical; line-height: 1.6; }
+.quest-field:focus-visible { outline: 3px solid rgba(46, 91, 112, 0.32); outline-offset: 2px; }
+.name-inputs { display: flex; gap: 8px; margin: 8px 0 12px; }
+.name-inputs .quest-field { text-align: center; font-size: 1.5rem; margin: 0; }
+.clue-list { margin: 10px 0 14px; padding-left: 1.2em; line-height: 1.7; }
+.clue-list li + li { margin-top: 6px; }
+.number-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 8px; margin: 10px 0 14px; }
+.number-button {
+  min-height: 52px; border: 1px solid var(--coop-line, #cfc7b8); border-radius: 8px; background: #FFF;
+  font-size: 1.15rem; font-weight: 700; color: var(--coop-ink, #222);
+}
+.number-button.is-selected { border-color: var(--coop-red, #b5442b); background: #F8E5D1; }
+.cipher-box { padding: 16px; margin: 12px 0; border: 2px dashed var(--coop-teal, #2e5b70); border-radius: 10px; background: #F0F6F7; text-align: center; }
+.cipher-box strong { display: block; font-size: 2rem; margin-top: 6px; letter-spacing: 0.08em; }
+.gate-box { padding: 14px; margin: 14px 0; border: 1px solid var(--coop-line, #cfc7b8); border-radius: 10px; background: #FAF6EC; }
+.gate-box .quest-field { max-width: 180px; text-align: center; letter-spacing: 0.3em; }
+.mission-progress { display: flex; gap: 6px; margin: 4px 0 14px; flex-wrap: wrap; }
+.mission-dot { padding: 4px 10px; border-radius: 999px; border: 1px solid var(--coop-line, #cfc7b8); font-size: 0.85rem; background: #FFF; }
+.mission-dot.is-done { background: #E3F0E3; border-color: #7aa57a; }
+.mission-dot.is-current { border-color: var(--coop-red, #b5442b); background: #F8E5D1; font-weight: 700; }
+.story-box { padding: 14px; margin: 10px 0; border-left: 4px solid var(--coop-red, #b5442b); background: #FFF; line-height: 1.8; }
+.reason-card { padding: 12px 14px; margin: 8px 0; border: 1px solid var(--coop-line, #cfc7b8); border-radius: 10px; background: #FFF; }
+.reason-card h3 { margin: 0 0 4px; font-size: 1.05rem; }
+.paper-note { padding: 10px 12px; margin: 10px 0; border-radius: 8px; background: #FFF4D6; font-size: 0.95rem; }
+.ok-text { color: #2f6b2f; font-weight: 700; }
+.choice-button.is-selected { border-color: var(--coop-red, #b5442b); background: #F8E5D1; }
+.choice-grid { margin-bottom: 12px; }
+.quest-figures { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
+.quest-figure { margin: 8px 0; text-align: center; flex: 1 1 200px; }
+.quest-figure img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--coop-line, #cfc7b8); }
+.quest-figure figcaption { margin-top: 4px; font-weight: 700; }
+.guard-wrap { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-start; }
+.guard-side { flex: 1 1 180px; }
+.guard-board { flex: 2 1 280px; }
+.guard-map { width: 100%; max-width: 460px; height: auto; touch-action: manipulation; }
+.guard-hit { cursor: pointer; }
+.gate-details { margin: 14px 0; }
+.gate-details summary { cursor: pointer; color: #555; font-size: 0.9rem; }

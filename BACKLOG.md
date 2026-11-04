@@ -22,6 +22,13 @@
 - "서로 다른 모델" 한계: opus·sonnet·haiku는 같은 Claude 계열이라 공급사 교차의 이점이 약하다. 큰 변경에는 Codex red team을 독립 검토자로 권하고, haiku 제외도 검토한다.
 - 증거 5단계 보강: `docs/product/BROWSER_REGRESSION_CHECKLIST.md` 연결과 `scripts/manual/site_regression.js`의 `.tmp-playwright/` 설치 전제를 적을지.
 
+## P1-GAPSIN-QUEST — 갑신정변 역사 체험(2019 오프라인 활동) 하이브리드 이식 (2026-11-04 등록)
+
+- 상태: `in-progress` — 정답 불필요 부분 1차 구현·검증 완료(2026-11-04, 미커밋). 자가 점검 미션 5종 구현·검증 완료. 백자 5곳 사용자 확인, 이미지는 직접 그린 SVG로 교체 완료. 남은 것: 교사용 인쇄 보기. 2단원 마지막 차시용(날짜 미정).
+- 계획: [`implementation_plan_gapsin_quest.md`](./docs/plans/implementation_plan_gapsin_quest.md)
+- 범위: 개인 카드·암호·자가 점검 미션·마무리 화면을 `cooperative-mud/gapsin-quest/` 정적 페이지로. 이동·팀 결성·일본 NPC 거절은 오프라인 유지. 종이 미션지는 최대한 줄인다.
+- 확인 필요: 역할 카드 이름 대응표와 5인 모둠 다섯째 카드, 이번 학급 팀 편성·두 성(`quest.js`), 마무리 역사 서술의 교과서 대조.
+
 ## P1-COOP-TEACHER-VIEW — 협동 MUD 교사용 한눈 보기 (2026-10-22 등록)
 
 - 작업 claim: `TASK-20261022-COOP-TEACHER-VIEW | cooperative-mud/teacher/ 신규 | implementation agent(Claude) | 상태: DONE — 구현·로컬 Chrome 6개 활동 검증·push·Pages 반영(2026-10-22, `72bdebf`). 사용 환경은 교사 PC + 인쇄본(iPad 확인 불필요, 사용자 2026-10-22). 인쇄본에 1~5번 역할 자료 전부 싣기 추가 | 검증: node --check, 로컬 HTTP + Chrome headless 6경로, printToPDF A4 14쪽(1~5쪽 번호별 자료)`

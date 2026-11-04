@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2F5D8A">
+  <meta name="description" content="갑신정변 역사 체험: 이름 수수께끼·암호·미션·마무리 정리를 기기로 돕는 DB 없는 활동">
+  <title>갑신정변 역사 체험</title>
+  <link rel="stylesheet" href="../cooperative.css">
+  <link rel="stylesheet" href="quest.css">
+</head>
+<body>
+  <main class="coop-shell game-shell">
+    <header class="coop-header game-header">
+      <div>
+        <a class="back-link" href="../">← 모둠 역사 탐험 허브</a>
+        <p class="eyebrow">🕯️ 갑신정변 · 역사 체험 v0.1</p>
+        <h1>조선을 바꾸자! 새 나라를 건국하자!</h1>
+        <p class="lead">비밀 동지가 되어 이름을 알아내고, 암호로 팀을 찾고, 미션을 해결해 정변을 이끌어 보세요.</p>
+      </div>
+      <span class="status-pill">개인정보 수집 없음</span>
+    </header>
+
+    <div class="game-progress" aria-label="진행도">
+      <div class="progress-label"><span id="progress-step">활동 소개</span><span id="progress-count"></span></div>
+      <div class="progress-track"><div id="progress-value" class="progress-value" style="width: 0%"></div></div>
+    </div>
+
+    <div id="app"></div>
+
+    <p class="privacy-note">이름이나 학번은 입력하지 않습니다. 쓴 글은 이 기기 안에만 남습니다.</p>
+  </main>
+  <script src="quest.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
