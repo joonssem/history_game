@@ -21,21 +21,21 @@
         { team: 'ganghwa', role: 'japanese' }, // 4번
         { team: 'tangpyeong', role: 'gaehwa' }, // 5번
         { team: 'sinmi', role: 'japanese' }, // 6번
-        { team: 'silhak', role: 'gaehwa' }, // 7번
+        { team: 'byeongin', role: 'gaehwa' }, // 7번
         { team: 'tangpyeong', role: 'japanese' }, // 8번
         { team: 'ganghwa', role: 'leader' }, // 9번
         { team: 'tangpyeong', role: 'brave' }, // 10번
-        { team: 'silhak', role: 'brave' }, // 11번
+        { team: 'byeongin', role: 'brave' }, // 11번
         { team: 'sinmi', role: 'leader' }, // 12번
-        { team: 'byeongin', role: 'japanese' }, // 13번
+        { team: 'silhak', role: 'japanese' }, // 13번
         { team: 'tangpyeong', role: 'leader' }, // 14번
-        { team: 'byeongin', role: 'gaehwa' }, // 15번
+        { team: 'silhak', role: 'gaehwa' }, // 15번
         { team: 'ganghwa', role: 'gaehwa' }, // 16번
-        { team: 'silhak', role: 'japanese' }, // 17번
-        { team: 'byeongin', role: 'brave' }, // 18번
-        { team: 'silhak', role: 'leader' }, // 19번
+        { team: 'byeongin', role: 'japanese' }, // 17번
+        { team: 'silhak', role: 'brave' }, // 18번
+        { team: 'byeongin', role: 'leader' }, // 19번
         { team: 'sinmi', role: 'gaehwa' }, // 20번
-        { team: 'byeongin', role: 'leader' } // 21번
+        { team: 'silhak', role: 'leader' } // 21번
       ]
     },
 
@@ -187,13 +187,13 @@
           { title: '청나라의 군대', body: '조선에는 청나라 군대가 있었고, 청나라는 정변이 일어나자 곧바로 군대를 보냈습니다.' }
         ]
       },
-      dependPrompt: '외국의 군대에 기대어 나라를 바꾸려는 선택을 어떻게 생각하나요?',
+      dependPrompt: '교과서(104쪽)에서 강화도 조약은 일본이 무력으로 요구해 맺은 불평등 조약이었다고 배웠습니다. 그런 일본의 군대에 기대어 나라를 바꾸려는 선택을 어떻게 생각하나요?',
       dependOptions: [
         { value: 'ok', label: '나라를 빠르게 바꾸려면 어쩔 수 없다' },
         { value: 'risky', label: '위험하다. 외국이 자기 이익을 먼저 생각할 수 있다' },
         { value: 'self', label: '먼저 우리 힘으로 할 수 있는 일을 해야 한다' }
       ],
-      peoplePrompt: '갑신정변의 개혁안(신분제 폐지, 인재 등용, 세금 제도 개혁 등)을 농민이나 상인이 들었다면 어떻게 느꼈을까요? 그 이유도 한 줄로 써 보세요.',
+      peoplePrompt: '갑신정변의 개혁안(신분제 폐지, 인재 등용, 세금 제도 개혁 등)을 농민이나 상인이 들었다면 어떻게 느꼈을까요? 그 이유도 한 줄로 써 보세요. (교과서 104쪽 ‘외국과의 교류에 관한 의견’의 찬성·반대 입장도 떠올려 보세요.)',
       peoplePlaceholder: '농민(상인)이라면 ... 왜냐하면 ...',
       reflectionPrompt: '오늘 활동에서 가장 기억에 남는 순간과 그때의 내 마음을 한두 문장으로 써 보세요.',
       reflectionPlaceholder: '내가 가장 기억에 남는 것은 ...'
