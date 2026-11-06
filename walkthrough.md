@@ -2,6 +2,19 @@
 
 > **보관 안내 (2026-10-22)**: 2026-09 이전 기록은 [`docs/archive/walkthrough/`](./docs/archive/walkthrough/)의 월별 파일로 옮겼다. 이 파일에는 2026-10 기록만 둔다.
 
+## 2026-11-06 — 인생 게임 개인 점수판 3종과 교사용 화면
+
+`TASK-20261106-SEDO-SCOREBOARD | cooperative-mud/{sedo,gapsin-donghak,assassination}-scoreboard/, teacher/ | implementation agent(Claude) | 상태: DONE, push 완료(230ffa0, b7280b2, 6e0df6a, e9696d1, 4a92dbf, 929e3a9, bc61122)`
+
+- 계기: 교사가 PPT 인생 게임을 교실 TV로 진행하면, 학생이 개인 iPad에서 자기 선택만 눌러 점수가 자동 계산되게 한다. 종이 점수 계산표(PDF)는 참고만 했다.
+- 추가: 세도정치(`sedo-scoreboard`), 갑신정변·동학농민운동(`gapsin-donghak-scoreboard`, 국력 해골/하트·한 줄 정리·트로피), 인생 게임 외전 암살(`assassination-scoreboard`, 독립자금·무기 4종·이동경로·주관식 채점·명언 4칸). 허브 카드와 `TEACHING.md` 행도 더했다.
+- 구조: 저장하는 것은 입력 기록(log)뿐이고 점수·신분·국력·경로는 매번 `derive(log)`로 다시 계산한다. 그래서 되돌리기·새로고침·손상 기록이 일관된다. 점수↔선택지 대응은 PPT 도형 좌표로 확정했다. 개인정보 입력 없음, 기기 안 `localStorage`만 쓴다.
+- 신분 숨김·무작위(사용자 요청): 처음 신분은 A/B로 가리고 무작위로 배정하며, 갑신·동학의 제비뽑기(에피소드 7·16)도 무작위다. 뽑은 카드는 기록에 남겨 재현된다. `?ab=ppt`는 PPT 배정을 고정한다.
+- 교사용 화면(`teacher/`): 활동 탭을 11개로 늘렸다. 사라진 그림·갑신정변 역사 체험·점수판 3종은 `boards.js`가 각 `game.js`/`quest.js`를 그대로 읽어 정답표와 장면별 점수표를 보여 준다.
+- 검증: 규칙 손계산 테스트(`check_*` 3종), Chrome e2e(`e2e_*` 3종과 `e2e_teacher_boards.js`), PPT 슬라이드 XML 대조(세도정치·갑신/동학 150항·암살 95항, 실패 0), 무작위 플레이 9,000판(`fuzz_scoreboards.js`: 막다른 길·합계 불일치·되돌리기 불일치 없음), 배포본과 로컬 16개 파일 동일, 820px·375px 가로 스크롤 없음.
+- 알려진 가정: 암살 에피소드 15는 "5개 이상 +50"(정답이 6개), 암살 만점 경로의 최종은 −8원, 갑신·동학 1,000점 미만의 "트로피 없음" 문구는 임의로 썼다.
+- 남은 일: iPad 실기 확인(BACKLOG `P1-SEDO-SCOREBOARD`). 교사용 보기는 PC·인쇄용이라 iPad 확인 대상이 아니다.
+
 ## 2026-11-06 — 개인정보 처리방침 페이지 추가
 
 `TASK-20261106-PRIVACY-POLICY | privacy/index.html, index.html, cooperative-mud/index.html | implementation agent(Claude) | 상태: DONE, push 완료(53407ba, 96fc9d4)`
