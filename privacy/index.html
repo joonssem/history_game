@@ -6,13 +6,19 @@
   <meta name="theme-color" content="#8A3B29">
   <title>개인정보 처리방침 | 역사 탐구 교실</title>
   <style>
+    @font-face { font-family:'SchoolSafetyNotification'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-R.woff2') format('woff2'); font-weight:400; font-display:swap; }
+    @font-face { font-family:'SchoolSafetyNotification'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-B.woff2') format('woff2'); font-weight:700; font-display:swap; }
+    @font-face { font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
+    @font-face { font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-SemiBold.woff2') format('woff2'); font-weight:600; font-display:swap; }
+    @font-face { font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Bold.woff2') format('woff2'); font-weight:700; font-display:swap; }
     :root { --bg:#faf7f2; --card:#fff; --ink:#2b2622; --muted:#6f665d; --line:#e4dccf; --accent:#8A3B29; --sub:#f3ece1; }
     @media (prefers-color-scheme: dark) {
       :root { --bg:#1d1a17; --card:#27231f; --ink:#ece5da; --muted:#a79d90; --line:#3b352f; --accent:#e0a08c; --sub:#2f2a25; }
     }
     * { box-sizing: border-box; }
     body { margin:0; background:var(--bg); color:var(--ink); line-height:1.75; font-size:16px;
-      font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif; }
+      font-family:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif; }
+    h1, h2, h3 { font-family:'SchoolSafetyNotification',"Pretendard",sans-serif; font-weight:700; }
     main { max-width:780px; margin:0 auto; padding:24px 16px 56px; }
     a { color:var(--accent); }
     .back { display:inline-block; margin-bottom:12px; font-size:.9rem; }
@@ -51,7 +57,7 @@
     <ul>
       <li>이 앱에는 회원가입이나 로그인 절차가 없으며, 이름·학번·연락처·이메일 등 개인을 식별할 수 있는 정보를 수집·이용·제공하지 않습니다. 운영자는 이용자 정보를 저장하는 데이터베이스나 서버를 운영하지 않습니다.</li>
       <li>이용자가 화면에 입력한 답변, 선택, 소감, 모둠 활동 기록은 이용자의 브라우저 안에서만 처리되며 운영자의 서버로 전송되지 않습니다. 운영자는 이용자가 무엇을 입력했는지 알 수 없습니다.</li>
-      <li>학습용 앱이므로 실명, 연락처, 주소 등 개인을 식별할 수 있는 정보는 입력하지 않기를 권장합니다. 일부 활동에 이름을 쓰는 칸이 있으나 역사 속 인물의 이름이나 별명을 적는 용도입니다.</li>
+      <li>학습용 앱이므로 실명, 연락처, 주소 등 개인을 식별할 수 있는 정보는 입력하지 않기를 권장합니다. 일부 활동에는 정답으로 역사 속 인물의 이름을 적는 칸이 있으며, 학생 본인의 이름을 입력하는 칸은 없습니다.</li>
     </ul>
   </section>
 
@@ -74,7 +80,7 @@
       <tbody>
         <tr><td>GitHub, Inc. (GitHub Pages)</td><td>웹 서비스 호스팅</td><td>사이트에 접속할 때마다 발생</td></tr>
         <tr><td>jsDelivr (cdn.jsdelivr.net)</td><td>글꼴 전송</td><td>화면 글꼴을 불러올 때 발생</td></tr>
-        <tr><td>네이버 한글 웹폰트 (hangeul.pstatic.net)</td><td>글꼴 전송</td><td>포털 화면 글꼴을 불러올 때 발생</td></tr>
+        <tr><td>네이버 한글 웹폰트 (hangeul.pstatic.net)</td><td>글꼴 전송</td><td>포털 화면 글꼴을 불러올 때 발생 (국내 서비스)</td></tr>
         <tr><td>Cloudflare, Inc. (cdnjs.cloudflare.com)</td><td>아이콘 글꼴 전송</td><td>포털 화면을 열 때 발생</td></tr>
       </tbody>
     </table>
@@ -87,11 +93,11 @@
 
   <section>
     <h2>제4조 개인정보의 국외 이전</h2>
-    <p>제3조의 사업자는 국외에 서버를 두고 있어, 접속 과정에서 자동으로 생성되는 기록이 국외에서 처리됩니다.</p>
+    <p>제3조의 사업자 중 GitHub, jsDelivr, Cloudflare는 국외에 서버를 두고 있어, 접속 과정에서 자동으로 생성되는 기록이 국외에서 처리됩니다. (네이버 글꼴은 국내 서비스로 국외 이전에 해당하지 않습니다.)</p>
     <div class="table-wrap">
     <table>
       <tbody>
-        <tr><th>이전받는 자</th><td>GitHub, Inc. / jsDelivr / 네이버 클라우드(글꼴) / Cloudflare, Inc.</td></tr>
+        <tr><th>이전받는 자</th><td>GitHub, Inc. / jsDelivr / Cloudflare, Inc.</td></tr>
         <tr><th>이전 국가</th><td>미국 등 각 사업자의 서버 소재국 (사업자의 전송망 특성상 국가가 달라질 수 있음)</td></tr>
         <tr><th>이전 항목</th><td>접속 IP 주소, 접속 일시, 브라우저 및 기기 정보 등 접속 기록</td></tr>
         <tr><th>이전 일시와 방법</th><td>이용자가 서비스에 접속하는 시점에 네트워크를 통해 전송</td></tr>
@@ -116,7 +122,7 @@
       <li><b>전송 구간 암호화</b> — 앱은 HTTPS로 제공되어 통신 구간이 암호화됩니다.</li>
       <li><b>데이터베이스 미운영</b> — 이용자 정보를 저장하는 데이터베이스를 운영하지 않습니다.</li>
       <li><b>외부 추적 도구 배제</b> — 광고, 방문자 분석, 행태정보 수집 도구를 사용하지 않습니다.</li>
-      <li><b>접근 권한 관리</b> — 소스 코드 저장소와 배포 환경은 운영자 계정으로 접근이 제한되며, 접근에 필요한 인증 정보는 코드에 포함하지 않습니다.</li>
+      <li><b>접근 권한 관리</b> — 소스 코드 저장소의 수정·배포 권한은 운영자 계정으로 제한되며, 접근에 필요한 인증 정보는 코드에 포함하지 않습니다.</li>
     </ul>
   </section>
 
@@ -177,7 +183,7 @@
     <p>교사용 화면(<code>cooperative-mud/teacher/</code>)은 교사 기기의 브라우저 저장소에 보기 설정만 보관하며, 학생 정보를 불러오거나 모으지 않습니다. 인쇄는 교사가 브라우저의 인쇄 기능으로 직접 합니다.</p>
 
     <h3>복사 기능</h3>
-    <p>일부 화면의 복사 버튼은 이용자가 누를 때에만 탐구 결과 글을 이용자 기기의 클립보드에 복사합니다. 복사한 내용은 이 앱이 읽거나 전송하지 않습니다.</p>
+    <p>탐구 마무리 화면의 복사 버튼은 이용자가 누를 때에만 이용자가 쓴 성찰 일기를 이용자 기기의 클립보드에 복사합니다. 복사한 내용은 이 앱이 읽거나 전송하지 않습니다.</p>
 
     <h3>피드백 설문(Google 설문지)</h3>
     <p>화면의 설문 링크는 이용자가 직접 눌렀을 때만 새 탭에서 Google 설문지로 이동합니다. 설문지는 이름과 이메일을 수집하지 않도록 설정되어 있으며, 이 앱은 응답 데이터를 받거나 저장하지 않습니다. 이동 이후의 정보 처리는 Google의 정책을 따르며, 설문에도 개인을 식별할 수 있는 내용은 쓰지 않기를 권장합니다.</p>
