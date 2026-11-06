@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#8A3B29">
+  <meta name="description" content="세도 정치와 홍경래의 난 인생 게임: 내 신분·선택·포인트를 기록하는 개인 점수판(기기 안에만 저장)">
+  <title>세도정치 인생게임 · 개인 점수판</title>
+  <link rel="stylesheet" href="../cooperative.css">
+  <link rel="stylesheet" href="board.css">
+</head>
+<body>
+  <main class="coop-shell game-shell">
+    <header class="coop-header game-header">
+      <div>
+        <a class="back-link" href="../">← 모둠 역사 탐험 허브</a>
+        <p class="eyebrow">🏯 조선 후기 · 세도 정치와 홍경래의 난 · 개인 점수판 v0.1</p>
+        <h1>세도정치 인생 게임 점수판</h1>
+        <p class="lead">수업 화면의 장면을 보며 내 신분과 선택을 기록하고, 내 포인트가 어떻게 달라지는지 확인하세요.</p>
+      </div>
+      <span class="status-pill">개인정보 수집 없음</span>
+    </header>
+
+    <div class="game-progress" aria-label="진행도">
+      <div class="progress-label"><span id="progress-step">시작하기</span></div>
+      <div class="progress-track"><div id="progress-value" class="progress-value" style="width: 2%"></div></div>
+    </div>
+
+    <div id="scorebar" class="scorebar" hidden aria-live="polite"></div>
+
+    <div id="app"></div>
+
+    <p class="privacy-note">이름이나 학번은 입력하지 않습니다. 점수와 쓴 글은 이 기기 안에만 남습니다.</p>
+  </main>
+  <script src="game.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

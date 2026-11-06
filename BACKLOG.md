@@ -22,6 +22,13 @@
 - "서로 다른 모델" 한계: opus·sonnet·haiku는 같은 Claude 계열이라 공급사 교차의 이점이 약하다. 큰 변경에는 Codex red team을 독립 검토자로 권하고, haiku 제외도 검토한다.
 - 증거 5단계 보강: `docs/product/BROWSER_REGRESSION_CHECKLIST.md` 연결과 `scripts/manual/site_regression.js`의 `.tmp-playwright/` 설치 전제를 적을지.
 
+## P1-SEDO-SCOREBOARD — 인생 게임 개인 점수판 2종 (2026-11-06 등록)
+
+- 상태: `in-progress` — ① 세도정치 점수판 구현·검증 완료(2026-11-06, 미커밋). ② 「인생게임(임오군란·갑신정변·동학농민운동)」 점수판은 PPT 분석 전.
+- 작업 claim: `TASK-20261106-SEDO-SCOREBOARD | cooperative-mud/sedo-scoreboard/ 신규 | implementation(Claude) | 상태: DONE(①) | 검증: node --check, node scripts/coop/check_sedo_scoreboard.js(점수 규칙 14항), node scripts/coop/e2e_sedo_scoreboard.js(Chrome 헤드리스 21항)`
+- 방식: 교사가 PPT를 TV로 진행하고 학생이 기기에서 내 선택만 눌러 점수를 반영한다. 규칙은 `game.js`(PPT 선택지 열 좌표로 점수 대응 확정), 화면은 `app.js`. 점수는 기록(log)을 다시 계산해 얻으므로 되돌리기가 일관된다. 종이 「점수 계산표」는 참고만 했다.
+- 확인 필요(사용자): ① 양반이 강등된 뒤 같은 에피소드 3의 평민 장면(가뭄)도 하게 했다 ② 에피소드 21 양반 최종 벌은 자가 체크(기록 근거만 안내, 자동 체크 아님) ③ 에피소드 5의 `섞지 않는다 −200`은 PPT 그대로. ④ iPad 실기.
+
 ## P1-GAPSIN-QUEST — 갑신정변 역사 체험(2019 오프라인 활동) 하이브리드 이식 (2026-11-04 등록)
 
 - 상태: `in-progress` — 정답 불필요 부분 1차 구현·검증 완료(2026-11-04, 미커밋). 자가 점검 미션 5종 구현·검증 완료. 백자 5곳 사용자 확인, 이미지는 직접 그린 SVG로 교체 완료. 남은 것: 교사용 인쇄 보기. 2단원 마지막 차시용(날짜 미정).

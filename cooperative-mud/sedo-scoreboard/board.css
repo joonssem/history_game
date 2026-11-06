@@ -1,0 +1,78 @@
+/* 세도정치 인생 게임 점수판 전용 보조 스타일. 기본 디자인은 ../cooperative.css를 따른다. */
+.is-up { color: #1F6B3F; }
+.is-down { color: #A3302A; }
+.is-zero { color: #655B54; }
+
+.scorebar {
+  position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  margin: 12px -4px 0; padding: 10px 14px; border: 2px solid var(--coop-red); border-radius: 12px;
+  background: #FFFDF8; box-shadow: var(--coop-shadow);
+}
+.scorebar[hidden] { display: none; }
+.score-main { display: flex; flex-direction: column; line-height: 1.1; }
+.score-label { color: var(--coop-muted); font-size: 0.78rem; font-weight: 800; }
+.score-num { color: var(--coop-red-dark); font-size: 2rem; font-variant-numeric: tabular-nums; }
+.score-side { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.score-last { font-size: 1rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.role-chip { padding: 4px 12px; border-radius: 999px; font-size: 0.9rem; font-weight: 800; background: #F1E8DB; color: var(--coop-red-dark); }
+.role-chip.role-min { background: #E3EEF2; color: var(--coop-teal); }
+.role-chip.role-gwan { background: #E2F0E7; color: var(--coop-green); }
+.role-chip.role-bonggi { background: #F6E7C9; color: #7A5200; }
+
+.role-pick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 14px 0; }
+.role-pick-btn { min-height: 84px; padding: 12px; border: 2px solid var(--coop-line); border-radius: 12px; background: #FFF; color: var(--coop-ink); cursor: pointer; }
+.role-pick-btn b { display: block; font-size: 1.3rem; }
+.role-pick-btn span { color: var(--coop-muted); font-size: 0.85rem; }
+.role-pick-btn.role-yang:hover, .role-pick-btn.role-yang:focus-visible { border-color: var(--coop-red); background: #F8E5D1; }
+.role-pick-btn.role-min:hover, .role-pick-btn.role-min:focus-visible { border-color: var(--coop-teal); background: #EAF3F4; }
+
+.event-label { margin-bottom: 4px; color: var(--coop-red); font-size: 0.78rem; font-weight: 900; }
+.story-cue { margin: 8px 0 14px; padding: 12px 14px; border-left: 4px solid var(--coop-red); background: #FFF; line-height: 1.75; color: var(--coop-ink); }
+.choice-col { grid-template-columns: 1fr; margin-bottom: 12px; }
+.choice-button.is-selected { border-color: var(--coop-red); background: #F8E5D1; }
+.confirm-row { margin-top: 6px; }
+.paper-note { padding: 10px 12px; margin: 10px 0; border-radius: 8px; background: #FFF4D6; font-size: 0.95rem; }
+.picked { margin: 4px 0; }
+
+.delta-big { margin: 10px 0 4px; font-size: 2.6rem; font-weight: 900; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.delta-big small { font-size: 1rem; font-weight: 700; color: var(--coop-muted); }
+.delta-big.final-total { color: var(--coop-red-dark); }
+.after-total { margin-bottom: 12px; color: var(--coop-muted); }
+.after-total b { color: var(--coop-ink); font-size: 1.15rem; }
+.recap { margin: 6px 0; }
+
+.check-row { display: flex; gap: 10px; align-items: flex-start; margin: 10px 0; padding: 8px 10px; border-radius: 8px; background: #FFF; line-height: 1.6; }
+.check-row input { flex: 0 0 auto; width: 26px; height: 26px; margin-top: 2px; }
+.check-row small { color: var(--coop-muted); }
+
+.quest-field { display: block; width: 100%; min-height: 48px; padding: 10px 12px; margin: 6px 0 8px; border: 1px solid var(--coop-line); border-radius: 8px; background: #FFF; color: var(--coop-ink); font-size: 1.05rem; }
+textarea.quest-field { resize: vertical; line-height: 1.6; }
+.quest-field:focus-visible { outline: 3px solid rgba(46, 91, 112, 0.32); outline-offset: 2px; }
+.term-hint { margin-bottom: 8px; font-size: 0.88rem; color: var(--coop-muted); }
+.term-hint summary { cursor: pointer; }
+.term-hint p { margin: 6px 0 0; }
+
+.ledger-start { margin-bottom: 8px; }
+.sheet-wrap { overflow-x: auto; }
+.sheet { width: 100%; border-collapse: collapse; background: #FFF; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.sheet th, .sheet td { padding: 6px 6px; border: 1px solid var(--coop-line); text-align: center; white-space: nowrap; }
+.sheet thead th { background: #E9F0E3; font-size: 0.8rem; }
+.sheet tbody th { background: #F7F2E8; }
+.sheet td.grey { background: #8A8A8A; }
+.sheet td.rest { font-weight: 800; }
+.manual-list { margin: 10px 0 0; padding-left: 20px; font-size: 0.9rem; }
+.gate-details { margin: 14px 0; }
+.gate-details summary { cursor: pointer; color: var(--coop-muted); font-size: 0.9rem; }
+.gate-box { padding: 12px; margin-top: 8px; border: 1px solid var(--coop-line); border-radius: 10px; background: #FAF6EC; }
+.reset-row { margin-top: 14px; }
+
+@media (max-width: 480px) {
+  .score-num { font-size: 1.7rem; }
+  .sheet { font-size: 0.8rem; }
+  .sheet th, .sheet td { padding: 5px 3px; }
+}
+
+.ledger-sum { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 800; color: var(--coop-red-dark); }
+.ledger-sum small { margin-left: 6px; color: var(--coop-muted); font-weight: 400; }
+.tv-note { margin: -6px 0 12px; color: var(--coop-muted); font-size: 0.8rem; }
+.story-cue { font-size: 0.95rem; }
