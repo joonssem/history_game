@@ -25,6 +25,7 @@
 ## P1-SEDO-SCOREBOARD — 인생 게임 개인 점수판 2종 (2026-11-06 등록)
 
 - 상태: `in-progress` — ① 세도정치 점수판 구현·검증 완료(2026-11-06, 미커밋). ② 「갑신정변과 동학농민운동 인생게임」 점수판 구현·검증 완료(2026-11-06, 판단 6건은 권장안으로 진행: 국력 비교 기호만 표시, 트로피는 버튼으로 공개, 에피소드 2는 정답/오답 버튼, 에피소드 38은 −3,000, 능력 추가 점수 자동, 에피소드 22 신분은 선택 후 변경). 계획: [`implementation_plan_gapsin_donghak_scoreboard.md`](./docs/plans/implementation_plan_gapsin_donghak_scoreboard.md). 검증: PPT 대조 150항(스크래치 스크립트), `node scripts/coop/check_gapsin_scoreboard.js`(23항), `node scripts/coop/e2e_gapsin_scoreboard.js`(Chrome 26항). iPad 실기·국력 가이드 해석 문구 대기.
+  - ③ 「인생 게임 외전 암살」 자금판 구현·검증 완료(2026-11-06, 판단은 권장안: 주관식은 앱 채점(에피소드 11만 정답/오답 버튼), 에피소드 15 5개 이상 +50, 에피소드 1 협력 시 즉시 GAME OVER). 계획: [`implementation_plan_assassination_scoreboard.md`](./docs/plans/implementation_plan_assassination_scoreboard.md). 검증: PPT 대조 95항(스크래치), `node scripts/coop/check_assassination_scoreboard.js`(손계산 −8 등), `node scripts/coop/e2e_assassination_scoreboard.js`(Chrome). iPad 실기 대기.
 - 작업 claim: `TASK-20261106-SEDO-SCOREBOARD | cooperative-mud/sedo-scoreboard/ 신규 | implementation(Claude) | 상태: DONE(①) | 검증: node --check, node scripts/coop/check_sedo_scoreboard.js(점수 규칙 14항), node scripts/coop/e2e_sedo_scoreboard.js(Chrome 헤드리스 21항)`
 - 방식: 교사가 PPT를 TV로 진행하고 학생이 기기에서 내 선택만 눌러 점수를 반영한다. 규칙은 `game.js`(PPT 선택지 열 좌표로 점수 대응 확정), 화면은 `app.js`. 점수는 기록(log)을 다시 계산해 얻으므로 되돌리기가 일관된다. 종이 「점수 계산표」는 참고만 했다.
 - 확인 필요(사용자): ① 양반이 강등된 뒤 같은 에피소드 3의 평민 장면(가뭄)도 하게 했다 ② 에피소드 21 양반 최종 벌은 자가 체크(기록 근거만 안내, 자동 체크 아님) ③ 에피소드 5의 `섞지 않는다 −200`은 PPT 그대로. ④ iPad 실기.

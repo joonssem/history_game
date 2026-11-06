@@ -14,7 +14,8 @@
     { slug: 'missing-painting', name: '사라진 그림(추리 게임)', status: 'upcoming', board: true },
     { slug: 'gapsin-quest', name: '갑신정변 역사 체험', status: 'upcoming', board: true },
     { slug: 'sedo-scoreboard', name: '세도정치 인생게임 점수판', status: 'upcoming', board: true },
-    { slug: 'gapsin-donghak-scoreboard', name: '갑신·동학 인생게임 점수판', status: 'upcoming', board: true }
+    { slug: 'gapsin-donghak-scoreboard', name: '갑신·동학 인생게임 점수판', status: 'upcoming', board: true },
+    { slug: 'assassination-scoreboard', name: '암살 인생게임 자금판', status: 'upcoming', board: true }
   ].filter(function (a) { return a.status === 'upcoming'; });
 
   // 학생 화면의 단계 순서. second는 5분형에서 건너뛴다(episode.js).

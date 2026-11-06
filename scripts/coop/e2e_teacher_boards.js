@@ -42,8 +42,8 @@ const points = () => ev("document.querySelector('.score-num') ? document.querySe
   await ev('localStorage.clear()');
   const tabs = async () => ev("[...document.querySelectorAll('.activity-tab')].map(b=>b.dataset.slug)");
   const slugs = await tabs();
-  check(slugs.length === 10, '탭 10개(기존 6 + 신규 4): ' + slugs.length);
-  for (const slug of ['missing-painting', 'gapsin-quest', 'sedo-scoreboard', 'gapsin-donghak-scoreboard']) check(slugs.includes(slug), slug + ' 탭 있음');
+  check(slugs.length === 11, '탭 11개(기존 6 + 신규 5): ' + slugs.length);
+  for (const slug of ['missing-painting', 'gapsin-quest', 'sedo-scoreboard', 'gapsin-donghak-scoreboard', 'assassination-scoreboard']) check(slugs.includes(slug), slug + ' 탭 있음');
 
   async function openTab(slug) {
     await ev("document.querySelector('.activity-tab[data-slug=\"" + slug + "\"]').click()");
@@ -75,6 +75,12 @@ const points = () => ev("document.querySelector('.score-num') ? document.querySe
   check(await ev("document.querySelectorAll('#flow-view .t-table.donghak tbody tr').length") === await ev('window.GapsinBoard.STEPS.length'), '갑신·동학: 점수표 행 수 = 장면(STEPS) 수');
   check(/골드 트로피/.test(t) && /💀/.test(t) && /원래 중국어 능력자 \+50/.test(t) && /흥선대원군파/.test(t), '갑신·동학: 트로피·국력·능력 추가·신분');
   check(await ev("document.getElementById('activity-lead').textContent.indexOf('159장') >= 0"), '갑신·동학: 안내문이 활동별로 바뀜');
+
+  await openTab('assassination-scoreboard');
+  t = await txt();
+  check(await ev("document.querySelectorAll('#flow-view .t-table.assassination tbody tr').length") === await ev('window.AssassinationBoard.STEPS.length'), '암살: 자금표 행 수 = 장면(STEPS) 수');
+  check(/0, 1, 2, 4, 7, 9/.test(t) && /이순신/.test(t) && /9가마/.test(t) && /상해/.test(t) && /2번 상자/.test(t), '암살: 정답 한눈에(일본군 위치·역사 퀴즈·가마·상해·상자)');
+  check(/−10,000|10,000/.test(t) && /−8원/.test(t) && /경성 → 만주/.test(t), '암살: 협력 시 10,000·최종 −8원·이동경로');
 
   // 기존 탭으로 돌아오면 학생 번호 영역이 되살아난다
   await openTab('joseon-sejong');

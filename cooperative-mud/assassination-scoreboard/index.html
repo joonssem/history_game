@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#8A3B29">
+  <meta name="description" content="인생 게임 외전 「암살」: 내 선택과 독립자금을 기록하는 개인 자금판(기기 안에만 저장)">
+  <title>인생게임 외전 암살 · 개인 자금판</title>
+  <link rel="stylesheet" href="../cooperative.css">
+  <link rel="stylesheet" href="board.css">
+</head>
+<body>
+  <main class="coop-shell game-shell">
+    <header class="coop-header game-header">
+      <div>
+        <a class="back-link" href="../">← 모둠 역사 탐험 허브</a>
+        <p class="eyebrow">🔫 일제강점기 · 나라를 되찾기 위한 노력 · 개인 자금판 v0.1</p>
+        <h1>인생 게임 외전 「암살」 자금판</h1>
+        <p class="lead">수업 화면의 장면을 보며 내 선택과 정답을 입력하고, 독립자금이 어떻게 달라지는지 확인하세요.</p>
+      </div>
+      <span class="status-pill">개인정보 수집 없음</span>
+    </header>
+
+    <div class="game-progress" aria-label="진행도">
+      <div class="progress-label"><span id="progress-step">시작하기</span></div>
+      <div class="progress-track"><div id="progress-value" class="progress-value" style="width: 2%"></div></div>
+    </div>
+
+    <div id="scorebar" class="scorebar" hidden aria-live="polite"></div>
+
+    <div id="app"></div>
+
+    <p class="privacy-note">이름이나 학번은 입력하지 않습니다. 자금과 쓴 글은 이 기기 안에만 남습니다.</p>
+  </main>
+  <script src="game.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

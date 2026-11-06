@@ -195,10 +195,69 @@
     return html;
   }
 
+
+  // ── 인생 게임 외전 「암살」 자금판 ───────────────────────
+  function asBody(G, s) {
+    if (s.kind === 'situation') return '<span class="t-tag">선택 없음</span> <b class="' + (s.delta < 0 ? 't-down' : 't-up') + '">' + signed(s.delta) + '원</b>' + (s.flag ? ' <span class="t-power">🎒 ' + esc(G.WEAPONS.filter(function (w) { return w.id === s.flag; })[0].name) + ' 획득</span>' : '');
+    if (s.kind === 'move') return '<span class="t-tag">지역 이동</span> ' + esc(s.from) + ' → ' + esc(s.to) + ' <b class="t-down">' + signed(-s.cost) + '원</b>';
+    if (s.kind === 'choice') {
+      return '<ul class="t-choices">' + s.choices.map(function (c) {
+        return '<li><span class="t-no">' + esc(c.no) + '</span> ' + esc(c.label) + ' → <b class="' + (c.delta < 0 ? 't-down' : c.delta > 0 ? 't-up' : '') + '">' + signed(c.delta) + '원</b>' +
+          (c.flag ? ' <span class="t-power">🎒 ' + esc(G.WEAPONS.filter(function (w) { return w.id === c.flag; })[0].name) + ' 획득</span>' : '') +
+          (c.end ? ' <span class="t-power">→ GAME OVER(게임 참여 불가)</span>' : '') + '</li>';
+      }).join('') + '</ul>';
+    }
+    if (s.kind === 'quiz') {
+      var q = s.quiz;
+      if (q.type === 'numbers') return '정답 번호 <b>' + esc(q.answer.join(', ')) + '</b> · 맞힌 개수별 ' + Object.keys(q.tiers).sort(function (a, b) { return b - a; }).map(function (k) { return k + '개 ' + signed(q.tiers[k]); }).join(' / ') + '<br><span class="t-note">쓸 수 있는 번호: 권총만 ' + q.capBase + '개, 소총 ' + q.capRifle + '개</span>';
+      if (q.type === 'texts') return q.items.map(function (it) { return esc(it.accept[0]); }).join(' · ') + ' · 맞힌 개수별 ' + Object.keys(q.tiers).sort(function (a, b) { return b - a; }).map(function (k) { return k + '개 ' + signed(q.tiers[k]); }).join(' / ');
+      if (q.type === 'text') return '정답 <b>' + esc(q.answerText) + '</b> → ' + signed(q.correctDelta) + '원 / 오답 ' + signed(q.wrongDelta) + '원' + (q.flag ? ' <span class="t-power">🎒 ' + esc(G.WEAPONS.filter(function (w) { return w.id === q.flag; })[0].name) + '은 정답·오답 모두 획득</span>' : '');
+      if (q.type === 'boxes') return '정답 <b>' + esc(q.answer) + '번 상자</b> → ' + signed(q.correctDelta) + '원 / 오답 ' + signed(q.wrongDelta) + '원 <span class="t-note">(망원경이 있으면 2개까지 고를 수 있음)</span>';
+    }
+    return '명언 쓰기 + 짝꿍 평가: ' + G.EVALS.map(function (e) { return esc(e.result); }).join(' / ') + ' <span class="t-note">(자금 변화 없음)</span>';
+  }
+
+  function renderAssassination(G) {
+    var html = section('수업 진행(교사)',
+      '<ol><li>학생이 자금판을 열고 “게임 시작”을 누릅니다. <b>신분 선택이 없고 모두 같은 신분</b>이며 자금은 0원에서 시작합니다.</li>' +
+      '<li>교사는 PPT를 교실 TV로 진행합니다. 장면 번호(EPISODE)는 PPT와 자금판이 같습니다.</li>' +
+      '<li>객관식은 번호를 누르고 <b>확인 버튼</b>을 눌러야 반영됩니다. 주관식은 TV 문제의 답을 입력하면 앱이 채점합니다(에피소드 11만 교사가 정답을 알려 준 뒤 학생이 정답/오답을 누름).</li>' +
+      '<li>지역 이동은 자금을 내고 “이동하기”를 누르면 이동경로가 자동으로 기록됩니다. 무기(권총·소총·콧수염·망원경)도 자동으로 표시됩니다.</li>' +
+      '<li>실수하면 “되돌리기”, 교사가 자금을 따로 알려 줄 때는 점수표 아래 “선생님이 자금을 따로 알려 줬을 때”에 입력합니다.</li>' +
+      '<li>자금은 이 기기 안에만 저장됩니다(이름·학번 입력 없음). 자금이 모자라면 넉넉한 친구에게 빌리는 게임이에요(PPT 3장).</li></ol>', true);
+    html += section('정답 한눈에(교사 확인용)',
+      table(['EP', '무엇', '정답'], [
+        [4, '진짜 이회영 선생님 사진', '4번 사진(이회영) — 1·2·3번은 홍범도·김좌진·안중근'],
+        [10, '이민수 선생(보통학교 교사)', '3번'],
+        [11, '객실 암호 9자리', '슬라이드의 정답 그림 → 교사가 알려 준 뒤 학생이 정답/오답을 누름'],
+        [15, '일본군 위치', '0, 1, 2, 4, 7, 9'],
+        [16, '군산은 어디', '지도의 1번(군산) — 2 목포, 3 원산, 4 부산'],
+        [18, '신채호 퀴즈', '이순신 · 을지문덕 · 발해'],
+        [19, '쌀 0.3배', '9가마'],
+        [20, '원리네 가족', '9명'],
+        [22, '전신기 암호 45231', '상해'],
+        [30, '폭탄이 든 상자', '2번 상자'],
+        [31, '조선 청년 구하기', '12시 방향(2번) — 3시 오발, 4시 청년 공격']
+      ]), true);
+    html += section('에피소드별 자금 전체표',
+      table(['EP', '장면', '선택·답 → 자금'], G.STEPS.map(function (s) { return [s.ep, '<b>' + esc(s.tag) + '</b><br>' + esc(s.title), asBody(G, s)]; }), 'assassination'), true);
+    html += section('이동경로와 이동비',
+      '<p>' + G.STEPS.filter(function (s) { return s.kind === 'move'; }).map(function (s) { return esc(s.from) + ' → ' + esc(s.to) + ' (에피소드 ' + s.ep + ', −' + s.cost + '원)'; }).join('<br>') + '</p>' +
+      '<p class="t-note">종이 점수표는 이동경로를 지도에 화살표로 그립니다. 자금판은 도시 순서만 자동으로 보여 줍니다(지도에 그리는 것은 종이 활동).</p>');
+    html += section('마무리 화면에 나오는 독립운동가 명언 정답',
+      '<ul>' + G.QUOTES.map(function (q) { return '<li><b>' + esc(q.who) + '</b> “' + esc(q.text) + '” → ' + esc(q.answer) + '</li>'; }).join('') + '</ul>');
+    html += box('확인해 둘 점', '<ul><li>에피소드 15 PPT의 최고 구간은 “5개 정답 +50”인데 정답 번호가 6개입니다. <b>5개 이상 +50</b>으로 처리하고, 틀린 번호는 따로 깎지 않습니다.</li>' +
+      '<li>에피소드 1에서 “일제에 협력”을 고르면 +10,000원과 GAME OVER(게임 참여 불가)가 나옵니다(되돌리기 가능).</li>' +
+      '<li>모든 정답과 장비를 얻어도 에피소드 32의 −200원 때문에 최종 자금은 −8원입니다(승패 없는 게임).</li>' +
+      '<li>에피소드 22 암호 정답은 “상해”이고 “상하이”도 인정합니다. 에피소드 18은 “이순신 장군”처럼 “장군”을 붙여도 맞습니다.</li></ul>');
+    return html;
+  }
+
   window.TeacherBoards = {
     'missing-painting': { file: 'quest.js', global: 'MissingPainting', lead: '교사 확인 숫자와 미션 12개의 정답·힌트를 한눈에 봅니다. 아래 단계를 눌러 펼치세요.', render: renderMissing, title: function () { return '사라진 그림을 찾아라 — 교사용'; } },
     'gapsin-quest': { file: 'quest.js', global: 'GapsinQuest', lead: '교사 확인 숫자, 번호별 모둠·역할 배정, 암호 정답과 미션 정답을 한눈에 봅니다.', render: renderGapsinQuest, title: function () { return '갑신정변 역사 체험 — 교사용'; } },
     'sedo-scoreboard': { file: 'game.js', global: 'SedoBoard', lead: '세도정치 인생 게임(PPT 74장)의 에피소드별 점수표입니다. 학생 점수판이 계산하는 값과 같은 데이터를 그대로 읽습니다.', render: renderSedo, title: function () { return '세도정치 인생 게임 점수판 — 교사용'; } },
+    'assassination-scoreboard': { file: 'game.js', global: 'AssassinationBoard', lead: '인생 게임 외전 「암살」(PPT 104장)의 정답표와 에피소드별 자금표입니다. 학생 자금판이 계산하는 값과 같은 데이터를 그대로 읽습니다.', render: renderAssassination, title: function () { return '인생 게임 외전 「암살」 자금판 — 교사용'; } },
     'gapsin-donghak-scoreboard': { file: 'game.js', global: 'GapsinBoard', lead: '갑신정변과 동학농민운동 인생 게임(PPT 159장)의 에피소드별 점수표입니다. 학생 점수판이 계산하는 값과 같은 데이터를 그대로 읽습니다.', render: renderDonghak, title: function () { return '갑신정변·동학농민운동 인생 게임 점수판 — 교사용'; } }
   };
 }());
