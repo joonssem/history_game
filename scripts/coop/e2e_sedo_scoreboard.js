@@ -107,6 +107,24 @@ const points = () => ev("document.querySelector('.score-num') ? document.querySe
   await send('Page.navigate', { url }); await sleep(500);
   check(await ev("document.querySelector('[data-term=\"sedo\"]').value") === '외척이 나라를 다스림', '한줄 정리 저장 유지');
 
+
+  // 양반 전 구간(모든 선택 1번) + 최종 벌 2개 체크 → 손계산 3,830
+  await ev('localStorage.clear()');
+  await send('Page.navigate', { url }); await sleep(500);
+  await click('[data-act="start"][data-role="yang"]');
+  for (let i = 0; i < 60; i += 1) {
+    if (await ev("!!document.querySelector('.finish-panel')")) break;
+    if (await ev("!!document.querySelector('[data-act=\"next\"]')")) { await click('[data-act="next"]'); continue; }
+    if (await ev("!!document.querySelector('[data-act=\"situ\"]')")) { await click('[data-act="situ"]'); continue; }
+    if (await ev("!!document.querySelector('[data-act=\"final\"]')")) {
+      await ev("document.querySelectorAll('[data-pen]')[0].click(); document.querySelectorAll('[data-pen]')[1].click()");
+      await click('[data-act="final"]'); continue;
+    }
+    await click('[data-act="pick"][data-c="c1"]'); await click('[data-act="confirm"]');
+  }
+  check(await points() === '3,830', '양반 전 구간 + 최종 벌 2개 체크 → 3,830');
+  check(await ev("document.querySelectorAll('.sheet tbody tr').length") === 21, '양반도 점수표 21행');
+
   // 모바일 폭 가로 스크롤 없음
   await send('Emulation.setDeviceMetricsOverride', { width: 375, height: 800, deviceScaleFactor: 2, mobile: true });
   await sleep(300);
