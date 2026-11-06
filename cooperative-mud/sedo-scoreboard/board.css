@@ -76,3 +76,7 @@ textarea.quest-field { resize: vertical; line-height: 1.6; }
 .ledger-sum small { margin-left: 6px; color: var(--coop-muted); font-weight: 400; }
 .tv-note { margin: -6px 0 12px; color: var(--coop-muted); font-size: 0.8rem; }
 .story-cue { font-size: 0.95rem; }
+
+.role-pick-btn.role-ab { min-height: 110px; font-size: 1.6rem; }
+.role-pick-btn.role-ab b { font-size: 2.4rem; color: var(--coop-red-dark); }
+.role-pick-btn.role-ab:hover, .role-pick-btn.role-ab:focus-visible { border-color: var(--coop-teal); background: #F0F6F7; }

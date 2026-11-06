@@ -7,6 +7,7 @@
  *
  * 신분(role): zh/ja 능력자 → ys 영선사 / ss 수신사 → mg 명성황후파 / hs 흥선대원군파 → on 온건 / gj 급진 개화파
  *            → nm 농민 / jb 지방 관리 → dh 동학농민군 / gg 관군   (단방향, 복귀 없음)
+ * 제비뽑기 장면(draw: true): 학생이 누른 카드(기록의 p)와 실제 결과(기록의 c)가 따로 저장된다. 결과는 앱이 무작위로 정한다(?ab=ppt는 PPT 대응으로 고정).
  * ability: 처음 고른 능력(zh/ja). 끝까지 남아 일부 선택에 추가 점수(bonus)를 자동으로 붙인다.
  */
 (function (root) {
@@ -73,7 +74,7 @@
       cue: '개항 이후 일본이 가져가는 쌀이 늘어 쌀값이 크게 오르고 쌀이 귀해져, 시골 가족들의 삶이 어려워졌어요.',
       delta: { ys: -30, ss: -30 }, skull: 1 },
 
-    { id: 'e7', ep: 7, who: 'all', kind: 'choice', tag: '모두의 선택', title: '두 사람의 제안(제비뽑기)',
+    { id: 'e7', ep: 7, who: 'all', kind: 'choice', draw: true, tag: '모두의 선택', title: '두 사람의 제안(제비뽑기)',
       cue: '민겸호(명성황후 사촌 오빠)와 허욱(흥선대원군의 부하)이 따로 찾아와 자기 편에서 일하라고 해요. 도저히 정할 수 없어 제비뽑기로 정합니다. C와 D 중 뽑은 것을 눌러 주세요.',
       choices: [C('c1', 'C', 'C', '당신의 신분은 지금부터 <흥선대원군파>입니다. 역관 벼슬을 그만두고 실업자가 되었습니다.', -100, { role: 'hs' }),
         C('c2', 'D', 'D', '당신의 신분은 지금부터 <명성황후파>입니다. 명성황후로부터 높은 벼슬을 받았습니다.', 100, { role: 'mg' })] },
@@ -130,7 +131,7 @@
       cue: '흥선대원군이 청나라로 잡혀가 당신은 도망자예요. 인천까지 도망왔는데 도와주겠다는 두 남자가 있어요. 누구에게 다가갈까요?',
       choices: [C('c1', 1, '왼쪽의 남자', '왼쪽의 남자(김윤식): “내가 너를 살려줄 테니 내가 시키는 대로 해야 하네.” 당신의 신분은 지금부터 <온건개화파>입니다.', 20, { role: 'on' }),
         C('c2', 2, '오른쪽의 남자', '오른쪽의 남자(김옥균): “내가 자네를 도와주겠네. 하지만 자네도 나를 도와줘야 한다네.” 당신의 신분은 지금부터 <급진개화파>입니다.', 20, { role: 'gj' })] },
-    { id: 'e16mg', ep: 16, who: 'mg', kind: 'choice', tag: '명성황후파의 선택', title: '개화 방법(제비뽑기)',
+    { id: 'e16mg', ep: 16, who: 'mg', kind: 'choice', draw: true, tag: '명성황후파의 선택', title: '개화 방법(제비뽑기)',
       cue: '김윤식은 “청나라의 도움을 받아 차근차근 개화”, 김옥균은 “일본처럼 빠르게 개화, 청나라 간섭에서 벗어나자”고 해요. 고종이 묻지만 누구 편인지 몰라 제비뽑기로 정합니다. E와 F 중 뽑은 것을 눌러 주세요.',
       choices: [C('c1', 'E', 'E', '당신의 신분은 지금부터 <온건개화파>입니다.', 20, { role: 'on' }),
         C('c2', 'F', 'F', '당신의 신분은 지금부터 <급진개화파>입니다.', 20, { role: 'gj' })] },
@@ -264,6 +265,10 @@
   }
   function stepById(id) { for (var i = 0; i < STEPS.length; i++) if (STEPS[i].id === id) return STEPS[i]; return null; }
   function stepIndex(id) { for (var i = 0; i < STEPS.length; i++) if (STEPS[i].id === id) return i; return -1; }
+  function cardOf(step, p) {
+    for (var i = 0; i < step.choices.length; i++) if (String(step.choices[i].no) === String(p)) return String(step.choices[i].no);
+    return null;
+  }
   function choiceById(step, id) { for (var i = 0; i < step.choices.length; i++) if (step.choices[i].id === id) return step.choices[i]; return null; }
 
   function applies(step, d) {
@@ -300,6 +305,8 @@
           var ch = choiceById(step, e.c);
           if (!ch) return;
           row.delta = resolveDelta(ch.delta, d.role); row.choiceLabel = ch.label; row.no = ch.no; row.result = ch.result;
+          var pickedCard = step.draw && e.p != null ? cardOf(step, e.p) : null;   // 제비뽑기: 누른 카드는 점수표의 '나의 선택'에 남긴다
+          if (pickedCard) { row.no = pickedCard; row.choiceLabel = pickedCard + ' 카드'; row.picked = pickedCard; }
           row.skull = ch.skull || 0; row.heart = ch.heart || 0;
           if (ch.bonus && typeof ch.bonus[d.ability] === 'number') {
             row.bonus = ch.bonus[d.ability];

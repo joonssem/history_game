@@ -1,5 +1,5 @@
 // 갑신정변·동학농민운동 점수판을 실제 Chrome(헤드리스, CDP)으로 끝까지 눌러 확인한다.
-// 사용: node scripts/coop/e2e_gapsin_scoreboard.js http://localhost:8793/cooperative-mud/gapsin-donghak-scoreboard/
+// 사용: node scripts/coop/e2e_gapsin_scoreboard.js http://localhost:8793/cooperative-mud/gapsin-donghak-scoreboard/?ab=ppt
 const { spawn } = require('child_process');
 const fs = require('fs');
 const os = require('os');
@@ -38,12 +38,60 @@ const points = () => ev("document.querySelector('.score-num') ? document.querySe
 (async () => {
   await connect();
   await send('Runtime.enable', {});
+
+  // 무작위 모드(기본): 시작 화면에는 신분이 보이지 않고, A/B가 난수에 따라 두 신분 모두로 이어진다.
+  const baseUrl = url.replace('?ab=ppt', '');
+  async function drawWith(r) {
+    await send('Page.navigate', { url: baseUrl }); await sleep(500);
+    await ev('localStorage.clear()');
+    await send('Page.navigate', { url: baseUrl }); await sleep(500);
+    await ev('Math.random = () => ' + r);
+    const hidden = await ev("!/중국어|일본어/.test(document.getElementById('app').innerText)");
+    await click('[data-act="start"][data-pick="A"]');
+    const revealed = await ev("document.getElementById('app').innerText");
+    const chip = await ev("document.querySelector('.role-chip').textContent");
+    return { hidden, revealed, chip };
+  }
+  // 제비뽑기(에피소드 7): 같은 카드(D)를 눌러도 난수에 따라 결과가 갈리고, 점수표에는 누른 카드가 남는다.
+  async function drawCard(r) {
+    await send('Page.navigate', { url: baseUrl }); await sleep(500);
+    await ev('localStorage.clear()');
+    await send('Page.navigate', { url: baseUrl }); await sleep(500);
+    await ev('Math.random = () => 0.1');
+    await click('[data-act="start"][data-pick="A"]'); await click('[data-act="begin"]');     // 중국어 능력자
+    const route = { e1: 'c1', e2zh: 'c1', e3y: 'c2', e5: 'c1' };
+    for (let i = 0; i < 20; i += 1) {
+      const id = await ev("(function(){var G=window.GapsinBoard;var s=JSON.parse(localStorage.getItem(G.STORAGE_KEY));var st=G.nextStep(G.derive(s.log));return st?st.id:''})()");
+      if (id === 'e7') break;
+      if (await ev("!!document.querySelector('[data-act=\"next\"]')")) { await click('[data-act="next"]'); continue; }
+      if (await ev("!!document.querySelector('[data-act=\"situ\"]')")) { await click('[data-act="situ"]'); continue; }
+      await click('[data-act="pick"][data-c="' + route[id] + '"]'); await click('[data-act="confirm"]');
+    }
+    if (await ev("!!document.querySelector('[data-act=\"next\"]')")) await click('[data-act="next"]');
+    const hint = await ev("document.getElementById('app').innerText");
+    await ev('Math.random = () => ' + r);
+    await click('[data-act="pick"][data-c="c2"]'); await click('[data-act="confirm"]');      // 항상 D 카드
+    const chip = await ev("document.querySelector('.role-chip').textContent");
+    const shown = await ev("document.getElementById('app').innerText");
+    const row = await ev("(function(){var t=document.querySelectorAll('.sheet tbody tr');for(var i=0;i<t.length;i++){var th=t[i].querySelector('th');if(th&&th.textContent==='7')return t[i].children[2].textContent}return ''})()");
+    return { hint, chip, shown, row };
+  }
+  const dLo = await drawCard(0.1), dHi = await drawCard(0.9);
+  check(/제비뽑기예요/.test(dLo.hint), '제비뽑기 안내 문구(결과는 뽑기로 정해짐)');
+  check(dLo.chip !== dHi.chip, '같은 D 카드도 난수에 따라 다른 신분: ' + dLo.chip + ' / ' + dHi.chip);
+  check(/내 선택: D 카드/.test(dLo.shown) && /내 선택: D 카드/.test(dHi.shown), '결과 화면에 누른 카드(D)가 표시됨');
+  check(dLo.row === 'D' && dHi.row === 'D', '점수표의 나의 선택에는 누른 카드 D가 남음');
+  const lo = await drawWith(0.1), hi = await drawWith(0.9);
+  check(lo.hidden && hi.hidden, '시작 화면에 신분 이름이 보이지 않음(A/B만)');
+  check(/당신의 신분은/.test(lo.revealed) && /게임 시작/.test(lo.revealed), '고른 뒤 공개 화면이 나옴');
+  check(!/다시 고르기/.test(lo.revealed), '공개 화면에는 다시 고르기가 없음(재추첨 방지)');
+  check(lo.chip !== hi.chip, '같은 A 버튼도 난수에 따라 다른 신분으로 이어짐: ' + lo.chip + ' / ' + hi.chip);
   await send('Page.navigate', { url }); await sleep(500);
   await ev('localStorage.clear()');
   await send('Page.navigate', { url }); await sleep(500);
 
   check(await ev("document.getElementById('scorebar').hidden"), '시작 전에는 점수 막대가 숨겨짐');
-  await click('[data-act="start"][data-role="zh"]');
+  await click('[data-act="start"][data-pick="A"]'); await click('[data-act="begin"]');
   check(await points() === '3,000', '중국어 능력자 시작 3,000');
   check(/중국어/.test(await ev("document.querySelector('.role-chip').textContent")), '능력자 신분 칩');
 
@@ -105,7 +153,7 @@ const points = () => ev("document.querySelector('.score-num') ? document.querySe
   // 일본어 능력자도 시작되고 다른 장면이 나옴
   await ev('localStorage.clear()');
   await send('Page.navigate', { url }); await sleep(500);
-  await click('[data-act="start"][data-role="ja"]'); await click('[data-act="pick"][data-c="c2"]'); await click('[data-act="confirm"]'); await click('[data-act="next"]');
+  await click('[data-act="start"][data-pick="B"]'); await click('[data-act="begin"]'); await click('[data-act="pick"][data-c="c2"]'); await click('[data-act="confirm"]'); await click('[data-act="next"]');
   check(/일본어 역관 시험/.test(await ev("document.getElementById('app').innerText")), '일본어 능력자는 일본어 역관 시험 장면');
 
   await send('Emulation.setDeviceMetricsOverride', { width: 375, height: 800, deviceScaleFactor: 2, mobile: true });

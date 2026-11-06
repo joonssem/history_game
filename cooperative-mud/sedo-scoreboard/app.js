@@ -35,7 +35,12 @@
 
   function defaultState() { return { log: [], terms: {}, feel: '' }; }
   var state = load();
-  var ui = { pick: null, showResult: false };
+  // A·B를 눌렀을 때 신분을 정하는 방식. 기본은 학생마다 무작위(친구가 알려 줘도 소용없음).
+  // 주소 끝에 ?ab=ppt 를 붙이면 수업 슬라이드의 배치(A = 평민, B = 양반)로 고정한다.
+  var AB_PPT = location.search.indexOf('ab=ppt') !== -1;
+  var START_MAP = { A: 'min', B: 'yang' };
+  function drawStart(pick) { return AB_PPT ? START_MAP[pick] : (Math.random() < 0.5 ? 'min' : 'yang'); }
+  var ui = { pick: null, showResult: false, reveal: false };
 
   function load() {
     try {
@@ -79,11 +84,11 @@
   // ── 화면: 시작 ─────────────────────────────────────────
   function startHtml() {
     return '<section class="panel">' +
-      '<h2 class="screen-title">내 신분 고르기</h2>' +
-      '<p class="screen-description">수업 화면의 「캐릭터 선택」에서 나온 <strong>내 신분</strong>을 눌러 주세요. 처음 받는 포인트가 정해집니다.</p>' +
+      '<h2 class="screen-title">캐릭터 선택</h2>' +
+      '<p class="screen-description">수업 화면의 「캐릭터 선택」처럼, 다음 중 <strong>한 가지</strong>를 골라 주세요. 선택에 의해 내 신분이 결정됩니다.</p>' +
       '<div class="role-pick">' +
-      '<button type="button" class="role-pick-btn role-yang" data-act="start" data-role="yang"><b>양반</b><span>처음 7,000 포인트</span></button>' +
-      '<button type="button" class="role-pick-btn role-min" data-act="start" data-role="min"><b>평민</b><span>처음 4,000 포인트</span></button>' +
+      '<button type="button" class="role-pick-btn role-ab" data-act="start" data-pick="A"><b>A</b></button>' +
+      '<button type="button" class="role-pick-btn role-ab" data-act="start" data-pick="B"><b>B</b></button>' +
       '</div>' +
       '<ul class="rules">' +
       '<li>화면의 장면 번호(EPISODE)는 수업 슬라이드와 같아요. 슬라이드가 나오면, 내 기기에서 <strong>내 선택</strong>을 눌러 점수를 반영합니다.</li>' +
@@ -91,6 +96,15 @@
       '<li>내 신분이 아닌 장면은 저절로 건너뜁니다.</li>' +
       '<li>이 게임은 <strong>승패가 없는 게임</strong>이에요. 친구의 선택을 비난하거나 놀리지 않기로 약속해요.</li>' +
       '</ul></section>';
+  }
+
+  // 고른 뒤 공개 화면(수업 슬라이드의 「당신의 신분은 …입니다」)
+  function revealHtml(d) {
+    return '<section class="panel result-panel"><p class="event-label">캐릭터 선택 결과</p>' +
+      '<h2 class="screen-title">당신의 신분은 ' + G.ROLE_NAME[d.base] + '입니다.</h2>' +
+      '<div class="delta-big final-total">' + num(d.points) + '<small> 포인트</small></div>' +
+      '<p class="after-total">처음 포인트를 받았어요. 친구에게는 말로 알려 주지 않아도 괜찮아요.</p>' +
+      '<div class="button-row"><button type="button" class="primary-button" data-act="begin">게임 시작 →</button></div></section>';
   }
 
   // ── 화면: 장면(선택·상황·최종) ───────────────────────────
@@ -253,7 +267,8 @@
     var html;
     if (!d.base) html = startHtml();
     else {
-      if (ui.showResult && d.rows.length && d.rows[d.rows.length - 1].s !== 'start') html = resultHtml(d);
+      if (ui.reveal && d.rows.length === 1) html = revealHtml(d);
+      else if (ui.showResult && d.rows.length && d.rows[d.rows.length - 1].s !== 'start') html = resultHtml(d);
       else if (d.finished) html = finishHtml(d);
       else if (step) html = stepHtml(step, d);
       else html = '<section class="panel"><p>더 진행할 장면이 없어요.</p>' + undoBtn(d) + '</section>';
@@ -271,7 +286,9 @@
     var d = G.derive(state.log);
     var step = G.nextStep(d);
     if (act === 'start') {
-      state.log = [{ s: 'start', c: t.getAttribute('data-role') }]; ui.showResult = false; save(); render();
+      state.log = [{ s: 'start', c: drawStart(t.getAttribute('data-pick')) }]; ui.showResult = false; ui.reveal = true; save(); render();
+    } else if (act === 'begin') {
+      ui.reveal = false; render(); window.scrollTo(0, 0);
     } else if (act === 'pick') {
       ui.pick = t.getAttribute('data-c'); render();
     } else if (act === 'confirm') {

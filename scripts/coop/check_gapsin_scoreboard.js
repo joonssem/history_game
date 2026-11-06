@@ -95,5 +95,18 @@ eq('G 트로피 경계', [G.trophy(3000), G.trophy(2999), G.trophy(2000), G.trop
   ['골드 트로피', '실버 트로피', '실버 트로피', '브론즈 트로피', null]);
 eq('G 점수 수동 가감', G.derive([{ s: 'start', c: 'zh' }, { s: 'manual', delta: -90, memo: 'x' }]).points, 2910);
 
+// H. 제비뽑기: 누른 카드(p)와 결과(c)가 따로 저장된다. 점수·신분은 결과(c)를 따르고 표에는 누른 카드가 남는다.
+{
+  const log = A.log.map(e => e.s === 'e7' ? { s: 'e7', c: e.c, p: 'C' } : e);   // A 경로의 결과는 D(명성황후파)인데 학생은 C 카드를 눌렀다
+  const d = G.derive(log);
+  const row = d.rows.find(r => r.s === 'e7');
+  eq('H 제비뽑기: 누른 카드는 C, 결과는 명성황후파(+100)', [row.no, row.choiceLabel, row.delta, row.roleAfter], ['C', 'C 카드', 100, 'mg']);
+  eq('H 제비뽑기: 점수·신분 경로는 결과를 따름(경로 A와 같음)', [d.points, d.role], [A.d.points, A.d.role]);
+  const bad = G.derive(A.log.map(e => e.s === 'e7' ? { s: 'e7', c: e.c, p: 'Z' } : e));
+  eq('H 제비뽑기: 보기에 없는 카드는 무시(결과의 번호를 표시)', bad.rows.find(r => r.s === 'e7').no, 'D');
+  const draws = G.STEPS.filter(s => s.draw).map(s => s.id);
+  eq('H 제비뽑기 장면 목록', draws, ['e7', 'e16mg']);
+}
+
 console.log(failed ? '\n' + failed + '개 실패' : '\n모두 통과');
 process.exit(failed ? 1 : 0);

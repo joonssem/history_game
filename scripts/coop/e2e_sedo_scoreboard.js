@@ -1,5 +1,5 @@
 // 세도정치 점수판을 실제 Chrome(헤드리스, CDP)으로 끝까지 눌러 확인한다.
-// 사용: node scripts/coop/e2e_sedo_scoreboard.js http://localhost:8793/cooperative-mud/sedo-scoreboard/
+// 사용: node scripts/coop/e2e_sedo_scoreboard.js http://localhost:8793/cooperative-mud/sedo-scoreboard/?ab=ppt
 const { spawn } = require('child_process');
 const fs = require('fs');
 const os = require('os');
@@ -39,12 +39,31 @@ const points = () => ev("document.querySelector('.score-num') ? document.querySe
   await connect();
   const errors = [];
   await send('Runtime.enable', {});
+
+  // 무작위 모드(기본): 시작 화면에는 신분이 보이지 않고, A/B가 난수에 따라 두 신분 모두로 이어진다.
+  const baseUrl = url.replace('?ab=ppt', '');
+  async function drawWith(r) {
+    await send('Page.navigate', { url: baseUrl }); await sleep(500);
+    await ev('localStorage.clear()');
+    await send('Page.navigate', { url: baseUrl }); await sleep(500);
+    await ev('Math.random = () => ' + r);
+    const hidden = await ev("!/양반|평민/.test(document.getElementById('app').innerText)");
+    await click('[data-act="start"][data-pick="A"]');
+    const revealed = await ev("document.getElementById('app').innerText");
+    const chip = await ev("document.querySelector('.role-chip').textContent");
+    return { hidden, revealed, chip };
+  }
+  const lo = await drawWith(0.1), hi = await drawWith(0.9);
+  check(lo.hidden && hi.hidden, '시작 화면에 신분 이름이 보이지 않음(A/B만)');
+  check(/당신의 신분은/.test(lo.revealed) && /게임 시작/.test(lo.revealed), '고른 뒤 공개 화면이 나옴');
+  check(!/다시 고르기/.test(lo.revealed), '공개 화면에는 다시 고르기가 없음(재추첨 방지)');
+  check(lo.chip !== hi.chip, '같은 A 버튼도 난수에 따라 다른 신분으로 이어짐: ' + lo.chip + ' / ' + hi.chip);
   await send('Page.navigate', { url }); await sleep(500);
   await ev('localStorage.clear()');
   await send('Page.navigate', { url }); await sleep(500);
 
   check(await ev("!document.getElementById('scorebar').hidden") === false, '시작 전에는 점수 막대가 숨겨짐');
-  await click('[data-act="start"][data-role="yang"]');
+  await click('[data-act="start"][data-pick="B"]'); await click('[data-act="begin"]');
   check(await points() === '7,000', '양반 시작 7,000');
 
   // EP1 김씨 → 확인 전에는 점수 변화 없음
@@ -89,7 +108,7 @@ const points = () => ev("document.querySelector('.score-num') ? document.querySe
   // 평민으로 새로 시작해 끝까지(자동 규칙은 node 검증이 맡고 여기서는 화면 흐름만)
   await ev('localStorage.clear()');
   await send('Page.navigate', { url }); await sleep(500);
-  await click('[data-act="start"][data-role="min"]');
+  await click('[data-act="start"][data-pick="A"]'); await click('[data-act="begin"]');
   check(await points() === '4,000', '평민 시작 4,000');
   for (let i = 0; i < 60; i += 1) {
     const done = await ev("!!document.querySelector('.finish-panel')");
@@ -111,7 +130,7 @@ const points = () => ev("document.querySelector('.score-num') ? document.querySe
   // 양반 전 구간(모든 선택 1번) + 최종 벌 2개 체크 → 손계산 3,830
   await ev('localStorage.clear()');
   await send('Page.navigate', { url }); await sleep(500);
-  await click('[data-act="start"][data-role="yang"]');
+  await click('[data-act="start"][data-pick="B"]'); await click('[data-act="begin"]');
   for (let i = 0; i < 60; i += 1) {
     if (await ev("!!document.querySelector('.finish-panel')")) break;
     if (await ev("!!document.querySelector('[data-act=\"next\"]')")) { await click('[data-act="next"]'); continue; }

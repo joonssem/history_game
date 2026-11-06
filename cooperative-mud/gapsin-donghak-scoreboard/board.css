@@ -110,3 +110,7 @@ textarea.quest-field { resize: vertical; line-height: 1.6; }
 @media (max-width: 480px) { .pw-cell { width: 17px; height: 16px; } }
 .pw-row:nth-child(2) .pw-ic, .pw-row:nth-child(2) .pw-cell.is-on { color: #C0392B; }
 .tv-note { margin: 0 0 12px; }
+
+.role-pick-btn.role-ab { min-height: 110px; font-size: 1.6rem; }
+.role-pick-btn.role-ab b { font-size: 2.4rem; color: var(--coop-red-dark); }
+.role-pick-btn.role-ab:hover, .role-pick-btn.role-ab:focus-visible { border-color: var(--coop-teal); background: #F0F6F7; }

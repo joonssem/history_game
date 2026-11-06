@@ -38,7 +38,12 @@
 
   function defaultState() { return { log: [], terms: {}, stance: {} }; }
   var state = load();
-  var ui = { pick: null, showResult: false, showTrophy: false };
+  // A·B를 눌렀을 때 신분을 정하는 방식. 기본은 학생마다 무작위(친구가 알려 줘도 소용없음).
+  // 주소 끝에 ?ab=ppt 를 붙이면 수업 슬라이드의 배치(A = 중국어 능력자, B = 일본어 능력자)로 고정한다.
+  var AB_PPT = location.search.indexOf('ab=ppt') !== -1;
+  var START_MAP = { A: 'zh', B: 'ja' };
+  function drawStart(pick) { return AB_PPT ? START_MAP[pick] : (Math.random() < 0.5 ? 'zh' : 'ja'); }
+  var ui = { pick: null, showResult: false, showTrophy: false, reveal: false };
 
   function load() {
     try {
@@ -96,11 +101,11 @@
   // ── 화면: 시작 ─────────────────────────────────────────
   function startHtml() {
     return '<section class="panel">' +
-      '<h2 class="screen-title">내 능력 고르기</h2>' +
-      '<p class="screen-description">수업 화면의 「캐릭터 선택」에서 나온 <strong>내 능력</strong>을 눌러 주세요. 처음 포인트는 3,000이에요.</p>' +
+      '<h2 class="screen-title">캐릭터 선택</h2>' +
+      '<p class="screen-description">수업 화면의 「캐릭터 선택」처럼, 다음 중 <strong>한 가지</strong>를 골라 주세요. 선택에 의해 내 신분이 결정됩니다.</p>' +
       '<div class="role-pick">' +
-      '<button type="button" class="role-pick-btn role-zh" data-act="start" data-role="zh"><b>중국어 능력자</b><span>처음 3,000 포인트</span></button>' +
-      '<button type="button" class="role-pick-btn role-ja" data-act="start" data-role="ja"><b>일본어 능력자</b><span>처음 3,000 포인트</span></button>' +
+      '<button type="button" class="role-pick-btn role-ab" data-act="start" data-pick="A"><b>A</b></button>' +
+      '<button type="button" class="role-pick-btn role-ab" data-act="start" data-pick="B"><b>B</b></button>' +
       '</div>' +
       '<ul class="rules">' +
       '<li>화면의 EPISODE 번호는 수업 슬라이드와 같아요. 슬라이드가 나오면 내 기기에서 <strong>내 선택</strong>을 눌러 점수를 반영합니다.</li>' +
@@ -109,6 +114,15 @@
       '<li>내 신분이 아닌 장면은 저절로 건너뜁니다.</li>' +
       '<li>이 게임은 <strong>승패가 없는 게임</strong>이에요. 친구의 선택을 비난하거나 놀리지 않기로 약속해요.</li>' +
       '</ul></section>';
+  }
+
+  // 고른 뒤 공개 화면(수업 슬라이드의 「당신의 신분은 …입니다」)
+  function revealHtml(d) {
+    return '<section class="panel result-panel"><p class="event-label">캐릭터 선택 결과</p>' +
+      '<h2 class="screen-title">당신의 신분은 ' + G.ROLE_NAME[d.role] + '입니다.</h2>' +
+      '<div class="delta-big final-total">' + num(d.points) + '<small> 포인트</small></div>' +
+      '<p class="after-total">처음 포인트를 받았어요. 이 능력은 게임 끝까지 남아요.</p>' +
+      '<div class="button-row"><button type="button" class="primary-button" data-act="begin">게임 시작 →</button></div></section>';
   }
 
   // ── 화면: 장면 ─────────────────────────────────────────
@@ -141,6 +155,7 @@
     });
     html += '</div>';
     if (step.hint) html += '<p class="setup-hint">' + esc(hintText(step.hint, d)) + '</p>';
+    if (step.draw && !AB_PPT) html += '<p class="setup-hint">제비뽑기예요. 카드를 고르면 결과는 뽑기로 정해져요.</p>';
     html += '<div class="button-row confirm-row"><button type="button" class="primary-button" data-act="confirm"' + (ui.pick ? '' : ' disabled') + '>' +
       (ui.pick ? '이 선택으로 점수 반영하기' : '선택을 눌러 주세요') + '</button>' + undoBtn(d) + '</div></section>';
     return html;
@@ -263,7 +278,8 @@
     var html;
     if (!d.role) html = startHtml();
     else {
-      if (ui.showResult && d.rows.length && d.rows[d.rows.length - 1].s !== 'start') html = resultHtml(d);
+      if (ui.reveal && d.rows.length === 1) html = revealHtml(d);
+      else if (ui.showResult && d.rows.length && d.rows[d.rows.length - 1].s !== 'start') html = resultHtml(d);
       else if (d.finished) html = finishHtml(d);
       else if (step) html = stepHtml(step, d);
       else html = '<section class="panel"><p>더 진행할 장면이 없어요.</p>' + undoBtn(d) + '</section>';
@@ -281,11 +297,20 @@
     var d = G.derive(state.log);
     var step = G.nextStep(d);
     if (act === 'start') {
-      state.log = [{ s: 'start', c: t.getAttribute('data-role') }]; ui.showResult = false; save(); render();
+      state.log = [{ s: 'start', c: drawStart(t.getAttribute('data-pick')) }]; ui.showResult = false; ui.reveal = true; save(); render();
+    } else if (act === 'begin') {
+      ui.reveal = false; render(); window.scrollTo(0, 0);
     } else if (act === 'pick') {
       ui.pick = t.getAttribute('data-c'); render();
     } else if (act === 'confirm') {
-      if (step && ui.pick) push({ s: step.id, c: ui.pick });
+      if (step && ui.pick) {
+        if (step.draw && !AB_PPT) {
+          // 제비뽑기: 누른 카드와 상관없이 결과는 무작위(기록에는 누른 카드 p와 결과 c를 따로 남긴다)
+          var card = step.choices.filter(function (c) { return c.id === ui.pick; })[0];
+          var outcome = step.choices[Math.floor(Math.random() * step.choices.length)];
+          push({ s: step.id, c: outcome.id, p: String(card.no) });
+        } else push({ s: step.id, c: ui.pick });
+      }
     } else if (act === 'situ') {
       if (step) push({ s: step.id, c: 'ok' });
     } else if (act === 'next') {
