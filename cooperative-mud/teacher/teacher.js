@@ -1,4 +1,5 @@
 // 교사용 보기: 각 활동의 scenario.js와 index.html을 그대로 읽어 한 화면에 펼친다. 내용을 따로 복사해 두지 않는다.
+// 역할 카드형이 아닌 활동(추리 게임·역사 체험·점수판)은 board: true로 두고 boards.js가 표를 만든다.
 // 운영이 끝난 활동은 status를 'done'으로 바꾸면 목록에서 빠진다(TEACHING.md의 수업 운영 칸과 같은 판정).
 (function () {
   const ACTIVITIES = [
@@ -8,7 +9,12 @@
     { slug: 'joseon-late-economy', name: '조선 후기 경제·신분', status: 'upcoming', badge: '10/29 공개수업' },
     { slug: 'joseon-late-change', name: '조선 후기 새로운 생각', status: 'upcoming' },
     { slug: 'joseon-commoner-culture', name: '서민 문화', status: 'upcoming' },
-    { slug: 'joseon-open-ports', name: '개항 이후', status: 'upcoming' }
+    { slug: 'joseon-open-ports', name: '개항 이후', status: 'upcoming' },
+    // 역할 카드형이 아닌 활동: boards.js가 각 활동의 데이터 파일(quest.js, game.js)을 읽어 교사용 표를 만든다.
+    { slug: 'missing-painting', name: '사라진 그림(추리 게임)', status: 'upcoming', board: true },
+    { slug: 'gapsin-quest', name: '갑신정변 역사 체험', status: 'upcoming', board: true },
+    { slug: 'sedo-scoreboard', name: '세도정치 인생게임 점수판', status: 'upcoming', board: true },
+    { slug: 'gapsin-donghak-scoreboard', name: '갑신·동학 인생게임 점수판', status: 'upcoming', board: true }
   ].filter(function (a) { return a.status === 'upcoming'; });
 
   // 학생 화면의 단계 순서. second는 5분형에서 건너뛴다(episode.js).
@@ -23,6 +29,7 @@
     { key: 'finish', title: '마무리' }
   ];
   const STORE_KEY = 'history_coop_teacher_view';
+  const LEAD_DEFAULT = '순회지도할 때 학생 번호를 누르면 그 학생이 받은 자료가 바로 보입니다. 아래에는 활동 전체 흐름이 단계별로 접혀 있습니다.';
   const cache = {};
   let current = null;
   let currentSeat = 1;
@@ -53,6 +60,20 @@
     return scriptQueue;
   }
 
+  // 보드형 활동: 데이터 파일(quest.js, game.js)이 전역 객체 하나를 만든다. 한 번에 하나씩 불러와 섞이지 않게 한다.
+  function loadBoard(slug) {
+    const def = window.TeacherBoards && window.TeacherBoards[slug];
+    if (!def) return Promise.reject(new Error(slug + '의 교사용 보기 정의가 없습니다.'));
+    scriptQueue = scriptQueue.catch(function () {}).then(function () { return new Promise(function (resolve, reject) {
+      const script = document.createElement('script');
+      script.src = '../' + slug + '/' + def.file;
+      script.onload = function () { window[def.global] ? resolve(window[def.global]) : reject(new Error(slug + ' 데이터를 읽지 못했습니다.')); };
+      script.onerror = function () { reject(new Error(slug + '/' + def.file + '을 불러오지 못했습니다.')); };
+      document.head.appendChild(script);
+    }); });
+    return scriptQueue.then(function (data) { return { slug: slug, board: def, data: data }; });
+  }
+
   // 화면 문구는 활동 index.html에서 읽는다. 버튼·빈 칸(엔진이 채우는 곳)·숨긴 칸은 뺀다.
   function loadScreens(slug) {
     return fetch('../' + slug + '/index.html').then(function (res) {
@@ -80,6 +101,10 @@
   }
 
   function load(slug) {
+    if (ACTIVITIES.some(function (a) { return a.slug === slug && a.board; })) {
+      if (!cache[slug]) cache[slug] = loadBoard(slug);
+      return cache[slug];
+    }
     if (!cache[slug]) {
       cache[slug] = loadScenario(slug).then(function (scenario) {
         return loadScreens(slug).then(function (page) {
@@ -217,6 +242,22 @@
   function select(slug, seat) {
     get('load-status').textContent = '불러오는 중…';
     load(slug).then(function (data) {
+      if (data.board) {
+        current = data;
+        const def = data.board;
+        get('activity-title').textContent = def.title();
+        get('activity-lead').textContent = def.lead;
+        document.title = '교사용 · ' + def.title();
+        renderActivityTabs();
+        get('seat-tabs').hidden = true; get('seat-view').hidden = true; get('seat-note').hidden = true;
+        get('flow-view').innerHTML = def.render(data.data);
+        get('load-status').textContent = '';
+        remember({ slug: slug, seat: 1 });
+        if (location.hash !== '#' + slug) history.replaceState(null, '', '#' + slug);
+        return;
+      }
+      get('seat-tabs').hidden = false; get('seat-view').hidden = false; get('seat-note').hidden = false;
+      get('activity-lead').textContent = LEAD_DEFAULT;
       current = data;
       currentSeat = seat && seat <= data.scenario.roles.length ? seat : 1;
       get('activity-title').textContent = data.scenario.title;
@@ -239,7 +280,7 @@
   });
   get('seat-tabs').addEventListener('click', function (e) {
     const button = e.target.closest('.seat-tab');
-    if (!button || !current) return;
+    if (!button || !current || current.board) return;
     currentSeat = Number(button.dataset.seat);
     renderSeatTabs();
     renderSeat();
@@ -254,10 +295,10 @@
   get('print-button').addEventListener('click', function () { window.print(); });
   window.addEventListener('beforeprint', function () {
     document.querySelectorAll('.stage').forEach(function (d) { d.open = true; });
-    if (current) renderAllSeats();
+    if (current && !current.board) renderAllSeats();
   });
   window.addEventListener('afterprint', function () {
-    if (current) renderSeat();
+    if (current && !current.board) renderSeat();
   });
 
   renderActivityTabs();

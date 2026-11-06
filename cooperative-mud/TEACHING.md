@@ -4,7 +4,7 @@
 
 - 갱신: 2026-10-22
 - 접속: <https://joonssem.github.io/history_game/cooperative-mud/>
-- 교사용 보기(순회지도용, 학생 허브에는 링크 없음): <https://joonssem.github.io/history_game/cooperative-mud/teacher/> — 학생 번호를 누르면 그 학생이 받은 역할 자료가 바로 보이고, 아래에 단계별 전체 흐름(선택지·함정·교과서 정리)이 접혀 있다. 운영이 끝난 활동은 `teacher/teacher.js`의 목록에서 `status: 'done'`으로 바꾼다.
+- 교사용 보기(순회지도용, 학생 허브에는 링크 없음): <https://joonssem.github.io/history_game/cooperative-mud/teacher/> — 학생 번호를 누르면 그 학생이 받은 역할 자료가 바로 보이고, 아래에 단계별 전체 흐름(선택지·함정·교과서 정리)이 접혀 있다. 운영이 끝난 활동은 `teacher/teacher.js`의 목록에서 `status: 'done'`으로 바꾼다. 역할 카드형이 아닌 활동(사라진 그림·갑신정변 역사 체험·두 인생 게임 점수판)은 탭을 누르면 교사 확인 숫자, 번호별 배정, 정답표, 에피소드별 점수표가 나온다(`teacher/boards.js`가 각 활동의 `quest.js`·`game.js`를 그대로 읽는다).
 
 ## 지금 쓸 수 있는 활동
 

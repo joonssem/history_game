@@ -31,6 +31,21 @@
     .teacher-box li + li { margin-top: 4px; }
     .trap-tag { display: inline-block; margin-left: 5px; padding: 1px 6px; border-radius: 6px; background: #F6DCD3; color: #8A2E1C; font-size: 0.72rem; font-weight: 800; }
     .trap-note-text { margin-top: 3px; color: var(--coop-muted); font-size: 0.84rem; }
+    .t-wrap { overflow-x: auto; }
+    .t-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+    .t-table th, .t-table td { padding: 6px 8px; border: 1px solid var(--coop-line); text-align: left; vertical-align: top; }
+    .t-table thead th { background: #F1E8DB; white-space: nowrap; }
+    .t-table td:first-child { text-align: center; white-space: nowrap; }
+    .t-kv { margin: 6px 0; }
+    .t-code { padding: 2px 8px; border-radius: 6px; background: #F1E8DB; font-size: 1.05rem; font-weight: 800; letter-spacing: 0.12em; }
+    .t-chip { display: inline-block; margin: 2px 2px; padding: 1px 8px; border-radius: 999px; background: #EAF3F4; font-size: 0.84rem; }
+    .t-note { color: var(--coop-muted); font-size: 0.82rem; }
+    .t-choices { margin: 0; padding-left: 0; list-style: none; }
+    .t-choices li + li { margin-top: 4px; }
+    .t-no { display: inline-grid; min-width: 22px; height: 22px; place-items: center; border-radius: 6px; background: #F1E8DB; color: var(--coop-red); font-size: 0.78rem; font-weight: 800; }
+    .t-tag { padding: 1px 7px; border-radius: 6px; background: #E6F1EA; color: var(--coop-green); font-size: 0.78rem; font-weight: 800; }
+    .t-power { color: var(--coop-teal); font-size: 0.82rem; }
+    .t-up { color: #1F6B3F; } .t-down { color: #A3302A; }
     .load-error { color: #9B2C2C; }
     .print-row { margin-top: 18px; }
     @media print {
@@ -48,7 +63,7 @@
         <a class="back-link" href="../">← 모둠 역사 탐험 허브</a>
         <p class="eyebrow">교사용 · 학생 화면에는 링크하지 않음</p>
         <h1 id="activity-title">협동 활동 교사용 보기</h1>
-        <p class="lead">순회지도할 때 학생 번호를 누르면 그 학생이 받은 자료가 바로 보입니다. 아래에는 활동 전체 흐름이 단계별로 접혀 있습니다.</p>
+        <p id="activity-lead" class="lead">순회지도할 때 학생 번호를 누르면 그 학생이 받은 자료가 바로 보입니다. 아래에는 활동 전체 흐름이 단계별로 접혀 있습니다.</p>
       </div>
     </header>
 
@@ -69,6 +84,7 @@
       <button id="print-button" class="secondary-button" type="button">이 활동 인쇄하기</button>
     </div>
   </main>
+  <script src="boards.js"></script>
   <script src="teacher.js"></script>
 </body>
 </html>
