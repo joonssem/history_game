@@ -2,6 +2,19 @@
 
 > **보관 안내 (2026-10-22)**: 2026-09 이전 기록은 [`docs/archive/walkthrough/`](./docs/archive/walkthrough/)의 월별 파일로 옮겼다. 이 파일에는 2026-10 기록만 둔다.
 
+## 2026-11-06 — 개인정보 처리방침 페이지 추가
+
+`TASK-20261106-PRIVACY-POLICY | privacy/index.html, index.html, cooperative-mud/index.html | implementation agent(Claude) | 상태: DONE, push 완료(53407ba, 96fc9d4)`
+
+- 계기: 교사가 만든 다른 학습 사이트(iseth-privacy)의 개인정보처리방침을 참고해, 이 앱에도 같은 형식의 방침을 두기로 했다.
+- 추가: `privacy/index.html`(제1~11조, 2026-11-06 시행). 포털 푸터(`index.html`)와 모둠 허브 푸터(`cooperative-mud/index.html`)에서 링크한다. 예시 사이트의 조 구성을 따르되, 이 앱의 실제 동작에 맞게 다시 썼다.
+- 코드 대조로 확인한 사실: 쿠키 없음, 입력·선택은 `localStorage`에만 저장, 데이터 요청은 모두 같은 사이트 안, 외부 요청은 글꼴·아이콘(jsDelivr·네이버·cdnjs)뿐, 복사 버튼은 성찰 일기를 클립보드에 복사, 이름 입력칸 2곳(`missing-painting`, `gapsin-quest`)은 역사 인물 정답용이다.
+- 예시와 다르게 쓴 것: 호스팅은 GitHub Pages이므로 Vercel·Streamlit 대신 GitHub·jsDelivr·Cloudflare를 수탁자로 적었다. 엑셀 다운로드 항목은 해당 기능이 없어 뺐다. 네이버 글꼴은 국내 서비스라 국외 이전에서 제외했다.
+- 사용자 확정(2026-11-06): 보호책임자는 고척초등학교 교장, 문의는 이메일 대신 학교 대표전화(02-2618-6212), Google 설문지는 이름·이메일을 받지 않도록 설정돼 있음(코드 주석과 일치), 실시간 협동 앱은 쓰지 않고 교실에서 데이터 저장 없이 진행한다. 방침은 이 결정에 맞춰 Vercel Preview를 적용 대상에 넣지 않았다.
+- 글꼴은 포털과 같은 Pretendard(본문)·학교안심 알림장(제목)으로 맞췄다. 새 외부 서비스는 늘지 않았다.
+- 검증: `python scripts/06_validate_static_assets.py` 통과. 브라우저 화면 확인은 사용자가 배포 후 한다.
+- 남은 일: jsDelivr 운영 법인과 서버 소재국은 코드로 확인할 수 없어 "미국 등"으로 넓게 적었다. 외부 서비스(글꼴 등)를 바꾸거나 추가하면 제3·4조도 함께 고친다.
+
 ## 2026-10-22 — 협동 MUD 교사용 보기 추가 (순회지도용)
 
 `TASK-20261022-COOP-TEACHER-VIEW | cooperative-mud/teacher/ | implementation agent(Claude) | 상태: 로컬 검증 완료, push 전`
