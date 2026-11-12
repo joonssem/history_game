@@ -180,7 +180,7 @@
         return p.reject && p.reject.map(function (r) { return norm(r); }).indexOf(norm(s.text['p' + i], p.strip)) >= 0;
       });
       if (rejected) {
-        box.innerHTML = '이 활동의 미션지에 이미 나온 그림 제목은 쓸 수 없어요. 다른 그림을 찾아보세요.';
+        box.innerHTML = '이 게임의 다른 미션에 이미 나온 그림 제목은 쓸 수 없어요. 다른 그림을 찾아보세요.';
         return;
       }
       const base = m.parts.length > 1 ? m.parts.length + '개 중 ' + right + '개가 맞아요. 다시 확인해 보세요.' : '아직 아니에요. 다시 생각해 보세요.';
