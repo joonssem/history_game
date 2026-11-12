@@ -1,11 +1,12 @@
-// 흥선대원군 보충 활동(daewongun-quest)을 headless Chrome으로 끝까지 조작해 확인한다.
-// 사용: node scripts/coop/e2e_daewongun_quest.js <URL 예: http://localhost:8791/cooperative-mud/daewongun-quest/>
+// 번호별 비대칭 자료 보충 활동(daewongun-quest, ganghwa-quest)을 headless Chrome으로 끝까지 조작해 확인한다.
+// 사용: node scripts/coop/e2e_daewongun_quest.js <URL 예: http://localhost:8791/cooperative-mud/daewongun-quest/> [폴더 daewongun-quest|ganghwa-quest]
 const { spawn } = require('child_process');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const vm = require('vm');
 const url = process.argv[2];
+const folder = process.argv[3] || 'daewongun-quest';
 const chrome = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'dw-e2e-'));
 const port = 9334;
@@ -14,8 +15,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 let ws; let id = 0; const pending = new Map();
 
 const ctx = { window: {} };
-vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../../cooperative-mud/daewongun-quest/quest.js'), 'utf8'), ctx);
-const Q = ctx.window.DaewongunQuest;
+vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../../cooperative-mud/' + folder + '/quest.js'), 'utf8'), ctx);
+const Q = ctx.window.DaewongunQuest || ctx.window.GanghwaQuest;
+const firstText = (c) => (c.lines ? c.lines[0][1] : c.sections[0].text).slice(0, 8);
 
 async function connect() {
   for (let i = 0; i < 50; i += 1) {
@@ -46,13 +48,13 @@ async function run(size, seat) {
   const tag = size + '/' + seat + '번';
   console.log('== ' + tag);
   await load(); await ev('localStorage.clear()'); await load();
-  check(/휴대전화/.test(await title()), tag + ' 소개');
+  check(/휴대전화|약속서/.test(await title()), tag + ' 소개');
   check(/교과서 밖/.test(await ev("document.getElementById('app').innerText")), tag + ' 교과서 밖 표시');
   await click('#next');
   await click(size === 'solo' ? '[data-size="solo"]' : '[data-size="' + size + '"]');
   if (size !== 'solo') await click('[data-seat="' + seat + '"]');
   await click('#next');
-  check(/대화 목록/.test(await title()), tag + ' 대화 목록');
+  check(/(대화|자료) 목록/.test(await title()), tag + ' 목록 화면');
   const locked = await ev("document.querySelector('[data-c=stele]').disabled");
   check(locked === true, tag + ' 척화비는 대화 4개 전에 잠김');
 
@@ -61,7 +63,7 @@ async function run(size, seat) {
     const text = await ev("document.getElementById('app').innerText");
     const owners = (Q.owners[String(size)] || {})[c.id] || [];
     const mine = size === 'solo' || owners.indexOf(seat) >= 0;
-    check(mine ? /가상 대화/.test(text) && text.indexOf(c.lines[0][1].slice(0, 8)) >= 0 : /친구가 읽을 수 있어요/.test(text) && text.indexOf(c.lines[0][1].slice(0, 8)) < 0, tag + ' ' + c.id + (mine ? ' 내용 보임' : ' 내용 숨김'));
+    check(mine ? text.indexOf(firstText(c)) >= 0 : /친구가 읽을 수 있어요/.test(text) && text.indexOf(firstText(c)) < 0, tag + ' ' + c.id + (mine ? ' 내용 보임' : ' 내용 숨김'));
     check(c.blanks.every((b) => text.indexOf('초성 힌트: ' + b.initials) >= 0), tag + ' ' + c.id + ' 초성 힌트 표시');
     // 오답 → 안내, 정답 → 통과
     for (let i = 0; i < c.blanks.length; i += 1) await fill(c.id + '_' + i, '엉뚱');
@@ -74,12 +76,12 @@ async function run(size, seat) {
     check(/1칸이 맞아요|칸 중 1칸/.test(await ev("document.getElementById('sc-msg').innerText")) || c.blanks.length === 1, tag + ' ' + c.id + ' 부분 정답');
     for (let i = 0; i < c.blanks.length; i += 1) await fill(c.id + '_' + i, ' ' + c.blanks[i].accept[0] + ' ');
     await click('#sc-check');
-    check(/맞아요! 이 대화/.test(await ev("document.getElementById('sc-msg').innerText")), tag + ' ' + c.id + ' 통과');
+    check(/맞아요! 이 (대화|자료)/.test(await ev("document.getElementById('sc-msg').innerText")), tag + ' ' + c.id + ' 통과');
     await click('#to-hub');
   }
   check(await ev("document.querySelector('[data-c=stele]').disabled") === false, tag + ' 대화 4개 후 척화비 열림');
   await click('[data-c="stele"]');
-  check(/척화비/.test(await title()), tag + ' 척화비 화면');
+  check(/척화비|조약 기록/.test(await title()), tag + ' 사건 조각 화면');
   // 틀린 순서
   for (const ln of Q.lanes) for (const ei of ln.shuffle) await click('.tile[data-l="' + ln.id + '"][data-e="' + ei + '"]');
   await click('#lane-check');
@@ -96,10 +98,10 @@ async function run(size, seat) {
   check(/골라|써 주세요/.test(await ev("document.getElementById('err').hidden === false ? '써 주세요' : ''")), tag + ' 까닭 없으면 안내');
   await ev("(()=>{const e=document.getElementById('why');e.value='백성이 힘들었을 것 같아서';e.dispatchEvent(new Event('input'))})()");
   await click('#next');
-  check(/모두 읽었어요/.test(await title()), tag + ' 완료 화면');
+  check(/모두 읽었어요|모두 풀었어요/.test(await title()), tag + ' 완료 화면');
   // 새로고침해도 유지
   await load();
-  check(/모두 읽었어요/.test(await title()), tag + ' 새로고침 후 상태 유지');
+  check(/모두 읽었어요|모두 풀었어요/.test(await title()), tag + ' 새로고침 후 상태 유지');
 }
 
 (async () => {
@@ -117,7 +119,7 @@ async function run(size, seat) {
   await click('[data-c="c2"]');
   await ev("(()=>{const e=document.getElementById('gate');e.value='1700';})()");
   await click('#gate-btn');
-  check(/가상 대화/.test(await ev("document.getElementById('app').innerText")), '교사 숫자로 내용 열림');
+  check(/가상 대화|지어 낸/.test(await ev("document.getElementById('app').innerText")), '교사 숫자로 내용 열림');
   console.log(fails.length ? '\n실패 ' + fails.length + '건' : '\n모두 통과');
   proc.kill();
   process.exit(fails.length ? 1 : 0);
