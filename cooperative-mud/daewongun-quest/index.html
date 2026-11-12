@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2F5D8A">
+  <meta name="description" content="흥선대원군의 개혁: 가상 대화를 읽고 모둠에서 물어 가며 빈칸을 채우는 DB 없는 보충 활동">
+  <title>흥선대원군의 휴대전화를 찾아라</title>
+  <link rel="stylesheet" href="../cooperative.css">
+  <link rel="stylesheet" href="quest.css">
+</head>
+<body>
+  <main class="coop-shell game-shell">
+    <header class="coop-header game-header">
+      <div>
+        <a class="back-link" href="../">← 모둠 역사 탐험 허브</a>
+        <p class="eyebrow">📱 조선 후기 · 교과서 밖 보충 활동 v0.1</p>
+        <h1>흥선대원군의 휴대전화를 찾아라</h1>
+        <p class="lead">가상 대화를 읽고, 모둠 친구에게 물어 가며 빈칸을 채워 흥선대원군의 개혁과 척화비를 알아보세요.</p>
+      </div>
+      <span class="status-pill">개인정보 수집 없음</span>
+    </header>
+
+    <div class="game-progress" aria-label="진행도">
+      <div class="progress-label"><span id="progress-step">활동 소개</span><span id="progress-count"></span></div>
+      <div class="progress-track"><div id="progress-value" class="progress-value" style="width: 0%"></div></div>
+    </div>
+
+    <div id="app"></div>
+
+    <p class="privacy-note">이름이나 학번은 입력하지 않습니다. 쓴 글은 이 기기 안에만 남습니다. 인디스쿨 kidary01 선생님의 수업 자료를 바탕으로 만들었습니다.</p>
+  </main>
+  <script src="quest.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
