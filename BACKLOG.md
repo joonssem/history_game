@@ -2,6 +2,13 @@
 
 > **2026-10-15 — Convex 실시간 협동 활동 취소([D-038](./DECISIONS.md)).** 취소된 `*-COLLAB-*` 항목 원문은 [`docs/archive/cooperative-live/BACKLOG_cancelled_20261016.md`](./docs/archive/cooperative-live/BACKLOG_cancelled_20261016.md)로 옮겼다(2026-10-19). 재개하지 않는다.
 
+## P1-OPEN-PORTS-BRIDGE — 개항 이후 보충 활동 3종(흥선대원군·강화도 조약·근대 문물) (2026-11-12 등록)
+
+- 상태: `documented` — 사용자 결정 6가지 반영, 구현 전. 우선순위는 제안값이며 다음 정기 검토에서 확정한다.
+- 계획·웹검색 확인 결과: [`implementation_plan_open_ports_bridge_20261112.md`](./docs/plans/implementation_plan_open_ports_bridge_20261112.md)
+- 요지: 현 교과서 협동 활동(`joseon-open-ports/`)은 그대로 두고, 그 뒤에 옛 6학년 수업의 인기 활동 3종(kidary01 선생님 자료)을 단어 빈칸+초성 힌트 게임으로 이어 붙인다. 이미지는 원본 그대로 사용.
+- 확인 필요(사용자): 이미지 사용 허락, 학교폭력 합의문 비유 유지 여부, 1인 1기기/모둠 1대 형식, 활동당 시간.
+
 ## P2-REPO-SLIMMING — 지난 문서 보관·로그 문서 분할·scratch 정리 (2026-10-22 등록)
 
 - 작업 claim: `TASK-20261022-REPO-SLIMMING | docs/plans·docs/handoff 보관, 루트 문서 이동, walkthrough·INBOX 분할, scratch 정리 | integration agent(Claude) | 상태: DONE(DECISIONS.md 분리만 보류) — 단계 C 완료(2026-10-22, scratch 42개 중 16개를 scripts/로 이동·26개 삭제), 단계 B 완료(2026-10-22, walkthrough·INBOX 분할), 단계 A 완료(2026-10-22, 완료 계획서 16개·handoff 61개 보관, 루트 문서 5개 이동, agents.md→AGENTS.md), 단계 B(walkthrough·INBOX 분할)·C(scratch 정리) 대기 | 검증: CI 단계 전체(01·03·04·08·09·05·16·06·07·10·11, node --check, git diff --check), 깨진 링크 125→125`
