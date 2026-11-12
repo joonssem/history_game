@@ -11,6 +11,9 @@
     { slug: 'joseon-commoner-culture', name: '서민 문화', status: 'upcoming' },
     { slug: 'joseon-open-ports', name: '개항 이후', status: 'upcoming' },
     // 역할 카드형이 아닌 활동: boards.js가 각 활동의 데이터 파일(quest.js, game.js)을 읽어 교사용 표를 만든다.
+    { slug: 'daewongun-quest', name: '흥선대원군 보충(가상 대화)', status: 'upcoming', board: true },
+    { slug: 'ganghwa-quest', name: '강화도 조약 보충(게임 대회 약속)', status: 'upcoming', board: true },
+    { slug: 'modern-items-quest', name: '숨은 근대 문물 찾기', status: 'upcoming', board: true },
     { slug: 'missing-painting', name: '사라진 그림(추리 게임)', status: 'upcoming', board: true },
     { slug: 'gapsin-quest', name: '갑신정변 역사 체험', status: 'upcoming', board: true },
     { slug: 'sedo-scoreboard', name: '세도정치 인생게임 점수판', status: 'upcoming', board: true },

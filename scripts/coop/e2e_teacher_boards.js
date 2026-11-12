@@ -42,8 +42,8 @@ const points = () => ev("document.querySelector('.score-num') ? document.querySe
   await ev('localStorage.clear()');
   const tabs = async () => ev("[...document.querySelectorAll('.activity-tab')].map(b=>b.dataset.slug)");
   const slugs = await tabs();
-  check(slugs.length === 11, '탭 11개(기존 6 + 신규 5): ' + slugs.length);
-  for (const slug of ['missing-painting', 'gapsin-quest', 'sedo-scoreboard', 'gapsin-donghak-scoreboard', 'assassination-scoreboard']) check(slugs.includes(slug), slug + ' 탭 있음');
+  check(slugs.length === 14, '탭 14개(기존 6 + 신규 5 + 개항 보충 3): ' + slugs.length);
+  for (const slug of ['missing-painting', 'gapsin-quest', 'sedo-scoreboard', 'gapsin-donghak-scoreboard', 'assassination-scoreboard', 'daewongun-quest', 'ganghwa-quest', 'modern-items-quest']) check(slugs.includes(slug), slug + ' 탭 있음');
 
   async function openTab(slug) {
     await ev("document.querySelector('.activity-tab[data-slug=\"" + slug + "\"]').click()");
@@ -81,6 +81,18 @@ const points = () => ev("document.querySelector('.score-num') ? document.querySe
   check(await ev("document.querySelectorAll('#flow-view .t-table.assassination tbody tr').length") === await ev('window.AssassinationBoard.STEPS.length'), '암살: 자금표 행 수 = 장면(STEPS) 수');
   check(/0, 1, 2, 4, 7, 9/.test(t) && /이순신/.test(t) && /9가마/.test(t) && /상해/.test(t) && /2번 상자/.test(t), '암살: 정답 한눈에(일본군 위치·역사 퀴즈·가마·상해·상자)');
   check(/−10,000|10,000/.test(t) && /−8원/.test(t) && /경성 → 만주/.test(t), '암살: 협력 시 10,000·최종 −8원·이동경로');
+
+  await openTab('daewongun-quest');
+  t = await txt();
+  check(/1234|1700/.test(t) && /가상/.test(t) && /ㅅㅁ/.test(t) && /47/.test(t) && /척화비/.test(t) && /4명/.test(t), '흥선대원군: 확인 숫자·번호 배정·빈칸 정답·척화비');
+  check(await ev("document.querySelectorAll('#flow-view .t-table').length") >= 6, '흥선대원군: 표(번호 배정+빈칸) 여러 개');
+  await openTab('ganghwa-quest');
+  t = await txt();
+  check(/게임 대회 약속/.test(t) && /치외법권/.test(t) && /운요호/.test(t) && /ㅅㅅㄴ/.test(t), '강화도 조약: 약속·1·7·10조·운요호·초성');
+  await openTab('modern-items-quest');
+  t = await txt();
+  check(/전등/.test(t) && /석조전/.test(t) && /ㅂㅈㅎㄷ/.test(t) && (await ev("document.querySelectorAll('#flow-view img').length")) === 3, '근대 문물: 11개 정답·초성·사진 3장 위치');
+  check(await ev("[...document.querySelectorAll('#flow-view img')].every(i=>i.complete&&i.naturalWidth>0)"), '근대 문물: 사진 3장이 실제로 불러와짐');
 
   // 기존 탭으로 돌아오면 학생 번호 영역이 되살아난다
   await openTab('joseon-sejong');

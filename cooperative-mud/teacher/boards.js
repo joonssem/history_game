@@ -253,7 +253,113 @@
     return html;
   }
 
+
+  // ── 번호별 비대칭 자료 보충 활동 3종(흥선대원군·강화도 조약·숨은 근대 문물) ──
+  function ownersTable(Q, items, label) {
+    var sizes = ['3', '4', '5'];
+    return table(['모둠 인원', '번호 → 읽는 ' + label], sizes.map(function (n) {
+      var seats = {};
+      items.forEach(function (it) {
+        ((Q.owners[n] || {})[it.id] || []).forEach(function (seat) { (seats[seat] = seats[seat] || []).push(it.no); });
+      });
+      var cells = Object.keys(seats).sort().map(function (seat) { return '<b>' + seat + '번</b> ' + label + ' ' + seats[seat].join('·'); }).join(' / ');
+      return [n + '명', cells];
+    }).concat([['혼자 하기', '모든 ' + label + '가 보입니다']]));
+  }
+  function blanksTable(blanks) {
+    return table(['질문', '초성 힌트', '정답(인정)', '막힐 때 힌트'], blanks.map(function (b) {
+      return [esc(b.q), '<code class="t-code">' + esc(b.initials) + '</code>', '<b>' + esc(b.accept.join(' / ')) + '</b>', esc(b.hint)];
+    }));
+  }
+  function gateKv(Q) {
+    return kv('교사 확인 숫자', '<code class="t-code">' + esc(Q.classConfig.teacherCode) + '</code> — 친구와 연결이 안 되거나 막힌 학생이 “선생님 확인”에 입력하면 해당 자료를 보거나 넘어갑니다');
+  }
+  function laneRows(lanes) {
+    return lanes.map(function (ln) {
+      return '<p style="margin:10px 0 3px"><b>' + esc(ln.title) + '</b> — 맞는 순서</p><ol>' + ln.events.map(function (e) { return '<li>' + esc(e) + '</li>'; }).join('') + '</ol>';
+    }).join('');
+  }
+  var COMMON_MEMO = '<li>화면에는 “교과서 밖 보충”(또는 교과서 쪽수)이 표시됩니다. 이름·학번은 입력하지 않고, 쓴 글은 이 기기 안에만 저장되며 새로고침해도 이어집니다.</li>' +
+    '<li>빈칸 답은 공백·쉼표를 무시하고 비교합니다. 한 번 틀리면 맞은 칸이 초록색으로 표시되고, 두 번째 틀림부터 힌트 문장이 나옵니다.</li>' +
+    '<li>학생마다 읽을 수 있는 자료가 달라 친구에게 말로 물어봐야 합니다. 화면을 보여 주지 않도록 안내해 주세요.</li>';
+
+  function renderDaewongun(Q) {
+    var html = section('교사 확인·번호 배정', gateKv(Q) + ownersTable(Q, Q.chats, '대화'), true);
+    html += section('대화 4개 — 내용과 빈칸 정답',
+      Q.chats.map(function (c) {
+        return '<h4 style="margin:12px 0 4px">대화 ' + c.no + '. ' + esc(c.title) + ' <small class="t-note">(' + esc(c.tag) + ')</small></h4>' +
+          '<ul>' + c.lines.map(function (l) { return '<li><b>' + esc(c.who[l[0]]) + '</b> ' + esc(l[1]) + '</li>'; }).join('') + '</ul>' +
+          (c.after ? '<p class="t-note">' + esc(c.after) + '</p>' : '') + blanksTable(c.blanks);
+      }).join(''), true);
+    html += section('척화비 사건 조각(순서 맞추기)와 빈칸',
+      laneRows(Q.lanes) + '<p class="t-note">학생에게는 조각이 섞여 보입니다. 순서를 맞추면 아래 글과 빈칸이 열립니다.</p><p><b>척화비 글</b> ' + esc(Q.stele.text) + '</p>' + blanksTable(Q.stele.blanks), true);
+    html += section('돌아보기·마무리 화면',
+      '<p>' + esc(Q.review.prompt) + ' — 선택: ' + esc(Q.review.policies.join(' / ')) + '</p><p class="t-note">정답은 없고 한 문장 이상 쓰면 마칩니다.</p><p>' + esc(Q.finish.note) + '</p>');
+    html += box('사실 확인과 수업 메모',
+      '<ul><li>대화는 모두 <b>가상</b>이며 화면에도 표시됩니다. 세금 수치·황현·최익현 실명 대화(옛 자료)는 사실 확인이 어려워 바꾸거나 뺐습니다.</li>' +
+      '<li>서원 47곳, 양반에게도 군포를 걷은 일, 능력 위주 인재 등용은 우리역사넷으로 확인했고, 경복궁(1865 착공, 원납→怨納)·병인양요·신미양요·척화비 글은 『매천야록』 본문과 대조했습니다. 계획서: <code>docs/plans/implementation_plan_open_ports_bridge_20261112.md</code></li>' +
+      '<li>병인양요 때 외규장각 책을 약탈해 간 일은 매천야록에는 없고 다른 자료 근거입니다.</li>' + COMMON_MEMO + '<li>시간 추정 약 20분(실측 전).</li></ul>');
+    return html;
+  }
+
+  function secLabel(sec) { return sec.kind === 'game' ? '🎮 ' + sec.label : sec.kind === 'real' ? '📜 ' + sec.label : '📖 ' + sec.label; }
+
+  function renderGanghwa(Q) {
+    var html = section('교사 확인·번호 배정', gateKv(Q) + ownersTable(Q, Q.chats, '자료'), true);
+    html += section('소개 화면의 이야기(지어 낸 이야기)', '<p>' + esc(Q.intro.story) + '</p>');
+    html += section('자료 4개 — 내용과 빈칸 정답',
+      Q.chats.map(function (c) {
+        return '<h4 style="margin:12px 0 4px">자료 ' + c.no + '. ' + esc(c.title) + ' <small class="t-note">(' + esc(c.tag) + ')</small></h4>' +
+          c.sections.map(function (sec) { return '<p><b>' + esc(secLabel(sec)) + '</b> ' + esc(sec.text) + (sec.note ? '<br><small class="t-note">' + esc(sec.note) + '</small>' : '') + '</p>'; }).join('') + blanksTable(c.blanks);
+      }).join(''), true);
+    html += section('운요호 사건~조약 사건 조각(순서 맞추기)와 빈칸', laneRows(Q.lanes) + '<p><b>교과서 104쪽 글</b> ' + esc(Q.stele.text) + '</p>' + blanksTable(Q.stele.blanks), true);
+    html += section('돌아보기·마무리 화면',
+      '<p>' + esc(Q.review.prompt) + ' — 선택: ' + esc(Q.review.policies.join(' / ')) + '</p><p>' + esc(Q.finish.note) + '</p>');
+    html += box('사실 확인과 수업 메모',
+      '<ul><li>게임 대회 이야기는 학교폭력 합의문 비유(옛 자료)를 바꾼 것이며, 인물은 00·XX 팀입니다. 약속 1·2·3이 조약 1·7·10조와 짝입니다.</li>' +
+      '<li>조항 해석(1조=청의 영향력 부인, 7조=측량이 군사에 쓰일 수 있음, 10조=치외법권)은 우리역사넷·한국민족문화대백과·국사편찬위원회의 평가를 “~라고 해석된다·평가된다”로 적었습니다.</li>' +
+      '<li>운요호 사건을 한국 학계는 계획적 도발로, 일본 학계는 우발적 충돌로 보는 해석 차이가 있습니다. 화면은 “구실로 삼았다고 설명된다”까지만 씁니다.</li>' +
+      '<li>자료 1(교과서 104쪽)만 교과서 내용이고, 1·7·10조와 운요호는 교과서 밖입니다.</li>' + COMMON_MEMO + '<li>시간 추정 약 18분(실측 전).</li></ul>');
+    return html;
+  }
+
+  function renderModern(Q) {
+    var html = section('교사 확인·번호 배정', gateKv(Q) + ownersTable(Q, Q.cards, '카드'), true);
+    html += section('설명 11개와 정답',
+      table(['번호', '설명(읽는 번호)', '정답(인정)', '초성', '교과서'], (function () {
+        var rows = [];
+        Q.cards.forEach(function (c) {
+          c.clues.forEach(function (cl, i) {
+            var b = c.blanks[i];
+            var owners = ((Q.owners['4'] || {})[c.id] || []).join(',') + '번';
+            rows.push([cl.n, esc(cl.text) + '<br><small class="t-note">(4인 모둠에서 ' + owners + ')</small>', '<b>' + esc(b.accept.join(' / ')) + '</b>', '<code class="t-code">' + esc(b.initials) + '</code>', esc(cl.ref)]);
+          });
+        });
+        return rows;
+      }())), true);
+    html += section('사진 3장 — 숨은 문물 위치(정답)',
+      Q.scenes.map(function (sc) {
+        var rings = sc.items.map(function (it) {
+          return '<div style="position:absolute;left:' + it.x + '%;top:' + it.y + '%;width:' + (it.r * 2) + '%;aspect-ratio:1/1;transform:translate(-50%,-50%);border:3px solid #2e8b57;border-radius:50%;box-sizing:border-box"></div>' +
+            '<span style="position:absolute;left:' + it.x + '%;top:' + (it.y - it.r * 1.1) + '%;transform:translate(-50%,-100%);background:#2e8b57;color:#fff;font-size:12px;padding:1px 6px;border-radius:5px;white-space:nowrap">' + esc(it.name) + '</span>';
+        }).join('');
+        return '<h4 style="margin:12px 0 4px">사진 ' + sc.no + ' — ' + esc(sc.items.map(function (it) { return it.name; }).join(' · ')) + '</h4>' +
+          '<div style="position:relative;max-width:640px"><img src="../modern-items-quest/' + esc(sc.src) + '" alt="" style="display:block;width:100%;height:auto">' + rings + '</div>';
+      }).join('') + '<p class="t-note">사진에는 이 11개 외에도 자동차·타자기·축음기·현미경 등 다른 근대 물건과 건물이 있습니다. 학생이 누르면 “여기는 아니에요”가 나옵니다. 수업에서 “이 11개가 아니어도 근대에 들어온 것”이라고 한마디 해 주세요.</p>', true);
+    html += section('돌아보기·마무리 화면',
+      '<p>' + esc(Q.review.prompt) + ' — 선택: ' + esc(Q.review.groups.join(' / ')) + '</p><p>' + esc(Q.finish.note) + '</p>');
+    html += box('사실 확인과 수업 메모',
+      '<ul><li>설명은 우리역사넷·한국민족문화대백과로 확인한 범위만 씁니다(전등 1887 경복궁, 광혜원 1885, 석조전 1900~1910, 경인선 1899). 출처 없는 일화(전화 “입을 다물고 들었다”)와 양복 1881년 서술, 배재학당 “최초”는 뺐습니다.</li>' +
+      '<li><b>단발령 1895년</b>은 검색 결과에 나오지 않았으나 널리 알려진 연도라 유지했습니다(미확인).</li>' +
+      '<li>그림 3장은 kidary01 선생님이 편집한 원본이며, <b>공개 배포에 대한 사용 허락은 활동 완성 후 구하기로 했습니다(미확인).</b></li>' +
+      '<li>사진 판정은 정답 원의 1.3배까지 인정하고, 한 문물을 두 번 틀리면 점선 동그라미로 위치를 알려 줍니다.</li>' + COMMON_MEMO + '<li>시간 추정 약 16분(실측 전).</li></ul>');
+    return html;
+  }
+
   window.TeacherBoards = {
+    'daewongun-quest': { file: 'quest.js', global: 'DaewongunQuest', lead: '흥선대원군 가상 대화 4개의 내용·빈칸 정답, 번호별 배정, 척화비 사건 조각 순서를 한눈에 봅니다.', render: renderDaewongun, title: function () { return '흥선대원군의 휴대전화를 찾아라 — 교사용'; } },
+    'ganghwa-quest': { file: 'quest.js', global: 'GanghwaQuest', lead: '게임 대회 약속과 강화도 조약 1·7·10조 자료, 빈칸 정답, 사건 조각 순서를 한눈에 봅니다.', render: renderGanghwa, title: function () { return '이상한 약속서를 풀어라 — 교사용'; } },
+    'modern-items-quest': { file: 'quest.js', global: 'ModernItemsQuest', lead: '근대 문물 11개의 설명·정답과 사진 속 위치를 한눈에 봅니다.', render: renderModern, title: function () { return '숨은 근대 문물을 찾아라 — 교사용'; } },
     'missing-painting': { file: 'quest.js', global: 'MissingPainting', lead: '교사 확인 숫자와 미션 12개의 정답·힌트를 한눈에 봅니다. 아래 단계를 눌러 펼치세요.', render: renderMissing, title: function () { return '사라진 그림을 찾아라 — 교사용'; } },
     'gapsin-quest': { file: 'quest.js', global: 'GapsinQuest', lead: '교사 확인 숫자, 번호별 모둠·역할 배정, 암호 정답과 미션 정답을 한눈에 봅니다.', render: renderGapsinQuest, title: function () { return '갑신정변 역사 체험 — 교사용'; } },
     'sedo-scoreboard': { file: 'game.js', global: 'SedoBoard', lead: '세도정치 인생 게임(PPT 74장)의 에피소드별 점수표입니다. 학생 점수판이 계산하는 값과 같은 데이터를 그대로 읽습니다.', render: renderSedo, title: function () { return '세도정치 인생 게임 점수판 — 교사용'; } },
