@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2F5D8A">
+  <meta name="description" content="숨은 근대 문물 찾기: 설명을 모둠이 나누어 읽고 그림에서 문물을 찾는 DB 없는 보충 활동">
+  <title>숨은 근대 문물을 찾아라</title>
+  <link rel="stylesheet" href="../cooperative.css">
+  <link rel="stylesheet" href="quest.css">
+</head>
+<body>
+  <main class="coop-shell game-shell">
+    <header class="coop-header game-header">
+      <div>
+        <a class="back-link" href="../">← 모둠 역사 탐험 허브</a>
+        <p class="eyebrow">🔍 개항 이후 · 교과서 105~108쪽과 보충 활동 v0.1</p>
+        <h1>숨은 근대 문물을 찾아라</h1>
+        <p class="lead">모둠 친구와 설명을 나누어 근대 문물의 이름을 알아내고, 옛 사진 속에서 찾아보세요.</p>
+      </div>
+      <span class="status-pill">개인정보 수집 없음</span>
+    </header>
+
+    <div class="game-progress" aria-label="진행도">
+      <div class="progress-label"><span id="progress-step">활동 소개</span><span id="progress-count"></span></div>
+      <div class="progress-track"><div id="progress-value" class="progress-value" style="width: 0%"></div></div>
+    </div>
+
+    <div id="app"></div>
+
+    <p class="privacy-note">이름이나 학번은 입력하지 않습니다. 쓴 글은 이 기기 안에만 남습니다. 인디스쿨 kidary01 선생님의 수업 자료를 바탕으로 만들었습니다.</p>
+  </main>
+  <script src="quest.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
